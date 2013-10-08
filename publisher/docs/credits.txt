@@ -1,0 +1,5 @@
+CREDITS:
+===============
+
+This Module has been originally developed by Trabis from www.xuups.com, and was based on
+SmartSection from SmartFactor, which was based in WF-Section and News.

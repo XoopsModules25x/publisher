@@ -16,14 +16,14 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: xoops_version.php 11840 2013-07-18 10:41:05Z beckmi $
+ * @version         $Id: xoops_version.php 12193 2013-10-22 21:51:58Z beckmi $
  */
 
 defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 xoops_load('XoopsLocal');
 
 $modversion['name'] = _MI_PUBLISHER_MD_NAME;
-$modversion['version'] = 1.0;
+$modversion['version'] = 1.01;
 $modversion['description'] = _MI_PUBLISHER_MD_DESC;
 $modversion['author'] = "Trabis (www.Xuups.com)";
 $modversion['credits'] = "w4z004, hsalazar, Mithrandir, fx2024, Ackbarr, Mariuss, Marco, Michiel, phppp, outch, Xvitry, Catzwolf, Shine, McDonald, trabis, Mowaffak, Bandit-x, Shiva";
@@ -53,9 +53,9 @@ $modversion['developer_lead'] = "trabis";
 $modversion['developer_website_url'] = "http://www.xuups.com";
 $modversion['developer_website_name'] = "Xoops User Utilities";
 $modversion['developer_email'] = "lusopoemas@gmail.com";
-$modversion['status_version'] = "Final";
-$modversion['status'] = "Final";
-$modversion['date'] = "2011-12-04";
+$modversion['status_version'] = "Beta 1";
+$modversion['status'] = "Beta 1";
+$modversion['date'] = "2013-10-22";
 
 //$modversion['warning'] = _MI_PUBLISHER_WARNING_BETA;
 
@@ -79,8 +79,8 @@ $modversion['author_word'] = "";
 
 
 //about
-$modversion['release_date']     = '2013/07/18';
-$modversion['module_status']    = "Final";
+$modversion['release_date']     = '2013/10/22';
+$modversion['module_status']    = "Beta 1";
 $modversion['min_php']          = '5.2.0';
 $modversion['min_xoops']        = '2.5.6';
 $modversion['min_db']           = array('mysql'=>'5.0.7', 'mysqli'=>'5.0.7');

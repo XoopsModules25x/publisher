@@ -1,3 +1,6 @@
+<strong><u>=> Version 1.01 Final (2013-10-22)</u></strong>
+- fixed two templates (bleekk)
+
 <strong><u>=> Version 1.0 Final (2013-07-18)</u></strong>
 - added missing URL for doc image in \blocks\items_spot.php
 

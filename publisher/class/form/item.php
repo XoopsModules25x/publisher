@@ -18,10 +18,10 @@
  * @subpackage      Forms
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: item.php 11344 2013-04-03 22:18:57Z luciorota $
+ * @version         $Id: item.php 10645 2013-01-03 19:31:21Z trabis $
  */
 
-defined('XOOPS_ROOT_PATH') or die("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || die("XOOPS root path not defined");
 
 include_once dirname(dirname(dirname(__FILE__))) . '/include/common.php';
 
@@ -77,7 +77,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
     function setCheckPermissions($checkperm)
     {
-        $this->checkperm = (bool)$checkperm;
+        $this->checkperm = (bool) $checkperm;
     }
 
     function isGranted($item)
@@ -87,6 +87,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         if (!$this->checkperm || $publisher->getHandler('permission')->isGranted('form_view', $item)) {
             $ret = true;
         }
+
         return $ret;
     }
 
@@ -158,7 +159,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         $nohtml = !$obj->dohtml();
         if (count($allowed_editors) == 1) {
             $editor = $allowed_editors[0];
-        } else if(count($allowed_editors) > 0) {
+        } elseif (count($allowed_editors) > 0) {
             $editor = @$_POST['editor'];
             if (!empty($editor)) {
                 publisher_setCookieVar('publisher_editor', $editor);
@@ -362,7 +363,7 @@ class PublisherItemForm extends PublisherThemeTabForm
             $addbreak = new XoopsFormLabel('', "<br />");
             $closetable = new XoopsFormLabel('', "</td></tr></table>");
 
-            $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/js/ajaxupload.3.9.js');
+            $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ajaxupload.3.9.js');
             $js_data = new XoopsFormLabel('', '
 <script type= "text/javascript">/*<![CDATA[*/
 $publisher(document).ready(function(){
@@ -374,7 +375,7 @@ $publisher(document).ready(function(){
         onSubmit : function(file, ext){
             // change button text, when user selects file
             $publisher("#publisher_upload_message").html(" ");
-            button.html("<img src=\'' . PUBLISHER_URL . '/images/loadingbar.gif\'/>"); this.setData({
+            button.html("<img src=\'' . PUBLISHER_URL . '/assets/images/loadingbar.gif\'/>"); this.setData({
                 "image_nicename": $publisher("#image_nicename").val(),
                 "imgcat_id" : $publisher("#imgcat_id").val()
             });
@@ -433,7 +434,6 @@ $publisher(document).ready(function(){
 
             $image_upload_tray->addElement($closetable);
             $this->addElement($image_upload_tray);
-
 
             $image_tray = new XoopsFormElementTray(_CO_PUBLISHER_IMAGE_ITEMS, '');
             $image_tray->addElement($opentable);
@@ -507,11 +507,11 @@ $publisher(document).ready(function(){
                     $table .= "<td width='60' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . "</strong></td>";
                     $table .= "</tr>";
 
-                    foreach($filesObj as $fileObj) {
-                        $modify = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/images/links/edit.gif' title='" . _CO_PUBLISHER_EDITFILE . "' alt='" . _CO_PUBLISHER_EDITFILE . "' /></a>";
-                        $delete = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/images/links/delete.png' title='" . _CO_PUBLISHER_DELETEFILE . "' alt='" . _CO_PUBLISHER_DELETEFILE . "'/></a>";
+                    foreach ($filesObj as $fileObj) {
+                        $modify = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _CO_PUBLISHER_EDITFILE . "' alt='" . _CO_PUBLISHER_EDITFILE . "' /></a>";
+                        $delete = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _CO_PUBLISHER_DELETEFILE . "' alt='" . _CO_PUBLISHER_DELETEFILE . "'/></a>";
                         if ($fileObj->status() == 0) {
-                            $not_visible = "<img src='" . PUBLISHER_URL . "/images/no.gif'/>";
+                            $not_visible = "<img src='" . PUBLISHER_URL . "/assets/images/no.gif'/>";
                         } else {
                             $not_visible = '';
                         }
@@ -590,6 +590,7 @@ $publisher(document).ready(function(){
         $hidden = new XoopsFormHidden('itemid', $obj->itemid());
         $this->addElement($hidden);
         unset($hidden);
+
         return $this;
     }
 }

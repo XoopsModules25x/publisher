@@ -20,9 +20,7 @@
  * @version         $Id: notification.inc.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-if (!defined("XOOPS_ROOT_PATH")) {
-    die("XOOPS root path not defined");
-}
+// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
 include_once dirname(__FILE__) . '/seo_functions.php';
 
@@ -31,6 +29,7 @@ function publisher_notify_iteminfo($category, $item_id)
     if ($category == 'global') {
         $item['name'] = '';
         $item['url'] = '';
+
         return $item;
     }
 
@@ -43,6 +42,7 @@ function publisher_notify_iteminfo($category, $item_id)
         $result_array = $xoopsDB->fetchArray($result);
         $item['name'] = $result_array['name'];
         $item['url'] = publisher_seo_genUrl('category', $item_id, $result_array['short_url']);
+
         return $item;
     }
 
@@ -53,8 +53,7 @@ function publisher_notify_iteminfo($category, $item_id)
         $result_array = $xoopsDB->fetchArray($result);
         $item['name'] = $result_array['title'];
         $item['url'] = publisher_seo_genUrl('item', $item_id, $result_array['short_url']);
+
         return $item;
     }
 }
-
-?>

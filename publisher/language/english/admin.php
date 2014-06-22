@@ -322,7 +322,7 @@ define("_AM_PUBLISHER_CLONE_NAME_DSC","Do not use special characters! <br />Do n
 define("_AM_PUBLISHER_CLONE_INVALIDNAME","ERROR: Invalid module name, please try another one!");
 define("_AM_PUBLISHER_CLONE_EXISTS","ERROR: Module name already taken, please try another one!");
 define("_AM_PUBLISHER_CLONE_CONGRAT","Congratulations! %s was sucessfully created!<br />You may want to make changes in language files.");
-define("_AM_PUBLISHER_CLONE_IMAGEFAIL","Atention, we failed creating the new module logo. Please consider modifying images/module_logo.png manually!");
+define("_AM_PUBLISHER_CLONE_IMAGEFAIL","Attention, we failed creating the new module logo. Please consider modifying assets/images/module_logo.png manually!");
 define("_AM_PUBLISHER_CLONE_FAIL","Sorry, we failed in creating the new clone. Maybe you need to temporally set write permissions (CHMOD 777) to 'modules' folder and try again.");
 define("_AM_PUBLISHER_COMMENTS","Comments");
 define("_AM_PUBLISHER_CATEGORY_MODERATOR","Moderator");
@@ -330,3 +330,6 @@ define("_AM_PUBLISHER_CATEGORY_MODERATOR_DSC","A moderator can access and submit
 //03/05/2012
 define("_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR","Moderation permissions");
 define("_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR_DSC","Groups that will be allowed to moderate articles within this category. Users on these groups will be able to edit/delete/clone articles. Don't forget to also set submit permissions on these groups!");
+//1.01 Beta 1
+define("_AM_PUBLISHER_ITEMCATEGORY_ID","ID");
+define("_AM_PUBLISHER_ITEM_VIEWS","Views");

@@ -20,9 +20,7 @@
  * @version         $Id: plugin.tag.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-if (!defined('XOOPS_ROOT_PATH')) {
-    die("XOOPS root path not defined");
-}
+// defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 /** Get item fields: title, content, time, link, uid, uname, tags **/
 function publisher_tag_iteminfo(&$items)
@@ -61,5 +59,3 @@ function publisher_tag_synchronization($mid)
 {
     // Optional
 }
-
-?>

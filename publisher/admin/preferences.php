@@ -76,7 +76,7 @@ if ($op == 'showmod') {
         $$form_cat = new XoopsThemeForm($info['name'], 'pref_form_' . $form_cat, 'preferences.php', 'post', true);
     }
 
-    for ($i = 0; $i < $count; $i++) {
+    for ($i = 0; $i < $count; ++$i) {
 
         foreach ($xv_configs as $xv_config) {
             if ($config[$i]->getVar('conf_name') == $xv_config['name']) break;
@@ -184,7 +184,7 @@ if ($op == 'save') {
     $count = count($conf_ids);
     $config_handler = xoops_gethandler('config');
     if ($count > 0) {
-        for ($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i < $count; ++$i) {
             $config = $config_handler->getConfig($conf_ids[$i]);
             $new_value =& ${$config->getVar('conf_name')};
             if (is_array($new_value) || $new_value != $config->getVar('conf_value')) {

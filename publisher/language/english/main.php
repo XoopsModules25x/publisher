@@ -88,4 +88,3 @@ define("_MD_PUBLISHER_NEXTIMG","Next Image");
 define("_MD_PUBLISHER_CLOSE","Close");
 define("_MD_PUBLISHER_ENLARGEIMG","Enlarge");
 define("_MD_PUBLISHER_OF"," of ");
-?>

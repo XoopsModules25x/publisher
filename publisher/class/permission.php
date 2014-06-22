@@ -20,7 +20,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  * @version         $Id: permission.php 10661 2013-01-04 19:22:48Z trabis $
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 class PublisherPermissionHandler extends XoopsObjectHandler
 {
@@ -68,6 +68,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
             $groups[$myrow['gperm_groupid']] = $myrow['gperm_groupid'];
         }
         $items[$gperm_name][$id] = $groups;
+
         return $groups;
     }
 
@@ -105,6 +106,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
             $ret[$myrow['gperm_itemid']] = $myrow['gperm_itemid'];
         }
         $items[$gperm_name] = $ret;
+
         return $ret;
     }
 
@@ -131,9 +133,9 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      * Saves permissions for the selected category
      *  saveCategory_Permissions()
      *
-     * @param array   $groups     : group with granted permission
-     * @param integer $itemid     : itemid on which we are setting permissions for Categories and Forums
-     * @param string  $perm_name  : name of the permission
+     * @param array   $groups    : group with granted permission
+     * @param integer $itemid    : itemid on which we are setting permissions for Categories and Forums
+     * @param string  $perm_name : name of the permission
      *
      * @return boolean : TRUE if the no errors occured
      */
@@ -151,6 +153,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
                 echo $gperm_handler->addRight($perm_name, $itemid, $group_id, $module_id);
             }
         }
+
         return $result;
     }
 
@@ -158,7 +161,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      * Delete all permission for a specific item
      *  deletePermissions()
      *
-     * @param integer $itemid : id of the item for which to delete the permissions
+     * @param integer $itemid     : id of the item for which to delete the permissions
      * @param string  $gperm_name
      *
      * @return boolean : TRUE if the no errors occured
@@ -168,6 +171,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
         $result = true;
         $gperm_handler = xoops_gethandler('groupperm');
         $gperm_handler->deleteByModule($this->publisher->getModule()->getVar('mid'), $gperm_name, $itemid);
+
         return $result;
     }
 }

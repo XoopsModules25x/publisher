@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  * @version         $Id: mimetype.php 10374 2012-12-12 23:39:48Z trabis $
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 
@@ -88,9 +88,11 @@ class PublisherBaseObjectHandler extends XoopsObjectHandler
             $numrows = $this->_db->getRowsNum($result);
             if ($numrows == 1) {
                 $obj = new $this->classname($this->_db->fetchArray($result));
+
                 return $obj;
             }
         }
+
         return false;
     }
 
@@ -128,6 +130,7 @@ class PublisherBaseObjectHandler extends XoopsObjectHandler
             }
             unset($obj);
         }
+
         return $ret;
     }
 
@@ -167,12 +170,14 @@ class PublisherBaseObjectHandler extends XoopsObjectHandler
         }
         if (!$result) {
             $obj->setErrors('The query returned an error. ' . $this->db->error());
+
             return false;
         }
         //Make sure auto-gen ID is stored correctly in object
         if ($obj->isNew()) {
             $obj->assignVar($this->_idfield, $this->_db->getInsertId());
         }
+
         return true;
     }
 
@@ -194,6 +199,7 @@ class PublisherBaseObjectHandler extends XoopsObjectHandler
                     ' . $criteria->getOrder();
             }
         }
+
         return $sql;
     }
 
@@ -215,6 +221,7 @@ class PublisherBaseObjectHandler extends XoopsObjectHandler
             return 0;
         }
         list($count) = $this->_db->fetchRow($result);
+
         return $count;
     }
 
@@ -241,6 +248,7 @@ class PublisherBaseObjectHandler extends XoopsObjectHandler
         if (!$result) {
             return false;
         }
+
         return true;
     }
 
@@ -261,15 +269,16 @@ class PublisherBaseObjectHandler extends XoopsObjectHandler
         if (!$result = $this->_db->query($sql)) {
             return false;
         }
+
         return true;
     }
 
     /**
      * Assign a value to 1 field for tickets matching a set of conditions
      *
-     * @param string     $fieldname
-     * @param string     $fieldvalue
-     * @param object     $criteria {@link CriteriaElement}
+     * @param string $fieldname
+     * @param string $fieldvalue
+     * @param object $criteria   {@link CriteriaElement}
      *
      * @return bool FALSE if update failed
      * @access    public
@@ -284,6 +293,7 @@ class PublisherBaseObjectHandler extends XoopsObjectHandler
         if (!$result = $this->_db->query($sql)) {
             return false;
         }
+
         return true;
     }
 
@@ -332,6 +342,7 @@ class PublisherBaseObjectHandler extends XoopsObjectHandler
             $classname = $this->classname . 'Handler';
             $instance = new $classname($db);
         }
+
         return $instance;
     }
 }
@@ -396,9 +407,9 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
     /**
      * retrieve a mimetype object from the database
      *
-     * @param    int    $id    ID of mimetype
+     * @param int $id ID of mimetype
      *
-     * @return    object    {@link PublisherMimetype}
+     * @return object {@link PublisherMimetype}
      * @access    public
      */
     public function &get($id)
@@ -412,9 +423,11 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
             $numrows = $this->_db->getRowsNum($result);
             if ($numrows == 1) {
                 $obj = new $this->classname($this->_db->fetchArray($result));
+
                 return $obj;
             }
         }
+
         return false;
     }
 
@@ -447,6 +460,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
             $ret[] = $obj;
             unset($obj);
         }
+
         return $ret;
     }
 
@@ -484,6 +498,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
                 $ret[] = array('type' => $row, 'ext' => $mime->getVar('mime_ext'));
             }
         }
+
         return $ret;
     }
 
@@ -508,6 +523,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
                 break;
             }
         }
+
         return $ret;
     }
 
@@ -523,6 +539,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
                 $array[] = $item['type'];
             }
         }
+
         return $array;
     }
 
@@ -549,6 +566,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
             }
         }
+
         return $sql;
     }
 
@@ -566,6 +584,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
         $sql = sprintf("INSERT INTO %s (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
             (%u, %s, %s, %s, %u, %u)", $this->_db->prefix($this->_dbtable), $mime_id, $this->_db->quoteString($mime_ext),
             $this->_db->quoteString($mime_types), $this->_db->quoteString($mime_name), $mime_admin, $mime_user);
+
         return $sql;
     }
 
@@ -583,6 +602,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
         $sql = sprintf("UPDATE %s SET mime_ext = %s, mime_types = %s, mime_name = %s, mime_admin = %u, mime_user = %u WHERE
             mime_id = %u", $this->_db->prefix($this->_dbtable), $this->_db->quoteString($mime_ext),
             $this->_db->quoteString($mime_types), $this->_db->quoteString($mime_name), $mime_admin, $mime_user, $mime_id);
+
         return $sql;
     }
 
@@ -594,6 +614,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
     public function _deleteQuery(&$obj)
     {
         $sql = sprintf('DELETE FROM %s WHERE mime_id = %u', $this->_db->prefix($this->_dbtable), $obj->getVar('mime_id'));
+
         return $sql;
     }
 }

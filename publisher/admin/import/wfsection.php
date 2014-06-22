@@ -273,5 +273,3 @@ if ($op == 'go') {
     publisher_closeCollapsableBar('wfsectionimportgo', 'wfsectionimportgoicon');
     xoops_cp_footer();
 }
-
-?>

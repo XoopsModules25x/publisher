@@ -20,7 +20,7 @@
  * @version         $Id: blockform.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+// defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 xoops_load('XoopsForm');
 
@@ -69,6 +69,7 @@ class PublisherBlockForm extends XoopsForm
             }
         }
         $ret .= '</table>';
+
         return $ret;
     }
 }

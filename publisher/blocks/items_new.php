@@ -20,7 +20,7 @@
  * @version         $Id: items_new.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 
@@ -54,7 +54,7 @@ function publisher_items_new_show($options)
 
     $totalitems = count($itemsObj);
     if ($itemsObj) {
-        for ($i = 0; $i < $totalitems; $i++) {
+        for ($i = 0; $i < $totalitems; ++$i) {
 
             $item = array();
             $item['link'] = $itemsObj[$i]->getItemLink(false, isset($options[4]) ? $options[4] : 65);

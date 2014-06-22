@@ -20,9 +20,7 @@
  * @version         $Id: seo.inc.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-if (!defined("XOOPS_ROOT_PATH")) {
-    die("XOOPS root path not defined");
-}
+// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
 $seoOp = @$_GET['seoOp'];
 $seoArg = @$_GET['seoArg'];
@@ -76,5 +74,3 @@ if (!empty($seoOp) && isset($seoMap[$seoOp])) {
     include PUBLISHER_ROOT_PATH . '/' . $seoMap[$seoOp];
     exit;
 }
-
-?>

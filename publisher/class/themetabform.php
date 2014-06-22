@@ -19,7 +19,7 @@
  * @author          John Neill <catzwolf@xoosla.com>
  * @version         $Id: themetabform.php 10374 2012-12-12 23:39:48Z trabis $
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 
@@ -93,19 +93,24 @@ class PublisherThemeTabForm extends XoopsForm
     var $_required = array();
 
     /**
-     * @param  string      $title
-     * @param  string      $name
-     * @param  string      $action
-     * @param string       $method
-     * @param bool         $addtoken
-     * @param string       $summary
+     * @param string $title
+     * @param string $name
+     * @param string $action
+     * @param string $method
+     * @param bool   $addtoken
+     * @param string $summary
      */
     public function __construct($title, $name, $action, $method = "post", $addtoken = false, $summary = '')
     {
         global $xoTheme;
-        $xoTheme->addScript(PUBLISHER_URL . '/js/ui.core.js');
-        $xoTheme->addScript(PUBLISHER_URL . '/js/ui.tabs.js');
-        $xoTheme->addStylesheet(PUBLISHER_URL . '/css/jquery-ui-1.7.1.custom.css');
+//        $xoTheme->addScript(PUBLISHER_URL . '/assets/js/ui.core.js');
+//        $xoTheme->addScript(PUBLISHER_URL . '/assets/js/ui.tabs.js');
+//        $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery-ui-1.7.1.custom.css');
+
+        $xoTheme->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
+        $xoTheme->addStylesheet( XOOPS_URL . '/modules/system/css/ui/' . xoops_getModuleOption('jquery_theme', 'system') . '/ui.all.css');
+
+
         $this->_title = $title;
         $this->_name = $name;
         $this->_action = $action;
@@ -192,6 +197,7 @@ class PublisherThemeTabForm extends XoopsForm
     {
         $this->_tabs[] = $tabText;
         $ret = 'addTab';
+
         return $ret;
     }
 
@@ -203,6 +209,7 @@ class PublisherThemeTabForm extends XoopsForm
     public function _endTabs()
     {
         $ret = 'endTabs';
+
         return $ret;
     }
 
@@ -267,8 +274,8 @@ class PublisherThemeTabForm extends XoopsForm
     /**
      * Add an element to the form
      *
-     * @param      object    $formElement    reference to a {@link XoopsFormElement}
-     * @param bool           $required       is this a "required" element?
+     * @param object $formElement reference to a {@link XoopsFormElement}
+     * @param bool   $required    is this a "required" element?
      */
     public function addElement(&$formElement, $required = false)
     {
@@ -301,11 +308,12 @@ class PublisherThemeTabForm extends XoopsForm
         } else {
             $ret = array();
             $count = count($this->_elements);
-            for ($i = 0; $i < $count; $i++) {
+            for ($i = 0; $i < $count; ++$i) {
                 if (is_object($this->_elements[$i])) {
                     $ret[] = & $this->_elements[$i];
                 }
             }
+
             return $ret;
         }
     }
@@ -320,9 +328,10 @@ class PublisherThemeTabForm extends XoopsForm
         $ret = array();
         $elements = & $this->getElements(true);
         $count = count($elements);
-        for ($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i < $count; ++$i) {
             $ret[] = $elements[$i]->getName();
         }
+
         return $ret;
     }
 
@@ -337,12 +346,13 @@ class PublisherThemeTabForm extends XoopsForm
     {
         $elements = $this->getElements(true);
         $count = count($elements);
-        for ($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i < $count; ++$i) {
             if ($name == $elements[$i]->getName(false)) {
                 return $elements[$i];
             }
         }
         $elt = null;
+
         return $elt;
     }
 
@@ -371,7 +381,7 @@ class PublisherThemeTabForm extends XoopsForm
             // will not use getElementByName() for performance..
             $elements = & $this->getElements(true);
             $count = count($elements);
-            for ($i = 0; $i < $count; $i++) {
+            for ($i = 0; $i < $count; ++$i) {
                 $name = $elements[$i]->getName(false);
                 if ($name && isset($values[$name]) && method_exists($elements[$i], 'setValue')) {
                     $elements[$i]->setValue($values[$name]);
@@ -394,6 +404,7 @@ class PublisherThemeTabForm extends XoopsForm
         if (is_object($ele) && method_exists($ele, 'getValue')) {
             return $ele->getValue($encode);
         }
+
         return;
     }
 
@@ -410,12 +421,13 @@ class PublisherThemeTabForm extends XoopsForm
         $elements = & $this->getElements(true);
         $count = count($elements);
         $values = array();
-        for ($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i < $count; ++$i) {
             $name = $elements[$i]->getName(false);
             if ($name && method_exists($elements[$i], 'getValue')) {
                 $values[$name] = & $elements[$i]->getValue($encode);
             }
         }
+
         return $values;
     }
 
@@ -451,13 +463,14 @@ class PublisherThemeTabForm extends XoopsForm
     public function &getExtra()
     {
         $extra = empty($this->_extra) ? '' : ' ' . implode(' ', $this->_extra);
+
         return $extra;
     }
 
     /**
      * make an element "required"
      *
-     * @param object $formElement    reference to a {@link XoopsFormElement}
+     * @param object $formElement reference to a {@link XoopsFormElement}
      */
     public function setRequired(&$formElement)
     {
@@ -516,7 +529,7 @@ class PublisherThemeTabForm extends XoopsForm
      * <code>
      * function renderValidationJS() {
      *            $name = $this->getName();
-     *            return "if ( myform.{$name}.value != 'valid' ) { " .
+     *            return "if (myform.{$name}.value != 'valid') { " .
      *              "myform.{$name}.focus(); window.alert( '$name is invalid' ); return false;" .
      *              " }";
      * }
@@ -544,6 +557,7 @@ class PublisherThemeTabForm extends XoopsForm
         if ($withtags) {
             $js .= "//--></script>\n";
         }
+
         return $js;
     }
 }

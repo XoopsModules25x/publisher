@@ -49,4 +49,3 @@ if (!preg_match("/^ed2k*:\/\//i", $fileObj->getFileUrl())) {
 
 echo "<html><head><meta http-equiv=\"Refresh\" content=\"0; URL=" . $myts->oopsHtmlSpecialChars($fileObj->getFileUrl()) . "\"></meta></head><body></body></html>";
 exit();
-?>

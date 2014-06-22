@@ -19,7 +19,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: publisher.php 10374 2012-12-12 23:39:48Z trabis $
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
 class PublisherPublisher
 {
@@ -42,6 +42,7 @@ class PublisherPublisher
         if (!$instance) {
             $instance = new self($debug);
         }
+
         return $instance;
     }
 
@@ -50,6 +51,7 @@ class PublisherPublisher
         if ($this->module == null) {
             $this->initModule();
         }
+
         return $this->module;
     }
 
@@ -60,13 +62,16 @@ class PublisherPublisher
         }
         if (!$name) {
             $this->addLog("Getting all config");
+
             return $this->config;
         }
         if (!isset($this->config[$name])) {
             $this->addLog("ERROR :: CONFIG '{$name}' does not exist");
+
             return null;
         }
         $this->addLog("Getting config '{$name}' : " . $this->config[$name]);
+
         return $this->config[$name];
     }
 
@@ -77,6 +82,7 @@ class PublisherPublisher
         }
         $this->config[$name] = $value;
         $this->addLog("Setting config '{$name}' : " . $this->config[$name]);
+
         return $this->config[$name];
     }
 
@@ -86,6 +92,7 @@ class PublisherPublisher
             $this->initHandler($name);
         }
         $this->addLog("Getting handler '{$name}'");
+
         return $this->handler[$name . '_handler'];
     }
 

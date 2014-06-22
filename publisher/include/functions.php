@@ -19,10 +19,9 @@
  * @version         $Id: functions.php 10661 2013-01-04 19:22:48Z trabis $
  */
 
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
 include_once dirname(__FILE__) . '/common.php';
-
 
 /**
  * Includes scripts in HTML header
@@ -34,15 +33,15 @@ function publisher_cpHeader()
     xoops_cp_header();
 
     //cannot use xoTheme, some conflit with admin gui
-    echo '<link type="text/css" href="' . PUBLISHER_URL . '/css/jquery-ui-1.7.1.custom.css" rel="stylesheet" />
-    <link type="text/css" href="' . PUBLISHER_URL . '/css/publisher.css" rel="stylesheet" />
-    <script type="text/javascript" src="' . PUBLISHER_URL . '/js/funcs.js"></script>
-    <script type="text/javascript" src="' . PUBLISHER_URL . '/js/cookies.js"></script>
+    echo '<link type="text/css" href="' . XOOPS_URL . '/modules/system/css/ui/' . xoops_getModuleOption('jquery_theme', 'system') . '/ui.all.css" rel="stylesheet" />
+    <link type="text/css" href="' . PUBLISHER_URL . '/assets/css/publisher.css" rel="stylesheet" />
+    <script type="text/javascript" src="' . PUBLISHER_URL . '/assets/js/funcs.js"></script>
+    <script type="text/javascript" src="' . PUBLISHER_URL . '/assets/js/cookies.js"></script>
     <script type="text/javascript" src="' . XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js"></script>
-    <script type="text/javascript" src="' . PUBLISHER_URL . '/js/ui.core.js"></script>
-    <script type="text/javascript" src="' . PUBLISHER_URL . '/js/ui.tabs.js"></script>
-    <script type="text/javascript" src="' . PUBLISHER_URL . '/js/ajaxupload.3.9.js"></script>
-    <script type="text/javascript" src="' . PUBLISHER_URL . '/js/publisher.js"></script>
+    <!-- <script type="text/javascript" src="' . XOOPS_URL . '/browse.php?Frameworks/jquery/jquery-migrate-1.2.1.js"></script> -->
+    <script type="text/javascript" src="' . XOOPS_URL . '/browse.php?Frameworks/jquery/plugins/jquery.ui.js"></script>
+    <script type="text/javascript" src="' . PUBLISHER_URL . '/assets/js/ajaxupload.3.9.js"></script>
+    <script type="text/javascript" src="' . PUBLISHER_URL . '/assets/js/publisher.js"></script>
     ';
 }
 
@@ -56,9 +55,9 @@ function publisher_getOrderBy($sort)
 {
     if ($sort == "datesub") {
         return "DESC";
-    } else if ($sort == "counter") {
+    } elseif ($sort == "counter") {
         return "DESC";
-    } else if ($sort == "weight") {
+    } elseif ($sort == "weight") {
         return "ASC";
     }
 }
@@ -135,6 +134,7 @@ function publisher_html2text($document)
                      "chr(\\1)");
 
     $text = preg_replace($search, $replace, $document);
+
     return $text;
     //<?php
 }
@@ -205,6 +205,7 @@ function publisher_copyr($source, $dest)
 
     // Clean up
     $dir->close();
+
     return true;
 }
 
@@ -264,10 +265,12 @@ function publisher_mkdir($target)
         if (!file_exists($target)) {
             $res = mkdir($target, 0777); // crawl back up & create dir tree
             publisher_chmod($target);
+
             return $res;
         }
     }
     $res = is_dir($target);
+
     return $res;
 }
 
@@ -333,6 +336,7 @@ function publisher_formatErrors($errors = array())
     foreach ($errors as $key => $value) {
         $ret .= '<br /> - ' . $value;
     }
+
     return $ret;
 }
 
@@ -371,6 +375,7 @@ function publisher_userIsAdmin()
 function publisher_userIsAuthor($itemObj)
 {
     global $xoopsUser;
+
     return (is_object($xoopsUser) && is_object($itemObj) && ($xoopsUser->uid() == $itemObj->uid()));
 }
 
@@ -384,6 +389,7 @@ function publisher_userIsModerator($itemObj)
 {
     $publisher = PublisherPublisher::getInstance();
     $categoriesGranted = $publisher->getHandler('permission')->getGrantedItems('category_moderation');
+
     return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted));
 }
 
@@ -412,6 +418,7 @@ function publisher_saveCategoryPermissions($groups, $categoryid, $perm_name)
             $gperm_handler->addRight($perm_name, $categoryid, $group_id, $module_id);
         }
     }
+
     return $result;
 }
 
@@ -433,7 +440,7 @@ function publisher_openCollapsableBar($tablename = '', $iconname = '', $tabletit
     }
 
     echo "<h3 style=\"color: #2F5376; font-weight: bold; font-size: 14px; margin: 6px 0 0 0; \"><a href='javascript:;' onclick=\"toggle('" . $tablename . "'); toggleIcon('" . $iconname . "')\";>";
-    echo "<img id='" . $iconname . "' src='" . PUBLISHER_URL . "/images/links/" . $image . "' alt='' /></a>&nbsp;" . $tabletitle . "</h3>";
+    echo "<img id='" . $iconname . "' src='" . PUBLISHER_URL . "/assets/images/links/" . $image . "' alt='' /></a>&nbsp;" . $tabletitle . "</h3>";
     echo "<div id='" . $tablename . "' style='display: " . $display . ";'>";
     if ($tabledsc != '') {
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . $tabledsc . "</span>";
@@ -525,6 +532,7 @@ function publisher_getCurrentUrls()
 function publisher_getCurrentPage()
 {
     $urls = publisher_getCurrentUrls();
+
     return $urls['full'];
 }
 
@@ -559,6 +567,7 @@ function publisher_addCategoryOption($categoryObj, $selectedid = 0, $level = 0, 
             $ret .= publisher_addCategoryOption($subCategoryObj, $selectedid, $level);
         }
     }
+
     return $ret;
 }
 
@@ -593,6 +602,7 @@ function publisher_createCategorySelect($selectedid = 0, $parentcategory = 0, $a
         }
     }
     $ret .= "</select>";
+
     return $ret;
 }
 
@@ -619,6 +629,7 @@ function publisher_createCategoryOptions($selectedid = 0, $parentcategory = 0, $
             $ret .= publisher_addCategoryOption($categoryObj, $selectedid);
         }
     }
+
     return $ret;
 }
 
@@ -630,7 +641,7 @@ function publisher_createCategoryOptions($selectedid = 0, $parentcategory = 0, $
 function publisher_renderErrors(&$err_arr, $reseturl = '')
 {
     if (is_array($err_arr) && count($err_arr) > 0) {
-        echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' . PUBLISHER_URL . '/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
+        echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' . PUBLISHER_URL . '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
 
         echo '<h4 style="text-align:left;margin:0; padding-top:0">' . _AM_PUBLISHER_MSG_SUBMISSION_ERR;
 
@@ -769,6 +780,7 @@ function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
 function publisher_newFeatureTag()
 {
     $ret = '<span style="padding-right: 4px; font-weight: bold; color: red;">' . _CO_PUBLISHER_NEW_FEATURE . '</span>';
+
     return $ret;
 }
 
@@ -802,6 +814,7 @@ function publisher_truncateTagSafe($string, $length = 80, $etc = '...', $break_w
             $string = preg_replace('/<[^>]*$/', '', $string);
             $string = publisher_closeTags($string);
         }
+
         return $string . $etc;
     } else {
         return $string;
@@ -837,10 +850,11 @@ function publisher_closeTags($string)
         }
 
         $complete_tags = array_reverse($complete_tags);
-        for ($i = 0; $i < count($complete_tags); $i++) {
+        for ($i = 0; $i < count($complete_tags); ++$i) {
             $string .= '</' . $complete_tags[$i] . '>';
         }
     }
+
     return $string;
 }
 
@@ -892,6 +906,7 @@ function publisher_ratingBar($itemid)
         $static_rater[] .= '<div class="publisher_static">' . _MD_PUBLISHER_VOTE_RATING . ': <strong> ' . $rating1 . '</strong>/' . $units . ' (' . $count . ' ' . $tense . ') <br /><em>' . _MD_PUBLISHER_VOTE_DISABLE . '</em></div>';
         $static_rater[] .= '</div>';
         $static_rater[] .= '</div>' . "\n\n";
+
         return join("\n", $static_rater);
     } else {
         $rater = '';
@@ -918,6 +933,7 @@ function publisher_ratingBar($itemid)
         $rater .= '  </div>';
         $rater .= '</div>';
         $rater .= '</div>';
+
         return $rater;
     }
 }
@@ -946,6 +962,7 @@ function publisher_getEditors($allowed_editors = null)
             $ret[$key]['title'] = $title;
         }
     }
+
     return $ret;
 }
 
@@ -956,7 +973,8 @@ function publisher_getEditors($allowed_editors = null)
  */
 function publisher_stringToInt($string = '', $length = 5)
 {
-    for ($i = 0, $final = "", $string = substr(md5($string), $length); $i < $length; $final .= intval($string[$i]), $i++);
+    for ($i = 0, $final = "", $string = substr(md5($string), $length); $i < $length; $final .= intval($string[$i]), ++$i);
+
     return intval($final);
 }
 
@@ -973,10 +991,9 @@ function publisher_convertCharset($item)
             $unserialize[$key] = @iconv('windows-1256', 'UTF-8', $value);
         }
         $serialize = serialize($unserialize);
+
         return $serialize;
     } else {
         return @iconv('windows-1256', 'UTF-8', $item);
     }
 }
-
-?>

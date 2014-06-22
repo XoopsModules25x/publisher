@@ -30,4 +30,3 @@ if (isset($_POST["op"]) && ($_POST["op"] == "delfileok")) {
     xoops_confirm(array('backto' => $_POST['backto'], 'address' => $_POST["address"], 'op' => 'delfileok'), 'pw_delete_file.php', _AM_PUBLISHER_RUSUREDELF, _YES);
     xoops_cp_footer();
 }
-?>

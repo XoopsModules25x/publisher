@@ -46,7 +46,6 @@ if (!(publisher_userIsAdmin() || publisher_userIsModerator($itemObj) || (is_obje
     exit();
 }
 
-
 /* -- Available operations -- */
 switch ($op) {
     case "default":
@@ -75,7 +74,6 @@ switch ($op) {
         $fileObj->setVar('name', PublisherRequest::getString('name'));
         $fileObj->setVar('description', PublisherRequest::getString('description'));
         $fileObj->setVar('status', PublisherRequest::getInt('file_status'));
-
 
         // attach file if any
         if (isset($_FILES['item_upload_file']) && $_FILES['item_upload_file']['name'] != "") {

@@ -17,12 +17,14 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author            Sina Asghari (AKA stranger) <stranger@impresscms.ir>
- * @version         $Id: makepdf.php 10374 2012-12-12 23:39:48Z trabis $
+ * @version         $Id: makepdf.php 335 2011-12-05 20:24:01Z lusopoemas@gmail.com $
  */
 
 error_reporting(0);
 include_once dirname(__FILE__) . '/header.php';
-
+if (!is_file(XOOPS_PATH.'/vendor/tcpdf/tcpdf.php')) {
+	redirect_header(XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/viewtopic.php?topic_id='.$topic_id,3,'TCPDF for Xoops not installed');
+}
 $itemid = PublisherRequest::getInt('itemid');
 $item_page_id = PublisherRequest::getInt('page', -1);
 
@@ -49,27 +51,29 @@ if (!$itemObj->accessGranted()) {
     exit();
 }
 
-require_once PUBLISHER_ROOT_PATH . '/tcpdf/tcpdf.php';
 xoops_loadLanguage('main', PUBLISHER_DIRNAME);
 
 $dateformat = $itemObj->datesub();
 $sender_inform = sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemObj->datesub());
 $mainImage = $itemObj->getMainImage();
-
+$pdf_data['author'] = $itemObj->posterName();
+$pdf_data['title'] = $myts->undoHtmlSpecialChars($categoryObj->name());
 $content = '';
 if ($mainImage['image_path'] != '') {
     $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"/>';
 }
 $content .= '<strong><i><u><a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" title="' . $myts->undoHtmlSpecialChars($itemObj->title()) . '">' . $myts->undoHtmlSpecialChars($itemObj->title()) . '</a></u></i></strong>';
-$content .= '<br />';
 $content .= '<strong>' . _CO_PUBLISHER_CATEGORY . ' : <a href="' . PUBLISHER_URL . '/category.php?categoryid=' . $itemObj->categoryid() . '" title="' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '">' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '</a></strong>';
-$content .= '<br />';
-$content .= '<strong>' . $sender_inform . '</strong>';
-$content .= '<br /><br />';
-$content .= $myts->undoHtmlSpecialChars($itemObj->plain_maintext());
-$content = publisher_convertCharset($content);
+$content .= '<br /><strong>' . $sender_inform . '</strong>';
+$content .= $itemObj->plain_maintext();
 
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+require_once (XOOPS_PATH.'/vendor/tcpdf/tcpdf.php');
+if (is_file(XOOPS_PATH.'/vendor/tcpdf/config/lang/'.$xoopsConfig['language'].'.php')) {
+	require_once( XOOPS_PATH.'/vendor/tcpdf/config/lang/'.$xoopsConfig['language'].'.php');
+} else {
+	require_once( XOOPS_PATH.'/vendor/tcpdf/config/lang/english.php');
+}
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
 $doc_title = publisher_convertCharset($myts->undoHtmlSpecialChars($itemObj->title()));
 $doc_keywords = 'XOOPS';
@@ -79,40 +83,31 @@ $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor(PDF_AUTHOR);
 $pdf->SetTitle($doc_title);
 $pdf->SetSubject($doc_title);
-$pdf->SetKeywords($doc_keywords);
+$pdf->SetKeywords(XOOPS_URL . ', '.' by tcpdf_for_xoops (chg-web.org), '.$doc_title);
 
-$firstLine = publisher_convertCharset($xoopsConfig['sitename']);
+$firstLine = XOOPS_URL.' - '.publisher_convertCharset($xoopsConfig['sitename']);
 $secondLine = publisher_convertCharset($xoopsConfig['slogan']);
 
-$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
+//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine, array(0, 64, 255), array(0, 64, 128));
 
 //set margins
-$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-//set auto page breaks
-$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP , PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+//set auto page breaks
+$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
+
+
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
 
-$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-$filename = PUBLISHER_ROOT_PATH . '/tcpdf/config/lang/' . _LANGCODE . '.php';
-if (file_exists($filename)) {
-    include_once $filename;
-} else {
-    include_once PUBLISHER_ROOT_PATH . '/tcpdf/config/lang/en.php';
-}
-
-$pdf->setLanguageArray($l); //set language items
-
-if (_CHARSET == 'windows-1256') {
-    $pdf->SetFont('almohanad', '', 18);
-}
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_SUB, '', PDF_FONT_SIZE_SUB));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+$pdf->setFooterData($tc=array(0,64,0), $lc=array(0,64,128));
 
 //initialize document
-$pdf->AliasNbPages();
+$pdf->Open();
 $pdf->AddPage();
+$pdf->SetFont(PDF_FONT_NAME_MAIN,PDF_FONT_STYLE_MAIN, PDF_FONT_SIZE_MAIN);
 $pdf->writeHTML($content, true, 0, true, 0);
 $pdf->Output();
-?>

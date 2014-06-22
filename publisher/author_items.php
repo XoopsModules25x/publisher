@@ -41,7 +41,7 @@ if (!$publisher->getConfig('perm_author_items')) {
 
 $myts = MyTextSanitizer::getInstance();
 
-$xoopsOption['template_main'] = 'publisher_author_items.html';
+$xoopsOption['template_main'] = 'publisher_author_items.tpl';
 include_once XOOPS_ROOT_PATH . '/header.php';
 include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
@@ -96,4 +96,3 @@ $publisher_metagen = new PublisherMetagen($title, '', $title);
 $publisher_metagen->createMetaTags();
 
 include_once XOOPS_ROOT_PATH . '/footer.php';
-?>

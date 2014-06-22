@@ -71,6 +71,28 @@ switch ($op) {
             }
         }
 
+        // xNews
+        $xnews_version = 0;
+        $moduleObj = $module_handler->getByDirname('xnews');
+        if ($moduleObj) {
+            $from_module_version = round($moduleObj->getVar('version') / 100, 2);
+            if (($from_module_version >= 1.1)) {
+                $importfile_select_array["xnews"] = "xNews " . $from_module_version;
+                $xnews_version = $from_module_version;
+            }
+        }
+
+        // AMS
+        $ams_version = 0;
+        $moduleObj = $module_handler->getByDirname('AMS');
+        if ($moduleObj) {
+            $from_module_version = round($moduleObj->getVar('version') / 100, 2);
+            if (($from_module_version >= 1.1)) {
+                $importfile_select_array["ams"] = "AMS " . $from_module_version;
+                $ams_version = $from_module_version;
+            }
+        }
+
         // Smartsection
         $smartsection_version = 0;
         $moduleObj = $module_handler->getByDirname('smartsection');
@@ -79,6 +101,17 @@ switch ($op) {
             if (($from_module_version >= 1.1)) {
                 $importfile_select_array["smartsection"] = "Smartsection " . $from_module_version;
                 $smartsection_version = $from_module_version;
+            }
+        }
+
+        // C-Jay Content
+        $cjaycontent_version = 0;
+        $moduleObj = $module_handler->getByDirname('cjaycontent');
+        if ($moduleObj) {
+            $from_module_version = round($moduleObj->getVar('version') / 100, 2);
+            if (($from_module_version >= 1.1)) {
+                $importfile_select_array["cjaycontent"] = "C-Jay Content " . $from_module_version;
+                $cjaycontent_version = $from_module_version;
             }
         }
 
@@ -92,7 +125,6 @@ switch ($op) {
         $xfs_version = $from_module_version;
         }
         } */
-
 
         if (isset($importfile_select_array) && count($importfile_select_array) > 0) {
 
@@ -124,6 +156,9 @@ switch ($op) {
             /*$sform->addElement(new XoopsFormHidden('xfs_version', $xfs_version));
              $sform->addElement(new XoopsFormHidden('wfs_version', $wfs_version));*/
             $sform->addElement(new XoopsFormHidden('news_version', $news_version));
+            $sform->addElement(new XoopsFormHidden('xnews_version', $xnews_version));
+            $sform->addElement(new XoopsFormHidden('ams_version', $ams_version));
+            $sform->addElement(new XoopsFormHidden('cjaycontent_version', $cjaycontent_version));
             $sform->addElement(new XoopsFormHidden('smartsection_version', $smartsection_version));
             $sform->display();
             unset($hidden);
@@ -139,4 +174,3 @@ switch ($op) {
 }
 
 xoops_cp_footer();
-?>

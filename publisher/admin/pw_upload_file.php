@@ -53,13 +53,13 @@ function publisher_pagewrap_upload(&$errors)
             return true;
         } else {
             $errors = array_merge($errors, $uploader->getErrors(false));
+
             return false;
         }
 
     } else {
         $errors = array_merge($errors, $uploader->getErrors(false));
+
         return false;
     }
 }
-
-?>

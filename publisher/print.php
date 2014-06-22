@@ -85,6 +85,4 @@ if ($publisher->getConfig('print_footer') == 'index footer' || $publisher->getCo
 
 $xoopsTpl->assign('display_whowhen_link', $publisher->getConfig('item_disp_whowhen_link'));
 
-$xoopsTpl->display('db:publisher_print.html');
-
-?>
+$xoopsTpl->display('db:publisher_print.tpl');

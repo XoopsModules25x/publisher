@@ -19,9 +19,7 @@
  * @return string sort_url for the article
  */
 
-if (!defined("XOOPS_ROOT_PATH")) {
-    die("XOOPS root path not defined");
-}
+// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
 include_once dirname(__FILE__) . '/common.php';
 
@@ -37,7 +35,7 @@ function publisher_seo_title($title = '', $withExt = true)
     }
 
     // Transformation de la chaine en minuscule
-    // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus
+    // Codage de la chaine afin d'Ã©viter les erreurs 500 en cas de caractÃ¨res imprÃ©vus
     $title = rawurlencode(strtolower($title));
 
     // Transformation des ponctuations
@@ -46,8 +44,8 @@ function publisher_seo_title($title = '', $withExt = true)
     $rep_pat = array("-", "-", "", "", "", "-100", "", "-", "", "", "", "-", "", "", "", "-", "", "", "-at-", "", "-", "", "-", "", "-", "", "-", "");
     $title = preg_replace($pattern, $rep_pat, $title);
 
-    // Transformation des caractères accentués
-    //                  è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
+    // Transformation des caractÃ¨res accentuÃ©s
+    //                  Ã¨        Ã©        Ãª        Ã«        Ã§        Ã         Ã¢        Ã¤        Ã®        Ã¯        Ã¹        Ã¼        Ã»        Ã´        Ã¶
     $pattern = array("/%B0/", "/%E8/", "/%E9/", "/%EA/", "/%EB/", "/%E7/", "/%E0/", "/%E2/", "/%E4/", "/%EE/", "/%EF/", "/%F9/", "/%FC/", "/%FB/", "/%F4/", "/%F6/");
     $rep_pat = array("-", "e", "e", "e", "e", "c", "a", "a", "a", "i", "i", "u", "u", "u", "o", "o");
     $title = preg_replace($pattern, $rep_pat, $title);
@@ -56,6 +54,7 @@ function publisher_seo_title($title = '', $withExt = true)
         if ($withExt) {
             $title .= '.html';
         }
+
         return $title;
     }
 
@@ -71,7 +70,7 @@ function publisher_seo_genUrl($op, $id, $short_url = "")
         if ($publisher->getConfig('seo_url_rewrite') == 'htaccess') {
             // generate SEO url using htaccess
             return XOOPS_URL . '/' . $publisher->getConfig('seo_module_name') . ".${op}.${id}/${short_url}";
-        } else if ($publisher->getConfig('seo_url_rewrite') == 'path-info') {
+        } elseif ($publisher->getConfig('seo_url_rewrite') == 'path-info') {
             // generate SEO url using path-info
             return PUBLISHER_URL . "/index.php/${op}.${id}/${short_url}";
         } else {
@@ -90,5 +89,3 @@ function publisher_seo_genUrl($op, $id, $short_url = "")
         }
     }
 }
-
-?>

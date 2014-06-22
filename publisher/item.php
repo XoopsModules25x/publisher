@@ -39,12 +39,13 @@ if (!$itemObj) {
     exit();
 }
 
-$xoopsOption['template_main'] = 'publisher_item.html';
+$xoopsOption['template_main'] = 'publisher_item.tpl';
 include_once XOOPS_ROOT_PATH . '/header.php';
-$xoTheme->addStylesheet(PUBLISHER_URL . '/css/jquery.popeye.style.css');
+$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-$xoTheme->addScript(PUBLISHER_URL . '/js/jquery.popeye-2.0.4.js');
-$xoTheme->addScript(PUBLISHER_URL . '/js/publisher.js');
+//$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery-migrate-1.2.1.js');
+$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.0.4.js');
+$xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
 include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
 // Creating the category object that holds the selected item
@@ -217,8 +218,8 @@ if ((($itemObj->cancomment() == 1) || !$publisher->getConfig('perm_com_art_level
 if ($publisher->getConfig('perm_rating')) {
     $xoopsTpl->assign('rating_enabled', true);
     $item['ratingbar'] = publisher_ratingBar($itemid);
-    $xoTheme->addScript(PUBLISHER_URL . '/js/behavior.js');
-    $xoTheme->addScript(PUBLISHER_URL . '/js/rating.js');
+    $xoTheme->addScript(PUBLISHER_URL . '/assets/js/behavior.js');
+    $xoTheme->addScript(PUBLISHER_URL . '/assets/js/rating.js');
 }
 
 $xoopsTpl->assign('item', $item);

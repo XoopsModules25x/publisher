@@ -62,16 +62,15 @@ class PublisherHighlighter
      */
     public function setSimple($value)
     {
-        $this->_simple = (bool)$value;
+        $this->_simple = (bool) $value;
     }
-
 
     /**
      * @param bool $value
      */
     public function setWholeWords($value)
     {
-        $this->_wholeWords = (bool)$value;
+        $this->_wholeWords = (bool) $value;
     }
 
     /**
@@ -79,7 +78,7 @@ class PublisherHighlighter
      */
     public function setCaseSens($value)
     {
-        $this->_caseSens = (bool)$value;
+        $this->_caseSens = (bool) $value;
     }
 
     /**
@@ -87,7 +86,7 @@ class PublisherHighlighter
      */
     public function setStripLinks($value)
     {
-        $this->_stripLinks = (bool)$value;
+        $this->_stripLinks = (bool) $value;
     }
 
     /**
@@ -95,16 +94,16 @@ class PublisherHighlighter
      */
     public function SetReplacementString($value)
     {
-        $this->_replacementString = (string)$value;
+        $this->_replacementString = (string) $value;
     }
 
     /**
      * Highlight a string in text without corrupting HTML tags
      *
-     * @param       string          $text           Haystack - The text to search
-     * @param       array|string    $needle         Needle - The string to highlight
+     * @param string       $text   Haystack - The text to search
+     * @param array|string $needle Needle - The string to highlight
      *
-     * @return      Text with needle highlighted
+     * @return Text with needle highlighted
      */
     public function highlight($text, $needle)
     {
@@ -121,7 +120,7 @@ class PublisherHighlighter
             $pattern .= 'i';
             $sl_pattern .= 'i';
         }
-        $needle = (array)$needle;
+        $needle = (array) $needle;
         foreach ($needle as $needle_s) {
             $needle_s = preg_quote($needle_s);
             // Escape needle with optional whole word check
@@ -136,6 +135,7 @@ class PublisherHighlighter
             $regex = sprintf($pattern, $needle_s);
             $text = preg_replace($regex, $this->_replacementString, $text);
         }
+
         return $text;
     }
 }

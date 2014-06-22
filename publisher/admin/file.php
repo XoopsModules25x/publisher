@@ -160,4 +160,3 @@ switch ($op) {
         break;
 }
 xoops_cp_footer();
-?>

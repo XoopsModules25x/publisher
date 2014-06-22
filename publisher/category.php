@@ -56,7 +56,7 @@ if (!isset($totalItems[$categoryid]) || $totalItems[$categoryid] == 0) {
 // Added by skalpa: custom template support
 $xoopsOption['template_main'] = $categoryObj->template();
 if (empty($xoopsOption['template_main'])) {
-    $xoopsOption['template_main'] = 'publisher_display' . '_' . $publisher->getConfig('idxcat_items_display_type') . '.html';
+    $xoopsOption['template_main'] = 'publisher_display' . '_' . $publisher->getConfig('idxcat_items_display_type') . '.tpl';
 }
 
 include_once XOOPS_ROOT_PATH . '/header.php';
@@ -174,7 +174,7 @@ if (count($itemsObj) > 0) {
     */
     // Adding the items of the selected category
 
-    for ($i = 0; $i < $totalItemOnPage; $i++) {
+    for ($i = 0; $i < $totalItemOnPage; ++$i) {
         $item = $itemsObj[$i]->ToArraySimple('default', $publisher->getConfig('item_title_size'));
         $item['categoryname'] = $categoryObj->name();
         $item['categorylink'] = "<a href='" . publisher_seo_genUrl('category', $itemsObj[$i]->categoryid(), $categoryObj->short_url()) . "'>" . $categoryObj->name() . "</a>";
@@ -224,9 +224,8 @@ $publisher_metagen->createMetaTags();
 
 // RSS Link
 if ($publisher->getConfig('idxcat_show_rss_link') == 1) {
-    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . "/backend.php?categoryid=" . $categoryid, _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . "/images/rss.gif", _MD_PUBLISHER_RSSFEED);
+    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . "/backend.php?categoryid=" . $categoryid, _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . "/assets/images/rss.gif", _MD_PUBLISHER_RSSFEED);
     $xoopsTpl->assign('rssfeed_link', $link);
 }
 
 include_once XOOPS_ROOT_PATH . '/footer.php';
-?>

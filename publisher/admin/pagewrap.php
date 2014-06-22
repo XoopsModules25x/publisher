@@ -62,5 +62,3 @@ $form->display();
 
 publisher_closeCollapsableBar('pagewraptable', 'pagewrapicon');
 xoops_cp_footer();
-
-?>

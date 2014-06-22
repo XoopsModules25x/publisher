@@ -21,5 +21,3 @@
 
 include_once dirname(dirname(dirname(__FILE__))) . '/mainfile.php';
 include_once XOOPS_ROOT_PATH . '/include/notification_update.php';
-
-?>

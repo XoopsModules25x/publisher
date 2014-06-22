@@ -30,5 +30,3 @@ function publisher_com_approve(&$comment)
 {
     // notification mail here
 }
-
-?>

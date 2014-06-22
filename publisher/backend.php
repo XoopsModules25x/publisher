@@ -42,7 +42,7 @@ $tpl = new XoopsTpl();
 $tpl->xoops_setCaching(2);
 $tpl->xoops_setCacheTime(0);
 $myts = MyTextSanitizer::getInstance();
-if (!$tpl->is_cached('db:publisher_rss.html')) {
+if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     $channel_category = $publisher->getModule()->name();
     // Check if ML Hack is installed, and if yes, parse the $content in formatForML
     if (method_exists($myts, 'formatForML')) {
@@ -90,4 +90,4 @@ if (!$tpl->is_cached('db:publisher_rss.html')) {
         }
     }
 }
-$tpl->display('db:publisher_rss.html');
+$tpl->display('db:publisher_rss.tpl');

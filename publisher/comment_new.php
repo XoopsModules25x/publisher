@@ -33,5 +33,3 @@ if ($com_itemid > 0) {
     $com_replytitle = $itemObj->title();
     include_once XOOPS_ROOT_PATH . '/include/comment_new.php';
 }
-
-?>

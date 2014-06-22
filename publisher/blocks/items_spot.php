@@ -16,14 +16,15 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: items_spot.php 11840 2013-07-18 10:41:05Z beckmi $
+ * @version         $Id: items_spot.php 10374 2012-12-12 23:39:48Z trabis $
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 
 function publisher_items_spot_show($options)
 {
+    global $xoTheme;
     $publisher = PublisherPublisher::getInstance();
     $opt_display_last = $options[0];
     $opt_items_count = $options[1];
@@ -65,7 +66,7 @@ function publisher_items_spot_show($options)
                     $block['truncate'] = true;
                 }
                 $block['items'][] = $item;
-                $i++;
+                ++$i;
             }
         }
     } else {
@@ -86,7 +87,7 @@ function publisher_items_spot_show($options)
                     $item['summary'] = publisher_truncateTagSafe($item['summary'], $opt_truncate);
                 }
                 $block['items'][] = $item;
-                $i++;
+                ++$i;
             }
         }
     }
@@ -101,7 +102,7 @@ function publisher_items_spot_show($options)
     $block['display_type'] = $opt_display_type;
 
     $block["publisher_url"] = PUBLISHER_URL;
-
+    $xoTheme->addStylesheet(XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/css/publisher.css');
     return $block;
 }
 
@@ -145,5 +146,6 @@ function publisher_items_spot_edit($options)
     $form->addElement($typeEle);
     $form->addElement($truncateEle);
     $form->addElement($imageEle);
+
     return $form->render();
 }

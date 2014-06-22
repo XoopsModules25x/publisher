@@ -1,5 +1,5 @@
 <?php
-// $Id: uploader.php 11840 2013-07-18 10:41:05Z beckmi $
+// $Id: uploader.php 10374 2012-12-12 23:39:48Z trabis $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -77,7 +77,7 @@
  * @author     Kazumi Ono <onokazu@xoops.org>
  * @copyright  (c) 2000-2003 The Xoops Project - www.xoops.org
  */
-mt_srand((double)microtime() * 1000000);
+mt_srand((double) microtime() * 1000000);
 class XoopsMediaUploader
 {
     var $mediaName;
@@ -148,8 +148,9 @@ class XoopsMediaUploader
         global $_FILES;
         if (!isset($_FILES[$media_name])) {
             $this->setErrors('You either did not choose a file to upload or the server has insufficient read/writes to upload this file.!');
+
             return false;
-        } else if (is_array($_FILES[$media_name]['name']) && isset($index)) {
+        } elseif (is_array($_FILES[$media_name]['name']) && isset($index)) {
             $index = intval($index);
             $this->mediaName = (get_magic_quotes_gpc()) ? stripslashes($_FILES[$media_name]['name'][$index]) : $_FILES[$media_name]['name'][$index];
             $this->mediaType = $_FILES[$media_name]['type'][$index];
@@ -169,14 +170,17 @@ class XoopsMediaUploader
         $this->errors = array();
         if (intval($this->mediaSize) < 0) {
             $this->setErrors('Invalid File Size');
+
             return false;
         }
         if ($this->mediaName == '') {
             $this->setErrors('Filename Is Empty');
+
             return false;
         }
         if ($this->mediaTmpName == 'none') {
             $this->setErrors('No file uploaded, this is a error');
+
             return false;
         }
         if (!$this->checkMaxFileSize()) {
@@ -221,8 +225,10 @@ class XoopsMediaUploader
                     $this->setErrors('No file selected for upload. Error: 5');
                     break;
             }
+
             return false;
         }
+
         return true;
     }
 
@@ -317,6 +323,7 @@ class XoopsMediaUploader
     {
         if ($this->uploadDir == '') {
             $this->setErrors('Upload directory not set');
+
             return false;
         }
         if (!is_dir($this->uploadDir)) {
@@ -345,6 +352,7 @@ class XoopsMediaUploader
         if (count($this->errors) > 0) {
             return false;
         }
+
         return true;
     }
 
@@ -363,7 +371,7 @@ class XoopsMediaUploader
         }
         if (isset($this->targetFileName)) {
             $this->savedFileName = $this->targetFileName;
-        } else if (isset($this->prefix)) {
+        } elseif (isset($this->prefix)) {
             $this->savedFileName = uniqid($this->prefix) . '.' . strtolower($matched[1]);
         } else {
             $this->savedFileName = strtolower($this->mediaName);
@@ -372,12 +380,14 @@ class XoopsMediaUploader
         $this->savedDestination = $this->uploadDir . $this->savedFileName;
         if (is_file($this->savedDestination) && !!is_dir($this->savedDestination)) {
             $this->setErrors('File ' . $this->mediaName . ' already exists on the server. Please rename this file and try again.<br />');
+
             return false;
         }
         if (!move_uploaded_file($this->mediaTmpName, $this->savedDestination)) {
             return false;
         }
         @chmod($this->savedDestination, $chmod);
+
         return true;
     }
 
@@ -394,6 +404,7 @@ class XoopsMediaUploader
         if ($this->mediaSize > $this->maxFileSize) {
             return false;
         }
+
         return true;
     }
 
@@ -412,6 +423,7 @@ class XoopsMediaUploader
         if ($dimension > $this->maxWidth) {
             return false;
         }
+
         return true;
     }
 
@@ -430,6 +442,7 @@ class XoopsMediaUploader
         if ($dimension > $this->maxWidth) {
             return false;
         }
+
         return true;
     }
 
@@ -477,6 +490,7 @@ class XoopsMediaUploader
                     $ret .= $error . '<br />';
                 }
             }
+
             return $ret;
         }
     }

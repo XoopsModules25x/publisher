@@ -133,7 +133,7 @@ CREATE TABLE publisher_mimetypes (
 # --------------------------------------------------------
 
 #
-# Table structure for table `publisher_mimetypes`
+# Table structure for table `publisher_rating`
 #
 
 CREATE TABLE `publisher_rating` (

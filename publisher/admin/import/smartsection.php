@@ -204,7 +204,6 @@ if ($op == 'go') {
             }
         }
 
-
         // Saving category permissions
         $groupsIds = $gperm_handler->getGroupIds('category_read', $arrCat['categoryid'], $smartsection_module_id);
         publisher_saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
@@ -259,5 +258,3 @@ if ($op == 'go') {
     publisher_closeCollapsableBar('newsimportgo', 'newsimportgoicon');
     xoops_cp_footer();
 }
-
-?>

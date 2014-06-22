@@ -34,6 +34,7 @@ class MyTextSanitizerExtension
         if (!isset($instance)) {
             $instance = new MyTextSanitizerExtension();
         }
+
         return $instance;
     }
 
@@ -70,6 +71,7 @@ class MyTextSanitizerExtension
         $rp .= "<param name='wmode' value='transparent'>";
         $rp .= "<embed src='{$url}' width='{$width}' height='{$height}' quality='high' bgcolor='#FFFFFF' wmode='transparent'  pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash'></embed>";
         $rp .= "</object>";
+
         return $rp;
     }
 
@@ -153,5 +155,3 @@ class MyTextSanitizerExtension
         $replacements[] = $rp;
     }
 }
-
-?>

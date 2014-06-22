@@ -20,14 +20,15 @@
  * @version         $Id: category.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-defined('XOOPS_ROOT_PATH') or die("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || die("XOOPS root path not defined");
 
 include_once dirname(dirname(dirname(__FILE__))) . '/include/common.php';
 
 xoops_load('XoopsFormLoader');
 include_once XOOPS_ROOT_PATH . '/class/tree.php';
 
-class PublisherCategoryForm extends XoopsThemeForm {
+class PublisherCategoryForm extends XoopsThemeForm
+{
     /**
      * @var PublisherPublisher
      * @access public
@@ -40,7 +41,8 @@ class PublisherCategoryForm extends XoopsThemeForm {
 
     var $userGroups = array();
 
-    function __construct(&$target, $subCatsCount = 4) {
+    function __construct(&$target, $subCatsCount = 4)
+    {
         $this->publisher = PublisherPublisher::getInstance();
 
         $this->targetObject = $target;
@@ -56,7 +58,8 @@ class PublisherCategoryForm extends XoopsThemeForm {
         $this->createButtons();
     }
 
-    function createElements() {
+    function createElements()
+    {
         global $xoopsUser;
 
         // Category
@@ -178,7 +181,7 @@ class PublisherCategoryForm extends XoopsThemeForm {
         $this->addElement($moderator);
 
         $cat_tray = new XoopsFormElementTray(_AM_PUBLISHER_SCATEGORYNAME, '<br /><br />');
-        for ($i = 0; $i < $this->subCatsCount; $i++) {
+        for ($i = 0; $i < $this->subCatsCount; ++$i) {
             if ($i < (isset($_POST['scname']) ? sizeof($_POST['scname']) : 0)) {
                 $subname = isset($_POST['scname']) ? $_POST['scname'][$i] : '';
             } else {
@@ -207,7 +210,8 @@ class PublisherCategoryForm extends XoopsThemeForm {
         $this->addElement(new XoopsFormHidden('nb_sub_yet', $this->subCatsCount));
     }
 
-    function createButtons() {
+    function createButtons()
+    {
         // Action buttons tray
         $button_tray = new XoopsFormElementTray('', '');
 
@@ -236,5 +240,3 @@ class PublisherCategoryForm extends XoopsThemeForm {
         }
     }
 }
-
-?>

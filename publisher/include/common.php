@@ -19,11 +19,11 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: common.php 10374 2012-12-12 23:39:48Z trabis $
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
 define("PUBLISHER_DIRNAME", basename(dirname(dirname(__FILE__))));
 define("PUBLISHER_URL", XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME);
-define("PUBLISHER_IMAGES_URL", PUBLISHER_URL . '/images');
+define("PUBLISHER_IMAGES_URL", PUBLISHER_URL . '/assets/images');
 define("PUBLISHER_ADMIN_URL", PUBLISHER_URL . '/admin');
 define("PUBLISHER_UPLOADS_URL", XOOPS_URL . '/uploads/' . PUBLISHER_DIRNAME);
 define("PUBLISHER_ROOT_PATH", XOOPS_ROOT_PATH . '/modules/' . PUBLISHER_DIRNAME);

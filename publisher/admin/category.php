@@ -113,7 +113,6 @@ switch ($op) {
         $grpsubmit = isset($_POST['groups_submit']) ? $_POST['groups_submit'] : array();
         $grpmoderation = isset($_POST['groups_moderation']) ? $_POST['groups_moderation'] : array();
 
-
         $categoryObj->setVar('name', $_POST['name']);
 
         //Added by skalpa: custom template support
@@ -154,11 +153,10 @@ switch ($op) {
         publisher_saveCategoryPermissions($grpsubmit, $categoryObj->categoryid(), 'item_submit');
         publisher_saveCategoryPermissions($grpmoderation, $categoryObj->categoryid(), 'category_moderation');
 
-
         //Added by fx2024
         $parentCat = $categoryObj->categoryid();
         $sizeof = sizeof($_POST['scname']);
-        for ($i = 0; $i < $sizeof; $i++) {
+        for ($i = 0; $i < $sizeof; ++$i) {
             if ($_POST['scname'][$i] != '') {
                 $categoryObj = $publisher->getHandler('category')->create();
                 $categoryObj->setVar('name', $_POST['scname'][$i]);
@@ -222,6 +220,7 @@ switch ($op) {
 
         echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
         echo "<tr>";
+        echo "<th width='20' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMCATEGORY_ID . "</strong></td>";
         echo "<th class='bg3' align='left'><strong>" . _AM_PUBLISHER_ITEMCATEGORYNAME . "</strong></td>";
         echo "<th width='60' class='bg3' width='65' align='center'><strong>" . _CO_PUBLISHER_WEIGHT . "</strong></td>";
         echo "<th width='60' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . "</strong></td>";
@@ -260,8 +259,8 @@ function publisher_displayCategory($categoryObj, $level = 0)
             $description = substr($description, 0, (100 - 1)) . "...";
         }
     }
-    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . "&amp;parentid=" . $categoryObj->parentid() . "'><img src='" . PUBLISHER_URL . "/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITCOL . "' alt='" . _AM_PUBLISHER_EDITCOL . "' /></a>";
-    $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/images/links/delete.png' title='" . _AM_PUBLISHER_DELETECOL . "' alt='" . _AM_PUBLISHER_DELETECOL . "' /></a>";
+    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . "&amp;parentid=" . $categoryObj->parentid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITCOL . "' alt='" . _AM_PUBLISHER_EDITCOL . "' /></a>";
+    $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETECOL . "' alt='" . _AM_PUBLISHER_DELETECOL . "' /></a>";
 
     $spaces = '';
     for ($j = 0; $j < $level; $j++) {
@@ -269,7 +268,8 @@ function publisher_displayCategory($categoryObj, $level = 0)
     }
 
     echo "<tr>";
-    echo "<td class='even' align='left'>" . $spaces . "<a href='" . PUBLISHER_URL . "/category.php?categoryid=" . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/images/links/subcat.gif' alt='' />&nbsp;" . $categoryObj->name() . "</a></td>";
+    echo "<td class='even' align='center'>" . $categoryObj->categoryid() . "</td>";
+    echo "<td class='even' align='left'>" . $spaces . "<a href='" . PUBLISHER_URL . "/category.php?categoryid=" . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/subcat.gif' alt='' />&nbsp;" . $categoryObj->name() . "</a></td>";
     echo "<td class='even' align='center'>" . $categoryObj->weight() . "</td>";
     echo "<td class='even' align='center'> $modify $delete </td>";
     echo "</tr>";
@@ -343,8 +343,8 @@ function publisher_editCat($showmenu = false, $categoryid = 0, $nb_subcats = 4, 
         echo "</tr>";
         if ($totalsubs > 0) {
             foreach ($subcatsObj as $subcat) {
-                $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . "/modules/" . $publisher->getModule()->dirname() . "/images/links/edit.gif' title='" . _AM_PUBLISHER_MODIFY . "' alt='" . _AM_PUBLISHER_MODIFY . "' /></a>";
-                $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . "/modules/" . $publisher->getModule()->dirname() . "/images/links/delete.png' title='" . _AM_PUBLISHER_DELETE . "' alt='" . _AM_PUBLISHER_DELETE . "' /></a>";
+                $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . "/modules/" . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_MODIFY . "' alt='" . _AM_PUBLISHER_MODIFY . "' /></a>";
+                $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . "/modules/" . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETE . "' alt='" . _AM_PUBLISHER_DELETE . "' /></a>";
                 echo "<tr>";
                 echo "<td class='head' align='left'>" . $subcat->categoryid() . "</td>";
                 echo "<td class='even' align='left'><a href='" . XOOPS_URL . "/modules/" . $publisher->getModule()->dirname() . "/category.php?categoryid=" . $subcat->categoryid() . "&amp;parentid=" . $subcat->parentid() . "'>" . $subcat->name() . "</a></td>";
@@ -378,10 +378,10 @@ function publisher_editCat($showmenu = false, $categoryid = 0, $nb_subcats = 4, 
         echo "<td width='60' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . "</strong></td>";
         echo "</tr>";
         if ($totalitems > 0) {
-            for ($i = 0; $i < $totalitemsOnPage; $i++) {
+            for ($i = 0; $i < $totalitemsOnPage; ++$i) {
                 $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
-                $modify = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . "/modules/" . $publisher->getModule()->dirname() . "/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "' /></a>";
-                $delete = "<a href='item.php?op=del&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . "/modules/" . $publisher->getModule()->dirname() . "/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'/></a>";
+                $modify = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . "/modules/" . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "' /></a>";
+                $delete = "<a href='item.php?op=del&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . "/modules/" . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'/></a>";
                 echo "<tr>";
                 echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . "</td>";
                 echo "<td class='even' align='left'>" . $categoryObj->name() . "</td>";

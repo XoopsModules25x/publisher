@@ -17,7 +17,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  * @version         $Id: metagen.php 10374 2012-12-12 23:39:48Z trabis $
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 
@@ -66,10 +66,10 @@ class PublisherMetagen
     public $_minChar = 4;
 
     /**
-     * @param string       $title
-     * @param string       $keywords
-     * @param string       $description
-     * @param bool         $categoryPath
+     * @param string $title
+     * @param string $keywords
+     * @param string $description
+     * @param bool   $categoryPath
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = false)
     {
@@ -167,8 +167,9 @@ class PublisherMetagen
             if ($i < $wordCount) {
                 $ret .= ' ';
             }
-            $i++;
+            ++$i;
         }
+
         return $ret;
     }
 
@@ -194,6 +195,7 @@ class PublisherMetagen
                 }
             }
         }
+
         return $keywords;
     }
 
@@ -209,6 +211,7 @@ class PublisherMetagen
             $keywords = array_merge($keywords, array_map('trim', $moduleKeywords));
         }
         $ret = implode(',', $keywords);
+
         return $ret;
     }
 
@@ -250,7 +253,7 @@ class PublisherMetagen
      * Return true if the string is length > 0
      *
      * @credit psylove
-     * @var string $string Chaine de caractère
+     * @var string $string Chaine de caractÃ¨re
      * @return boolean
      */
     public function emptyString($var)
@@ -263,35 +266,37 @@ class PublisherMetagen
      *
      * @credit psylove
      *
-     * @param string $title    title of the article
-     * @param bool   $withExt  do we add an html extension or not
+     * @param string $title   title of the article
+     * @param bool   $withExt do we add an html extension or not
      *
      * @return string short url for article
      */
     public function generateSeoTitle($title = '', $withExt = true)
     {
         // Transformation de la chaine en minuscule
-        // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus
+        // Codage de la chaine afin d'Ã©viter les erreurs 500 en cas de caractÃ¨res imprÃ©vus
         $title = rawurlencode(strtolower($title));
         // Transformation des ponctuations
         //                 Tab     Space      !        "        #        %        &        '        (        )        ,        /        :        ;        <        =        >        ?        @        [        \        ]        ^        {        |        }        ~       .
         $pattern = array("/%09/", "/%20/", "/%21/", "/%22/", "/%23/", "/%25/", "/%26/", "/%27/", "/%28/", "/%29/", "/%2C/", "/%2F/", "/%3A/", "/%3B/", "/%3C/", "/%3D/", "/%3E/", "/%3F/", "/%40/", "/%5B/", "/%5C/", "/%5D/", "/%5E/", "/%7B/", "/%7C/", "/%7D/", "/%7E/", "/\./");
         $rep_pat = array("-", "-", "-", "-", "-", "-100", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-at-", "-", "-", "-", "-", "-", "-", "-", "-", "-");
         $title = preg_replace($pattern, $rep_pat, $title);
-        // Transformation des caractères accentués
-        //                  °        è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
+        // Transformation des caractÃ¨res accentuÃ©s
+        //                  Â°        Ã¨        Ã©        Ãª        Ã«        Ã§        Ã         Ã¢        Ã¤        Ã®        Ã¯        Ã¹        Ã¼        Ã»        Ã´        Ã¶
         $pattern = array("/%B0/", "/%E8/", "/%E9/", "/%EA/", "/%EB/", "/%E7/", "/%E0/", "/%E2/", "/%E4/", "/%EE/", "/%EF/", "/%F9/", "/%FC/", "/%FB/", "/%F4/", "/%F6/");
         $rep_pat = array("-", "e", "e", "e", "e", "c", "a", "a", "a", "i", "i", "u", "u", "u", "o", "o");
         $title = preg_replace($pattern, $rep_pat, $title);
-        $tableau = explode("-", $title); // Transforme la chaine de caractères en tableau
+        $tableau = explode("-", $title); // Transforme la chaine de caractÃ¨res en tableau
         $tableau = array_filter($tableau, array('PublisherMetagen', 'emptyString')); // Supprime les chaines vides du tableau
-        $title = implode("-", $tableau); // Transforme un tableau en chaine de caractères séparé par un tiret
+        $title = implode("-", $tableau); // Transforme un tableau en chaine de caractÃ¨res sÃ©parÃ© par un tiret
         if (sizeof($title) > 0) {
             if ($withExt) {
                 $title .= '.html';
             }
+
             return $title;
         }
+
         return '';
     }
 
@@ -325,6 +330,7 @@ class PublisherMetagen
             $text = str_replace('\'', ' ', $text);
         }
         $text = str_replace(';', ' ', $text);
+
         return $text;
     }
 
@@ -342,9 +348,9 @@ class PublisherMetagen
         // common HTML entities to their text equivalent.
         // Credits : newbb2
         $search = array(
-            "'<script[^>]*?>.*?</script>'si", // Strip out javascript<?
+            "'<script[^>]*?>.*?</script>'si", // Strip out javascript<?php
             "'<img.*?/>'si", // Strip out img tags
-            "'<[\/\!]*?[^<>]*?>'si", // Strip out HTML tags<?
+            "'<[\/\!]*?[^<>]*?>'si", // Strip out HTML tags<?php
             "'([\r\n])[\s]+'", // Strip out white space
             "'&(quot|#34);'i", // Replace HTML entities
             "'&(amp|#38);'i",
@@ -375,6 +381,7 @@ class PublisherMetagen
             //"chr(\\1)"
         );
         $text = preg_replace($search, $replace, $document);
+
         return $text;
     }
 }

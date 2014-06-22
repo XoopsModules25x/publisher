@@ -25,7 +25,7 @@
 ######################################################################
 
 include_once dirname(__FILE__) . '/header.php';
-$xoopsOption['template_main'] = 'publisher_archive.html';
+$xoopsOption['template_main'] = 'publisher_archive.tpl';
 
 include_once XOOPS_ROOT_PATH . '/header.php';
 include_once PUBLISHER_ROOT_PATH . '/footer.php';
@@ -97,7 +97,7 @@ if (!($itemsCount > 0)) {
                 $months = array();
                 $lastmonth = 0;
                 $lastyear = $this_year;
-                $i++;
+                ++$i;
             }
             if ($lastmonth != $this_month) {
                 $lastmonth = $this_month;

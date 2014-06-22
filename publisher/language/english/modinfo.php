@@ -312,3 +312,7 @@ define("_MI_PUBLISHER_ALLOWEDIT","User article edit?");
 define("_MI_PUBLISHER_ALLOWEDITDSC","Allow users to edit their own articles?");
 define("_MI_PUBLISHER_ALLOWDELETE","User article delete?");
 define("_MI_PUBLISHER_ALLOWDELETEDSC","Allow users to delete their own articles?");
+
+//1.02 Beta 2
+define("_MI_PUBLISHER_DISPLAY_PDF","Display PDF Icon");
+define("_MI_PUBLISHER_DISPLAY_PDF_DSC","Select Yes to show PDF icon and allow users to create PDF files");

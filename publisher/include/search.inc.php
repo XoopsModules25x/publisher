@@ -17,7 +17,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: search.inc.php 10374 2012-12-12 23:39:48Z trabis $
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 
@@ -36,7 +36,7 @@ function publisher_search($queryarray, $andor, $limit, $offset, $userid, $catego
     //xoops_load("xoopslocal");
     $usersIds = array();
     foreach ($itemsObjs as $obj) {
-        $item['image'] = "images/item_icon.gif";
+        $item['image'] = "assets/images/item_icon.gif";
         $item['link'] = $obj->getItemUrl();
         $item['link'] .= (!empty($hightlight_key) && (strpos($item['link'], '.php?') === false)) ? "?" . ltrim($hightlight_key, '&amp;') : $hightlight_key;
         if ($withCategoryPath) {
@@ -52,6 +52,7 @@ function publisher_search($queryarray, $andor, $limit, $offset, $userid, $catego
         $text_i = strtolower($text);
         $queryarray = is_array($queryarray) ? $queryarray : array($queryarray);
 
+        if (count($queryarray)>0 && $queryarray[0] !='') {
         foreach ($queryarray as $query) {
             $pos = strpos($text_i, strtolower($query)); //xoops_local("strpos", $text_i, strtolower($query));
             $start = max(($pos - 100), 0);
@@ -59,7 +60,7 @@ function publisher_search($queryarray, $andor, $limit, $offset, $userid, $catego
             $context = $obj->highlight(xoops_substr($text, $start, $length, " [...]"), $query);
             $sanitized_text .= "<p>[...] " . $context . "</p>";
         }
-
+        }
         //End of highlight
         $item['text'] = $sanitized_text;
         $item['author'] = $obj->author_alias();
@@ -76,5 +77,6 @@ function publisher_search($queryarray, $andor, $limit, $offset, $userid, $catego
         }
     }
     unset($usersNames, $usersIds);
+
     return $ret;
 }

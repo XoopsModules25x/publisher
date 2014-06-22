@@ -47,7 +47,7 @@ if ($itemid != 0) {
         if (isset($_GET['op']) && $_GET['op']  == 'del' && !$publisher->getConfig('perm_delete')) {
             redirect_header("index.php", 1, _NOPERM);
             exit();
-        } else if (!$publisher->getConfig('perm_edit')) {
+        } elseif (!$publisher->getConfig('perm_edit')) {
             redirect_header("index.php", 1, _NOPERM);
             exit();
         }
@@ -129,10 +129,11 @@ switch ($op) {
         // Putting the values about the ITEM in the ITEM object
         $itemObj->setVarsFromRequest();
 
-        $xoopsOption['template_main'] = 'publisher_submit.html';
+        $xoopsOption['template_main'] = 'publisher_submit.tpl';
         include_once XOOPS_ROOT_PATH . '/header.php';
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-        $xoTheme->addScript(PUBLISHER_URL . '/js/publisher.js');
+//        $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery-migrate-1.2.1.js');
+        $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
         include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
         $categoryObj = $publisher->getHandler('category')->get($_POST['categoryid']);
@@ -220,10 +221,11 @@ switch ($op) {
 
     case 'add':
     default:
-        $xoopsOption['template_main'] = 'publisher_submit.html';
+        $xoopsOption['template_main'] = 'publisher_submit.tpl';
         include_once XOOPS_ROOT_PATH . '/header.php';
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-        $xoTheme->addScript(PUBLISHER_URL . '/js/publisher.js');
+//        $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery-migrate-1.2.1.js');
+        $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
         include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
         $itemObj->setVarsFromRequest();
@@ -232,7 +234,7 @@ switch ($op) {
         if (isset($_GET['op']) && $_GET['op'] == 'clone') {
             $xoopsTpl->assign('categoryPath', _CO_PUBLISHER_CLONE);
             $xoopsTpl->assign('lang_intro_title', _CO_PUBLISHER_CLONE);
-        } else if ($itemid) {
+        } elseif ($itemid) {
             $xoopsTpl->assign('categoryPath', _MD_PUBLISHER_EDIT_ARTICLE);
             $xoopsTpl->assign('lang_intro_title', _MD_PUBLISHER_EDIT_ARTICLE);
             $xoopsTpl->assign('lang_intro_text', '');
@@ -247,5 +249,3 @@ switch ($op) {
         include_once XOOPS_ROOT_PATH . '/footer.php';
         break;
 }
-
-?>

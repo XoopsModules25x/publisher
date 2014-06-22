@@ -16,14 +16,14 @@
  * @version         $Id: install.php 11345 2013-04-03 22:35:51Z luciorota $
  */
 
-function xoops_module_pre_install_publisher(&$xoopsModule) {
+function xoops_module_pre_install_publisher(&$xoopsModule)
+{
     // NOP
     return true;
 }
 
-
-
-function xoops_module_install_publisher(&$xoopsModule) {
+function xoops_module_install_publisher(&$xoopsModule)
+{
     xoops_loadLanguage('modinfo', $xoopsModule->getVar('dirname'));
     include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') . "/include/functions.php";
 
@@ -31,7 +31,7 @@ function xoops_module_install_publisher(&$xoopsModule) {
     $msg = '';
     // Create content directory
     $dir = XOOPS_ROOT_PATH . "/uploads/" . $xoopsModule->getVar('dirname') . "/content";
-	if (!publisher_mkdir($dir))
+    if (!publisher_mkdir($dir))
         $msg.= sprintf(_MI_AJAXFM_WARNING_DIRNOTCREATED, $dir);
     if (empty($msg))
         return $ret;

@@ -47,8 +47,7 @@ if (isset($_REQUEST['op'])) {
     $op = $_REQUEST['op'];
 }
 
-switch ($op)
-{
+switch ($op) {
     case "add":
         add();
         break;
@@ -116,7 +115,6 @@ function add()
             $mime_admin = $mime_type['mime_admin'];
             $mime_user = $mime_type['mime_user'];
         }
-
 
         // Display add form
         echo "<form action='mimetypes.php?op=add' method='post'>";
@@ -742,6 +740,7 @@ function _changeMimeValue($mime_value)
     } else {
         $mime_value = 1;
     }
+
     return $mime_value;
 }
 
@@ -772,5 +771,3 @@ function clearEditSession()
     _clearEditSessionVars($mimeid);
     header('Location: ' . publisher_makeURI(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'edit', 'id' => $mimeid), false));
 }
-
-?>

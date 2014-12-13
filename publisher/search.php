@@ -20,7 +20,7 @@
  * @version         $Id: search.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
 
 //Checking general permissions
@@ -36,7 +36,7 @@ $gperm_handler = xoops_getmodulehandler('groupperm', PUBLISHER_DIRNAME);
 $module_id = $publisher->getModule()->mid();
 
 //Checking permissions
-if (!$publisher->getConfig('perm_search') || !$gperm_handler->checkRight('global', _PUBLISHER_SEARCH, $groups, $module_id)) {
+if (!$publisher->getConfig('perm_search') || !$gperm_handler->checkRight('global', PublisherConstants::_PUBLISHER_SEARCH, $groups, $module_id)) {
     redirect_header(PUBLISHER_URL, 2, _NOPERM);
     exit();
 }
@@ -51,13 +51,13 @@ include_once PUBLISHER_ROOT_PATH . "/" . $module_info_search["file"];
 $limit = 10; //$publisher->getConfig('idxcat_perpage');
 $uid = 0;
 $queries = array();
-$andor = PublisherRequest::getString('andor');
-$start = PublisherRequest::getInt('start');
-$category = PublisherRequest::getArray('category');
-$username = PublisherRequest::getString('uname');
-$searchin = PublisherRequest::getArray('searchin');
-$sortby = PublisherRequest::getString('sortby');
-$term = PublisherRequest::getString('term');
+$andor = XoopsRequest::getString('andor');
+$start = XoopsRequest::getInt('start');
+$category = XoopsRequest::getArray('category');
+$username = XoopsRequest::getString('uname');
+$searchin = XoopsRequest::getArray('searchin');
+$sortby = XoopsRequest::getString('sortby');
+$term = XoopsRequest::getString('term');
 
 if (empty($category) || (is_array($category) && in_array("all", $category))) {
     $category = array();

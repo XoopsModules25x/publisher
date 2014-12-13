@@ -22,14 +22,19 @@
 
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * @param $options
+ *
+ * @return array
+ */
 function publisher_items_random_item_show($options)
 {
     $block = array();
     $publisher = PublisherPublisher::getInstance();
     // creating the ITEM object
-    $itemsObj = $publisher->getHandler('item')->getRandomItem('', array(_PUBLISHER_STATUS_PUBLISHED));
+    $itemsObj = $publisher->getHandler('item')->getRandomItem('', array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED));
 
     if (!is_object($itemsObj)) return $block;
 

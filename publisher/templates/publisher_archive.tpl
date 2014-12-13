@@ -2,13 +2,19 @@
     <tr>
         <th><{$lang_newsarchives}></th>
     </tr>
-    <{foreach item=year from=$years}> <{foreach item=month from=$year.months}>
-    <tr class="even">
-        <td>
-            <a href="<{$xoops_url}>/modules/publisher/archive.php?year=<{$year.number}>&amp;month=<{$month.number}>"><{$month.string}> <{$year.number}></a>
-        </td>
-    </tr>
-    <{/foreach}> <{/foreach}>
+    <{foreach item=year from=$years}>
+        <tr class="even">
+            <td><{$year.number}> (<{$year.articlesYearCount}>)</td>
+        </tr>
+        <tr class="odd">
+            <td>
+                <{foreach item=month from=$year.months}>
+                    <a href="./archive.php?year=<{$year.number}>&month=<{$month.number}>"><{$month.string}> (<{$month.articlesMonthCount}>) </a>
+                    &nbsp;
+                <{/foreach}>
+            </td>
+        </tr>
+    <{/foreach}>
 </table>
 
 <{if $show_articles == true}>

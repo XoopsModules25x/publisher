@@ -19,7 +19,7 @@
  * @version         $Id: preferences.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
 $module = $publisher->getModule();
 $mod = $module->mid();
@@ -103,7 +103,7 @@ if ($op == 'showmod') {
                 $ele = new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput());
                 $options = $config_handler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
                 $opcount = count($options);
-                for ($j = 0; $j < $opcount; $j++) {
+                for ($j = 0; $j < $opcount; ++$j) {
                     $optval = defined($options[$j]->getVar('confop_value')) ? constant($options[$j]->getVar('confop_value')) : $options[$j]->getVar('confop_value');
                     $optkey = defined($options[$j]->getVar('confop_name')) ? constant($options[$j]->getVar('confop_name')) : $options[$j]->getVar('confop_name');
                     $ele->addOption($optval, $optkey);
@@ -113,7 +113,7 @@ if ($op == 'showmod') {
                 $ele = new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput(), 5, true);
                 $options = $config_handler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
                 $opcount = count($options);
-                for ($j = 0; $j < $opcount; $j++) {
+                for ($j = 0; $j < $opcount; ++$j) {
                     $optval = defined($options[$j]->getVar('confop_value')) ? constant($options[$j]->getVar('confop_value')) : $options[$j]->getVar('confop_value');
                     $optkey = defined($options[$j]->getVar('confop_name')) ? constant($options[$j]->getVar('confop_name')) : $options[$j]->getVar('confop_name');
                     $ele->addOption($optval, $optkey);

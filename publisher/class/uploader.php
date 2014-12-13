@@ -78,29 +78,33 @@
  * @copyright  (c) 2000-2003 The Xoops Project - www.xoops.org
  */
 mt_srand((double) microtime() * 1000000);
+
+/**
+ * Class XoopsMediaUploader
+ */
 class XoopsMediaUploader
 {
-    var $mediaName;
-    var $mediaType;
-    var $mediaSize;
-    var $mediaTmpName;
-    var $mediaError;
-    var $uploadDir = '';
-    var $allowedMimeTypes = array();
-    var $maxFileSize = 0;
-    var $maxWidth;
-    var $maxHeight;
-    var $targetFileName;
-    var $prefix;
-    var $ext;
-    var $dimension;
-    var $errors = array();
-    var $savedDestination;
-    var $savedFileName;
+    public $mediaName;
+    public $mediaType;
+    public $mediaSize;
+    public $mediaTmpName;
+    public $mediaError;
+    public $uploadDir = '';
+    public $allowedMimeTypes = array();
+    public $maxFileSize = 0;
+    public $maxWidth;
+    public $maxHeight;
+    public $targetFileName;
+    public $prefix;
+    public $ext;
+    public $dimension;
+    public $errors = array();
+    public $savedDestination;
+    public $savedFileName;
     /**
      * No admin check for uploads
      */
-    var $noadmin_sizecheck;
+    public $noadmin_sizecheck;
 
     /**
      * Constructor

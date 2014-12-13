@@ -20,8 +20,13 @@
  */
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * @param $options
+ *
+ * @return array|bool
+ */
 function publisher_items_spot_show($options)
 {
     global $xoTheme;
@@ -106,6 +111,11 @@ function publisher_items_spot_show($options)
     return $block;
 }
 
+/**
+ * @param $options
+ *
+ * @return string
+ */
 function publisher_items_spot_edit($options)
 {
     include_once PUBLISHER_ROOT_PATH . '/class/blockform.php';

@@ -20,7 +20,7 @@
  * @version         $Id: cjaycontent.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(dirname(__FILE__)) . '/admin_header.php';
+include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
 $importFromModuleName = "cjaycontent " . @$_POST['cjaycontent_version'];
@@ -33,6 +33,10 @@ if (isset($_POST['op']) && ($_POST['op'] == 'go')) {
     $op = $_POST['op'];
 }
 
+/**
+ * @param $src
+ * @param $dst
+ */
 function recurse_copy($src, $dst)
 {
     $dir = opendir($src);
@@ -98,7 +102,7 @@ if ($op == 'start') {
 if ($op == 'go') {
     publisher_cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    include_once (dirname(dirname(dirname(__FILE__)))) . '/include/common.php';
+    include_once (dirname(dirname(__DIR__))) . '/include/common.php';
     publisher_openCollapsableBar(
         'cjaycontentimportgo',
         'cjaycontentimportgoicon',
@@ -134,7 +138,7 @@ if ($op == 'go') {
 //            $itemObj->setVar('dohtml', !$arrArticle['nohtml']);
 //            $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
         $itemObj->setVar('weight', $arrArticle['weight']);
-        $itemObj->setVar('status', _PUBLISHER_STATUS_PUBLISHED);
+        $itemObj->setVar('status', PublisherConstants::_PUBLISHER_STATUS_PUBLISHED);
 
 //            $itemObj->setVar('dobr', !$arrArticle['dobr']);
 //            $itemObj->setVar('item_tag', $arrArticle['tags']);
@@ -167,7 +171,7 @@ if ($op == 'go') {
 
             $newArticleArray[$arrArticle['id']] = $itemObj->itemid();
             echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . "<br />";
-            $cnt_imported_articles++;
+            ++$cnt_imported_articles;
         }
     }
 

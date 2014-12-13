@@ -19,8 +19,11 @@
  */
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * Class PublisherCategory
+ */
 class PublisherCategory extends XoopsObject
 {
     /**
@@ -494,11 +497,17 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
         return $ret;
     }
 
+    /**
+     * @param $category
+     * @param $level
+     * @param $cat_array
+     * @param $cat_result
+     */
     public function getSubCatArray($category, $level, $cat_array, $cat_result)
     {
         global $theresult;
         $spaces = '';
-        for ($j = 0; $j < $level; $j++) {
+        for ($j = 0; $j < $level; ++$j) {
             $spaces .= '--';
         }
         $theresult[$category['categoryid']] = $spaces . $category['name'];
@@ -510,6 +519,9 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
         }
     }
 
+    /**
+     * @return array
+     */
     public function &getCategoriesForSubmit()
     {
         global $publisher_isAdmin, $theresult, $xoopsUser;
@@ -681,7 +693,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      */
     public function publishedItemsCount($cat_id = 0)
     {
-        return $this->itemsCount($cat_id, $status = array(_PUBLISHER_STATUS_PUBLISHED));
+        return $this->itemsCount($cat_id, $status = array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED));
     }
 
     /**

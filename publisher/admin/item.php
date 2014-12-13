@@ -20,11 +20,11 @@
  * @version         $Id: item.php 10661 2013-01-04 19:22:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
-$itemid = PublisherRequest::getInt('itemid');
+$itemid = XoopsRequest::getInt('itemid');
 $op = ($itemid > 0 || isset($_POST['editor'])) ? 'mod' : '';
-$op = PublisherRequest::getString('op', $op);
+$op = XoopsRequest::getString('op', $op);
 
 if (isset($_POST['additem'])) {
     $op = 'additem';
@@ -33,10 +33,10 @@ if (isset($_POST['additem'])) {
 }
 
 // Where shall we start ?
-$submittedstartitem = PublisherRequest::getInt('submittedstartitem');
-$publishedstartitem = PublisherRequest::getInt('publishedstartitem');
-$offlinestartitem = PublisherRequest::getInt('offlinestartitem');
-$rejectedstartitem = PublisherRequest::getInt('rejectedstartitem');
+$submittedstartitem = XoopsRequest::getInt('submittedstartitem');
+$publishedstartitem = XoopsRequest::getInt('publishedstartitem');
+$offlinestartitem = XoopsRequest::getInt('offlinestartitem');
+$rejectedstartitem = XoopsRequest::getInt('rejectedstartitem');
 
 switch ($op) {
     case "clone":
@@ -75,11 +75,11 @@ switch ($op) {
         $itemObj->setVarsFromRequest();
 
         $old_status = $itemObj->status();
-        $new_status = PublisherRequest::getInt('status', _PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
+        $new_status = XoopsRequest::getInt('status', PublisherConstants::_PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
 
         switch ($new_status) {
-            case _PUBLISHER_STATUS_SUBMITTED:
-                if (($old_status == _PUBLISHER_STATUS_NOTSET)) {
+            case PublisherConstants::_PUBLISHER_STATUS_SUBMITTED:
+                if (($old_status == PublisherConstants::_PUBLISHER_STATUS_NOTSET)) {
                     $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 } else {
                     $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
@@ -87,18 +87,18 @@ switch ($op) {
                 $redirect_msg = _AM_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
                 break;
 
-            case _PUBLISHER_STATUS_PUBLISHED:
-                if (($old_status == _PUBLISHER_STATUS_NOTSET) || ($old_status == _PUBLISHER_STATUS_SUBMITTED)) {
+            case PublisherConstants::_PUBLISHER_STATUS_PUBLISHED:
+                if (($old_status == PublisherConstants::_PUBLISHER_STATUS_NOTSET) || ($old_status == PublisherConstants::_PUBLISHER_STATUS_SUBMITTED)) {
                     $redirect_msg = _AM_PUBLISHER_SUBMITTED_APPROVE_SUCCESS;
-                    $notifToDo = array(_PUBLISHER_NOT_ITEM_PUBLISHED);
+                    $notifToDo = array(PublisherConstants::_PUBLISHER_NOT_ITEM_PUBLISHED);
                 } else {
                     $redirect_msg = _AM_PUBLISHER_PUBLISHED_MOD_SUCCESS;
                 }
                 $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 break;
 
-            case _PUBLISHER_STATUS_OFFLINE:
-                if ($old_status == _PUBLISHER_STATUS_NOTSET) {
+            case PublisherConstants::_PUBLISHER_STATUS_OFFLINE:
+                if ($old_status == PublisherConstants::_PUBLISHER_STATUS_NOTSET) {
                     $redirect_msg = _AM_PUBLISHER_OFFLINE_CREATED_SUCCESS;
                 } else {
                     $redirect_msg = _AM_PUBLISHER_OFFLINE_MOD_SUCCESS;
@@ -106,8 +106,8 @@ switch ($op) {
                 $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 break;
 
-            case _PUBLISHER_STATUS_REJECTED:
-                if ($old_status == _PUBLISHER_STATUS_NOTSET) {
+            case PublisherConstants::_PUBLISHER_STATUS_REJECTED:
+                if ($old_status == PublisherConstants::_PUBLISHER_STATUS_NOTSET) {
                     $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 } else {
                     $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
@@ -178,7 +178,7 @@ switch ($op) {
         publisher_openCollapsableBar('submiteditemstable', 'submiteditemsicon', _AM_PUBLISHER_SUBMISSIONSMNGMT, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of submitted ITEM
-        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(_PUBLISHER_STATUS_SUBMITTED));
+        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::_PUBLISHER_STATUS_SUBMITTED));
 
         $itemsObj = $publisher->getHandler('item')->getAllSubmitted($publisher->getConfig('idxcat_perpage'), $submittedstartitem, -1, $orderBy, $ascOrDesc);
 
@@ -227,7 +227,7 @@ switch ($op) {
         publisher_openCollapsableBar('item_publisheditemstable', 'item_publisheditemsicon', _AM_PUBLISHER_PUBLISHEDITEMS, _AM_PUBLISHER_PUBLISHED_DSC);
 
         // Get the total number of published ITEM
-        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(_PUBLISHER_STATUS_PUBLISHED));
+        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED));
 
         $itemsObj = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $publishedstartitem, -1, $orderBy, $ascOrDesc);
 
@@ -276,7 +276,7 @@ switch ($op) {
         // Display Offline articles
         publisher_openCollapsableBar('offlineitemstable', 'offlineitemsicon', _AM_PUBLISHER_ITEMS . " " . _CO_PUBLISHER_OFFLINE, _AM_PUBLISHER_OFFLINE_EXP);
 
-        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(_PUBLISHER_STATUS_OFFLINE));
+        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::_PUBLISHER_STATUS_OFFLINE));
 
         $itemsObj = $publisher->getHandler('item')->getAllOffline($publisher->getConfig('idxcat_perpage'), $offlinestartitem, -1, $orderBy, $ascOrDesc);
 
@@ -326,7 +326,7 @@ switch ($op) {
         publisher_openCollapsableBar('Rejecteditemstable', 'rejecteditemsicon', _AM_PUBLISHER_REJECTED_ITEM, _AM_PUBLISHER_REJECTED_ITEM_EXP, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of Rejected ITEM
-        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(_PUBLISHER_STATUS_REJECTED));
+        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::_PUBLISHER_STATUS_REJECTED));
 
         $itemsObj = $publisher->getHandler('item')->getAllRejected($publisher->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
 
@@ -373,6 +373,11 @@ switch ($op) {
 }
 xoops_cp_footer();
 
+/**
+ * @param bool $showmenu
+ * @param int  $itemid
+ * @param bool $clone
+ */
 function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 {
     $publisher = PublisherPublisher::getInstance();
@@ -398,53 +403,53 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
         if ($clone) {
             $itemObj->setNew();
             $itemObj->setVar('itemid', 0);
-            $itemObj->setVar('status', _PUBLISHER_STATUS_NOTSET);
+            $itemObj->setVar('status', PublisherConstants::_PUBLISHER_STATUS_NOTSET);
             $itemObj->setVar('datesub', time());
         }
 
         switch ($itemObj->status()) {
 
-            case _PUBLISHER_STATUS_SUBMITTED:
+            case PublisherConstants::_PUBLISHER_STATUS_SUBMITTED:
                 $breadcrumb_action1 = _CO_PUBLISHER_SUBMITTED;
                 $breadcrumb_action2 = _AM_PUBLISHER_APPROVING;
                 $page_title = _AM_PUBLISHER_SUBMITTED_TITLE;
                 $page_info = _AM_PUBLISHER_SUBMITTED_INFO;
                 $button_caption = _AM_PUBLISHER_APPROVE;
-                $new_status = _PUBLISHER_STATUS_PUBLISHED;
+                $new_status = PublisherConstants::_PUBLISHER_STATUS_PUBLISHED;
                 break;
 
-            case _PUBLISHER_STATUS_PUBLISHED:
+            case PublisherConstants::_PUBLISHER_STATUS_PUBLISHED:
                 $breadcrumb_action1 = _CO_PUBLISHER_PUBLISHED;
                 $breadcrumb_action2 = _AM_PUBLISHER_EDITING;
                 $page_title = _AM_PUBLISHER_PUBLISHEDEDITING;
                 $page_info = _AM_PUBLISHER_PUBLISHEDEDITING_INFO;
                 $button_caption = _AM_PUBLISHER_MODIFY;
-                $new_status = _PUBLISHER_STATUS_PUBLISHED;
+                $new_status = PublisherConstants::_PUBLISHER_STATUS_PUBLISHED;
                 break;
 
-            case _PUBLISHER_STATUS_OFFLINE:
+            case PublisherConstants::_PUBLISHER_STATUS_OFFLINE:
                 $breadcrumb_action1 = _CO_PUBLISHER_OFFLINE;
                 $breadcrumb_action2 = _AM_PUBLISHER_EDITING;
                 $page_title = _AM_PUBLISHER_OFFLINEEDITING;
                 $page_info = _AM_PUBLISHER_OFFLINEEDITING_INFO;
                 $button_caption = _AM_PUBLISHER_MODIFY;
-                $new_status = _PUBLISHER_STATUS_OFFLINE;
+                $new_status = PublisherConstants::_PUBLISHER_STATUS_OFFLINE;
                 break;
 
-            case _PUBLISHER_STATUS_REJECTED:
+            case PublisherConstants::_PUBLISHER_STATUS_REJECTED:
                 $breadcrumb_action1 = _CO_PUBLISHER_REJECTED;
                 $breadcrumb_action2 = _AM_PUBLISHER_REJECTED;
                 $page_title = _AM_PUBLISHER_REJECTED_EDIT;
                 $page_info = _AM_PUBLISHER_REJECTED_EDIT_INFO;
                 $button_caption = _AM_PUBLISHER_MODIFY;
-                $new_status = _PUBLISHER_STATUS_REJECTED;
+                $new_status = PublisherConstants::_PUBLISHER_STATUS_REJECTED;
                 break;
 
-            case _PUBLISHER_STATUS_NOTSET: // Then it's a clone...
+            case PublisherConstants::_PUBLISHER_STATUS_NOTSET: // Then it's a clone...
                 $breadcrumb_action1 = _AM_PUBLISHER_ITEMS;
                 $breadcrumb_action2 = _AM_PUBLISHER_CLONE_NEW;
                 $button_caption = _AM_PUBLISHER_CREATE;
-                $new_status = _PUBLISHER_STATUS_PUBLISHED;
+                $new_status = PublisherConstants::_PUBLISHER_STATUS_PUBLISHED;
                 $page_title = _AM_PUBLISHER_ITEM_DUPLICATING;
                 $page_info = _AM_PUBLISHER_ITEM_DUPLICATING_DSC;
                 break;
@@ -456,7 +461,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
                 $page_title = _AM_PUBLISHER_PUBLISHEDEDITING;
                 $page_info = _AM_PUBLISHER_PUBLISHEDEDITING_INFO;
                 $button_caption = _AM_PUBLISHER_MODIFY;
-                $new_status = _PUBLISHER_STATUS_PUBLISHED;
+                $new_status = PublisherConstants::_PUBLISHER_STATUS_PUBLISHED;
                 break;
         }
 
@@ -485,7 +490,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
         $breadcrumb_action1 = _AM_PUBLISHER_ITEMS;
         $breadcrumb_action2 = _AM_PUBLISHER_CREATINGNEW;
         $button_caption = _AM_PUBLISHER_CREATE;
-        $new_status = _PUBLISHER_STATUS_PUBLISHED;
+        $new_status = PublisherConstants::_PUBLISHER_STATUS_PUBLISHED;
 
         if ($showmenu) {
             //publisher_adminMenu(2, $breadcrumb_action1 . " > " . $breadcrumb_action2);

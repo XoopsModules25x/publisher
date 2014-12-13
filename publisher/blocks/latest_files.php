@@ -22,8 +22,13 @@
 
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * @param $options
+ *
+ * @return array
+ */
 function publisher_latest_files_show($options)
 {
     $publisher = PublisherPublisher::getInstance();
@@ -42,7 +47,7 @@ function publisher_latest_files_show($options)
     $directDownload = $options[3];
 
     // creating the files objects
-    $filesObj = $publisher->getHandler('file')->getAllFiles(0, _PUBLISHER_STATUS_FILE_ACTIVE, $limit, 0, $sort, $order, explode(',', $options[0]));
+    $filesObj = $publisher->getHandler('file')->getAllFiles(0, PublisherConstants::_PUBLISHER_STATUS_FILE_ACTIVE, $limit, 0, $sort, $order, explode(',', $options[0]));
     foreach ($filesObj as $fileObj) {
         $aFile = array();
         $aFile['link'] = $directDownload ? $fileObj->getFileLink() : $fileObj->getItemLink();
@@ -59,6 +64,11 @@ function publisher_latest_files_show($options)
     return $block;
 }
 
+/**
+ * @param $options
+ *
+ * @return string
+ */
 function publisher_latest_files_edit($options)
 {
     include_once PUBLISHER_ROOT_PATH . '/class/blockform.php';

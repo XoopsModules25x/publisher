@@ -65,7 +65,8 @@
 
 <{if $block.template == 'slider1'}>
 
-<{php}>global $xoTheme;$xoTheme->addScript('browse.php?Frameworks/jquery/jquery.js');<{* xoTheme->addScript('browse.php?Frameworks/jquery/jquery-migrate-1.2.1.js');*}> $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');<{/php}>
+<{php}>global $xoTheme;$xoTheme->addScript('browse.php?Frameworks/jquery/jquery.js');
+    $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');<{/php}>
 
 <script type="text/javascript">
     jQuery(document).ready(function()
@@ -91,6 +92,8 @@
 
         //Get the caption of the first image from REL attribute and display it
         $('#pub_slideshow1-caption h3').html($('ul.pub_slideshow1 a:first').find('img').attr('title'));
+//        $('#pub_slideshow1-caption').find('h3').html($('ul.pub_slideshow1 a:first').find('img').attr('title')); //suggested by PhpStorm
+
         $('#pub_slideshow1-caption p').html($('ul.pub_slideshow1 a:first').find('img').attr('alt'));
 
         //Display the caption

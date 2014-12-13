@@ -22,7 +22,10 @@
 
 // defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-/** Get item fields: title, content, time, link, uid, uname, tags **/
+/** Get item fields: title, content, time, link, uid, uname, tags *
+ *
+ * @param $items
+ */
 function publisher_tag_iteminfo(&$items)
 {
     $items_id = array();
@@ -54,7 +57,9 @@ function publisher_tag_iteminfo(&$items)
     unset($items_obj);
 }
 
-/** Remove orphan tag-item links **/
+/** Remove orphan tag-item links *
+ * @param $mid
+ */
 function publisher_tag_synchronization($mid)
 {
     // Optional

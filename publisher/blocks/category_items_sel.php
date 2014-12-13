@@ -21,8 +21,13 @@
 
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * @param $options
+ *
+ * @return array
+ */
 function publisher_category_items_sel_show($options)
 {
     $publisher = PublisherPublisher::getInstance();
@@ -45,7 +50,7 @@ function publisher_category_items_sel_show($options)
         if (!in_array(0, $selectedcatids) && !in_array($catID, $selectedcatids)) continue;
 
         $criteria = new Criteria('categoryid', $catID);
-        $items = $publisher->getHandler('item')->getItems($limit, $start, array(_PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
+        $items = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
         unset($criteria);
 
         if (count($items) == 0) continue;
@@ -68,6 +73,11 @@ function publisher_category_items_sel_show($options)
     return $block;
 }
 
+/**
+ * @param $options
+ *
+ * @return string
+ */
 function publisher_category_items_sel_edit($options)
 {
     include_once PUBLISHER_ROOT_PATH . '/class/blockform.php';

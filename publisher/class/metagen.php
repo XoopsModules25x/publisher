@@ -19,8 +19,11 @@
  */
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * Class PublisherMetagen
+ */
 class PublisherMetagen
 {
     /**
@@ -271,7 +274,7 @@ class PublisherMetagen
      *
      * @return string short url for article
      */
-    public function generateSeoTitle($title = '', $withExt = true)
+    public static function generateSeoTitle($title = '', $withExt = true)
     {
         // Transformation de la chaine en minuscule
         // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus

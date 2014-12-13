@@ -20,7 +20,7 @@
  * @version         $Id: wfsection.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(dirname(__FILE__)) . '/admin_header.php';
+include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
 $importFromModuleName = "WF-Section " . @$_POST['wfs_version'];
@@ -150,7 +150,7 @@ if ($op == 'go') {
         publisher_saveCategoryPermissions($categoryObj->getGroups_read(), $categoryObj->categoryid(), 'category_read');
         publisher_saveCategoryPermissions($categoryObj->getGroups_submit(), $categoryObj->categoryid(), 'item_submit');
 
-        $cnt_imported_cat++;
+        ++$cnt_imported_cat;
 
         echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . "<br\>";
 
@@ -171,7 +171,7 @@ if ($op == 'go') {
             $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
             $itemObj->setVar('dobr', $arrArticle['nobreaks']);
             $itemObj->setVar('weight', $arrArticle['weight']);
-            $itemObj->setVar('status', _PUBLISHER_STATUS_PUBLISHED);
+            $itemObj->setVar('status', PublisherConstants::_PUBLISHER_STATUS_PUBLISHED);
             $itemObj->setGroups_read(explode(" ", trim($arrArticle['groupid'])));
 
             // HTML Wrap
@@ -202,7 +202,7 @@ if ($op == 'go') {
                             $fileObj = $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['fileshowname']);
                             $fileObj->setVar('description', $arrFile['filedescript']);
-                            $fileObj->setVar('status', _PUBLISHER_STATUS_FILE_ACTIVE);
+                            $fileObj->setVar('status', PublisherConstants::_PUBLISHER_STATUS_FILE_ACTIVE);
                             $fileObj->setVar('uid', $arrArticle['uid']);
                             $fileObj->setVar('itemid', $itemObj->itemid());
                             $fileObj->setVar('mimetype', $arrFile['minetype']);
@@ -219,7 +219,7 @@ if ($op == 'go') {
 
                 $newArticleArray[$arrArticle['articleid']] = $itemObj->itemid();
                 echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . "<br />";
-                $cnt_imported_articles++;
+                ++$cnt_imported_articles;
             }
         }
         $newCatArray[$newCat['oldid']] = $newCat;

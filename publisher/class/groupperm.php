@@ -24,8 +24,11 @@
 
 include_once XOOPS_ROOT_PATH . '/kernel/groupperm.php';
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * Class PublisherGroupPermHandler
+ */
 class PublisherGroupPermHandler extends XoopsGroupPermHandler
 {
     /**

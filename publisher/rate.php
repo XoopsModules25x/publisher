@@ -19,11 +19,11 @@
  * @version         $Id: rate.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
 //getting the values
-$rating = PublisherRequest::getInt('rating');
-$itemid = PublisherRequest::getInt('itemid');
+$rating = XoopsRequest::getInt('rating');
+$itemid = XoopsRequest::getInt('itemid');
 
 $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $gperm_handler = xoops_getmodulehandler('groupperm');
@@ -31,7 +31,7 @@ $hModConfig = xoops_gethandler('config');
 $module_id = $publisher->getModule()->getVar('mid');
 
 //Checking permissions
-if (!$publisher->getConfig('perm_rating') || !$gperm_handler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
+if (!$publisher->getConfig('perm_rating') || !$gperm_handler->checkRight('global',PublisherConstants::_PUBLISHER_RATE, $groups, $module_id)) {
     redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _NOPERM);
     exit();
 }
@@ -71,7 +71,7 @@ $newRatingObj->setVar('date', time());
 $publisher->getHandler('rating')->insert($newRatingObj);
 
 $current_rating += $rating;
-$count++;
+++$count;
 
 $publisher->getHandler('item')->updateAll('rating', number_format($current_rating / $count, 4), $criteria, true);
 $publisher->getHandler('item')->updateAll('votes', $count, $criteria, true);

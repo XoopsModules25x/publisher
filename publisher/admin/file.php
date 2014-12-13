@@ -19,10 +19,15 @@
  * @version         $Id: file.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
-$op = PublisherRequest::getString('op');
+$op = XoopsRequest::getString('op');
 
+/**
+ * @param bool $showmenu
+ * @param int  $fileid
+ * @param int  $itemid
+ */
 function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
 {
     $publisher = PublisherPublisher::getInstance();
@@ -44,7 +49,7 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
         }
 
         echo "<br />\n";
-        echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 06 0 0; '>" . _AM_PUBLISHER_FILE_EDITING . "</span>";
+        echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_EDITING . "</span>";
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_PUBLISHER_FILE_EDITING_DSC . "</span>";
         publisher_openCollapsableBar('editfile', 'editfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
     } else {
@@ -54,7 +59,7 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
         if ($showmenu) {
             //publisher_adminMenu(2, _AM_PUBLISHER_FILE . " > " . _AM_PUBLISHER_FILE_ADD);
         }
-        echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 06 0 0; '>" . _AM_PUBLISHER_FILE_ADDING . "</span>";
+        echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_ADDING . "</span>";
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_PUBLISHER_FILE_ADDING_DSC . "</span>";
         publisher_openCollapsableBar('addfile', 'addfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
     }

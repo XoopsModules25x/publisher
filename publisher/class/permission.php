@@ -21,7 +21,11 @@
  * @version         $Id: permission.php 10661 2013-01-04 19:22:48Z trabis $
  */
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
+
+/**
+ * Class PublisherPermissionHandler
+ */
 class PublisherPermissionHandler extends XoopsObjectHandler
 {
     /**
@@ -30,6 +34,9 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      */
     public $publisher = null;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->publisher = PublisherPublisher::getInstance();

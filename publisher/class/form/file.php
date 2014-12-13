@@ -22,23 +22,29 @@
 
 // defined('XOOPS_ROOT_PATH') || die("XOOPS root path not defined");
 
-include_once dirname(dirname(dirname(__FILE__))) . '/include/common.php';
+include_once dirname(dirname(__DIR__)) . '/include/common.php';
 
 xoops_load('XoopsFormLoader');
 //todo: move to admin?
 xoops_loadLanguage('main', 'publisher');
 
+/**
+ * Class PublisherFileForm
+ */
 class PublisherFileForm extends XoopsThemeForm
 {
     /**
      * @var PublisherPublisher
      * @access public
      */
-    var $publisher = null;
+    public $publisher = null;
 
-    var $targetObject = null;
+    public $targetObject = null;
 
-    function __construct(&$target)
+    /**
+     * @param $target
+     */
+    public function __construct(&$target)
     {
         $this->publisher = PublisherPublisher::getInstance();
         $this->targetObject = $target;
@@ -50,7 +56,7 @@ class PublisherFileForm extends XoopsThemeForm
         $this->createButtons();
     }
 
-    function createElements()
+    public function createElements()
     {
         global $xoopsDB, $xoopsUser;
         // NAME
@@ -70,7 +76,7 @@ class PublisherFileForm extends XoopsThemeForm
             $this->addElement($file_box);
         //}
 
-        $status_select = new XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'file_status', _PUBLISHER_STATUS_FILE_ACTIVE);
+        $status_select = new XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'file_status', PublisherConstants::_PUBLISHER_STATUS_FILE_ACTIVE);
         $status_select->setDescription(_CO_PUBLISHER_FILE_STATUS_DSC);
         $this->addElement($status_select);
 
@@ -81,7 +87,7 @@ class PublisherFileForm extends XoopsThemeForm
         $this->addElement(new XoopsFormHidden('itemid', $this->targetObject->itemid()));
     }
 
-    function createButtons()
+    public function createButtons()
     {
         $files_button_tray = new XoopsFormElementTray('', '');
         $files_hidden = new XoopsFormHidden('op', 'uploadfile');

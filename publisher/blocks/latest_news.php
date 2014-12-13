@@ -23,8 +23,13 @@
 
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+//include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * @param $options
+ *
+ * @return array
+ */
 function publisher_latest_news_show($options)
 {
     global $xoopsUser, $xoopsConfig;
@@ -70,7 +75,7 @@ function publisher_latest_news_show($options)
         $criteria->add(new Criteria('itemid', '(' . $selected_stories . ')', 'IN'));
     }
 
-    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(_PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'itemid');
+    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);
 
@@ -196,7 +201,7 @@ function publisher_latest_news_show($options)
         }
 
         $item['pdf'] = '';
-        if ($this->publisher->getConfig('display_pdf')) {
+        if ($publisher->getConfig('display_pdf')) {
             if ($options[25] == 1) {
                 $item['pdf'] = "<a href='" . PUBLISHER_URL . "/makepdf.php?itemid=" . $itemObj->itemid() . "' rel='nofollow'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif' title='"
                     . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "' /></a>&nbsp;";
@@ -233,7 +238,7 @@ function publisher_latest_news_show($options)
         $block['letters'] = $letters;
 
         $columns[$k][] = $item;
-        $k++;
+        ++$k;
 
         if ($k == $column_count) {
             $k = 0;
@@ -246,6 +251,11 @@ function publisher_latest_news_show($options)
     return $block;
 }
 
+/**
+ * @param $options
+ *
+ * @return string
+ */
 function publisher_latest_news_edit($options)
 {
     $tabletag1 = '<tr><td style="padding:3px" width="37%">';
@@ -391,6 +401,12 @@ function publisher_latest_news_edit($options)
     return $form;
 }
 
+/**
+ * @param $options
+ * @param $number
+ *
+ * @return string
+ */
 function publisher_mk_chkbox($options, $number)
 {
     $chk = "";
@@ -407,6 +423,12 @@ function publisher_mk_chkbox($options, $number)
     return $chkbox;
 }
 
+/**
+ * @param $options
+ * @param $number
+ *
+ * @return string
+ */
 function publisher_mk_select($options, $number)
 {
     $slc = "";

@@ -20,7 +20,7 @@
  * @version         $Id: ams.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(dirname(__FILE__)) . '/admin_header.php';
+include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
 $importFromModuleName = "xNews " . @$_POST['ams_version'];
@@ -33,6 +33,10 @@ if (isset($_POST['op']) && ($_POST['op'] == 'go')) {
     $op = $_POST['op'];
 }
 
+/**
+ * @param $src
+ * @param $dst
+ */
 function recurse_copy($src,$dst)
 {
     $dir = opendir($src);
@@ -173,7 +177,7 @@ if ($op == 'start') {
 if ($op == 'go') {
     publisher_cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    include_once (dirname(dirname(dirname(__FILE__)))) . '/include/common.php';
+    include_once (dirname(dirname(__DIR__))) . '/include/common.php';
     publisher_openCollapsableBar('amsimportgo', 'amsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
     $module_handler = xoops_gethandler('module');
@@ -296,7 +300,7 @@ if ($op == 'go') {
         $resultPictures = $xoopsDB->query($sql);
 
         $newCat['newid'] = $categoryObj->categoryid();
-        $cnt_imported_cat++;
+        ++$cnt_imported_cat;
 
         echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . "<br/>";
 
@@ -316,7 +320,7 @@ if ($op == 'go') {
             $itemObj->setVar('dohtml', !$arrArticle['nohtml']);
             $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
             $itemObj->setVar('weight', 0);
-            $itemObj->setVar('status', _PUBLISHER_STATUS_PUBLISHED);
+            $itemObj->setVar('status', PublisherConstants::_PUBLISHER_STATUS_PUBLISHED);
 
 //            $itemObj->setVar('dobr', !$arrArticle['dobr']);
 //            $itemObj->setVar('item_tag', $arrArticle['tags']);
@@ -369,7 +373,7 @@ if ($op == 'go') {
                             $fileObj = $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['filerealname']);
                             $fileObj->setVar('description', $arrFile['filerealname']);
-                            $fileObj->setVar('status', _PUBLISHER_STATUS_FILE_ACTIVE);
+                            $fileObj->setVar('status', PublisherConstants::_PUBLISHER_STATUS_FILE_ACTIVE);
                             $fileObj->setVar('uid', $arrArticle['uid']);
                             $fileObj->setVar('itemid', $itemObj->itemid());
                             $fileObj->setVar('mimetype', $arrFile['mimetype']);
@@ -389,7 +393,7 @@ if ($op == 'go') {
 
                 $newArticleArray[$arrArticle['storyid']] = $itemObj->itemid();
                 echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . "<br />";
-                $cnt_imported_articles++;
+                ++$cnt_imported_articles;
             }
         }
 

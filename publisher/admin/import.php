@@ -19,7 +19,7 @@
  * @version         $Id: import.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . "/admin_header.php";
+include_once __DIR__ . "/admin_header.php";
 
 $op = 'none';
 

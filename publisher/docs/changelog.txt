@@ -1,5 +1,18 @@
 <h5>1.02 Beta 3       (2014-xx-xx)</h5>
 - updated to XOOPS 2.5.7 version of jQuery UI Tabs (noo-b/mamba)
+- replaced PublisherRequest with calls to XoopsRequest (mamba)
+- redesigned archives section to have months horizontally (mjoel/Mithrandir/mamba)
+- added count of articles in archive section (mamba)
+- moved TCPDF library to /xoops_lib (mamba)
+- updated makepdf.php file for the latest TCPDF (black_beard, mamba)
+- replaced $i++ with ++$i for consistency/performance (mamba)
+- started conversion to PSR-2 coding (mamba)
+- moved constants to class interface (mamba, based on zyspec's work)
+- updated TimThumbnail to 2.8.14
+
+TODO:
+- test with MySQL strict mode (STRICT_TRANS_TABLES)
+
 
 <h5>1.02 Beta 2       (2014-xx-xx)</h5>
 - added ID column in Admin's Category view (mamba)

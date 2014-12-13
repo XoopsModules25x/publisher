@@ -20,13 +20,13 @@
  * @version         $Id: index.php 10727 2013-01-09 22:03:19Z trabis $
  */
 
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
 // At which record shall we start for the Categories
-$catstart = PublisherRequest::getInt('catstart');
+$catstart = XoopsRequest::getInt('catstart');
 
 // At which record shall we start for the ITEM
-$start = PublisherRequest::getInt('start');
+$start = XoopsRequest::getInt('start');
 
 // Number of categories at the top level
 $totalCategories = $publisher->getHandler('category')->getCategoriesCount(0);
@@ -60,7 +60,7 @@ $subcats = $publisher->getHandler('category')->getSubCats($categoriesObj);
 $totalItems = $publisher->getHandler('category')->publishedItemsCount();
 
 // real total count of items
-$real_total_items = $publisher->getHandler('item')->getItemsCount(-1, array(_PUBLISHER_STATUS_PUBLISHED));
+$real_total_items = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED));
 
 if ($publisher->getConfig('idxcat_display_last_item') == 1) {
     // Get the last item in each category

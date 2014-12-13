@@ -19,8 +19,21 @@
  */
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * @param        $queryarray
+ * @param        $andor
+ * @param        $limit
+ * @param        $offset
+ * @param        $userid
+ * @param array  $categories
+ * @param int    $sortby
+ * @param string $searchin
+ * @param string $extra
+ *
+ * @return array
+ */
 function publisher_search($queryarray, $andor, $limit, $offset, $userid, $categories = array(), $sortby = 0, $searchin = "", $extra = "")
 {
     $publisher = PublisherPublisher::getInstance();

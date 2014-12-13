@@ -20,7 +20,7 @@
  * @version         $Id: ams.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(dirname(__FILE__)) . '/admin_header.php';
+include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
 $importFromModuleName = "AMS " . @$_POST['ams_version'];
@@ -146,7 +146,7 @@ if ($op == 'go') {
         }
 
         $newCat['newid'] = $categoryObj->categoryid();
-        $cnt_imported_cat++;
+        ++$cnt_imported_cat;
 
         echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . "<br\>";
 
@@ -166,7 +166,7 @@ if ($op == 'go') {
             $itemObj->setVar('dohtml', !$arrArticle['nohtml']);
             $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
             $itemObj->setVar('weight', 0);
-            $itemObj->setVar('status', _PUBLISHER_STATUS_PUBLISHED);
+            $itemObj->setVar('status', PublisherConstants::_PUBLISHER_STATUS_PUBLISHED);
 
             $itemObj->setVar('rating', $arrArticle['rating']);
             $itemObj->setVar('votes', $arrArticle['votes']);
@@ -204,7 +204,7 @@ if ($op == 'go') {
                  $fileObj = $publisher_file_handler->create();
                  $fileObj->setVar('name', $arrFile['fileshowname']);
                  $fileObj->setVar('description', $arrFile['filedescript']);
-                 $fileObj->setVar('status', _PUBLISHER_STATUS_FILE_ACTIVE);
+                 $fileObj->setVar('status', PublisherConstants::_PUBLISHER_STATUS_FILE_ACTIVE);
                  $fileObj->setVar('uid', $arrArticle['uid']);
                  $fileObj->setVar('itemid', $itemObj->itemid());
                  $fileObj->setVar('mimetype', $arrFile['minetype']);
@@ -221,7 +221,7 @@ if ($op == 'go') {
                  */
                 $newArticleArray[$arrArticle['storyid']] = $itemObj->itemid();
                 echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . "<br />";
-                $cnt_imported_articles++;
+                ++$cnt_imported_articles;
             }
         }
 

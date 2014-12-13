@@ -22,8 +22,13 @@
 
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * @param $options
+ *
+ * @return array
+ */
 function publisher_items_recent_show($options)
 {
     $publisher = PublisherPublisher::getInstance();
@@ -51,7 +56,7 @@ function publisher_items_recent_show($options)
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
     }
-    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(_PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
+    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
 
     $totalItems = count($itemsObj);
 
@@ -81,6 +86,11 @@ function publisher_items_recent_show($options)
     return $block;
 }
 
+/**
+ * @param $options
+ *
+ * @return string
+ */
 function publisher_items_recent_edit($options)
 {
     include_once PUBLISHER_ROOT_PATH . '/class/blockform.php';

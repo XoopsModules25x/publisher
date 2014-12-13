@@ -22,8 +22,14 @@
 
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(__FILE__) . '/seo_functions.php';
+include_once __DIR__ . '/seo_functions.php';
 
+/**
+ * @param $category
+ * @param $item_id
+ *
+ * @return mixed
+ */
 function publisher_notify_iteminfo($category, $item_id)
 {
     if ($category == 'global') {

@@ -20,7 +20,7 @@
  * @version         $Id: smartsection.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(dirname(__FILE__)) . '/admin_header.php';
+include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
 $importFromModuleName = "Smartsection " . @$_POST['smartsection_version'];
@@ -142,7 +142,7 @@ if ($op == 'go') {
         }
 
         $newCat['newid'] = $categoryObj->categoryid();
-        $cnt_imported_cat++;
+        ++$cnt_imported_cat;
 
         echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . "<br\>";
 
@@ -200,7 +200,7 @@ if ($op == 'go') {
 
                 $newArticleArray[$arrArticle['itemid']] = $itemObj->itemid();
                 echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . "<br />";
-                $cnt_imported_articles++;
+                ++$cnt_imported_articles;
             }
         }
 

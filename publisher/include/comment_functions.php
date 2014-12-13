@@ -17,6 +17,9 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: comment_functions.php 10374 2012-12-12 23:39:48Z trabis $
+ *
+ * @param $item_id
+ * @param $total_num
  */
 
 function publisher_com_update($item_id, $total_num)
@@ -26,6 +29,9 @@ function publisher_com_update($item_id, $total_num)
     $db->query($sql);
 }
 
+/**
+ * @param $comment
+ */
 function publisher_com_approve(&$comment)
 {
     // notification mail here

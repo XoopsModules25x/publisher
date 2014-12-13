@@ -31,6 +31,9 @@ xoops_load('XoopsForm');
  */
 class PublisherBlockForm extends XoopsForm
 {
+    /**
+     *
+     */
     public function __construct()
     {
         parent::__construct('', '', '');

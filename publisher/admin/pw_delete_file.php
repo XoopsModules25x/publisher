@@ -19,7 +19,7 @@
  * @version         $Id: pw_delete_file.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
 if (isset($_POST["op"]) && ($_POST["op"] == "delfileok")) {
     $dir = publisher_getUploadDir(true, 'content');

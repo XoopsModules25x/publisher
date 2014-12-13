@@ -21,8 +21,11 @@
  */
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * Class PublisherSession
+ */
 class PublisherSession
 {
     /**
@@ -92,7 +95,10 @@ class PublisherSession
         session_destroy();
     }
 
-    static public function &getInstance()
+    /**
+     * @return PublisherSession
+     */
+    public static function &getInstance()
     {
         static $_sess;
         if (!isset($_sess)) {

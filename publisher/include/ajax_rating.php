@@ -17,7 +17,7 @@
 //  URL: http://www.xuups.com
 //  E-Mail: lusopoemas@gmail.com
 
-include_once dirname(dirname(__FILE__)) . '/header.php';
+include_once dirname(__DIR__) . '/header.php';
 
 error_reporting(0);
 $xoopsLogger->activated = false;
@@ -82,7 +82,7 @@ $newRatingObj->setVar('date', time());
 $publisher->getHandler('rating')->insert($newRatingObj);
 
 $current_rating += $rating;
-$count++;
+++$count;
 
 $publisher->getHandler('item')->updateAll('rating', number_format($current_rating / $count, 4), $criteria, true);
 $publisher->getHandler('item')->updateAll('votes', $count, $criteria, true);

@@ -20,7 +20,7 @@
  * @version         $Id: submit.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
 // Get the total number of categories
@@ -35,7 +35,7 @@ $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $gperm_handler = xoops_getmodulehandler('groupperm');
 $module_id = $publisher->getModule()->getVar('mid');
 
-$itemid = PublisherRequest::getInt('itemid');
+$itemid = XoopsRequest::getInt('itemid');
 if ($itemid != 0) {
     // We are editing or deleting an article
     $itemObj = $publisher->getHandler('item')->get($itemid);
@@ -98,7 +98,7 @@ $elements = array(
     'dohtml', 'dosmiley', 'doxcode', 'doimage', 'dolinebreak',
     'notify', 'subtitle', 'author_alias');
 foreach ($elements as $element) {
-    if (isset($_REQUEST[$element]) && !in_array(constant('_PUBLISHER_' . strtoupper($element)), $form_view)) {
+    if (isset($_REQUEST[$element]) && !in_array(constant('PublisherConstants::_PUBLISHER_' . strtoupper($element)), $form_view)) {
         redirect_header("index.php", 1, _MD_PUBLISHER_SUBMIT_ERROR);
         exit();
     }
@@ -190,11 +190,11 @@ switch ($op) {
 
         // if autoapprove_submitted. This does not apply if we are editing an article
         if (!$itemid) {
-            if ($itemObj->getVar('status') == _PUBLISHER_STATUS_PUBLISHED /*$publisher->getConfig('perm_autoapprove'] ==  1*/) {
+            if ($itemObj->getVar('status') == PublisherConstants::_PUBLISHER_STATUS_PUBLISHED /*$publisher->getConfig('perm_autoapprove'] ==  1*/) {
                 // We do not not subscribe user to notification on publish since we publish it right away
 
                 // Send notifications
-                $itemObj->sendNotifications(array(_PUBLISHER_NOT_ITEM_PUBLISHED));
+                $itemObj->sendNotifications(array(PublisherConstants::_PUBLISHER_NOT_ITEM_PUBLISHED));
 
                 $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_AND_PUBLISHED;
                 redirect_header($itemObj->getItemUrl(), 2, $redirect_msg);
@@ -206,7 +206,7 @@ switch ($op) {
                     $notification_handler->subscribe('item', $itemObj->itemid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
-                $itemObj->sendNotifications(array(_PUBLISHER_NOT_ITEM_SUBMITTED));
+                $itemObj->sendNotifications(array(PublisherConstants::_PUBLISHER_NOT_ITEM_SUBMITTED));
 
                 $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
             }

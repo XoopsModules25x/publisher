@@ -20,9 +20,9 @@
  * @version         $Id: category.php 10746 2013-01-10 20:54:35Z trabis $
  */
 
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
-$categoryid = PublisherRequest::getInt('categoryid');
+$categoryid = XoopsRequest::getInt('categoryid');
 
 // Creating the category object for the selected category
 $categoryObj = $publisher->getHandler('category')->get($categoryid);
@@ -40,9 +40,9 @@ if (!$categoryObj->checkPermission()) {
 }
 
 // At which record shall we start
-$start = PublisherRequest::getInt('start');
+$start = XoopsRequest::getInt('start');
 
-$item_page_id = PublisherRequest::getInt('page', -1);
+$item_page_id = XoopsRequest::getInt('page', -1);
 
 $totalItems = $publisher->getHandler('category')->publishedItemsCount();
 

@@ -19,9 +19,9 @@
  * @version         $Id: author_items.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
-$uid = PublisherRequest::getInt('uid');
+$uid = XoopsRequest::getInt('uid');
 if (empty($uid)) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
     exit();
@@ -48,7 +48,7 @@ include_once PUBLISHER_ROOT_PATH . '/footer.php';
 $criteria = new CriteriaCompo(new Criteria('datesub', time(), '<='));
 $criteria->add(new Criteria('uid', $uid));
 
-$items = $publisher->getHandler('item')->getItems($limit = 0, $start = 0, array(_PUBLISHER_STATUS_PUBLISHED), -1, 'datesub', 'DESC', '', true, $criteria);
+$items = $publisher->getHandler('item')->getItems($limit = 0, $start = 0, array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED), -1, 'datesub', 'DESC', '', true, $criteria);
 unset($criteria);
 $count = count($items);
 

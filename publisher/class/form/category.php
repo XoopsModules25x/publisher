@@ -22,26 +22,33 @@
 
 // defined('XOOPS_ROOT_PATH') || die("XOOPS root path not defined");
 
-include_once dirname(dirname(dirname(__FILE__))) . '/include/common.php';
+include_once dirname(dirname(__DIR__)) . '/include/common.php';
 
 xoops_load('XoopsFormLoader');
 include_once XOOPS_ROOT_PATH . '/class/tree.php';
 
+/**
+ * Class PublisherCategoryForm
+ */
 class PublisherCategoryForm extends XoopsThemeForm
 {
     /**
      * @var PublisherPublisher
      * @access public
      */
-    var $publisher = null;
+    public $publisher = null;
 
-    var $targetObject = null;
+    public $targetObject = null;
 
-    var $subCatsCount = 4;
+    public $subCatsCount = 4;
 
-    var $userGroups = array();
+    public $userGroups = array();
 
-    function __construct(&$target, $subCatsCount = 4)
+    /**
+     * @param     $target
+     * @param int $subCatsCount
+     */
+    public function __construct(&$target, $subCatsCount = 4)
     {
         $this->publisher = PublisherPublisher::getInstance();
 
@@ -58,7 +65,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $this->createButtons();
     }
 
-    function createElements()
+    public function createElements()
     {
         global $xoopsUser;
 
@@ -210,7 +217,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $this->addElement(new XoopsFormHidden('nb_sub_yet', $this->subCatsCount));
     }
 
-    function createButtons()
+    public function createButtons()
     {
         // Action buttons tray
         $button_tray = new XoopsFormElementTray('', '');

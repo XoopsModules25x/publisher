@@ -18,7 +18,7 @@
  * @version         $Id: clone.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . "/admin_header.php";
+include_once __DIR__ . "/admin_header.php";
 
 publisher_cpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_CLONE);
@@ -83,6 +83,11 @@ xoops_cp_footer();
 
 // work around for PHP < 5.0.x
 if (!function_exists('file_put_contents')) {
+    /**
+     * @param      $filename
+     * @param      $data
+     * @param bool $file_append
+     */
     function file_put_contents($filename, $data, $file_append = false)
     {
         if ($fp = fopen($filename, (!$file_append ? 'w+' : 'a+'))) {
@@ -93,6 +98,9 @@ if (!function_exists('file_put_contents')) {
 }
 
 // recursive clonning script
+/**
+ * @param $path
+ */
 function publisher_cloneFileFolder($path)
 {
     global $patKeys;
@@ -127,6 +135,11 @@ function publisher_cloneFileFolder($path)
     }
 }
 
+/**
+ * @param $dirname
+ *
+ * @return bool
+ */
 function publisher_createLogo($dirname)
 {
     if (!extension_loaded("gd")) {

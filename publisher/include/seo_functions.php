@@ -21,8 +21,14 @@
 
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(__FILE__) . '/common.php';
+include_once __DIR__ . '/common.php';
 
+/**
+ * @param string $title
+ * @param bool   $withExt
+ *
+ * @return mixed|string
+ */
 function publisher_seo_title($title = '', $withExt = true)
 {
 
@@ -61,6 +67,13 @@ function publisher_seo_title($title = '', $withExt = true)
     return '';
 }
 
+/**
+ * @param        $op
+ * @param        $id
+ * @param string $short_url
+ *
+ * @return string
+ */
 function publisher_seo_genUrl($op, $id, $short_url = "")
 {
     $publisher = PublisherPublisher::getInstance();

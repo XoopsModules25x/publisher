@@ -26,11 +26,11 @@
 //  ------------------------------------------------------------------------ //
 
 error_reporting(0);
-include dirname(dirname(dirname(dirname(__FILE__)))) . '/mainfile.php';
-include_once dirname(__FILE__) . '/common.php';
+include dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+include_once __DIR__ . '/common.php';
 
 $GLOBALS['xoopsLogger']->activated = false;
-xoops_loadLanguage('common', basename(dirname(dirname(__FILE__))));
+xoops_loadLanguage('common', basename(dirname(__DIR__)));
 
 if (!is_object($xoopsUser)) {
     $group = array(XOOPS_GROUP_ANONYMOUS);
@@ -67,7 +67,7 @@ if (!is_object($imgcat)) {
 }
 
 if ($error == false) {
-    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH, array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'), $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
+    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'), $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
     $uploader->setPrefix('img');
     if ($uploader->fetchMedia('publisher_upload_file')) {
         if (!$uploader->upload()) {
@@ -76,7 +76,7 @@ if ($error == false) {
         } else {
             $image_handler = xoops_gethandler('image');
             $image = $image_handler->create();
-            $image->setVar('image_name', $uploader->getSavedFileName());
+            $image->setVar('image_name', 'images/'.$uploader->getSavedFileName());
             $image->setVar('image_nicename', $image_nicename);
             $image->setVar('image_mimetype', $uploader->getMediaType());
             $image->setVar('image_created', time());

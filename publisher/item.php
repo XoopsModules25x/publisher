@@ -20,10 +20,10 @@
  * @version         $Id: item.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
-$itemid = PublisherRequest::getInt('itemid');
-$item_page_id = PublisherRequest::getInt('page', -1);
+$itemid = XoopsRequest::getInt('itemid');
+$item_page_id = XoopsRequest::getInt('page', -1);
 
 if ($itemid == 0) {
     redirect_header("javascript:history.go(-1)", 1, _MD_PUBLISHER_NOITEMSELECTED);

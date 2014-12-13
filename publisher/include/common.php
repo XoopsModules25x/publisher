@@ -21,7 +21,7 @@
  */
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-define("PUBLISHER_DIRNAME", basename(dirname(dirname(__FILE__))));
+define("PUBLISHER_DIRNAME", basename(dirname(__DIR__)));
 define("PUBLISHER_URL", XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME);
 define("PUBLISHER_IMAGES_URL", PUBLISHER_URL . '/assets/images');
 define("PUBLISHER_ADMIN_URL", PUBLISHER_URL . '/admin');
@@ -32,12 +32,16 @@ define("PUBLISHER_UPLOADS_PATH", XOOPS_ROOT_PATH . '/uploads/' . PUBLISHER_DIRNA
 xoops_loadLanguage('common', PUBLISHER_DIRNAME);
 
 include_once PUBLISHER_ROOT_PATH . '/include/functions.php';
-include_once PUBLISHER_ROOT_PATH . '/include/constants.php';
+//include_once PUBLISHER_ROOT_PATH . '/include/constants.php';
 include_once PUBLISHER_ROOT_PATH . '/include/seo_functions.php';
 include_once PUBLISHER_ROOT_PATH . '/class/metagen.php';
 include_once PUBLISHER_ROOT_PATH . '/class/session.php';
 include_once PUBLISHER_ROOT_PATH . '/class/publisher.php';
-include_once PUBLISHER_ROOT_PATH . '/class/request.php';
+//include_once PUBLISHER_ROOT_PATH . '/class/request.php';
+
+xoops_load('constants', PUBLISHER_DIRNAME);
+xoops_load('XoopsRequest');
+xoops_load('XoopsFilterInput');
 
 $debug = false;
 $publisher = PublisherPublisher::getInstance($debug);

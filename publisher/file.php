@@ -19,11 +19,11 @@
  * @version         $Id: file.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
-$op = PublisherRequest::getString('op');
-$fileid = PublisherRequest::getInt('fileid');
+$op = XoopsRequest::getString('op');
+$fileid = XoopsRequest::getInt('fileid');
 
 if ($fileid == 0) {
     redirect_header("index.php", 2, _MD_PUBLISHER_NOITEMSELECTED);
@@ -71,9 +71,9 @@ switch ($op) {
         }
 
         // Putting the values in the file object
-        $fileObj->setVar('name', PublisherRequest::getString('name'));
-        $fileObj->setVar('description', PublisherRequest::getString('description'));
-        $fileObj->setVar('status', PublisherRequest::getInt('file_status'));
+        $fileObj->setVar('name', XoopsRequest::getString('name'));
+        $fileObj->setVar('description', XoopsRequest::getString('description'));
+        $fileObj->setVar('status', XoopsRequest::getInt('file_status'));
 
         // attach file if any
         if (isset($_FILES['item_upload_file']) && $_FILES['item_upload_file']['name'] != "") {

@@ -21,7 +21,7 @@
 
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(__FILE__) . '/common.php';
+include_once __DIR__ . '/common.php';
 
 /**
  * Includes scripts in HTML header
@@ -548,7 +548,7 @@ function publisher_addCategoryOption($categoryObj, $selectedid = 0, $level = 0, 
     $publisher = PublisherPublisher::getInstance();
 
     $spaces = '';
-    for ($j = 0; $j < $level; $j++) {
+    for ($j = 0; $j < $level; ++$j) {
         $spaces .= '--';
     }
 
@@ -562,7 +562,7 @@ function publisher_addCategoryOption($categoryObj, $selectedid = 0, $level = 0, 
 
     $subCategoriesObj = $publisher->getHandler('category')->getCategories(0, 0, $categoryObj->categoryid());
     if (count($subCategoriesObj) > 0) {
-        $level++;
+        ++$level;
         foreach ($subCategoriesObj as $catID => $subCategoryObj) {
             $ret .= publisher_addCategoryOption($subCategoryObj, $selectedid, $level);
         }
@@ -777,6 +777,9 @@ function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
     }
 }
 
+/**
+ * @return string
+ */
 function publisher_newFeatureTag()
 {
     $ret = '<span style="padding-right: 4px; font-weight: bold; color: red;">' . _CO_PUBLISHER_NEW_FEATURE . '</span>';
@@ -896,7 +899,7 @@ function publisher_ratingBar($itemid)
     $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
     $gperm_handler = $publisher->getHandler('groupperm');
 
-    if (!$gperm_handler->checkRight('global', _PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
+    if (!$gperm_handler->checkRight('global', PublisherConstants::_PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
         $static_rater = array();
         $static_rater[] .= "\n" . '<div class="publisher_ratingblock">';
         $static_rater[] .= '<div id="unit_long' . $itemid . '">';
@@ -915,7 +918,7 @@ function publisher_ratingBar($itemid)
         $rater .= '<div id="unit_ul' . $itemid . '" class="publisher_unit-rating" style="width:' . $rating_unitwidth * $units . 'px;">';
         $rater .= '<div class="publisher_current-rating" style="width:' . $rating_width . 'px;">' . _MD_PUBLISHER_VOTE_RATING . ' ' . $rating2 . '/' . $units . '</div>';
 
-        for ($ncount = 1; $ncount <= $units; $ncount++) { // loop from 1 to the number of units
+        for ($ncount = 1; $ncount <= $units; ++$ncount) { // loop from 1 to the number of units
             if (!$voted) { // if the user hasn't yet voted, draw the voting stars
                 $rater .= '<div><a href="' . PUBLISHER_URL . '/rate.php?itemid=' . $itemid . '&amp;rating=' . $ncount . '" title="' . $ncount . ' ' . _MD_PUBLISHER_VOTE_OUTOF . ' ' . $units . '" class="publisher_r' . $ncount . '-unit rater" rel="nofollow">' . $ncount . '</a></div>';
             }

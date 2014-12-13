@@ -21,7 +21,7 @@
  */
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * XoopsThemeTabForm
@@ -34,63 +34,63 @@ include_once dirname(dirname(__FILE__)) . '/include/common.php';
  */
 class PublisherThemeTabForm extends XoopsForm
 {
-    var $_tabs;
+    public $_tabs;
 
     /**
      * "action" attribute for the html form
      *
      * @var string
      */
-    var $_action;
+    public $_action;
 
     /**
      * "method" attribute for the form.
      *
      * @var string
      */
-    var $_method;
+    public $_method;
 
     /**
      * "name" attribute of the form
      *
      * @var string
      */
-    var $_name;
+    public $_name;
 
     /**
      * title for the form
      *
      * @var string
      */
-    var $_title;
+    public $_title;
 
     /**
      * summary for the form (WGAC2 Requirement)
      *
      * @var string
      */
-    var $_summary = '';
+    public $_summary = '';
 
     /**
      * array of {@link XoopsFormElement} objects
      *
      * @var array
      */
-    var $_elements = array();
+    public $_elements = array();
 
     /**
      * extra information for the <form> tag
      *
      * @var array
      */
-    var $_extra = array();
+    public $_extra = array();
 
     /**
      * required elements
      *
      * @var array
      */
-    var $_required = array();
+    public $_required = array();
 
     /**
      * @param string $title
@@ -121,7 +121,10 @@ class PublisherThemeTabForm extends XoopsForm
         }
     }
 
-    //function render(){}
+    //function render() {}
+    /**
+     * @param object $tpl
+     */
     public function assign(&$tpl)
     {
         $i = -1;

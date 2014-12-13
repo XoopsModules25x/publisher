@@ -19,5 +19,5 @@
  * @version         $Id: comment_edit.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once '../../mainfile.php';
+include dirname(dirname(__DIR__)) . '/mainfile.php';
 include_once XOOPS_ROOT_PATH . '/include/comment_edit.php';

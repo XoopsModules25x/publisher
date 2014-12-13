@@ -20,7 +20,7 @@
  * @version         $Id: mimetypes.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 xoops_load('XoopsPagenav');
 
 $start = $limit = 0;
@@ -733,6 +733,11 @@ function updateMimeValue()
     }
 }
 
+/**
+ * @param $mime_value
+ *
+ * @return int
+ */
 function _changeMimeValue($mime_value)
 {
     if ($mime_value == 1) {
@@ -757,6 +762,9 @@ function clearAddSession()
     header('Location: ' . publisher_makeURI(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'add'), false));
 }
 
+/**
+ * @param $id
+ */
 function _clearEditSessionVars($id)
 {
     $id = intval($id);

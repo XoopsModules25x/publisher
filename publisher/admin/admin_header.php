@@ -19,8 +19,8 @@
  * @version         $Id: admin_header.php 10661 2013-01-04 19:22:48Z trabis $
  */
 
-include_once dirname(dirname(dirname(dirname(__FILE__)))) . '/mainfile.php';
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+include_once dirname(__DIR__) . '/include/common.php';
 include_once XOOPS_ROOT_PATH . '/include/cp_header.php';
 
 //xoops_loadLanguage('admin', PUBLISHER_DIRNAME);

@@ -31,9 +31,10 @@ $modversion['help']        = 'page=help';
 $modversion['license']     = 'GNU GPL 2.0';
 $modversion['license_url'] = "www.gnu.org/licenses/gpl-2.0.html/";
 $modversion['official']    = 0;
-$modversion['dirname']     = basename(dirname(__FILE__));
+$modversion['dirname']     = basename(__DIR__);
 
-include_once XOOPS_ROOT_PATH . "/modules/" . $modversion['dirname'] . "/include/constants.php";
+//include_once XOOPS_ROOT_PATH . "/modules/" . $modversion['dirname'] . "/include/constants.php";
+xoops_load('constants', basename(__DIR__));
 
 $logo_filename = $modversion['dirname'] . "_logo.png";
 
@@ -78,8 +79,8 @@ $modversion['people']['testers'][] = "urban, AEIOU, pacho, mariane";
 $modversion['author_word'] = "";
 
 //about
-$modversion["module_status"]  = "Beta 3";
-$modversion['release_date']   = "2014/06/21";
+$modversion["module_status"]  = "Beta 4";
+$modversion['release_date']   = "2014/12/12";
 $modversion['min_php']        = '5.3.7';
 $modversion['min_xoops']      = '2.5.7';
 $modversion['min_db']         = array('mysql' => '5.0.7', 'mysqli' => '5.0.7');
@@ -837,12 +838,12 @@ $modversion['config'][$i]['description'] = '_MI_PUBLISHER_FORM_STATUS_DSC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'text';
 $modversion['config'][$i]['options']     = array(
-    _MI_PUBLISHER_PUBLISHED => _PUBLISHER_STATUS_PUBLISHED,
-    _MI_PUBLISHER_OFFLINE   => _PUBLISHER_STATUS_OFFLINE,
-    _MI_PUBLISHER_SUBMITTED => _PUBLISHER_STATUS_SUBMITTED,
-    _MI_PUBLISHER_REJECTED  => _PUBLISHER_STATUS_REJECTED
+    _MI_PUBLISHER_PUBLISHED => PublisherConstants::_PUBLISHER_STATUS_PUBLISHED,
+    _MI_PUBLISHER_OFFLINE   => PublisherConstants::_PUBLISHER_STATUS_OFFLINE,
+    _MI_PUBLISHER_SUBMITTED => PublisherConstants::_PUBLISHER_STATUS_SUBMITTED,
+    _MI_PUBLISHER_REJECTED  => PublisherConstants::_PUBLISHER_STATUS_REJECTED
 );
-$modversion['config'][$i]['default']     = _PUBLISHER_STATUS_SUBMITTED;
+$modversion['config'][$i]['default']     = PublisherConstants::_PUBLISHER_STATUS_SUBMITTED;
 $modversion['config'][$i]['category']    = 'submit';
 
 ++$i;

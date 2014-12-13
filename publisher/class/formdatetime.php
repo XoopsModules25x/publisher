@@ -20,10 +20,19 @@
  */
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * Class PublisherFormDateTime
+ */
 class PublisherFormDateTime extends XoopsFormElementTray
 {
+    /**
+     * @param     $caption
+     * @param     $name
+     * @param int $size
+     * @param int $value
+     */
     public function __construct($caption, $name, $size = 15, $value = 0)
     {
         parent::__construct($caption, '&nbsp;');

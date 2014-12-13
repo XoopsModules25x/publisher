@@ -14,6 +14,11 @@
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: update.php 10374 2012-12-12 23:39:48Z trabis $
+ *
+ * @param      $module
+ * @param null $oldversion
+ *
+ * @return
  */
 
 function xoops_module_update_publisher($module, $oldversion = null)
@@ -65,4 +70,3 @@ function xoops_module_update_publisher($module, $oldversion = null)
     $gperm_handler = xoops_gethandler('groupperm');
     return $gperm_handler->deleteByModule($module->getVar('mid'), "item_read");
 }
-

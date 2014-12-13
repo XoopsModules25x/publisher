@@ -22,11 +22,14 @@
 
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
 /***
  * Function To Show Publisher Items From Categories In Their Own Columns
+ *
  * @param    array $options Block Options
+ *
+ * @return array
  */
 function publisher_items_columns_show($options)
 {
@@ -115,7 +118,7 @@ function publisher_items_columns_show($options)
             $columns[$k][] = $mainitem;
             unset($thisitem);
             unset($mainitem);
-            $k++;
+            ++$k;
 
             if ($k == $opt_num_columns) {
                 $k = 0;
@@ -133,8 +136,10 @@ function publisher_items_columns_show($options)
 
 /***
  * Edit Function For Multi-Column Category Items Display Block
+ *
  * @param    array $options Block Options
  *
+ * @return string
  */
 function publisher_items_columns_edit($options)
 {

@@ -22,7 +22,7 @@
 
 include_once __DIR__ . '/header.php';
 
-$fileid = XoopsRequest::getInt('fileid');
+$fileid = XoopsRequest::getInt('fileid', 0, 'GET');
 
 // Creating the item object for the selected item
 $fileObj = $publisher->getHandler('file')->get($fileid);

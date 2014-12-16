@@ -7,8 +7,8 @@
 error_reporting(0);
 
 include_once __DIR__ . '/header.php';
-$itemid = XoopsRequest::getInt('itemid');
-$item_page_id = XoopsRequest::getInt('page', -1);
+$itemid = XoopsRequest::getInt('itemid',0,'GET');
+$item_page_id = XoopsRequest::getInt('page', -1, 'GET');
 if ($itemid == 0) {
     redirect_header("javascript:history.go(-1)", 1, _MD_PUBLISHER_NOITEMSELECTED);
     exit();

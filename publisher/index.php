@@ -23,10 +23,10 @@
 include_once __DIR__ . '/header.php';
 
 // At which record shall we start for the Categories
-$catstart = XoopsRequest::getInt('catstart');
+$catstart = XoopsRequest::getInt('catstart', 0, 'GET');
 
 // At which record shall we start for the ITEM
-$start = XoopsRequest::getInt('start');
+$start = XoopsRequest::getInt('start', 0, 'GET');
 
 // Number of categories at the top level
 $totalCategories = $publisher->getHandler('category')->getCategoriesCount(0);

@@ -22,7 +22,7 @@
 
 include_once __DIR__ . '/admin_header.php';
 
-$itemid = XoopsRequest::getInt('itemid');
+$itemid = XoopsRequest::getInt('itemid',0, 'GET');
 $op = ($itemid > 0 || isset($_POST['editor'])) ? 'mod' : '';
 $op = XoopsRequest::getString('op', $op);
 

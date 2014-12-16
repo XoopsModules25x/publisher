@@ -199,7 +199,7 @@ define("_AM_PUBLISHER_MIME_CREATE","Create");
 define("_AM_PUBLISHER_MIME_CREATEF","Create mime type");
 define("_AM_PUBLISHER_MIME_EDIT_TITLE","Edit mime type");
 define("_AM_PUBLISHER_MIME_EXT","EXT");
-define("_AM_PUBLISHER_MIME_EXTF","File Extension");
+define("_AM_PUBLISHER_MIME_EXTF","File Extension <span style='font-weight: bold; color: red;'>*</span>");
 define("_AM_PUBLISHER_MIME_FINDIT","Get Extension!");
 define("_AM_PUBLISHER_MIME_FINDMIMETYPE","Find new mime type?");
 define("_AM_PUBLISHER_MIME_ID","ID");
@@ -208,9 +208,9 @@ define("_AM_PUBLISHER_MIME_MANAGE_TITLE","Mime types Management");
 define("_AM_PUBLISHER_MIME_MODIFY","Modify");
 define("_AM_PUBLISHER_MIME_MODIFYF","Modify mime type");
 define("_AM_PUBLISHER_MIME_NAME","Application Type");
-define("_AM_PUBLISHER_MIME_NAMEF","Application Type/Name<div style='padding-top: 8px;'><span style='font-weight: normal;'>Enter application associated with this extension.</span></div>");
+define("_AM_PUBLISHER_MIME_NAMEF","Application Type/Name <span style='font-weight: bold; color: red;'>*</span><div style='padding-top: 8px;'><span style='font-weight: normal;'>Enter application associated with this extension.</span></div>");
 define("_AM_PUBLISHER_MIME_SEARCH","Mime types Search");
-define("_AM_PUBLISHER_MIME_TYPEF","Mime types<div style='padding-top: 8px;'><span style='font-weight: normal;'>Enter each mime type associated with the file extension. Each mime type must be separated with a space.</span></div>");
+define("_AM_PUBLISHER_MIME_TYPEF","Mime types <span style='font-weight: bold; color: red;'>*</span><div style='padding-top: 8px;'><span style='font-weight: normal;'>Enter each mime type associated with the file extension. Each mime type must be separated with a space.</span></div>");
 define("_AM_PUBLISHER_MIME_USER","User");
 define("_AM_PUBLISHER_MIME_USERF","Allowed User mime type");
 define("_AM_PUBLISHER_MIMETYPES","Mime types");
@@ -333,3 +333,10 @@ define("_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR_DSC","Groups that will be allowe
 //1.01 Beta 1
 define("_AM_PUBLISHER_ITEMCATEGORY_ID","ID");
 define("_AM_PUBLISHER_ITEM_VIEWS","Views");
+//1.02 Beta 3
+define('_AM_PUBLISHER_VALID_ERR_MIME_EXT',"Invalid MIME Extension");
+define('_AM_PUBLISHER_VALID_ERR_MIME_NAME',"Invalid MIME Name");
+define('_AM_PUBLISHER_VALID_ERR_MIME_TYPES',"Invalid MIME Type");
+define('_AM_PUBLISHER_MSG_SUBMISSION_ERR',"Submission Errors");
+define('_AM_PUBLISHER_TEXT_SESSION_RESET',"Clear Add Session");
+define('_AM_PUBLISHER_MIME_MANDATORY_FIELD'," <span style='font-weight: bold; color: red;'>*</span> These Fields are Required");

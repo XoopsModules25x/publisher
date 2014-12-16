@@ -21,7 +21,7 @@
 
 include_once __DIR__ . '/admin_header.php';
 
-$op = XoopsRequest::getString('op');
+$op = XoopsRequest::getString('op','','GET');
 
 $op = isset($_POST['editor']) ? 'mod' : $op;
 if (isset($_POST['addcategory'])) {
@@ -29,7 +29,7 @@ if (isset($_POST['addcategory'])) {
 }
 
 // Where do we start ?
-$startcategory = XoopsRequest::getInt('startcategory');
+$startcategory = XoopsRequest::getInt('startcategory', 0, 'GET');
 $categoryid = XoopsRequest::getInt('categoryid');
 
 switch ($op) {
@@ -408,7 +408,7 @@ function publisher_editCat($showmenu = false, $categoryid = 0, $nb_subcats = 4, 
         }
         echo "</table>\n";
         echo "<br />\n";
-        $parentid = XoopsRequest::getInt('parentid');
+        $parentid = XoopsRequest::getInt('parentid',0,'GET');
         $pagenav_extra_args = "op=mod&categoryid=$sel_cat&parentid=$parentid";
         xoops_load('XoopsPageNav');
         $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $startitem, 'startitem', $pagenav_extra_args);

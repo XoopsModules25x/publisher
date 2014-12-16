@@ -23,7 +23,7 @@ include_once __DIR__ . '/header.php';
 xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
 $op = XoopsRequest::getString('op');
-$fileid = XoopsRequest::getInt('fileid');
+$fileid = XoopsRequest::getInt('fileid', 0, 'GET');
 
 if ($fileid == 0) {
     redirect_header("index.php", 2, _MD_PUBLISHER_NOITEMSELECTED);
@@ -73,7 +73,7 @@ switch ($op) {
         // Putting the values in the file object
         $fileObj->setVar('name', XoopsRequest::getString('name'));
         $fileObj->setVar('description', XoopsRequest::getString('description'));
-        $fileObj->setVar('status', XoopsRequest::getInt('file_status'));
+        $fileObj->setVar('status', XoopsRequest::getInt('file_status', 0, 'GET');
 
         // attach file if any
         if (isset($_FILES['item_upload_file']) && $_FILES['item_upload_file']['name'] != "") {

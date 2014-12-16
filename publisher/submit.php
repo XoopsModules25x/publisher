@@ -35,7 +35,7 @@ $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $gperm_handler = xoops_getmodulehandler('groupperm');
 $module_id = $publisher->getModule()->getVar('mid');
 
-$itemid = XoopsRequest::getInt('itemid');
+$itemid = XoopsRequest::getInt('itemid', 0, 'GET');
 if ($itemid != 0) {
     // We are editing or deleting an article
     $itemObj = $publisher->getHandler('item')->get($itemid);

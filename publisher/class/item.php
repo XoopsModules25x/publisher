@@ -955,28 +955,28 @@ class PublisherItem extends XoopsObject
     public function setVarsFromRequest()
     {
         //Required fields
-        if (isset($_REQUEST['categoryid'])) {
-            $this->setVar('categoryid', XoopsRequest::getInt('categoryid'));
+        if (isset($_POST['categoryid'])) {
+            $this->setVar('categoryid', XoopsRequest::getInt('categoryid',0,'POST'));
         }
-        if (isset($_REQUEST['title'])) {
-            $this->setVar('title', XoopsRequest::getString('title'));
+        if (isset($_POST['title'])) {
+            $this->setVar('title', XoopsRequest::getString('title','','POST'));
         }
-        if (isset($_REQUEST['body'])) {
-            $this->setVar('body', XoopsRequest::getText('body'));
+        if (isset($_POST['body'])) {
+            $this->setVar('body', XoopsRequest::getText('body','','POST'));
         }
         //Not required fields
-        if (isset($_REQUEST['summary'])) {
-            $this->setVar('summary', XoopsRequest::getText('summary'));
+        if (isset($_POST['summary'])) {
+            $this->setVar('summary', XoopsRequest::getText('summary','','POST'));
         }
-        if (isset($_REQUEST['subtitle'])) {
-            $this->setVar('subtitle', XoopsRequest::getString('subtitle'));
+        if (isset($_POST['subtitle'])) {
+            $this->setVar('subtitle', XoopsRequest::getString('subtitle','','POST'));
         }
-        if (isset($_REQUEST['item_tag'])) {
-            $this->setVar('item_tag', XoopsRequest::getString('item_tag'));
+        if (isset($_POST['item_tag'])) {
+            $this->setVar('item_tag', XoopsRequest::getString('item_tag','','POST'));
         }
-        if (isset($_REQUEST['image_featured'])) {
+        if (isset($_POST['image_featured'])) {
             $image_item = XoopsRequest::getArray('image_item');
-            $image_featured = XoopsRequest::getString('image_featured');
+            $image_featured = XoopsRequest::getString('image_featured','','POST');
             //Todo: get a better image class for xoops!
             //Image hack
             $image_item_ids = array();
@@ -995,71 +995,71 @@ class PublisherItem extends XoopsObject
             }
             $this->setVar('images', implode('|', $image_item_ids));
         }
-        if (isset($_REQUEST['uid'])) {
-            $this->setVar('uid', XoopsRequest::getInt('uid'));
+        if (isset($_POST['uid'])) {
+            $this->setVar('uid', XoopsRequest::getInt('uid',0,'POST'));
         } elseif ($this->isnew()) {
             $this->setVar('uid', is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0);
         }
-        if (isset($_REQUEST['author_alias'])) {
-            $this->setVar('author_alias', XoopsRequest::getString('author_alias'));
+        if (isset($_POST['author_alias'])) {
+            $this->setVar('author_alias', XoopsRequest::getString('author_alias','','POST'));
             if ($this->getVar('autor_alias') != '') {
                 $this->setVar('uid', 0);
             }
         }
-        if (isset($_REQUEST['datesub'])) {
-            $this->setVar('datesub', strtotime($_REQUEST['datesub']['date']) + $_REQUEST['datesub']['time']);
+        if (isset($_POST['datesub'])) {
+            $this->setVar('datesub', strtotime($_POST['datesub']['date']) + $_POST['datesub']['time']);
         } elseif ($this->isnew()) {
             $this->setVar('datesub', time());
         }
-        if (isset($_REQUEST['item_short_url'])) {
-            $this->setVar('short_url', XoopsRequest::getString('item_short_url'));
+        if (isset($_POST['item_short_url'])) {
+            $this->setVar('short_url', XoopsRequest::getString('item_short_url','','POST'));
         }
-        if (isset($_REQUEST['item_meta_keywords'])) {
-            $this->setVar('meta_keywords', XoopsRequest::getString('item_meta_keywords'));
+        if (isset($_POST['item_meta_keywords'])) {
+            $this->setVar('meta_keywords', XoopsRequest::getString('item_meta_keywords','','POST'));
         }
-        if (isset($_REQUEST['item_meta_description'])) {
-            $this->setVar('meta_description', XoopsRequest::getString('item_meta_description'));
+        if (isset($_POST['item_meta_description'])) {
+            $this->setVar('meta_description', XoopsRequest::getString('item_meta_description','','POST'));
         }
-        if (isset($_REQUEST['weight'])) {
-            $this->setVar('weight', XoopsRequest::getInt('weight'));
+        if (isset($_POST['weight'])) {
+            $this->setVar('weight', XoopsRequest::getInt('weight',0,'POST'));
         }
-        if (isset($_REQUEST['allowcomments'])) {
-            $this->setVar('cancomment', XoopsRequest::getInt('allowcomments'));
+        if (isset($_POST['allowcomments'])) {
+            $this->setVar('cancomment', XoopsRequest::getInt('allowcomments',0,'POST'));
         } elseif ($this->isnew()) {
             $this->setVar('cancoment', $this->publisher->getConfig('submit_allowcomments'));
         }
-        if (isset($_REQUEST['status'])) {
-            $this->setVar('status', XoopsRequest::getInt('status'));
+        if (isset($_POST['status'])) {
+            $this->setVar('status', XoopsRequest::getInt('status',0,'POST'));
         } elseif ($this->isnew()) {
             $this->setVar('status', $this->publisher->getConfig('submit_status'));
         }
-        if (isset($_REQUEST['dohtml'])) {
-            $this->setVar('dohtml', XoopsRequest::getInt('dohtml'));
+        if (isset($_POST['dohtml'])) {
+            $this->setVar('dohtml', XoopsRequest::getInt('dohtml',0,'POST'));
         } elseif ($this->isnew()) {
             $this->setVar('dohtml', $this->publisher->getConfig('submit_dohtml'));
         }
-        if (isset($_REQUEST['dosmiley'])) {
-            $this->setVar('dosmiley', XoopsRequest::getInt('dosmiley'));
+        if (isset($_POST['dosmiley'])) {
+            $this->setVar('dosmiley', XoopsRequest::getInt('dosmiley',0,'POST'));
         } elseif ($this->isnew()) {
             $this->setVar('dosmiley', $this->publisher->getConfig('submit_dosmiley'));
         }
-        if (isset($_REQUEST['doxcode'])) {
-            $this->setVar('doxcode', XoopsRequest::getInt('doxcode'));
+        if (isset($_POST['doxcode'])) {
+            $this->setVar('doxcode', XoopsRequest::getInt('doxcode',0,'POST'));
         } elseif ($this->isnew()) {
             $this->setVar('doxcode', $this->publisher->getConfig('submit_doxcode'));
         }
-        if (isset($_REQUEST['doimage'])) {
-            $this->setVar('doimage', XoopsRequest::getInt('doimage'));
+        if (isset($_POST['doimage'])) {
+            $this->setVar('doimage', XoopsRequest::getInt('doimage',0,'POST'));
         } elseif ($this->isnew()) {
             $this->setVar('doimage', $this->publisher->getConfig('submit_doimage'));
         }
-        if (isset($_REQUEST['dolinebreak'])) {
-            $this->setVar('dobr', XoopsRequest::getInt('dolinebreak'));
+        if (isset($_POST['dolinebreak'])) {
+            $this->setVar('dobr', XoopsRequest::getInt('dolinebreak',0,'POST'));
         } elseif ($this->isnew()) {
             $this->setVar('dobr', $this->publisher->getConfig('submit_dobr'));
         }
-        if (isset($_REQUEST['notify'])) {
-            $this->setVar('notifypub', XoopsRequest::getInt('notify'));
+        if (isset($_POST['notify'])) {
+            $this->setVar('notifypub', XoopsRequest::getInt('notify',0,'POST'));
         }
     }
 }

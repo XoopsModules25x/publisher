@@ -21,7 +21,7 @@
 
 include_once __DIR__ . '/header.php';
 
-$uid = XoopsRequest::getInt('uid');
+$uid = XoopsRequest::getInt('uid', 0,'GET');
 if (empty($uid)) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
     exit();

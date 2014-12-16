@@ -8,7 +8,11 @@
 - replaced $i++ with ++$i for consistency/performance (mamba)
 - started conversion to PSR-2 coding (mamba)
 - moved constants to class interface (mamba, based on zyspec's work)
-- updated TimThumbnail to 2.8.14
+- updated TimThumbnail to 2.8.14 (mamba)
+- added few missing English translations (mamba)
+- replaced $_REQUEST with $_POST/$_GET and XoopsRequest in mimetypes.php (mamba)
+- indicated required fields when adding new MIME types (mamba)
+
 
 TODO:
 - test with MySQL strict mode (STRICT_TRANS_TABLES)

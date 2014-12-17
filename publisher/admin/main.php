@@ -23,19 +23,19 @@ include_once __DIR__ . '/admin_header.php';
 include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
 include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 
-$itemid = isset($_POST['itemid']) ? intval($_POST['itemid']) : 0;
+$itemid = isset($_POST['itemid']) ? XoopsRequest::getInt('itemid', 0, 'POST') : 0;
 
-$pick = isset($_GET['pick']) ? intval($_GET['pick']) : 0;
-$pick = isset($_POST['pick']) ? intval($_POST['pick']) : $pick;
+$pick = isset($_GET['pick']) ? XoopsRequest::getInt('pick', 0, 'GET') : 0;
+$pick = isset($_POST['pick']) ? XoopsRequest::getInt('pick', 0, 'POST') : $pick;
 
-$statussel = isset($_GET['statussel']) ? intval($_GET['statussel']) : 0;
-$statussel = isset($_POST['statussel']) ? intval($_POST['statussel']) : $statussel;
+$statussel = isset($_GET['statussel']) ? XoopsRequest::getInt('statussel', 0, 'GET') : 0;
+$statussel = isset($_POST['statussel']) ? XoopsRequest::getInt('statussel', 0, 'POST') : $statussel;
 
-$sortsel = isset($_GET['sortsel']) ? $_GET['sortsel'] : 'itemid';
-$sortsel = isset($_POST['sortsel']) ? $_POST['sortsel'] : $sortsel;
+$sortsel = isset($_GET['sortsel']) ? XoopsRequest::getString('sortsel', '', 'GET') : 'itemid';
+$sortsel = isset($_POST['sortsel']) ? XoopsRequest::getString('sortsel', '', 'POST') : $sortsel;
 
-$ordersel = isset($_GET['ordersel']) ? $_GET['ordersel'] : 'DESC';
-$ordersel = isset($_POST['ordersel']) ? $_POST['ordersel'] : $ordersel;
+$ordersel = isset($_GET['ordersel']) ? XoopsRequest::getString('ordersel', '', 'GET') : 'DESC';
+$ordersel = isset($_POST['ordersel']) ? XoopsRequest::getString('ordersel', '', 'POST') : $ordersel;
 
 $module_id = $publisher->getModule()->mid();
 $gperm_handler = xoops_gethandler('groupperm');
@@ -43,7 +43,7 @@ $groups = ($xoopsUser) ? ($xoopsUser->getGroups()) : XOOPS_GROUP_ANONYMOUS;
 
 // Code for the page
 
-$startentry = isset($_GET['startentry']) ? intval($_GET['startentry']) : 0;
+$startentry = isset($_GET['startentry']) ? XoopsRequest::getInt('startentry', 0, 'GET') : 0;
 
 publisher_cpHeader();
 //publisher_adminMenu(0, _AM_PUBLISHER_INDEX);

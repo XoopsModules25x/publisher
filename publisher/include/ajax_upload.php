@@ -44,7 +44,7 @@ if ($image_nicename == '' || $image_nicename == _CO_PUBLISHER_IMAGE_NICENAME) {
     $image_nicename = $filename;
 }
 
-$imgcat_id = isset($_POST['imgcat_id']) ? intval($_POST['imgcat_id']) : 0;
+$imgcat_id = isset($_POST['imgcat_id']) ? XoopsRequest::getInt('imgcat_id', 0, 'POST') : 0;
 
 include_once XOOPS_ROOT_PATH . '/class/uploader.php';
 $imgcat_handler = xoops_gethandler('imagecategory');

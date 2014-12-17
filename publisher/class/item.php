@@ -975,7 +975,7 @@ class PublisherItem extends XoopsObject
             $this->setVar('item_tag', XoopsRequest::getString('item_tag','','POST'));
         }
         if (isset($_POST['image_featured'])) {
-            $image_item = XoopsRequest::getArray('image_item');
+            $image_item = XoopsRequest::getArray('image_item',array(),'POST');
             $image_featured = XoopsRequest::getString('image_featured','','POST');
             //Todo: get a better image class for xoops!
             //Image hack
@@ -1007,7 +1007,7 @@ class PublisherItem extends XoopsObject
             }
         }
         if (isset($_POST['datesub'])) {
-            $this->setVar('datesub', strtotime($_POST['datesub']['date']) + $_POST['datesub']['time']);
+            $this->setVar('datesub', strtotime(XoopsRequest::getArray('datesub', array(), 'POST')['date']) + XoopsRequest::getArray('datesub', array(), 'POST')['time']);
         } elseif ($this->isnew()) {
             $this->setVar('datesub', time());
         }

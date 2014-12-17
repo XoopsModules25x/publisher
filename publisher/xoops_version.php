@@ -368,7 +368,7 @@ $modversion['config'][$i]['options']     = array(
 );
 
 // Is performing module install/update?
-$isModuleAction = (!empty($_POST["fct"]) && "modulesadmin" == $_POST["fct"]) ? true : false;
+$isModuleAction = (!empty($_POST["fct"]) && "modulesadmin" == XoopsRequest::getInt('fct', 0, 'POST')) ? true : false;
 if ($isModuleAction && (in_array(php_sapi_name(), array("apache", "apache2handler", "cgi-fcgi")))) {
     $modversion['config'][$i]['options'][_MI_PUBLISHER_URL_REWRITE_HTACCESS] = 'htaccess';
 }

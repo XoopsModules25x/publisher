@@ -22,8 +22,14 @@
 
 // defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
 
-$seoOp = @$_GET['seoOp'];
-$seoArg = @$_GET['seoArg'];
+//$seoOp = @$_GET['seoOp'];
+if (isset($_GET['seoOp'])){
+    $seoOp = XoopsRequest::getString('seoOp','','GET');
+}
+//$seoArg = @$_GET['seoArg'];
+if (isset($_GET['seoArg'])){
+    $seoOp = XoopsRequest::getString('seoArg','','GET');
+}
 
 if (empty($seoOp) && @$_SERVER['PATH_INFO']) {
 

@@ -35,12 +35,13 @@ if (isset($_POST)) {
     }
 }
 if (isset($_GET['op'])) {
-    $op = trim($_GET['op']);
+    $op = XoopsRequest::getString('op', '', 'GET');
 }
 
-if (isset($_GET['configcat'])) {
-    $configcat = $_GET['configcat'];
-}
+//mb do we need it?
+//if (isset($_GET['configcat'])) {
+//    $configcat = $_GET['configcat'];
+//}
 
 if ($op == 'showmod') {
     $config_handler = xoops_gethandler('config');

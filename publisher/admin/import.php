@@ -23,14 +23,14 @@ include_once __DIR__ . "/admin_header.php";
 
 $op = 'none';
 
-if (isset($_GET['op'])) $op = $_GET['op'];
-if (isset($_POST['op'])) $op = $_POST['op'];
+if (isset($_GET['op'])) $op = XoopsRequest::getString('op', '', 'GET');
+if (isset($_POST['op'])) $op = XoopsRequest::getString('op', '', 'POST');
 
 switch ($op) {
 
     case "importExecute":
 
-        $importfile = (isset($_POST['importfile'])) ? $_POST['importfile'] : 'nonselected';
+        $importfile = (isset($_POST['importfile'])) ? XoopsRequest::getString('importfile', '', 'POST') : 'nonselected';
         $importfile_path = XOOPS_ROOT_PATH . "/modules/" . $publisher->getModule()->dirname() . "/admin/import/" . $importfile . ".php";
         include_once $importfile_path;
         break;

@@ -143,7 +143,7 @@ switch ($op) {
 
     case "del":
         $itemObj = $publisher->getHandler('item')->get($itemid);
-        $confirm = isset($_POST['confirm']) ? $_POST['confirm'] : 0;
+        $confirm = isset($_POST['confirm']) ? XoopsRequest::getInt('confirm', 0, 'POST') : 0;
 
         if ($confirm) {
             if (!$publisher->getHandler('item')->delete($itemObj)) {
@@ -496,7 +496,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
             //publisher_adminMenu(2, $breadcrumb_action1 . " > " . $breadcrumb_action2);
         }
 
-        $sel_categoryid = isset($_GET['categoryid']) ? $_GET['categoryid'] : 0;
+        $sel_categoryid = isset($_GET['categoryid']) ? XoopsRequest::getInt('categoryid', 0, 'GET') : 0;
         $categoryObj->setVar('categoryid', $sel_categoryid);
 
         publisher_openCollapsableBar('createitemtable', 'createitemicon', _AM_PUBLISHER_ITEM_CREATING, _AM_PUBLISHER_ITEM_CREATING_DSC);

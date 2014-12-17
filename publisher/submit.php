@@ -44,7 +44,7 @@ if ($itemid != 0) {
         exit();
     }
     if (!publisher_userIsAdmin() || !publisher_userIsModerator($itemObj)) {
-        if (isset($_GET['op']) && $_GET['op']  == 'del' && !$publisher->getConfig('perm_delete')) {
+        if (isset($_GET['op']) && 'del' == XoopsRequest::getString('op', '', 'GET') && !$publisher->getConfig('perm_delete')) {
             redirect_header("index.php", 1, _NOPERM);
             exit();
         } elseif (!$publisher->getConfig('perm_edit')) {
@@ -65,7 +65,7 @@ if ($itemid != 0) {
     $categoryObj = $publisher->getHandler('category')->create();
 }
 
-if (isset($_GET['op']) && $_GET['op'] == 'clone') {
+if (isset($_GET['op']) && 'clone' == XoopsRequest::getString('op', '', 'GET')) {
     $formtitle = _MD_PUBLISHER_SUB_CLONE;
     $itemObj->setNew();
     $itemObj->setVar('itemid', 0);
@@ -82,7 +82,7 @@ if (isset($_POST['additem'])) {
     $op = 'add';
 }
 
-if (isset($_REQUEST['op']) && $_REQUEST['op'] == 'del') {
+if (isset($_GET['op']) && XoopsRequest::getString('op','','GET') == 'del') {
     $op = 'del';
 }
 
@@ -98,7 +98,7 @@ $elements = array(
     'dohtml', 'dosmiley', 'doxcode', 'doimage', 'dolinebreak',
     'notify', 'subtitle', 'author_alias');
 foreach ($elements as $element) {
-    if (isset($_REQUEST[$element]) && !in_array(constant('PublisherConstants::_PUBLISHER_' . strtoupper($element)), $form_view)) {
+    if (isset($_POST[$element]) && !in_array(constant('PublisherConstants::_PUBLISHER_' . strtoupper($element)), $form_view)) {
         redirect_header("index.php", 1, _MD_PUBLISHER_SUBMIT_ERROR);
         exit();
     }
@@ -109,7 +109,7 @@ $item_upload_file = isset($_FILES['item_upload_file']) ? $_FILES['item_upload_fi
 //stripcslashes
 switch ($op) {
     case 'del':
-        $confirm = isset($_POST['confirm']) ? $_POST['confirm'] : 0;
+        $confirm = isset($_POST['confirm']) ? XoopsRequest::getInt('confirm', 0, 'POST') : 0;
 
         if ($confirm) {
             if (!$publisher->getHandler('item')->delete($itemObj)) {
@@ -136,7 +136,7 @@ switch ($op) {
         $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
         include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
-        $categoryObj = $publisher->getHandler('category')->get($_POST['categoryid']);
+        $categoryObj = $publisher->getHandler('category')->get(XoopsRequest::getInt('categoryid', 0, 'POST'));
 
         $item = $itemObj->ToArraySimple();
         $item['summary'] = $itemObj->body();
@@ -231,7 +231,7 @@ switch ($op) {
         $itemObj->setVarsFromRequest();
 
         $xoopsTpl->assign('module_home', publisher_moduleHome());
-        if (isset($_GET['op']) && $_GET['op'] == 'clone') {
+        if (isset($_GET['op']) && 'clone' == XoopsRequest::getString('op', '', 'GET')) {
             $xoopsTpl->assign('categoryPath', _CO_PUBLISHER_CLONE);
             $xoopsTpl->assign('lang_intro_title', _CO_PUBLISHER_CLONE);
         } elseif ($itemid) {

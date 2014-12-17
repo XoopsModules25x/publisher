@@ -29,8 +29,8 @@ $scriptname = "wfsection.php";
 
 $op = 'start';
 
-if (isset($_POST['op']) && ($_POST['op'] == 'go')) {
-    $op = $_POST['op'];
+if (isset($_POST['op']) && ('go' == XoopsRequest::getString('op', '', 'POST'))) {
+    $op = XoopsRequest::getString('op', '', 'POST');
 }
 
 if ($op == 'start') {
@@ -84,7 +84,7 @@ if ($op == 'start') {
             $form->addElement(new XoopsFormHidden('op', 'go'));
             $form->addElement(new XoopsFormButton ('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
 
-            $form->addElement(new XoopsFormHidden('from_module_version', $_POST['wfs_version']));
+            $form->addElement(new XoopsFormHidden('from_module_version', XoopsRequest::getString('wfs_version', '', 'POST')));
 
             $form->display();
         }
@@ -102,9 +102,9 @@ if ($op == 'go') {
     $cnt_imported_cat = 0;
     $cnt_imported_articles = 0;
 
-    $parentId = $_POST['parent_category'];
+    $parentId = XoopsRequest::getInt('parent_category', 0, 'POST');
     //added to support 2.0.7
-    if ($_POST['from_module_version'] == 2.07 || $_POST['from_module_version'] == 2.06) {
+    if (XoopsRequest::getString('from_module_version','','POST')  == '2.07' || XoopsRequest::getString('from_module_version','','POST') == '2.06') {
         $orders = 'weight';
     } else {
         $orders = 'orders';

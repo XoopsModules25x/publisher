@@ -29,8 +29,8 @@ $scriptname = "xfsection.php";
 
 $op = 'start';
 
-if (isset($_POST['op']) && ($_POST['op'] == 'go')) {
-    $op = $_POST['op'];
+if (isset($_POST['op']) && ('go' == XoopsRequest::getString('op', '', 'POST'))) {
+    $op = XoopsRequest::getString('op', '', 'POST');
 }
 
 if ($op == 'start') {
@@ -84,7 +84,7 @@ if ($op == 'start') {
             $form->addElement(new XoopsFormHidden('op', 'go'));
             $form->addElement(new XoopsFormButton ('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
 
-            $form->addElement(new XoopsFormHidden('from_module_version', $_POST['from_module_version']));
+            $form->addElement(new XoopsFormHidden('from_module_version', XoopsRequest::getString('from_module_version', '', 'POST')));
 
             $form->display();
         }
@@ -102,7 +102,7 @@ if ($op == 'go') {
     $cnt_imported_cat = 0;
     $cnt_imported_articles = 0;
 
-    $parentId = $_POST['parent_category'];
+    $parentId = XoopsRequest::getInt('parent_category', 0, 'POST');
 
     $sql = "SELECT * FROM " . $xoopsDB->prefix("xfs_category") . " ORDER by orders";
 

@@ -60,7 +60,7 @@ switch ($op) {
         break;
 
     case "modify":
-        $fileid = isset($_POST['fileid']) ? intval($_POST['fileid']) : 0;
+        $fileid = isset($_POST['fileid']) ?  XoopsRequest::getInt('fileid', 0, 'POST') : 0;
 
         // Creating the file object
         if ($fileid != 0) {
@@ -73,7 +73,7 @@ switch ($op) {
         // Putting the values in the file object
         $fileObj->setVar('name', XoopsRequest::getString('name'));
         $fileObj->setVar('description', XoopsRequest::getString('description'));
-        $fileObj->setVar('status', XoopsRequest::getInt('file_status', 0, 'GET');
+        $fileObj->setVar('status', XoopsRequest::getInt('file_status', 0, 'GET'));
 
         // attach file if any
         if (isset($_FILES['item_upload_file']) && $_FILES['item_upload_file']['name'] != "") {
@@ -103,7 +103,7 @@ switch ($op) {
         break;
 
     case "del":
-        $confirm = isset($_POST['confirm']) ? $_POST['confirm'] : 0;
+        $confirm = isset($_POST['confirm']) ?  XoopsRequest::getInt('confirm', 0, 'POST') : 0;
 
         if ($confirm) {
             if (!$publisher->getHandler('file')->delete($fileObj)) {

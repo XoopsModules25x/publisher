@@ -26,8 +26,8 @@ header("Cache-Control: no-cache");
 header("Pragma: nocache");
 
 //getting the values
-$rating = intval($_REQUEST['rating']);
-$itemid = intval($_REQUEST['itemid']);
+$rating = XoopsRequest::getInt('rating',0,'GET');
+$itemid = XoopsRequest::getInt('itemid',0,'GET');
 
 xoops_loadLanguage('main', PUBLISHER_DIRNAME);
 $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;

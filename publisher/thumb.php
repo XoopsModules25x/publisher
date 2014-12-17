@@ -1240,7 +1240,7 @@ class timthumb
     protected function param($property, $default = '')
     {
         if (isset ($_GET[$property])) {
-            return $_GET[$property];
+            return XoopsRequest::getString($property,'','GET');
         } else {
             return $default;
         }

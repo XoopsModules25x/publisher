@@ -178,7 +178,7 @@ function add()
         $error = array();
         $mime_ext = XoopsRequest::getString('mime_ext','','POST');
         $mime_name = XoopsRequest::getString('mime_name','','POST');
-        $mime_types = XoopsRequest::getString('mime_types','','POST');
+        $mime_types = XoopsRequest::getText('mime_types','','POST');
         $mime_admin = XoopsRequest::getInt('mime_admin',0,'POST');
         $mime_user = XoopsRequest::getInt('mime_user',0,'POST');
 
@@ -359,9 +359,9 @@ function edit()
         if ($has_errors) {
             $session = PublisherSession::getInstance();
             $mime = array();
-            $mime['mime_ext'] = $_POST['mime_ext'];
-            $mime['mime_name'] = $_POST['mime_name'];
-            $mime['mime_types'] = $_POST['mime_types'];
+            $mime['mime_ext'] = XoopsRequest::getString('mime_ext','','POST');
+            $mime['mime_name'] = XoopsRequest::getString('mime_name','','POST');
+            $mime['mime_types'] = XoopsRequest::getText('mime_types','','POST');
             $mime['mime_admin'] = $mime_admin;
             $mime['mime_user'] = $mime_user;
             $session->set('publisher_editMime_' . $mime_id, $mime);
@@ -369,9 +369,9 @@ function edit()
             header('Location: ' . publisher_makeURI(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'edit', 'id' => $mime_id), false));
         }
 
-        $mimetype->setVar('mime_ext', $_POST['mime_ext']);
-        $mimetype->setVar('mime_name', $_POST['mime_name']);
-        $mimetype->setVar('mime_types', $_POST['mime_types']);
+        $mimetype->setVar('mime_ext', XoopsRequest::getString('mime_ext','','POST'));
+        $mimetype->setVar('mime_name', XoopsRequest::getString('mime_name','','POST'));
+        $mimetype->setVar('mime_types', XoopsRequest::getText('mime_types','','POST'));
         $mimetype->setVar('mime_admin', $mime_admin);
         $mimetype->setVar('mime_user', $mime_user);
 
@@ -390,7 +390,7 @@ function manage()
     global $imagearray, $start, $limit, $aSortBy, $aOrderBy, $aLimitBy, $aSearchBy;
 
     if (isset($_POST['deleteMimes'])) {
-        $aMimes = $_POST['mimes'];
+        $aMimes = XoopsRequest::getArray('mimes', array(), "POST");
 
         $crit = new Criteria('mime_id', "(" . implode($aMimes, ',') . ")", "IN");
 
@@ -529,7 +529,7 @@ function search()
     global $limit, $start, $imagearray, $aSearchBy, $aOrderBy, $aLimitBy, $aSortBy;
 
     if (isset($_POST['deleteMimes'])) {
-        $aMimes = $_POST['mimes'];
+        $aMimes = XoopsRequest::getArray('mimes', array(), "POST");
 
         $crit = new Criteria('mime_id', "(" . implode($aMimes, ',') . ")", "IN");
 
@@ -706,7 +706,7 @@ function updateMimeValue()
     $start = $limit = 0;
 
     if (isset($_GET['limit'])) {
-        $limit = intval($_GET['limit']);
+        $limit = XoopsRequest::getInt('limit',0,'GET');
     }
     if (isset($_GET['start'])) {
         $start = XoopsRequest::getInt('start',0,'GET');

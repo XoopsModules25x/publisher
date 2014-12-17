@@ -721,12 +721,12 @@ function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
     global $publisher_isAdmin, $xoopsUser;
     $publisher = PublisherPublisher::getInstance();
 
-    $itemid = isset($_POST['itemid']) ? intval($_POST['itemid']) : 0;
+    $itemid = isset($_POST['itemid']) ? XoopsRequest::getInt('itemid', 0, 'POST') : 0;
     $uid = is_object($xoopsUser) ? $xoopsUser->uid() : 0;
     $session = PublisherSession::getInstance();
-    $session->set('publisher_file_filename', isset($_POST['item_file_name']) ? $_POST['item_file_name'] : '');
-    $session->set('publisher_file_description', isset($_POST['item_file_description']) ? $_POST['item_file_description'] : '');
-    $session->set('publisher_file_status', isset($_POST['item_file_status']) ? intval($_POST['item_file_status']) : 1);
+    $session->set('publisher_file_filename', isset($_POST['item_file_name']) ? XoopsRequest::getString('item_file_name', '', 'POST') : '');
+    $session->set('publisher_file_description', isset($_POST['item_file_description']) ? XoopsRequest::getInt('item_file_description', 0, 'POST') : '');
+    $session->set('publisher_file_status', isset($_POST['item_file_status']) ? XoopsRequest::getInt('item_file_status', 0, 'POST') : 1);
     $session->set('publisher_file_uid', $uid);
     $session->set('publisher_file_itemid', $itemid);
 
@@ -735,9 +735,9 @@ function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
     }
 
     $fileObj = $publisher->getHandler('file')->create();
-    $fileObj->setVar('name', isset($_POST['item_file_name']) ? $_POST['item_file_name'] : '');
-    $fileObj->setVar('description', isset($_POST['item_file_description']) ? $_POST['item_file_description'] : '');
-    $fileObj->setVar('status', isset($_POST['item_file_status']) ? intval($_POST['item_file_status']) : 1);
+    $fileObj->setVar('name', isset($_POST['item_file_name']) ? XoopsRequest::getString('item_file_name', '', 'POST') : '');
+    $fileObj->setVar('description', isset($_POST['item_file_description']) ? XoopsRequest::getString('item_file_description', '', 'POST') : '');
+    $fileObj->setVar('status', isset($_POST['item_file_status']) ? XoopsRequest::getInt('item_file_status', 0, 'POST') : 1);
     $fileObj->setVar('uid', $uid);
     $fileObj->setVar('itemid', $itemObj->getVar('itemid'));
     $fileObj->setVar('datesub', time());

@@ -22,7 +22,7 @@
 include_once dirname(dirname(__DIR__)) . '/mainfile.php';
 include_once __DIR__ . '/include/common.php';
 
-$com_itemid = isset($_GET['com_itemid']) ? intval($_GET['com_itemid']) : 0;
+$com_itemid = isset($_GET['com_itemid']) ? XoopsRequest::getInt('com_itemid', 0, 'GET') : 0;
 if ($com_itemid > 0) {
     $itemObj = $publisher->getHandler('item')->get($com_itemid);
     $com_replytext = _POSTEDBY . '&nbsp;<strong>' . $itemObj->linkedPosterName() . '</strong>&nbsp;' . _DATE . '&nbsp;<strong>' . $itemObj->dateSub() . '</strong><br /><br />' . $itemObj->summary();

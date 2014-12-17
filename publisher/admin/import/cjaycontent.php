@@ -29,8 +29,8 @@ $scriptname = "cjaycontent.php";
 
 $op = 'start';
 
-if (isset($_POST['op']) && ($_POST['op'] == 'go')) {
-    $op = $_POST['op'];
+if (isset($_POST['op']) && ('go' == XoopsRequest::getString('op', '', 'POST'))) {
+    $op = XoopsRequest::getString('op', '', 'POST');
 }
 
 /**
@@ -89,7 +89,7 @@ if ($op == 'start') {
         $form->addElement(new XoopsFormHidden('op', 'go'));
         $form->addElement(new XoopsFormButton ('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
 
-        $form->addElement(new XoopsFormHidden('from_module_version', $_POST['cjaycontent_version']));
+        $form->addElement(new XoopsFormHidden('from_module_version', XoopsRequest::getString('cjaycontent_version', '', 'POST')));
 
         $form->display();
     }

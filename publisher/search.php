@@ -51,13 +51,13 @@ include_once PUBLISHER_ROOT_PATH . "/" . $module_info_search["file"];
 $limit = 10; //$publisher->getConfig('idxcat_perpage');
 $uid = 0;
 $queries = array();
-$andor = XoopsRequest::getString('andor');
-$start = XoopsRequest::getInt('start');
-$category = XoopsRequest::getArray('category');
-$username = XoopsRequest::getString('uname');
-$searchin = XoopsRequest::getArray('searchin');
-$sortby = XoopsRequest::getString('sortby');
-$term = XoopsRequest::getString('term');
+$andor = XoopsRequest::getString('andor','','POST');
+$start = XoopsRequest::getInt('start',0, 'POST');
+$category = XoopsRequest::getArray('category', array(), 'POST');
+$username = XoopsRequest::getString('uname','','POST');
+$searchin = XoopsRequest::getArray('searchin', array(), 'POST');
+$sortby = XoopsRequest::getString('sortby','','POST');
+$term = XoopsRequest::getString('term','','POST');
 
 if (empty($category) || (is_array($category) && in_array("all", $category))) {
     $category = array();

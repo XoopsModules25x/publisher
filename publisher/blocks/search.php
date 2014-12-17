@@ -38,13 +38,13 @@ function publisher_search_show($options)
 
     xoops_loadLanguage('search');
 
-    $andor = isset($_POST["andor"]) ? $_POST["andor"] : (isset($_GET["andor"]) ? $_GET["andor"] : "");
+    $andor = isset($_POST["andor"]) ? XoopsRequest::getString('andor','','POST') : (isset($_GET["andor"]) ? XoopsRequest::getString('andor','','GET') : "");
 
-    $category = isset($_POST["category"]) ? $_POST["category"] : (isset($_GET["category"]) ? $_GET["category"] : null);
-    $username = isset($_POST["uname"]) ? $_POST["uname"] : (isset($_GET["uname"]) ? $_GET["uname"] : null);
-    $searchin = isset($_POST["searchin"]) ? $_POST["searchin"] : (isset($_GET["searchin"]) ? explode("|", $_GET["searchin"]) : array());
-    $sortby = isset($_POST["sortby"]) ? $_POST["sortby"] : (isset($_GET["sortby"]) ? $_GET["sortby"] : null);
-    $term = isset($_POST["term"]) ? $_POST["term"] : (isset($_GET["term"]) ? $_GET["term"] : "");
+    $category = isset($_POST["category"]) ? XoopsRequest::getArray('category', array(), 'POST') : (isset($_GET["category"]) ? XoopsRequest::getArray('category', array(), 'GET') : null);
+    $username = isset($_POST["uname"]) ? oopsRequest::getString('uname','','POST') : (isset($_GET["uname"]) ? oopsRequest::getString('uname','','GET') : null);
+    $searchin = isset($_POST["searchin"]) ? XoopsRequest::getArray('searchin', array(), 'POST') : (isset($_GET["searchin"]) ? explode("|", XoopsRequest::getArray('searchin', array(), 'GET')) : array());
+    $sortby = isset($_POST["sortby"]) ? XoopsRequest::getString('sortby','','POST') : (isset($_GET["sortby"]) ? XoopsRequest::getString('sortby','','GET') : null);
+    $term = isset($_POST["term"]) ? XoopsRequest::getString('term','','POST') : (isset($_GET["term"]) ? XoopsRequest::getString('term','','GET') : "");
 
     if (empty($category) || (is_array($category) && in_array("all", $category))) {
         $category = array();

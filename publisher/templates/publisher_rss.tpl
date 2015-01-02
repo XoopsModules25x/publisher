@@ -16,8 +16,7 @@
         <image>
             <title><{$channel_title}></title>
             <url><{$image_url}></url>
-            <link>
-            <{$channel_link}></link>
+            <link><{$channel_link}></link>
             <width><{$image_width}></width>
             <height><{$image_height}></height>
         </image>
@@ -25,8 +24,7 @@
 <{foreach item=item from=$items}>
         <item>
             <title><{$item.title}></title>
-            <link>
-            <{$item.link}></link>
+            <link><{$item.link}></link>
             <description><{$item.description}></description>
             <pubDate><{$item.pubdate}></pubDate>
             <guid><{$item.guid}></guid>

@@ -38,7 +38,6 @@ function toggleIcon(iconName)
     } else if (document.images[iconName].src == window.iconClose.src) {
         document.images[iconName].src = window.iconOpen.src;
     }
-    return;
 }
 
 //-->

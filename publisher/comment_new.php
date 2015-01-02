@@ -24,12 +24,12 @@ include_once __DIR__ . '/include/common.php';
 
 $com_itemid = isset($_GET['com_itemid']) ? XoopsRequest::getInt('com_itemid', 0, 'GET') : 0;
 if ($com_itemid > 0) {
-    $itemObj = $publisher->getHandler('item')->get($com_itemid);
+    $itemObj       = $publisher->getHandler('item')->get($com_itemid);
     $com_replytext = _POSTEDBY . '&nbsp;<strong>' . $itemObj->linkedPosterName() . '</strong>&nbsp;' . _DATE . '&nbsp;<strong>' . $itemObj->dateSub() . '</strong><br /><br />' . $itemObj->summary();
-    $bodytext = $itemObj->body();
+    $bodytext      = $itemObj->body();
     if ($bodytext != '') {
         $com_replytext .= '<br /><br />' . $bodytext . '';
     }
     $com_replytitle = $itemObj->title();
-    include_once XOOPS_ROOT_PATH . '/include/comment_new.php';
+    include_once $GLOBALS['xoops']->path('include/comment_new.php');
 }

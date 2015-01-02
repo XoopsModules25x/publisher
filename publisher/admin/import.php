@@ -16,22 +16,26 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: import.php 10374 2012-12-12 23:39:48Z trabis $
+ * @version         $Id: import.php 12825 2014-10-31 02:42:34Z zyspec $
  */
 
 include_once __DIR__ . "/admin_header.php";
 
 $op = 'none';
 
-if (isset($_GET['op'])) $op = XoopsRequest::getString('op', '', 'GET');
-if (isset($_POST['op'])) $op = XoopsRequest::getString('op', '', 'POST');
+if (isset($_GET['op'])) {
+    $op = XoopsRequest::getString('op', '', 'GET');
+}
+if (isset($_POST['op'])) {
+    $op = XoopsRequest::getString('op', '', 'POST');
+}
 
 switch ($op) {
 
     case "importExecute":
 
-        $importfile = (isset($_POST['importfile'])) ? XoopsRequest::getString('importfile', '', 'POST') : 'nonselected';
-        $importfile_path = XOOPS_ROOT_PATH . "/modules/" . $publisher->getModule()->dirname() . "/admin/import/" . $importfile . ".php";
+        $importfile      = (isset($_POST['importfile'])) ? XoopsRequest::getString('importfile', '', 'POST') : 'nonselected';
+        $importfile_path = $GLOBALS['xoops']->path("/modules/" . $publisher->getModule()->dirname() . "/admin/import/" . $importfile . ".php");
         include_once $importfile_path;
         break;
 
@@ -62,56 +66,67 @@ switch ($op) {
 
         // News
         $news_version = 0;
-        $moduleObj = $module_handler->getByDirname('news');
+        $moduleObj    = $module_handler->getByDirname('news');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if (($from_module_version >= 1.1)) {
                 $importfile_select_array["news"] = "News " . $from_module_version;
-                $news_version = $from_module_version;
+                $news_version                    = $from_module_version;
             }
         }
 
         // xNews
         $xnews_version = 0;
-        $moduleObj = $module_handler->getByDirname('xnews');
+        $moduleObj     = $module_handler->getByDirname('xnews');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if (($from_module_version >= 1.1)) {
                 $importfile_select_array["xnews"] = "xNews " . $from_module_version;
-                $xnews_version = $from_module_version;
+                $xnews_version                    = $from_module_version;
             }
         }
 
         // AMS
         $ams_version = 0;
-        $moduleObj = $module_handler->getByDirname('AMS');
+        $moduleObj   = $module_handler->getByDirname('AMS');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if (($from_module_version >= 1.1)) {
                 $importfile_select_array["ams"] = "AMS " . $from_module_version;
-                $ams_version = $from_module_version;
+                $ams_version                    = $from_module_version;
             }
         }
 
         // Smartsection
         $smartsection_version = 0;
-        $moduleObj = $module_handler->getByDirname('smartsection');
+        $moduleObj            = $module_handler->getByDirname('smartsection');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if (($from_module_version >= 1.1)) {
                 $importfile_select_array["smartsection"] = "Smartsection " . $from_module_version;
-                $smartsection_version = $from_module_version;
+                $smartsection_version                    = $from_module_version;
             }
         }
 
         // C-Jay Content
         $cjaycontent_version = 0;
-        $moduleObj = $module_handler->getByDirname('cjaycontent');
+        $moduleObj           = $module_handler->getByDirname('cjaycontent');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if (($from_module_version >= 1.1)) {
                 $importfile_select_array["cjaycontent"] = "C-Jay Content " . $from_module_version;
-                $cjaycontent_version = $from_module_version;
+                $cjaycontent_version                    = $from_module_version;
+            }
+        }
+
+        // FmContent
+        $fmcontent_version = 0;
+        $moduleObj         = $module_handler->getByDirname('fmcontent');
+        if ($moduleObj) {
+            $from_module_version = round($moduleObj->getVar('version') / 100, 2);
+            if (($from_module_version >= 1.1)) {
+                $importfile_select_array["fmcontent"] = "FmContent " . $from_module_version;
+                $fmcontent_version                    = $from_module_version;
             }
         }
 
@@ -127,7 +142,6 @@ switch ($op) {
         } */
 
         if (isset($importfile_select_array) && count($importfile_select_array) > 0) {
-
             $sform = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SELECTION, "op", xoops_getenv('PHP_SELF'));
             $sform->setExtra('enctype="multipart/form-data"');
 
@@ -141,7 +155,7 @@ switch ($op) {
 
             // Buttons
             $button_tray = new XoopsFormElementTray('', '');
-            $hidden = new XoopsFormHidden('op', 'importExecute');
+            $hidden      = new XoopsFormHidden('op', 'importExecute');
             $button_tray->addElement($hidden);
 
             $butt_import = new XoopsFormButton('', '', _AM_PUBLISHER_IMPORT, 'submit');
@@ -163,7 +177,7 @@ switch ($op) {
             $sform->display();
             unset($hidden);
         } else {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-weight: bold; font-size: small; display: block; \">" . _AM_PUBLISHER_IMPORT_NO_MODULE . "</span>";
+            echo "<span style='color: #567; margin: 3px 0 12px 0; font-weight: bold; font-size: small; display: block;'>" . _AM_PUBLISHER_IMPORT_NO_MODULE . "</span>";
         }
 
         // End of collapsable bar

@@ -25,30 +25,30 @@ include_once __DIR__ . '/header.php';
 $rating = XoopsRequest::getInt('rating', 0, 'GET');
 $itemid = XoopsRequest::getInt('itemid', 0, 'GET');
 
-$groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+$groups        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $gperm_handler = xoops_getmodulehandler('groupperm');
-$hModConfig = xoops_gethandler('config');
-$module_id = $publisher->getModule()->getVar('mid');
+$hModConfig    = xoops_gethandler('config');
+$module_id     = $publisher->getModule()->getVar('mid');
 
 //Checking permissions
-if (!$publisher->getConfig('perm_rating') || !$gperm_handler->checkRight('global',PublisherConstants::_PUBLISHER_RATE, $groups, $module_id)) {
+if (!$publisher->getConfig('perm_rating') || !$gperm_handler->checkRight('global', PublisherConstants::_PUBLISHER_RATE, $groups, $module_id)) {
     redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _NOPERM);
-    exit();
+//    exit();
 }
 
 if ($rating > 5 || $rating < 1) {
     redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _MD_PUBLISHER_VOTE_BAD);
-    exit();
+//    exit();
 }
 
-$criteria = new Criteria('itemid', $itemid);
+$criteria   = new Criteria('itemid', $itemid);
 $ratingObjs = $publisher->getHandler('rating')->getObjects($criteria);
 
-$uid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : 0;
-$count = count($ratingObjs);
+$uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
+$count          = count($ratingObjs);
 $current_rating = 0;
-$voted = false;
-$ip = getenv('REMOTE_ADDR');
+$voted          = false;
+$ip             = getenv('REMOTE_ADDR');
 
 foreach ($ratingObjs as $ratingObj) {
     $current_rating += $ratingObj->getVar('rate');
@@ -56,10 +56,11 @@ foreach ($ratingObjs as $ratingObj) {
         $voted = true;
     }
 }
+unset($ratingObj);
 
 if ($voted) {
     redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _MD_PUBLISHER_VOTE_ALREADY);
-    exit();
+//    exit();
 }
 
 $newRatingObj = $publisher->getHandler('rating')->create();
@@ -77,4 +78,4 @@ $publisher->getHandler('item')->updateAll('rating', number_format($current_ratin
 $publisher->getHandler('item')->updateAll('votes', $count, $criteria, true);
 
 redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _MD_PUBLISHER_VOTE_THANKS);
-exit();
+//exit();

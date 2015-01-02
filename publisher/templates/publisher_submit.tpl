@@ -33,7 +33,7 @@
                                             <{/if}>
                                         </div>
                                     <{/if}> <{if $element.description}>
-                                        <div style="font-weight: normal;font-size:small"><{$element.description}></div>
+                                        <div style="font-weight: normal; font-size:small;"><{$element.description}></div>
                                     <{/if}>
                                 </td>
                                 <td class="<{cycle values=" even,odd"}>"><{$element.body}></td>

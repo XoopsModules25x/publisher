@@ -27,7 +27,7 @@ if (publisher_pagewrap_upload($errors)) {
     redirect_header($_POST['backto'], 2, _AM_PUBLISHER_FILEUPLOAD_SUCCESS);
 } else {
     $errorstxt = implode('<br />', $errors);
-    $message = sprintf(_CO_PUBLISHER_MESSAGE_FILE_ERROR, $errorstxt);
+    $message   = sprintf(_CO_PUBLISHER_MESSAGE_FILE_ERROR, $errorstxt);
     redirect_header($_POST['backto'], 5, $message);
 }
 
@@ -38,20 +38,21 @@ if (publisher_pagewrap_upload($errors)) {
  */
 function publisher_pagewrap_upload(&$errors)
 {
-    include_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
+//    include_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
+    xoops_load('XoopsMediaUploader');
 
-    $publisher = PublisherPublisher::getInstance();
+    $publisher  = PublisherPublisher::getInstance();
     $post_field = 'fileupload';
 
-    $max_size = $publisher->getConfig('maximum_filesize');
-    $max_imgwidth = $publisher->getConfig('maximum_image_width');
+    $max_size      = $publisher->getConfig('maximum_filesize');
+    $max_imgwidth  = $publisher->getConfig('maximum_image_width');
     $max_imgheight = $publisher->getConfig('maximum_image_height');
 
     if (!is_dir(publisher_getUploadDir(true, 'content'))) {
         mkdir(publisher_getUploadDir(true, 'content'), 0757);
     }
     $allowed_mimetypes = array('text/html', 'text/plain', 'application/xhtml+xml');
-    $uploader = new XoopsMediaUploader(publisher_getUploadDir(true, 'content') . '/', $allowed_mimetypes, $max_size, $max_imgwidth, $max_imgheight);
+    $uploader          = new XoopsMediaUploader(publisher_getUploadDir(true, 'content') . '/', $allowed_mimetypes, $max_size, $max_imgwidth, $max_imgheight);
     if ($uploader->fetchMedia($post_field)) {
         $uploader->setTargetFileName($uploader->getMediaName());
         if ($uploader->upload()) {

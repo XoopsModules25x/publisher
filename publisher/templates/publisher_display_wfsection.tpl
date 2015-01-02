@@ -21,7 +21,7 @@
             <{foreach name=loop item=subcat from=$category.subcats}> <{$subcat.categorylink}><{if $smarty.foreach.loop.iteration < $category.subcatscount}> -<{/if}> <{/foreach}>
         </div>
         <{/if}>
-        <div style="clear: both"></div>
+        <div style="clear: both;"></div>
     </div>
 
     <{/foreach}>        <!-- End categories loop -->
@@ -36,7 +36,7 @@
         <div class="publisher_category_header">
             <{$category.header}>
         </div>
-        <div style="clear: both"></div>
+        <div style="clear: both;"></div>
         <{if $category.subcats}>
         <div class="publisher_subcats">
             <div class="publisher_subcats_info"><{$category.lang_subcategories}></div>
@@ -53,7 +53,7 @@
 <div class="publisher_items_list">
     <{if $items}> <{if $collapsable_heading == 1}>
     <div class="publisher_collaps_title">
-        <a href='javascript:;' onclick="toggle('bottomtable'); toggleIcon('bottomtableicon')";><img id='bottomtableicon' src='<{$publisher_url}>/assets/images/links/close12.gif' alt=''/></a>&nbsp;<{$lang_items_title}>
+        <a href='javascript:' onclick="toggle('bottomtable'); toggleIcon('bottomtableicon')"><img id='bottomtableicon' src='<{$publisher_url}>/assets/images/links/close12.gif' alt=''/></a>&nbsp;<{$lang_items_title}>
     </div>
     <div id='bottomtable'>
         <span class="publisher_collaps_info"><{$smarty.const._MD_PUBLISHER_ITEMS_INFO}></span> <{/if}>

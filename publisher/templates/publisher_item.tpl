@@ -18,7 +18,7 @@
         <div class="itemText">
             <{if $item.image_path || $item.images}>
 
-            <div class="ppy" id="ppy3">
+            <div class="ppy" id="ppy1">
                 <ul class="ppy-imglist">
                     <{if $item.image_path}>
                     <li>
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     <div class="ppy-caption">
-                        <span class="ppy-text"></span>
+                        <span class="ppy-text  blockTitle"></span>
                     </div>
                 </div>
             </div>
@@ -184,9 +184,9 @@
     {
         var options = {
             caption:    'permanent'
-        }
+        };
 
-        $publisher('#ppy3').popeye(options);
+        $publisher('#ppy1').popeye(options);
     });
     //]]>-->
 </script>

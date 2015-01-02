@@ -11,7 +11,11 @@
 
 <{if $block.template == 'extended'}>
 
-<{php}>global $xoTheme;$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');<{/php}>
+<{php}>
+    $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
+    $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
+    $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
+<{/php}>
 
 <{if $block.latestnews_scroll }>
 <marquee behavior='scroll' align='center' direction='<{$block.scrolldir}>' height='<{$block.scrollheight}>' scrollamount='3' scrolldelay='<{$block.scrollspeed}>' onmouseover='this.stop()' onmouseout='this.start()'>
@@ -34,7 +38,7 @@
                 <{/if}>
                 <{$item.image}>
                 <{if $block.letters != 0}>
-                <div style="text-align:justify; padding:5px">
+                <div style="text-align:justify; padding:5px;">
                     <{$item.text}>
                     <div style="clear:both;"></div>
                 </div>
@@ -57,7 +61,7 @@
 <{if $block.template == 'ticker'}>
 <marquee behavior='scroll' align='middle' direction='<{$block.scrolldir}>' height='<{$block.scrollheight}>' scrollamount='3' scrolldelay='<{$block.scrollspeed}>' onmouseover='this.stop()' onmouseout='this.start()'>
     <{section name=i loop=$block.columns}>
-    <div style="padding:10px">
+    <div style="padding:10px;">
         <{foreach item=item from=$block.columns[i]}> &nbsp;<{$item.title}>&nbsp; <{/foreach}>
     </div>
     <{/section}>
@@ -65,8 +69,10 @@
 
 <{if $block.template == 'slider1'}>
 
-<{php}>global $xoTheme;$xoTheme->addScript('browse.php?Frameworks/jquery/jquery.js');
-    $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');<{/php}>
+<{php}>$GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
+    $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
+    $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
+    $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');<{/php}>
 
 <script type="text/javascript">
     jQuery(document).ready(function()
@@ -162,7 +168,12 @@
 
 <{if $block.template == 'slider2'}>
 
-<{php}>global $xoTheme;$xoTheme->addScript('browse.php?Frameworks/jquery/jquery.js');$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.easing.js');$xoTheme->addScript(PUBLISHER_URL . '/assets/js/script.easing.js');<{/php}>
+<{php}>$GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
+    $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
+    $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
+    $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
+    $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/jquery.easing.js');
+    $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/script.easing.js');<{/php}>
 
 <script type="text/javascript">
     jQuery(document).ready(function()

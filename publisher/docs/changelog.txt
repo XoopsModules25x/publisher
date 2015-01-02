@@ -12,10 +12,15 @@
 - added few missing English translations (mamba)
 - replaced $_REQUEST with $_POST/$_GET and XoopsRequest in mimetypes.php (mamba)
 - indicated required fields when adding new MIME types (mamba)
+- centered mimetypes in the table (mamba)
+- updated popeye.js to 2.1 (mamba)
+- changed popeye mode to imagelist (mamba)
 
 
 TODO:
 - test with MySQL strict mode (STRICT_TRANS_TABLES)
+
+
 
 
 <h5>1.02 Beta 2       (2014-xx-xx)</h5>

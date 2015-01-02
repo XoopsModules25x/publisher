@@ -11,7 +11,7 @@
     <!-- start of form elements loop --><{foreach item=element from=$form.elements}> <{if $element.hidden != true}>
     <tr>
         <td class="head"><{$element.caption}> <{if $element.required}> *<{/if}> <{if $element.description}>
-            <div style="font-weight: normal"><{$element.description}></div>
+            <div style="font-weight: normal;"><{$element.description}></div>
             <{/if}>
         </td>
         <td class="<{cycle values=" even,odd"}>"><{$element.body}></td>

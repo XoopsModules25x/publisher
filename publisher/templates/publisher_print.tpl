@@ -28,7 +28,7 @@
     <{$item.image}>
 
     <{if !$noTitle}>
-    <div style="padding-top: 5px; font-size: 14px; font-weight: bold"><{$item.title}></div>
+    <div style="padding-top: 5px; font-size: 14px; font-weight: bold;"><{$item.title}></div>
     <{/if}>
 
     <{if !$noCategory}>
@@ -40,7 +40,7 @@
     <{/if}>
 
     <{if $item.body}>
-    <div style="padding-top: 8px; text-align: justify"><{$item.body}></div>
+    <div style="padding-top: 8px; text-align: justify;"><{$item.body}></div>
     <{/if}>
 
     <{if $itemfooter}>    <!--<div style="text-align: left; font-weight: bold; padding-top: 10px;"><{$itemfooter}></div>-->
@@ -50,7 +50,7 @@
     <{/if}>
 
     <{if $smartPopup}>
-    <div style="text-align: center">
+    <div style="text-align: center;">
         <a href="javascript:window.close();"><{$smarty.const._MD_PUBLISHER_PRINT_CLOSE}></a>
     </div>
     <{/if}>

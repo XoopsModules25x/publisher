@@ -20,7 +20,7 @@
  * @version         $Id: blockform.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-// defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 xoops_load('XoopsForm');
 
@@ -60,7 +60,7 @@ class PublisherBlockForm extends XoopsForm
                 if (!$ele->getNocolspan()) {
                     $ret .= '<tr><td style="vertical-align: top; width: 250px;">';
                     $ret .= '<span style="font-weight: bold;">' . $ele->getCaption() . '</span>';
-                    if ($ele_desc = $ele->getDescription()) {
+                    if (isset($ele_desc) && $ele_desc == $ele->getDescription()) {
                         $ret .= '<br /><br /><span style="font-weight: normal;">' . $ele_desc . '</span>';
                     }
                     $ret .= '</td><td>' . $ele->render() . '</td></tr>';

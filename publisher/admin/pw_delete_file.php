@@ -22,8 +22,11 @@
 include_once __DIR__ . '/admin_header.php';
 
 if (isset($_POST["op"]) && ('delfileok' == XoopsRequest::getString('op', '', 'POST'))) {
-    $dir = publisher_getUploadDir(true, 'content');
-    @unlink($dir . '/' . XoopsRequest::getString('address', '', 'POST'));
+    $dir      = publisher_getUploadDir(true, 'content');
+    $filename = XoopsRequest::getString('address', '', 'POST');
+    if (file_exists($dir . '/' . $filename)) {
+        unlink($dir . '/' . $filename);
+    }
     redirect_header(XoopsRequest::getString('backto', '', 'POST'), 2, _AM_PUBLISHER_FDELETED);
 } else {
     xoops_cp_header();

@@ -22,12 +22,15 @@
 include_once __DIR__ . '/header.php';
 xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
-$op = XoopsRequest::getString('op');
-$fileid = XoopsRequest::getInt('fileid', 0, 'GET');
+$op = isset($_POST['op']) ? XoopsRequest::getString('op', '', 'POST') : (isset($_GET['op']) ? XoopsRequest::getString('op', '', 'GET') : '');
+$fileid = isset($_POST['fileid']) ? XoopsRequest::getInt('fileid', 0, 'POST') : (isset($_GET['fileid']) ? XoopsRequest::getInt('fileid', 0, 'GET') : 0);
+
+//$op     = XoopsRequest::getString('op','', 'POST');
+//$fileid = XoopsRequest::getInt('fileid', 0, 'POST'); //POST when called from submit.php, when
 
 if ($fileid == 0) {
     redirect_header("index.php", 2, _MD_PUBLISHER_NOITEMSELECTED);
-    exit();
+//    exit();
 }
 
 $fileObj = $publisher->getHandler('file')->get($fileid);
@@ -35,15 +38,15 @@ $fileObj = $publisher->getHandler('file')->get($fileid);
 // if the selected item was not found, exit
 if (!$fileObj) {
     redirect_header("index.php", 1, _NOPERM);
-    exit();
+//    exit();
 }
 
 $itemObj = $publisher->getHandler('item')->get($fileObj->getVar('itemid'));
 
 // if the user does not have permission to modify this file, exit
-if (!(publisher_userIsAdmin() || publisher_userIsModerator($itemObj) || (is_object($xoopsUser) && $fileObj->getVar('uid') == $xoopsUser->getVar('uid')))) {
+if (!(publisher_userIsAdmin() || publisher_userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
     redirect_header("index.php", 1, _NOPERM);
-    exit();
+//    exit();
 }
 
 /* -- Available operations -- */
@@ -51,8 +54,8 @@ switch ($op) {
     case "default":
     case "mod":
 
-        include_once XOOPS_ROOT_PATH . '/header.php';
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        include_once $GLOBALS['xoops']->path('header.php');
+        include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
         // FILES UPLOAD FORM
         $files_form = $fileObj->getForm();
@@ -60,14 +63,14 @@ switch ($op) {
         break;
 
     case "modify":
-        $fileid = isset($_POST['fileid']) ?  XoopsRequest::getInt('fileid', 0, 'POST') : 0;
+        $fileid = isset($_POST['fileid']) ? XoopsRequest::getInt('fileid', 0, 'POST') : 0;
 
         // Creating the file object
         if ($fileid != 0) {
             $fileObj = $publisher->getHandler('file')->get($fileid);
         } else {
             redirect_header("index.php", 1, _NOPERM);
-            exit();
+//            exit();
         }
 
         // Putting the values in the file object
@@ -95,32 +98,36 @@ switch ($op) {
 
         if (!$publisher->getHandler('file')->insert($fileObj)) {
             redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . publisher_formatErrors($fileObj->getErrors()));
-            exit;
+//            exit;
         }
 
         redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, _AM_PUBLISHER_FILE_EDITING_SUCCESS);
-        exit();
+//        exit();
+        break;
+
+    case "clear":
+//mb        echo "my time is now " . now;
         break;
 
     case "del":
-        $confirm = isset($_POST['confirm']) ?  XoopsRequest::getInt('confirm', 0, 'POST') : 0;
+        $confirm = isset($_POST['confirm']) ? XoopsRequest::getInt('confirm', 0, 'POST') : 0;
 
         if ($confirm) {
             if (!$publisher->getHandler('file')->delete($fileObj)) {
                 redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, _AM_PUBLISHER_FILE_DELETE_ERROR);
-                exit;
+//                exit;
             }
 
             redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, sprintf(_AM_PUBLISHER_FILEISDELETED, $fileObj->name()));
-            exit();
+//            exit();
         } else {
             // no confirm: show deletion condition
 
-            include_once XOOPS_ROOT_PATH . '/header.php';
+            include_once $GLOBALS['xoops']->path('header.php');
             xoops_confirm(array('op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()), 'file.php', _AM_PUBLISHER_DELETETHISFILE . " <br />" . $fileObj->name() . " <br /> <br />", _AM_PUBLISHER_DELETE);
-            include_once XOOPS_ROOT_PATH . '/footer.php';
+            include_once $GLOBALS['xoops']->path('footer.php');
         }
         exit();
         break;
 }
-include_once XOOPS_ROOT_PATH . '/footer.php';
+include_once $GLOBALS['xoops']->path('footer.php');

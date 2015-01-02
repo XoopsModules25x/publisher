@@ -666,3 +666,74 @@ padding:10px;
 .publisher_tree ul li ul,.publisher_tree ul li ul li ul {
 padding-left:6px;
 }
+
+.ppy-imglist li {
+    padding:        0px;
+    border:         1px solid #f0f0f0;
+    border-radius:          0px;
+    -moz-border-radius:     0px;
+    -khtml-border-radius:   0px;
+    -webkit-border-radius:  0px;
+    background:     #fff;
+    list-style:     none;
+    float:          left;
+    display:        block;
+    margin:         0 0 0 0;
+}
+
+#ppy1 .ppy-outer {
+    padding:        0px;
+    border:         1px solid #dddddd;
+    border-radius:          0 5px 5px 0px;
+    -moz-border-radius:     0 5px 5px 0px;
+    -webkit-border-radius:  0 5px 5px 0px;
+    background: #dddddd;
+}
+
+
+
+#ppy1 .ppy-outer:hover,
+#ppy1.ppy-expanded .ppy-outer {
+    border:         1px solid #bcbcbc;
+    box-shadow:         0 0 7px #ccc;
+    -moz-box-shadow:    0 0 7px #ccc;
+    -webkit-box-shadow: 0 0 7px #ccc;
+}
+
+#ppy1 .ppy-caption a {
+    color:          #66bde9;
+}
+#ppy1 .ppy-caption a:hover {
+    text-decoration:underline;
+}
+
+#ppy1 .ppy-caption {
+    margin:         0px 0 0 0;
+    padding:        10px;
+    font-size:      0.9em;
+    line-height:    1em;
+    color: #020202;
+    background: #dddddd;
+    border-radius:          10px;
+    -moz-border-radius:     10px;
+    -webkit-border-radius:  10px;
+    box-shadow:         0 0 7px #ccc;
+    -moz-box-shadow:    0 0 7px #ccc;
+    -webkit-box-shadow: 0 0 7px #ccc;
+    visibility:         hidden; /* prevent flash of content before popeye loads */
+}
+
+#ppy1 .ppy-counter {
+    border-bottom:  1px solid #dddddd;
+    color: #020202;
+    padding:        0 0 2px 0;
+    margin:         0 0 5px 0;
+    font-size:      0.9em;
+}
+
+#ppy1 .ppy-stagewrap {
+    background: #bcbcbc;
+    border-radius:          0 5px 5px 5px;
+    -moz-border-radius:     0 5px 5px 5px;
+    -webkit-border-radius:  0 5px 5px 5px;
+}

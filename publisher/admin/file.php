@@ -25,13 +25,13 @@ $op = XoopsRequest::getString('op');
 
 /**
  * @param bool $showmenu
- * @param int  $fileid
- * @param int  $itemid
+ * @param int $fileid
+ * @param int $itemid
  */
 function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
 {
     $publisher = PublisherPublisher::getInstance();
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
     // if there is a parameter, and the id exists, retrieve data: we're editing a file
     if ($fileid != 0) {
@@ -41,7 +41,7 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
 
         if ($fileObj->notLoaded()) {
             redirect_header("javascript:history.go(-1)", 1, _AM_PUBLISHER_NOFILESELECTED);
-            exit();
+//            exit();
         }
 
         if ($showmenu) {
@@ -94,11 +94,11 @@ switch ($op) {
         $itemid = isset($_GET['itemid']) ? XoopsRequest::getInt('itemid', 0, 'GET') : 0;
         if (($fileid == 0) && ($itemid == 0)) {
             redirect_header("javascript:history.go(-1)", 3, _AM_PUBLISHER_NOITEMSELECTED);
-            exit();
+//            exit();
         }
 
         publisher_cpHeader();
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
         publisher_editFile(true, $fileid, $itemid);
         break;
@@ -121,11 +121,11 @@ switch ($op) {
         // Storing the file
         if (!$fileObj->store()) {
             redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . publisher_formatErrors($fileObj->getErrors()));
-            exit;
+//            exit;
         }
 
         redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid(), 2, _AM_PUBLISHER_FILE_EDITING_SUCCESS);
-        exit();
+//        exit();
         break;
 
     case "del":
@@ -136,16 +136,16 @@ switch ($op) {
         $fileObj = $publisher->getHandler('file')->get($fileid);
 
         $confirm = isset($_POST['confirm']) ? XoopsRequest::getInt('confirm', 0, 'POST') : 0;
-        $title = isset($_POST['title']) ? XoopsRequest::getString('title', '', 'POST') : '';
+        $title   = isset($_POST['title']) ? XoopsRequest::getString('title', '', 'POST') : '';
 
         if ($confirm) {
             if (!$publisher->getHandler('file')->delete($fileObj)) {
                 redirect_header('item.php', 2, _AM_PUBLISHER_FILE_DELETE_ERROR);
-                exit;
+//                exit;
             }
 
             redirect_header('item.php', 2, sprintf(_AM_PUBLISHER_FILEISDELETED, $fileObj->name()));
-            exit();
+//            exit();
         } else {
             // no confirm: show deletion condition
             $fileid = isset($_GET['fileid']) ? XoopsRequest::getInt('fileid', 0, 'GET') : 0;

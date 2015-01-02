@@ -24,40 +24,40 @@ include_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
 
 //Checking general permissions
-$config_handler = xoops_gethandler("config");
+$config_handler    = xoops_gethandler("config");
 $xoopsConfigSearch = $config_handler->getConfigsByCat(XOOPS_CONF_SEARCH);
 if (empty($xoopsConfigSearch["enable_search"])) {
     redirect_header(PUBLISHER_URL . "/index.php", 2, _NOPERM);
-    exit();
+//    exit();
 }
 
-$groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+$groups        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $gperm_handler = xoops_getmodulehandler('groupperm', PUBLISHER_DIRNAME);
-$module_id = $publisher->getModule()->mid();
+$module_id     = $publisher->getModule()->mid();
 
 //Checking permissions
 if (!$publisher->getConfig('perm_search') || !$gperm_handler->checkRight('global', PublisherConstants::_PUBLISHER_SEARCH, $groups, $module_id)) {
     redirect_header(PUBLISHER_URL, 2, _NOPERM);
-    exit();
+//    exit();
 }
 
-$xoopsConfig["module_cache"][$module_id] = 0;
-$xoopsOption["template_main"] = 'publisher_search.tpl';
-include XOOPS_ROOT_PATH . '/header.php';
+$GLOBALS['xoopsConfig']["module_cache"][$module_id] = 0;
+$xoopsOption["template_main"]                       = 'publisher_search.tpl';
+include $GLOBALS['xoops']->path('header.php');
 
 $module_info_search = $publisher->getModule()->getInfo("search");
-include_once PUBLISHER_ROOT_PATH . "/" . $module_info_search["file"];
+include_once PUBLISHER_ROOT_PATH . '/' . $module_info_search["file"];
 
-$limit = 10; //$publisher->getConfig('idxcat_perpage');
-$uid = 0;
-$queries = array();
-$andor = XoopsRequest::getString('andor','','POST');
-$start = XoopsRequest::getInt('start',0, 'POST');
+$limit    = 10; //$publisher->getConfig('idxcat_perpage');
+$uid      = 0;
+$queries  = array();
+$andor    = XoopsRequest::getString('andor', '', 'POST');
+$start    = XoopsRequest::getInt('start', 0, 'POST');
 $category = XoopsRequest::getArray('category', array(), 'POST');
-$username = XoopsRequest::getString('uname','','POST');
+$username = XoopsRequest::getString('uname', '', 'POST');
 $searchin = XoopsRequest::getArray('searchin', array(), 'POST');
-$sortby = XoopsRequest::getString('sortby','','POST');
-$term = XoopsRequest::getString('term','','POST');
+$sortby   = XoopsRequest::getString('sortby', '', 'POST');
+$term     = XoopsRequest::getString('term', '', 'POST');
 
 if (empty($category) || (is_array($category) && in_array("all", $category))) {
     $category = array();
@@ -66,19 +66,19 @@ if (empty($category) || (is_array($category) && in_array("all", $category))) {
     $category = array_map("intval", $category);
 }
 
-$andor = (in_array(strtoupper($andor), array("OR", "AND", "EXACT"))) ? strtoupper($andor) : "OR";
+$andor  = (in_array(strtoupper($andor), array("OR", "AND", "EXACT"))) ? strtoupper($andor) : "OR";
 $sortby = (in_array(strtolower($sortby), array("itemid", "datesub", "title", "categoryid"))) ? strtolower($sortby) : "itemid";
 
 if (!(empty($_POST["submit"]) && empty($term))) {
 
     $next_search["category"] = implode(",", $category);
-    $next_search["andor"] = $andor;
-    $next_search["term"] = $term;
-    $query = trim($term);
+    $next_search["andor"]    = $andor;
+    $next_search["term"]     = $term;
+    $query                   = trim($term);
 
     if ($andor != "EXACT") {
         $ignored_queries = array(); // holds kewords that are shorter than allowed minmum length
-        $temp_queries = preg_split("/[\s,]+/", $query);
+        $temp_queries    = preg_split("/[\s,]+/", $query);
         foreach ($temp_queries as $q) {
             $q = trim($q);
             if (strlen($q) >= $xoopsConfigSearch["keyword_min"]) {
@@ -87,37 +87,38 @@ if (!(empty($_POST["submit"]) && empty($term))) {
                 $ignored_queries[] = $myts->addSlashes($q);
             }
         }
+        unset($q);
         if (count($queries) == 0) {
             redirect_header(PUBLISHER_URL . "/search.php", 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch["keyword_min"]));
-            exit();
+//            exit();
         }
     } else {
         if (strlen($query) < $xoopsConfigSearch["keyword_min"]) {
             redirect_header(PUBLISHER_URL . "/search.php", 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch["keyword_min"]));
-            exit();
+//            exit();
         }
         $queries = array($myts->addSlashes($query));
     }
 
-    $uname_required = false;
-    $search_username = trim($username);
+    $uname_required       = false;
+    $search_username      = trim($username);
     $next_search["uname"] = $search_username;
     if (!empty($search_username)) {
-        $uname_required = true;
+        $uname_required  = true;
         $search_username = $myts->addSlashes($search_username);
-        if (!$result = $xoopsDB->query("SELECT uid FROM " . $xoopsDB->prefix("users") . " WHERE uname LIKE " . $xoopsDB->quoteString("%$search_username%"))) {
+        if (!$result = $GLOBALS['xoopsDB']->query("SELECT uid FROM " . $GLOBALS['xoopsDB']->prefix("users") . " WHERE uname LIKE " . $GLOBALS['xoopsDB']->quoteString("%$search_username%"))) {
             redirect_header(PUBLISHER_URL . "/search.php", 1, _CO_PUBLISHER_ERROR);
-            exit();
+//            exit();
         }
         $uid = array();
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (($row = $GLOBALS['xoopsDB']->fetchArray($result)) != false) {
             $uid[] = $row["uid"];
         }
     } else {
         $uid = 0;
     }
 
-    $next_search["sortby"] = $sortby;
+    $next_search["sortby"]   = $sortby;
     $next_search["searchin"] = implode("|", $searchin);
 
     if (!empty($time)) {
@@ -144,22 +145,22 @@ if (!(empty($_POST["submit"]) && empty($term))) {
             if (!empty($val)) $items[] = "{$para}={$val}";
         }
         if (count($items) > 0) $paras = implode("&", $items);
-        unset($next_search);
+        unset($next_search, $para, $val);
         unset($items);
     }
     $search_url = PUBLISHER_URL . "/search.php?" . $paras;
 
     if (count($results)) {
-        $next = $start + $limit;
-        $queries = implode(",", $queries);
+        $next            = $start + $limit;
+        $queries         = implode(",", $queries);
         $search_url_next = $search_url . "&start={$next}";
-        $search_next = "<a href=\"" . htmlspecialchars($search_url_next) . "\">" . _SR_NEXT . "</a>";
+        $search_next     = "<a href=\"" . htmlspecialchars($search_url_next) . "\">" . _SR_NEXT . "</a>";
         $xoopsTpl->assign("search_next", $search_next);
     }
     if ($start > 0) {
-        $prev = $start - $limit;
+        $prev            = $start - $limit;
         $search_url_prev = $search_url . "&start={$prev}";
-        $search_prev = "<a href=\"" . htmlspecialchars($search_url_prev) . "\">" . _SR_PREVIOUS . "</a>";
+        $search_prev     = "<a href=\"" . htmlspecialchars($search_url_prev) . "\">" . _SR_PREVIOUS . "</a>";
         $xoopsTpl->assign("search_prev", $search_prev);
     }
 
@@ -197,6 +198,7 @@ foreach ($categories as $id => $cat) {
     if (in_array($id, $category)) $select_category .= "selected=\"selected\"";
     $select_category .= ">" . $cat . "</option>";
 }
+unset($id, $cat);
 $select_category .= "</select>";
 
 /* scope */
@@ -249,4 +251,4 @@ if ($xoopsConfigSearch["keyword_min"] > 0) {
     $xoopsTpl->assign("search_rule", sprintf(_SR_KEYIGNORE, $xoopsConfigSearch["keyword_min"]));
 }
 
-include XOOPS_ROOT_PATH . "/footer.php";
+include $GLOBALS['xoops']->path("/footer.php");

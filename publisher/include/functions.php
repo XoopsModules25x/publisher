@@ -19,7 +19,7 @@
  * @version         $Id: functions.php 10661 2013-01-04 19:22:48Z trabis $
  */
 
-// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
 include_once __DIR__ . '/common.php';
 
@@ -60,6 +60,8 @@ function publisher_getOrderBy($sort)
     } elseif ($sort == "weight") {
         return "ASC";
     }
+
+    return null;
 }
 
 /**
@@ -171,8 +173,8 @@ function publisher_moduleHome($withLink = true)
  *
  * @author      Aidan Lister <aidan@php.net>
  * @version     1.0.0
- * @param       string   $source    The source
- * @param       string   $dest      The destination
+ * @param       string $source The source
+ * @param       string $dest The destination
  * @return      bool     Returns true on success, false on failure
  */
 function publisher_copyr($source, $dest)
@@ -197,7 +199,7 @@ function publisher_copyr($source, $dest)
 
         // Deep copy directories
         if (is_dir("$source/$entry") && ($dest !== "$source/$entry")) {
-            copyr("$source/$entry", "$dest/$entry");
+            publisher_copyr("$source/$entry", "$dest/$entry");
         } else {
             copy("$source/$entry", "$dest/$entry");
         }
@@ -210,7 +212,7 @@ function publisher_copyr($source, $dest)
 }
 
 /**
-.* @credits Thanks to the NewBB2 Development Team
+ * .* @credits Thanks to the NewBB2 Development Team
  * @param string $item
  * @param bool $getStatus
  * @return bool|int|string
@@ -226,15 +228,15 @@ function &publisher_getPathStatus($item, $getStatus = false)
     $thePath = publisher_getUploadDir(true, $path);
 
     if (empty($thePath)) return false;
-    if (@is_writable($thePath)) {
+    if (is_writable($thePath)) {
         $pathCheckResult = 1;
-        $path_status = _AM_PUBLISHER_AVAILABLE;
+        $path_status     = _AM_PUBLISHER_AVAILABLE;
     } elseif (!@is_dir($thePath)) {
         $pathCheckResult = -1;
-        $path_status = _AM_PUBLISHER_NOTAVAILABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=createdir&amp;path={$item}'>" . _AM_PUBLISHER_CREATETHEDIR . "</a>";
+        $path_status     = _AM_PUBLISHER_NOTAVAILABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=createdir&amp;path={$item}'>" . _AM_PUBLISHER_CREATETHEDIR . "</a>";
     } else {
         $pathCheckResult = -2;
-        $path_status = _AM_PUBLISHER_NOTWRITABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=setperm&amp;path={$item}'>" . _AM_SCS_SETMPERM . "</a>";
+        $path_status     = _AM_PUBLISHER_NOTWRITABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=setperm&amp;path={$item}'>" . _AM_PUBLISHER_SETMPERM . "</a>";
     }
     if (!$getStatus) {
         return $path_status;
@@ -273,7 +275,6 @@ function publisher_mkdir($target)
 
     return $res;
 }
-
 
 /**
  * @credits Thanks to the NewBB2 Development Team
@@ -340,7 +341,6 @@ function publisher_formatErrors($errors = array())
     return $ret;
 }
 
-
 /**
  * Checks if a user is admin of Publisher
  *
@@ -348,7 +348,6 @@ function publisher_formatErrors($errors = array())
  */
 function publisher_userIsAdmin()
 {
-    global $xoopsUser;
     $publisher = PublisherPublisher::getInstance();
 
     static $publisher_isAdmin;
@@ -357,10 +356,10 @@ function publisher_userIsAdmin()
         return $publisher_isAdmin;
     }
 
-    if (!$xoopsUser) {
+    if (!$GLOBALS['xoopsUser']) {
         $publisher_isAdmin = false;
     } else {
-        $publisher_isAdmin = $xoopsUser->isAdmin($publisher->getModule()->getVar('mid'));
+        $publisher_isAdmin = $GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->getVar('mid'));
     }
 
     return $publisher_isAdmin;
@@ -374,9 +373,7 @@ function publisher_userIsAdmin()
  */
 function publisher_userIsAuthor($itemObj)
 {
-    global $xoopsUser;
-
-    return (is_object($xoopsUser) && is_object($itemObj) && ($xoopsUser->uid() == $itemObj->uid()));
+    return (is_object($GLOBALS['xoopsUser']) && is_object($itemObj) && ($GLOBALS['xoopsUser']->uid() == $itemObj->uid()));
 }
 
 /**
@@ -387,7 +384,7 @@ function publisher_userIsAuthor($itemObj)
  */
 function publisher_userIsModerator($itemObj)
 {
-    $publisher = PublisherPublisher::getInstance();
+    $publisher         = PublisherPublisher::getInstance();
     $categoriesGranted = $publisher->getHandler('permission')->getGrantedItems('category_moderation');
 
     return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted));
@@ -407,7 +404,7 @@ function publisher_saveCategoryPermissions($groups, $categoryid, $perm_name)
 
     $result = true;
 
-    $module_id = $publisher->getModule()->getVar('mid');
+    $module_id     = $publisher->getModule()->getVar('mid');
     $gperm_handler = xoops_gethandler('groupperm');
     // First, if the permissions are already there, delete them
     $gperm_handler->deleteByModule($module_id, $perm_name, $categoryid);
@@ -432,14 +429,14 @@ function publisher_saveCategoryPermissions($groups, $categoryid, $perm_name)
  */
 function publisher_openCollapsableBar($tablename = '', $iconname = '', $tabletitle = '', $tabledsc = '', $open = true)
 {
-    $image = 'open12.gif';
+    $image   = 'open12.gif';
     $display = 'none';
     if ($open) {
-        $image = 'close12.gif';
+        $image   = 'close12.gif';
         $display = 'block';
     }
 
-    echo "<h3 style=\"color: #2F5376; font-weight: bold; font-size: 14px; margin: 6px 0 0 0; \"><a href='javascript:;' onclick=\"toggle('" . $tablename . "'); toggleIcon('" . $iconname . "')\";>";
+    echo "<h3 style=\"color: #2F5376; font-weight: bold; font-size: 14px; margin: 6px 0 0 0; \"><a href='javascript:;' onclick=\"toggle('" . $tablename . "'); toggleIcon('" . $iconname . "')\">";
     echo "<img id='" . $iconname . "' src='" . PUBLISHER_URL . "/assets/images/links/" . $image . "' alt='' /></a>&nbsp;" . $tabletitle . "</h3>";
     echo "<div id='" . $tablename . "' style='display: " . $display . ";'>";
     if ($tabledsc != '') {
@@ -461,7 +458,7 @@ function publisher_closeCollapsableBar($name, $icon)
 
     $cookie_name = $path . '_publisher_collaps_' . $name;
     $cookie_name = str_replace('.', '_', $cookie_name);
-    $cookie = publisher_getCookieVar($cookie_name, '');
+    $cookie      = publisher_getCookieVar($cookie_name, '');
 
     if ($cookie == 'none') {
         echo '
@@ -472,6 +469,7 @@ function publisher_closeCollapsableBar($name, $icon)
         ';
     }
 }
+
 /**
  * @param string $name
  * @param string $value
@@ -505,9 +503,9 @@ function publisher_getCookieVar($name, $default = '')
  */
 function publisher_getCurrentUrls()
 {
-    $http = strpos(XOOPS_URL, "https://") === false ? "http://" : "https://";
-    $phpself = $_SERVER['PHP_SELF'];
-    $httphost = $_SERVER['HTTP_HOST'];
+    $http        = strpos(XOOPS_URL, "https://") === false ? "http://" : "https://";
+    $phpself     = $_SERVER['PHP_SELF'];
+    $httphost    = $_SERVER['HTTP_HOST'];
     $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
 
     if ($querystring != '') {
@@ -516,12 +514,12 @@ function publisher_getCurrentUrls()
 
     $currenturl = $http . $httphost . $phpself . $querystring;
 
-    $urls = array();
-    $urls['http'] = $http;
-    $urls['httphost'] = $httphost;
-    $urls['phpself'] = $phpself;
+    $urls                = array();
+    $urls['http']        = $http;
+    $urls['httphost']    = $httphost;
+    $urls['phpself']     = $phpself;
     $urls['querystring'] = $querystring;
-    $urls['full'] = $currenturl;
+    $urls['full']        = $currenturl;
 
     return $urls;
 }
@@ -643,7 +641,7 @@ function publisher_renderErrors(&$err_arr, $reseturl = '')
     if (is_array($err_arr) && count($err_arr) > 0) {
         echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' . PUBLISHER_URL . '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
 
-        echo '<h4 style="text-align:left;margin:0; padding-top:0">' . _AM_PUBLISHER_MSG_SUBMISSION_ERR;
+        echo '<h4 style="text-align:left;margin:0; padding-top:0;">' . _AM_PUBLISHER_MSG_SUBMISSION_ERR;
 
         if ($reseturl) {
             echo ' <a href="' . $reseturl . '">[' . _AM_PUBLISHER_TEXT_SESSION_RESET . ']</a>';
@@ -718,11 +716,11 @@ function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
 {
     include_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
-    global $publisher_isAdmin, $xoopsUser;
+    global $publisher_isAdmin;
     $publisher = PublisherPublisher::getInstance();
 
-    $itemid = isset($_POST['itemid']) ? XoopsRequest::getInt('itemid', 0, 'POST') : 0;
-    $uid = is_object($xoopsUser) ? $xoopsUser->uid() : 0;
+    $itemid  = isset($_POST['itemid']) ? XoopsRequest::getInt('itemid', 0, 'POST') : 0;
+    $uid     = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
     $session = PublisherSession::getInstance();
     $session->set('publisher_file_filename', isset($_POST['item_file_name']) ? XoopsRequest::getString('item_file_name', '', 'POST') : '');
     $session->set('publisher_file_description', isset($_POST['item_file_description']) ? XoopsRequest::getInt('item_file_description', 0, 'POST') : '');
@@ -761,12 +759,19 @@ function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
 
     // Storing the file
     if (!$fileObj->store($allowed_mimetypes)) {
-        if ($withRedirect) {
+//        if ($withRedirect) {
+//            redirect_header("file.php?op=mod&itemid=" . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . publisher_formatErrors($fileObj->getErrors()));
+//            exit;
+//        }
+        try {
+            if ($withRedirect) {
+                throw new Exception(_CO_PUBLISHER_FILEUPLOAD_ERROR . publisher_formatErrors($fileObj->getErrors()));
+            }
+        } catch (Exception $e) {
             redirect_header("file.php?op=mod&itemid=" . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . publisher_formatErrors($fileObj->getErrors()));
-            exit;
-        } else {
-            return _CO_PUBLISHER_FILEUPLOAD_ERROR . publisher_formatErrors($fileObj->getErrors());
         }
+    } else {
+        return _CO_PUBLISHER_FILEUPLOAD_ERROR . publisher_formatErrors($fileObj->getErrors());
     }
 
     if ($withRedirect) {
@@ -775,6 +780,8 @@ function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
     } else {
         return true;
     }
+
+    return null;
 }
 
 /**
@@ -838,7 +845,7 @@ function publisher_closeTags($string)
         // match closed tags
         if (preg_match_all('/<\/([a-z]+)>/', $string, $end_tags)) {
             $complete_tags = array();
-            $end_tags = $end_tags[1];
+            $end_tags      = $end_tags[1];
 
             foreach ($start_tags as $key => $val) {
                 $posb = array_search($val, $end_tags);
@@ -867,20 +874,20 @@ function publisher_closeTags($string)
  */
 function publisher_ratingBar($itemid)
 {
-    global $xoopsDB, $xoopsUser;
-    $publisher = PublisherPublisher::getInstance();
+    $publisher        = PublisherPublisher::getInstance();
     $rating_unitwidth = 30;
-    $units = 5;
+    $units            = 5;
 
-    $criteria = new Criteria('itemid', $itemid);
+    $criteria   = new Criteria('itemid', $itemid);
     $ratingObjs = $publisher->getHandler('rating')->getObjects($criteria);
     unset($criteria);
 
-    $uid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : 0;
-    $count = count($ratingObjs);
+    $uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
+    $count          = count($ratingObjs);
     $current_rating = 0;
-    $voted = false;
-    $ip = getenv('REMOTE_ADDR');
+    $voted          = false;
+    $ip             = getenv('REMOTE_ADDR');
+    $rating1 = $rating2 =  $rating_width = 0;
 
     foreach ($ratingObjs as $ratingObj) {
         $current_rating += $ratingObj->getVar('rate');
@@ -892,11 +899,12 @@ function publisher_ratingBar($itemid)
     $tense = $count == 1 ? _MD_PUBLISHER_VOTE_lVOTE : _MD_PUBLISHER_VOTE_lVOTES; //plural form votes/vote
 
     // now draw the rating bar
-    $rating_width = @number_format($current_rating / $count, 2) * $rating_unitwidth;
-    $rating1 = @number_format($current_rating / $count, 1);
-    $rating2 = @number_format($current_rating / $count, 2);
-
-    $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+    if ($count != 0) {
+        $rating_width = number_format($current_rating / $count, 2) * $rating_unitwidth;
+        $rating1      = number_format($current_rating / $count, 1);
+        $rating2      = number_format($current_rating / $count, 2);
+    }
+    $groups        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
     $gperm_handler = $publisher->getHandler('groupperm');
 
     if (!$gperm_handler->checkRight('global', PublisherConstants::_PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
@@ -947,11 +955,11 @@ function publisher_ratingBar($itemid)
  */
 function publisher_getEditors($allowed_editors = null)
 {
-    $ret = array();
+    $ret    = array();
     $nohtml = false;
     xoops_load('XoopsEditorHandler');
     $editor_handler = XoopsEditorHandler::getInstance();
-    $editors = $editor_handler->getList($nohtml);
+    $editors        = $editor_handler->getList($nohtml);
     foreach ($editors as $name => $title) {
         $key = publisher_stringToInt($name);
         if (is_array($allowed_editors)) {
@@ -961,7 +969,7 @@ function publisher_getEditors($allowed_editors = null)
             }
         } else {
             //for admin permissions page
-            $ret[$key]['name'] = $name;
+            $ret[$key]['name']  = $name;
             $ret[$key]['title'] = $title;
         }
     }
@@ -976,7 +984,7 @@ function publisher_getEditors($allowed_editors = null)
  */
 function publisher_stringToInt($string = '', $length = 5)
 {
-    for ($i = 0, $final = "", $string = substr(md5($string), $length); $i < $length; $final .= intval($string[$i]), ++$i);
+    for ($i = 0, $final = "", $string = substr(md5($string), $length); $i < $length; $final .= intval($string[$i]), ++$i) ;
 
     return intval($final);
 }
@@ -987,9 +995,11 @@ function publisher_stringToInt($string = '', $length = 5)
  */
 function publisher_convertCharset($item)
 {
-    if (_CHARSET != 'windows-1256') return utf8_encode($item);
+    if (_CHARSET != 'windows-1256') {
+        return utf8_encode($item);
+    }
 
-    if ($unserialize = unserialize($item)) {
+    if ($unserialize == unserialize($item)) {
         foreach ($unserialize as $key => $value) {
             $unserialize[$key] = @iconv('windows-1256', 'UTF-8', $value);
         }

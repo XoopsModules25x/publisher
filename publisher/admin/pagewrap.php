@@ -29,7 +29,7 @@ publisher_openCollapsableBar('pagewraptable', 'pagewrapicon', _AM_PUBLISHER_PAGE
 $dir = publisher_getUploadDir(true, 'content');
 
 if (!preg_match('/777/i', decoct(fileperms($dir)))) {
-    echo "<font color='FF0000'><h4>" . _AM_PUBLISHER_PERMERROR . "</h4></font>";
+    echo "<span style='color:#ff0000;'><h4>" . _AM_PUBLISHER_PERMERROR . "</h4></span>";
 }
 
 // Upload File
@@ -45,8 +45,8 @@ echo "</form>";
 $form = new XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, "form_name", "pw_delete_file.php");
 
 $pWrap_select = new XoopsFormSelect(publisher_getUploadDir(true, 'content'), "address");
-$folder = dir($dir);
-while ($file = $folder->read()) {
+$folder       = dir($dir);
+while ($file == $folder->read()) {
     if ($file != "." && $file != "..") {
         $pWrap_select->addOption($file, $file);
     }

@@ -19,7 +19,9 @@
  * @author          Harry Fuecks (PHP Anthology Volume II)
  * @version         $Id: session.php 10283 2012-11-28 13:39:36Z trabis $
  */
-// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
+//namespace Publisher;
+
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
 include_once dirname(__DIR__) . '/include/common.php';
 

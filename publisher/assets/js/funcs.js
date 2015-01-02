@@ -25,7 +25,6 @@ function publisherPageWrap(id, page) {
 	var textareaDom = xoopsGetElementById(id);
 	xoopsInsertText(textareaDom, page);
 	textareaDom.focus();
-	return;
 }
 
 function addSelectedItemsToParent() {
@@ -164,5 +163,4 @@ function toggleIcon ( iconName )
 	} else if ( document.images[iconName].src == window.iconClose.src ) {
 		document.images[iconName].src = window.iconOpen.src;
 	}
-	return;
 }

@@ -36,7 +36,7 @@ $itemObj = $publisher->getHandler('item')->get($fileObj->getVar('itemid'));
 // Check user permissions to access this file
 if (!$itemObj->accessGranted()) {
     redirect_header("javascript:history.go(-1)", 1, _NOPERM);
-    exit();
+//    exit();
 }
 // Creating the category object that holds the selected ITEM
 $categoryObj = $itemObj->category();
@@ -47,5 +47,5 @@ if (!preg_match("/^ed2k*:\/\//i", $fileObj->getFileUrl())) {
     header("Location: " . $fileObj->getFileUrl());
 }
 
-echo "<html><head><meta http-equiv=\"Refresh\" content=\"0; URL=" . $myts->oopsHtmlSpecialChars($fileObj->getFileUrl()) . "\"></meta></head><body></body></html>";
+echo "<html><head><meta http-equiv=\"Refresh\" content=\"0; URL=" . $myts->oopsHtmlSpecialChars($fileObj->getFileUrl()) . "\"/></head><body></body></html>";
 exit();

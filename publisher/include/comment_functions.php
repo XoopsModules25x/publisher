@@ -18,14 +18,14 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: comment_functions.php 10374 2012-12-12 23:39:48Z trabis $
  *
- * @param $item_id
- * @param $total_num
+ * @param $itemId
+ * @param $totalNum
  */
 
-function publisher_com_update($item_id, $total_num)
+function publisher_com_update($itemId, $totalNum)
 {
-    $db = XoopsDatabaseFactory::getDatabaseConnection();
-    $sql = 'UPDATE ' . $db->prefix('publisher_items') . ' SET comments = ' . $total_num . ' WHERE itemid = ' . $item_id;
+    $db  = XoopsDatabaseFactory::getDatabaseConnection();
+    $sql = 'UPDATE ' . $db->prefix('publisher_items') . ' SET comments = ' . $totalNum . ' WHERE itemid = ' . $itemId;
     $db->query($sql);
 }
 

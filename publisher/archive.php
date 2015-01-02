@@ -27,16 +27,16 @@
 include_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'publisher_archive.tpl';
 
-include_once XOOPS_ROOT_PATH . '/header.php';
+include_once $GLOBALS['xoops']->path('header.php');
 include_once PUBLISHER_ROOT_PATH . '/footer.php';
 xoops_loadLanguage('calendar');
 xoops_load('XoopsLocal');
 
-$lastyear = 0;
-$lastmonth = 0;
+$lastyear   = 0;
+$lastmonth  = 0;
 $months_arr = array(1 => _CAL_JANUARY, 2 => _CAL_FEBRUARY, 3 => _CAL_MARCH, 4 => _CAL_APRIL, 5 => _CAL_MAY, 6 => _CAL_JUNE, 7 => _CAL_JULY, 8 => _CAL_AUGUST, 9 => _CAL_SEPTEMBER, 10 => _CAL_OCTOBER, 11 => _CAL_NOVEMBER, 12 => _CAL_DECEMBER);
-$fromyear = XoopsRequest::getInt('year');
-$frommonth = XoopsRequest::getInt('month');
+$fromyear   = XoopsRequest::getInt('year');
+$frommonth  = XoopsRequest::getInt('month');
 
 $pgtitle = '';
 if ($fromyear && $frommonth) {
@@ -50,15 +50,15 @@ if ($dateformat == '') {
 }
 
 $myts = MyTextSanitizer::getInstance();
-$xoopsTpl->assign('xoops_pagetitle', $myts->htmlSpecialChars(_MD_PUBLISHER_ARCHIVES) . $pgtitle . ' - ' . $myts->htmlSpecialChars($xoopsModule->name()));
+$xoopsTpl->assign('xoops_pagetitle', $myts->htmlSpecialChars(_MD_PUBLISHER_ARCHIVES) . $pgtitle . ' - ' . $myts->htmlSpecialChars($GLOBALS['xoopsModule']->name()));
 
 $useroffset = '';
-if (is_object($xoopsUser)) {
-    $timezone = $xoopsUser->timezone();
+if (is_object($GLOBALS['xoopsUser'])) {
+    $timezone = $GLOBALS['xoopsUser']->timezone();
     if (isset($timezone)) {
-        $useroffset = $xoopsUser->timezone();
+        $useroffset = $GLOBALS['xoopsUser']->timezone();
     } else {
-        $useroffset = $xoopsConfig['default_TZ'];
+        $useroffset = $GLOBALS['xoopsConfig']['default_TZ'];
     }
 }
 
@@ -73,7 +73,7 @@ $itemsCount = count($items);
 
 if (!($itemsCount > 0)) {
     redirect_header(XOOPS_URL, 2, _MD_PUBLISHER_NO_TOP_PERMISSIONS);
-    exit;
+//mb    exit;
 } else {
     $years  = array();
     $months = array();
@@ -127,6 +127,7 @@ if (!($itemsCount > 0)) {
             ++$articlesThisYear;
         }
     }
+    unset($item);
     $years[$i]['number'] = $this_year;
     $years[$i]['months'] = $months;
 
@@ -146,7 +147,7 @@ if ($fromyear != 0 && $frommonth != 0) {
     $xoopsTpl->assign('lang_views', _MD_PUBLISHER_HITS);
 
     // must adjust the selected time to server timestamp
-    $timeoffset = $useroffset - $xoopsConfig['server_TZ'];
+    $timeoffset = $useroffset - $GLOBALS['xoopsConfig']['server_TZ'];
     $monthstart = mktime(0 - $timeoffset, 0, 0, $frommonth, 1, $fromyear);
     $monthend   = mktime(23 - $timeoffset, 59, 59, $frommonth + 1, 0, $fromyear);
     $monthend   = ($monthend > time()) ? time() : $monthend;
@@ -154,7 +155,7 @@ if ($fromyear != 0 && $frommonth != 0) {
     $count = 0;
 
     $itemhandler               = $publisher->getHandler('item');
-    $itemhandler->table_link   = $xoopsDB->prefix('publisher_categories');
+    $itemhandler->table_link   = $GLOBALS['xoopsDB']->prefix('publisher_categories');
     $itemhandler->field_link   = 'categoryid';
     $itemhandler->field_object = 'categoryid';
     // Categories for which user has access
@@ -184,11 +185,12 @@ if ($fromyear != 0 && $frommonth != 0) {
             $story['counter']    = $item->counter();
             $story['date']       = $item->datesub();
             $story['print_link'] = XOOPS_URL . '/modules/publisher/print.php?itemid=' . $item->itemid();
-            $story['mail_link']  = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $xoopsConfig['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $xoopsConfig['sitename']) . ':  '
-                . $item->getItemUrl();
+            $story['mail_link']  = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  '
+                                   . $item->getItemUrl();
 
             $xoopsTpl->append('stories', $story);
         }
+        unset($item);
     }
     $xoopsTpl->assign('lang_printer', _MD_PUBLISHER_PRINTERFRIENDLY);
     $xoopsTpl->assign('lang_sendstory', _MD_PUBLISHER_SENDSTORY);
@@ -199,4 +201,4 @@ if ($fromyear != 0 && $frommonth != 0) {
 
 $xoopsTpl->assign('lang_newsarchives', _MD_PUBLISHER_ARCHIVES);
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
+include_once $GLOBALS['xoops']->path('footer.php');

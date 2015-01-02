@@ -21,7 +21,7 @@
 
 include_once __DIR__ . '/admin_header.php';
 
-$op = XoopsRequest::getString('op','','GET');
+$op = XoopsRequest::getString('op', '', 'GET');
 
 $op = isset($_POST['editor']) ? 'mod' : $op;
 if (isset($_POST['addcategory'])) {
@@ -30,21 +30,21 @@ if (isset($_POST['addcategory'])) {
 
 // Where do we start ?
 $startcategory = XoopsRequest::getInt('startcategory', 0, 'GET');
-$categoryid = XoopsRequest::getInt('categoryid');
+$categoryid    = XoopsRequest::getInt('categoryid');
 
 switch ($op) {
 
     case "del":
         $categoryObj = $publisher->getHandler('category')->get($categoryid);
-        $confirm = (isset($_POST['confirm'])) ? XoopsRequest::getInt('confirm', 0, 'POST') : 0;
-        $name = (isset($_POST['name'])) ? XoopsRequest::getString('name', '', 'POST') : '';
+        $confirm     = (isset($_POST['confirm'])) ? XoopsRequest::getInt('confirm', 0, 'POST') : 0;
+        $name        = (isset($_POST['name'])) ? XoopsRequest::getString('name', '', 'POST') : '';
         if ($confirm) {
             if (!$publisher->getHandler('category')->delete($categoryObj)) {
                 redirect_header("category.php", 1, _AM_PUBLISHER_DELETE_CAT_ERROR);
-                exit();
+//                exit();
             }
             redirect_header("category.php", 1, sprintf(_AM_PUBLISHER_COLISDELETED, $name));
-            exit();
+//            exit();
         } else {
             xoops_cp_header();
             xoops_confirm(array('op' => 'del', 'categoryid' => $categoryObj->categoryid(), 'confirm' => 1, 'name' => $categoryObj->name()), 'category.php', _AM_PUBLISHER_DELETECOL . " '" . $categoryObj->name() . "'. <br /> <br />" . _AM_PUBLISHER_DELETE_CAT_CONFIRM, _AM_PUBLISHER_DELETE);
@@ -79,14 +79,14 @@ switch ($op) {
             $filename = XoopsRequest::getArray('xoops_upload_file', array(), 'POST')[0];
             if (!empty($filename) || $filename != "") {
                 // TODO : implement publisher mimetype management
-                $max_size = $publisher->getConfig('maximum_filesize');
-                $max_imgwidth = $publisher->getConfig('maximum_image_width');
-                $max_imgheight = $publisher->getConfig('maximum_image_height');
+                $max_size          = $publisher->getConfig('maximum_filesize');
+                $max_imgwidth      = $publisher->getConfig('maximum_image_width');
+                $max_imgheight     = $publisher->getConfig('maximum_image_height');
                 $allowed_mimetypes = publisher_getAllowedImagesTypes();
 
                 if ($_FILES[$filename]['tmp_name'] == "" || !is_readable($_FILES[$filename]['tmp_name'])) {
                     redirect_header('javascript:history.go(-1)', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
-                    exit();
+//                    exit();
                 }
 
                 xoops_load('XoopsMediaUploader');
@@ -95,7 +95,7 @@ switch ($op) {
                     $categoryObj->setVar('image', $uploader->getSavedFileName());
                 } else {
                     redirect_header('javascript:history.go(-1)', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR . $uploader->getErrors());
-                    exit();
+//                    exit();
                 }
             }
         } else {
@@ -109,8 +109,8 @@ switch ($op) {
         $categoryObj->setVar('weight', isset($_POST['weight']) ? XoopsRequest::getInt('weight', 0, 'POST') : 1);
 
         // Groups and permissions
-        $grpread = isset($_POST['groups_read']) ? XoopsRequest::getArray('groups_read', array(), 'POST') : array();
-        $grpsubmit = isset($_POST['groups_submit']) ? XoopsRequest::getArray('groups_submit', array(), 'POST') : array();
+        $grpread       = isset($_POST['groups_read']) ? XoopsRequest::getArray('groups_read', array(), 'POST') : array();
+        $grpsubmit     = isset($_POST['groups_submit']) ? XoopsRequest::getArray('groups_submit', array(), 'POST') : array();
         $grpmoderation = isset($_POST['groups_moderation']) ? XoopsRequest::getArray('groups_moderation', array(), 'POST') : array();
 
         $categoryObj->setVar('name', XoopsRequest::getString('name', '', 'POST'));
@@ -138,15 +138,15 @@ switch ($op) {
 
         if ($categoryObj->isNew()) {
             $redirect_msg = _AM_PUBLISHER_CATCREATED;
-            $redirect_to = 'category.php?op=mod';
+            $redirect_to  = 'category.php?op=mod';
         } else {
             $redirect_msg = _AM_PUBLISHER_COLMODIFIED;
-            $redirect_to = 'category.php';
+            $redirect_to  = 'category.php';
         }
 
         if (!$categoryObj->store()) {
             redirect_header("javascript:history.go(-1)", 3, _AM_PUBLISHER_CATEGORY_SAVE_ERROR . publisher_formatErrors($categoryObj->getErrors()));
-            exit;
+//            exit;
         }
         // TODO : put this function in the category class
         publisher_saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
@@ -155,7 +155,7 @@ switch ($op) {
 
         //Added by fx2024
         $parentCat = $categoryObj->categoryid();
-        $sizeof = sizeof($_POST['scname']);
+        $sizeof    = sizeof($_POST['scname']);
         for ($i = 0; $i < $sizeof; ++$i) {
             if ($_POST['scname'][$i] != '') {
                 $categoryObj = $publisher->getHandler('category')->create();
@@ -164,7 +164,7 @@ switch ($op) {
 
                 if (!$categoryObj->store()) {
                     redirect_header("javascript:history.go(-1)", 3, _AM_PUBLISHER_SUBCATEGORY_SAVE_ERROR . publisher_formatErrors($categoryObj->getErrors()));
-                    exit;
+//                    exit;
                 }
                 // TODO : put this function in the category class
                 publisher_saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
@@ -174,7 +174,7 @@ switch ($op) {
         }
         //end of fx2024 code
         redirect_header($redirect_to, 2, $redirect_msg);
-        exit();
+//        exit();
         break;
 
     //Added by fx2024
@@ -194,14 +194,13 @@ switch ($op) {
         publisher_cpHeader();
         publisher_editCat(true, $categoryid, $nb_subcats, $categoryObj);
         exit();
-
         break;
     //end of fx2024 code
 
     case "cancel":
         redirect_header("category.php", 1, sprintf(_AM_PUBLISHER_BACK2IDX, ''));
-        exit();
-
+//        exit();
+        break;
     case "default":
     default:
         publisher_cpHeader();
@@ -230,6 +229,7 @@ switch ($op) {
             foreach ($categoriesObj as $key => $thiscat) {
                 publisher_displayCategory($thiscat);
             }
+            unset($key, $thiscat);
         } else {
             echo "<tr>";
             echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOCAT . "</td>";
@@ -237,7 +237,7 @@ switch ($op) {
             $categoryid = '0';
         }
         echo "</table>\n";
-        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+        include_once $GLOBALS['xoops']->path('class/pagenav.php');
         $pagenav = new XoopsPageNav($totalCategories, $publisher->getConfig('idxcat_perpage'), $startcategory, 'startcategory');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
         echo "<br />";
@@ -283,14 +283,15 @@ function publisher_displayCategory($categoryObj, $level = 0)
         foreach ($subCategoriesObj as $key => $thiscat) {
             publisher_displayCategory($thiscat, $level);
         }
+        unset($key, $thiscat);
     }
     unset($categoryObj);
 }
 
 /**
  * @param bool $showmenu
- * @param int  $categoryid
- * @param int  $nb_subcats
+ * @param int $categoryid
+ * @param int $nb_subcats
  * @param null $categoryObj
  */
 function publisher_editCat($showmenu = false, $categoryid = 0, $nb_subcats = 4, $categoryObj = null)
@@ -303,7 +304,7 @@ function publisher_editCat($showmenu = false, $categoryid = 0, $nb_subcats = 4, 
         $categoryObj = $publisher->getHandler('category')->get($categoryid);
         if ($categoryObj->notLoaded()) {
             redirect_header("category.php", 1, _AM_PUBLISHER_NOCOLTOEDIT);
-            exit();
+//            exit();
         }
     } else {
         if (!$categoryObj) {
@@ -340,9 +341,9 @@ function publisher_editCat($showmenu = false, $categoryid = 0, $nb_subcats = 4, 
         publisher_openCollapsableBar('subcatstable', 'subcatsicon', _AM_PUBLISHER_SUBCAT_CAT, _AM_PUBLISHER_SUBCAT_CAT_DSC);
         // Get the total number of sub-categories
         $categoriesObj = $publisher->getHandler('category')->get($sel_cat);
-        $totalsubs = $publisher->getHandler('category')->getCategoriesCount($sel_cat);
+        $totalsubs     = $publisher->getHandler('category')->getCategoriesCount($sel_cat);
         // creating the categories objects that are published
-        $subcatsObj = $publisher->getHandler('category')->getCategories(0, 0, $categoriesObj->categoryid());
+        $subcatsObj    = $publisher->getHandler('category')->getCategories(0, 0, $categoriesObj->categoryid());
         $totalSCOnPage = count($subcatsObj);
         echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
         echo "<tr>";
@@ -362,6 +363,7 @@ function publisher_editCat($showmenu = false, $categoryid = 0, $nb_subcats = 4, 
                 echo "<td class='even' align='right'> {$modify} {$delete} </td>";
                 echo "</tr>";
             }
+            unset($subcat);
         } else {
             echo "<tr>";
             echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOSUBCAT . "</td>";
@@ -376,9 +378,9 @@ function publisher_editCat($showmenu = false, $categoryid = 0, $nb_subcats = 4, 
         // Get the total number of published ITEMS
         $totalitems = $publisher->getHandler('item')->getItemsCount($sel_cat, array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED));
         // creating the items objects that are published
-        $itemsObj = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $startitem, $sel_cat);
+        $itemsObj         = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $startitem, $sel_cat);
         $totalitemsOnPage = count($itemsObj);
-        $allcats = $publisher->getHandler('category')->getObjects(null, true);
+        $allcats          = $publisher->getHandler('category')->getObjects(null, true);
         echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
         echo "<tr>";
         echo "<td width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . "</strong></td>";
@@ -390,8 +392,8 @@ function publisher_editCat($showmenu = false, $categoryid = 0, $nb_subcats = 4, 
         if ($totalitems > 0) {
             for ($i = 0; $i < $totalitemsOnPage; ++$i) {
                 $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
-                $modify = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . "/modules/" . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "' /></a>";
-                $delete = "<a href='item.php?op=del&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . "/modules/" . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'/></a>";
+                $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . "/modules/" . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "' /></a>";
+                $delete      = "<a href='item.php?op=del&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . "/modules/" . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'/></a>";
                 echo "<tr>";
                 echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . "</td>";
                 echo "<td class='even' align='left'>" . $categoryObj->name() . "</td>";
@@ -408,7 +410,7 @@ function publisher_editCat($showmenu = false, $categoryid = 0, $nb_subcats = 4, 
         }
         echo "</table>\n";
         echo "<br />\n";
-        $parentid = XoopsRequest::getInt('parentid',0,'GET');
+        $parentid           = XoopsRequest::getInt('parentid', 0, 'GET');
         $pagenav_extra_args = "op=mod&categoryid=$sel_cat&parentid=$parentid";
         xoops_load('XoopsPageNav');
         $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $startitem, 'startitem', $pagenav_extra_args);

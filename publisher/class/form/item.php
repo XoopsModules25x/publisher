@@ -21,13 +21,13 @@
  * @version         $Id: item.php 10645 2013-01-03 19:31:21Z trabis $
  */
 
-// defined('XOOPS_ROOT_PATH') || die("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
 include_once dirname(dirname(__DIR__)) . '/include/common.php';
 
 xoops_load('XoopsFormLoader');
 xoops_load('XoopsLists');
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
+include_once $GLOBALS['xoops']->path('class/tree.php');
 include_once PUBLISHER_ROOT_PATH . '/class/formdatetime.php';
 include_once PUBLISHER_ROOT_PATH . '/class/themetabform.php';
 
@@ -38,10 +38,10 @@ class PublisherItemForm extends PublisherThemeTabForm
 {
 
     public $checkperm = true;
-    public $tabs = array(
-        _CO_PUBLISHER_TAB_MAIN => 'mainTab',
+    public $tabs      = array(
+        _CO_PUBLISHER_TAB_MAIN   => 'mainTab',
         _CO_PUBLISHER_TAB_IMAGES => 'imagesTab',
-        _CO_PUBLISHER_TAB_FILES => 'filesTab',
+        _CO_PUBLISHER_TAB_FILES  => 'filesTab',
         _CO_PUBLISHER_TAB_OTHERS => 'othersTab'
     );
 
@@ -83,7 +83,7 @@ class PublisherItemForm extends PublisherThemeTabForm
      */
     public function setCheckPermissions($checkperm)
     {
-        $this->checkperm = (bool) $checkperm;
+        $this->checkperm = (bool)$checkperm;
     }
 
     /**
@@ -94,7 +94,7 @@ class PublisherItemForm extends PublisherThemeTabForm
     public function isGranted($item)
     {
         $publisher = PublisherPublisher::getInstance();
-        $ret = false;
+        $ret       = false;
         if (!$this->checkperm || $publisher->getHandler('permission')->isGranted('form_view', $item)) {
             $ret = true;
         }
@@ -114,7 +114,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         }
 
         $tabRef = $this->tabs[$tab];
-        $items = $this->$tabRef;
+        $items  = $this->$tabRef;
         foreach ($items as $item) {
             if ($this->isGranted($item)) {
                 return true;
@@ -132,16 +132,14 @@ class PublisherItemForm extends PublisherThemeTabForm
     public function createElements($obj)
     {
 
-        global $xoopsConfig, $xoopsUser;
-
         $publisher = PublisherPublisher::getInstance();
 
         $allowed_editors = publisher_getEditors($publisher->getHandler('permission')->getGrantedItems('editors'));
 
-        if (!is_object($xoopsUser)) {
+        if (!is_object($GLOBALS['xoopsUser'])) {
             $group = array(XOOPS_GROUP_ANONYMOUS);
         } else {
-            $group = $xoopsUser->getGroups();
+            $group = $GLOBALS['xoopsUser']->getGroups();
         }
 
         $this->setExtra('enctype="multipart/form-data"');
@@ -171,7 +169,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // TAGS
         if (xoops_isActiveModule('tag') && $this->isGranted(PublisherConstants::_PUBLISHER_ITEM_TAG)) {
-            include_once XOOPS_ROOT_PATH . '/modules/tag/include/formtag.php';
+            include_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
             $text_tags = new XoopsFormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
             $this->addElement($text_tags);
         }
@@ -181,13 +179,13 @@ class PublisherItemForm extends PublisherThemeTabForm
         if (count($allowed_editors) == 1) {
             $editor = $allowed_editors[0];
         } elseif (count($allowed_editors) > 0) {
-            $editor = @$_POST['editor'];
+            $editor = isset($_POST['editor']) ? XoopsRequest::getString('editor','', 'POST');
             if (!empty($editor)) {
                 publisher_setCookieVar('publisher_editor', $editor);
             } else {
                 $editor = publisher_getCookieVar('publisher_editor');
-                if (empty($editor) && is_object($xoopsUser)) {
-                    $editor = @ $xoopsUser->getVar('publisher_editor'); // Need set through user profile
+                if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
+                    $editor = isset($GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
             $editor = (empty($editor) || !in_array($editor, $allowed_editors)) ? $publisher->getConfig('submit_editor') : $editor;
@@ -198,27 +196,27 @@ class PublisherItemForm extends PublisherThemeTabForm
             $editor = $publisher->getConfig('submit_editor');
         }
 
-        $editor_configs = array();
-        $editor_configs["rows"] = !$publisher->getConfig('submit_editor_rows') ? 35 : $publisher->getConfig('submit_editor_rows');
-        $editor_configs["cols"] = !$publisher->getConfig('submit_editor_cols') ? 60 : $publisher->getConfig('submit_editor_cols');
-        $editor_configs["width"] = !$publisher->getConfig('submit_editor_width') ? "100%" : $publisher->getConfig('submit_editor_width');
+        $editor_configs           = array();
+        $editor_configs["rows"]   = !$publisher->getConfig('submit_editor_rows') ? 35 : $publisher->getConfig('submit_editor_rows');
+        $editor_configs["cols"]   = !$publisher->getConfig('submit_editor_cols') ? 60 : $publisher->getConfig('submit_editor_cols');
+        $editor_configs["width"]  = !$publisher->getConfig('submit_editor_width') ? "100%" : $publisher->getConfig('submit_editor_width');
         $editor_configs["height"] = !$publisher->getConfig('submit_editor_height') ? "400px" : $publisher->getConfig('submit_editor_height');
 
         // SUMMARY
         if ($this->isGranted(PublisherConstants::_PUBLISHER_SUMMARY)) {
             // Description
             //$summary_text = new XoopsFormTextArea(_CO_PUBLISHER_SUMMARY, 'summary', $obj->getVar('summary', 'e'), 7, 60);
-            $editor_configs["name"] = "summary";
+            $editor_configs["name"]  = "summary";
             $editor_configs["value"] = $obj->getVar('summary', 'e');
-            $summary_text = new XoopsFormEditor(_CO_PUBLISHER_SUMMARY, $editor, $editor_configs, $nohtml, $onfailure = null);
+            $summary_text            = new XoopsFormEditor(_CO_PUBLISHER_SUMMARY, $editor, $editor_configs, $nohtml, $onfailure = null);
             $summary_text->setDescription(_CO_PUBLISHER_SUMMARY_DSC);
             $this->addElement($summary_text);
         }
 
         // BODY
-        $editor_configs["name"] = "body";
+        $editor_configs["name"]  = "body";
         $editor_configs["value"] = $obj->getVar('body', 'e');
-        $body_text = new XoopsFormEditor(_CO_PUBLISHER_BODY, $editor, $editor_configs, $nohtml, $onfailure = null);
+        $body_text               = new XoopsFormEditor(_CO_PUBLISHER_BODY, $editor, $editor_configs, $nohtml, $onfailure = null);
         $body_text->setDescription(_CO_PUBLISHER_BODY_DSC);
         $this->addElement($body_text);
 
@@ -253,7 +251,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // Available pages to wrap
         if ($this->isGranted(PublisherConstants::_PUBLISHER_AVAILABLE_PAGE_WRAP)) {
-            $wrap_pages = XoopsLists::getHtmlListAsArray(publisher_getUploadDir(true, 'content'));
+            $wrap_pages                = XoopsLists::getHtmlListAsArray(publisher_getUploadDir(true, 'content'));
             $available_wrap_pages_text = array();
             foreach ($wrap_pages as $page) {
                 $available_wrap_pages_text[] = "<span onclick='publisherPageWrap(\"body\", \"[pagewrap=$page] \");' onmouseover='style.cursor=\"pointer\"'>$page</span>";
@@ -271,11 +269,11 @@ class PublisherItemForm extends PublisherThemeTabForm
         if ($this->isGranted(PublisherConstants::_PUBLISHER_UID)) {
             $uid_select = new XoopsFormSelect(_CO_PUBLISHER_UID, 'uid', $obj->uid(), 1, false);
             $uid_select->setDescription(_CO_PUBLISHER_UID_DSC);
-            $sql = "SELECT uid, uname FROM " . $obj->db->prefix('users') . " ORDER BY uname ASC";
-            $result = $obj->db->query($sql);
-            $users_array = array();
-            $users_array[0] = $xoopsConfig['anonymous'];
-            while ($myrow = $obj->db->fetchArray($result)) {
+            $sql            = "SELECT uid, uname FROM " . $obj->db->prefix('users') . " ORDER BY uname ASC";
+            $result         = $obj->db->query($sql);
+            $users_array    = array();
+            $users_array[0] = $GLOBALS['xoopsConfig']['anonymous'];
+            while (($myrow = $obj->db->fetchArray($result)) != false) {
                 $users_array[$myrow['uid']] = $myrow['uname'];
             }
             $uid_select->addOptionArray($users_array);
@@ -297,11 +295,11 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // STATUS
         if ($this->isGranted(PublisherConstants::_PUBLISHER_STATUS)) {
-            $options = array(
+            $options       = array(
                 PublisherConstants::_PUBLISHER_STATUS_PUBLISHED => _CO_PUBLISHER_PUBLISHED,
-                PublisherConstants::_PUBLISHER_STATUS_OFFLINE => _CO_PUBLISHER_OFFLINE,
+                PublisherConstants::_PUBLISHER_STATUS_OFFLINE   => _CO_PUBLISHER_OFFLINE,
                 PublisherConstants::_PUBLISHER_STATUS_SUBMITTED => _CO_PUBLISHER_SUBMITTED,
-                PublisherConstants::_PUBLISHER_STATUS_REJECTED => _CO_PUBLISHER_REJECTED
+                PublisherConstants::_PUBLISHER_STATUS_REJECTED  => _CO_PUBLISHER_REJECTED
             );
             $status_select = new XoopsFormSelect(_CO_PUBLISHER_STATUS, 'status', $obj->getVar('status'));
             $status_select->addOptionArray($options);
@@ -312,7 +310,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // Datesub
         if ($this->isGranted(PublisherConstants::_PUBLISHER_DATESUB)) {
-            $datesub = ($obj->getVar('datesub') == 0) ? time() : $obj->getVar('datesub');
+            $datesub          = ($obj->getVar('datesub') == 0) ? time() : $obj->getVar('datesub');
             $datesub_datetime = new PublisherFormDateTime(_CO_PUBLISHER_DATESUB, 'datesub', $size = 15, $datesub);
             $datesub_datetime->setDescription(_CO_PUBLISHER_DATESUB_DSC);
             $this->addElement($datesub_datetime);
@@ -330,9 +328,9 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // IMAGE
         if ($this->isGranted(PublisherConstants::_PUBLISHER_IMAGE_ITEM)) {
-            $objimages = $obj->getImages();
-            $mainarray = is_object($objimages['main']) ? array($objimages['main']) : array();
-            $mergedimages = array_merge($mainarray, $objimages['others']);
+            $objimages      = $obj->getImages();
+            $mainarray      = is_object($objimages['main']) ? array($objimages['main']) : array();
+            $mergedimages   = array_merge($mainarray, $objimages['others']);
             $objimage_array = array();
             foreach ($mergedimages as $imageObj) {
                 $objimage_array[$imageObj->getVar('image_name')] = $imageObj->getVar('image_nicename');
@@ -349,7 +347,7 @@ class PublisherItemForm extends PublisherThemeTabForm
             $imageObjs = array();
             if (!empty($catids)) {
                 $image_handler = xoops_gethandler('image');
-                $criteria = new CriteriaCompo(new Criteria('imgcat_id', '(' . implode(',', $catids) . ')', 'IN'));
+                $criteria      = new CriteriaCompo(new Criteria('imgcat_id', '(' . implode(',', $catids) . ')', 'IN'));
                 $criteria->add(new Criteria('image_display', 1));
                 $criteria->setSort('image_nicename');
                 $criteria->setOrder('ASC');
@@ -379,13 +377,13 @@ class PublisherItemForm extends PublisherThemeTabForm
             $buttonremove = new XoopsFormButton('', 'buttonremove', _CO_PUBLISHER_REMOVE);
             $buttonremove->setExtra("onclick='publisher_appendSelectOption(\"image_item\", \"image_notused\"), publisher_updateSelectOption(\"image_item\", \"image_featured\")'");
 
-            $opentable = new XoopsFormLabel('', "<table><tr><td>");
-            $addcol = new XoopsFormLabel('', "</td><td>");
-            $addbreak = new XoopsFormLabel('', "<br />");
+            $opentable  = new XoopsFormLabel('', "<table><tr><td>");
+            $addcol     = new XoopsFormLabel('', "</td><td>");
+            $addbreak   = new XoopsFormLabel('', "<br />");
             $closetable = new XoopsFormLabel('', "</td></tr></table>");
 
             $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ajaxupload.3.9.js');
-            $js_data = new XoopsFormLabel('', '
+            $js_data  = new XoopsFormLabel('', '
 <script type= "text/javascript">/*<![CDATA[*/
 $publisher(document).ready(function () {
     var button = $publisher("#publisher_upload_button"), interval;
@@ -426,7 +424,7 @@ $publisher(document).ready(function () {
 /*]]>*/</script>
 ');
             $messages = new XoopsFormLabel('', "<div id='publisher_upload_message'></div>");
-            $button = new XoopsFormLabel('', "<div id='publisher_upload_button'>" . _CO_PUBLISHER_IMAGE_UPLOAD_NEW . "</div>");
+            $button   = new XoopsFormLabel('', "<div id='publisher_upload_button'>" . _CO_PUBLISHER_IMAGE_UPLOAD_NEW . "</div>");
             $nicename = new XoopsFormText('', 'image_nicename', 30, 30, _CO_PUBLISHER_IMAGE_NICENAME);
 
             $imgcat_handler = xoops_gethandler('imagecategory');
@@ -473,7 +471,7 @@ $publisher(document).ready(function () {
             $image_tray->setDescription(_CO_PUBLISHER_IMAGE_ITEMS_DSC);
             $this->addElement($image_tray);
 
-            $imagename = is_object($objimages['main']) ? $objimages['main']->getVar('image_name') : '';
+            $imagename    = is_object($objimages['main']) ? $objimages['main']->getVar('image_name') : '';
             $imageforpath = ($imagename != '') ? $imagename : 'blank.gif';
 
             $image_select3 = new XoopsFormSelect(_CO_PUBLISHER_IMAGE_ITEM, 'image_featured', $imagename, 1);

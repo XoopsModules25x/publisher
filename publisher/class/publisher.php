@@ -19,7 +19,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: publisher.php 10374 2012-12-12 23:39:48Z trabis $
  */
-// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
 class PublisherPublisher
 {
@@ -35,8 +35,8 @@ class PublisherPublisher
      */
     protected function __construct($debug)
     {
-        $this->debug = $debug;
-        $this->dirname =  basename(dirname(__DIR__));
+        $this->debug   = $debug;
+        $this->dirname = basename(dirname(__DIR__));
     }
 
     /**
@@ -122,11 +122,10 @@ class PublisherPublisher
 
     public function initModule()
     {
-        global $xoopsModule;
-        if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') == $this->dirname) {
-            $this->module = $xoopsModule;
+        if (isset($GLOBALS['xoopsModule']) && is_object($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirname') == $this->dirname) {
+            $this->module = $GLOBALS['xoopsModule'];
         } else {
-            $hModule = xoops_gethandler('module');
+            $hModule      = xoops_gethandler('module');
             $this->module = $hModule->getByDirname($this->dirname);
         }
         $this->addLog('INIT MODULE');
@@ -135,7 +134,7 @@ class PublisherPublisher
     public function initConfig()
     {
         $this->addLog('INIT CONFIG');
-        $hModConfig = xoops_gethandler('config');
+        $hModConfig   = xoops_gethandler('config');
         $this->config = $hModConfig->getConfigsByCat(0, $this->getModule()->getVar('mid'));
     }
 

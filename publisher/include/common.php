@@ -19,17 +19,9 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: common.php 10374 2012-12-12 23:39:48Z trabis $
  */
-// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-define("PUBLISHER_DIRNAME", basename(dirname(__DIR__)));
-define("PUBLISHER_URL", XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME);
-define("PUBLISHER_IMAGES_URL", PUBLISHER_URL . '/assets/images');
-define("PUBLISHER_ADMIN_URL", PUBLISHER_URL . '/admin');
-define("PUBLISHER_UPLOADS_URL", XOOPS_URL . '/uploads/' . PUBLISHER_DIRNAME);
-define("PUBLISHER_ROOT_PATH", XOOPS_ROOT_PATH . '/modules/' . PUBLISHER_DIRNAME);
-define("PUBLISHER_UPLOADS_PATH", XOOPS_ROOT_PATH . '/uploads/' . PUBLISHER_DIRNAME);
-
-xoops_loadLanguage('common', PUBLISHER_DIRNAME);
+include_once __DIR__ . '/config.php';
 
 include_once PUBLISHER_ROOT_PATH . '/include/functions.php';
 //include_once PUBLISHER_ROOT_PATH . '/include/constants.php';
@@ -39,11 +31,14 @@ include_once PUBLISHER_ROOT_PATH . '/class/session.php';
 include_once PUBLISHER_ROOT_PATH . '/class/publisher.php';
 //include_once PUBLISHER_ROOT_PATH . '/class/request.php';
 
+xoops_loadLanguage('common', PUBLISHER_DIRNAME);
+
 xoops_load('constants', PUBLISHER_DIRNAME);
+xoops_load('utilities', PUBLISHER_DIRNAME);
 xoops_load('XoopsRequest');
 xoops_load('XoopsFilterInput');
 
-$debug = false;
+$debug     = false;
 $publisher = PublisherPublisher::getInstance($debug);
 
 //This is needed or it will not work in blocks.

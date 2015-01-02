@@ -19,17 +19,17 @@
  * @return string sort_url for the article
  */
 
-// defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
 include_once __DIR__ . '/common.php';
 
 /**
  * @param string $title
- * @param bool   $withExt
+ * @param bool $withExt
  *
  * @return mixed|string
  */
-function publisher_seo_title($title = '', $withExt = true)
+function publisherSeoTitle($title = '', $withExt = true)
 {
 
     /**
@@ -48,13 +48,13 @@ function publisher_seo_title($title = '', $withExt = true)
     //                 Tab     Space      !        "        #        %        &        '        (        )        ,        /        :        ;        <        =        >        ?        @        [        \        ]        ^        {        |        }        ~       .
     $pattern = array("/%09/", "/%20/", "/%21/", "/%22/", "/%23/", "/%25/", "/%26/", "/%27/", "/%28/", "/%29/", "/%2C/", "/%2F/", "/%3A/", "/%3B/", "/%3C/", "/%3D/", "/%3E/", "/%3F/", "/%40/", "/%5B/", "/%5C/", "/%5D/", "/%5E/", "/%7B/", "/%7C/", "/%7D/", "/%7E/", "/\./");
     $rep_pat = array("-", "-", "", "", "", "-100", "", "-", "", "", "", "-", "", "", "", "-", "", "", "-at-", "", "-", "", "-", "", "-", "", "-", "");
-    $title = preg_replace($pattern, $rep_pat, $title);
+    $title   = preg_replace($pattern, $rep_pat, $title);
 
     // Transformation des caractères accentués
     //                  è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
     $pattern = array("/%B0/", "/%E8/", "/%E9/", "/%EA/", "/%EB/", "/%E7/", "/%E0/", "/%E2/", "/%E4/", "/%EE/", "/%EF/", "/%F9/", "/%FC/", "/%FB/", "/%F4/", "/%F6/");
     $rep_pat = array("-", "e", "e", "e", "e", "c", "a", "a", "a", "i", "i", "u", "u", "u", "o", "o");
-    $title = preg_replace($pattern, $rep_pat, $title);
+    $title   = preg_replace($pattern, $rep_pat, $title);
 
     if (sizeof($title) > 0) {
         if ($withExt) {
@@ -74,7 +74,7 @@ function publisher_seo_title($title = '', $withExt = true)
  *
  * @return string
  */
-function publisher_seo_genUrl($op, $id, $short_url = "")
+function publisherSeoGenUrl($op, $id, $short_url = "")
 {
     $publisher = PublisherPublisher::getInstance();
     if ($publisher->getConfig('seo_url_rewrite') != 'none') {

@@ -23,7 +23,7 @@
 include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
-$importFromModuleName = "cjaycontent " . @$_POST['cjaycontent_version'];
+$importFromModuleName = "cjaycontent " . XoopsRequest::getString('cjaycontent_version', '', 'POST');
 
 $scriptname = "cjaycontent.php";
 
@@ -65,26 +65,25 @@ if ($op == 'start') {
         _AM_PUBLISHER_IMPORT_INFO
     );
 
-    $result = $xoopsDB->query("SELECT COUNT(*) FROM " . $xoopsDB->prefix("cjaycontent"));
-    list ($totalArticles) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT COUNT(*) FROM " . $GLOBALS['xoopsDB']->prefix("cjaycontent"));
+    list ($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
 
     if ($totalArticles == 0) {
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(
-                _AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS,
-                $importFromModuleName,
-                $totalArticles
-            ) . "</span>";
+            _AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS,
+            $importFromModuleName,
+            $totalArticles
+        ) . "</span>";
     } else {
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(
-                _AM_PUBLISHER_IMPORT_MODULE_FOUND,
-                $importFromModuleName,
-                $totalArticles,
-                $totalCat
-            ) . "</span>";
+            _AM_PUBLISHER_IMPORT_MODULE_FOUND,
+            $importFromModuleName,
+            $totalArticles,
+            $totalCat) . "</span>";
 
         $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
-          ob_end_clean();
+        ob_end_clean();
 
         $form->addElement(new XoopsFormHidden('op', 'go'));
         $form->addElement(new XoopsFormButton ('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
@@ -122,9 +121,9 @@ if ($op == 'go') {
 
     $oldToNew = array();
 
-    $sql            = "SELECT * FROM " . $xoopsDB->prefix('cjaycontent');
-    $resultArticles = $xoopsDB->query($sql);
-    while ($arrArticle = $xoopsDB->fetchArray($resultArticles)) {
+    $sql            = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('cjaycontent');
+    $resultArticles = $GLOBALS['xoopsDB']->query($sql);
+    while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) != false) {
         // insert article
         $itemObj = $publisher->getHandler('item')->create();
         $itemObj->setVar('itemid', $arrArticle['id']);
@@ -154,9 +153,9 @@ if ($op == 'go') {
         /*
          // HTML Wrap
          if ($arrArticle['htmlpage']) {
-         $pagewrap_filename	= XOOPS_ROOT_PATH . "/modules/wfsection/html/" .$arrArticle['htmlpage'];
+         $pagewrap_filename	= $GLOBALS['xoops']->path("/modules/wfsection/html/" .$arrArticle['htmlpage']);
          if (file_exists($pagewrap_filename)) {
-         if (copy($pagewrap_filename, XOOPS_ROOT_PATH . "/uploads/publisher/content/" . $arrArticle['htmlpage'])) {
+         if (copy($pagewrap_filename, $GLOBALS['xoops']->path("/uploads/publisher/content/" . $arrArticle['htmlpage']))) {
          $itemObj->setVar('body', "[pagewrap=" . $arrArticle['htmlpage'] . "]");
          echo sprintf("&nbsp;&nbsp;&nbsp;&nbsp;" . _AM_PUBLISHER_IMPORT_ARTICLE_WRAP, $arrArticle['htmlpage']) . "<br/>";
          }
@@ -197,6 +196,7 @@ if ($op == 'go') {
         }
 
     }
+    unset($comment);
 
     echo "<br/><br/>Done.<br/>";
 

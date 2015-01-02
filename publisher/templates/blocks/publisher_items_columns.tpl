@@ -43,7 +43,7 @@
                 <a href="<{$item.itemurl}>" title="<{$item.item_title}>"><{$item.item_title}></a>
             </h3>
 
-            <div style="float:right; width:60%">
+            <div style="float:right; width:60%;">
 
                 <div class="publisher-content clearfix">
                     <{if $item.item_image != ''}>

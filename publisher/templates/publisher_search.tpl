@@ -1,10 +1,19 @@
 <{if $search_info}>
-<div class="resultMsg"> <{$search_info}></div>    <{if $results}>        <{foreachq item=result from=$results}>
-<div class="item">
-    <strong><a href="<{$result.link}>"><{$result.title}></a></strong><br/> <{$result.author}> <{$result.datesub}> <{if $result.text}>
-    <br/><{$result.text}> <{/if}>
-</div>
-<div class="clear"></div>        <{/foreach}>    <{/if}><{/if}>
+    <div class="resultMsg"> <{$search_info}></div>
+    <{if $results}>
+        <{foreachq item=result from=$results}>
+        <div class="item">
+            <strong><a href="<{$result.link}>"><{$result.title}></a></strong><br/>
+            <{$result.author}> <{$result.datesub}>
+            <{if $result.text}>
+                <br/>
+                <{$result.text}>
+            <{/if}>
+        </div>
+        <div class="clear"></div>
+        <{/foreach}>
+    <{/if}>
+<{/if}>
 
 <form name="search" action="search.php" method="post">
     <table class="outer" border="0" cellpadding="1" cellspacing="0" align="center" width="95%">
@@ -15,7 +24,7 @@
                         <td class="head" width="10%" align="right">
                             <strong><{$smarty.const._SR_KEYWORDS}></strong></td>
                         <td class="even">
-                            <input type="text" name="term" value="<{$search_term}>" size="50"/>
+                            <input type="text" name="term" title="term" value="<{$search_term}>" size="50"/>
                         </td>
                     </tr>
                     <tr>
@@ -39,7 +48,7 @@
                             <strong><{$smarty.const._CO_PUBLISHER_UID}></strong>&nbsp;
                         </td>
                         <td class="even">
-                            <input type="text" name="uname" value="<{$search_user}>"/>
+                            <input type="text" name="uname" title="uname" value="<{$search_user}>"/>
                         </td>
                     </tr>
                     <tr>
@@ -49,12 +58,12 @@
                         <td class="even"><{$sortby_select}></td>
                     </tr>
                     <{if $search_rule}>
-                    <tr>
-                        <td class="head" align="right">
-                            <strong><{$smarty.const._SR_SEARCHRULE}></strong>&nbsp;
-                        </td>
-                        <td class="even"><{$search_rule}></td>
-                    </tr>
+                        <tr>
+                            <td class="head" align="right">
+                                <strong><{$smarty.const._SR_SEARCHRULE}></strong>&nbsp;
+                            </td>
+                            <td class="even"><{$search_rule}></td>
+                        </tr>
                     <{/if}>
                     <tr>
                         <td class="head" align="right">&nbsp;</td>

@@ -6,7 +6,7 @@
 
     <{if $collapsable_heading == 1}>
         <div class="publisher_collaps_title">
-            <a href='javascript:;' onclick="toggle('toptable'); toggleIcon('toptableicon')">
+            <a href='javascript:' onclick="toggle('toptable'); toggleIcon('toptableicon')">
                 <img id='toptableicon' src='<{$publisher_url}>/assets/images/links/close12.gif' alt=''/>
             </a>
             &nbsp;<{$lang_category_summary}>
@@ -29,7 +29,7 @@
 <{if $items}>
     <{if $collapsable_heading == 1}>
         <div class="publisher_collaps_title">
-            <a href='javascript:;' onclick="toggle('bottomtable'); toggleIcon('bottomtableicon')";>
+            <a href='javascript:' onclick="toggle('bottomtable'); toggleIcon('bottomtableicon')">
             <img id='bottomtableicon' src='<{$publisher_url}>/assets/images/links/close12.gif' alt=''/>
             </a>
             &nbsp;<{$lang_items_title}>

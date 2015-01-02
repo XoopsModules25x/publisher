@@ -20,12 +20,12 @@
  * @version         $Id: category.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-// defined('XOOPS_ROOT_PATH') || die("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
 include_once dirname(dirname(__DIR__)) . '/include/common.php';
 
 xoops_load('XoopsFormLoader');
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
+include_once $GLOBALS['xoops']->path('class/tree.php');
 
 /**
  * Class PublisherCategoryForm
@@ -55,7 +55,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $this->targetObject = $target;
         $this->subCatsCount = $subCatsCount;
 
-        $member_handler = xoops_gethandler('member');
+        $member_handler   = xoops_gethandler('member');
         $this->userGroups = $member_handler->getGroupList();
 
         parent::__construct(_AM_PUBLISHER_CATEGORY, "form", xoops_getenv('PHP_SELF'));
@@ -67,13 +67,12 @@ class PublisherCategoryForm extends XoopsThemeForm
 
     public function createElements()
     {
-        global $xoopsUser;
 
         // Category
         $criteria = new Criteria(null);
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
-        $mytree = new XoopsObjectTree($this->publisher->getHandler('category')->getObjects($criteria), "categoryid", "parentid");
+        $mytree     = new XoopsObjectTree($this->publisher->getHandler('category')->getObjects($criteria), "categoryid", "parentid");
         $cat_select = $mytree->makeSelBox('parentid', 'name', '--', $this->targetObject->parentid(), true);
         $this->addElement(new XoopsFormLabel(_AM_PUBLISHER_PARENT_CATEGORY_EXP, $cat_select));
 
@@ -84,35 +83,35 @@ class PublisherCategoryForm extends XoopsThemeForm
         $this->addElement(new XoopsFormTextArea(_AM_PUBLISHER_COLDESCRIPT, 'description', $this->targetObject->description('e'), 7, 60));
 
         // EDITOR
-        $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $gperm_handler = $this->publisher->getHandler('groupperm');
-        $module_id = $this->publisher->getModule()->mid();
+        $groups          = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        $gperm_handler   = $this->publisher->getHandler('groupperm');
+        $module_id       = $this->publisher->getModule()->mid();
         $allowed_editors = publisher_getEditors($gperm_handler->getItemIds('editors', $groups, $module_id));
-        $nohtml = false;
+        $nohtml          = false;
         if (count($allowed_editors) > 0) {
-            $editor = @$_POST['editor'];
+            $editor = isset($_POST['editor']) ? $_POST['editor'] : '';
             if (!empty($editor)) {
                 publisher_setCookieVar('publisher_editor', $editor);
             } else {
                 $editor = publisher_getCookieVar('publisher_editor');
-                if (empty($editor) && is_object($xoopsUser)) {
-                    $editor = @ $xoopsUser->getVar('publisher_editor'); // Need set through user profile
+                if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
+                    $editor = isset($GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
-            $editor = (empty($editor) || !in_array($editor, $allowed_editors)) ? $this->publisher->getConfig('submit_editor') : $editor;
+            $editor      = (empty($editor) || !in_array($editor, $allowed_editors)) ? $this->publisher->getConfig('submit_editor') : $editor;
             $form_editor = new XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowed_editors);
             $this->addElement($form_editor);
         } else {
             $editor = $this->publisher->getConfig('submit_editor');
         }
 
-        $editor_configs = array();
-        $editor_configs['rows'] = $this->publisher->getConfig('submit_editor_rows') == '' ? 35 : $this->publisher->getConfig('submit_editor_rows');
-        $editor_configs['cols'] = $this->publisher->getConfig('submit_editor_cols') == '' ? 60 : $this->publisher->getConfig('submit_editor_cols');
-        $editor_configs['width'] = $this->publisher->getConfig('submit_editor_width') == '' ? "100%" : $this->publisher->getConfig('submit_editor_width');
+        $editor_configs           = array();
+        $editor_configs['rows']   = $this->publisher->getConfig('submit_editor_rows') == '' ? 35 : $this->publisher->getConfig('submit_editor_rows');
+        $editor_configs['cols']   = $this->publisher->getConfig('submit_editor_cols') == '' ? 60 : $this->publisher->getConfig('submit_editor_cols');
+        $editor_configs['width']  = $this->publisher->getConfig('submit_editor_width') == '' ? "100%" : $this->publisher->getConfig('submit_editor_width');
         $editor_configs['height'] = $this->publisher->getConfig('submit_editor_height') == '' ? "400px" : $this->publisher->getConfig('submit_editor_height');
 
-        $editor_configs['name'] = 'header';
+        $editor_configs['name']  = 'header';
         $editor_configs['value'] = $this->targetObject->header('e');
 
         $text_header = new XoopsFormEditor(_AM_PUBLISHER_CATEGORY_HEADER, $editor, $editor_configs, $nohtml, $onfailure = null);
@@ -120,7 +119,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $this->addElement($text_header);
 
         // IMAGE
-        $image_array = XoopsLists::getImgListAsArray(publisher_getImageDir('category'));
+        $image_array  = XoopsLists::getImgListAsArray(publisher_getImageDir('category'));
         $image_select = new XoopsFormSelect('', 'image', $this->targetObject->image());
         //$image_select -> addOption ('-1', '---------------');
         $image_select->addOptionArray($image_array);

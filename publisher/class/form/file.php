@@ -20,7 +20,7 @@
  * @version         $Id: file.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-// defined('XOOPS_ROOT_PATH') || die("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
 include_once dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -46,7 +46,7 @@ class PublisherFileForm extends XoopsThemeForm
      */
     public function __construct(&$target)
     {
-        $this->publisher = PublisherPublisher::getInstance();
+        $this->publisher    = PublisherPublisher::getInstance();
         $this->targetObject = $target;
 
         parent::__construct(_AM_PUBLISHER_UPLOAD_FILE, "form", xoops_getenv('PHP_SELF'));
@@ -58,7 +58,6 @@ class PublisherFileForm extends XoopsThemeForm
 
     public function createElements()
     {
-        global $xoopsDB, $xoopsUser;
         // NAME
         $name_text = new XoopsFormText(_CO_PUBLISHER_FILENAME, 'name', 50, 255, $this->targetObject->name());
         $name_text->setDescription(_CO_PUBLISHER_FILE_NAME_DSC);
@@ -71,9 +70,9 @@ class PublisherFileForm extends XoopsThemeForm
 
         // FILE TO UPLOAD
         //if (!$this->targetObject->fileid()) {
-            $file_box = new XoopsFormFile(_CO_PUBLISHER_FILE_TO_UPLOAD, "item_upload_file", 0);
-            $file_box->setExtra("size ='50'");
-            $this->addElement($file_box);
+        $file_box = new XoopsFormFile(_CO_PUBLISHER_FILE_TO_UPLOAD, "item_upload_file", 0);
+        $file_box->setExtra("size ='50'");
+        $this->addElement($file_box);
         //}
 
         $status_select = new XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'file_status', PublisherConstants::_PUBLISHER_STATUS_FILE_ACTIVE);
@@ -90,7 +89,7 @@ class PublisherFileForm extends XoopsThemeForm
     public function createButtons()
     {
         $files_button_tray = new XoopsFormElementTray('', '');
-        $files_hidden = new XoopsFormHidden('op', 'uploadfile');
+        $files_hidden      = new XoopsFormHidden('op', 'uploadfile');
         $files_button_tray->addElement($files_hidden);
 
         if (!$this->targetObject->fileid()) {

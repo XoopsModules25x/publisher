@@ -34,7 +34,7 @@ class MyTextSanitizerExtension
     /**
      * @return MyTextSanitizerExtension
      */
-    public function &getInstance()
+    public static function &getInstance()
     {
         static $instance;
         if (!isset($instance)) {
@@ -51,7 +51,7 @@ class MyTextSanitizerExtension
     public function wmp(&$patterns, &$replacements)
     {
         $patterns[] = "/\[wmp=(['\"]?)([^\"']*),([^\"']*)\\1]([^\"]*)\[\/wmp\]/sU";
-        $rp = "<object classid=\"clsid:6BF52A52-394A-11D3-B153-00C04F79FAA6\" id=\"WindowsMediaPlayer\" width=\"\\2\" height=\"\\3\">\n";
+        $rp         = "<object classid=\"clsid:6BF52A52-394A-11D3-B153-00C04F79FAA6\" id=\"WindowsMediaPlayer\" width=\"\\2\" height=\"\\3\">\n";
         $rp .= "<param name=\"URL\" value=\"\\4\">\n";
         $rp .= "<param name=\"AutoStart\" value=\"0\">\n";
         $rp .= "<embed autostart=\"0\" src=\"\\4\" type=\"video/x-ms-wmv\" width=\"\\2\" height=\"\\3\" controls=\"ImageWindow\" console=\"cons\"> </embed>";
@@ -98,7 +98,7 @@ class MyTextSanitizerExtension
      */
     public function flash(&$patterns, &$replacements)
     {
-        $patterns[] = "/\[(swf|flash)=(['\"]?)([^\"']*),([^\"']*)\\2]([^\"]*)\[\/\\1\]/esU";
+        $patterns[]     = "/\[(swf|flash)=(['\"]?)([^\"']*),([^\"']*)\\2]([^\"]*)\[\/\\1\]/esU";
         $replacements[] = "MyTextSanitizerExtension::_displayFlash( '\\5', '\\3', '\\4' )";
     }
 
@@ -109,7 +109,7 @@ class MyTextSanitizerExtension
     public function mms(&$patterns, &$replacements)
     {
         $patterns[] = "/\[mms=(['\"]?)([^\"']*),([^\"']*)\\1]([^\"]*)\[\/mms\]/sU";
-        $rp = "<OBJECT id=videowindow1 height='\\3' width='\\2' classid='CLSID:6BF52A52-394A-11D3-B153-00C04F79FAA6'>";
+        $rp         = "<OBJECT id=videowindow1 height='\\3' width='\\2' classid='CLSID:6BF52A52-394A-11D3-B153-00C04F79FAA6'>";
         $rp .= "<PARAM NAME=\"URL\" VALUE=\"\\4\">";
         $rp .= "<PARAM NAME=\"rate\" VALUE=\"1\">";
         $rp .= "<PARAM NAME=\"balance\" VALUE=\"0\">";
@@ -146,7 +146,7 @@ class MyTextSanitizerExtension
     public function rtsp(&$patterns, &$replacements)
     {
         $patterns[] = "/\[rtsp=(['\"]?)([^\"']*),([^\"']*)\\1]([^\"]*)\[\/rtsp\]/sU";
-        $rp = "<object classid=\"clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA\" HEIGHT='\\3' ID=Player WIDTH='\\2' VIEWASTEXT>";
+        $rp         = "<object classid=\"clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA\" HEIGHT='\\3' ID=Player WIDTH='\\2' VIEWASTEXT>";
         $rp .= "<param NAME=\"_ExtentX\" VALUE=\"12726\">";
         $rp .= "<param NAME=\"_ExtentY\" VALUE=\"8520\">";
         $rp .= "<param NAME=\"AUTOSTART\" VALUE=\"0\">";

@@ -77,7 +77,7 @@
  * @author     Kazumi Ono <onokazu@xoops.org>
  * @copyright  (c) 2000-2003 The Xoops Project - www.xoops.org
  */
-mt_srand((double) microtime() * 1000000);
+mt_srand((double)microtime() * 1000000);
 
 /**
  * Class XoopsMediaUploader
@@ -89,16 +89,16 @@ class XoopsMediaUploader
     public $mediaSize;
     public $mediaTmpName;
     public $mediaError;
-    public $uploadDir = '';
+    public $uploadDir        = '';
     public $allowedMimeTypes = array();
-    public $maxFileSize = 0;
+    public $maxFileSize      = 0;
     public $maxWidth;
     public $maxHeight;
     public $targetFileName;
     public $prefix;
     public $ext;
     public $dimension;
-    public $errors = array();
+    public $errors           = array();
     public $savedDestination;
     public $savedFileName;
     /**
@@ -120,7 +120,7 @@ class XoopsMediaUploader
         if (is_array($allowedMimeTypes)) {
             $this->allowedMimeTypes = $allowedMimeTypes;
         }
-        $this->uploadDir = $uploadDir;
+        $this->uploadDir   = $uploadDir;
         $this->maxFileSize = intval($maxFileSize);
         if (isset($maxWidth)) {
             $this->maxWidth = intval($maxWidth);
@@ -155,23 +155,23 @@ class XoopsMediaUploader
 
             return false;
         } elseif (is_array($_FILES[$media_name]['name']) && isset($index)) {
-            $index = intval($index);
-            $this->mediaName = (get_magic_quotes_gpc()) ? stripslashes($_FILES[$media_name]['name'][$index]) : $_FILES[$media_name]['name'][$index];
-            $this->mediaType = $_FILES[$media_name]['type'][$index];
-            $this->mediaSize = $_FILES[$media_name]['size'][$index];
+            $index              = intval($index);
+            $this->mediaName    = (get_magic_quotes_gpc()) ? stripslashes($_FILES[$media_name]['name'][$index]) : $_FILES[$media_name]['name'][$index];
+            $this->mediaType    = $_FILES[$media_name]['type'][$index];
+            $this->mediaSize    = $_FILES[$media_name]['size'][$index];
             $this->mediaTmpName = $_FILES[$media_name]['tmp_name'][$index];
-            $this->mediaError = !empty($_FILES[$media_name]['error'][$index]) ? $_FILES[$media_name]['errir'][$index] : 0;
+            $this->mediaError   = !empty($_FILES[$media_name]['error'][$index]) ? $_FILES[$media_name]['errir'][$index] : 0;
         } else {
-            $media_name = @$_FILES[$media_name];
-            $this->mediaName = (get_magic_quotes_gpc()) ? stripslashes($media_name['name']) : $media_name['name'];
-            $this->mediaName = $media_name['name'];
-            $this->mediaType = $media_name['type'];
-            $this->mediaSize = $media_name['size'];
+            $media_name         = @$_FILES[$media_name];
+            $this->mediaName    = (get_magic_quotes_gpc()) ? stripslashes($media_name['name']) : $media_name['name'];
+            $this->mediaName    = $media_name['name'];
+            $this->mediaType    = $media_name['type'];
+            $this->mediaSize    = $media_name['size'];
             $this->mediaTmpName = $media_name['tmp_name'];
-            $this->mediaError = !empty($media_name['error']) ? $media_name['error'] : 0;
+            $this->mediaError   = !empty($media_name['error']) ? $media_name['error'] : 0;
         }
         $this->dimension = getimagesize($this->mediaTmpName);
-        $this->errors = array();
+        $this->errors    = array();
         if (intval($this->mediaSize) < 0) {
             $this->setErrors('Invalid File Size');
 
@@ -380,7 +380,7 @@ class XoopsMediaUploader
         } else {
             $this->savedFileName = strtolower($this->mediaName);
         }
-        $this->savedFileName = preg_replace('!\s+!', '_', $this->savedFileName);
+        $this->savedFileName    = preg_replace('!\s+!', '_', $this->savedFileName);
         $this->savedDestination = $this->uploadDir . $this->savedFileName;
         if (is_file($this->savedDestination) && !!is_dir($this->savedDestination)) {
             $this->setErrors('File ' . $this->mediaName . ' already exists on the server. Please rename this file and try again.<br />');

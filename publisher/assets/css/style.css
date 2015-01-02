@@ -1,0 +1,12 @@
+
+.outer div.odd:hover, .outer div.even:hover {
+    background-color: #b6c6d7;
+}
+
+.even {
+    background-color: #EFEFEF;
+}
+
+.odd {
+    background-color: #DFDFDF;
+}

@@ -19,7 +19,7 @@
         <img class="publisher_item_image" src="<{$item.image_path}>" align="right" alt="<{$item.clean_title}>" title="<{$item.clean_title}>"/> <{/if}> <{$item.summary}>
     </div>
 </div>
-<div style="clear: both"></div>                <{if $item.showline}>
+<div style="clear: both;"></div>                <{if $item.showline}>
 <div style="font-size: 10px; text-align: right; border-bottom: 1px dotted #000000;">
     <{/if}> <{if $block.truncate}>
     <div style="font-size: 10px; text-align: right;">

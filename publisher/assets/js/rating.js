@@ -2,16 +2,16 @@
 Page:           rating.js
 Created:        Aug 2006
 Last Mod:       Mar 11 2007
-Handles actions and requests for rating bars.	
---------------------------------------------------------- 
+Handles actions and requests for rating bars.
+---------------------------------------------------------
 ryan masuga, masugadesign.com
-ryan@masugadesign.com 
+ryan@masugadesign.com
 Licensed under a Creative Commons Attribution 3.0 License.
 http://creativecommons.org/licenses/by/3.0/
 See readme.txt for full credit details.
 --------------------------------------------------------- */
 
-var xmlhttp
+var xmlhttp;
 	/*@cc_on @*/
 	/*@if (@_jscript_version >= 5)
 	  try {
@@ -60,13 +60,13 @@ function sndReq(itemid, rating) {
     changeText( 'unit_long'+itemid, '<div class="publisher_loading"></div>');
     xmlhttp.open('get', 'include/ajax_rating.php?itemid='+itemid+'&rating='+rating);
     xmlhttp.onreadystatechange = handleResponse;
-    xmlhttp.send(null);	
+    xmlhttp.send(null);
 }
 
 function handleResponse() {
   if(xmlhttp.readyState == 4){
 		if (xmlhttp.status == 200){
-       	
+
         var response = xmlhttp.responseText;
         var update = new Array();
 
@@ -81,8 +81,8 @@ function handleResponse() {
 function changeText( div2show, text ) {
     // Detect Browser
     var IE = (document.all) ? 1 : 0;
-    var DOM = 0; 
-    if (parseInt(navigator.appVersion) >=5) {DOM=1};
+    var DOM = 0;
+    if (parseInt(navigator.appVersion) >=5) {DOM=1}
 
     // Grab the content from the requested "div" and show it in the "publisher_container"
     if (DOM) {
@@ -109,10 +109,10 @@ var ratingAction = {
 			}
 			var theItemid = parameterList['itemid'];
 			var theRating = parameterList['rating'];
-			
+
 			sndReq(theItemid,theRating); return false;
 			}
 		}
-		
+
 	};
 Behaviour.register(ratingAction);

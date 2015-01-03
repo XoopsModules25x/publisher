@@ -180,11 +180,11 @@ if ($fromyear != 0 && $frommonth != 0) {
             $htmltitle = '';
             $story['title']
                                  =
-                "<a href='" . XOOPS_URL . '/modules/publisher/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . "</a>: <a href='" . $item->getItemUrl() . "'"
+                "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . "</a>: <a href='" . $item->getItemUrl() . "'"
                 . $htmltitle . ">" . $item->title() . "</a>";
             $story['counter']    = $item->counter();
             $story['date']       = $item->datesub();
-            $story['print_link'] = XOOPS_URL . '/modules/publisher/print.php?itemid=' . $item->itemid();
+            $story['print_link'] = XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/print.php?itemid=' . $item->itemid();
             $story['mail_link']  = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  '
                                    . $item->getItemUrl();
 

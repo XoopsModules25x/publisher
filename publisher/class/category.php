@@ -275,7 +275,7 @@ class PublisherCategory extends XoopsObject
      *
      * @return array
      */
-    public function ToArraySimple($category = array())
+    public function toArraySimple($category = array())
     {
         $category['categoryid']       = $this->categoryid();
         $category['name']             = $this->name();
@@ -705,23 +705,23 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int $cat_id
+     * @param int $catId
      *
      * @return mixed
      */
-    public function publishedItemsCount($cat_id = 0)
+    public function publishedItemsCount($catId = 0)
     {
-        return $this->itemsCount($cat_id, $status = array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED));
+        return $this->itemsCount($catId, $status = array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED));
     }
 
     /**
-     * @param int    $cat_id
+     * @param int    $catId
      * @param string $status
      *
      * @return mixed
      */
-    public function itemsCount($cat_id = 0, $status = '')
+    public function itemsCount($catId = 0, $status = '')
     {
-        return $this->publisher->getHandler('item')->getCountsByCat($cat_id, $status);
+        return $this->publisher->getHandler('item')->getCountsByCat($catId, $status);
     }
 }

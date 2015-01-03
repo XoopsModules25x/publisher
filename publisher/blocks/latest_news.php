@@ -208,7 +208,7 @@ function publisher_latest_news_show($options)
         $item['email'] = '';
         if ($options[26] == 1 && xoops_isActiveModule('tellafriend')) {
             $subject  = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
-            $subject  = $itemObj->convert_for_japanese($subject);
+            $subject  = $itemObj->convertForJapanese($subject);
             $maillink = publisher_tellafriend($subject);
 
             $item['email'] = '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '" /></a>&nbsp;';

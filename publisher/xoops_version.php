@@ -62,6 +62,8 @@ $modversion = array(
     'system_menu'         => 1,
     'adminindex'          => 'admin/index.php',
     'adminmenu'           => 'admin/menu.php',
+    // ------------------- Main Menu -------------------
+    'hasMain'             => 1,
     // ------------------- Mysql -------------------
     'sqlfile'             => array('mysql' => 'sql/mysql.sql'),
     // ------------------- Tables -------------------

@@ -139,7 +139,7 @@ switch ($op) {
 
         $categoryObj = $publisher->getHandler('category')->get(XoopsRequest::getInt('categoryid', 0, 'POST'));
 
-        $item                 = $itemObj->ToArraySimple();
+        $item                 = $itemObj->toArraySimple();
         $item['summary']      = $itemObj->body();
         $item['categoryPath'] = $categoryObj->getCategoryPath(true);
         $item['who_when']     = $itemObj->getWhoAndWhen();

@@ -305,9 +305,9 @@ function publisher_getUploadDir($hasPath = true, $item = false)
     }
 
     if ($hasPath) {
-        return PUBLISHER_UPLOADS_PATH . '/' . $item;
+        return PUBLISHER_UPLOAD_PATH . '/' . $item;
     } else {
-        return PUBLISHER_UPLOADS_URL . '/' . $item;
+        return PUBLISHER_UPLOAD_URL . '/' . $item;
     }
 }
 

@@ -95,7 +95,7 @@ $category = array();
 $items    = array();
 
 // Populating the smarty variables with informations related to the selected category
-$category                 = $categoryObj->ToArraySimple(null, true);
+$category                 = $categoryObj->toArraySimple(null, true);
 $category['categoryPath'] = $categoryObj->getCategoryPath($publisher->getConfig('format_linked_path'));
 
 //$totalItems = $publisher_category_handler->publishedItemsCount($publisher->getConfig('idxcat_display_last_item'));
@@ -133,7 +133,7 @@ if ($publisher->getConfig('idxcat_show_subcats') != 'no') {
                 $numItems = isset($totalItems[$subcat_id]) ? $totalItems[$key] : 0;
                 $subcat->setVar('itemcount', $numItems);
                 // Put this subcat in the smarty variable
-                $subcategories[$key] = $subcat->ToArraySimple();
+                $subcategories[$key] = $subcat->toArraySimple();
                 //$total += $numItems;
             }
 
@@ -148,7 +148,7 @@ if ($publisher->getConfig('idxcat_show_subcats') != 'no') {
                 $numItems = isset($totalItems[$subcat_id]) ? $totalItems[$key] : 0;
                 $subcat->setVar('itemcount', $numItems);
                 // Put this subcat in the smarty variable
-                $subcategories[$key] = $subcat->ToArraySimple();
+                $subcategories[$key] = $subcat->toArraySimple();
                 //$total += $numItems;
             }
         }
@@ -176,7 +176,7 @@ if (count($itemsObj) > 0) {
     // Adding the items of the selected category
 
     for ($i = 0; $i < $totalItemOnPage; ++$i) {
-        $item                 = $itemsObj[$i]->ToArraySimple('default', $publisher->getConfig('item_title_size'));
+        $item                 = $itemsObj[$i]->toArraySimple('default', $publisher->getConfig('item_title_size'));
         $item['categoryname'] = $categoryObj->name();
         $item['categorylink'] = "<a href='" . publisherSeoGenUrl('category', $itemsObj[$i]->categoryid(), $categoryObj->short_url()) . "'>" . $categoryObj->name() . "</a>";
         $item['who_when']     = $itemsObj[$i]->getWhoAndWhen();
@@ -199,7 +199,7 @@ $xoopsTpl->assign('categories', $categories);
 // Language constants
 $xoopsTpl->assign('sectionname', $publisher->getModule()->getVar('name'));
 $xoopsTpl->assign('whereInSection', $publisher->getModule()->getVar('name'));
-$xoopsTpl->assign('modulename', $publisher->getModule()->getVar('dirname'));
+$xoopsTpl->assign('module_dirname', $publisher->getModule()->getVar('dirname'));
 $xoopsTpl->assign('lang_category_summary', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY, $categoryObj->name()));
 $xoopsTpl->assign('lang_category_summary_info', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY_INFO, $categoryObj->name()));
 $xoopsTpl->assign('lang_items_title', sprintf(_MD_PUBLISHER_ITEMS_TITLE, $categoryObj->name()));

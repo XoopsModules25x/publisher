@@ -26,6 +26,8 @@ $module_handler = xoops_gethandler('module');
 $module         = $module_handler->getByDirname($dirname);
 $pathIcon32     = $module->getInfo('icons32');
 
+include_once dirname(__DIR__) . '/include/config.php';
+
 xoops_loadLanguage('admin', $dirname);
 
 $i = 0;

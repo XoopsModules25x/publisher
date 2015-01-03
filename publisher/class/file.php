@@ -271,7 +271,7 @@ class PublisherFile extends XoopsObject
      */
     public function getForm()
     {
-        include_once $GLOBALS['xoops']->path('modules/publisher/class/form/file.php');
+        include_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/file.php');
         $form = new PublisherFileForm($this);
 
         return $form;

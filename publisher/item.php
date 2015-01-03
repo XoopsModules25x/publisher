@@ -132,7 +132,7 @@ if ($publisher->getConfig('item_other_items_type') == "all") {
 }
 
 // Populating the smarty variables with informations related to the selected item
-$item = $itemObj->ToArraySimple($item_page_id);
+$item = $itemObj->toArraySimple($item_page_id);
 $xoopsTpl->assign('show_subtitle', $publisher->getConfig('item_disp_subtitle'));
 
 if ($itemObj->pagescount() > 0) {
@@ -190,7 +190,7 @@ unset($file, $embeded_files, $filesObj, $fileObj);
 $xoopsTpl->assign('mail_link', 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ': ' . $itemObj->getItemUrl());
 $xoopsTpl->assign('itemid', $itemObj->itemid());
 $xoopsTpl->assign('sectionname', $publisher->getModule()->getVar('name'));
-$xoopsTpl->assign('modulename', $publisher->getModule()->getVar('dirname'));
+$xoopsTpl->assign('module_dirname', $publisher->getModule()->getVar('dirname'));
 $xoopsTpl->assign('module_home', publisher_moduleHome($publisher->getConfig('format_linked_path')));
 $xoopsTpl->assign('categoryPath', $item['categoryPath'] . " > " . $item['title']);
 $xoopsTpl->assign('commentatarticlelevel', $publisher->getConfig('perm_com_art_level'));

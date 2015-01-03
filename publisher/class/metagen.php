@@ -74,7 +74,7 @@ class PublisherMetagen
      * @param string $description
      * @param bool   $categoryPath
      */
-    public function __construct($title, $keywords = '', $description = '', $categoryPath = false)
+    public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
         $this->publisher = PublisherPublisher::getInstance();
         $this->myts     = MyTextSanitizer::getInstance();

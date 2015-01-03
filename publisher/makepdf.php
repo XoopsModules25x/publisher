@@ -47,7 +47,7 @@ if ($mainImage['image_path'] != '') {
 $content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" style="text-decoration: none; color: black; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->title()) . '">' . $myts->undoHtmlSpecialChars($itemObj->title()) . '</a>';
 $content .= '<br /><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">' . _CO_PUBLISHER_CATEGORY . ' : </span><a href="' . PUBLISHER_URL . '/category.php?categoryid=' . $itemObj->categoryid() . '" style="color: #CCCCCC; font-weight: bold; font-size: 80%;" title="' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '">' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '</a>';
 $content .= '<br /><span style="font-size: 80%; font-style: italic;">' . $sender_inform . '</span><br />';
-$content .= $itemObj->plain_maintext();
+$content .= $itemObj->plainMaintext();
 
 // Configuration for TCPDF_for_XOOPS
 $pdf_data = array(

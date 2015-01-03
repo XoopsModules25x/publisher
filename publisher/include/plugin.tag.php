@@ -29,10 +29,10 @@
 function publisher_tag_iteminfo(&$items)
 {
     $items_id = array();
-    foreach (array_keys($items) as $cat_id) {
+    foreach (array_keys($items) as $catId) {
         // Some handling here to build the link upon catid
         // if catid is not used, just skip it
-        foreach (array_keys($items[$cat_id]) as $item_id) {
+        foreach (array_keys($items[$catId]) as $item_id) {
             // In article, the item_id is "art_id"
             $items_id[] = intval($item_id);
         }
@@ -41,10 +41,10 @@ function publisher_tag_iteminfo(&$items)
     $criteria     = new Criteria("itemid", "(" . implode(", ", $items_id) . ")", "IN");
     $items_obj    = $item_handler->getObjects($criteria, 'itemid');
 
-    foreach (array_keys($items) as $cat_id) {
-        foreach (array_keys($items[$cat_id]) as $item_id) {
+    foreach (array_keys($items) as $catId) {
+        foreach (array_keys($items[$catId]) as $item_id) {
             $item_obj                 = $items_obj[$item_id];
-            $items[$cat_id][$item_id] = array(
+            $items[$catId][$item_id] = array(
                 "title"   => $item_obj->getVar("title"),
                 "uid"     => $item_obj->getVar("uid"),
                 "link"    => "item.php?itemid={$item_id}",

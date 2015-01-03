@@ -127,7 +127,7 @@ if ($op == 'go') {
 
         // Category image
         if (($arrCat['imgurl'] != 'blank.gif') && ($arrCat['imgurl'])) {
-            if (copy($GLOBALS['xoops']->path("/modules/xfsection/images/category/" . $arrCat['imgurl']), PUBLISHER_UPLOADS_PATH . "/images/category/" . $arrCat['imgurl'])) {
+            if (copy($GLOBALS['xoops']->path("/modules/xfsection/images/category/" . $arrCat['imgurl']), PUBLISHER_UPLOAD_PATH . "/images/category/" . $arrCat['imgurl'])) {
                 $categoryObj->setVar('image', $arrCat['imgurl']);
             }
         }
@@ -176,7 +176,7 @@ if ($op == 'go') {
             if ($arrArticle['htmlpage']) {
                 $pagewrap_filename = $GLOBALS['xoops']->path("/modules/xfsection/html/" . $arrArticle['htmlpage']);
                 if (file_exists($pagewrap_filename)) {
-                    if (copy($pagewrap_filename, PUBLISHER_UPLOADS_PATH . "/content/" . $arrArticle['htmlpage'])) {
+                    if (copy($pagewrap_filename, PUBLISHER_UPLOAD_PATH . "/content/" . $arrArticle['htmlpage'])) {
                         $itemObj->setVar('body', "[pagewrap=" . $arrArticle['htmlpage'] . "]");
                         echo sprintf("&nbsp;&nbsp;&nbsp;&nbsp;" . _AM_PUBLISHER_IMPORT_ARTICLE_WRAP, $arrArticle['htmlpage']) . "<br/>";
                     }
@@ -195,7 +195,7 @@ if ($op == 'go') {
                 while (($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles)) != false) {
                     $filename = $GLOBALS['xoops']->path("/modules/xfsection/cache/uploaded/" . $arrFile['filerealname']);
                     if (file_exists($filename)) {
-                        if (copy($filename, PUBLISHER_UPLOADS_PATH . "/" . $arrFile['filerealname'])) {
+                        if (copy($filename, PUBLISHER_UPLOAD_PATH . "/" . $arrFile['filerealname'])) {
                             $fileObj = $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['fileshowname']);
                             $fileObj->setVar('description', $arrFile['filedescript']);

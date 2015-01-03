@@ -76,14 +76,14 @@ if ($publisher->getConfig('idxcat_show_subcats') == 'nomain') {
 }
 
 $categories = array();
-foreach ($categoriesObj as $cat_id => $category) {
+foreach ($categoriesObj as $catId => $category) {
 
     $total = 0;
     // Do we display sub categories ?
     if ($publisher->getConfig('idxcat_show_subcats') != 'no') {
         // if this category has subcats
-        if (isset($subcats[$cat_id])) {
-            foreach ($subcats[$cat_id] as $key => $subcat) {
+        if (isset($subcats[$catId])) {
+            foreach ($subcats[$catId] as $key => $subcat) {
                 // Get the items count of this very category
                 $subcat_total_items = isset($totalItems[$key]) ? $totalItems[$key] : 0;
                 // Do we display empty sub-cats ?
@@ -98,7 +98,7 @@ foreach ($categoriesObj as $cat_id => $category) {
                     $numItems = isset($totalItems[$subcat_id]) ? $totalItems[$key] : 0;
                     $subcat->setVar('itemcount', $numItems);
                     // Put this subcat in the smarty variable
-                    $categories[$cat_id]['subcats'][$key] = $subcat->toArrayTable();
+                    $categories[$catId]['subcats'][$key] = $subcat->toArrayTable();
                     //$total += $numItems;
                 }
             }
@@ -106,34 +106,34 @@ foreach ($categoriesObj as $cat_id => $category) {
         }
     }
 
-    $categories[$cat_id]['subcatscount'] = isset($subcats[$cat_id]) ? count($subcats[$cat_id]) : 0;
+    $categories[$catId]['subcatscount'] = isset($subcats[$catId]) ? count($subcats[$catId]) : 0;
 
     // Get the items count of this very category
-    if (isset($totalItems[$cat_id]) && $totalItems[$cat_id] > 0) {
-        $total += $totalItems[$cat_id];
+    if (isset($totalItems[$catId]) && $totalItems[$catId] > 0) {
+        $total += $totalItems[$catId];
     }
     // I'm commenting out this to also display empty categories...
     // if ($total > 0) {
-    if (isset($last_itemObj[$cat_id])) {
-        $category->setVar('last_itemid', $last_itemObj[$cat_id]->getVar('itemid'));
-        $category->setVar('last_title_link', $last_itemObj[$cat_id]->getItemLink(false, $lastitemsize));
+    if (isset($last_itemObj[$catId])) {
+        $category->setVar('last_itemid', $last_itemObj[$catId]->getVar('itemid'));
+        $category->setVar('last_title_link', $last_itemObj[$catId]->getItemLink(false, $lastitemsize));
     }
     $category->setVar('itemcount', $total);
 
-    if (!isset($categories[$cat_id])) {
-        $categories[$cat_id] = array();
+    if (!isset($categories[$catId])) {
+        $categories[$catId] = array();
     }
 
-    $categories[$cat_id] = $category->toArrayTable($categories[$cat_id]);
+    $categories[$catId] = $category->toArrayTable($categories[$catId]);
 }
 unset($categoriesObj);
 
-if (isset($categories[$cat_id])) {
-    $categories[$cat_id]                 = $category->ToArraySimple($categories[$cat_id]);
-    $categories[$cat_id]['categoryPath'] = $category->getCategoryPath($publisher->getConfig('format_linked_path'));
+if (isset($categories[$catId])) {
+    $categories[$catId]                 = $category->toArraySimple($categories[$catId]);
+    $categories[$catId]['categoryPath'] = $category->getCategoryPath($publisher->getConfig('format_linked_path'));
 }
 
-unset($cat_id, $category);
+unset($catId, $category);
 
 $xoopsTpl->assign('categories', $categories);
 
@@ -163,7 +163,7 @@ if ($publisher->getConfig('index_display_last_items')) {
     //todo: make config for summary size
     if ($itemsCount > 0) {
         foreach ($itemsObj as $itemObj) {
-            $xoopsTpl->append('items', $itemObj->ToArraySimple($publisher->getConfig('idxcat_items_display_type'), $publisher->getConfig('item_title_size'), 300, true)); //if no summary truncate body to 300
+            $xoopsTpl->append('items', $itemObj->toArraySimple($publisher->getConfig('idxcat_items_display_type'), $publisher->getConfig('item_title_size'), 300, true)); //if no summary truncate body to 300
         }
         $xoopsTpl->assign('show_subtitle', $publisher->getConfig('index_disp_subtitle'));
         unset($allcategories, $itemObj);

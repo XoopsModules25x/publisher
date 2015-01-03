@@ -72,7 +72,7 @@ class PublisherMetagen
      * @param string $title
      * @param string $keywords
      * @param string $description
-     * @param bool   $categoryPath
+     * @param string   $categoryPath
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {

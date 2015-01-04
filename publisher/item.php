@@ -116,7 +116,7 @@ if ($publisher->getConfig('item_other_items_type') == "all") {
     $itemsObj = $publisher->getHandler('item')->getAllPublished(0, 0, $categoryObj->categoryid(), $sort, $order, '', true, true);
     $items    = array();
     foreach ($itemsObj as $theitemObj) {
-        $theitem = array();
+        $theitem              = array();
         $theitem['titlelink'] = $theitemObj->getItemLink();
         $theitem['datesub']   = $theitemObj->datesub();
         $theitem['counter']   = $theitemObj->counter();
@@ -126,7 +126,7 @@ if ($publisher->getConfig('item_other_items_type') == "all") {
         $items[] = $theitem;
         unset($theitem);
     }
-    unset($itemsObj,$theitemObj);
+    unset($itemsObj, $theitemObj);
     $xoopsTpl->assign('items', $items);
     unset($items);
 }

@@ -535,13 +535,13 @@ function publisher_getCurrentPage()
 }
 
 /**
- * @param object $categoryObj
+ * @param object|PublisherCategory $categoryObj
  * @param int $selectedid
  * @param int $level
  * @param string $ret
  * @return string
  */
-function publisher_addCategoryOption($categoryObj, $selectedid = 0, $level = 0, $ret = '')
+function publisher_addCategoryOption(PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
 {
     $publisher = PublisherPublisher::getInstance();
 
@@ -716,7 +716,7 @@ function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
 {
     include_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
-    global $publisher_isAdmin;
+//    global $publisher_isAdmin;
     $publisher = PublisherPublisher::getInstance();
 
     $itemid  = isset($_POST['itemid']) ? XoopsRequest::getInt('itemid', 0, 'POST') : 0;
@@ -860,7 +860,8 @@ function publisher_closeTags($string)
         }
 
         $complete_tags = array_reverse($complete_tags);
-        for ($i = 0; $i < count($complete_tags); ++$i) {
+        $elementCount = count($complete_tags);
+        for ($i = 0; $i < $elementCount; ++$i) {
             $string .= '</' . $complete_tags[$i] . '>';
         }
     }
@@ -887,7 +888,7 @@ function publisher_ratingBar($itemid)
     $current_rating = 0;
     $voted          = false;
     $ip             = getenv('REMOTE_ADDR');
-    $rating1 = $rating2 =  $rating_width = 0;
+    $rating1        = $rating2 = $rating_width = 0;
 
     foreach ($ratingObjs as $ratingObj) {
         $current_rating += $ratingObj->getVar('rate');
@@ -907,7 +908,7 @@ function publisher_ratingBar($itemid)
     $groups        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
     $gperm_handler = $publisher->getHandler('groupperm');
 
-    if (!$gperm_handler->checkRight('global', PublisherConstants::_PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
+    if (!$gperm_handler->checkRight('global', PublisherConstantsInterface::PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
         $static_rater = array();
         $static_rater[] .= "\n" . '<div class="publisher_ratingblock">';
         $static_rater[] .= '<div id="unit_long' . $itemid . '">';
@@ -950,10 +951,10 @@ function publisher_ratingBar($itemid)
 }
 
 /**
- * @param array $allowed_editors
+ * @param array $allowedEditors
  * @return array
  */
-function publisher_getEditors($allowed_editors = null)
+function publisher_getEditors($allowedEditors = null)
 {
     $ret    = array();
     $nohtml = false;
@@ -962,9 +963,9 @@ function publisher_getEditors($allowed_editors = null)
     $editors        = $editor_handler->getList($nohtml);
     foreach ($editors as $name => $title) {
         $key = publisher_stringToInt($name);
-        if (is_array($allowed_editors)) {
+        if (is_array($allowedEditors)) {
             //for submit page
-            if (in_array($key, $allowed_editors)) {
+            if (in_array($key, $allowedEditors)) {
                 $ret[] = $name;
             }
         } else {

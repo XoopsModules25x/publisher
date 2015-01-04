@@ -21,7 +21,7 @@
  * @return
  */
 
-function xoops_module_update_publisher($module, $oldversion = null)
+function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
 {
 
     if ($oldversion < 102) {

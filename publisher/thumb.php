@@ -253,25 +253,25 @@ timthumb::start();
  */
 class timthumb
 {
-    protected $src                      = "";
-    protected $is404                    = false;
-    protected $docRoot                  = "";
-    protected $lastURLError             = false;
-    protected $localImage               = "";
-    protected $localImageMTime          = 0.0;
-    protected $url                      = false;
-    protected $myHost                   = "";
-    protected $isURL                    = false;
-    protected $cachefile                = '';
-    protected $errors                   = array();
-    protected $toDeletes                = array();
-    protected $cacheDirectory           = '';
-    protected $startTime                = 0.0;
-    protected $lastBenchTime            = 0.0;
-    protected $cropTop                  = false;
-    protected $salt                     = "";
-    protected $fileCacheVersion         = 1; //Generally if timthumb.php is modifed (upgraded) then the salt changes and all cache files are recreated. This is a backup mechanism to force regen.
-    protected $filePrependSecurityBlock = "<?php die('Execution denied!'); //"; //Designed to have three letter mime type, space, question mark and greater than symbol appended. 6 bytes total.
+    protected        $src                      = "";
+    protected        $is404                    = false;
+    protected        $docRoot                  = "";
+    protected        $lastURLError             = false;
+    protected        $localImage               = "";
+    protected        $localImageMTime          = 0.0;
+    protected        $url                      = false;
+    protected        $myHost                   = "";
+    protected        $isURL                    = false;
+    protected        $cachefile                = '';
+    protected        $errors                   = array();
+    protected        $toDeletes                = array();
+    protected        $cacheDirectory           = '';
+    protected        $startTime                = 0.0;
+    protected        $lastBenchTime            = 0.0;
+    protected        $cropTop                  = false;
+    protected        $salt                     = "";
+    protected        $fileCacheVersion         = 1; //Generally if timthumb.php is modifed (upgraded) then the salt changes and all cache files are recreated. This is a backup mechanism to force regen.
+    protected        $filePrependSecurityBlock = "<?php die('Execution denied!'); //"; //Designed to have three letter mime type, space, question mark and greater than symbol appended. 6 bytes total.
     protected static $curlDataWritten          = 0;
     protected static $curlFH                   = false;
 
@@ -1320,7 +1320,7 @@ class timthumb
             return true;
         }
         $content = file_get_contents($this->cachefile);
-        if ($content != false) {
+        if ($content !== false) {
             $content = substr($content, strlen($this->filePrependSecurityBlock) + 6);
             echo $content;
             $this->debug(3, "Served using file_get_contents and echo");
@@ -1626,7 +1626,7 @@ class timthumb
             return true;
         }
         $content = @file_get_contents($file);
-        if ($content != false) {
+        if ($content !== false) {
             echo $content;
 
             return true;

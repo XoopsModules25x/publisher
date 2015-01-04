@@ -64,7 +64,7 @@ if ($op == 'start') {
             $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = array();
 
-            while ((list ($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) != false) {
+            while ((list ($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
                 $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }
@@ -120,7 +120,7 @@ if ($op == 'go') {
     $newArticleArray = array();
 
     $oldToNew = array();
-    while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) != false) {
+    while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) !== false) {
         $newCat           = array();
         $newCat['oldid']  = $arrCat['categoryid'];
         $newCat['oldpid'] = $arrCat['parentid'];
@@ -148,7 +148,7 @@ if ($op == 'go') {
         $sql            = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('smartsection_items') . " WHERE categoryid=" . $arrCat['categoryid'];
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
 
-        while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) != false) {
+        while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
             $itemObj = $publisher->getHandler('item')->create();
 
@@ -181,7 +181,7 @@ if ($op == 'go') {
                 $sql               = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix("smartsection_files") . " WHERE itemid=" . $arrArticle['itemid'];
                 $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
                 $allowed_mimetypes = null;
-                while (($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles)) != false) {
+                while (($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles)) !== false) {
                     $filename = $GLOBALS['xoops']->path("/uploads/smartsection/" . $arrFile['filename']);
                     if (file_exists($filename)) {
                         if (copy($filename, $GLOBALS['xoops']->path("/uploads/publisher/" . $arrFile['filename']))) {

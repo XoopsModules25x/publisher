@@ -64,7 +64,7 @@ class PublisherPublisher
     }
 
     /**
-     * @param null $name
+     * @param null|string $name
      *
      * @return null
      */

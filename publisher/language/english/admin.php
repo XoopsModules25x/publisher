@@ -347,6 +347,6 @@ define("_AM_PUBLISHER_REJECTED_EDIT_INFO", "Edit changes have been rejected");
 define("_PUBLISHER_RATE", "Rating");
 define("_AM_PUBLISHER_SETMPERM", "Set Permissions");
 
-define("_AM_PUBLISHER_IMPORT_FMCONTENT_NAME","FmContent Top Level");
-define("_AM_PUBLISHER_IMPORT_FMCONTENT_TLT","Imported Articles from FmContent without a category.");
-define("_AM_PUBLISHER_IMPORT_DONE","Done.");
+define("_AM_PUBLISHER_IMPORT_FMCONTENT_NAME", "FmContent Top Level");
+define("_AM_PUBLISHER_IMPORT_FMCONTENT_TLT", "Imported Articles from FmContent without a category.");
+define("_AM_PUBLISHER_IMPORT_DONE", "Done.");

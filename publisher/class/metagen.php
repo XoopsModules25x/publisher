@@ -72,12 +72,12 @@ class PublisherMetagen
      * @param string $title
      * @param string $keywords
      * @param string $description
-     * @param string   $categoryPath
+     * @param string $categoryPath
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
         $this->publisher = PublisherPublisher::getInstance();
-        $this->myts     = MyTextSanitizer::getInstance();
+        $this->myts      = MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
         $this->setTitle($title);
         $this->setDescription($description);
@@ -94,8 +94,8 @@ class PublisherMetagen
     {
         $this->title          = $this->html2text($title);
         $this->original_title = $this->title;
-        $titleTag              = array();
-        $titleTag['module']    = $this->publisher->getModule()->getVar('name');
+        $titleTag             = array();
+        $titleTag['module']   = $this->publisher->getModule()->getVar('name');
         if (isset($this->title) && ($this->title != '') && (strtoupper($this->title) != strtoupper($titleTag['module']))) {
             $titleTag['title'] = $this->title;
         }
@@ -131,7 +131,7 @@ class PublisherMetagen
      */
     public function setCategoryPath($categoryPath)
     {
-        $categoryPath        = $this->html2text($categoryPath);
+        $categoryPath       = $this->html2text($categoryPath);
         $this->categoryPath = $categoryPath;
     }
 
@@ -140,8 +140,8 @@ class PublisherMetagen
      */
     public function setDescription($description)
     {
-        $description        = $this->html2text($description);
-        $description        = $this->purifyText($description);
+        $description       = $this->html2text($description);
+        $description       = $this->purifyText($description);
         $this->description = $description;
     }
 
@@ -178,7 +178,7 @@ class PublisherMetagen
 
     /**
      * @param string $text
-     * @param int    $minChar
+     * @param int $minChar
      *
      * @return array
      */
@@ -269,8 +269,8 @@ class PublisherMetagen
      *
      * @credit psylove
      *
-     * @param string $title   title of the article
-     * @param bool   $withExt do we add an html extension or not
+     * @param string $title title of the article
+     * @param bool $withExt do we add an html extension or not
      *
      * @return string short url for article
      */

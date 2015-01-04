@@ -86,7 +86,7 @@ if (isset($_GET['op']) && XoopsRequest::getString('op', '', 'GET') == 'del') {
     $op = 'del';
 }
 
-$allowed_editors = publisher_getEditors($gperm_handler->getItemIds('editors', $groups, $module_id));
+$allowedEditors = publisher_getEditors($gperm_handler->getItemIds('editors', $groups, $module_id));
 $form_view       = $gperm_handler->getItemIds('form_view', $groups, $module_id);
 
 // This code makes sure permissions are not manipulated
@@ -98,7 +98,7 @@ $elements = array(
     'dohtml', 'dosmiley', 'doxcode', 'doimage', 'dolinebreak',
     'notify', 'subtitle', 'author_alias');
 foreach ($elements as $element) {
-    if (isset($_POST[$element]) && !in_array(constant('PublisherConstants::_PUBLISHER_' . strtoupper($element)), $form_view)) {
+    if (isset($_POST[$element]) && !in_array(constant('PublisherConstantsInterface::PUBLISHER_' . strtoupper($element)), $form_view)) {
         redirect_header("index.php", 1, _MD_PUBLISHER_SUBMIT_ERROR);
 //        exit();
     }
@@ -191,11 +191,11 @@ switch ($op) {
 
         // if autoapprove_submitted. This does not apply if we are editing an article
         if (!$itemid) {
-            if ($itemObj->getVar('status') == PublisherConstants::_PUBLISHER_STATUS_PUBLISHED /*$publisher->getConfig('perm_autoapprove'] ==  1*/) {
+            if ($itemObj->getVar('status') == PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED /*$publisher->getConfig('perm_autoapprove'] ==  1*/) {
                 // We do not not subscribe user to notification on publish since we publish it right away
 
                 // Send notifications
-                $itemObj->sendNotifications(array(PublisherConstants::_PUBLISHER_NOT_ITEM_PUBLISHED));
+                $itemObj->sendNotifications(array(PublisherConstantsInterface::PUBLISHER_NOT_ITEM_PUBLISHED));
 
                 $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_AND_PUBLISHED;
                 redirect_header($itemObj->getItemUrl(), 2, $redirect_msg);
@@ -207,7 +207,7 @@ switch ($op) {
                     $notification_handler->subscribe('item', $itemObj->itemid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
-                $itemObj->sendNotifications(array(PublisherConstants::_PUBLISHER_NOT_ITEM_SUBMITTED));
+                $itemObj->sendNotifications(array(PublisherConstantsInterface::PUBLISHER_NOT_ITEM_SUBMITTED));
 
                 $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
             }
@@ -222,12 +222,12 @@ switch ($op) {
 
     case 'add':
     default:
-    $xoopsOption['template_main'] = 'publisher_submit.tpl';
-    include_once $GLOBALS['xoops']->path('header.php');
-    $GLOBALS['xoTheme']->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+        $xoopsOption['template_main'] = 'publisher_submit.tpl';
+        include_once $GLOBALS['xoops']->path('header.php');
+        $GLOBALS['xoTheme']->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 //        $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery-migrate-1.2.1.js');
-    $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
-    include_once PUBLISHER_ROOT_PATH . '/footer.php';
+        $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
+        include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
         $itemObj->setVarsFromRequest();
 

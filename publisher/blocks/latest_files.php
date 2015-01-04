@@ -47,7 +47,7 @@ function publisher_latest_files_show($options)
     $directDownload = $options[3];
 
     // creating the files objects
-    $filesObj = $publisher->getHandler('file')->getAllFiles(0, PublisherConstants::_PUBLISHER_STATUS_FILE_ACTIVE, $limit, 0, $sort, $order, explode(',', $options[0]));
+    $filesObj = $publisher->getHandler('file')->getAllFiles(0, PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE, $limit, 0, $sort, $order, explode(',', $options[0]));
     foreach ($filesObj as $fileObj) {
         $aFile         = array();
         $aFile['link'] = $directDownload ? $fileObj->getFileLink() : $fileObj->getItemLink();

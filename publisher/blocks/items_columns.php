@@ -106,7 +106,7 @@ function publisher_items_columns_show($options)
 
             //The Rest
             if ($scount > 1) {
-                while ((list($itemid, $thisitem) = each($categoryItemsObj)) != false) {
+                while ((list($itemid, $thisitem) = each($categoryItemsObj)) !== false) {
                     $subitem['title']      = $thisitem->title();
                     $subitem['cleantitle'] = strip_tags($thisitem->title());
                     $subitem['link']       = $thisitem->getItemLink();
@@ -126,7 +126,7 @@ function publisher_items_columns_show($options)
             }
         }
     }
-    unset( $categoryId, $mainitemCatObj);
+    unset($categoryId, $mainitemCatObj);
 
     $block['template']    = $options[4];
     $block['columns']     = $columns;

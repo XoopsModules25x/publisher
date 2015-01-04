@@ -36,7 +36,7 @@ $gperm_handler = xoops_getmodulehandler('groupperm', PUBLISHER_DIRNAME);
 $module_id     = $publisher->getModule()->mid();
 
 //Checking permissions
-if (!$publisher->getConfig('perm_search') || !$gperm_handler->checkRight('global', PublisherConstants::_PUBLISHER_SEARCH, $groups, $module_id)) {
+if (!$publisher->getConfig('perm_search') || !$gperm_handler->checkRight('global', PublisherConstantsInterface::PUBLISHER_SEARCH, $groups, $module_id)) {
     redirect_header(PUBLISHER_URL, 2, _NOPERM);
 //    exit();
 }
@@ -111,7 +111,7 @@ if (!(empty($_POST["submit"]) && empty($term))) {
 //            exit();
         }
         $uid = array();
-        while (($row = $GLOBALS['xoopsDB']->fetchArray($result)) != false) {
+        while (($row = $GLOBALS['xoopsDB']->fetchArray($result)) !== false) {
             $uid[] = $row["uid"];
         }
     } else {

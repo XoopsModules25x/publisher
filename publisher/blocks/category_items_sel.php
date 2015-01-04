@@ -52,7 +52,7 @@ function publisher_category_items_sel_show($options)
         if (!in_array(0, $selectedcatids) && !in_array($catID, $selectedcatids)) continue;
 
         $criteria = new Criteria('categoryid', $catID);
-        $items    = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
+        $items    = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
         unset($criteria);
 
         if (count($items) == 0) continue;

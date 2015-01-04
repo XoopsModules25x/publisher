@@ -33,26 +33,6 @@ if (isset($_POST['op']) && ('go' == XoopsRequest::getString('op', '', 'POST'))) 
     $op = XoopsRequest::getString('op', '', 'POST');
 }
 
-/**
- * @param $src
- * @param $dst
- */
-function recurse_copy($src, $dst)
-{
-    $dir = opendir($src);
-//    @mkdir($dst);
-    while (false !== ($file = readdir($dir))) {
-        if (($file != '.') && ($file != '..')) {
-            if (is_dir($src . '/' . $file)) {
-                recurse_copy($src . '/' . $file, $dst . '/' . $file);
-            } else {
-                copy($src . '/' . $file, $dst . '/' . $file);
-            }
-        }
-    }
-    closedir($dir);
-}
-
 if ($op == 'start') {
     xoops_load('XoopsFormLoader');
 
@@ -86,7 +66,7 @@ if ($op == 'start') {
 //            }
 
             $imageCategoryHandler =& xoops_gethandler('imagecategory');
-            $imagecategory  =& $imageCategoryHandler->create();
+            $imagecategory        =& $imageCategoryHandler->create();
 //            $imagecategory->setVar('imgcat_name', $imgcat_name);
             $imagecategory->setVar('imgcat_name', PUBLISHER_DIRNAME); //$imgcat_name);
             $imagecategory->setVar('imgcat_maxsize', $GLOBALS['xoopsModuleConfig']['maximum_filesize']); //$imgcat_maxsize);
@@ -147,7 +127,7 @@ if ($op == 'start') {
             $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = array();
 
-            while ((list ($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) != false) {
+            while ((list ($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
                 $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }
@@ -232,7 +212,7 @@ if ($op == 'go') {
 //    $newid = $resultImageCategory->getVar('imgcat_id');
 
     $oldToNew = array();
-    while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) != false) {
+    while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) !== false) {
         $newCat           = array();
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
@@ -285,7 +265,8 @@ if ($op == 'go') {
 
         $src = $GLOBALS['xoops']->path("/uploads/AMS/topics/");
         $dst = $GLOBALS['xoops']->path("/uploads");
-        recurse_copy($src, $dst);
+
+        PublisherUtilities::recurse_copy($src, $dst);
 
         //populate the Image Manager with images from xNews articles (by Bleekk)
 
@@ -310,7 +291,7 @@ if ($op == 'go') {
 
         $sql            = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('ams_article') . " WHERE topicid=" . $arrCat['topic_id'];
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
-        while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) != false) {
+        while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
             $itemObj = $publisher->getHandler('item')->create();
 
@@ -324,7 +305,7 @@ if ($op == 'go') {
             $itemObj->setVar('dohtml', !$arrArticle['nohtml']);
             $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
             $itemObj->setVar('weight', 0);
-            $itemObj->setVar('status', PublisherConstants::_PUBLISHER_STATUS_PUBLISHED);
+            $itemObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED);
 
 //            $itemObj->setVar('dobr', !$arrArticle['dobr']);
 //            $itemObj->setVar('item_tag', $arrArticle['tags']);
@@ -369,14 +350,14 @@ if ($op == 'go') {
                 $sql               = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix("ams_article_files") . " WHERE storyid=" . $arrArticle['storyid'];
                 $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
                 $allowed_mimetypes = '';
-                while (($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles)) != false) {
+                while (($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles)) !== false) {
                     $filename = $GLOBALS['xoops']->path("/uploads/AMS/attached/" . $arrFile['downloadname']);
                     if (file_exists($filename)) {
                         if (copy($filename, $GLOBALS['xoops']->path("/uploads/publisher/" . $arrFile['filerealname']))) {
                             $fileObj = $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['filerealname']);
                             $fileObj->setVar('description', $arrFile['filerealname']);
-                            $fileObj->setVar('status', PublisherConstants::_PUBLISHER_STATUS_FILE_ACTIVE);
+                            $fileObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE);
                             $fileObj->setVar('uid', $arrArticle['uid']);
                             $fileObj->setVar('itemid', $itemObj->itemid());
                             $fileObj->setVar('mimetype', $arrFile['mimetype']);
@@ -427,7 +408,7 @@ if ($op == 'go') {
         $publisher->getHandler('category')->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
-    unset( $oldid, $newCat);
+    unset($oldid, $newCat);
 
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . "<br />";

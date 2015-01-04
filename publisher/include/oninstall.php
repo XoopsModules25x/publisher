@@ -20,7 +20,7 @@
  * @return bool
  */
 
-function xoops_module_pre_install_publisher(&$xoopsModule)
+function xoops_module_pre_install_publisher(XoopsModule &$xoopsModule)
 {
     // NOP
     return true;
@@ -31,7 +31,7 @@ function xoops_module_pre_install_publisher(&$xoopsModule)
  *
  * @return bool|string
  */
-function xoops_module_install_publisher(&$xoopsModule)
+function xoops_module_install_publisher(XoopsModule &$xoopsModule)
 {
     xoops_loadLanguage('modinfo', $xoopsModule->getVar('dirname'));
     include_once $GLOBALS['xoops']->path("/modules/" . $xoopsModule->getVar('dirname') . "/include/functions.php");

@@ -45,7 +45,7 @@ function publisher_notify_iteminfo($category, $item_id)
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
         $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $result_array['name'];
-        $item['url']  = publisherSeoGenUrl('category', $item_id, $result_array['short_url']);
+        $item['url']  = PublisherSeo::generateUrl('category', $item_id, $result_array['short_url']);
 
         return $item;
     }
@@ -56,7 +56,7 @@ function publisher_notify_iteminfo($category, $item_id)
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
         $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $result_array['title'];
-        $item['url']  = publisherSeoGenUrl('item', $item_id, $result_array['short_url']);
+        $item['url']  = PublisherSeo::generateUrl('item', $item_id, $result_array['short_url']);
 
         return $item;
     }

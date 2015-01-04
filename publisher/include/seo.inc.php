@@ -31,14 +31,14 @@ if (isset($_GET['seoArg'])) {
     $seoOp = XoopsRequest::getString('seoArg', '', 'GET');
 }
 
-if (empty($seoOp) && XoopsRequest::getString('PATH_INFO','', 'SERVER')) {
+if (empty($seoOp) && XoopsRequest::getString('PATH_INFO', '', 'SERVER')) {
 
     // SEO mode is path-info
     /*
     Sample URL for path-info
     http://localhost/modules/publisher/seo.php/item.2/can-i-turn-the-ads-off.html
     */
-    $data = explode("/", XoopsRequest::getString('PATH_INFO','', 'SERVER'));
+    $data = explode("/", XoopsRequest::getString('PATH_INFO', '', 'SERVER'));
 
     $seoParts = explode('.', $data[1]);
     $seoOp    = $seoParts[0];
@@ -58,7 +58,7 @@ if (!empty($seoOp) && isset($seoMap[$seoOp])) {
     // module specific dispatching logic, other module must implement as
     // per their requirements.
 
-    $url_arr = explode('/modules/', XoopsRequest::getString('PHP_SELF','', 'SERVER'));
+    $url_arr = explode('/modules/', XoopsRequest::getString('PHP_SELF', '', 'SERVER'));
     $newUrl  = $url_arr[0] . '/modules/' . PUBLISHER_DIRNAME . '/' . $seoMap[$seoOp];
 
     $_ENV['PHP_SELF']       = $newUrl;

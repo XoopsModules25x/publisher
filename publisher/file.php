@@ -22,7 +22,7 @@
 include_once __DIR__ . '/header.php';
 xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
-$op = isset($_POST['op']) ? XoopsRequest::getString('op', '', 'POST') : (isset($_GET['op']) ? XoopsRequest::getString('op', '', 'GET') : '');
+$op     = isset($_POST['op']) ? XoopsRequest::getString('op', '', 'POST') : (isset($_GET['op']) ? XoopsRequest::getString('op', '', 'GET') : '');
 $fileid = isset($_POST['fileid']) ? XoopsRequest::getInt('fileid', 0, 'POST') : (isset($_GET['fileid']) ? XoopsRequest::getInt('fileid', 0, 'GET') : 0);
 
 //$op     = XoopsRequest::getString('op','', 'POST');

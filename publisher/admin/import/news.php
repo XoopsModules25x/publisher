@@ -64,7 +64,7 @@ if ($op == 'start') {
             $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = array();
 
-            while ((list ($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) != false) {
+            while ((list ($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
                 $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }
@@ -120,7 +120,7 @@ if ($op == 'go') {
     $newArticleArray = array();
 
     $oldToNew = array();
-    while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) != false) {
+    while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) !== false) {
 
         $newCat           = array();
         $newCat['oldid']  = $arrCat['topic_id'];
@@ -152,7 +152,7 @@ if ($op == 'go') {
 
         $sql            = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('stories') . " WHERE topicid=" . $arrCat['topic_id'];
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
-        while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) != false) {
+        while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
             $itemObj = $publisher->getHandler('item')->create();
 
@@ -166,7 +166,7 @@ if ($op == 'go') {
             $itemObj->setVar('dohtml', !$arrArticle['nohtml']);
             $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
             $itemObj->setVar('weight', 0);
-            $itemObj->setVar('status', PublisherConstants::_PUBLISHER_STATUS_PUBLISHED);
+            $itemObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED);
 
             $itemObj->setVar('rating', $arrArticle['rating']);
             $itemObj->setVar('votes', $arrArticle['votes']);
@@ -204,7 +204,7 @@ if ($op == 'go') {
                  $fileObj = $publisher_file_handler->create();
                  $fileObj->setVar('name', $arrFile['fileshowname']);
                  $fileObj->setVar('description', $arrFile['filedescript']);
-                 $fileObj->setVar('status', PublisherConstants::_PUBLISHER_STATUS_FILE_ACTIVE);
+                 $fileObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE);
                  $fileObj->setVar('uid', $arrArticle['uid']);
                  $fileObj->setVar('itemid', $itemObj->itemid());
                  $fileObj->setVar('mimetype', $arrFile['minetype']);

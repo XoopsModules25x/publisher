@@ -32,7 +32,7 @@ class PublisherItem extends XoopsObject
      * @var PublisherPublisher
      * @access public
      */
-    public $publisher = null;
+    public $publisher   = null;
     public $groups_read = array();
 
     /**
@@ -88,7 +88,7 @@ class PublisherItem extends XoopsObject
 
     /**
      * @param string $method
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */
@@ -112,7 +112,7 @@ class PublisherItem extends XoopsObject
     }
 
     /**
-     * @param int    $maxLength
+     * @param int $maxLength
      * @param string $format
      *
      * @return mixed|string
@@ -132,7 +132,7 @@ class PublisherItem extends XoopsObject
     }
 
     /**
-     * @param int    $maxLength
+     * @param int $maxLength
      * @param string $format
      *
      * @return mixed|string
@@ -152,7 +152,7 @@ class PublisherItem extends XoopsObject
     }
 
     /**
-     * @param int    $maxLength
+     * @param int $maxLength
      * @param string $format
      * @param string $stripTags
      *
@@ -177,7 +177,7 @@ class PublisherItem extends XoopsObject
     }
 
     /**
-     * @param int  $maxLength
+     * @param int $maxLength
      * @param bool $fullSummary
      *
      * @return mixed|string
@@ -231,7 +231,7 @@ class PublisherItem extends XoopsObject
     /**
      * This method returns the body to be displayed. Not to be used for editing
      *
-     * @param int    $maxLength
+     * @param int $maxLength
      * @param string $format
      * @param string $stripTags
      *
@@ -361,7 +361,7 @@ class PublisherItem extends XoopsObject
         if (!$this->publisher->getHandler('item')->insert($this, $force)) {
             return false;
         }
-        if ($isNew && $this->status() == PublisherConstants::_PUBLISHER_STATUS_PUBLISHED) {
+        if ($isNew && $this->status() == PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED) {
             // Increment user posts
             $user_handler   = xoops_gethandler('user');
             $member_handler = xoops_gethandler('member');
@@ -426,7 +426,7 @@ class PublisherItem extends XoopsObject
      */
     public function getFiles()
     {
-        return $this->publisher->getHandler('file')->getAllFiles($this->itemid(), PublisherConstants::_PUBLISHER_STATUS_FILE_ACTIVE);
+        return $this->publisher->getHandler('file')->getAllFiles($this->itemid(), PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE);
     }
 
     /**
@@ -460,7 +460,7 @@ class PublisherItem extends XoopsObject
             $adminLinks .= " ";
         }
         // Print button
-        $adminLinks .= "<a href='" . publisherSeoGenUrl("print", $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . _CO_PUBLISHER_PRINT . "' alt='" . _CO_PUBLISHER_PRINT . "' /></a>";
+        $adminLinks .= "<a href='" . PublisherSeo::generateUrl("print", $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . _CO_PUBLISHER_PRINT . "' alt='" . _CO_PUBLISHER_PRINT . "' /></a>";
         $adminLinks .= " ";
         // Email button
         if (xoops_isActiveModule('tellafriend')) {
@@ -490,18 +490,18 @@ class PublisherItem extends XoopsObject
         $tags['DATESUB']       = $this->datesub();
         foreach ($notifications as $notification) {
             switch ($notification) {
-                case PublisherConstants::_PUBLISHER_NOT_ITEM_PUBLISHED:
+                case PublisherConstantsInterface::PUBLISHER_NOT_ITEM_PUBLISHED:
                     $tags['ITEM_URL'] = PUBLISHER_URL . '/item.php?itemid=' . $this->itemid();
                     $notification_handler->triggerEvent('global_item', 0, 'published', $tags, array(), $this->publisher->getModule()->getVar('mid'));
                     $notification_handler->triggerEvent('category_item', $this->categoryid(), 'published', $tags, array(), $this->publisher->getModule()->getVar('mid'));
                     $notification_handler->triggerEvent('item', $this->itemid(), 'approved', $tags, array(), $this->publisher->getModule()->getVar('mid'));
                     break;
-                case PublisherConstants::_PUBLISHER_NOT_ITEM_SUBMITTED:
+                case PublisherConstantsInterface::PUBLISHER_NOT_ITEM_SUBMITTED:
                     $tags['WAITINGFILES_URL'] = PUBLISHER_URL . '/admin/item.php?itemid=' . $this->itemid();
                     $notification_handler->triggerEvent('global_item', 0, 'submitted', $tags, array(), $this->publisher->getModule()->getVar('mid'));
                     $notification_handler->triggerEvent('category_item', $this->categoryid(), 'submitted', $tags, array(), $this->publisher->getModule()->getVar('mid'));
                     break;
-                case PublisherConstants::_PUBLISHER_NOT_ITEM_REJECTED:
+                case PublisherConstantsInterface::PUBLISHER_NOT_ITEM_REJECTED:
                     $notification_handler->triggerEvent('item', $this->itemid(), 'rejected', $tags, array(), $this->publisher->getModule()->getVar('mid'));
                     break;
                 case -1:
@@ -559,12 +559,12 @@ class PublisherItem extends XoopsObject
      */
     public function getItemUrl()
     {
-        return publisherSeoGenUrl('item', $this->itemid(), $this->short_url());
+        return PublisherSeo::generateUrl('item', $this->itemid(), $this->short_url());
     }
 
     /**
      * @param bool $class
-     * @param int  $maxsize
+     * @param int $maxsize
      *
      * @return string
      */
@@ -625,7 +625,7 @@ class PublisherItem extends XoopsObject
     }
 
     /**
-     * @param int         $item_page_id
+     * @param int $item_page_id
      * @param null|string $body
      *
      * @return string
@@ -696,9 +696,9 @@ class PublisherItem extends XoopsObject
 
     /**
      * @param string $display
-     * @param int    $max_char_title
-     * @param int    $max_char_summary
-     * @param bool   $fullSummary
+     * @param int $max_char_title
+     * @param int $max_char_summary
+     * @param bool $fullSummary
      *
      * @return array
      */
@@ -780,7 +780,7 @@ class PublisherItem extends XoopsObject
 
     /**
      * @param array $item
-     * @param int   $item_page_id
+     * @param int $item_page_id
      *
      * @return array
      */
@@ -848,7 +848,7 @@ class PublisherItem extends XoopsObject
     }
 
     /**
-     * @param string       $content
+     * @param string $content
      * @param string|array $keywords
      *
      * @return Text
@@ -914,7 +914,7 @@ class PublisherItem extends XoopsObject
 
     /**
      * @param string $title
-     * @param bool   $checkperm
+     * @param bool $checkperm
      *
      * @return PublisherItemForm
      */
@@ -941,7 +941,7 @@ class PublisherItem extends XoopsObject
         if (publisher_userIsAdmin()) {
             return true;
         }
-        if ($this->status() != PublisherConstants::_PUBLISHER_STATUS_PUBLISHED) {
+        if ($this->status() != PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED) {
             return false;
         }
         // Do we have access to the parent category
@@ -986,7 +986,7 @@ class PublisherItem extends XoopsObject
 
             $sql    = 'SELECT image_id, image_name FROM ' . $GLOBALS['xoopsDB']->prefix('image');
             $result = $GLOBALS['xoopsDB']->query($sql, 0, 0);
-            while (($myrow = $GLOBALS['xoopsDB']->fetchArray($result)) != false) {
+            while (($myrow = $GLOBALS['xoopsDB']->fetchArray($result)) !== false) {
                 $image_name = $myrow['image_name'];
                 $id         = $myrow['image_id'];
                 if ($image_name == $image_featured) {
@@ -1133,8 +1133,8 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     /**
      * insert a new item in the database
      *
-     * @param object $item  reference to the {@link PublisherItem} object
-     * @param bool   $force
+     * @param object $item reference to the {@link PublisherItem} object
+     * @param bool $force
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
@@ -1169,8 +1169,8 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     /**
      * delete an item from the database
      *
-     * @param object $item  reference to the ITEM to delete
-     * @param bool   $force
+     * @param object $item reference to the ITEM to delete
+     * @param bool $force
      *
      * @return bool FALSE if failed.
      */
@@ -1197,8 +1197,8 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve items from the database
      *
-     * @param object $criteria      {@link CriteriaElement} conditions to be met
-     * @param string $id_key        what shall we use as array key ? none, itemid, categoryid
+     * @param object $criteria {@link CriteriaElement} conditions to be met
+     * @param string $id_key what shall we use as array key ? none, itemid, categoryid
      * @param string $notNullFields
      *
      * @return array array of {@link PublisherItem} objects
@@ -1231,7 +1231,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             return $ret;
         }
         $theObjects = array();
-        while (($myrow = $this->db->fetchArray($result)) != false) {
+        while (($myrow = $this->db->fetchArray($result)) !== false) {
             $item = new PublisherItem();
             $item->assignVars($myrow);
             $theObjects[$myrow['itemid']] = $item;
@@ -1254,7 +1254,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     /**
      * count items matching a condition
      *
-     * @param object $criteria      {@link CriteriaElement} to match
+     * @param object $criteria {@link CriteriaElement} to match
      * @param string $notNullFields
      *
      * @return int count of items
@@ -1341,9 +1341,9 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     public function getItemsCount($categoryid = -1, $status = '', $notNullFields = '')
     {
 
-        global $publisher_isAdmin;
+//        global $publisher_isAdmin;
         $criteriaPermissions = '';
-        if (!$publisher_isAdmin) {
+        if (!$GLOBALS['publisher_isAdmin']) {
             $criteriaPermissions = new CriteriaCompo();
             // Categories for which user has access
             $categoriesGranted = $this->publisher->getHandler('permission')->getGrantedItems('category_read');
@@ -1384,13 +1384,13 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int    $limit
-     * @param int    $start
-     * @param int    $categoryid
+     * @param int $limit
+     * @param int $start
+     * @param int $categoryid
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
-     * @param bool   $asobject
+     * @param bool $asobject
      * @param string $id_key
      *
      * @return array
@@ -1399,7 +1399,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     {
         $otherCriteria = new Criteria('datesub', time(), '<=');
 
-        return $this->getItems($limit, $start, array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED), $categoryid, $sort, $order, $notNullFields, $asobject, $otherCriteria, $id_key);
+        return $this->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), $categoryid, $sort, $order, $notNullFields, $asobject, $otherCriteria, $id_key);
     }
 
     /**
@@ -1412,7 +1412,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $ret           = false;
         $otherCriteria = new CriteriaCompo();
         $otherCriteria->add(new Criteria('datesub', $obj->getVar('datesub'), '<'));
-        $objs = $this->getItems(1, 0, array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED), $obj->getVar('categoryid'), 'datesub', 'DESC', '', true, $otherCriteria, 'none');
+        $objs = $this->getItems(1, 0, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), $obj->getVar('categoryid'), 'datesub', 'DESC', '', true, $otherCriteria, 'none');
         if (count($objs) > 0) {
             $ret = $objs[0];
         }
@@ -1431,7 +1431,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $otherCriteria = new CriteriaCompo();
         $otherCriteria->add(new Criteria('datesub', $obj->getVar('datesub'), '>'));
         $otherCriteria->add(new Criteria('datesub', time(), '<='));
-        $objs = $this->getItems(1, 0, array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED), $obj->getVar('categoryid'), 'datesub', 'ASC', '', true, $otherCriteria, 'none');
+        $objs = $this->getItems(1, 0, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), $obj->getVar('categoryid'), 'datesub', 'ASC', '', true, $otherCriteria, 'none');
         if (count($objs) > 0) {
             $ret = $objs[0];
         }
@@ -1440,54 +1440,54 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int    $limit
-     * @param int    $start
-     * @param int    $categoryid
+     * @param int $limit
+     * @param int $start
+     * @param int $categoryid
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
-     * @param bool   $asobject
+     * @param bool $asobject
      * @param string $id_key
      *
      * @return array
      */
     public function getAllSubmitted($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asobject = true, $id_key = 'none')
     {
-        return $this->getItems($limit, $start, array(PublisherConstants::_PUBLISHER_STATUS_SUBMITTED), $categoryid, $sort, $order, $notNullFields, $asobject, null, $id_key);
+        return $this->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED), $categoryid, $sort, $order, $notNullFields, $asobject, null, $id_key);
     }
 
     /**
-     * @param int    $limit
-     * @param int    $start
-     * @param int    $categoryid
+     * @param int $limit
+     * @param int $start
+     * @param int $categoryid
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
-     * @param bool   $asobject
+     * @param bool $asobject
      * @param string $id_key
      *
      * @return array
      */
     public function getAllOffline($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asobject = true, $id_key = 'none')
     {
-        return $this->getItems($limit, $start, array(PublisherConstants::_PUBLISHER_STATUS_OFFLINE), $categoryid, $sort, $order, $notNullFields, $asobject, null, $id_key);
+        return $this->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE), $categoryid, $sort, $order, $notNullFields, $asobject, null, $id_key);
     }
 
     /**
-     * @param int    $limit
-     * @param int    $start
-     * @param int    $categoryid
+     * @param int $limit
+     * @param int $start
+     * @param int $categoryid
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
-     * @param bool   $asobject
+     * @param bool $asobject
      * @param string $id_key
      *
      * @return array
      */
     public function getAllRejected($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asobject = true, $id_key = 'none')
     {
-        return $this->getItems($limit, $start, array(PublisherConstants::_PUBLISHER_STATUS_REJECTED), $categoryid, $sort, $order, $notNullFields, $asobject, null, $id_key);
+        return $this->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED), $categoryid, $sort, $order, $notNullFields, $asobject, null, $id_key);
     }
 
     /**
@@ -1506,9 +1506,9 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      */
     public function getItems($limit = 0, $start = 0, $status = '', $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $otherCriteria = null, $id_key = 'none')
     {
-        global $publisher_isAdmin;
+//        global $publisher_isAdmin;
         $criteriaPermissions = '';
-        if (!$publisher_isAdmin) {
+        if (!$GLOBALS['publisher_isAdmin']) {
             $criteriaPermissions = new CriteriaCompo();
             // Categories for which user has access
             $categoriesGranted = $this->publisher->getHandler('permission')->getGrantedItems('category_read');
@@ -1521,29 +1521,29 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         }
 
         $criteria = self::getItemsCriteria($categoryid, $status, $notNullFields, $criteriaPermissions);
-/*
-        if (isset($categoryid) && $categoryid != -1) {
-            $criteriaCategory = new criteria('categoryid', $categoryid);
-        }
-        $criteriaStatus = new CriteriaCompo();
-        if (!empty($status) && is_array($status)) {
-            foreach ($status as $v) {
-                $criteriaStatus->add(new Criteria('status', $v), 'OR');
-            }
-        } elseif (!empty($status) && $status != -1) {
-            $criteriaStatus->add(new Criteria('status', $status), 'OR');
-        }
-        $criteria = new CriteriaCompo();
-        if (!empty($criteriaCategory)) {
-            $criteria->add($criteriaCategory);
-        }
-        if (!empty($criteriaPermissions)) {
-            $criteria->add($criteriaPermissions);
-        }
-        if (!empty($criteriaStatus)) {
-            $criteria->add($criteriaStatus);
-        }
-*/
+        /*
+                if (isset($categoryid) && $categoryid != -1) {
+                    $criteriaCategory = new criteria('categoryid', $categoryid);
+                }
+                $criteriaStatus = new CriteriaCompo();
+                if (!empty($status) && is_array($status)) {
+                    foreach ($status as $v) {
+                        $criteriaStatus->add(new Criteria('status', $v), 'OR');
+                    }
+                } elseif (!empty($status) && $status != -1) {
+                    $criteriaStatus->add(new Criteria('status', $status), 'OR');
+                }
+                $criteria = new CriteriaCompo();
+                if (!empty($criteriaCategory)) {
+                    $criteria->add($criteriaCategory);
+                }
+                if (!empty($criteriaPermissions)) {
+                    $criteria->add($criteriaPermissions);
+                }
+                if (!empty($criteriaStatus)) {
+                    $criteria->add($criteriaStatus);
+                }
+        */
 //        $ret = array();
 
         if (!empty($otherCriteria)) {
@@ -1561,7 +1561,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     /**
      * @param string $field
      * @param string $status
-     * @param int    $categoryId
+     * @param int $categoryId
      *
      * @return bool
      */
@@ -1574,8 +1574,8 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         if ($totalItems > 0) {
             $totalItems = $totalItems - 1;
             mt_srand((double)microtime() * 1000000);
-            $entrynumber = mt_rand(0, $totalItems);
-            $item        = $this->getItems(1, $entrynumber, $status, $categoryId, $sort = 'datesub', $order = 'DESC', $notNullFields);
+            $entryNumber = mt_rand(0, $totalItems);
+            $item        = $this->getItems(1, $entryNumber, $status, $categoryId, $sort = 'datesub', $order = 'DESC', $notNullFields);
             if ($item) {
                 $ret = $item[0];
             }
@@ -1619,7 +1619,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
 
     /**
      * @param string|array $notNullFields
-     * @param bool         $withAnd
+     * @param bool $withAnd
      *
      * @return string
      */
@@ -1641,13 +1641,13 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param array  $queryarray
+     * @param array $queryarray
      * @param string $andor
-     * @param int    $limit
-     * @param int    $offset
-     * @param int    $userid
-     * @param array  $categories
-     * @param int    $sortby
+     * @param int $limit
+     * @param int $offset
+     * @param int $userid
+     * @param array $categories
+     * @param int $sortby
      * @param string $searchin
      * @param string $extra
      *
@@ -1655,7 +1655,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      */
     public function getItemsFromSearch($queryarray = array(), $andor = 'AND', $limit = 0, $offset = 0, $userid = 0, $categories = array(), $sortby = 0, $searchin = "", $extra = "")
     {
-        global $publisher_isAdmin;
+//        global $publisher_isAdmin;
         $ret           = array();
         $gperm_handler = &xoops_gethandler('groupperm');
         $groups        = is_object($GLOBALS['xoopsUser']) ? ($GLOBALS['xoopsUser']->getGroups()) : XOOPS_GROUP_ANONYMOUS;
@@ -1674,7 +1674,8 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $count = count($queryarray);
         if (is_array($queryarray) && $count > 0) {
             $criteriaKeywords = new CriteriaCompo();
-            for ($i = 0; $i < count($queryarray); ++$i) {
+            $elementCount = count($queryarray);
+            for ($i = 0; $i < $elementCount; ++$i) {
                 $criteriaKeyword = new CriteriaCompo();
                 if (in_array('title', $searchin)) {
                     $criteriaKeyword->add(new Criteria('title', '%' . $queryarray[$i] . '%', 'LIKE'), 'OR');
@@ -1695,7 +1696,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
                 unset($criteriaKeyword);
             }
         }
-        if (!$publisher_isAdmin && (count($categories) > 0)) {
+        if (!$GLOBALS['publisher_isAdmin'] && (count($categories) > 0)) {
             $criteriaPermissions = new CriteriaCompo();
             // Categories for which user has access
             $categoriesGranted = $gperm_handler->getItemIds('category_read', $groups, $this->publisher->getModule()->getVar('mid'));
@@ -1713,7 +1714,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             $criteriaPermissions->add($grantedCategories, 'AND');
         }
         $criteriaItemsStatus = new CriteriaCompo();
-        $criteriaItemsStatus->add(new Criteria('status', PublisherConstants::_PUBLISHER_STATUS_PUBLISHED));
+        $criteriaItemsStatus->add(new Criteria('status', PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED));
         $criteria = new CriteriaCompo();
         if (!empty($criteriaUser)) {
             $criteria->add($criteriaUser, 'AND');
@@ -1749,7 +1750,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function getLastPublishedByCat($categoriesObj, $status = array(PublisherConstants::_PUBLISHER_STATUS_PUBLISHED))
+    public function getLastPublishedByCat($categoriesObj, $status = array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED))
     {
         $ret    = array();
         $catIds = array();
@@ -1794,7 +1795,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $sql .= " GROUP BY categoryid)mo";
         $sql .= " JOIN " . $this->db->prefix('publisher_items') . " mi ON mi.datesub = mo.date";
         $result = $this->db->query($sql);
-        while (($row = $this->db->fetchArray($result)) != false) {
+        while (($row = $this->db->fetchArray($result)) !== false) {
             $item = new PublisherItem();
             $item->assignVars($row);
             $ret[$row['categoryid']] = $item;
@@ -1828,9 +1829,9 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int   $catId
+     * @param int $catId
      * @param array $status
-     * @param bool  $inSubCat
+     * @param bool $inSubCat
      *
      * @return array
      */
@@ -1852,14 +1853,14 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             return $ret;
         }
         if (!$inSubCat) {
-            while (($row = $this->db->fetchArray($result))!= false) {
+            while (($row = $this->db->fetchArray($result)) !== false) {
                 $catsCount[$row['categoryid']] = $row['count'];
             }
 
             return $catsCount;
         }
 //        while ($row = $this->db->fetchArray($result)) {
-        while (($row = $this->db->fetchArray($result)) != false) {
+        while (($row = $this->db->fetchArray($result)) !== false) {
             $catsCount[$row['parentid']][$row['categoryid']] = $row['count'];
         }
         $resultCatCounts = array();

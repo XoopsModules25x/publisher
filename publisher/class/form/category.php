@@ -86,9 +86,9 @@ class PublisherCategoryForm extends XoopsThemeForm
         $groups          = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $gperm_handler   = $this->publisher->getHandler('groupperm');
         $module_id       = $this->publisher->getModule()->mid();
-        $allowed_editors = publisher_getEditors($gperm_handler->getItemIds('editors', $groups, $module_id));
+        $allowedEditors = publisher_getEditors($gperm_handler->getItemIds('editors', $groups, $module_id));
         $nohtml          = false;
-        if (count($allowed_editors) > 0) {
+        if (count($allowedEditors) > 0) {
             $editor = isset($_POST['editor']) ? $_POST['editor'] : '';
             if (!empty($editor)) {
                 publisher_setCookieVar('publisher_editor', $editor);
@@ -98,8 +98,8 @@ class PublisherCategoryForm extends XoopsThemeForm
                     $editor = isset($GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
-            $editor      = (empty($editor) || !in_array($editor, $allowed_editors)) ? $this->publisher->getConfig('submit_editor') : $editor;
-            $form_editor = new XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowed_editors);
+            $editor      = (empty($editor) || !in_array($editor, $allowedEditors)) ? $this->publisher->getConfig('submit_editor') : $editor;
+            $form_editor = new XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowedEditors);
             $this->addElement($form_editor);
         } else {
             $editor = $this->publisher->getConfig('submit_editor');

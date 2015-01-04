@@ -97,7 +97,7 @@ class PublisherThemeTabForm extends XoopsForm
      * @param string $name
      * @param string $action
      * @param string $method
-     * @param bool   $addtoken
+     * @param bool $addtoken
      * @param string $summary
      */
     public function __construct($title, $name, $action, $method = "post", $addtoken = false, $summary = '')
@@ -115,7 +115,7 @@ class PublisherThemeTabForm extends XoopsForm
         $this->_action  = $action;
         $this->_method  = $method;
         $this->_summary = $summary;
-        if ($addtoken != false) {
+        if ($addtoken !== false) {
             $this->addElement(new XoopsFormHiddenToken());
         }
     }
@@ -277,7 +277,7 @@ class PublisherThemeTabForm extends XoopsForm
      * Add an element to the form
      *
      * @param object $formElement reference to a {@link XoopsFormElement}
-     * @param bool   $required    is this a "required" element?
+     * @param bool $required is this a "required" element?
      */
     public function addElement(&$formElement, $required = false)
     {
@@ -361,7 +361,7 @@ class PublisherThemeTabForm extends XoopsForm
     /**
      * Sets the "value" attribute of a form element
      *
-     * @param string $name  the "name" attribute of a form element
+     * @param string $name the "name" attribute of a form element
      * @param string $value the "value" attribute of a form element
      */
     public function setElementValue($name, $value)
@@ -395,8 +395,8 @@ class PublisherThemeTabForm extends XoopsForm
     /**
      * Gets the "value" attribute of a form element
      *
-     * @param string $name   the "name" attribute of a form element
-     * @param bool   $encode To sanitizer the text?
+     * @param string $name the "name" attribute of a form element
+     * @param bool $encode To sanitizer the text?
      *
      * @return string the "value" attribute assigned to a form element, null if not set
      */

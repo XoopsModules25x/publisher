@@ -43,7 +43,7 @@ function publisher_tag_iteminfo(&$items)
 
     foreach (array_keys($items) as $catId) {
         foreach (array_keys($items[$catId]) as $item_id) {
-            $item_obj                 = $items_obj[$item_id];
+            $item_obj                = $items_obj[$item_id];
             $items[$catId][$item_id] = array(
                 "title"   => $item_obj->getVar("title"),
                 "uid"     => $item_obj->getVar("uid"),

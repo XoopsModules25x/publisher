@@ -110,22 +110,22 @@ if (is_object($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirna
     $anonpost    = (isset($GLOBALS['xoopsModuleConfig']['permissions_anon_post']) && $GLOBALS['xoopsModuleConfig']['permissions_anon_post'] == 1) ? true : false;
     if ($isAdmin || ($allowsubmit && (is_object($GLOBALS['xoopsUser']) || $anonpost))) {
         $modversion['sub'][] = array(
-        'name' => _MI_PUBLISHER_SUB_SMNAME1,
-        'url'  => "submit.php?op=add");
+            'name' => _MI_PUBLISHER_SUB_SMNAME1,
+            'url'  => "submit.php?op=add");
     }
 
 // ------------------- Search -------------------
     $allowsearch = (isset($GLOBALS['xoopsModuleConfig']['perm_search']) && $GLOBALS['xoopsModuleConfig']['perm_search'] == 1) ? true : false;
     if ($allowsearch) {
         $modversion['sub'][] = array(
-        'name' => _MI_PUBLISHER_SUB_SMNAME3,
-        'url'  => "search.php");
+            'name' => _MI_PUBLISHER_SUB_SMNAME3,
+            'url'  => "search.php");
     }
 }
 // Add the Archive button
 $modversion['sub'][] = array(
-'name' => _MI_PUBLISHER_SUB_ARCHIVE,
-'url'  => "archive.php");
+    'name' => _MI_PUBLISHER_SUB_ARCHIVE,
+    'url'  => "archive.php");
 
 // ------------------- Blocks -------------------
 $modversion['blocks'][] = array(
@@ -451,13 +451,13 @@ $modversion['config'][] = array(
 );
 
 $modversion['config'][] = array(
-        'name'     => 'index_welcome_msg',
-        'title'       => '_MI_PUBLISHER_INDEXMSG',
-        'description' => '_MI_PUBLISHER_INDEXMSGDSC',
-        'formtype'    => 'textarea',
-        'valuetype'   => 'text',
-        'default'     => _MI_PUBLISHER_INDEXMSGDEF,
-    'category' => 'index'
+    'name'        => 'index_welcome_msg',
+    'title'       => '_MI_PUBLISHER_INDEXMSG',
+    'description' => '_MI_PUBLISHER_INDEXMSGDSC',
+    'formtype'    => 'textarea',
+    'valuetype'   => 'text',
+    'default'     => _MI_PUBLISHER_INDEXMSGDEF,
+    'category'    => 'index'
 );
 
 $modversion['config'][] = array(
@@ -1004,12 +1004,12 @@ $modversion['config'][] = array(
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'options'     => array(
-        _MI_PUBLISHER_PUBLISHED => PublisherConstants::_PUBLISHER_STATUS_PUBLISHED,
-        _MI_PUBLISHER_OFFLINE   => PublisherConstants::_PUBLISHER_STATUS_OFFLINE,
-        _MI_PUBLISHER_SUBMITTED => PublisherConstants::_PUBLISHER_STATUS_SUBMITTED,
-        _MI_PUBLISHER_REJECTED  => PublisherConstants::_PUBLISHER_STATUS_REJECTED
+        _MI_PUBLISHER_PUBLISHED => PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED,
+        _MI_PUBLISHER_OFFLINE   => PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE,
+        _MI_PUBLISHER_SUBMITTED => PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED,
+        _MI_PUBLISHER_REJECTED  => PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED
     ),
-    'default'     => PublisherConstants::_PUBLISHER_STATUS_SUBMITTED,
+    'default'     => PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED,
     'category'    => 'submit'
 );
 

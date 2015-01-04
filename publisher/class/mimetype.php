@@ -106,8 +106,8 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param object $criteria  {@link CriteriaElement} conditions to be met
-     * @param bool   $id_as_key Should the department ID be used as array key
+     * @param object $criteria {@link CriteriaElement} conditions to be met
+     * @param bool $id_as_key Should the department ID be used as array key
      *
      * @return array array of objects
      * @access  public
@@ -128,7 +128,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
             return $ret;
         }
         // Add each returned record to the result array
-        while (($myrow = $this->db->fetchArray($result)) != false) {
+        while (($myrow = $this->db->fetchArray($result)) !== false) {
             $obj = new $this->className($myrow);
             if (!$id_as_key) {
                 $ret[] = $obj;
@@ -143,7 +143,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
 
     /**
      * @param object $obj
-     * @param bool   $force
+     * @param bool $force
      *
      * @return bool|void
      */
@@ -235,8 +235,8 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * delete object based on id
      *
-     * @param object $obj   {@link XoopsObject} to delete
-     * @param bool   $force override XOOPS delete protection
+     * @param object $obj {@link XoopsObject} to delete
+     * @param bool $force override XOOPS delete protection
      *
      * @return bool deletion successful?
      * @access public
@@ -285,7 +285,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *
      * @param string $fieldname
      * @param string $fieldvalue
-     * @param object $criteria   {@link CriteriaElement}
+     * @param object $criteria {@link CriteriaElement}
      *
      * @return bool FALSE if update failed
      * @access    public
@@ -458,7 +458,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
             return $ret;
         }
         // Add each returned record to the result array
-        while (($myrow = $this->db->fetchArray($result)) != false) {
+        while (($myrow = $this->db->fetchArray($result)) !== false) {
             $obj   = new $this->className($myrow);
             $ret[] = $obj;
             unset($obj);
@@ -476,12 +476,12 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      */
     public function getArray($mime_ext = null)
     {
-        global $publisher_isAdmin;
+//        global $publisher_isAdmin;
         $ret = array();
-        if ($GLOBALS['xoopsUser'] && !$publisher_isAdmin) {
+        if ($GLOBALS['xoopsUser'] && !$GLOBALS['publisher_isAdmin']) {
             // For user uploading
             $crit = new CriteriaCompo(new Criteria('mime_user', 1)); //$sql = sprintf("SELECT * FROM %s WHERE mime_user=1", $GLOBALS['xoopsDB']->prefix('publisher_mimetypes'));
-        } elseif ($GLOBALS['xoopsUser'] && $publisher_isAdmin) {
+        } elseif ($GLOBALS['xoopsUser'] && $GLOBALS['publisher_isAdmin']) {
             // For admin uploading
             $crit = new CriteriaCompo(new Criteria('mime_admin', 1)); //$sql = sprintf("SELECT * FROM %s WHERE mime_admin=1", $GLOBALS['xoopsDB']->prefix('publisher_mimetypes'));
         } else {
@@ -550,7 +550,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      * Create a "select" SQL query
      *
      * @param null|object $criteria {@link CriteriaElement} to match
-     * @param bool        $join
+     * @param bool $join
      *
      * @return string string SQL query
      * @access    private
@@ -569,8 +569,10 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
                 throw new Exception("no need for join...");
             }
         } catch (Exception $e) {
-            $sql = sprintf('SELECT * FROM %s', $this->db->prefix($this->dbtable));
-        }
+            echo "no need for join...";
+        };
+
+        $sql = sprintf('SELECT * FROM %s', $this->db->prefix($this->dbtable));
 
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();

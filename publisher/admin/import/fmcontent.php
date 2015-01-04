@@ -68,7 +68,7 @@ if ('start' == $op) {
             $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = array();
 
-            while ((list ($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) != false) {
+            while ((list ($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
                 $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "{$cat_title} ($art_count)";
             }
@@ -178,7 +178,7 @@ if ('go' == $op) {
                                     'doimage'          => $thisFmContentObj->getVar('doimage'),
                                     'dobr'             => $thisFmContentObj->getVar('dobr'),
                                     'weight'           => $thisFmContentObj->getVar('content_order'),
-                                    'status'           => ($thisFmContentObj->getVar('content_status')) ? PublisherConstants::_PUBLISHER_STATUS_PUBLISHED : PublisherConstants::_PUBLISHER_STATUS_OFFLINE,
+                                    'status'           => ($thisFmContentObj->getVar('content_status')) ? PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED : PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE,
                                     'counter'          => $thisFmContentObj->getVar('content_hits'),
                                     'rating'           => 0,
                                     'votes'            => 0,
@@ -272,7 +272,7 @@ if ('go' == $op) {
                                     'doimage'          => $thisFmContentObj->getVar('doimage'),
                                     'dobr'             => $thisFmContentObj->getVar('dobr'),
                                     'weight'           => $thisFmContentObj->getVar('content_order'),
-                                    'status'           => ($thisFmContentObj->getVar('content_status')) ? PublisherConstants::_PUBLISHER_STATUS_PUBLISHED : PublisherConstants::_PUBLISHER_STATUS_OFFLINE,
+                                    'status'           => ($thisFmContentObj->getVar('content_status')) ? PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED : PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE,
                                     'rating'           => 0,
                                     'votes'            => 0,
                                     'comments'         => $thisFmContentObj->getVar('content_comments'),

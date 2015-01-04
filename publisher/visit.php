@@ -27,7 +27,7 @@ $fileid = XoopsRequest::getInt('fileid', 0, 'GET');
 // Creating the item object for the selected item
 $fileObj = $publisher->getHandler('file')->get($fileid);
 
-if ($fileObj->getVar('status' != PublisherConstants::_PUBLISHER_STATUS_FILE_ACTIVE)) {
+if ($fileObj->getVar('status' != PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE)) {
     redirect_header("javascript:history.go(-1)", 1, _NOPERM);
 }
 

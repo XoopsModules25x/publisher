@@ -92,5 +92,4 @@ $adminmenu[$i]['title'] = _AM_PUBLISHER_ABOUT;
 $adminmenu[$i]['link']  = "admin/about.php";
 $adminmenu[$i]["icon"]  = '../../' . $pathIcon32 . '/about.png';
 
-global $xoTheme;
-$xoTheme->addStylesheet("modules/" . $dirname . "/assets/css/style.css");
+$GLOBALS['xoTheme']->addStylesheet("modules/" . $dirname . "/assets/css/style.css");

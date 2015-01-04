@@ -75,7 +75,7 @@ class PublisherFileForm extends XoopsThemeForm
         $this->addElement($file_box);
         //}
 
-        $status_select = new XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'file_status', PublisherConstants::_PUBLISHER_STATUS_FILE_ACTIVE);
+        $status_select = new XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'file_status', PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE);
         $status_select->setDescription(_CO_PUBLISHER_FILE_STATUS_DSC);
         $this->addElement($status_select);
 

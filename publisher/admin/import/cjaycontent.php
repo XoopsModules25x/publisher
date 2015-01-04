@@ -37,21 +37,21 @@ if (isset($_POST['op']) && ('go' == XoopsRequest::getString('op', '', 'POST'))) 
  * @param $src
  * @param $dst
  */
-function recurse_copy($src, $dst)
-{
-    $dir = opendir($src);
-//    @mkdir($dst);
-    while (false !== ($file = readdir($dir))) {
-        if (($file != '.') && ($file != '..')) {
-            if (is_dir($src . '/' . $file)) {
-                recurse_copy($src . '/' . $file, $dst . '/' . $file);
-            } else {
-                copy($src . '/' . $file, $dst . '/' . $file);
-            }
-        }
-    }
-    closedir($dir);
-}
+//function recurse_copy($src, $dst)
+//{
+//    $dir = opendir($src);
+////    @mkdir($dst);
+//    while (false !== ($file = readdir($dir))) {
+//        if (($file != '.') && ($file != '..')) {
+//            if (is_dir($src . '/' . $file)) {
+//                recurse_copy($src . '/' . $file, $dst . '/' . $file);
+//            } else {
+//                copy($src . '/' . $file, $dst . '/' . $file);
+//            }
+//        }
+//    }
+//    closedir($dir);
+//}
 
 if ($op == 'start') {
     xoops_load('XoopsFormLoader');
@@ -70,16 +70,16 @@ if ($op == 'start') {
 
     if ($totalArticles == 0) {
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(
-            _AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS,
-            $importFromModuleName,
-            $totalArticles
-        ) . "</span>";
+                _AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS,
+                $importFromModuleName,
+                $totalArticles
+            ) . "</span>";
     } else {
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(
-            _AM_PUBLISHER_IMPORT_MODULE_FOUND,
-            $importFromModuleName,
-            $totalArticles,
-            $totalCat) . "</span>";
+                _AM_PUBLISHER_IMPORT_MODULE_FOUND,
+                $importFromModuleName,
+                $totalArticles,
+                $totalCat) . "</span>";
 
         $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
@@ -123,7 +123,7 @@ if ($op == 'go') {
 
     $sql            = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('cjaycontent');
     $resultArticles = $GLOBALS['xoopsDB']->query($sql);
-    while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) != false) {
+    while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
         // insert article
         $itemObj = $publisher->getHandler('item')->create();
         $itemObj->setVar('itemid', $arrArticle['id']);
@@ -137,7 +137,7 @@ if ($op == 'go') {
 //            $itemObj->setVar('dohtml', !$arrArticle['nohtml']);
 //            $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
         $itemObj->setVar('weight', $arrArticle['weight']);
-        $itemObj->setVar('status', PublisherConstants::_PUBLISHER_STATUS_PUBLISHED);
+        $itemObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED);
 
 //            $itemObj->setVar('dobr', !$arrArticle['dobr']);
 //            $itemObj->setVar('item_tag', $arrArticle['tags']);

@@ -27,11 +27,7 @@ $importFromModuleName = "xNews " . XoopsRequest::getString('ams_version', '', 'P
 
 $scriptname = "ams.php";
 
-$op = 'start';
-
-if (isset($_POST['op']) && ('go' == XoopsRequest::getString('op', '', 'POST'))) {
-    $op = XoopsRequest::getString('op', '', 'POST');
-}
+$op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 
 if ($op == 'start') {
     xoops_load('XoopsFormLoader');
@@ -266,7 +262,7 @@ if ($op == 'go') {
         $src = $GLOBALS['xoops']->path("/uploads/AMS/topics/");
         $dst = $GLOBALS['xoops']->path("/uploads");
 
-        PublisherUtilities::recurse_copy($src, $dst);
+        PublisherUtilities::recurseCopy($src, $dst);
 
         //populate the Image Manager with images from xNews articles (by Bleekk)
 

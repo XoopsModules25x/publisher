@@ -27,11 +27,7 @@ $importFromModuleName = "Smartsection " . XoopsRequest::getString('smartsection_
 
 $scriptname = "smartsection.php";
 
-$op = 'start';
-
-if (isset($_POST['op']) && ('go' == XoopsRequest::getString('op', '', 'POST'))) {
-    $op = XoopsRequest::getString('op', '', 'POST');
-}
+$op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 
 if ($op == 'start') {
     xoops_load('XoopsFormLoader');

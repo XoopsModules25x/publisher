@@ -221,7 +221,7 @@ class PublisherMetagen
     /**
      * Does nothing
      */
-    public function autoBuildMeta_keywords()
+    public function autoBuildMetaKeywords()
     {
     }
 

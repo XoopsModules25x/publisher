@@ -31,7 +31,7 @@ if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
 
-$categoryid = isset($_GET['categoryid']) ? XoopsRequest::getInt('categoryid', 0, 'GET') : -1;
+$categoryid = XoopsRequest::getInt('categoryid', -1, 'GET');
 
 if ($categoryid != -1) {
     $categoryObj = $publisher->getHandler('category')->get($categoryid);

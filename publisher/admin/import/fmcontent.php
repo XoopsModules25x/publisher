@@ -28,11 +28,7 @@ $importFromModuleName = "FmContent " . XoopsRequest::getString('fmcontent_versio
 
 $scriptname = "fmcontent.php";
 
-$op = 'start';
-
-if (isset($_POST['op']) && ($_POST['op'] == 'go')) {
-    $op = $_POST['op'];
-}
+$op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 
 if ('start' == $op) {
     xoops_load('XoopsFormLoader');
@@ -135,7 +131,7 @@ if ('go' == $op) {
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
 
-    $parentId = (isset($_POST['parent_category'])) ? (int)$_POST['parent_category'] : 0;
+    $parentId = XoopsRequest::getInt('parent_category', 0, 'POST');
 
     // get all FmContent Content items without a category (content_topic=0)
     $fmContentHdlr =& xoops_getmodulehandler('page', 'fmcontent');

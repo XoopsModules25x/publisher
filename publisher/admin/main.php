@@ -23,13 +23,13 @@ include_once __DIR__ . '/admin_header.php';
 include_once $GLOBALS['xoops']->path('class/xoopslists.php');
 include_once $GLOBALS['xoops']->path('class/pagenav.php');
 
-$itemid = isset($_POST['itemid']) ? XoopsRequest::getInt('itemid', 0, 'POST') : 0;
+$itemid =  XoopsRequest::getInt('itemid', 0, 'POST');
 
-$pick = isset($_GET['pick']) ? XoopsRequest::getInt('pick', 0, 'GET') : 0;
-$pick = isset($_POST['pick']) ? XoopsRequest::getInt('pick', 0, 'POST') : $pick;
+$pick = XoopsRequest::getInt('pick', 0, 'GET');
+$pick = XoopsRequest::getInt('pick', $pick, 'POST');
 
-$statussel = isset($_GET['statussel']) ? XoopsRequest::getInt('statussel', 0, 'GET') : 0;
-$statussel = isset($_POST['statussel']) ? XoopsRequest::getInt('statussel', 0, 'POST') : $statussel;
+$statussel = XoopsRequest::getInt('statussel', 0, 'GET');
+$statussel = XoopsRequest::getInt('statussel', $statussel, 'POST');
 
 $sortsel = isset($_GET['sortsel']) ? XoopsRequest::getString('sortsel', '', 'GET') : 'itemid';
 $sortsel = isset($_POST['sortsel']) ? XoopsRequest::getString('sortsel', '', 'POST') : $sortsel;
@@ -43,7 +43,7 @@ $groups        = ($GLOBALS['xoopsUser']) ? ($GLOBALS['xoopsUser']->getGroups()) 
 
 // Code for the page
 
-$startentry = isset($_GET['startentry']) ? XoopsRequest::getInt('startentry', 0, 'GET') : 0;
+$startentry = XoopsRequest::getInt('startentry', 0, 'GET');
 
 publisher_cpHeader();
 //publisher_adminMenu(0, _AM_PUBLISHER_INDEX);
@@ -222,7 +222,6 @@ $totalItemsOnPage = count($itemsObj);
 PublisherUtilities::buildTableItemTitleRow();
 
 if ($numrows > 0) {
-
     for ($i = 0; $i < $totalItemsOnPage; ++$i) {
         // Creating the category object to which this item is linked
         $categoryObj = $itemsObj[$i]->category();

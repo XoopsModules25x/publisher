@@ -51,7 +51,7 @@ function publisher_items_menu_show($options)
 
     if ($block['inModule']) {
         // Are we in a category and if yes, in which one ?
-        $categoryid = isset($_GET['categoryid']) ? XoopsRequest::getInt('categoryid', 0, 'GET') : 0;
+        $categoryid = XoopsRequest::getInt('categoryid', 0, 'GET');
 
         if ($categoryid != 0) {
             // if we are in a category, then the $categoryObj is already defined in publisher/category.php

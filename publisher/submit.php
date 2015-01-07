@@ -44,7 +44,7 @@ if ($itemid != 0) {
 //        exit();
     }
     if (!publisher_userIsAdmin() || !publisher_userIsModerator($itemObj)) {
-        if (isset($_GET['op']) && 'del' == XoopsRequest::getString('op', '', 'GET') && !$publisher->getConfig('perm_delete')) {
+        if ('del' == XoopsRequest::getString('op', '', 'GET')  && !$publisher->getConfig('perm_delete')) {
             redirect_header("index.php", 1, _NOPERM);
 //            exit();
         } elseif (!$publisher->getConfig('perm_edit')) {
@@ -65,7 +65,7 @@ if ($itemid != 0) {
     $categoryObj = $publisher->getHandler('category')->create();
 }
 
-if (isset($_GET['op']) && 'clone' == XoopsRequest::getString('op', '', 'GET')) {
+if ('clone' == XoopsRequest::getString('op', '', 'GET')) {
     $formtitle = _MD_PUBLISHER_SUB_CLONE;
     $itemObj->setNew();
     $itemObj->setVar('itemid', 0);
@@ -82,7 +82,7 @@ if (isset($_POST['additem'])) {
     $op = 'add';
 }
 
-if (isset($_GET['op']) && XoopsRequest::getString('op', '', 'GET') == 'del') {
+if ('del' == XoopsRequest::getString('op', '', 'GET')) {
     $op = 'del';
 }
 
@@ -105,12 +105,12 @@ foreach ($elements as $element) {
 }
 unset($element);
 
-$item_upload_file = isset($_FILES['item_upload_file']) ? $_FILES['item_upload_file'] : '';
+$item_upload_file = XoopsRequest::getString('item_upload_file', '', 'FILES');
 
 //stripcslashes
 switch ($op) {
     case 'del':
-        $confirm = isset($_POST['confirm']) ? XoopsRequest::getInt('confirm', 0, 'POST') : 0;
+        $confirm = XoopsRequest::getInt('confirm', 0, 'POST');
 
         if ($confirm) {
             if (!$publisher->getHandler('item')->delete($itemObj)) {
@@ -232,7 +232,7 @@ switch ($op) {
         $itemObj->setVarsFromRequest();
 
         $xoopsTpl->assign('module_home', publisher_moduleHome());
-        if (isset($_GET['op']) && 'clone' == XoopsRequest::getString('op', '', 'GET')) {
+        if ('clone' == XoopsRequest::getString('op', '', 'GET')) {
             $xoopsTpl->assign('categoryPath', _CO_PUBLISHER_CLONE);
             $xoopsTpl->assign('lang_intro_title', _CO_PUBLISHER_CLONE);
         } elseif ($itemid) {

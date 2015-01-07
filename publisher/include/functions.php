@@ -491,11 +491,12 @@ function publisher_setCookieVar($name, $value, $time = 0)
  */
 function publisher_getCookieVar($name, $default = '')
 {
-    if (isset($_COOKIE[$name]) && ($_COOKIE[$name] > '')) {
-        return $_COOKIE[$name];
-    } else {
-        return $default;
-    }
+//    if (isset($_COOKIE[$name]) && ($_COOKIE[$name] > '')) {
+//        return $_COOKIE[$name];
+//    } else {
+//        return $default;
+//    }
+    return XoopsRequest::getString('name', $default, 'COOKIE');
 }
 
 /**
@@ -504,9 +505,12 @@ function publisher_getCookieVar($name, $default = '')
 function publisher_getCurrentUrls()
 {
     $http        = strpos(XOOPS_URL, "https://") === false ? "http://" : "https://";
-    $phpself     = $_SERVER['PHP_SELF'];
-    $httphost    = $_SERVER['HTTP_HOST'];
-    $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+//    $phpself     = $_SERVER['PHP_SELF'];
+//    $httphost    = $_SERVER['HTTP_HOST'];
+//    $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+    $phpself = XoopsRequest::getString('PHP_SELF', '', 'SERVER');
+    $httphost = XoopsRequest::getString('HTTP_HOST', '', 'SERVER');
+    $querystring = XoopsRequest::getString('QUERY_STRING', '', 'SERVER');
 
     if ($querystring != '') {
         $querystring = '?' . $querystring;
@@ -701,7 +705,7 @@ function publisher_tellafriend($subject = '')
         $subject = rawurldecode($subject);
     }
 
-    $target_uri = XOOPS_URL . $_SERVER['REQUEST_URI'];
+    $target_uri = XOOPS_URL . XoopsRequest::getString('REQUEST_URI', '', 'SERVER');
 
     return XOOPS_URL . '/modules/tellafriend/index.php?target_uri=' . rawurlencode($target_uri) . '&amp;subject=' . rawurlencode($subject);
 }
@@ -719,12 +723,12 @@ function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
 //    global $publisher_isAdmin;
     $publisher = PublisherPublisher::getInstance();
 
-    $itemid  = isset($_POST['itemid']) ? XoopsRequest::getInt('itemid', 0, 'POST') : 0;
+    $itemid  = XoopsRequest::getInt('itemid', 0, 'POST');
     $uid     = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
     $session = PublisherSession::getInstance();
-    $session->set('publisher_file_filename', isset($_POST['item_file_name']) ? XoopsRequest::getString('item_file_name', '', 'POST') : '');
-    $session->set('publisher_file_description', isset($_POST['item_file_description']) ? XoopsRequest::getInt('item_file_description', 0, 'POST') : '');
-    $session->set('publisher_file_status', isset($_POST['item_file_status']) ? XoopsRequest::getInt('item_file_status', 0, 'POST') : 1);
+    $session->set('publisher_file_filename', XoopsRequest::getString('item_file_name', '', 'POST'));
+    $session->set('publisher_file_description', XoopsRequest::getString('item_file_description', '', 'POST'));
+    $session->set('publisher_file_status', XoopsRequest::getInt('item_file_status', 1, 'POST'));
     $session->set('publisher_file_uid', $uid);
     $session->set('publisher_file_itemid', $itemid);
 
@@ -733,9 +737,9 @@ function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
     }
 
     $fileObj = $publisher->getHandler('file')->create();
-    $fileObj->setVar('name', isset($_POST['item_file_name']) ? XoopsRequest::getString('item_file_name', '', 'POST') : '');
-    $fileObj->setVar('description', isset($_POST['item_file_description']) ? XoopsRequest::getString('item_file_description', '', 'POST') : '');
-    $fileObj->setVar('status', isset($_POST['item_file_status']) ? XoopsRequest::getInt('item_file_status', 0, 'POST') : 1);
+    $fileObj->setVar('name', XoopsRequest::getString('item_file_name', '', 'POST'));
+    $fileObj->setVar('description', XoopsRequest::getString('item_file_description', '', 'POST'));
+    $fileObj->setVar('status', XoopsRequest::getInt('item_file_status', 1, 'POST'));
     $fileObj->setVar('uid', $uid);
     $fileObj->setVar('itemid', $itemObj->getVar('itemid'));
     $fileObj->setVar('datesub', time());

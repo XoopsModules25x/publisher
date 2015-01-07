@@ -22,8 +22,8 @@
 include_once __DIR__ . '/header.php';
 xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
-$op     = isset($_POST['op']) ? XoopsRequest::getString('op', '', 'POST') : (isset($_GET['op']) ? XoopsRequest::getString('op', '', 'GET') : '');
-$fileid = isset($_POST['fileid']) ? XoopsRequest::getInt('fileid', 0, 'POST') : (isset($_GET['fileid']) ? XoopsRequest::getInt('fileid', 0, 'GET') : 0);
+$op     = XoopsRequest::getString('op', '', 'POST') ? XoopsRequest::getString('op', '', 'POST') : XoopsRequest::getString('op', '', 'GET');
+$fileid = XoopsRequest::getInt('fileid', 0, 'POST') ? XoopsRequest::getInt('fileid', 0, 'POST') : XoopsRequest::getInt('fileid', 0, 'GET');
 
 //$op     = XoopsRequest::getString('op','', 'POST');
 //$fileid = XoopsRequest::getInt('fileid', 0, 'POST'); //POST when called from submit.php, when
@@ -63,7 +63,7 @@ switch ($op) {
         break;
 
     case "modify":
-        $fileid = isset($_POST['fileid']) ? XoopsRequest::getInt('fileid', 0, 'POST') : 0;
+        $fileid = XoopsRequest::getInt('fileid', 0, 'POST');
 
         // Creating the file object
         if ($fileid != 0) {
@@ -79,7 +79,8 @@ switch ($op) {
         $fileObj->setVar('status', XoopsRequest::getInt('file_status', 0, 'GET'));
 
         // attach file if any
-        if (isset($_FILES['item_upload_file']) && $_FILES['item_upload_file']['name'] != "") {
+
+        if (XoopsRequest::getString('item_upload_file', '', 'FILES') != '') {
             $oldfile = $fileObj->getFilePath();
 
             // Get available mimetypes for file uploading
@@ -110,7 +111,7 @@ switch ($op) {
         break;
 
     case "del":
-        $confirm = isset($_POST['confirm']) ? XoopsRequest::getInt('confirm', 0, 'POST') : 0;
+        $confirm = XoopsRequest::getInt('confirm', 0, 'POST');
 
         if ($confirm) {
             if (!$publisher->getHandler('file')->delete($fileObj)) {

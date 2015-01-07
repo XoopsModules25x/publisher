@@ -309,7 +309,7 @@ function handler(event) {
 			this.isRun = setTimeout(function() { self[direction](true); }, delay);
 		},
 		stop:function(){
-			if (this.isRun == null) return;
+			if (this.isRun === null) return;
 			clearTimeout(this.isRun);
             this.isRun = null;
 		}

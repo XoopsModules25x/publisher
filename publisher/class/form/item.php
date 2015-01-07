@@ -71,7 +71,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         PublisherConstantsInterface::PUBLISHER_ITEM_UPLOAD_FILE
     );
 
-    var $othersTab = array(
+    public $othersTab = array(
         PublisherConstantsInterface::PUBLISHER_ITEM_META_KEYWORDS,
         PublisherConstantsInterface::PUBLISHER_ITEM_META_DESCRIPTION,
         PublisherConstantsInterface::PUBLISHER_WEIGHT,
@@ -179,13 +179,14 @@ class PublisherItemForm extends PublisherThemeTabForm
         if (count($allowedEditors) == 1) {
             $editor = $allowedEditors[0];
         } elseif (count($allowedEditors) > 0) {
-            $editor = isset($_POST['editor']) ? XoopsRequest::getString('editor', '', 'POST') : '';
+            $editor = XoopsRequest::getString('editor', '', 'POST');
             if (!empty($editor)) {
                 publisher_setCookieVar('publisher_editor', $editor);
             } else {
                 $editor = publisher_getCookieVar('publisher_editor');
                 if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
-                    $editor = isset($GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
+//                    $editor = @ $GLOBALS['xoopsUser']->getVar('publisher_editor'); // Need set through user profile
+                    $editor = (null !== ($GLOBALS['xoopsUser']->getVar('publisher_editor'))) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
             $editor = (empty($editor) || !in_array($editor, $allowedEditors)) ? $publisher->getConfig('submit_editor') : $editor;

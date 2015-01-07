@@ -40,7 +40,7 @@ function publisher_search_show($options)
 
     xoops_loadLanguage('search');
 
-    $andor = isset($_POST["andor"]) ? XoopsRequest::getString('andor', '', 'POST') : (isset($_GET["andor"]) ? XoopsRequest::getString('andor', '', 'GET') : "");
+    $andor = isset($_POST["andor"]) ? XoopsRequest::getString('andor', '', 'POST') : (isset($_GET["andor"]) ? XoopsRequest::getString('andor', '', 'GET') : '');
 
     $category = isset($_POST["category"]) ? XoopsRequest::getArray('category', array(), 'POST') : (isset($_GET["category"]) ? XoopsRequest::getArray('category', array(), 'GET') : null);
     $username = isset($_POST["uname"]) ? XoopsRequest::getString('uname', '', 'POST') : (isset($_GET["uname"]) ? XoopsRequest::getString('uname', '', 'GET') : null);

@@ -90,8 +90,8 @@ switch ($op) {
         break;
 
     case "mod":
-        $fileid = isset($_GET['fileid']) ? XoopsRequest::getInt('fileid', 0, 'GET') : 0;
-        $itemid = isset($_GET['itemid']) ? XoopsRequest::getInt('itemid', 0, 'GET') : 0;
+        $fileid = XoopsRequest::getInt('fileid', 0, 'GET');
+        $itemid = XoopsRequest::getInt('itemid', 0, 'GET');
         if (($fileid == 0) && ($itemid == 0)) {
             redirect_header("javascript:history.go(-1)", 3, _AM_PUBLISHER_NOITEMSELECTED);
 //            exit();
@@ -104,7 +104,7 @@ switch ($op) {
         break;
 
     case "modify":
-        $fileid = isset($_POST['fileid']) ? XoopsRequest::getInt('fileid', 0, 'POST') : 0;
+        $fileid = XoopsRequest::getInt('fileid', 0, 'POST');
 
         // Creating the file object
         if ($fileid != 0) {
@@ -130,13 +130,13 @@ switch ($op) {
 
     case "del":
 
-        $fileid = isset($_POST['fileid']) ? XoopsRequest::getInt('fileid', 0, 'POST') : 0;
-        $fileid = isset($_GET['fileid']) ? XoopsRequest::getInt('fileid', 0, 'GET') : $fileid;
+        $fileid = XoopsRequest::getInt('fileid', 0, 'POST');
+        $fileid = XoopsRequest::getInt('fileid', $fileid, 'GET');
 
         $fileObj = $publisher->getHandler('file')->get($fileid);
 
-        $confirm = isset($_POST['confirm']) ? XoopsRequest::getInt('confirm', 0, 'POST') : 0;
-        $title   = isset($_POST['title']) ? XoopsRequest::getString('title', '', 'POST') : '';
+        $confirm = XoopsRequest::getInt('confirm', 0, 'POST');
+        $title   = XoopsRequest::getString('title', '', 'POST');
 
         if ($confirm) {
             if (!$publisher->getHandler('file')->delete($fileObj)) {
@@ -148,7 +148,7 @@ switch ($op) {
 //            exit();
         } else {
             // no confirm: show deletion condition
-            $fileid = isset($_GET['fileid']) ? XoopsRequest::getInt('fileid', 0, 'GET') : 0;
+            $fileid =  XoopsRequest::getInt('fileid', 0, 'GET');
 
             publisher_cpHeader();
             xoops_confirm(array('op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()), 'file.php', _AM_PUBLISHER_DELETETHISFILE . " <br />" . $fileObj->name() . " <br /> <br />", _AM_PUBLISHER_DELETE);

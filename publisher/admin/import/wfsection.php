@@ -27,11 +27,7 @@ $importFromModuleName = "WF-Section " . XoopsRequest::getString('wfs_version', '
 
 $scriptname = "wfsection.php";
 
-$op = 'start';
-
-if (isset($_POST['op']) && ('go' == XoopsRequest::getString('op', '', 'POST'))) {
-    $op = XoopsRequest::getString('op', '', 'POST');
-}
+$op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 
 if ($op == 'start') {
     xoops_load('XoopsFormLoader');
@@ -128,8 +124,8 @@ if ($op == 'go') {
         //$categoryObj->setVar ('weight', $arrCat['orders']);
         $categoryObj->setVar('weight', $arrCat[$orders]);
         //added to support 2.0.7
-        $categoryObj->setGroups_read(explode(" ", trim($arrCat['groupid'])));
-        $categoryObj->setGroups_submit(explode(" ", trim($arrCat['editaccess'])));
+        $categoryObj->setGroupsRead(explode(" ", trim($arrCat['groupid'])));
+        $categoryObj->setGroupsSubmit(explode(" ", trim($arrCat['editaccess'])));
         $categoryObj->setVar('name', $arrCat['title']);
         $categoryObj->setVar('description', $arrCat['description']);
 
@@ -147,8 +143,8 @@ if ($op == 'go') {
 
         $newCat['newid'] = $categoryObj->categoryid();
         // Saving category permissions
-        publisher_saveCategoryPermissions($categoryObj->getGroups_read(), $categoryObj->categoryid(), 'category_read');
-        publisher_saveCategoryPermissions($categoryObj->getGroups_submit(), $categoryObj->categoryid(), 'item_submit');
+        publisher_saveCategoryPermissions($categoryObj->getGroupsRead(), $categoryObj->categoryid(), 'category_read');
+        publisher_saveCategoryPermissions($categoryObj->getGroupsSubmit(), $categoryObj->categoryid(), 'item_submit');
 
         ++$cnt_imported_cat;
 
@@ -172,7 +168,7 @@ if ($op == 'go') {
             $itemObj->setVar('dobr', $arrArticle['nobreaks']);
             $itemObj->setVar('weight', $arrArticle['weight']);
             $itemObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED);
-            $itemObj->setGroups_read(explode(" ", trim($arrArticle['groupid'])));
+            $itemObj->setGroupsRead(explode(" ", trim($arrArticle['groupid'])));
 
             // HTML Wrap
             if ($arrArticle['htmlpage']) {

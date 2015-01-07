@@ -27,11 +27,7 @@ $importFromModuleName = "XF-Section " . XoopsRequest::getString('xfs_version', '
 
 $scriptname = "xfsection.php";
 
-$op = 'start';
-
-if (isset($_POST['op']) && ('go' == XoopsRequest::getString('op', '', 'POST'))) {
-    $op = XoopsRequest::getString('op', '', 'POST');
-}
+$op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 
 if ($op == 'start') {
     xoops_load('XoopsFormLoader');
@@ -120,8 +116,8 @@ if ($op == 'go') {
         $categoryObj->setVar('parentid', $arrCat['pid']);
 
         $categoryObj->setVar('weight', $arrCat['orders']);
-        $categoryObj->setGroups_read(explode(" ", trim($arrCat['groupid'])));
-        $categoryObj->setGroups_submit(explode(" ", trim($arrCat['editaccess'])));
+        $categoryObj->setGroupsRead(explode(" ", trim($arrCat['groupid'])));
+        $categoryObj->setGroupsSubmit(explode(" ", trim($arrCat['editaccess'])));
         $categoryObj->setVar('name', $arrCat['title']);
         $categoryObj->setVar('description', $arrCat['description']);
 
@@ -139,8 +135,8 @@ if ($op == 'go') {
 
         $newCat['newid'] = $categoryObj->categoryid();
         // Saving category permissions
-        publisher_saveCategoryPermissions($categoryObj->getGroups_read(), $categoryObj->categoryid(), 'category_read');
-        publisher_saveCategoryPermissions($categoryObj->getGroups_submit(), $categoryObj->categoryid(), 'item_submit');
+        publisher_saveCategoryPermissions($categoryObj->getGroupsRead(), $categoryObj->categoryid(), 'category_read');
+        publisher_saveCategoryPermissions($categoryObj->getGroupsSubmit(), $categoryObj->categoryid(), 'item_submit');
 
         ++$cnt_imported_cat;
 
@@ -163,7 +159,7 @@ if ($op == 'go') {
             $itemObj->setVar('dohtml', !$arrArticle['nohtml']);
             $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
             $itemObj->setVar('dobr', !$arrArticle['nobr']);
-            $itemObj->setGroups_read(explode(" ", trim($arrArticle['groupid'])));
+            $itemObj->setGroupsRead(explode(" ", trim($arrArticle['groupid'])));
 
             // status
             $status = PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED;

@@ -24,7 +24,7 @@ publisher_cpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_CLONE);
 publisher_openCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
 
-if (isset($_POST['op']) && 'submit' == XoopsRequest::getString('op', '', 'POST')) {
+if ('submit' == XoopsRequest::getString('op', '', 'POST')) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header('clone.php', 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
 //        exit();

@@ -36,8 +36,8 @@ switch ($op) {
 
     case "del":
         $categoryObj = $publisher->getHandler('category')->get($categoryid);
-        $confirm     = (isset($_POST['confirm'])) ? XoopsRequest::getInt('confirm', 0, 'POST') : 0;
-        $name        = (isset($_POST['name'])) ? XoopsRequest::getString('name', '', 'POST') : '';
+        $confirm     = XoopsRequest::getInt('confirm', 0, 'POST');
+        $name        = XoopsRequest::getString('name', '', 'POST');
         if ($confirm) {
             if (!$publisher->getHandler('category')->delete($categoryObj)) {
                 redirect_header("category.php", 1, _AM_PUBLISHER_DELETE_CAT_ERROR);
@@ -54,8 +54,8 @@ switch ($op) {
 
     case "mod":
         //Added by fx2024
-        $nb_subcats = isset($_POST['nb_subcats']) ? XoopsRequest::getInt('nb_subcats', 0, 'POST') : 0;
-        $nb_subcats = $nb_subcats + (isset($_POST['nb_sub_yet']) ? XoopsRequest::getInt('nb_sub_yet', 0, 'POST') : 4);
+        $nb_subcats = XoopsRequest::getInt('nb_subcats', 0, 'POST');
+        $nb_subcats = $nb_subcats + (XoopsRequest::getInt('nb_sub_yet', 4, 'POST'));
         //end of fx2024 code
 
         publisher_cpHeader();
@@ -105,13 +105,13 @@ switch ($op) {
         }
         $categoryObj->setVar('parentid', (isset($_POST['parentid'])) ? XoopsRequest::getInt('parentid', 0, 'POST') : 0);
 
-        $applyall = isset($_POST['applyall']) ? XoopsRequest::getInt('applyall', 0, 'POST') : 0;
-        $categoryObj->setVar('weight', isset($_POST['weight']) ? XoopsRequest::getInt('weight', 0, 'POST') : 1);
+        $applyall = XoopsRequest::getInt('applyall', 0, 'POST');
+        $categoryObj->setVar('weight', XoopsRequest::getInt('weight', 1, 'POST'));
 
         // Groups and permissions
-        $grpread       = isset($_POST['groups_read']) ? XoopsRequest::getArray('groups_read', array(), 'POST') : array();
-        $grpsubmit     = isset($_POST['groups_submit']) ? XoopsRequest::getArray('groups_submit', array(), 'POST') : array();
-        $grpmoderation = isset($_POST['groups_moderation']) ? XoopsRequest::getArray('groups_moderation', array(), 'POST') : array();
+        $grpread       = XoopsRequest::getArray('groupsRead', array(), 'POST');
+        $grpsubmit     = XoopsRequest::getArray('groupsSubmit', array(), 'POST');
+        $grpmoderation = XoopsRequest::getArray('groupsModeration', array(), 'POST');
 
         $categoryObj->setVar('name', XoopsRequest::getString('name', '', 'POST'));
 

@@ -89,13 +89,13 @@ class PublisherCategoryForm extends XoopsThemeForm
         $allowedEditors = publisher_getEditors($gperm_handler->getItemIds('editors', $groups, $module_id));
         $nohtml          = false;
         if (count($allowedEditors) > 0) {
-            $editor = isset($_POST['editor']) ? $_POST['editor'] : '';
+            $editor = XoopsRequest::getString('editor', '', 'POST');
             if (!empty($editor)) {
                 publisher_setCookieVar('publisher_editor', $editor);
             } else {
                 $editor = publisher_getCookieVar('publisher_editor');
                 if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
-                    $editor = isset($GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
+                    $editor = (null !== ($GLOBALS['xoopsUser']->getVar('publisher_editor'))) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
             $editor      = (empty($editor) || !in_array($editor, $allowedEditors)) ? $this->publisher->getConfig('submit_editor') : $editor;
@@ -160,27 +160,27 @@ class PublisherCategoryForm extends XoopsThemeForm
         $this->addElement(new XoopsFormText("Custom template", 'template', 50, 255, $this->targetObject->template('e')), false);
 
         // READ PERMISSIONS
-        $groups_read_checkbox = new XoopsFormCheckBox(_AM_PUBLISHER_PERMISSIONS_CAT_READ, 'groups_read[]', $this->targetObject->getGroups_read());
+        $groupsReadCheckbox = new XoopsFormCheckBox(_AM_PUBLISHER_PERMISSIONS_CAT_READ, 'groupsRead[]', $this->targetObject->getGroupsRead());
         foreach ($this->userGroups as $group_id => $group_name) {
-            $groups_read_checkbox->addOption($group_id, $group_name);
+            $groupsReadCheckbox->addOption($group_id, $group_name);
         }
-        $this->addElement($groups_read_checkbox);
+        $this->addElement($groupsReadCheckbox);
 
         // SUBMIT PERMISSIONS
-        $groups_submit_checkbox = new XoopsFormCheckBox(_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT, 'groups_submit[]', $this->targetObject->getGroups_submit());
-        $groups_submit_checkbox->setDescription(_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT_DSC);
+        $groupsSubmitCheckbox = new XoopsFormCheckBox(_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT, 'groupsSubmit[]', $this->targetObject->getGroupsSubmit());
+        $groupsSubmitCheckbox->setDescription(_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT_DSC);
         foreach ($this->userGroups as $group_id => $group_name) {
-            $groups_submit_checkbox->addOption($group_id, $group_name);
+            $groupsSubmit_checkbox->addOption($group_id, $group_name);
         }
-        $this->addElement($groups_submit_checkbox);
+        $this->addElement($groupsSubmitCheckbox);
 
         // MODERATION PERMISSIONS
-        $groups_moderation_checkbox = new XoopsFormCheckBox(_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR, 'groups_moderation[]', $this->targetObject->getGroups_moderation());
-        $groups_moderation_checkbox->setDescription(_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR_DSC);
+        $groupsModerationCheckbox = new XoopsFormCheckBox(_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR, 'groupsModeration[]', $this->targetObject->getGroupsModeration());
+        $groupsModerationCheckbox->setDescription(_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR_DSC);
         foreach ($this->userGroups as $group_id => $group_name) {
-            $groups_moderation_checkbox->addOption($group_id, $group_name);
+            $groupsModerationCheckbox->addOption($group_id, $group_name);
         }
-        $this->addElement($groups_moderation_checkbox);
+        $this->addElement($groupsModerationCheckbox);
 
         $moderator = new XoopsFormSelectUser(_AM_PUBLISHER_CATEGORY_MODERATOR, 'moderator', true, $this->targetObject->moderator('e'), 1, false);
         $moderator->setDescription(_AM_PUBLISHER_CATEGORY_MODERATOR_DSC);

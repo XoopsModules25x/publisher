@@ -33,7 +33,7 @@ class PublisherItem extends XoopsObject
      * @access public
      */
     public $publisher   = null;
-    public $groups_read = array();
+    public $groupsRead = array();
 
     /**
      * @var PublisherCategory
@@ -524,7 +524,7 @@ class PublisherItem extends XoopsObject
             $group_ids[$j] = $i;
             ++$j;
         }
-        $this->groups_read = $group_ids;
+        $this->groupsRead = $group_ids;
     }
 
     /**
@@ -1088,6 +1088,8 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      * @access public
      */
     public $publisher = null;
+
+    protected $resultCatCounts = array();
 
     /**
      * @param null|object $db
@@ -1813,15 +1815,15 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      */
     public function countArticlesByCat($parentid, $catsCount, $spaces = '')
     {
-        global $resultCatCounts;
+//        global $resultCatCounts;
         $newspaces = $spaces . '--';
         $thecount  = 0;
         foreach ($catsCount[$parentid] as $subCatId => $count) {
             $thecount                   = $thecount + $count;
-            $resultCatCounts[$subCatId] = $count;
+            $this->resultCatCounts[$subCatId] = $count;
             if (isset($catsCount[$subCatId])) {
                 $thecount                   = $thecount + $this->countArticlesByCat($subCatId, $catsCount, $newspaces);
-                $resultCatCounts[$subCatId] = $thecount;
+                $this->resultCatCounts[$subCatId] = $thecount;
             }
         }
 
@@ -1837,7 +1839,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      */
     public function getCountsByCat($catId = 0, $status, $inSubCat = false)
     {
-        global $resultCatCounts;
+//        global $resultCatCounts;
         $ret       = array();
         $catsCount = array();
         $sql       = 'SELECT c.parentid, i.categoryid, COUNT(*) AS count FROM ' . $this->db->prefix('publisher_items') . ' AS i INNER JOIN ' . $this->db->prefix('publisher_categories') . ' AS c ON i.categoryid=c.categoryid';
@@ -1863,14 +1865,14 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         while (($row = $this->db->fetchArray($result)) !== false) {
             $catsCount[$row['parentid']][$row['categoryid']] = $row['count'];
         }
-        $resultCatCounts = array();
+//        $resultCatCounts = array();
         foreach ($catsCount[0] as $subCatId => $count) {
-            $resultCatCounts[$subCatId] = $count;
+            $this->resultCatCounts[$subCatId] = $count;
             if (isset($catsCount[$subCatId])) {
-                $resultCatCounts[$subCatId] = $resultCatCounts[$subCatId] + $this->countArticlesByCat($subCatId, $catsCount, '');
+                $this->resultCatCounts[$subCatId] = $this->resultCatCounts[$subCatId] + $this->countArticlesByCat($subCatId, $catsCount, '');
             }
         }
 
-        return $resultCatCounts;
+        return $this->resultCatCounts;
     }
 }

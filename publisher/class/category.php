@@ -197,7 +197,7 @@ class PublisherCategory extends XoopsObject
     /**
      * @return array|null
      */
-    public function getGroups_read()
+    public function getGroupsRead()
     {
         return $this->publisher->getHandler('permission')->getGrantedGroupsById('category_read', $this->categoryid());
     }
@@ -205,7 +205,7 @@ class PublisherCategory extends XoopsObject
     /**
      * @return array|null
      */
-    public function getGroups_submit()
+    public function getGroupsSubmit()
     {
         return $this->publisher->getHandler('permission')->getGrantedGroupsById('item_submit', $this->categoryid());
     }
@@ -213,7 +213,7 @@ class PublisherCategory extends XoopsObject
     /**
      * @return array|null
      */
-    public function getGroups_moderation()
+    public function getGroupsModeration()
     {
         return $this->publisher->getHandler('permission')->getGrantedGroupsById('category_moderation', $this->categoryid());
     }

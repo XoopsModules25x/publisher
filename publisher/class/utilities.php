@@ -51,14 +51,14 @@ class PublisherUtilities
      * @param $src
      * @param $dst
      */
-    public static function recurse_copy($src, $dst)
+    public static function recurseCopy($src, $dst)
     {
         $dir = opendir($src);
 //    @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
                 if (is_dir($src . '/' . $file)) {
-                    self::recurse_copy($src . '/' . $file, $dst . '/' . $file);
+                    self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
                 } else {
                     copy($src . '/' . $file, $dst . '/' . $file);
                 }
@@ -72,7 +72,7 @@ class PublisherUtilities
     public static function createDir()
     {
         // auto crate folders
-        $thePath = publisher_getUploadDir();
+//        $thePath = publisher_getUploadDir();
 
         if (publisher_getPathStatus('root', true) < 0) {
             $thePath = publisher_getUploadDir();

@@ -54,9 +54,12 @@ class PublisherPublisher
         return $instance;
     }
 
+    /**
+     * @return null
+     */
     public function &getModule()
     {
-        if ($this->module == null) {
+        if ($this->module === null) {
             $this->initModule();
         }
 
@@ -70,7 +73,7 @@ class PublisherPublisher
      */
     public function getConfig($name = null)
     {
-        if ($this->config == null) {
+        if ($this->config === null) {
             $this->initConfig();
         }
         if (!$name) {
@@ -96,7 +99,7 @@ class PublisherPublisher
      */
     public function setConfig($name = null, $value = null)
     {
-        if ($this->config == null) {
+        if ($this->config === null) {
             $this->initConfig();
         }
         $this->config[$name] = $value;

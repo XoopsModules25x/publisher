@@ -170,7 +170,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
             $sql = $this->updateQuery($obj);
         }
         // Update DB
-        if (false != $force) {
+        if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -247,7 +247,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
             return false;
         }
         $sql = $this->deleteQuery($obj);
-        if (false != $force) {
+        if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -597,7 +597,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
         }
         $sql = sprintf("INSERT INTO %s (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
             (%u, %s, %s, %s, %u, %u)", $this->db->prefix($this->dbtable), $obj->getVar('mime_id'), $this->db->quoteString($obj->getVar('mime_ext')),
-                       $this->db->quoteString($obj->getVar('mime_types')), $this->db->quoteString($obj->getVar('mime_name')), $obj->getVar('mime_admin'), $obj->getVar('mime_user'));
+            $this->db->quoteString($obj->getVar('mime_types')), $this->db->quoteString($obj->getVar('mime_name')), $obj->getVar('mime_admin'), $obj->getVar('mime_user'));
 
         return $sql;
     }

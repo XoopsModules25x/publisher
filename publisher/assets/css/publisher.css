@@ -668,12 +668,12 @@ padding-left:6px;
 }
 
 .ppy-imglist li {
-    padding:        0px;
+    padding:        0;
     border:         1px solid #f0f0f0;
-    border-radius:          0px;
-    -moz-border-radius:     0px;
-    -khtml-border-radius:   0px;
-    -webkit-border-radius:  0px;
+    border-radius:          0;
+    -moz-border-radius:     0;
+    -khtml-border-radius:   0;
+    -webkit-border-radius:  0;
     background:     #fff;
     list-style:     none;
     float:          left;
@@ -682,11 +682,11 @@ padding-left:6px;
 }
 
 #ppy1 .ppy-outer {
-    padding:        0px;
+    padding:        0;
     border:         1px solid #dddddd;
-    border-radius:          0 5px 5px 0px;
-    -moz-border-radius:     0 5px 5px 0px;
-    -webkit-border-radius:  0 5px 5px 0px;
+    border-radius:          0 5px 5px 0;
+    -moz-border-radius:     0 5px 5px 0;
+    -webkit-border-radius:  0 5px 5px 0;
     background: #dddddd;
 }
 
@@ -708,7 +708,7 @@ padding-left:6px;
 }
 
 #ppy1 .ppy-caption {
-    margin:         0px 0 0 0;
+    margin:         0 0 0 0;
     padding:        10px;
     font-size:      0.9em;
     line-height:    1em;

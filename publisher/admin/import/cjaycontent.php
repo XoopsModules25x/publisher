@@ -27,24 +27,20 @@ $importFromModuleName = "cjaycontent " . XoopsRequest::getString('cjaycontent_ve
 
 $scriptname = "cjaycontent.php";
 
-$op = 'start';
-
-if (isset($_POST['op']) && ('go' == XoopsRequest::getString('op', '', 'POST'))) {
-    $op = XoopsRequest::getString('op', '', 'POST');
-}
+$op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 
 /**
  * @param $src
  * @param $dst
  */
-//function recurse_copy($src, $dst)
+//function recurseCopy($src, $dst)
 //{
 //    $dir = opendir($src);
 ////    @mkdir($dst);
 //    while (false !== ($file = readdir($dir))) {
 //        if (($file != '.') && ($file != '..')) {
 //            if (is_dir($src . '/' . $file)) {
-//                recurse_copy($src . '/' . $file, $dst . '/' . $file);
+//                recurseCopy($src . '/' . $file, $dst . '/' . $file);
 //            } else {
 //                copy($src . '/' . $file, $dst . '/' . $file);
 //            }
@@ -86,7 +82,7 @@ if ($op == 'start') {
         ob_end_clean();
 
         $form->addElement(new XoopsFormHidden('op', 'go'));
-        $form->addElement(new XoopsFormButton ('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
+        $form->addElement(new XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
 
         $form->addElement(new XoopsFormHidden('from_module_version', XoopsRequest::getString('cjaycontent_version', '', 'POST')));
 
@@ -167,7 +163,6 @@ if ($op == 'go') {
             echo sprintf("  " . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $arrArticle['title']) . "<br/>";
             continue;
         } else {
-
             $newArticleArray[$arrArticle['id']] = $itemObj->itemid();
             echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . "<br />";
             ++$cnt_imported_articles;

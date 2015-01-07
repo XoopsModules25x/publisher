@@ -39,12 +39,12 @@ if (!is_object($GLOBALS['xoopsUser'])) {
 }
 
 $filename       = basename($_FILES['publisher_upload_file']['name']);
-$image_nicename = isset($_POST['image_nicename']) ? trim($_POST['image_nicename']) : '';
+$image_nicename = XoopsRequest::getString('image_nicename', '', 'POST');
 if ($image_nicename == '' || $image_nicename == _CO_PUBLISHER_IMAGE_NICENAME) {
     $image_nicename = $filename;
 }
 
-$imgcat_id = isset($_POST['imgcat_id']) ? XoopsRequest::getInt('imgcat_id', 0, 'POST') : 0;
+$imgcat_id = XoopsRequest::getInt('imgcat_id', 0, 'POST');
 
 $imgcat_handler = xoops_gethandler('imagecategory');
 $imgcat         = $imgcat_handler->get($imgcat_id);
@@ -65,7 +65,7 @@ if (!is_object($imgcat)) {
     }
 }
 
-if ($error == false) {
+if ($error === false) {
     xoops_load('XoopsMediaUploader');
     $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'), $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
     $uploader->setPrefix('img');

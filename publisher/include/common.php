@@ -47,7 +47,7 @@ global $publisher_isAdmin;
 // Load only if module is installed
 if (is_object($publisher->getModule())) {
     // Find if the user is admin of the module
-    $publisher_isAdmin = publisher_userIsAdmin();
+    $publisher_isAdmin = publisherUserIsAdmin();
     // get current page
-    $publisher_current_page = publisher_getCurrentPage();
+    $publisher_current_page = publisherGetCurrentPage();
 }

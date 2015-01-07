@@ -31,11 +31,11 @@ $pick = XoopsRequest::getInt('pick', $pick, 'POST');
 $statussel = XoopsRequest::getInt('statussel', 0, 'GET');
 $statussel = XoopsRequest::getInt('statussel', $statussel, 'POST');
 
-$sortsel = isset($_GET['sortsel']) ? XoopsRequest::getString('sortsel', '', 'GET') : 'itemid';
-$sortsel = isset($_POST['sortsel']) ? XoopsRequest::getString('sortsel', '', 'POST') : $sortsel;
+$sortsel = XoopsRequest::getString('sortsel', 'itemid', 'GET');
+$sortsel = XoopsRequest::getString('sortsel', $sortsel, 'POST');
 
-$ordersel = isset($_GET['ordersel']) ? XoopsRequest::getString('ordersel', '', 'GET') : 'DESC';
-$ordersel = isset($_POST['ordersel']) ? XoopsRequest::getString('ordersel', '', 'POST') : $ordersel;
+$ordersel = XoopsRequest::getString('ordersel', 'DESC', 'GET');
+$ordersel = XoopsRequest::getString('ordersel', $ordersel, 'POST');
 
 $module_id     = $publisher->getModule()->mid();
 $gperm_handler = xoops_gethandler('groupperm');
@@ -45,7 +45,7 @@ $groups        = ($GLOBALS['xoopsUser']) ? ($GLOBALS['xoopsUser']->getGroups()) 
 
 $startentry = XoopsRequest::getInt('startentry', 0, 'GET');
 
-publisher_cpHeader();
+publisherCpHeader();
 //publisher_adminMenu(0, _AM_PUBLISHER_INDEX);
 
 // Total ITEMs -- includes everything on the table
@@ -67,16 +67,16 @@ $totaloffline = $publisher->getHandler('item')->getItemsCount(-1, array(Publishe
 $totalrejected = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED));
 
 // Check Path Configuration
-if ((publisher_getPathStatus('root', true) < 0) ||
-    (publisher_getPathStatus('images', true) < 0) ||
-    (publisher_getPathStatus('images/category', true) < 0) ||
-    (publisher_getPathStatus('images/item', true) < 0) ||
-    (publisher_getPathStatus('content', true) < 0)
+if ((publisherGetPathStatus('root', true) < 0) ||
+    (publisherGetPathStatus('images', true) < 0) ||
+    (publisherGetPathStatus('images/category', true) < 0) ||
+    (publisherGetPathStatus('images/item', true) < 0) ||
+    (publisherGetPathStatus('content', true) < 0)
 ) {
     PublisherUtilities::createDir();
 }
 
-publisher_openCollapsableBar('inventorytable', 'inventoryicon', _AM_PUBLISHER_INVENTORY);
+publisherOpenCollapsableBar('inventorytable', 'inventoryicon', _AM_PUBLISHER_INVENTORY);
 echo "<br />";
 echo "<table width='100%' class='outer' cellspacing='1' cellpadding='3' border='0' ><tr>";
 echo "<td class='head'>" . _AM_PUBLISHER_TOTALCAT . "</td><td align='center' class='even'>" . $totalcategories . "</td>";
@@ -91,10 +91,10 @@ echo "<input type='button' name='button' onclick=\"location='category.php?op=mod
 echo "<input type='button' name='button' onclick=\"location='item.php?op=mod'\" value='" . _AM_PUBLISHER_CREATEITEM . "'>&nbsp;&nbsp;";
 echo "</div></form>";
 
-publisher_closeCollapsableBar('inventorytable', 'inventoryicon');
+publisherCloseCollapsableBar('inventorytable', 'inventoryicon');
 
 // Construction of lower table
-publisher_openCollapsableBar('allitemstable', 'allitemsicon', _AM_PUBLISHER_ALLITEMS, _AM_PUBLISHER_ALLITEMSMSG);
+publisherOpenCollapsableBar('allitemstable', 'allitemsicon', _AM_PUBLISHER_ALLITEMS, _AM_PUBLISHER_ALLITEMSMSG);
 
 $showingtxt   = '';
 $selectedtxt  = '';
@@ -142,35 +142,35 @@ switch ($ordersel) {
 }
 
 switch ($statussel) {
-    case PublisherConstantsInterface::PUBLISHER_STATUS_ALL :
+    case PublisherConstantsInterface::PUBLISHER_STATUS_ALL:
         $selectedtxt0        = "selected='selected'";
         $caption             = _AM_PUBLISHER_ALL;
         $cond                = "";
         $status_explaination = _AM_PUBLISHER_ALL_EXP;
         break;
 
-    case PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED :
+    case PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED:
         $selectedtxt1        = "selected='selected'";
         $caption             = _CO_PUBLISHER_SUBMITTED;
         $cond                = " WHERE status = " . PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED . " ";
         $status_explaination = _AM_PUBLISHER_SUBMITTED_EXP;
         break;
 
-    case PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED :
+    case PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED:
         $selectedtxt2        = "selected='selected'";
         $caption             = _CO_PUBLISHER_PUBLISHED;
         $cond                = " WHERE status = " . PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED . " ";
         $status_explaination = _AM_PUBLISHER_PUBLISHED_EXP;
         break;
 
-    case PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE :
+    case PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE:
         $selectedtxt3        = "selected='selected'";
         $caption             = _CO_PUBLISHER_OFFLINE;
         $cond                = " WHERE status = " . PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE . " ";
         $status_explaination = _AM_PUBLISHER_OFFLINE_EXP;
         break;
 
-    case PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED :
+    case PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED:
         $selectedtxt4        = "selected='selected'";
         $caption             = _CO_PUBLISHER_REJECTED;
         $cond                = " WHERE status = " . PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED . " ";
@@ -179,7 +179,7 @@ switch ($statussel) {
 }
 
 /* -- Code to show selected terms -- */
-echo "<form name='pick' id='pick' action='" . $_SERVER['PHP_SELF'] . "' method='POST' style='margin: 0;'>";
+echo "<form name='pick' id='pick' action='" . XoopsRequest::getString('PHP_SELF', '', 'SERVER') . "' method='POST' style='margin: 0;'>";
 
 echo "
     <table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-left: 1px solid silver; border-top: 1px solid silver; border-right: 1px solid silver;'>
@@ -297,7 +297,7 @@ if ($publisher->getConfig('format_image_nav') == 1) {
     echo '<div style="text-align:right; background-color: white; margin: 10px 0;">' . $pagenav->renderNav() . '</div>';
 }
 // ENDs code to show active entries
-publisher_closeCollapsableBar('allitemstable', 'allitemsicon');
+publisherCloseCollapsableBar('allitemstable', 'allitemsicon');
 // Close the collapsable div
 
 xoops_cp_footer();

@@ -33,9 +33,9 @@ $op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 if ('start' == $op) {
     xoops_load('XoopsFormLoader');
 
-    publisher_cpHeader();
+    publisherCpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    publisher_openCollapsableBar('fmimport', 'fmimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
+    publisherOpenCollapsableBar('fmimport', 'fmimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $module_handler = xoops_gethandler('module');
     $moduleObj      = $module_handler->getByDirname('fmcontent');
@@ -105,22 +105,22 @@ if ('start' == $op) {
                         ob_end_clean();
             */
             $form->addElement(new XoopsFormHidden('op', 'go'));
-            $form->addElement(new XoopsFormButton ('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
+            $form->addElement(new XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
 
-            $form->addElement(new XoopsFormHidden('from_module_version', $_POST['news_version']));
+            $form->addElement(new XoopsFormHidden('from_module_version', XoopsRequest::getString('news_version', '', 'POST')));
 
             $form->display();
         }
     }
 
-    publisher_closeCollapsableBar('fmimport', 'fmimporticon');
+    publisherCloseCollapsableBar('fmimport', 'fmimporticon');
     xoops_cp_footer();
 }
 
 if ('go' == $op) {
-    publisher_cpHeader();
+    publisherCpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    publisher_openCollapsableBar('fmimportgo', 'fmimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
+    publisherOpenCollapsableBar('fmimportgo', 'fmimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
     $module_handler = xoops_gethandler('module');
     $moduleObj      = $module_handler->getByDirname('fmcontent');
@@ -201,9 +201,9 @@ if ('go' == $op) {
 
         // Saving category permissions
         $groupsIds = $gperm_handler->getGroupIds('fmcontent_view', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
-        publisher_saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
+        publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
         $groupsIds = $gperm_handler->getGroupIds('fmcontent_submit', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
-        publisher_saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
+        publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         unset($fmContentObjs, $itemObj, $categoryObj, $thisFmContentObj);
         echo "<br />\n";
@@ -293,9 +293,9 @@ if ('go' == $op) {
 
         // Saving category permissions
         $groupsIds = $gperm_handler->getGroupIds('fmcontent_view', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
-        publisher_saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
+        publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
         $groupsIds = $gperm_handler->getGroupIds('fmcontent_submit', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
-        publisher_saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
+        publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         $newCatArray[$CatIds['oldid']] = $CatIds;
         unset($CatIds, $thisFmContentObj);
@@ -341,6 +341,6 @@ if ('go' == $op) {
          . "" . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . "<br />\n"
          . "<br/>\n<a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . "</a><br />\n";
 
-    publisher_closeCollapsableBar('fmimportgo', 'fmimportgoicon');
+    publisherCloseCollapsableBar('fmimportgo', 'fmimportgoicon');
     xoops_cp_footer();
 }

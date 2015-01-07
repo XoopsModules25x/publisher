@@ -72,53 +72,53 @@ class PublisherUtilities
     public static function createDir()
     {
         // auto crate folders
-//        $thePath = publisher_getUploadDir();
+//        $thePath = publisherGetUploadDir();
 
-        if (publisher_getPathStatus('root', true) < 0) {
-            $thePath = publisher_getUploadDir();
-            $res     = publisher_mkdir($thePath);
+        if (publisherGetPathStatus('root', true) < 0) {
+            $thePath = publisherGetUploadDir();
+            $res     = publisherMkdir($thePath);
             $msg     = $res ? _AM_PUBLISHER_DIRCREATED : _AM_PUBLISHER_DIRNOTCREATED;
         }
 
-        if (publisher_getPathStatus('images', true) < 0) {
-            $thePath = publisher_getImageDir();
-            $res     = publisher_mkdir($thePath);
+        if (publisherGetPathStatus('images', true) < 0) {
+            $thePath = publisherGetImageDir();
+            $res     = publisherMkdir($thePath);
 
             if ($res) {
                 $source = PUBLISHER_ROOT_PATH . "/assets/images/blank.png";
                 $dest   = $thePath . "blank.png";
-                publisher_copyr($source, $dest);
+                publisherCopyr($source, $dest);
             }
             $msg = $res ? _AM_PUBLISHER_DIRCREATED : _AM_PUBLISHER_DIRNOTCREATED;
         }
 
-        if (publisher_getPathStatus('images/category', true) < 0) {
-            $thePath = publisher_getImageDir('category');
-            $res     = publisher_mkdir($thePath);
+        if (publisherGetPathStatus('images/category', true) < 0) {
+            $thePath = publisherGetImageDir('category');
+            $res     = publisherMkdir($thePath);
 
             if ($res) {
                 $source = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
                 $dest   = $thePath . 'blank.png';
-                publisher_copyr($source, $dest);
+                publisherCopyr($source, $dest);
             }
             $msg = $res ? _AM_PUBLISHER_DIRCREATED : _AM_PUBLISHER_DIRNOTCREATED;
         }
 
-        if (publisher_getPathStatus('images/item', true) < 0) {
-            $thePath = publisher_getImageDir('item');
-            $res     = publisher_mkdir($thePath);
+        if (publisherGetPathStatus('images/item', true) < 0) {
+            $thePath = publisherGetImageDir('item');
+            $res     = publisherMkdir($thePath);
 
             if ($res) {
                 $source = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
                 $dest   = $thePath . 'blank.png';
-                publisher_copyr($source, $dest);
+                publisherCopyr($source, $dest);
             }
             $msg = $res ? _AM_PUBLISHER_DIRCREATED : _AM_PUBLISHER_DIRNOTCREATED;
         }
 
-        if (publisher_getPathStatus('content', true) < 0) {
-            $thePath = publisher_getUploadDir(true, 'content');
-            $res     = publisher_mkdir($thePath);
+        if (publisherGetPathStatus('content', true) < 0) {
+            $thePath = publisherGetUploadDir(true, 'content');
+            $res     = publisherMkdir($thePath);
             $msg     = $res ? _AM_PUBLISHER_DIRCREATED : _AM_PUBLISHER_DIRNOTCREATED;
         }
     }
@@ -204,28 +204,28 @@ class PublisherUtilities
                 //publisher_adminMenu(1, _AM_PUBLISHER_CATEGORIES . " > " . _AM_PUBLISHER_EDITING);
             }
             echo "<br />\n";
-            publisher_openCollapsableBar('edittable', 'edittableicon', _AM_PUBLISHER_EDITCOL, _AM_PUBLISHER_CATEGORY_EDIT_INFO);
+            publisherOpenCollapsableBar('edittable', 'edittableicon', _AM_PUBLISHER_EDITCOL, _AM_PUBLISHER_CATEGORY_EDIT_INFO);
         } else {
             if ($showmenu) {
                 //publisher_adminMenu(1, _AM_PUBLISHER_CATEGORIES . " > " . _AM_PUBLISHER_CREATINGNEW);
             }
-            publisher_openCollapsableBar('createtable', 'createtableicon', _AM_PUBLISHER_CATEGORY_CREATE, _AM_PUBLISHER_CATEGORY_CREATE_INFO);
+            publisherOpenCollapsableBar('createtable', 'createtableicon', _AM_PUBLISHER_CATEGORY_CREATE, _AM_PUBLISHER_CATEGORY_CREATE_INFO);
         }
 
         $sform = $categoryObj->getForm($nb_subcats);
         $sform->display();
 
         if (!$categoryid) {
-            publisher_closeCollapsableBar('createtable', 'createtableicon');
+            publisherCloseCollapsableBar('createtable', 'createtableicon');
         } else {
-            publisher_closeCollapsableBar('edittable', 'edittableicon');
+            publisherCloseCollapsableBar('edittable', 'edittableicon');
         }
 
         //Added by fx2024
         if ($categoryid) {
             $sel_cat = $categoryid;
 
-            publisher_openCollapsableBar('subcatstable', 'subcatsicon', _AM_PUBLISHER_SUBCAT_CAT, _AM_PUBLISHER_SUBCAT_CAT_DSC);
+            publisherOpenCollapsableBar('subcatstable', 'subcatsicon', _AM_PUBLISHER_SUBCAT_CAT, _AM_PUBLISHER_SUBCAT_CAT_DSC);
             // Get the total number of sub-categories
             $categoriesObj = $publisher->getHandler('category')->get($sel_cat);
             $totalsubs     = $publisher->getHandler('category')->getCategoriesCount($sel_cat);
@@ -258,9 +258,9 @@ class PublisherUtilities
             }
             echo "</table>\n";
             echo "<br />\n";
-            publisher_closeCollapsableBar('subcatstable', 'subcatsicon');
+            publisherCloseCollapsableBar('subcatstable', 'subcatsicon');
 
-            publisher_openCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
+            publisherOpenCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = XoopsRequest::getInt('startitem');
             // Get the total number of published ITEMS
             $totalitems = $publisher->getHandler('item')->getItemsCount($sel_cat, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED));

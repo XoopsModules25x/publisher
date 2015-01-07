@@ -40,7 +40,7 @@ function xoops_module_install_publisher(XoopsModule &$xoopsModule)
     $msg = '';
     // Create content directory
     $dir = $GLOBALS['xoops']->path("/uploads/" . $xoopsModule->getVar('dirname') . "/content");
-    if (!publisher_mkdir($dir))
+    if (!publisherMkdir($dir))
         $msg .= sprintf(_AM_PUBLISHER_DIRNOTCREATED, $dir);
     if (empty($msg))
         return $ret;

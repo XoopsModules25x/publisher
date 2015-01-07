@@ -123,7 +123,7 @@ class PublisherItem extends XoopsObject
         if ($maxLength != 0) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
-                    $ret = publisher_substr($ret, 0, $maxLength);
+                    $ret = publisherSubstr($ret, 0, $maxLength);
                 }
             }
         }
@@ -143,7 +143,7 @@ class PublisherItem extends XoopsObject
         if ($maxLength != 0) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
-                    $ret = publisher_substr($ret, 0, $maxLength);
+                    $ret = publisherSubstr($ret, 0, $maxLength);
                 }
             }
         }
@@ -167,8 +167,8 @@ class PublisherItem extends XoopsObject
         if ($maxLength != 0) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
-                    //$ret = publisher_substr($ret , 0, $maxLength);
-                    $ret = publisher_truncateTagSafe($ret, $maxLength, $etc = '...', $break_words = false);
+                    //$ret = publisherSubstr($ret , 0, $maxLength);
+                    $ret = publisherTruncateTagSafe($ret, $maxLength, $etc = '...', $break_words = false);
                 }
             }
         }
@@ -205,7 +205,7 @@ class PublisherItem extends XoopsObject
     public function wrappage($file_name)
     {
         $content = '';
-        $page    = publisher_getUploadDir(true, 'content') . $file_name;
+        $page    = publisherGetUploadDir(true, 'content') . $file_name;
         if (file_exists($page)) {
             // this page uses smarty template
             ob_start();
@@ -269,8 +269,8 @@ class PublisherItem extends XoopsObject
         if ($maxLength != 0) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
-                    //$ret = publisher_substr($ret , 0, $maxLength);
-                    $ret = publisher_truncateTagSafe($ret, $maxLength, $etc = '...', $break_words = false);
+                    //$ret = publisherSubstr($ret , 0, $maxLength);
+                    $ret = publisherTruncateTagSafe($ret, $maxLength, $etc = '...', $break_words = false);
                 }
             }
         }
@@ -418,7 +418,7 @@ class PublisherItem extends XoopsObject
      */
     public function getCategoryImagePath()
     {
-        return publisher_getImageDir('category', false) . $this->category()->image();
+        return publisherGetImageDir('category', false) . $this->category()->image();
     }
 
     /**
@@ -435,20 +435,20 @@ class PublisherItem extends XoopsObject
     public function getAdminLinks()
     {
         $adminLinks = '';
-        if (is_object($GLOBALS['xoopsUser']) && (publisher_userIsAdmin() || publisher_userIsAuthor($this) || $this->publisher->getHandler('permission')->isGranted('item_submit', $this->categoryid()))) {
-            if (publisher_userIsAdmin() || publisher_userIsAuthor($this) || publisher_userIsModerator($this)) {
-                if ($this->publisher->getConfig('perm_edit') || publisher_userIsModerator($this) || publisher_userIsAdmin()) {
+        if (is_object($GLOBALS['xoopsUser']) && (publisherUserIsAdmin() || publisherUserIsAuthor($this) || $this->publisher->getHandler('permission')->isGranted('item_submit', $this->categoryid()))) {
+            if (publisherUserIsAdmin() || publisherUserIsAuthor($this) || publisherUserIsModerator($this)) {
+                if ($this->publisher->getConfig('perm_edit') || publisherUserIsModerator($this) || publisherUserIsAdmin()) {
                     // Edit button
                     $adminLinks .= "<a href='" . PUBLISHER_URL . "/submit.php?itemid=" . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . _CO_PUBLISHER_EDIT . "' alt='" . _CO_PUBLISHER_EDIT . "'/></a>";
                     $adminLinks .= " ";
                 }
-                if ($this->publisher->getConfig('perm_delete') || publisher_userIsModerator($this) || publisher_userIsAdmin()) {
+                if ($this->publisher->getConfig('perm_delete') || publisherUserIsModerator($this) || publisherUserIsAdmin()) {
                     // Delete button
                     $adminLinks .= "<a href='" . PUBLISHER_URL . "/submit.php?op=del&amp;itemid=" . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . _CO_PUBLISHER_DELETE . "' alt='" . _CO_PUBLISHER_DELETE . "' /></a>";
                     $adminLinks .= " ";
                 }
             }
-            if ($this->publisher->getConfig('perm_clone') || publisher_userIsModerator($this) || publisher_userIsAdmin()) {
+            if ($this->publisher->getConfig('perm_clone') || publisherUserIsModerator($this) || publisherUserIsAdmin()) {
                 // Duplicate button
                 $adminLinks .= "<a href='" . PUBLISHER_URL . "/submit.php?op=clone&amp;itemid=" . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif'" . " title='" . _CO_PUBLISHER_CLONE . "' alt='" . _CO_PUBLISHER_CLONE . "' /></a>";
                 $adminLinks .= " ";
@@ -466,7 +466,7 @@ class PublisherItem extends XoopsObject
         if (xoops_isActiveModule('tellafriend')) {
             $subject  = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
             $subject  = $this->convertForJapanese($subject);
-            $maillink = publisher_tellafriend($subject);
+            $maillink = publisherTellAFriend($subject);
             $adminLinks .= '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '" /></a>';
             $adminLinks .= " ";
         }
@@ -741,9 +741,9 @@ class PublisherItem extends XoopsObject
         }
         // Highlighting searched words
         $highlight = true;
-        if ($highlight && isset($_GET['keywords'])) {
+        if ($highlight && !empty(XoopsRequest::getString('keywords','', 'GET'))) {
             $myts     = MyTextSanitizer::getInstance();
-            $keywords = $myts->htmlSpecialChars(trim(urldecode($_GET['keywords'])));
+            $keywords = $myts->htmlSpecialChars(trim(urldecode(XoopsRequest::getString('keywords','', 'GET'))));
             $fields   = array('title', 'maintext', 'summary');
             foreach ($fields as $field) {
                 if (isset($item[$field])) {
@@ -891,7 +891,7 @@ class PublisherItem extends XoopsObject
             return $str;
         }
         // presume OS Browser
-        $agent   = $_SERVER["HTTP_USER_AGENT"];
+        $agent   = XoopsRequest::getString('HTTP_USER_AGENT', '', 'SERVER');
         $os      = '';
         $browser = '';
         if (preg_match("/Win/i", $agent)) {
@@ -938,7 +938,7 @@ class PublisherItem extends XoopsObject
      */
     public function accessGranted()
     {
-        if (publisher_userIsAdmin()) {
+        if (publisherUserIsAdmin()) {
             return true;
         }
         if ($this->status() != PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED) {
@@ -958,28 +958,28 @@ class PublisherItem extends XoopsObject
     public function setVarsFromRequest()
     {
         //Required fields
-        if (isset($_POST['categoryid'])) {
-            $this->setVar('categoryid', XoopsRequest::getInt('categoryid', 0, 'POST'));
-        }
-        if (isset($_POST['title'])) {
-            $this->setVar('title', XoopsRequest::getString('title', '', 'POST'));
-        }
-        if (isset($_POST['body'])) {
-            $this->setVar('body', XoopsRequest::getText('body', '', 'POST'));
-        }
+        if (!empty($categoryid = XoopsRequest::getInt('categoryid', 0, 'POST'))) {
+            $this->setVar('categoryid', $categoryid);}
+
+        if (!empty($title = XoopsRequest::getString('title', '', 'POST'))) {
+            $this->setVar('title', $title);}
+
+        if (!empty($body = XoopsRequest::getString('body', '', 'POST'))) {
+            $this->setVar('body', $body);}
+
         //Not required fields
-        if (isset($_POST['summary'])) {
-            $this->setVar('summary', XoopsRequest::getText('summary', '', 'POST'));
-        }
-        if (isset($_POST['subtitle'])) {
-            $this->setVar('subtitle', XoopsRequest::getString('subtitle', '', 'POST'));
-        }
-        if (isset($_POST['item_tag'])) {
-            $this->setVar('item_tag', XoopsRequest::getString('item_tag', '', 'POST'));
-        }
-        if (isset($_POST['image_featured'])) {
+        if (!empty($summary = XoopsRequest::getString('summary', '', 'POST'))) {
+            $this->setVar('summary', $summary);}
+
+        if (!empty($subtitle = XoopsRequest::getString('subtitle', '', 'POST'))) {
+            $this->setVar('subtitle', $subtitle);}
+
+        if (!empty($item_tag = XoopsRequest::getString('item_tag', '', 'POST'))) {
+            $this->setVar('item_tag', $item_tag);}
+
+        if (!empty( $image_featured = XoopsRequest::getString('image_featured', '', 'POST'))) {
             $image_item     = XoopsRequest::getArray('image_item', array(), 'POST');
-            $image_featured = XoopsRequest::getString('image_featured', '', 'POST');
+//            $image_featured = XoopsRequest::getString('image_featured', '', 'POST');
             //Todo: get a better image class for xoops!
             //Image hack
             $image_item_ids = array();
@@ -998,18 +998,24 @@ class PublisherItem extends XoopsObject
             }
             $this->setVar('images', implode('|', $image_item_ids));
         }
-        if (isset($_POST['uid'])) {
-            $this->setVar('uid', XoopsRequest::getInt('uid', 0, 'POST'));
-        } elseif ($this->isnew()) {
+
+
+        if (!empty($uid = XoopsRequest::getString('uid', '', 'POST'))) {
+            $this->setVar('uid', $uid);}
+        elseif  ($this->isnew()) {
             $this->setVar('uid', is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0);
         }
-        if (isset($_POST['author_alias'])) {
-            $this->setVar('author_alias', XoopsRequest::getString('author_alias', '', 'POST'));
+
+
+        if (!empty($author_alias = XoopsRequest::getString('author_alias', '', 'POST'))) {
+            $this->setVar('author_alias', $author_alias);
             if ($this->getVar('autor_alias') != '') {
                 $this->setVar('uid', 0);
             }
         }
-        if (isset($_POST['datesub'])) {
+
+
+            if (!empty($datesub = XoopsRequest::getString('datesub', '', 'POST'))) {
             if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
 //                $this->setVar('datesub', strtotime(XoopsRequest::getArray('datesub', array(), 'POST')['date']) + XoopsRequest::getArray('datesub', array(), 'POST')['time']);
             } else {
@@ -1020,56 +1026,68 @@ class PublisherItem extends XoopsObject
         } elseif ($this->isnew()) {
             $this->setVar('datesub', time());
         }
-        if (isset($_POST['item_short_url'])) {
-            $this->setVar('short_url', XoopsRequest::getString('item_short_url', '', 'POST'));
-        }
-        if (isset($_POST['item_meta_keywords'])) {
-            $this->setVar('meta_keywords', XoopsRequest::getString('item_meta_keywords', '', 'POST'));
-        }
-        if (isset($_POST['item_meta_description'])) {
-            $this->setVar('meta_description', XoopsRequest::getString('item_meta_description', '', 'POST'));
-        }
-        if (isset($_POST['weight'])) {
-            $this->setVar('weight', XoopsRequest::getInt('weight', 0, 'POST'));
-        }
-        if (isset($_POST['allowcomments'])) {
-            $this->setVar('cancomment', XoopsRequest::getInt('allowcomments', 0, 'POST'));
+
+        if (!empty($item_short_url = XoopsRequest::getString('item_short_url', '', 'POST'))) {
+            $this->setVar('short_url', $item_short_url);}
+
+        if (!empty($item_meta_keywords = XoopsRequest::getString('item_meta_keywords', '', 'POST'))) {
+            $this->setVar('meta_keywords', $item_meta_keywords);}
+
+
+        if (!empty($item_meta_description = XoopsRequest::getString('item_meta_description', '', 'POST'))) {
+            $this->setVar('meta_description', $item_meta_description);}
+
+        if (!empty($weight = XoopsRequest::getInt('weight', 0, 'POST'))) {
+            $this->setVar('weight', $weight);}
+
+        if (!empty($allowcomments = XoopsRequest::getString('allowcomments', '', 'POST'))) {
+            $this->setVar('cancomment', $allowcomments);
         } elseif ($this->isnew()) {
             $this->setVar('cancoment', $this->publisher->getConfig('submit_allowcomments'));
         }
-        if (isset($_POST['status'])) {
-            $this->setVar('status', XoopsRequest::getInt('status', 0, 'POST'));
+
+        if (!empty($status = XoopsRequest::getString('status', '', 'POST'))) {
+            $this->setVar('status', $status);
         } elseif ($this->isnew()) {
             $this->setVar('status', $this->publisher->getConfig('submit_status'));
         }
-        if (isset($_POST['dohtml'])) {
-            $this->setVar('dohtml', XoopsRequest::getInt('dohtml', 0, 'POST'));
+
+        if (!empty($dohtml = XoopsRequest::getString('dohtml', '', 'POST'))) {
+            $this->setVar('dohtml', $dohtml);
         } elseif ($this->isnew()) {
-            $this->setVar('dohtml', $this->publisher->getConfig('submit_dohtml'));
+            $this->setVar('status', $this->publisher->getConfig('submit_dohtml'));
         }
-        if (isset($_POST['dosmiley'])) {
-            $this->setVar('dosmiley', XoopsRequest::getInt('dosmiley', 0, 'POST'));
+
+        if (!empty($dosmiley = XoopsRequest::getString('dosmiley', '', 'POST'))) {
+            $this->setVar('dosmiley', $dosmiley);
         } elseif ($this->isnew()) {
             $this->setVar('dosmiley', $this->publisher->getConfig('submit_dosmiley'));
         }
-        if (isset($_POST['doxcode'])) {
-            $this->setVar('doxcode', XoopsRequest::getInt('doxcode', 0, 'POST'));
+
+        if (!empty($doxcode = XoopsRequest::getString('doxcode', '', 'POST'))) {
+            $this->setVar('doxcode', $doxcode);
         } elseif ($this->isnew()) {
             $this->setVar('doxcode', $this->publisher->getConfig('submit_doxcode'));
         }
-        if (isset($_POST['doimage'])) {
-            $this->setVar('doimage', XoopsRequest::getInt('doimage', 0, 'POST'));
+
+
+        if (!empty($doimage = XoopsRequest::getString('doimage', '', 'POST'))) {
+            $this->setVar('doimage', $doimage);
         } elseif ($this->isnew()) {
             $this->setVar('doimage', $this->publisher->getConfig('submit_doimage'));
         }
-        if (isset($_POST['dolinebreak'])) {
-            $this->setVar('dobr', XoopsRequest::getInt('dolinebreak', 0, 'POST'));
+
+
+        if (!empty($dolinebreak = XoopsRequest::getString('dolinebreak', '', 'POST'))) {
+            $this->setVar('dobr', $dolinebreak);
         } elseif ($this->isnew()) {
             $this->setVar('dobr', $this->publisher->getConfig('submit_dobr'));
         }
-        if (isset($_POST['notify'])) {
-            $this->setVar('notifypub', XoopsRequest::getInt('notify', 0, 'POST'));
-        }
+
+
+        if (!empty($notify = XoopsRequest::getString('notify', '', 'POST'))) {
+            $this->setVar('notifypub', $notify);}
+
     }
 }
 

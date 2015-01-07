@@ -24,11 +24,11 @@ include_once __DIR__ . '/admin_header.php';
 $errors = array();
 
 if (publisher_pagewrap_upload($errors)) {
-    redirect_header($_POST['backto'], 2, _AM_PUBLISHER_FILEUPLOAD_SUCCESS);
+    redirect_header(XoopsRequest::get('backto', '', 'POST'), 2, _AM_PUBLISHER_FILEUPLOAD_SUCCESS);
 } else {
     $errorstxt = implode('<br />', $errors);
     $message   = sprintf(_CO_PUBLISHER_MESSAGE_FILE_ERROR, $errorstxt);
-    redirect_header($_POST['backto'], 5, $message);
+    redirect_header(XoopsRequest::get('backto', '', 'POST'), 5, $message);
 }
 
 /**
@@ -48,11 +48,11 @@ function publisher_pagewrap_upload(&$errors)
     $max_imgwidth  = $publisher->getConfig('maximum_image_width');
     $max_imgheight = $publisher->getConfig('maximum_image_height');
 
-    if (!is_dir(publisher_getUploadDir(true, 'content'))) {
-        mkdir(publisher_getUploadDir(true, 'content'), 0757);
+    if (!is_dir(publisherGetUploadDir(true, 'content'))) {
+        mkdir(publisherGetUploadDir(true, 'content'), 0757);
     }
     $allowed_mimetypes = array('text/html', 'text/plain', 'application/xhtml+xml');
-    $uploader          = new XoopsMediaUploader(publisher_getUploadDir(true, 'content') . '/', $allowed_mimetypes, $max_size, $max_imgwidth, $max_imgheight);
+    $uploader          = new XoopsMediaUploader(publisherGetUploadDir(true, 'content') . '/', $allowed_mimetypes, $max_size, $max_imgwidth, $max_imgheight);
     if ($uploader->fetchMedia($post_field)) {
         $uploader->setTargetFileName($uploader->getMediaName());
         if ($uploader->upload()) {

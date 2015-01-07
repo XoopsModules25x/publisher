@@ -134,7 +134,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         $publisher = PublisherPublisher::getInstance();
 
-        $allowedEditors = publisher_getEditors($publisher->getHandler('permission')->getGrantedItems('editors'));
+        $allowedEditors = publisherGetEditors($publisher->getHandler('permission')->getGrantedItems('editors'));
 
         if (!is_object($GLOBALS['xoopsUser'])) {
             $group = array(XOOPS_GROUP_ANONYMOUS);
@@ -181,9 +181,9 @@ class PublisherItemForm extends PublisherThemeTabForm
         } elseif (count($allowedEditors) > 0) {
             $editor = XoopsRequest::getString('editor', '', 'POST');
             if (!empty($editor)) {
-                publisher_setCookieVar('publisher_editor', $editor);
+                publisherSetCookieVar('publisher_editor', $editor);
             } else {
-                $editor = publisher_getCookieVar('publisher_editor');
+                $editor = publisherGetCookieVar('publisher_editor');
                 if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
 //                    $editor = @ $GLOBALS['xoopsUser']->getVar('publisher_editor'); // Need set through user profile
                     $editor = (null !== ($GLOBALS['xoopsUser']->getVar('publisher_editor'))) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
@@ -252,7 +252,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // Available pages to wrap
         if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_AVAILABLE_PAGE_WRAP)) {
-            $wrap_pages                = XoopsLists::getHtmlListAsArray(publisher_getUploadDir(true, 'content'));
+            $wrap_pages                = XoopsLists::getHtmlListAsArray(publisherGetUploadDir(true, 'content'));
             $available_wrap_pages_text = array();
             foreach ($wrap_pages as $page) {
                 $available_wrap_pages_text[] = "<span onclick='publisherPageWrap(\"body\", \"[pagewrap=$page] \");' onmouseover='style.cursor=\"pointer\"'>$page</span>";

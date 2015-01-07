@@ -86,14 +86,14 @@ class PublisherCategoryForm extends XoopsThemeForm
         $groups          = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $gperm_handler   = $this->publisher->getHandler('groupperm');
         $module_id       = $this->publisher->getModule()->mid();
-        $allowedEditors = publisher_getEditors($gperm_handler->getItemIds('editors', $groups, $module_id));
+        $allowedEditors = publisherGetEditors($gperm_handler->getItemIds('editors', $groups, $module_id));
         $nohtml          = false;
         if (count($allowedEditors) > 0) {
             $editor = XoopsRequest::getString('editor', '', 'POST');
             if (!empty($editor)) {
-                publisher_setCookieVar('publisher_editor', $editor);
+                publisherSetCookieVar('publisher_editor', $editor);
             } else {
-                $editor = publisher_getCookieVar('publisher_editor');
+                $editor = publisherGetCookieVar('publisher_editor');
                 if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
                     $editor = (null !== ($GLOBALS['xoopsUser']->getVar('publisher_editor'))) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
@@ -119,14 +119,14 @@ class PublisherCategoryForm extends XoopsThemeForm
         $this->addElement($text_header);
 
         // IMAGE
-        $image_array  = XoopsLists::getImgListAsArray(publisher_getImageDir('category'));
+        $image_array  = XoopsLists::getImgListAsArray(publisherGetImageDir('category'));
         $image_select = new XoopsFormSelect('', 'image', $this->targetObject->image());
         //$image_select -> addOption ('-1', '---------------');
         $image_select->addOptionArray($image_array);
         $image_select->setExtra("onchange='showImgSelected(\"image3\", \"image\", \"" . 'uploads/' . PUBLISHER_DIRNAME . '/images/category/' . "\", \"\", \"" . XOOPS_URL . "\")'");
         $image_tray = new XoopsFormElementTray(_AM_PUBLISHER_IMAGE, '&nbsp;');
         $image_tray->addElement($image_select);
-        $image_tray->addElement(new XoopsFormLabel('', "<br /><br /><img src='" . publisher_getImageDir('category', false) . $this->targetObject->image() . "' name='image3' id='image3' alt='' />"));
+        $image_tray->addElement(new XoopsFormLabel('', "<br /><br /><img src='" . publisherGetImageDir('category', false) . $this->targetObject->image() . "' name='image3' id='image3' alt='' />"));
         $image_tray->setDescription(_AM_PUBLISHER_IMAGE_DSC);
         $this->addElement($image_tray);
 
@@ -170,7 +170,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $groupsSubmitCheckbox = new XoopsFormCheckBox(_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT, 'groupsSubmit[]', $this->targetObject->getGroupsSubmit());
         $groupsSubmitCheckbox->setDescription(_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT_DSC);
         foreach ($this->userGroups as $group_id => $group_name) {
-            $groupsSubmit_checkbox->addOption($group_id, $group_name);
+            $groupsSubmitCheckbox->addOption($group_id, $group_name);
         }
         $this->addElement($groupsSubmitCheckbox);
 
@@ -188,8 +188,9 @@ class PublisherCategoryForm extends XoopsThemeForm
 
         $cat_tray = new XoopsFormElementTray(_AM_PUBLISHER_SCATEGORYNAME, '<br /><br />');
         for ($i = 0; $i < $this->subCatsCount; ++$i) {
-            if ($i < (isset($_POST['scname']) ? sizeof($_POST['scname']) : 0)) {
-                $subname = isset($_POST['scname']) ? XoopsRequest::getArray('scname', array(), 'POST')[$i] : '';
+
+            if ($i < (!empty($scname = XoopsRequest::getString('scname', '', 'POST'))) ? sizeof($scname) : 0) {
+                $subname = !empty($scname = XoopsRequest::getString('scname', '', 'POST')) ? XoopsRequest::getArray('scname', array(), 'POST')[$i] : '';
             } else {
                 $subname = '';
             }

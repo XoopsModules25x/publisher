@@ -29,7 +29,7 @@ switch ($op) {
 
     case "importExecute":
 
-        $importfile      = (isset($_POST['importfile'])) ? XoopsRequest::getString('importfile', '', 'POST') : 'nonselected';
+        $importfile      = XoopsRequest::getString('importfile', 'nonselected', 'POST');
         $importfile_path = $GLOBALS['xoops']->path("/modules/" . $publisher->getModule()->dirname() . "/admin/import/" . $importfile . ".php");
         include_once $importfile_path;
         break;
@@ -39,10 +39,10 @@ switch ($op) {
 
         $importfile = 'none';
 
-        publisher_cpHeader();
+        publisherCpHeader();
         //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
 
-        publisher_openCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
+        publisherOpenCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
 
         xoops_load('XoopsFormLoader');
 
@@ -177,7 +177,7 @@ switch ($op) {
 
         // End of collapsable bar
 
-        publisher_closeCollapsableBar('import', 'importicon');
+        publisherCloseCollapsableBar('import', 'importicon');
 
         break;
 }

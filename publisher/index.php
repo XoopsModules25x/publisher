@@ -140,17 +140,17 @@ $xoopsTpl->assign('categories', $categories);
 if ($publisher->getConfig('index_display_last_items')) {
     // creating the Item objects that belong to the selected category
     switch ($publisher->getConfig('format_order_by')) {
-        case 'title' :
+        case 'title':
             $sort  = 'title';
             $order = 'ASC';
             break;
 
-        case 'date' :
+        case 'date':
             $sort  = 'datesub';
             $order = 'DESC';
             break;
 
-        default :
+        default:
             $sort  = 'weight';
             $order = 'ASC';
             break;
@@ -177,7 +177,7 @@ $xoopsTpl->assign('title_and_welcome', $publisher->getConfig('index_title_and_we
 $xoopsTpl->assign('lang_mainintro', $myts->displayTarea($publisher->getConfig('index_welcome_msg'), 1));
 $xoopsTpl->assign('sectionname', $publisher->getModule()->getVar('name'));
 $xoopsTpl->assign('whereInSection', $publisher->getModule()->getVar('name'));
-$xoopsTpl->assign('module_home', publisher_moduleHome(false));
+$xoopsTpl->assign('module_home', publisherModuleHome(false));
 $xoopsTpl->assign('indexfooter', $myts->displayTarea($publisher->getConfig('index_footer'), 1));
 
 $xoopsTpl->assign('lang_category_summary', _MD_PUBLISHER_INDEX_CATEGORIES_SUMMARY);

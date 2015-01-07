@@ -102,9 +102,9 @@ if ($error === false) {
 }
 
 if ($error) {
-    $arr = array('error', publisher_convertCharset($error));
+    $arr = array('error', publisherConvertCharset($error));
 } else {
-    $arr = array('success', $image->getVar("image_name"), publisher_convertCharset($image->getVar("image_nicename")));
+    $arr = array('success', $image->getVar("image_name"), publisherConvertCharset($image->getVar("image_nicename")));
 }
 
 echo json_encode($arr);

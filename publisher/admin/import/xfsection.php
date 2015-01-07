@@ -32,9 +32,9 @@ $op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 if ($op == 'start') {
     xoops_load('XoopsFormLoader');
 
-    publisher_cpHeader();
+    publisherCpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    publisher_openCollapsableBar('xfsectionimport', 'xfsectionimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
+    publisherOpenCollapsableBar('xfsectionimport', 'xfsectionimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $result = $GLOBALS['xoopsDB']->query("SELECT COUNT(*) FROM " . $GLOBALS['xoopsDB']->prefix("xfs_category"));
     list ($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
@@ -86,14 +86,14 @@ if ($op == 'start') {
         }
     }
 
-    publisher_closeCollapsableBar('xfsectionimport', 'xfsectionimporticon');
+    publisherCloseCollapsableBar('xfsectionimport', 'xfsectionimporticon');
     xoops_cp_footer();
 }
 
 if ($op == 'go') {
-    publisher_cpHeader();
+    publisherCpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    publisher_openCollapsableBar('xfsectionimportgo', 'xfsectionimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
+    publisherOpenCollapsableBar('xfsectionimportgo', 'xfsectionimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
@@ -135,8 +135,8 @@ if ($op == 'go') {
 
         $newCat['newid'] = $categoryObj->categoryid();
         // Saving category permissions
-        publisher_saveCategoryPermissions($categoryObj->getGroupsRead(), $categoryObj->categoryid(), 'category_read');
-        publisher_saveCategoryPermissions($categoryObj->getGroupsSubmit(), $categoryObj->categoryid(), 'item_submit');
+        publisherSaveCategoryPermissions($categoryObj->getGroupsRead(), $categoryObj->categoryid(), 'category_read');
+        publisherSaveCategoryPermissions($categoryObj->getGroupsSubmit(), $categoryObj->categoryid(), 'item_submit');
 
         ++$cnt_imported_cat;
 
@@ -265,6 +265,6 @@ if ($op == 'go') {
     echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . "<br/>";
     echo "<br/><a href='" . PUBLISHER_URL . "'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . "</a><br/>";
 
-    publisher_closeCollapsableBar('xfsectionimportgo', 'xfsectionimportgoicon');
+    publisherCloseCollapsableBar('xfsectionimportgo', 'xfsectionimportgoicon');
     xoops_cp_footer();
 }

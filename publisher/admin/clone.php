@@ -20,9 +20,9 @@
 
 include_once __DIR__ . "/admin_header.php";
 
-publisher_cpHeader();
+publisherCpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_CLONE);
-publisher_openCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
+publisherOpenCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
 
 if ('submit' == XoopsRequest::getString('op', '', 'POST')) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -78,7 +78,7 @@ if ('submit' == XoopsRequest::getString('op', '', 'POST')) {
 }
 
 // End of collapsable bar
-publisher_closeCollapsableBar('clone', 'cloneicon');
+publisherCloseCollapsableBar('clone', 'cloneicon');
 xoops_cp_footer();
 
 // work around for PHP < 5.0.x

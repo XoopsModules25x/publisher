@@ -23,13 +23,13 @@ include_once __DIR__ . '/admin_header.php';
 include_once $GLOBALS['xoops']->path('class/xoopsform/grouppermform.php');
 $myts = MyTextSanitizer::getInstance();
 
-publisher_cpHeader();
+publisherCpHeader();
 //publisher_adminMenu(3, _AM_PUBLISHER_PERMISSIONS);
 
 // View Categories permissions
 $item_list_view = array();
 $block_view     = array();
-publisher_openCollapsableBar('permissionstable_view', 'permissionsicon_view', _AM_PUBLISHER_PERMISSIONSVIEWMAN, _AM_PUBLISHER_VIEW_CATS);
+publisherOpenCollapsableBar('permissionstable_view', 'permissionsicon_view', _AM_PUBLISHER_PERMISSIONSVIEWMAN, _AM_PUBLISHER_VIEW_CATS);
 
 $result_view = $GLOBALS['xoopsDB']->query("SELECT categoryid, name FROM " . $GLOBALS['xoopsDB']->prefix("publisher_categories") . " ");
 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
@@ -41,11 +41,11 @@ if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
 } else {
     echo _AM_PUBLISHER_NOPERMSSET;
 }
-publisher_closeCollapsableBar('permissionstable_view', 'permissionsicon_view');
+publisherCloseCollapsableBar('permissionstable_view', 'permissionsicon_view');
 
 // Submit Categories permissions
 echo "<br />\n";
-publisher_openCollapsableBar('permissionstable_submit', 'permissionsicon_submit', _AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT, _AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT_DSC);
+publisherOpenCollapsableBar('permissionstable_submit', 'permissionsicon_submit', _AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT, _AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT_DSC);
 $result_view = $GLOBALS['xoopsDB']->query("SELECT categoryid, name FROM " . $GLOBALS['xoopsDB']->prefix("publisher_categories") . " ");
 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
     $form_submit = new XoopsGroupPermForm("", $publisher->getModule()->mid(), "item_submit", "", 'admin/permissions.php');
@@ -56,11 +56,11 @@ if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
 } else {
     echo _AM_PUBLISHER_NOPERMSSET;
 }
-publisher_closeCollapsableBar('permissionstable_submit', 'permissionsicon_submit');
+publisherCloseCollapsableBar('permissionstable_submit', 'permissionsicon_submit');
 
 // Moderators Categories permissions
 echo "<br />\n";
-publisher_openCollapsableBar('permissionstable_moderation', 'permissionsicon_moderation', _AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR, _AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR_DSC);
+publisherOpenCollapsableBar('permissionstable_moderation', 'permissionsicon_moderation', _AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR, _AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR_DSC);
 $result_view = $GLOBALS['xoopsDB']->query("SELECT categoryid, name FROM " . $GLOBALS['xoopsDB']->prefix("publisher_categories") . " ");
 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
     $form_submit = new XoopsGroupPermForm("", $publisher->getModule()->mid(), "category_moderation", "", 'admin/permissions.php');
@@ -71,11 +71,11 @@ if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
 } else {
     echo _AM_PUBLISHER_NOPERMSSET;
 }
-publisher_closeCollapsableBar('permissionstable_moderation', 'permissionsicon_moderation');
+publisherCloseCollapsableBar('permissionstable_moderation', 'permissionsicon_moderation');
 
 // Form permissions
 echo "<br />\n";
-publisher_openCollapsableBar('permissionstable_form', 'permissionsicon_form', _AM_PUBLISHER_PERMISSIONS_FORM, _AM_PUBLISHER_PERMISSIONS_FORM_DSC);
+publisherOpenCollapsableBar('permissionstable_form', 'permissionsicon_form', _AM_PUBLISHER_PERMISSIONS_FORM, _AM_PUBLISHER_PERMISSIONS_FORM_DSC);
 $form_options = array(
     PublisherConstantsInterface::PUBLISHER_SUMMARY               => _AM_PUBLISHER_SUMMARY,
     //PublisherConstantsInterface::PUBLISHER_DISPLAY_SUMMARY        => _CO_PUBLISHER_DISPLAY_SUMMARY,
@@ -109,23 +109,23 @@ foreach ($form_options as $key => $value) {
 }
 unset($key, $value);
 echo $form_submit->render();
-publisher_closeCollapsableBar('permissionstable_form', 'permissionsicon_form');
+publisherCloseCollapsableBar('permissionstable_form', 'permissionsicon_form');
 
 // Editors permissions
 echo "<br />\n";
-publisher_openCollapsableBar('permissionstable_editors', 'permissions_editors', _AM_PUBLISHER_PERMISSIONS_EDITORS, _AM_PUBLISHER_PERMISSIONS_EDITORS_DSC);
-$editors     = publisher_getEditors();
+publisherOpenCollapsableBar('permissionstable_editors', 'permissions_editors', _AM_PUBLISHER_PERMISSIONS_EDITORS, _AM_PUBLISHER_PERMISSIONS_EDITORS_DSC);
+$editors     = publisherGetEditors();
 $form_submit = new XoopsGroupPermForm("", $publisher->getModule()->mid(), "editors", "", 'admin/permissions.php');
 foreach ($editors as $key => $value) {
     $form_submit->addItem($key, $value['title']);
 }
 unset($key, $value);
 echo $form_submit->render();
-publisher_closeCollapsableBar('permissionstable_editors', 'permissionsicon_editors');
+publisherCloseCollapsableBar('permissionstable_editors', 'permissionsicon_editors');
 
 // Global permissions
 echo "<br />\n";
-publisher_openCollapsableBar('permissionstable_global', 'permissionsicon_global', _AM_PUBLISHER_PERMISSIONS_GLOBAL, _AM_PUBLISHER_PERMISSIONS_GLOBAL_DSC);
+publisherOpenCollapsableBar('permissionstable_global', 'permissionsicon_global', _AM_PUBLISHER_PERMISSIONS_GLOBAL, _AM_PUBLISHER_PERMISSIONS_GLOBAL_DSC);
 $form_options = array(
     PublisherConstantsInterface::PUBLISHER_SEARCH => _AM_PUBLISHER_SEARCH,
     PublisherConstantsInterface::PUBLISHER_RATE   => _AM_PUBLISHER_RATE
@@ -136,6 +136,6 @@ foreach ($form_options as $key => $value) {
 }
 unset($key, $value);
 echo $form_submit->render();
-publisher_closeCollapsableBar('permissionstable_global', 'permissionsicon_global');
+publisherCloseCollapsableBar('permissionstable_global', 'permissionsicon_global');
 
 xoops_cp_footer();

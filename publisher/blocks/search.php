@@ -40,13 +40,13 @@ function publisher_search_show($options)
 
     xoops_loadLanguage('search');
 
-    $andor = isset($_POST["andor"]) ? XoopsRequest::getString('andor', '', 'POST') : (isset($_GET["andor"]) ? XoopsRequest::getString('andor', '', 'GET') : '');
+    $andor = XoopsRequest::getString('andor', '', 'POST') ? XoopsRequest::getString('andor', '', 'POST') : (XoopsRequest::getString('andor', '', 'GET'));
 
-    $category = isset($_POST["category"]) ? XoopsRequest::getArray('category', array(), 'POST') : (isset($_GET["category"]) ? XoopsRequest::getArray('category', array(), 'GET') : null);
-    $username = isset($_POST["uname"]) ? XoopsRequest::getString('uname', '', 'POST') : (isset($_GET["uname"]) ? XoopsRequest::getString('uname', '', 'GET') : null);
-    $searchin = isset($_POST["searchin"]) ? XoopsRequest::getArray('searchin', array(), 'POST') : (isset($_GET["searchin"]) ? explode("|", XoopsRequest::getArray('searchin', array(), 'GET')) : array());
-    $sortby   = isset($_POST["sortby"]) ? XoopsRequest::getString('sortby', '', 'POST') : (isset($_GET["sortby"]) ? XoopsRequest::getString('sortby', '', 'GET') : null);
-    $term     = isset($_POST["term"]) ? XoopsRequest::getString('term', '', 'POST') : (isset($_GET["term"]) ? XoopsRequest::getString('term', '', 'GET') : "");
+    $category = XoopsRequest::getArray('category', array(), 'POST') ? XoopsRequest::getArray('category', array(), 'POST') : (XoopsRequest::getArray('category', null, 'GET'));
+    $username = XoopsRequest::getString('uname', '', 'POST') ? XoopsRequest::getString('uname', '', 'POST') : (XoopsRequest::getString('uname', null, 'GET'));
+    $searchin = XoopsRequest::getArray('searchin', array(), 'POST') ? XoopsRequest::getArray('searchin', array(), 'POST') : (explode("|", XoopsRequest::getArray('searchin', array(), 'GET')));
+    $sortby   = XoopsRequest::getString('sortby', '', 'POST') ? XoopsRequest::getString('sortby', '', 'POST') : (XoopsRequest::getString('sortby', null, 'GET'));
+    $term     = XoopsRequest::getString('term', '', 'POST') ? XoopsRequest::getString('term', '', 'POST') : (XoopsRequest::getString('term', '', 'GET'));
 
     if (empty($category) || (is_array($category) && in_array("all", $category))) {
         $category = array();

@@ -23,10 +23,8 @@ include_once __DIR__ . '/admin_header.php';
 
 $op = XoopsRequest::getString('op', '', 'GET');
 
-$op = isset($_POST['editor']) ? 'mod' : $op;
-if (isset($_POST['addcategory'])) {
-    $op = 'addcategory';
-}
+$op = !empty(XoopsRequest::getString('editor', '', 'POST')) ? 'mod' : $op;
+$op = !empty(XoopsRequest::getString('addcategory', '', 'POST')) ? 'addcategory' : $op;
 
 // Where do we start ?
 $startcategory = XoopsRequest::getInt('startcategory', 0, 'GET');
@@ -58,7 +56,7 @@ switch ($op) {
         $nb_subcats = $nb_subcats + (XoopsRequest::getInt('nb_sub_yet', 4, 'POST'));
         //end of fx2024 code
 
-        publisher_cpHeader();
+        publisherCpHeader();
         PublisherUtilities::editCategory(true, $categoryid, $nb_subcats);
         break;
 
@@ -75,22 +73,22 @@ switch ($op) {
 
         // Uploading the image, if any
         // Retreive the filename to be uploaded
-        if (isset($_FILES['image_file']['name']) && $_FILES['image_file']['name'] != "") {
+        if (!empty($image_file = XoopsRequest::getArray('image_file', '', 'FILES')['name'])) {
             $filename = XoopsRequest::getArray('xoops_upload_file', array(), 'POST')[0];
             if (!empty($filename) || $filename != "") {
                 // TODO : implement publisher mimetype management
                 $max_size          = $publisher->getConfig('maximum_filesize');
                 $max_imgwidth      = $publisher->getConfig('maximum_image_width');
                 $max_imgheight     = $publisher->getConfig('maximum_image_height');
-                $allowed_mimetypes = publisher_getAllowedImagesTypes();
+                $allowed_mimetypes = publisherGetAllowedImagesTypes();
 
-                if ($_FILES[$filename]['tmp_name'] == "" || !is_readable($_FILES[$filename]['tmp_name'])) {
+                if (empty($tmp_name = (XoopsRequest::getArray('filename', array(), 'FILES')['tmp_name'])) || !is_readable($tmp_name)) {
                     redirect_header('javascript:history.go(-1)', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
 //                    exit();
                 }
 
                 xoops_load('XoopsMediaUploader');
-                $uploader = new XoopsMediaUploader(publisher_getImageDir('category'), $allowed_mimetypes, $max_size, $max_imgwidth, $max_imgheight);
+                $uploader = new XoopsMediaUploader(publisherGetImageDir('category'), $allowed_mimetypes, $max_size, $max_imgwidth, $max_imgheight);
                 if ($uploader->fetchMedia($filename) && $uploader->upload()) {
                     $categoryObj->setVar('image', $uploader->getSavedFileName());
                 } else {
@@ -99,11 +97,11 @@ switch ($op) {
                 }
             }
         } else {
-            if (isset($_POST['image'])) {
-                $categoryObj->setVar('image', XoopsRequest::getString('image', '', 'POST'));
+            if (!empty($image = XoopsRequest::getString('image', '', 'POST'))) {
+                $categoryObj->setVar('image', $image);
             }
         }
-        $categoryObj->setVar('parentid', (isset($_POST['parentid'])) ? XoopsRequest::getInt('parentid', 0, 'POST') : 0);
+        $categoryObj->setVar('parentid', (XoopsRequest::getInt('parentid', 0, 'POST')));
 
         $applyall = XoopsRequest::getInt('applyall', 0, 'POST');
         $categoryObj->setVar('weight', XoopsRequest::getInt('weight', 1, 'POST'));
@@ -116,24 +114,28 @@ switch ($op) {
         $categoryObj->setVar('name', XoopsRequest::getString('name', '', 'POST'));
 
         //Added by skalpa: custom template support
-        if (isset($_POST['template'])) {
-            $categoryObj->setVar('template', XoopsRequest::getString('template', '', 'POST'));
+        if (!empty($template = XoopsRequest::getString('template', '', 'POST'))) {
+            $categoryObj->setVar('template', $template);
         }
 
-        if (isset($_POST['meta_description'])) {
-            $categoryObj->setVar('meta_description', XoopsRequest::getString('meta_description', '', 'POST'));
+        if (!empty($meta_description = XoopsRequest::getString('meta_description', '', 'POST'))) {
+            $categoryObj->setVar('meta_description', $meta_description);
         }
-        if (isset($_POST['meta_keywords'])) {
-            $categoryObj->setVar('meta_keywords', XoopsRequest::getString('meta_keywords', '', 'POST'));
+
+        if (!empty($meta_keywords = XoopsRequest::getString('meta_keywords', '', 'POST'))) {
+            $categoryObj->setVar('meta_keywords', $meta_keywords);
         }
-        if (isset($_POST['short_url'])) {
-            $categoryObj->setVar('short_url', XoopsRequest::getString('short_url', '', 'POST'));
+
+        if (!empty($short_url = XoopsRequest::getString('short_url', '', 'POST'))) {
+            $categoryObj->setVar('short_url', $short_url);
         }
+
         $categoryObj->setVar('moderator', XoopsRequest::getInt('moderator', 0, 'POST'));
+
         $categoryObj->setVar('description', XoopsRequest::getString('description', '', 'POST'));
 
-        if (isset($_POST['header'])) {
-            $categoryObj->setVar('header', XoopsRequest::getString('header', '', 'POST'));
+        if (!empty($header = XoopsRequest::getString('header', '', 'POST'))) {
+            $categoryObj->setVar('header', $header);
         }
 
         if ($categoryObj->isNew()) {
@@ -145,31 +147,31 @@ switch ($op) {
         }
 
         if (!$categoryObj->store()) {
-            redirect_header("javascript:history.go(-1)", 3, _AM_PUBLISHER_CATEGORY_SAVE_ERROR . publisher_formatErrors($categoryObj->getErrors()));
+            redirect_header("javascript:history.go(-1)", 3, _AM_PUBLISHER_CATEGORY_SAVE_ERROR . publisherFormatErrors($categoryObj->getErrors()));
 //            exit;
         }
         // TODO : put this function in the category class
-        publisher_saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
-        publisher_saveCategoryPermissions($grpsubmit, $categoryObj->categoryid(), 'item_submit');
-        publisher_saveCategoryPermissions($grpmoderation, $categoryObj->categoryid(), 'category_moderation');
+        publisherSaveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
+        publisherSaveCategoryPermissions($grpsubmit, $categoryObj->categoryid(), 'item_submit');
+        publisherSaveCategoryPermissions($grpmoderation, $categoryObj->categoryid(), 'category_moderation');
 
         //Added by fx2024
         $parentCat = $categoryObj->categoryid();
-        $sizeof    = sizeof($_POST['scname']);
+        $sizeof    = sizeof(XoopsRequest::getString('scname', '', 'POST'));
         for ($i = 0; $i < $sizeof; ++$i) {
-            if ($_POST['scname'][$i] != '') {
+            if (XoopsRequest::getArray('scname', array(), 'POST')[$i] != '') {
                 $categoryObj = $publisher->getHandler('category')->create();
                 $categoryObj->setVar('name', XoopsRequest::getArray('scname', array(), 'POST')[$i]);
                 $categoryObj->setVar('parentid', $parentCat);
 
                 if (!$categoryObj->store()) {
-                    redirect_header("javascript:history.go(-1)", 3, _AM_PUBLISHER_SUBCATEGORY_SAVE_ERROR . publisher_formatErrors($categoryObj->getErrors()));
+                    redirect_header("javascript:history.go(-1)", 3, _AM_PUBLISHER_SUBCATEGORY_SAVE_ERROR . publisherFormatErrors($categoryObj->getErrors()));
 //                    exit;
                 }
                 // TODO : put this function in the category class
-                publisher_saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
-                publisher_saveCategoryPermissions($grpsubmit, $categoryObj->categoryid(), 'item_submit');
-                publisher_saveCategoryPermissions($grpmoderation, $categoryObj->categoryid(), 'category_moderation');
+                publisherSaveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
+                publisherSaveCategoryPermissions($grpsubmit, $categoryObj->categoryid(), 'item_submit');
+                publisherSaveCategoryPermissions($grpmoderation, $categoryObj->categoryid(), 'category_moderation');
             }
         }
         //end of fx2024 code
@@ -191,7 +193,7 @@ switch ($op) {
             $categoryObj->setVar('parentid', $parentCat);
         }
 
-        publisher_cpHeader();
+        publisherCpHeader();
         PublisherUtilities::editCategory(true, $categoryid, $nb_subcats, $categoryObj);
         exit();
         break;
@@ -203,7 +205,7 @@ switch ($op) {
         break;
     case "default":
     default:
-        publisher_cpHeader();
+        publisherCpHeader();
         //publisher_adminMenu(1, _AM_PUBLISHER_CATEGORIES);
 
         echo "<br />\n";
@@ -215,7 +217,7 @@ switch ($op) {
         // Creating the objects for top categories
         $categoriesObj = $publisher->getHandler('category')->getCategories($publisher->getConfig('idxcat_perpage'), $startcategory, 0);
 
-        publisher_openCollapsableBar('createdcategories', 'createdcategoriesicon', _AM_PUBLISHER_CATEGORIES_TITLE, _AM_PUBLISHER_CATEGORIES_DSC);
+        publisherOpenCollapsableBar('createdcategories', 'createdcategoriesicon', _AM_PUBLISHER_CATEGORIES_TITLE, _AM_PUBLISHER_CATEGORIES_DSC);
 
         echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
         echo "<tr>";
@@ -241,7 +243,7 @@ switch ($op) {
         $pagenav = new XoopsPageNav($totalCategories, $publisher->getConfig('idxcat_perpage'), $startcategory, 'startcategory');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
         echo "<br />";
-        publisher_closeCollapsableBar('createdcategories', 'createdcategoriesicon');
+        publisherCloseCollapsableBar('createdcategories', 'createdcategoriesicon');
         echo "<br>";
         //editcat(false);
         break;

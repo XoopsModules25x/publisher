@@ -44,7 +44,7 @@ if (!$fileObj) {
 $itemObj = $publisher->getHandler('item')->get($fileObj->getVar('itemid'));
 
 // if the user does not have permission to modify this file, exit
-if (!(publisher_userIsAdmin() || publisher_userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
+if (!(publisherUserIsAdmin() || publisherUserIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
     redirect_header("index.php", 1, _NOPERM);
 //    exit();
 }
@@ -88,7 +88,7 @@ switch ($op) {
             // TODO : display the available mimetypes to the user
             $errors = array();
 
-            if ($publisher->getConfig('perm_upload') && is_uploaded_file($_FILES['item_upload_file']['tmp_name'])) {
+            if ($publisher->getConfig('perm_upload') && is_uploaded_file(XoopsRequest::getArray('item_upload_file', array(), 'FILES')['tmp_name'])) {
                 if ($fileObj->checkUpload('item_upload_file', $allowed_mimetypes, $errors)) {
                     if ($fileObj->storeUpload('item_upload_file', $allowed_mimetypes, $errors)) {
                         unlink($oldfile);
@@ -98,7 +98,7 @@ switch ($op) {
         }
 
         if (!$publisher->getHandler('file')->insert($fileObj)) {
-            redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . publisher_formatErrors($fileObj->getErrors()));
+            redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . publisherFormatErrors($fileObj->getErrors()));
 //            exit;
         }
 

@@ -70,12 +70,12 @@ if (!$GLOBALS['xoopsUser'] || ($GLOBALS['xoopsUser']->isAdmin($publisher->getMod
 
 // creating the Item objects that belong to the selected category
 switch ($publisher->getConfig('format_order_by')) {
-    case 'title' :
+    case 'title':
         $sort  = 'title';
         $order = 'ASC';
         break;
 
-    case 'date' :
+    case 'date':
         $sort  = 'datesub';
         $order = 'DESC';
         break;
@@ -152,7 +152,7 @@ $filesObj      = $itemObj->getFiles();
 
 // check if user has permission to modify files
 $hasFilePermissions = true;
-if (!(publisher_userIsAdmin() || publisher_userIsModerator($itemObj))) {
+if (!(publisherUserIsAdmin() || publisherUserIsModerator($itemObj))) {
     $hasFilePermissions = false;
 }
 
@@ -191,7 +191,7 @@ $xoopsTpl->assign('mail_link', 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITE
 $xoopsTpl->assign('itemid', $itemObj->itemid());
 $xoopsTpl->assign('sectionname', $publisher->getModule()->getVar('name'));
 $xoopsTpl->assign('module_dirname', $publisher->getModule()->getVar('dirname'));
-$xoopsTpl->assign('module_home', publisher_moduleHome($publisher->getConfig('format_linked_path')));
+$xoopsTpl->assign('module_home', publisherModuleHome($publisher->getConfig('format_linked_path')));
 $xoopsTpl->assign('categoryPath', $item['categoryPath'] . " > " . $item['title']);
 $xoopsTpl->assign('commentatarticlelevel', $publisher->getConfig('perm_com_art_level'));
 $xoopsTpl->assign('com_rule', $publisher->getConfig('com_rule'));
@@ -225,7 +225,7 @@ if ((($itemObj->cancomment() == 1) || !$publisher->getConfig('perm_com_art_level
 // Include support for AJAX rating
 if ($publisher->getConfig('perm_rating')) {
     $xoopsTpl->assign('rating_enabled', true);
-    $item['ratingbar'] = publisher_ratingBar($itemid);
+    $item['ratingbar'] = publisherRatingBar($itemid);
     $xoTheme->addScript(PUBLISHER_URL . '/assets/js/behavior.js');
     $xoTheme->addScript(PUBLISHER_URL . '/assets/js/rating.js');
 }

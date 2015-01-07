@@ -100,7 +100,6 @@ $modversion['search']['file'] = "include/search.inc.php";
 $modversion['search']['func'] = "publisher_search";
 
 if (is_object($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirname') == $modversion['dirname']) {
-
     $isAdmin = false;
     if (is_object($GLOBALS['xoopsUser'])) {
         $isAdmin = $GLOBALS['xoopsUser']->isAdmin($GLOBALS['xoopsModule']->getVar('mid'));
@@ -377,8 +376,8 @@ $modversion['configcat']['group_header'] = array(
 
 ################### SEO ####################
 
-
-$isModuleAction = (!empty($_POST["fct"]) && "modulesadmin" == XoopsRequest::getInt('fct', 0, 'POST')) ? true : false;
+//$isModuleAction = (!empty($_POST["fct"]) && "modulesadmin" == $_POST["fct"]) ? true : false;
+$isModuleAction = ('modulesadmin' == XoopsRequest::getString('fct', '', 'POST')) ? true : false;
 //if ($isModuleAction && (in_array(php_sapi_name(), array("apache", "apache2handler", "cgi-fcgi")))) {
 //    _MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'
 //}

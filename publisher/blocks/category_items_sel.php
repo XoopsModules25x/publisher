@@ -42,7 +42,7 @@ function publisher_category_items_sel_show($options)
 
     $selectedcatids = explode(',', $options[0]);
     $sort           = $options[1];
-    $order          = publisher_getOrderBy($sort);
+    $order          = publisherGetOrderBy($sort);
     $limit          = $options[2];
     $start          = 0;
 
@@ -87,7 +87,7 @@ function publisher_category_items_sel_edit($options)
 
     $form = new PublisherBlockForm();
 
-    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher_createCategorySelect($options[0]), 'options[0]');
+    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisherCreateCategorySelect($options[0]), 'options[0]');
     $orderEle = new XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray(array(
                                   'datesub' => _MB_PUBLISHER_DATE,

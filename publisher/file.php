@@ -22,11 +22,8 @@
 include_once __DIR__ . '/header.php';
 xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
-$op     = XoopsRequest::getString('op', '', 'POST') ? XoopsRequest::getString('op', '', 'POST') : XoopsRequest::getString('op', '', 'GET');
-$fileid = XoopsRequest::getInt('fileid', 0, 'POST') ? XoopsRequest::getInt('fileid', 0, 'POST') : XoopsRequest::getInt('fileid', 0, 'GET');
-
-//$op     = XoopsRequest::getString('op','', 'POST');
-//$fileid = XoopsRequest::getInt('fileid', 0, 'POST'); //POST when called from submit.php, when
+$op     = XoopsRequest::getString('op',  XoopsRequest::getString('op', '', 'GET'), 'POST');
+$fileid = XoopsRequest::getInt('fileid', XoopsRequest::getInt('fileid', 0, 'GET'), 'POST');
 
 if ($fileid == 0) {
     redirect_header("index.php", 2, _MD_PUBLISHER_NOITEMSELECTED);
@@ -111,7 +108,7 @@ switch ($op) {
         break;
 
     case "del":
-        $confirm = XoopsRequest::getInt('confirm', 0, 'POST');
+        $confirm = XoopsRequest::getInt('confirm', '', 'POST');
 
         if ($confirm) {
             if (!$publisher->getHandler('file')->delete($fileObj)) {

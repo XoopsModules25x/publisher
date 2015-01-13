@@ -23,7 +23,7 @@
 include_once __DIR__ . '/admin_header.php';
 xoops_load('XoopsPagenav');
 
-$start = $limit = 0;
+//$start = $limit = 0;
 //if (isset($_GET['limit'])) {
 //    $limit = XoopsRequest::getInt('limit', 0, 'GET');
 //} elseif (isset($_POST['limit'])) {
@@ -32,14 +32,8 @@ $start = $limit = 0;
 //    $limit = 15;
 //}
 
-if (0 == ($limit = XoopsRequest::getInt('limit', 0, 'GET'))) {
-    if (0 == ($limit = XoopsRequest::getInt('limit', 0, 'POST'))) {
-        $limit = 15;
-    }
-}
-
 $start = XoopsRequest::getInt('start', 0, 'GET');
-
+$limit = XoopsRequest::getInt('limit', XoopsRequest::getInt('limit', 15, 'GET'), 'POST');
 
 $aSortBy   = array('mime_id'    => _AM_PUBLISHER_MIME_ID,
                    'mime_name'  => _AM_PUBLISHER_MIME_NAME,
@@ -401,7 +395,7 @@ class PublisherMimetypesUtilities
         $publisher = PublisherPublisher::getInstance();
         global $imagearray, $start, $limit, $aSortBy, $aOrderBy, $aLimitBy, $aSearchBy;
 
-        if (!empty(XoopsRequest::getString('deleteMimes', '', 'POST'))) {
+        if ((XoopsRequest::getString('deleteMimes', '', 'POST'))) {
             $aMimes = XoopsRequest::getArray('mimes', array(), "POST");
 
             $crit = new Criteria('mime_id', "(" . implode($aMimes, ',') . ")", "IN");
@@ -412,12 +406,12 @@ class PublisherMimetypesUtilities
                 redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?limit=$limit&start=$start", 3, _AM_PUBLISHER_MESSAGE_DELETE_MIME_ERROR);
             }
         }
-        if (!empty(XoopsRequest::getString('add_mime', '', 'POST'))) {
+        if ((XoopsRequest::getString('add_mime', '', 'POST'))) {
 //        header("Location: " . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=add&start=$start&limit=$limit");
             redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=add&start=$start&limit=$limit", 3, _AM_PUBLISHER_MIME_CREATEF);
 //        exit();
         }
-        if (!empty(XoopsRequest::getString('mime_search', '', 'POST'))) {
+        if ((XoopsRequest::getString('mime_search', '', 'POST'))) {
 //        header("Location: " . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=search");
             redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=search", 3, _AM_PUBLISHER_MIME_SEARCH);
 //        exit();
@@ -540,7 +534,7 @@ class PublisherMimetypesUtilities
         $publisher = PublisherPublisher::getInstance();
         global $limit, $start, $imagearray, $aSearchBy, $aOrderBy, $aLimitBy, $aSortBy;
 
-        if (!empty(XoopsRequest::getString('deleteMimes', '', 'POST'))) {
+        if ((XoopsRequest::getString('deleteMimes', '', 'POST'))) {
             $aMimes = XoopsRequest::getArray('mimes', array(), "POST");
 
             $crit = new Criteria('mime_id', "(" . implode($aMimes, ',') . ")", "IN");
@@ -551,7 +545,7 @@ class PublisherMimetypesUtilities
                 redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?limit=$limit&start=$start", 3, _AM_PUBLISHER_MESSAGE_DELETE_MIME_ERROR);
             }
         }
-        if (!empty(XoopsRequest::getString('add_mime', '', 'POST'))) {
+        if ((XoopsRequest::getString('add_mime', '', 'POST'))) {
 //        header("Location: " . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=add&start=$start&limit=$limit");
             redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=add&start=$start&limit=$limit", 3, _AM_PUBLISHER_MIME_CREATEF);
 //        exit();
@@ -729,13 +723,13 @@ class PublisherMimetypesUtilities
 
         $mimetype = $publisher->getHandler('mimetype')->get($mime_id);
 
-        if (!empty(XoopsRequest::getString('mime_admin', '', 'GET'))) {
-            $mime_admin = XoopsRequest::getInt('mime_admin', 0, 'GET');
+        if (($mime_admin = XoopsRequest::getString('mime_admin', '', 'GET'))) {
+//            $mime_admin = XoopsRequest::getInt('mime_admin', 0, 'GET');
             $mime_admin = self::changeMimeValue($mime_admin);
             $mimetype->setVar('mime_admin', $mime_admin);
         }
-        if (!empty(XoopsRequest::getString('mime_user', '', 'GET'))) {
-            $mime_user = XoopsRequest::getInt('mime_user', 0, 'GET');
+        if (($mime_user = XoopsRequest::getString('mime_user', '', 'GET'))) {
+//            $mime_user = XoopsRequest::getInt('mime_user', 0, 'GET');
             $mime_user = self::changeMimeValue($mime_user);
             $mimetype->setVar('mime_user', $mime_user);
         }

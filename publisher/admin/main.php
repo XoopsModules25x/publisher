@@ -25,17 +25,10 @@ include_once $GLOBALS['xoops']->path('class/pagenav.php');
 
 $itemid =  XoopsRequest::getInt('itemid', 0, 'POST');
 
-$pick = XoopsRequest::getInt('pick', 0, 'GET');
-$pick = XoopsRequest::getInt('pick', $pick, 'POST');
-
-$statussel = XoopsRequest::getInt('statussel', 0, 'GET');
-$statussel = XoopsRequest::getInt('statussel', $statussel, 'POST');
-
-$sortsel = XoopsRequest::getString('sortsel', 'itemid', 'GET');
-$sortsel = XoopsRequest::getString('sortsel', $sortsel, 'POST');
-
-$ordersel = XoopsRequest::getString('ordersel', 'DESC', 'GET');
-$ordersel = XoopsRequest::getString('ordersel', $ordersel, 'POST');
+$pick = XoopsRequest::getInt('pick', XoopsRequest::getInt('pick', 0, 'GET'), 'POST');
+$statussel = XoopsRequest::getInt('statussel', XoopsRequest::getInt('statussel', 0, 'GET'), 'POST');
+$sortsel = XoopsRequest::getString('sortsel', XoopsRequest::getString('sortsel', 'itemid', 'GET'), 'POST');
+$ordersel = XoopsRequest::getString('ordersel', XoopsRequest::getString('ordersel', 'DESC', 'GET'), 'POST');
 
 $module_id     = $publisher->getModule()->mid();
 $gperm_handler = xoops_gethandler('groupperm');

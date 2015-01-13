@@ -23,8 +23,8 @@ include_once __DIR__ . '/admin_header.php';
 
 $op = XoopsRequest::getString('op', '', 'GET');
 
-$op = !empty(XoopsRequest::getString('editor', '', 'POST')) ? 'mod' : $op;
-$op = !empty(XoopsRequest::getString('addcategory', '', 'POST')) ? 'addcategory' : $op;
+$op = (XoopsRequest::getString('editor', '', 'POST')) ? 'mod' : $op;
+$op = (XoopsRequest::getString('addcategory', '', 'POST')) ? 'addcategory' : $op;
 
 // Where do we start ?
 $startcategory = XoopsRequest::getInt('startcategory', 0, 'GET');
@@ -34,7 +34,7 @@ switch ($op) {
 
     case "del":
         $categoryObj = $publisher->getHandler('category')->get($categoryid);
-        $confirm     = XoopsRequest::getInt('confirm', 0, 'POST');
+        $confirm     = XoopsRequest::getInt('confirm', '', 'POST');
         $name        = XoopsRequest::getString('name', '', 'POST');
         if ($confirm) {
             if (!$publisher->getHandler('category')->delete($categoryObj)) {
@@ -73,16 +73,16 @@ switch ($op) {
 
         // Uploading the image, if any
         // Retreive the filename to be uploaded
-        if (!empty($image_file = XoopsRequest::getArray('image_file', '', 'FILES')['name'])) {
-            $filename = XoopsRequest::getArray('xoops_upload_file', array(), 'POST')[0];
-            if (!empty($filename) || $filename != "") {
+        if (($image_file = XoopsRequest::getArray('image_file', '', 'FILES')['name'])) {
+//            $filename = XoopsRequest::getArray('xoops_upload_file', array(), 'POST')[0];
+            if ($filename = XoopsRequest::getArray('xoops_upload_file', array(), 'POST')[0]) {
                 // TODO : implement publisher mimetype management
                 $max_size          = $publisher->getConfig('maximum_filesize');
                 $max_imgwidth      = $publisher->getConfig('maximum_image_width');
                 $max_imgheight     = $publisher->getConfig('maximum_image_height');
                 $allowed_mimetypes = publisherGetAllowedImagesTypes();
 
-                if (empty($tmp_name = (XoopsRequest::getArray('filename', array(), 'FILES')['tmp_name'])) || !is_readable($tmp_name)) {
+                if (!($tmp_name = (XoopsRequest::getArray('filename', array(), 'FILES')['tmp_name'])) || !is_readable($tmp_name)) {
                     redirect_header('javascript:history.go(-1)', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
 //                    exit();
                 }
@@ -97,9 +97,7 @@ switch ($op) {
                 }
             }
         } else {
-            if (!empty($image = XoopsRequest::getString('image', '', 'POST'))) {
-                $categoryObj->setVar('image', $image);
-            }
+                $categoryObj->setVar('image', XoopsRequest::getString('image', '', 'POST'));
         }
         $categoryObj->setVar('parentid', (XoopsRequest::getInt('parentid', 0, 'POST')));
 
@@ -114,29 +112,13 @@ switch ($op) {
         $categoryObj->setVar('name', XoopsRequest::getString('name', '', 'POST'));
 
         //Added by skalpa: custom template support
-        if (!empty($template = XoopsRequest::getString('template', '', 'POST'))) {
-            $categoryObj->setVar('template', $template);
-        }
-
-        if (!empty($meta_description = XoopsRequest::getString('meta_description', '', 'POST'))) {
-            $categoryObj->setVar('meta_description', $meta_description);
-        }
-
-        if (!empty($meta_keywords = XoopsRequest::getString('meta_keywords', '', 'POST'))) {
-            $categoryObj->setVar('meta_keywords', $meta_keywords);
-        }
-
-        if (!empty($short_url = XoopsRequest::getString('short_url', '', 'POST'))) {
-            $categoryObj->setVar('short_url', $short_url);
-        }
-
+        $categoryObj->setVar('template', XoopsRequest::getString('template', '', 'POST'));
+        $categoryObj->setVar('meta_description', XoopsRequest::getString('meta_description', '', 'POST'));
+        $categoryObj->setVar('meta_keywords', XoopsRequest::getString('meta_keywords', '', 'POST'));
+        $categoryObj->setVar('short_url', XoopsRequest::getString('short_url', '', 'POST'));
         $categoryObj->setVar('moderator', XoopsRequest::getInt('moderator', 0, 'POST'));
-
         $categoryObj->setVar('description', XoopsRequest::getString('description', '', 'POST'));
-
-        if (!empty($header = XoopsRequest::getString('header', '', 'POST'))) {
-            $categoryObj->setVar('header', $header);
-        }
+        $categoryObj->setVar('header', XoopsRequest::getString('header', '', 'POST'));
 
         if ($categoryObj->isNew()) {
             $redirect_msg = _AM_PUBLISHER_CATCREATED;

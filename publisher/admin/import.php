@@ -21,8 +21,7 @@
 
 include_once __DIR__ . "/admin_header.php";
 
-$op = XoopsRequest::getString('op', 'none', 'GET');
-$op = XoopsRequest::getString('op', $op, 'POST');
+$op = XoopsRequest::getString('op', XoopsRequest::getString('op', 'none', 'GET'), 'POST');
 
 
 switch ($op) {

@@ -149,7 +149,7 @@ function publisher_latest_news_show($options)
 
         //TODO: Should we not show link to Anonymous?
         $block['submitlink'] = '';
-        if ($options[18] == 1 && !empty($GLOBALS['xoopsUser'])) {
+        if ($options[18] == 1 && ($GLOBALS['xoopsUser'])) {
             $block['submitlink'] = '| <a href="' . PUBLISHER_URL . '/submit.php">' . _MB_PUBLISHER_SUBMITNEWS . '</a> ';
         }
 

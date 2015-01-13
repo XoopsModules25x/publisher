@@ -26,11 +26,10 @@
 $seoOp = XoopsRequest::getString('seoOp', '', 'GET');
 
 //$seoArg = @$_GET['seoArg'];
-$seoOp = XoopsRequest::getString('seoArg', $seoOp, 'GET');
+$seoArg = XoopsRequest::getString('seoArg', '', 'GET');
 
 
 if (empty($seoOp) && XoopsRequest::getString('PATH_INFO', '', 'SERVER')) {
-
     // SEO mode is path-info
     /*
     Sample URL for path-info

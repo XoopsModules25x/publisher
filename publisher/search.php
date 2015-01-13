@@ -69,7 +69,7 @@ if (empty($category) || (is_array($category) && in_array("all", $category))) {
 $andor  = (in_array(strtoupper($andor), array("OR", "AND", "EXACT"))) ? strtoupper($andor) : "OR";
 $sortby = (in_array(strtolower($sortby), array("itemid", "datesub", "title", "categoryid"))) ? strtolower($sortby) : "itemid";
 
-if (!(empty(XoopsRequest::getString('submit', '', 'POST')) && empty($term))) {
+if ((XoopsRequest::getString('submit', '', 'POST')) && $term) {
 
     $next_search["category"] = implode(",", $category);
     $next_search["andor"]    = $andor;

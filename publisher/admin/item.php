@@ -22,9 +22,9 @@
 
 include_once __DIR__ . '/admin_header.php';
 
-$itemid = XoopsRequest::getInt('itemid', 0, 'GET');
-$op     = ($itemid > 0 || !empty(XoopsRequest::getString('editor', '', 'POST'))) ? 'mod' : '';
-$op     = XoopsRequest::getString('op', $op, 'POST');
+$itemid = XoopsRequest::getInt('itemid', (XoopsRequest::getInt('itemid', 0, 'POST')), 'GET') ;
+$op     = ($itemid > 0 || (XoopsRequest::getString('editor', '', 'POST'))) ? 'mod' : '';
+$op     = XoopsRequest::getString('op', $op, 'GET');
 
 //if (!empty(XoopsRequest::getString('additem', '', 'POST'))) {
 //    $op = 'additem';
@@ -32,13 +32,13 @@ $op     = XoopsRequest::getString('op', $op, 'POST');
 //    $op = 'del';
 //}
 
-$op = !empty(XoopsRequest::getString('additem', '', 'POST')) ? 'additem' : (!empty(XoopsRequest::getString('del', '', 'POST')) ? 'del' : $op);
+$op = (XoopsRequest::getString('additem', '', 'POST')) ? 'additem' : ((XoopsRequest::getString('del', '', 'POST')) ? 'del' : $op);
 
 // Where shall we start ?
-$submittedstartitem = XoopsRequest::getInt('submittedstartitem');
-$publishedstartitem = XoopsRequest::getInt('publishedstartitem');
-$offlinestartitem   = XoopsRequest::getInt('offlinestartitem');
-$rejectedstartitem  = XoopsRequest::getInt('rejectedstartitem');
+$submittedstartitem = XoopsRequest::getInt('submittedstartitem', (XoopsRequest::getInt('submittedstartitem', 0, 'GET')), 'POST');
+$publishedstartitem = XoopsRequest::getInt('publishedstartitem', (XoopsRequest::getInt('publishedstartitem', 0, 'GET')), 'POST');
+$offlinestartitem   = XoopsRequest::getInt('offlinestartitem', (XoopsRequest::getInt('offlinestartitem', 0, 'GET')), 'POST');
+$rejectedstartitem  = XoopsRequest::getInt('rejectedstartitem', (XoopsRequest::getInt('submittedstartitem', 0, 'GET')), 'POST');
 
 switch ($op) {
     case "clone":
@@ -127,7 +127,7 @@ switch ($op) {
         }
 
         // attach file if any
-        if (!empty($item_upload_file = XoopsRequest::getArray('item_upload_file', '', 'FILES')) && $item_upload_file['name'] != "") {
+        if (($item_upload_file = XoopsRequest::getArray('item_upload_file', '', 'FILES')) && $item_upload_file['name'] !== "") {
             $file_upload_result = publisherUploadFile(false, false, $itemObj);
             if ($file_upload_result !== true) {
                 redirect_header("javascript:history.go(-1)", 3, $file_upload_result);
@@ -136,7 +136,7 @@ switch ($op) {
         }
 
         // Send notifications
-        if (!empty($notifToDo)) {
+        if ($notifToDo) {
             $itemObj->sendNotifications($notifToDo);
         }
 
@@ -146,7 +146,7 @@ switch ($op) {
 
     case "del":
         $itemObj = $publisher->getHandler('item')->get($itemid);
-        $confirm = XoopsRequest::getInt('confirm', 0, 'POST');
+        $confirm = XoopsRequest::getInt('confirm', '', 'POST');
 
         if ($confirm) {
             if (!$publisher->getHandler('item')->delete($itemObj)) {
@@ -477,7 +477,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
         echo "<br />\n";
         publisherOpenCollapsableBar('edititemtable', 'edititemicon', $page_title, $page_info);
 
-        if (!$clone) {
+        if ($clone) {
             echo "<form><div style=\"margin-bottom: 10px;\">";
             echo "<input type='button' name='button' onclick=\"location='item.php?op=clone&itemid=" . $itemObj->itemid() . "'\" value='" . _AM_PUBLISHER_CLONE_ITEM . "'>&nbsp;&nbsp;";
             echo "</div></form>";
@@ -499,8 +499,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
             //publisher_adminMenu(2, $breadcrumb_action1 . " > " . $breadcrumb_action2);
         }
 
-        $sel_categoryid = XoopsRequest::getInt('categoryid', 0, 'GET');
-        $categoryObj->setVar('categoryid', $sel_categoryid);
+        $categoryObj->setVar('categoryid', XoopsRequest::getInt('categoryid', 0, 'GET'));
 
         publisherOpenCollapsableBar('createitemtable', 'createitemicon', _AM_PUBLISHER_ITEM_CREATING, _AM_PUBLISHER_ITEM_CREATING_DSC);
     }

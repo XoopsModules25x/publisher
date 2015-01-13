@@ -35,7 +35,7 @@ $groups        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XO
 $gperm_handler = xoops_getmodulehandler('groupperm');
 $module_id     = $publisher->getModule()->getVar('mid');
 
-$itemid = XoopsRequest::getInt('itemid', 0, 'GET');
+$itemid = XoopsRequest::getInt('itemid', (XoopsRequest::getInt('itemid', 0, 'POST')), 'GET');
 if ($itemid != 0) {
     // We are editing or deleting an article
     $itemObj = $publisher->getHandler('item')->get($itemid);
@@ -74,15 +74,15 @@ if ('clone' == XoopsRequest::getString('op', '', 'GET')) {
 }
 
 $op = '';
-if (!empty(XoopsRequest::getString('additem', '', 'POST'))) {
+if (XoopsRequest::getString('additem', '', 'POST')) {
     $op = 'post';
-} elseif (!empty(XoopsRequest::getString('preview', '', 'POST'))) {
+} elseif (XoopsRequest::getString('preview', '', 'POST')) {
     $op = 'preview';
 } else {
     $op = 'add';
 }
 
-$op = ('del' == XoopsRequest::getString('op', '', 'GET')) ? 'del' : $op;
+$op = XoopsRequest::getString('op', XoopsRequest::getString('op',  $op, 'POST'), 'GET');
 
 
 $allowedEditors = publisherGetEditors($gperm_handler->getItemIds('editors', $groups, $module_id));
@@ -97,7 +97,7 @@ $elements = array(
     'dohtml', 'dosmiley', 'doxcode', 'doimage', 'dolinebreak',
     'notify', 'subtitle', 'author_alias');
 foreach ($elements as $element) {
-    if (!empty(XoopsRequest::getString('element', '', 'POST')) && !in_array(constant('PublisherConstantsInterface::PUBLISHER_' . strtoupper($element)), $form_view)) {
+    if (XoopsRequest::getString('element', '', 'POST') && !in_array(constant('PublisherConstantsInterface::PUBLISHER_' . strtoupper($element)), $form_view)) {
         redirect_header("index.php", 1, _MD_PUBLISHER_SUBMIT_ERROR);
 //        exit();
     }
@@ -109,7 +109,7 @@ $item_upload_file = XoopsRequest::getString('item_upload_file', '', 'FILES');
 //stripcslashes
 switch ($op) {
     case 'del':
-        $confirm = XoopsRequest::getInt('confirm', 0, 'POST');
+        $confirm = XoopsRequest::getInt('confirm', '', 'POST');
 
         if ($confirm) {
             if (!$publisher->getHandler('item')->delete($itemObj)) {
@@ -228,7 +228,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
         include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
-        $itemObj->setVarsFromRequest();
+//mb        $itemObj->setVarsFromRequest();
 
         $xoopsTpl->assign('module_home', publisherModuleHome());
         if ('clone' == XoopsRequest::getString('op', '', 'GET')) {

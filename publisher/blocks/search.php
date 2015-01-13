@@ -44,9 +44,9 @@ function publisher_search_show($options)
     $username = XoopsRequest::getString('uname', XoopsRequest::getString('uname', null, 'GET'), 'POST');
     $searchin = XoopsRequest::getArray('searchin', (explode("|", XoopsRequest::getArray('searchin', array(), 'GET'))), 'POST');
     $sortby   = XoopsRequest::getString('sortby', XoopsRequest::getString('sortby', null, 'GET'), 'POST');
-    $term     = XoopsRequest::getString('term', XoopsRequest::getString('term', '', 'GET');
+    $term     = XoopsRequest::getString('term', XoopsRequest::getString('term', '', 'GET'));
 
-    //mb TODO simplify next lines with cetogory
+    //mb TODO simplify next lines with category
     $category = XoopsRequest::getArray('category', array(), 'POST') ? XoopsRequest::getArray('category', array(), 'POST') : (XoopsRequest::getArray('category', null, 'GET'));
     if (empty($category) || (is_array($category) && in_array("all", $category))) {
         $category = array();

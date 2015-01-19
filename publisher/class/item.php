@@ -1001,13 +1001,13 @@ class PublisherItem extends XoopsObject
 
 //mb TODO check on version
             if (($datesub = XoopsRequest::getString('datesub', '', 'POST'))) {
-            if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
+//            if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
 //                $this->setVar('datesub', strtotime(XoopsRequest::getArray('datesub', array(), 'POST')['date']) + XoopsRequest::getArray('datesub', array(), 'POST')['time']);
-            } else {
-                $resDate = XoopsRequest::getArray('datesub', array(), 'POST');
-                $resTime = XoopsRequest::getArray('datesub', array(), 'POST');
-                $this->setVar('datesub', strtotime($resDate['date']) + $resTime['time']);
-            }
+//            } else {
+                $resDate = XoopsRequest::getArray('datesub', array(), 'POST')['date'];
+                $resTime = XoopsRequest::getArray('datesub', array(), 'POST')['time'];
+                $this->setVar('datesub', strtotime($resDate) + $resTime);
+//            }
         } elseif ($this->isnew()) {
             $this->setVar('datesub', time());
         }

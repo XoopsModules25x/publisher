@@ -1,4 +1,4 @@
-<h5>1.02 Beta 3       (2014-xx-xx)</h5>
+<h5>1.02 RC1       (2015-xx-xx)</h5>
 - updated to XOOPS 2.5.7 version of jQuery UI Tabs (noo-b/mamba)
 - replaced PublisherRequest with calls to XoopsRequest (mamba)
 - redesigned archives section to have months horizontally (mjoel/Mithrandir/mamba)
@@ -16,11 +16,8 @@
 - updated popeye.js to 2.1 (mamba)
 - changed popeye mode to imagelist (mamba)
 
-
 TODO:
 - test with MySQL strict mode (STRICT_TRANS_TABLES)
-
-
 
 
 <h5>1.02 Beta 2       (2014-xx-xx)</h5>

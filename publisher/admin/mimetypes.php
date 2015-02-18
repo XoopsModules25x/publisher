@@ -95,7 +95,7 @@ class PublisherMimetypesUtilities
         $publisher = PublisherPublisher::getInstance();
         global $limit, $start;
         $error = array();
-        if (empty(XoopsRequest::get('add_mime', '', 'POST'))) {
+        if (!(XoopsRequest::get('add_mime', '', 'POST'))) {
             publisherCpHeader();
             //publisher_adminMenu(4, _AM_PUBLISHER_MIMETYPES);
 
@@ -263,7 +263,7 @@ class PublisherMimetypesUtilities
         }
         $mimetype = $publisher->getHandler('mimetype')->get($mime_id); // Retrieve mimetype object
 
-        if (empty(XoopsRequest::getString('edit_mime', '', 'POST'))) {
+        if (!(XoopsRequest::getString('edit_mime', '', 'POST'))) {
             $session     = PublisherSession::getInstance();
             $mime_type   = $session->get("publisher_editMime_$mime_id");
             $mime_errors = $session->get("publisher_editMimeErr_$mime_id");
@@ -560,7 +560,7 @@ class PublisherMimetypesUtilities
 
         publisherOpenCollapsableBar('mimemsearchtable', 'mimesearchicon', _AM_PUBLISHER_MIME_SEARCH);
 
-        if (empty(XoopsRequest::getString('mime_search', '', 'POST'))) {
+        if (!(XoopsRequest::getString('mime_search', '', 'POST'))) {
             echo "<form action='mimetypes.php?op=search' method='post'>";
             echo "<table width='100%' cellspacing='1' class='outer'>";
             echo "<tr><th colspan='2'>" . _AM_PUBLISHER_TEXT_SEARCH_MIME . "</th></tr>";
@@ -715,7 +715,7 @@ class PublisherMimetypesUtilities
             $start = XoopsRequest::getInt('start', 0, 'GET');
 
 
-        if (empty(XoopsRequest::getString('id', '', 'GET'))) {
+        if (!(XoopsRequest::getString('id', '', 'GET'))) {
             redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php", 3, _AM_PUBLISHER_MESSAGE_NO_ID);
         } else {
             $mime_id = XoopsRequest::getInt('id', 0, 'GET');

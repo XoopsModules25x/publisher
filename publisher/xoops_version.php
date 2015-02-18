@@ -68,7 +68,7 @@ $modversion = array(
     'sqlfile'             => array('mysql' => 'sql/mysql.sql'),
     // ------------------- Tables -------------------
     'tables'              => array(
-        'publisher_categorie',
+        'publisher_categories',
         'publisher_items',
         'publisher_files',
         'publisher_meta',

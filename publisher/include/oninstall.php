@@ -35,11 +35,12 @@ function xoops_module_install_publisher(XoopsModule &$xoopsModule)
 {
     xoops_loadLanguage('modinfo', $xoopsModule->getVar('dirname'));
     include_once $GLOBALS['xoops']->path("/modules/" . $xoopsModule->getVar('dirname') . "/include/functions.php");
+    xoops_loadLanguage('admin', $xoopsModule->getVar('dirname'));
 
     $ret = true;
     $msg = '';
     // Create content directory
-    $dir = $GLOBALS['xoops']->path("/uploads/" . $xoopsModule->getVar('dirname') . "/content");
+    $dir = $GLOBALS['xoops']->path("uploads/" . $xoopsModule->getVar('dirname') . "/content");
     if (!publisherMkdir($dir))
         $msg .= sprintf(_AM_PUBLISHER_DIRNOTCREATED, $dir);
     if (empty($msg))

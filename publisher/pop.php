@@ -21,8 +21,6 @@
  */
 
 $doNotStartPrint = true;
-$noTitle = true;
-$smartPopup = true;
-include_once dirname(__FILE__) . '/print.php';
-
-?>
+$noTitle         = true;
+$smartPopup      = true;
+include_once __DIR__ . '/print.php';

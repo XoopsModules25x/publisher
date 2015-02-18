@@ -21,30 +21,33 @@
  * @version         $Id: latest_news.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * @param $options
+ *
+ * @return array
+ */
 function publisher_latest_news_show($options)
 {
-    global $xoopsUser, $xoopsConfig;
-
     $block = array();
 
     xoops_loadLanguage('main', 'publisher');
     $publisher = PublisherPublisher::getInstance();
 
-    $start = $options[0]; // You can show articles from specified range
-    $limit = $options[1];
-    $column_count = $options[2];
-    $letters = $options[3];
+    $start            = $options[0]; // You can show articles from specified range
+    $limit            = $options[1];
+    $column_count     = $options[2];
+    $letters          = $options[3];
     $selected_stories = $options[4];
-    $sort = $options[9];
-    $order = publisher_getOrderBy($sort);
-    $imgwidth = $options[11];
-    $imgheight = $options[12];
-    $border = $options[13];
-    $bordercolor = $options[14];
+    $sort             = $options[9];
+    $order            = publisherGetOrderBy($sort);
+    $imgwidth         = $options[11];
+    $imgheight        = $options[12];
+    $border           = $options[13];
+    $bordercolor      = $options[14];
 
     $block['spec']['columnwidth'] = intval(1 / $column_count * 100);
 
@@ -70,22 +73,22 @@ function publisher_latest_news_show($options)
         $criteria->add(new Criteria('itemid', '(' . $selected_stories . ')', 'IN'));
     }
 
-    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(_PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'itemid');
+    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);
 
     if ($scount == 0) {
         return false;
     }
-    $k = 0;
+    $k       = 0;
     $columns = array();
 
     foreach ($itemsObj as $itemid => $itemObj) {
-        $item = array();
+        $item            = array();
         $item['itemurl'] = $itemObj->getItemUrl();
-        $item['title'] = $itemObj->getItemLink();
-        $item['alt'] = strip_tags($itemObj->getItemLink());
-        $mainImage = $itemObj->getMainImage();
+        $item['title']   = $itemObj->getItemLink();
+        $item['alt']     = strip_tags($itemObj->getItemLink());
+        $mainImage       = $itemObj->getMainImage();
         // check to see if GD function exist
         if (!function_exists('imagecreatetruecolor')) {
             $item['item_image'] = $mainImage['image_path'];
@@ -103,33 +106,32 @@ function publisher_latest_news_show($options)
 
         if ($options[15] == 'LEFT') {
             $imgposition = "float: left";
-            $ls_margin = '-right';
+            $ls_margin   = '-right';
         }
 
         if ($options[15] == 'CENTER') {
             $imgposition = "text-align:center";
-            $ls_margin = '';
+            $ls_margin   = '';
         }
 
         if ($options[15] == 'RIGHT') {
             $imgposition = "float: right";
-            $ls_margin = '-left';
+            $ls_margin   = '-left';
         }
-
 
         //Image
         if ($options[10] == 1 && $item['image_path'] != '') {
             $startdiv = '<div style="' . $imgposition . '"><a href="' . $item['itemurl'] . '">';
-            $style = 'style="margin' . $ls_margin . ': 10px; padding: 2px; border: ' . $border . 'px solid #' . $bordercolor . '"';
-            $enddiv = 'width="' . $imgwidth . '" ' . $ls_height . '/></a></div>';
-            $image = $startdiv . '<img ' . $style . ' src="' . $item['item_image'] . '" alt="' . $item['image_name'] . '" ' . $enddiv;
+            $style    = 'style="margin' . $ls_margin . ': 10px; padding: 2px; border: ' . $border . 'px solid #' . $bordercolor . '"';
+            $enddiv   = 'width="' . $imgwidth . '" ' . $ls_height . '/></a></div>';
+            $image    = $startdiv . '<img ' . $style . ' src="' . $item['item_image'] . '" alt="' . $item['image_name'] . '" ' . $enddiv;
 
             $item['image'] = $image;
         }
 
-        if (is_object($xoopsUser) && $xoopsUser->isAdmin(-1)) {
-            $item['admin'] = "<a href='" . PUBLISHER_URL . "/submit.php?itemid=" . $itemObj->itemid() . "'><img src='" . PUBLISHER_URL . "/images/links/edit.gif'" . " title='" . _CO_PUBLISHER_EDIT . "' alt='" . _CO_PUBLISHER_EDIT . "' /></a>&nbsp;";
-            $item['admin'] .= "<a href='" . PUBLISHER_URL . "/admin/item.php?op=del&amp;itemid=" . $itemObj->itemid() . "'><img src='" . PUBLISHER_URL . "/images/links/delete.png'" . " title='" . _CO_PUBLISHER_DELETE . "' alt='" . _CO_PUBLISHER_DELETE . "' /></a>";
+        if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->isAdmin(-1)) {
+            $item['admin'] = "<a href='" . PUBLISHER_URL . "/submit.php?itemid=" . $itemObj->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . _CO_PUBLISHER_EDIT . "' alt='" . _CO_PUBLISHER_EDIT . "' /></a>&nbsp;";
+            $item['admin'] .= "<a href='" . PUBLISHER_URL . "/admin/item.php?op=del&amp;itemid=" . $itemObj->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . _CO_PUBLISHER_DELETE . "' alt='" . _CO_PUBLISHER_DELETE . "' /></a>";
         } else {
             $item['admin'] = '';
         }
@@ -147,7 +149,7 @@ function publisher_latest_news_show($options)
 
         //TODO: Should we not show link to Anonymous?
         $block['submitlink'] = '';
-        if ($options[18] == 1 && !empty($xoopsUser)) {
+        if ($options[18] == 1 && ($GLOBALS['xoopsUser'])) {
             $block['submitlink'] = '| <a href="' . PUBLISHER_URL . '/submit.php">' . _MB_PUBLISHER_SUBMITNEWS . '</a> ';
         }
 
@@ -193,21 +195,23 @@ function publisher_latest_news_show($options)
 
         $item['print'] = '';
         if ($options[24] == 1) {
-            $item['print'] = '<a href="' . publisher_seo_genUrl("print", $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow"><img src="' . PUBLISHER_URL . '/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '" /></a>&nbsp;';
+            $item['print'] = '<a href="' . PublisherSeo::generateUrl("print", $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '" /></a>&nbsp;';
         }
 
         $item['pdf'] = '';
-        if ($options[25] == 1) {
-            $item['pdf'] = "<a href='" . PUBLISHER_URL . "/makepdf.php?itemid=" . $itemObj->itemid() . "' rel='nofollow'><img src='" . PUBLISHER_URL . "/images/links/pdf.gif' title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "' /></a>&nbsp;";
+        if ($publisher->getConfig('display_pdf')) {
+            if ($options[25] == 1) {
+                $item['pdf'] = "<a href='" . PUBLISHER_URL . "/makepdf.php?itemid=" . $itemObj->itemid() . "' rel='nofollow'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif' title='"
+                               . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "' /></a>&nbsp;";
+            }
         }
-
         $item['email'] = '';
         if ($options[26] == 1 && xoops_isActiveModule('tellafriend')) {
-            $subject = sprintf(_CO_PUBLISHER_INTITEMFOUND, $xoopsConfig['sitename']);
-            $subject = $itemObj->_convert_for_japanese($subject);
-            $maillink = publisher_tellafriend($subject);
+            $subject  = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
+            $subject  = $itemObj->convertForJapanese($subject);
+            $maillink = publisherTellAFriend($subject);
 
-            $item['email'] = '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '" /></a>&nbsp;';
+            $item['email'] = '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '" /></a>&nbsp;';
         }
 
         $block['morelink'] = '';
@@ -221,18 +225,18 @@ function publisher_latest_news_show($options)
         }
 
         $block['scrollheight'] = $options[6];
-        $block['scrollspeed'] = $options[7];
-        $block['scrolldir'] = $options[8];
+        $block['scrollspeed']  = $options[7];
+        $block['scrolldir']    = $options[8];
 
         $block['template'] = $options[28];
 
-        $block['imgwidth'] = $options[11];
+        $block['imgwidth']  = $options[11];
         $block['imgheight'] = $options[12];
 
         $block['letters'] = $letters;
 
         $columns[$k][] = $item;
-        $k++;
+        ++$k;
 
         if ($k == $column_count) {
             $k = 0;
@@ -245,11 +249,16 @@ function publisher_latest_news_show($options)
     return $block;
 }
 
+/**
+ * @param $options
+ *
+ * @return string
+ */
 function publisher_latest_news_edit($options)
 {
-    $tabletag1 = '<tr><td style="padding:3px" width="37%">';
-    $tabletag2 = '</td><td style="padding:3px">';
-    $tabletag3 = '<tr><td style="padding-top:20px;border-bottom:1px solid #000" colspan="2">';
+    $tabletag1 = '<tr><td style="padding:3px;" width="37%">';
+    $tabletag2 = '</td><td style="padding:3px;">';
+    $tabletag3 = '<tr><td style="padding-top:20px;border-bottom:1px solid #000;" colspan="2">';
     $tabletag4 = '</td></tr>';
 
     $form = "<table border='0' cellpadding='0' cellspacing='0'>";
@@ -365,7 +374,6 @@ function publisher_latest_news_edit($options)
     $form .= $tabletag1 . _MB_PUBLISHER_DISPLAY_MORELINK . $tabletag2;
     $form .= publisher_mk_chkbox($options, 27);
 
-
     $form .= $tabletag3 . _MB_PUBLISHER_TEMPLATESCONFIG . $tabletag4; // Templates Options
     $form .= $tabletag1 . _MB_PUBLISHER_TEMPLATE . $tabletag2;
     $form .= "<select size='1' name='options[28]'>";
@@ -383,13 +391,20 @@ function publisher_latest_news_edit($options)
     //Select Which Categories To Show
     $form .= $tabletag3 . _MB_PUBLISHER_TOPICSCONFIG . $tabletag4; // Topics Options
     $form .= $tabletag1 . _MB_PUBLISHER_TOPICSDISPLAY . $tabletag2;
-    $form .= publisher_createCategorySelect($options[29], 0, true, 'options[29]');
+    $form .= publisherCreateCategorySelect($options[29], 0, true, 'options[29]');
     $form .= '</td></tr>';
 
     $form .= "</table>";
+
     return $form;
 }
 
+/**
+ * @param $options
+ * @param $number
+ *
+ * @return string
+ */
 function publisher_mk_chkbox($options, $number)
 {
     $chk = "";
@@ -397,14 +412,21 @@ function publisher_mk_chkbox($options, $number)
         $chk = " checked='checked'";
     }
     $chkbox = "<input type='radio' name='options[{$number}]' value='1'" . $chk . " />&nbsp;" . _YES . "&nbsp;&nbsp;";
-    $chk = "";
+    $chk    = "";
     if ($options[$number] == 0) {
         $chk = " checked='checked'";
     }
     $chkbox .= "<input type='radio' name='options[{$number}]' value='0'" . $chk . " />&nbsp;" . _NO . "</td></tr>";
+
     return $chkbox;
 }
 
+/**
+ * @param $options
+ * @param $number
+ *
+ * @return string
+ */
 function publisher_mk_select($options, $number)
 {
     $slc = "";
@@ -412,15 +434,16 @@ function publisher_mk_select($options, $number)
         $slc = " checked='checked'";
     }
     $select = "<input type='radio' name='options[{$number}]' value='2'" . $slc . " />&nbsp;" . _LEFT . "&nbsp;&nbsp;";
-    $slc = "";
+    $slc    = "";
     if ($options[$number] == 1) {
         $slc = " checked='checked'";
     }
     $select = "<input type='radio' name='options[{$number}]' value='1'" . $slc . " />&nbsp;" . _CENTER . "&nbsp;&nbsp;";
-    $slc = "";
+    $slc    = "";
     if ($options[$number] == 0) {
         $slc = " checked='checked'";
     }
     $select .= "<input type='radio' name='options[{$number}]' value='0'" . $slc . " />&nbsp;" . _RIGHT . "</td></tr>";
+
     return $select;
 }

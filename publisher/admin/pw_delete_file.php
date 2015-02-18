@@ -19,15 +19,17 @@
  * @version         $Id: pw_delete_file.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
-if (isset($_POST["op"]) && ($_POST["op"] == "delfileok")) {
-    $dir = publisher_getUploadDir(true, 'content');
-    @unlink($dir . '/' . $_POST["address"]);
-    redirect_header($_POST['backto'], 2, _AM_PUBLISHER_FDELETED);
+if ('delfileok' == XoopsRequest::getString('op', '', 'POST')) {
+    $dir      = publisherGetUploadDir(true, 'content');
+    $filename = XoopsRequest::getString('address', '', 'POST');
+    if (file_exists($dir . '/' . $filename)) {
+        unlink($dir . '/' . $filename);
+    }
+    redirect_header(XoopsRequest::getString('backto', '', 'POST'), 2, _AM_PUBLISHER_FDELETED);
 } else {
     xoops_cp_header();
-    xoops_confirm(array('backto' => $_POST['backto'], 'address' => $_POST["address"], 'op' => 'delfileok'), 'pw_delete_file.php', _AM_PUBLISHER_RUSUREDELF, _YES);
+    xoops_confirm(array('backto' => XoopsRequest::getString('backto', '', 'POST'), 'address' => XoopsRequest::getString('address', '', 'POST'), 'op' => 'delfileok'), 'pw_delete_file.php', _AM_PUBLISHER_RUSUREDELF, _YES);
     xoops_cp_footer();
 }
-?>

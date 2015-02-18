@@ -18,45 +18,45 @@
  * @version         $Id: clone.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . "/admin_header.php";
+include_once __DIR__ . "/admin_header.php";
 
-publisher_cpHeader();
+publisherCpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_CLONE);
-publisher_openCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
+publisherOpenCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
 
-if (@$_POST['op'] == 'submit') {
-
+if ('submit' == XoopsRequest::getString('op', '', 'POST')) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header('clone.php', 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
-        exit();
+//        exit();
     }
 
-    $clone = $_POST['clone'];
+//    $clone = $_POST['clone'];
+    $clone = XoopsRequest::getString('clone', '', 'POST');
 
     //check if name is valid
     if (empty($clone) || preg_match('/[^a-zA-Z0-9\_\-]/', $clone)) {
         redirect_header('clone.php', 3, sprintf(_AM_PUBLISHER_CLONE_INVALIDNAME, $clone));
-        exit();
+//        exit();
     }
 
     // Check wether the cloned module exists or not
-    if ($clone && is_dir(XOOPS_ROOT_PATH . '/modules/' . $clone)) {
+    if ($clone && is_dir($GLOBALS['xoops']->path('modules/' . $clone))) {
         redirect_header('clone.php', 3, sprintf(_AM_PUBLISHER_CLONE_EXISTS, $clone));
     }
 
     $patterns = array(
-        strtolower(PUBLISHER_DIRNAME) => strtolower($clone),
-        strtoupper(PUBLISHER_DIRNAME) => strtoupper($clone),
+        strtolower(PUBLISHER_DIRNAME)          => strtolower($clone),
+        strtoupper(PUBLISHER_DIRNAME)          => strtoupper($clone),
         ucfirst(strtolower(PUBLISHER_DIRNAME)) => ucfirst(strtolower($clone))
     );
 
-    $patKeys = array_keys($patterns);
+    $patKeys   = array_keys($patterns);
     $patValues = array_values($patterns);
-    publisher_cloneFileFolder(PUBLISHER_ROOT_PATH);
-    $logocreated = publisher_createLogo(strtolower($clone));
+    PublisherClone::cloneFileFolder(PUBLISHER_ROOT_PATH);
+    $logocreated = PublisherClone::createLogo(strtolower($clone));
 
     $msg = "";
-    if (is_dir(XOOPS_ROOT_PATH . '/modules/' . strtolower($clone))) {
+    if (is_dir($GLOBALS['xoops']->path('modules/' . strtolower($clone)))) {
         $msg .= sprintf(_AM_PUBLISHER_CLONE_CONGRAT, "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin'>" . ucfirst(strtolower($clone)) . "</a>") . "<br />\n";
         if (!$logocreated) {
             $msg .= _AM_PUBLISHER_CLONE_IMAGEFAIL;
@@ -67,8 +67,8 @@ if (@$_POST['op'] == 'submit') {
     echo $msg;
 
 } else {
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $form = new XoopsThemeForm(sprintf(_AM_PUBLISHER_CLONE_TITLE, $publisher->getModule()->getVar('name', 'E')), 'clone', 'clone.php', 'post', true);
+    include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
+    $form  = new XoopsThemeForm(sprintf(_AM_PUBLISHER_CLONE_TITLE, $publisher->getModule()->getVar('name', 'E')), 'clone', 'clone.php', 'post', true);
     $clone = new XoopsFormText(_AM_PUBLISHER_CLONE_NAME, 'clone', 20, 20, '');
     $clone->setDescription(_AM_PUBLISHER_CLONE_NAME_DSC);
     $form->addElement($clone, true);
@@ -78,90 +78,106 @@ if (@$_POST['op'] == 'submit') {
 }
 
 // End of collapsable bar
-publisher_closeCollapsableBar('clone', 'cloneicon');
+publisherCloseCollapsableBar('clone', 'cloneicon');
 xoops_cp_footer();
 
 // work around for PHP < 5.0.x
+/*
 if (!function_exists('file_put_contents')) {
     function file_put_contents($filename, $data, $file_append = false)
     {
-        if ($fp = fopen($filename, (!$file_append ? 'w+' : 'a+'))) {
+        if ($fp == fopen($filename, (!$file_append ? 'w+' : 'a+'))) {
             fputs($fp, $data);
             fclose($fp);
         }
     }
 }
+*/
+
+/**
+ * Class PublisherClone
+ */
+class PublisherClone
+{
 
 // recursive clonning script
-function publisher_cloneFileFolder($path)
-{
+    /**
+     * @param $path
+     */
+    public static function cloneFileFolder($path)
+    {
     global $patKeys;
     global $patValues;
 
-    $newPath = str_replace($patKeys[0], $patValues[0], $path);
+        $newPath = str_replace($patKeys[0], $patValues[0], $path);
 
-    if (is_dir($path)) {
-        // create new dir
-        mkdir($newPath);
+        if (is_dir($path)) {
+            // create new dir
+            mkdir($newPath);
 
-        // check all files in dir, and process it
-        if ($handle = opendir($path)) {
-            while ($file = readdir($handle)) {
-                if ($file != '.' && $file != '..' && $file != '.svn') {
-                    publisher_cloneFileFolder("{$path}/{$file}");
+            // check all files in dir, and process it
+            if ($handle == opendir($path)) {
+                while (($file = readdir($handle)) !== false) {
+                    if ($file != '.' && $file != '..' && $file != '.svn') {
+                        self::cloneFileFolder("{$path}/{$file}");
+                    }
+                }
+                closedir($handle);
+            }
+        } else {
+            if (preg_match('/(.jpg|.gif|.png|.zip)$/i', $path)) {
+                // image
+                copy($path, $newPath);
+            } else {
+                // file, read it
+                $content = file_get_contents($path);
+                $content = str_replace($patKeys, $patValues, $content);
+                file_put_contents($newPath, $content);
+            }
+        }
+    }
+
+    /**
+     * @param $dirname
+     *
+     * @return bool
+     */
+    public static function createLogo($dirname)
+    {
+        if (!extension_loaded("gd")) {
+            return false;
+        } else {
+            $required_functions = array("imagecreatetruecolor", "imagecolorallocate", "imagefilledrectangle", "imagejpeg", "imagedestroy", "imageftbbox");
+            foreach ($required_functions as $func) {
+                if (!function_exists($func)) {
+                    return false;
                 }
             }
-            closedir($handle);
+            unset($func);
         }
-    } else {
 
-        if (preg_match('/(.jpg|.gif|.png|.zip)$/i', $path)) {
-            // image
-            copy($path, $newPath);
-        } else {
-            // file, read it
-            $content = file_get_contents($path);
-            $content = str_replace($patKeys, $patValues, $content);
-            file_put_contents($newPath, $content);
+        if (!file_exists($imageBase = $GLOBALS['xoops']->path("/modules/" . $dirname . "/assets/images/module_logo.png")) || !file_exists($font = $GLOBALS['xoops']->path("/modules/" . $dirname . "/assets/images/VeraBd.ttf"))) {
+            return false;
         }
+
+        $imageModule = imagecreatefrompng($imageBase);
+
+        //Erase old text
+        $grey_color = imagecolorallocate($imageModule, 237, 237, 237);
+        imagefilledrectangle($imageModule, 5, 35, 85, 46, $grey_color);
+
+        // Write text
+        $text_color      = imagecolorallocate($imageModule, 0, 0, 0);
+        $space_to_border = (80 - strlen($dirname) * 6.5) / 2;
+        imagefttext($imageModule, 8.5, 0, $space_to_border, 45, $text_color, $font, ucfirst($dirname), array());
+
+        // Set transparency color
+        $white = imagecolorallocatealpha($imageModule, 255, 255, 255, 127);
+        imagefill($imageModule, 0, 0, $white);
+        imagecolortransparent($imageModule, $white);
+        imagepng($imageModule, $GLOBALS['xoops']->path("/modules/" . $dirname . "/assets/images/module_logo.png"));
+        imagedestroy($imageModule);
+
+        return true;
     }
 }
-
-function publisher_createLogo($dirname)
-{
-    if (!extension_loaded("gd")) {
-        return false;
-    } else {
-        $required_functions = array("imagecreatetruecolor", "imagecolorallocate", "imagefilledrectangle", "imagejpeg", "imagedestroy", "imageftbbox");
-        foreach ($required_functions as $func) {
-            if (!function_exists($func)) {
-                return false;
-            }
-        }
-    }
-
-    if (!file_exists($imageBase = XOOPS_ROOT_PATH . "/modules/" . $dirname . "/images/module_logo.png") || !file_exists($font = XOOPS_ROOT_PATH . "/modules/" . $dirname . "/images/VeraBd.ttf")) {
-        return false;
-    }
-
-    $imageModule = imagecreatefrompng($imageBase);
-
-    //Erase old text
-    $grey_color = imagecolorallocate($imageModule, 237, 237, 237);
-    imagefilledrectangle($imageModule, 5, 35, 85, 46, $grey_color);
-
-    // Write text
-    $text_color = imagecolorallocate($imageModule, 0, 0, 0);
-    $space_to_border = (80 - strlen($dirname) * 6.5) / 2;
-    imagefttext($imageModule, 8.5, 0, $space_to_border, 45, $text_color, $font, ucfirst($dirname), array());
-
-    // Set transparency color
-    $white = imagecolorallocatealpha($imageModule, 255, 255, 255, 127);
-    imagefill($imageModule, 0, 0, $white);
-    imagecolortransparent($imageModule, $white);
-    imagepng($imageModule, XOOPS_ROOT_PATH . "/modules/" . $dirname . "/images/module_logo.png");
-    imagedestroy($imageModule);
-    return true;
-}
-
-?>

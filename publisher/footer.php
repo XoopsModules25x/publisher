@@ -20,13 +20,13 @@
  * @version         $Id: footer.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-$xoTheme->addStylesheet(PUBLISHER_URL . '/css/publisher.css');
-//$xoTheme->addStylesheet(PUBLISHER_URL . '/css/jquery.popeye.style.css');
+$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
+//$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
 //$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-//$xoTheme->addScript(PUBLISHER_URL . '/js/jquery.popeye-2.0.4.js');
-//$xoTheme->addScript(PUBLISHER_URL . '/js/publisher.js');
+//$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.0.4.js');
+//$xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
 
 $xoopsTpl->assign("xoops_module_header", '<link rel="alternate" type="application/rss+xml" title="'
                                          . $publisher->getModule()->name() . '" href="' . PUBLISHER_URL . '/backend.php" />'
@@ -44,7 +44,8 @@ $xoopsTpl->assign('display_category_summary', $publisher->getConfig('cat_display
 
 $xoopsTpl->assign('displayList', $publisher->getConfig('idxcat_items_display_type') == 'list');
 $xoopsTpl->assign('displayFull', $publisher->getConfig('idxcat_items_display_type') == 'full');
-$xoopsTpl->assign('modulename', $publisher->getModule()->dirname());
+$xoopsTpl->assign('module_dirname', $publisher->getModule()->dirname());
+
 $xoopsTpl->assign('displaylastitem', $publisher->getConfig('idxcat_display_last_item'));
 $xoopsTpl->assign('displaysubcatdsc', $publisher->getConfig('idxcat_display_subcat_dsc'));
 $xoopsTpl->assign('publisher_display_breadcrumb', $publisher->getConfig('display_breadcrumb'));

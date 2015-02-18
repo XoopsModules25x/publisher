@@ -20,25 +20,26 @@
  * @version         $Id: seo.inc.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-if (!defined("XOOPS_ROOT_PATH")) {
-    die("XOOPS root path not defined");
-}
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-$seoOp = @$_GET['seoOp'];
-$seoArg = @$_GET['seoArg'];
+//$seoOp = @$_GET['seoOp'];
+$seoOp = XoopsRequest::getString('seoOp', '', 'GET');
 
-if (empty($seoOp) && @$_SERVER['PATH_INFO']) {
+//$seoArg = @$_GET['seoArg'];
+$seoArg = XoopsRequest::getString('seoArg', '', 'GET');
 
+
+if (empty($seoOp) && XoopsRequest::getString('PATH_INFO', '', 'SERVER')) {
     // SEO mode is path-info
     /*
     Sample URL for path-info
     http://localhost/modules/publisher/seo.php/item.2/can-i-turn-the-ads-off.html
     */
-    $data = explode("/", $_SERVER['PATH_INFO']);
+    $data = explode("/", XoopsRequest::getString('PATH_INFO', '', 'SERVER'));
 
     $seoParts = explode('.', $data[1]);
-    $seoOp = $seoParts[0];
-    $seoArg = $seoParts[1];
+    $seoOp    = $seoParts[0];
+    $seoArg   = $seoParts[1];
     // for multi-argument modules, where itemid and catid both are required.
     // $seoArg = substr($data[1], strlen($seoOp) + 1);
 
@@ -46,35 +47,33 @@ if (empty($seoOp) && @$_SERVER['PATH_INFO']) {
 
 $seoMap = array(
     'category' => 'category.php',
-    'item' => 'item.php',
-    'print' => 'print.php'
+    'item'     => 'item.php',
+    'print'    => 'print.php'
 );
 
 if (!empty($seoOp) && isset($seoMap[$seoOp])) {
     // module specific dispatching logic, other module must implement as
     // per their requirements.
 
-    $url_arr = explode('/modules/', $_SERVER['PHP_SELF']);
-    $newUrl = $url_arr[0] . '/modules/' . PUBLISHER_DIRNAME . '/' . $seoMap[$seoOp];
+    $url_arr = explode('/modules/', XoopsRequest::getString('PHP_SELF', '', 'SERVER'));
+    $newUrl  = $url_arr[0] . '/modules/' . PUBLISHER_DIRNAME . '/' . $seoMap[$seoOp];
 
-    $_ENV['PHP_SELF'] = $newUrl;
+    $_ENV['PHP_SELF']       = $newUrl;
     $_SERVER['SCRIPT_NAME'] = $newUrl;
-    $_SERVER['PHP_SELF'] = $newUrl;
+    $_SERVER['PHP_SELF']    = $newUrl;
     switch ($seoOp) {
         case 'category':
             $_SERVER['REQUEST_URI'] = $newUrl . '?categoryid=' . $seoArg;
-            $_GET['categoryid'] = $seoArg;
+            $_GET['categoryid']     = $seoArg;
             $_REQUEST['categoryid'] = $seoArg;
             break;
         case 'item':
         case 'print':
         default:
             $_SERVER['REQUEST_URI'] = $newUrl . '?itemid=' . $seoArg;
-            $_GET['itemid'] = $seoArg;
-            $_REQUEST['itemid'] = $seoArg;
+            $_GET['itemid']         = $seoArg;
+            $_REQUEST['itemid']     = $seoArg;
     }
     include PUBLISHER_ROOT_PATH . '/' . $seoMap[$seoOp];
     exit;
 }
-
-?>

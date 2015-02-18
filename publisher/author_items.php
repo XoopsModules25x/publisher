@@ -19,36 +19,36 @@
  * @version         $Id: author_items.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
-$uid = PublisherRequest::getInt('uid');
+$uid = XoopsRequest::getInt('uid', 0, 'GET');
 if (empty($uid)) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
-    exit();
+//   exit();
 }
 
 $member_handler = xoops_gethandler('member');
-$thisuser = $member_handler->getUser($uid);
+$thisuser       = $member_handler->getUser($uid);
 if (!is_object($thisuser)) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
-    exit();
+//    exit();
 }
 
 if (!$publisher->getConfig('perm_author_items')) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
-    exit();
+//mb    exit();
 }
 
 $myts = MyTextSanitizer::getInstance();
 
-$xoopsOption['template_main'] = 'publisher_author_items.html';
-include_once XOOPS_ROOT_PATH . '/header.php';
+$xoopsOption['template_main'] = 'publisher_author_items.tpl';
+include_once $GLOBALS['xoops']->path('header.php');
 include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
 $criteria = new CriteriaCompo(new Criteria('datesub', time(), '<='));
 $criteria->add(new Criteria('uid', $uid));
 
-$items = $publisher->getHandler('item')->getItems($limit = 0, $start = 0, array(_PUBLISHER_STATUS_PUBLISHED), -1, 'datesub', 'DESC', '', true, $criteria);
+$items = $publisher->getHandler('item')->getItems($limit = 0, $start = 0, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, 'datesub', 'DESC', '', true, $criteria);
 unset($criteria);
 $count = count($items);
 
@@ -68,23 +68,23 @@ if ($count > 0) {
         if (!isset($categories[$catid])) {
             $categories[$catid] = array(
                 'count_items' => 0,
-                'count_hits' => 0,
-                'title' => $item->getCategoryName(),
-                'link' => $item->getCategoryLink()
+                'count_hits'  => 0,
+                'title'       => $item->getCategoryName(),
+                'link'        => $item->getCategoryLink()
             );
         }
 
         $categories[$catid]['count_items']++;
         $categories[$catid]['count_hits'] += $item->counter();
         $categories[$catid]['items'][] = array(
-            'title' => $item->title(),
-            'hits' => $item->counter(),
-            'link' => $item->getItemLink(),
+            'title'     => $item->title(),
+            'hits'      => $item->counter(),
+            'link'      => $item->getItemLink(),
             'published' => $item->datesub(),
-            'rating' => $item->rating());
+            'rating'    => $item->rating());
     }
 }
-
+unset($item);
 $xoopsTpl->assign('categories', $categories);
 
 $title = _MD_PUBLISHER_ITEMS_SAME_AUTHOR . ' - ' . $author_name;
@@ -95,5 +95,4 @@ $title = _MD_PUBLISHER_ITEMS_SAME_AUTHOR . ' - ' . $author_name;
 $publisher_metagen = new PublisherMetagen($title, '', $title);
 $publisher_metagen->createMetaTags();
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
-?>
+include_once $GLOBALS['xoops']->path('footer.php');

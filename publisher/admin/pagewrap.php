@@ -19,17 +19,17 @@
  * @version         $Id: pagewrap.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
-publisher_cpHeader();
+publisherCpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_ITEMS . " > " . _AM_PUBLISHER_PAGEWRAP);
 
-publisher_openCollapsableBar('pagewraptable', 'pagewrapicon', _AM_PUBLISHER_PAGEWRAP, _AM_PUBLISHER_PAGEWRAPDSC);
+publisherOpenCollapsableBar('pagewraptable', 'pagewrapicon', _AM_PUBLISHER_PAGEWRAP, _AM_PUBLISHER_PAGEWRAPDSC);
 
-$dir = publisher_getUploadDir(true, 'content');
+$dir = publisherGetUploadDir(true, 'content');
 
 if (!preg_match('/777/i', decoct(fileperms($dir)))) {
-    echo "<font color='FF0000'><h4>" . _AM_PUBLISHER_PERMERROR . "</h4></font>";
+    echo "<span style='color:#ff0000;'><h4>" . _AM_PUBLISHER_PERMERROR . "</h4></span>";
 }
 
 // Upload File
@@ -44,9 +44,9 @@ echo "</form>";
 // Delete File
 $form = new XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, "form_name", "pw_delete_file.php");
 
-$pWrap_select = new XoopsFormSelect(publisher_getUploadDir(true, 'content'), "address");
-$folder = dir($dir);
-while ($file = $folder->read()) {
+$pWrap_select = new XoopsFormSelect(publisherGetUploadDir(true, 'content'), "address");
+$folder       = dir($dir);
+while ($file == $folder->read()) {
     if ($file != "." && $file != "..") {
         $pWrap_select->addOption($file, $file);
     }
@@ -60,7 +60,5 @@ $submit = new XoopsFormButton("", "submit", _AM_PUBLISHER_BUTTON_DELETE, "submit
 $form->addElement($submit);
 $form->display();
 
-publisher_closeCollapsableBar('pagewraptable', 'pagewrapicon');
+publisherCloseCollapsableBar('pagewraptable', 'pagewrapicon');
 xoops_cp_footer();
-
-?>

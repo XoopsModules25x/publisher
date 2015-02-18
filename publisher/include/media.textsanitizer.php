@@ -22,25 +22,36 @@
 
 define("MYTEXTSANITIZER_EXTENDED_MEDIA", 1);
 
+/**
+ * Class MyTextSanitizerExtension
+ */
 class MyTextSanitizerExtension
 {
-    function MyTextSanitizerExtension()
+    public function MyTextSanitizerExtension()
     {
     }
 
-    function &getInstance()
+    /**
+     * @return MyTextSanitizerExtension
+     */
+    public static function &getInstance()
     {
         static $instance;
         if (!isset($instance)) {
             $instance = new MyTextSanitizerExtension();
         }
+
         return $instance;
     }
 
-    function wmp(&$patterns, &$replacements)
+    /**
+     * @param $patterns
+     * @param $replacements
+     */
+    public function wmp(&$patterns, &$replacements)
     {
         $patterns[] = "/\[wmp=(['\"]?)([^\"']*),([^\"']*)\\1]([^\"]*)\[\/wmp\]/sU";
-        $rp = "<object classid=\"clsid:6BF52A52-394A-11D3-B153-00C04F79FAA6\" id=\"WindowsMediaPlayer\" width=\"\\2\" height=\"\\3\">\n";
+        $rp         = "<object classid=\"clsid:6BF52A52-394A-11D3-B153-00C04F79FAA6\" id=\"WindowsMediaPlayer\" width=\"\\2\" height=\"\\3\">\n";
         $rp .= "<param name=\"URL\" value=\"\\4\">\n";
         $rp .= "<param name=\"AutoStart\" value=\"0\">\n";
         $rp .= "<embed autostart=\"0\" src=\"\\4\" type=\"video/x-ms-wmv\" width=\"\\2\" height=\"\\3\" controls=\"ImageWindow\" console=\"cons\"> </embed>";
@@ -48,7 +59,14 @@ class MyTextSanitizerExtension
         $replacements[] = $rp;
     }
 
-    function _displayFlash($url, $width = false, $height = false)
+    /**
+     * @param      $url
+     * @param bool $width
+     * @param bool $height
+     *
+     * @return string
+     */
+    public function _displayFlash($url, $width = false, $height = false)
     {
         if (!$width || !$height) {
             if (!$dimension = @getimagesize($url)) {
@@ -70,19 +88,28 @@ class MyTextSanitizerExtension
         $rp .= "<param name='wmode' value='transparent'>";
         $rp .= "<embed src='{$url}' width='{$width}' height='{$height}' quality='high' bgcolor='#FFFFFF' wmode='transparent'  pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash'></embed>";
         $rp .= "</object>";
+
         return $rp;
     }
 
-    function flash(&$patterns, &$replacements)
+    /**
+     * @param $patterns
+     * @param $replacements
+     */
+    public function flash(&$patterns, &$replacements)
     {
-        $patterns[] = "/\[(swf|flash)=(['\"]?)([^\"']*),([^\"']*)\\2]([^\"]*)\[\/\\1\]/esU";
+        $patterns[]     = "/\[(swf|flash)=(['\"]?)([^\"']*),([^\"']*)\\2]([^\"]*)\[\/\\1\]/esU";
         $replacements[] = "MyTextSanitizerExtension::_displayFlash( '\\5', '\\3', '\\4' )";
     }
 
-    function mms(&$patterns, &$replacements)
+    /**
+     * @param $patterns
+     * @param $replacements
+     */
+    public function mms(&$patterns, &$replacements)
     {
         $patterns[] = "/\[mms=(['\"]?)([^\"']*),([^\"']*)\\1]([^\"]*)\[\/mms\]/sU";
-        $rp = "<OBJECT id=videowindow1 height='\\3' width='\\2' classid='CLSID:6BF52A52-394A-11D3-B153-00C04F79FAA6'>";
+        $rp         = "<OBJECT id=videowindow1 height='\\3' width='\\2' classid='CLSID:6BF52A52-394A-11D3-B153-00C04F79FAA6'>";
         $rp .= "<PARAM NAME=\"URL\" VALUE=\"\\4\">";
         $rp .= "<PARAM NAME=\"rate\" VALUE=\"1\">";
         $rp .= "<PARAM NAME=\"balance\" VALUE=\"0\">";
@@ -112,10 +139,14 @@ class MyTextSanitizerExtension
         $replacements[] = $rp;
     }
 
-    function rtsp(&$patterns, &$replacements)
+    /**
+     * @param $patterns
+     * @param $replacements
+     */
+    public function rtsp(&$patterns, &$replacements)
     {
         $patterns[] = "/\[rtsp=(['\"]?)([^\"']*),([^\"']*)\\1]([^\"]*)\[\/rtsp\]/sU";
-        $rp = "<object classid=\"clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA\" HEIGHT='\\3' ID=Player WIDTH='\\2' VIEWASTEXT>";
+        $rp         = "<object classid=\"clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA\" HEIGHT='\\3' ID=Player WIDTH='\\2' VIEWASTEXT>";
         $rp .= "<param NAME=\"_ExtentX\" VALUE=\"12726\">";
         $rp .= "<param NAME=\"_ExtentY\" VALUE=\"8520\">";
         $rp .= "<param NAME=\"AUTOSTART\" VALUE=\"0\">";
@@ -153,5 +184,3 @@ class MyTextSanitizerExtension
         $replacements[] = $rp;
     }
 }
-
-?>

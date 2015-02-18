@@ -19,102 +19,141 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: publisher.php 10374 2012-12-12 23:39:48Z trabis $
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
 class PublisherPublisher
 {
-    var $dirname;
-    var $module;
-    var $handler;
-    var $config;
-    var $debug;
-    var $debugArray = array();
+    public $dirname;
+    public $module;
+    public $handler;
+    public $config;
+    public $debug;
+    public $debugArray = array();
 
+    /**
+     * @param $debug
+     */
     protected function __construct($debug)
     {
-        $this->debug = $debug;
-        $this->dirname =  basename(dirname(dirname(__FILE__)));
+        $this->debug   = $debug;
+        $this->dirname = basename(dirname(__DIR__));
     }
 
-    static function &getInstance($debug = false)
+    /**
+     * @param bool $debug
+     *
+     * @return PublisherPublisher
+     */
+    public static function &getInstance($debug = false)
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self($debug);
         }
+
         return $instance;
     }
 
-    function &getModule()
+    /**
+     * @return null
+     */
+    public function &getModule()
     {
-        if ($this->module == null) {
+        if ($this->module === null) {
             $this->initModule();
         }
+
         return $this->module;
     }
 
-    function getConfig($name = null)
+    /**
+     * @param null|string $name
+     *
+     * @return null
+     */
+    public function getConfig($name = null)
     {
-        if ($this->config == null) {
+        if ($this->config === null) {
             $this->initConfig();
         }
         if (!$name) {
             $this->addLog("Getting all config");
+
             return $this->config;
         }
         if (!isset($this->config[$name])) {
             $this->addLog("ERROR :: CONFIG '{$name}' does not exist");
+
             return null;
         }
         $this->addLog("Getting config '{$name}' : " . $this->config[$name]);
+
         return $this->config[$name];
     }
 
-    function setConfig($name = null, $value = null)
+    /**
+     * @param null $name
+     * @param null $value
+     *
+     * @return mixed
+     */
+    public function setConfig($name = null, $value = null)
     {
-        if ($this->config == null) {
+        if ($this->config === null) {
             $this->initConfig();
         }
         $this->config[$name] = $value;
         $this->addLog("Setting config '{$name}' : " . $this->config[$name]);
+
         return $this->config[$name];
     }
 
-    function &getHandler($name)
+    /**
+     * @param $name
+     *
+     * @return mixed
+     */
+    public function &getHandler($name)
     {
         if (!isset($this->handler[$name . '_handler'])) {
             $this->initHandler($name);
         }
         $this->addLog("Getting handler '{$name}'");
+
         return $this->handler[$name . '_handler'];
     }
 
-    function initModule()
+    public function initModule()
     {
-        global $xoopsModule;
-        if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') == $this->dirname) {
-            $this->module = $xoopsModule;
+        if (isset($GLOBALS['xoopsModule']) && is_object($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirname') == $this->dirname) {
+            $this->module = $GLOBALS['xoopsModule'];
         } else {
-            $hModule = xoops_gethandler('module');
+            $hModule      = xoops_gethandler('module');
             $this->module = $hModule->getByDirname($this->dirname);
         }
         $this->addLog('INIT MODULE');
     }
 
-    function initConfig()
+    public function initConfig()
     {
         $this->addLog('INIT CONFIG');
-        $hModConfig = xoops_gethandler('config');
+        $hModConfig   = xoops_gethandler('config');
         $this->config = $hModConfig->getConfigsByCat(0, $this->getModule()->getVar('mid'));
     }
 
-    function initHandler($name)
+    /**
+     * @param $name
+     */
+    public function initHandler($name)
     {
         $this->addLog('INIT ' . $name . ' HANDLER');
         $this->handler[$name . '_handler'] = xoops_getModuleHandler($name, $this->dirname);
     }
 
-    function addLog($log)
+    /**
+     * @param $log
+     */
+    public function addLog($log)
     {
         if ($this->debug) {
             if (is_object($GLOBALS['xoopsLogger'])) {

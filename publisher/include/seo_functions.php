@@ -19,76 +19,93 @@
  * @return string sort_url for the article
  */
 
-if (!defined("XOOPS_ROOT_PATH")) {
-    die("XOOPS root path not defined");
-}
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-include_once dirname(__FILE__) . '/common.php';
+include_once __DIR__ . '/common.php';
 
-function publisher_seo_title($title = '', $withExt = true)
+/**
+ * Class PublisherSeo
+ */
+class PublisherSeo
 {
 
     /**
-     * if XOOPS ML is present, let's sanitize the title with the current language
+     * @param string $title
+     * @param bool $withExt
+     *
+     * @return mixed|string
      */
-    $myts = MyTextSanitizer::getInstance();
-    if (method_exists($myts, 'formatForML')) {
-        $title = $myts->formatForML($title);
-    }
+    public static function getTitle($title = '', $withExt = true)
+    {
 
-    // Transformation de la chaine en minuscule
-    // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus
-    $title = rawurlencode(strtolower($title));
-
-    // Transformation des ponctuations
-    //                 Tab     Space      !        "        #        %        &        '        (        )        ,        /        :        ;        <        =        >        ?        @        [        \        ]        ^        {        |        }        ~       .
-    $pattern = array("/%09/", "/%20/", "/%21/", "/%22/", "/%23/", "/%25/", "/%26/", "/%27/", "/%28/", "/%29/", "/%2C/", "/%2F/", "/%3A/", "/%3B/", "/%3C/", "/%3D/", "/%3E/", "/%3F/", "/%40/", "/%5B/", "/%5C/", "/%5D/", "/%5E/", "/%7B/", "/%7C/", "/%7D/", "/%7E/", "/\./");
-    $rep_pat = array("-", "-", "", "", "", "-100", "", "-", "", "", "", "-", "", "", "", "-", "", "", "-at-", "", "-", "", "-", "", "-", "", "-", "");
-    $title = preg_replace($pattern, $rep_pat, $title);
-
-    // Transformation des caractères accentués
-    //                  è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
-    $pattern = array("/%B0/", "/%E8/", "/%E9/", "/%EA/", "/%EB/", "/%E7/", "/%E0/", "/%E2/", "/%E4/", "/%EE/", "/%EF/", "/%F9/", "/%FC/", "/%FB/", "/%F4/", "/%F6/");
-    $rep_pat = array("-", "e", "e", "e", "e", "c", "a", "a", "a", "i", "i", "u", "u", "u", "o", "o");
-    $title = preg_replace($pattern, $rep_pat, $title);
-
-    if (sizeof($title) > 0) {
-        if ($withExt) {
-            $title .= '.html';
+        /**
+         * if XOOPS ML is present, let's sanitize the title with the current language
+         */
+        $myts = MyTextSanitizer::getInstance();
+        if (method_exists($myts, 'formatForML')) {
+            $title = $myts->formatForML($title);
         }
-        return $title;
+
+        // Transformation de la chaine en minuscule
+        // Codage de la chaine afin d'Ã©viter les erreurs 500 en cas de caractÃ¨res imprÃ©vus
+        $title = rawurlencode(strtolower($title));
+
+        // Transformation des ponctuations
+        //                 Tab     Space      !        "        #        %        &        '        (        )        ,        /        :        ;        <        =        >        ?        @        [        \        ]        ^        {        |        }        ~       .
+        $pattern = array("/%09/", "/%20/", "/%21/", "/%22/", "/%23/", "/%25/", "/%26/", "/%27/", "/%28/", "/%29/", "/%2C/", "/%2F/", "/%3A/", "/%3B/", "/%3C/", "/%3D/", "/%3E/", "/%3F/", "/%40/", "/%5B/", "/%5C/", "/%5D/", "/%5E/", "/%7B/", "/%7C/", "/%7D/", "/%7E/", "/\./");
+        $rep_pat = array("-", "-", "", "", "", "-100", "", "-", "", "", "", "-", "", "", "", "-", "", "", "-at-", "", "-", "", "-", "", "-", "", "-", "");
+        $title   = preg_replace($pattern, $rep_pat, $title);
+
+        // Transformation des caractÃ¨res accentuÃ©s
+        //                  Ã¨        Ã©        Ãª        Ã«        Ã§        Ã         Ã¢        Ã¤        Ã®        Ã¯        Ã¹        Ã¼        Ã»        Ã´        Ã¶
+        $pattern = array("/%B0/", "/%E8/", "/%E9/", "/%EA/", "/%EB/", "/%E7/", "/%E0/", "/%E2/", "/%E4/", "/%EE/", "/%EF/", "/%F9/", "/%FC/", "/%FB/", "/%F4/", "/%F6/");
+        $rep_pat = array("-", "e", "e", "e", "e", "c", "a", "a", "a", "i", "i", "u", "u", "u", "o", "o");
+        $title   = preg_replace($pattern, $rep_pat, $title);
+
+        if (sizeof($title) > 0) {
+            if ($withExt) {
+                $title .= '.html';
+            }
+
+            return $title;
+        }
+
+        return '';
     }
 
-    return '';
-}
+    /**
+     * @param        $op
+     * @param        $id
+     * @param string $short_url
+     *
+     * @return string
+     */
+    public static function generateUrl($op, $id, $short_url = "")
+    {
+        $publisher = PublisherPublisher::getInstance();
+        if ($publisher->getConfig('seo_url_rewrite') != 'none') {
+            if (!empty($short_url)) $short_url = $short_url . '.html';
 
-function publisher_seo_genUrl($op, $id, $short_url = "")
-{
-    $publisher = PublisherPublisher::getInstance();
-    if ($publisher->getConfig('seo_url_rewrite') != 'none') {
-        if (!empty($short_url)) $short_url = $short_url . '.html';
-
-        if ($publisher->getConfig('seo_url_rewrite') == 'htaccess') {
-            // generate SEO url using htaccess
-            return XOOPS_URL . '/' . $publisher->getConfig('seo_module_name') . ".${op}.${id}/${short_url}";
-        } else if ($publisher->getConfig('seo_url_rewrite') == 'path-info') {
-            // generate SEO url using path-info
-            return PUBLISHER_URL . "/index.php/${op}.${id}/${short_url}";
+            if ($publisher->getConfig('seo_url_rewrite') == 'htaccess') {
+                // generate SEO url using htaccess
+                return XOOPS_URL . '/' . $publisher->getConfig('seo_module_name') . ".${op}.${id}/${short_url}";
+            } elseif ($publisher->getConfig('seo_url_rewrite') == 'path-info') {
+                // generate SEO url using path-info
+                return PUBLISHER_URL . "/index.php/${op}.${id}/${short_url}";
+            } else {
+                die('Unknown SEO method.');
+            }
         } else {
-            die('Unknown SEO method.');
-        }
-    } else {
-        // generate classic url
-        switch ($op) {
-            case 'category':
-                return PUBLISHER_URL . "/${op}.php?categoryid=${id}";
-            case 'item':
-            case 'print':
-                return PUBLISHER_URL . "/${op}.php?itemid=${id}";
-            default:
-                die('Unknown SEO operation.');
+            // generate classic url
+            switch ($op) {
+                case 'category':
+                    return PUBLISHER_URL . "/${op}.php?categoryid=${id}";
+                case 'item':
+                case 'print':
+                    return PUBLISHER_URL . "/${op}.php?itemid=${id}";
+                default:
+                    die('Unknown SEO operation.');
+            }
         }
     }
 }
-
-?>

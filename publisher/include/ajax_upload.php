@@ -26,37 +26,36 @@
 //  ------------------------------------------------------------------------ //
 
 error_reporting(0);
-include dirname(dirname(dirname(dirname(__FILE__)))) . '/mainfile.php';
-include_once dirname(__FILE__) . '/common.php';
+include dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+include_once __DIR__ . '/common.php';
 
 $GLOBALS['xoopsLogger']->activated = false;
-xoops_loadLanguage('common', basename(dirname(dirname(__FILE__))));
+xoops_loadLanguage('common', basename(dirname(__DIR__)));
 
-if (!is_object($xoopsUser)) {
+if (!is_object($GLOBALS['xoopsUser'])) {
     $group = array(XOOPS_GROUP_ANONYMOUS);
 } else {
-    $group = $xoopsUser->getGroups();
+    $group = $GLOBALS['xoopsUser']->getGroups();
 }
 
-$filename = basename($_FILES['publisher_upload_file']['name']);
-$image_nicename = isset($_POST['image_nicename']) ? trim($_POST['image_nicename']) : '';
+$filename       = basename($_FILES['publisher_upload_file']['name']);
+$image_nicename = XoopsRequest::getString('image_nicename', '', 'POST');
 if ($image_nicename == '' || $image_nicename == _CO_PUBLISHER_IMAGE_NICENAME) {
     $image_nicename = $filename;
 }
 
-$imgcat_id = isset($_POST['imgcat_id']) ? intval($_POST['imgcat_id']) : 0;
+$imgcat_id = XoopsRequest::getInt('imgcat_id', 0, 'POST');
 
-include_once XOOPS_ROOT_PATH . '/class/uploader.php';
 $imgcat_handler = xoops_gethandler('imagecategory');
-$imgcat = $imgcat_handler->get($imgcat_id);
+$imgcat         = $imgcat_handler->get($imgcat_id);
 
 $error = false;
 if (!is_object($imgcat)) {
     $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
 } else {
     $imgcatperm_handler = xoops_gethandler('groupperm');
-    if (is_object($xoopsUser)) {
-        if (!$imgcatperm_handler->checkRight('imgcat_write', $imgcat_id, $xoopsUser->getGroups())) {
+    if (is_object($GLOBALS['xoopsUser'])) {
+        if (!$imgcatperm_handler->checkRight('imgcat_write', $imgcat_id, $GLOBALS['xoopsUser']->getGroups())) {
             $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
         }
     } else {
@@ -66,8 +65,9 @@ if (!is_object($imgcat)) {
     }
 }
 
-if ($error == false) {
-    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH, array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'), $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
+if ($error === false) {
+    xoops_load('XoopsMediaUploader');
+    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'), $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
     $uploader->setPrefix('img');
     if ($uploader->fetchMedia('publisher_upload_file')) {
         if (!$uploader->upload()) {
@@ -75,8 +75,8 @@ if ($error == false) {
 
         } else {
             $image_handler = xoops_gethandler('image');
-            $image = $image_handler->create();
-            $image->setVar('image_name', $uploader->getSavedFileName());
+            $image         = $image_handler->create();
+            $image->setVar('image_name', 'images/' . $uploader->getSavedFileName());
             $image->setVar('image_nicename', $image_nicename);
             $image->setVar('image_mimetype', $uploader->getMediaType());
             $image->setVar('image_created', time());
@@ -84,11 +84,13 @@ if ($error == false) {
             $image->setVar('image_weight', 0);
             $image->setVar('imgcat_id', $imgcat_id);
             if ($imgcat->getVar('imgcat_storetype') == 'db') {
-                $fp = @fopen($uploader->getSavedDestination(), 'rb');
+                $fp      = @fopen($uploader->getSavedDestination(), 'rb');
                 $fbinary = @fread($fp, filesize($uploader->getSavedDestination()));
                 @fclose($fp);
                 $image->setVar('image_body', $fbinary, true);
-                @unlink($uploader->getSavedDestination());
+                if (file_exists($uploader->getSavedDestination())) {
+                    unlink($uploader->getSavedDestination());
+                }
             }
             if (!$image_handler->insert($image)) {
                 $error = sprintf(_FAILSAVEIMG, $image->getVar('image_nicename'));
@@ -100,11 +102,9 @@ if ($error == false) {
 }
 
 if ($error) {
-    $arr = array('error', publisher_convertCharset($error));
+    $arr = array('error', publisherConvertCharset($error));
 } else {
-    $arr = array('success', $image->getVar("image_name"), publisher_convertCharset($image->getVar("image_nicename")));
+    $arr = array('success', $image->getVar("image_name"), publisherConvertCharset($image->getVar("image_nicename")));
 }
 
 echo json_encode($arr);
-
-?>

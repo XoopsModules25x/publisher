@@ -19,7 +19,5 @@
  * @version         $Id: notification_update.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(dirname(dirname(__FILE__))) . '/mainfile.php';
-include_once XOOPS_ROOT_PATH . '/include/notification_update.php';
-
-?>
+include_once dirname(dirname(__DIR__)) . '/mainfile.php';
+include_once $GLOBALS['xoops']->path('include/notification_update.php');

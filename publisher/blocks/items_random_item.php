@@ -20,22 +20,29 @@
  * @version         $Id: items_random_item.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * @param $options
+ *
+ * @return array
+ */
 function publisher_items_random_item_show($options)
 {
-    $block = array();
+    $block     = array();
     $publisher = PublisherPublisher::getInstance();
     // creating the ITEM object
-    $itemsObj = $publisher->getHandler('item')->getRandomItem('', array(_PUBLISHER_STATUS_PUBLISHED));
+    $itemsObj = $publisher->getHandler('item')->getRandomItem('', array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED));
 
-    if (!is_object($itemsObj)) return $block;
+    if (!is_object($itemsObj)) {
+        return $block;
+    }
 
-    $block['content'] = $itemsObj->getBlockSummary(300, true); //show complete summary  but truncate to 300 if only body available
-    $block['id'] = $itemsObj->itemid();
-    $block['url'] = $itemsObj->getItemUrl();
+    $block['content']       = $itemsObj->getBlockSummary(300, true); //show complete summary  but truncate to 300 if only body available
+    $block['id']            = $itemsObj->itemid();
+    $block['url']           = $itemsObj->getItemUrl();
     $block['lang_fullitem'] = _MB_PUBLISHER_FULLITEM;
 
     return $block;

@@ -20,11 +20,20 @@
  * @version      $Id: index.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
+include_once dirname(__DIR__) . '/class/utilities.php';
 
 xoops_cp_header();
 
 $indexAdmin = new ModuleAdmin();
+
+foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+    PublisherUtilities::prepareFolder($uploadFolders[$i]);
+    $indexAdmin->addConfigBoxLine($uploadFolders[$i], 'folder');
+//    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+}
+
+
 
 echo $indexAdmin->addNavigation('index.php');
 echo $indexAdmin->renderIndex();

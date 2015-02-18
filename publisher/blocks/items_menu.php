@@ -20,13 +20,17 @@
  * @version         $Id: items_menu.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * @param $options
+ *
+ * @return array
+ */
 function publisher_items_menu_show($options)
 {
-    global $xoopsModule;
     $block = array();
 
     $publisher = PublisherPublisher::getInstance();
@@ -34,10 +38,12 @@ function publisher_items_menu_show($options)
     // Getting all top cats
     $block_categoriesObj = $publisher->getHandler('category')->getCategories(0, 0, 0);
 
-    if (count($block_categoriesObj) == 0) return $block;
+    if (count($block_categoriesObj) == 0) {
+        return $block;
+    }
 
     // Are we in Publisher ?
-    $block['inModule'] = (isset($xoopsModule) && $xoopsModule->getVar('dirname') == $publisher->getModule()->getVar('dirname'));
+    $block['inModule'] = (isset($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirname') == $publisher->getModule()->getVar('dirname'));
 
     $catlink_class = 'menuMain';
 
@@ -45,13 +51,13 @@ function publisher_items_menu_show($options)
 
     if ($block['inModule']) {
         // Are we in a category and if yes, in which one ?
-        $categoryid = isset($_GET['categoryid']) ? $_GET['categoryid'] : 0;
+        $categoryid = XoopsRequest::getInt('categoryid', 0, 'GET');
 
         if ($categoryid != 0) {
             // if we are in a category, then the $categoryObj is already defined in publisher/category.php
             global $categoryObj;
             $block['currentcat'] = $categoryObj->getCategoryLink('menuTop');
-            $catlink_class = 'menuSub';
+            $catlink_class       = 'menuSub';
         }
     }
 
@@ -64,6 +70,11 @@ function publisher_items_menu_show($options)
     return $block;
 }
 
+/**
+ * @param $options
+ *
+ * @return string
+ */
 function publisher_items_menu_edit($options)
 {
     include_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
@@ -71,13 +82,13 @@ function publisher_items_menu_edit($options)
 
     $form = new PublisherBlockForm();
 
-    $catEle = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher_createCategorySelect($options[0], 0, true, 'options[0]'));
+    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisherCreateCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray(array(
-        'datesub' => _MB_PUBLISHER_DATE,
-        'counter' => _MB_PUBLISHER_HITS,
-        'weight'  => _MB_PUBLISHER_WEIGHT,
-    ));
+                                  'datesub' => _MB_PUBLISHER_DATE,
+                                  'counter' => _MB_PUBLISHER_HITS,
+                                  'weight'  => _MB_PUBLISHER_WEIGHT,
+                              ));
     $dispEle = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
 
     $form->addElement($catEle);

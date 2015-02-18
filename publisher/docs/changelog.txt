@@ -1,16 +1,52 @@
-<strong><u>=> Version 1.0 Final (2013-07-18)</u></strong>
+<h5>1.02 RC1       (2015-xx-xx)</h5>
+- updated to XOOPS 2.5.7 version of jQuery UI Tabs (noo-b/mamba)
+- replaced PublisherRequest with calls to XoopsRequest (mamba)
+- redesigned archives section to have months horizontally (mjoel/Mithrandir/mamba)
+- added count of articles in archive section (mamba)
+- moved TCPDF library to /xoops_lib (mamba)
+- updated makepdf.php file for the latest TCPDF (black_beard, mamba)
+- replaced $i++ with ++$i for consistency/performance (mamba)
+- started conversion to PSR-2 coding (mamba)
+- moved constants to class interface (mamba, based on zyspec's work)
+- updated TimThumbnail to 2.8.14 (mamba)
+- added few missing English translations (mamba)
+- replaced $_REQUEST with $_POST/$_GET and XoopsRequest in mimetypes.php (mamba)
+- indicated required fields when adding new MIME types (mamba)
+- centered mimetypes in the table (mamba)
+- updated popeye.js to 2.1 (mamba)
+- changed popeye mode to imagelist (mamba)
+
+TODO:
+- test with MySQL strict mode (STRICT_TRANS_TABLES)
+
+
+<h5>1.02 Beta 2       (2014-xx-xx)</h5>
+- added ID column in Admin's Category view (mamba)
+- fixed preg_replace /e in request.php (mamba)
+- added Views column in Admin's Articles view (mamba)
+- ensured that short_url is under 255 characters (mamba)
+- added import from C-Jay Content (mamba)
+- added import from xNews (bleekk, mamba)
+- moved all images, CSS, and JS files to /assets (mamba)
+- renamed .html Smarty templates to .tpl (mamba)
+- added Preference option for PDF icon (cifug/mamba)
+
+<h5>1.01 Final (2013-10-22)</h5>
+- fixed two templates (bleekk)
+
+<h5>1.0 Final (2013-07-18)</h5>
 - added missing URL for doc image in \blocks\items_spot.php
 
-<strong><u>=> Version 1.0 RC (2011-12-04)</u></strong>
+<h5>1.0 RC (2011-12-04)</h5>
 - Converted to XOOPS 2.5.0 ModuleAdmin GUI
 
-<strong><u>=> Version 1.0 Beta (2010-04-02)</u></strong>
+<h5>1.0 Beta (2010-04-02)</h5>
 - Improved : Images sorted by Name in submit form (trabis)
 - Added : Class for handling block forms (trabis)
 - Fixed : Date to date block blank page (trabis)
 - Fixed : Extra '-' in page title (trabis/mboyden)
 
-<strong><u>=> Version 1.0 Alpha (2009-08-24)</u></strong>
+<h5>1.0 Alpha (2009-08-24)</h5>
 - Imported : smartsection Version 2.14 Final (trabis)
 - Removed : dependecy from smartobject (trabis)
 - Removed : unused files (trabis)

@@ -20,64 +20,74 @@
  * @version         $Id: date_to_date.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * @param $options
+ *
+ * @return array
+ */
 function publisher_date_to_date_show($options)
 {
-    $myts = MyTextSanitizer::getInstance();
+    $myts      = MyTextSanitizer::getInstance();
     $publisher = PublisherPublisher::getInstance();
 
     $block = array();
 
     $criteria = new CriteriaCompo();
-    $criteria->add(new Criteria('datesub',  strtotime($options[0]), '>'));
-    $criteria->add(new Criteria('datesub',  strtotime($options[1]), '<'));
+    $criteria->add(new Criteria('datesub', strtotime($options[0]), '>'));
+    $criteria->add(new Criteria('datesub', strtotime($options[1]), '<'));
     $criteria->setSort('datesub');
     $criteria->setOrder('DESC');
 
     // creating the ITEM objects that belong to the selected category
-    $itemsObj = $publisher->getHandler('item')->getObjects($criteria);
+    $itemsObj   = $publisher->getHandler('item')->getObjects($criteria);
     $totalItems = count($itemsObj);
 
     if ($itemsObj) {
-        for ($i = 0; $i < $totalItems; $i++) {
+        for ($i = 0; $i < $totalItems; ++$i) {
 
-            $newItems['itemid'] = $itemsObj[$i]->itemid();
-            $newItems['title'] = $itemsObj[$i]->title();
+            $newItems['itemid']       = $itemsObj[$i]->itemid();
+            $newItems['title']        = $itemsObj[$i]->title();
             $newItems['categoryname'] = $itemsObj[$i]->getCategoryName();
-            $newItems['categoryid'] = $itemsObj[$i]->categoryid();
-            $newItems['date'] = $itemsObj[$i]->datesub();
-            $newItems['poster'] = $itemsObj[$i]->linkedPosterName();
-            $newItems['itemlink'] = $itemsObj[$i]->getItemLink(false, isset($options[3]) ? $options[3] : 65);
+            $newItems['categoryid']   = $itemsObj[$i]->categoryid();
+            $newItems['date']         = $itemsObj[$i]->datesub();
+            $newItems['poster']       = $itemsObj[$i]->linkedPosterName();
+            $newItems['itemlink']     = $itemsObj[$i]->getItemLink(false, isset($options[3]) ? $options[3] : 65);
             $newItems['categorylink'] = $itemsObj[$i]->getCategoryLink();
 
             $block['items'][] = $newItems;
         }
 
-        $block['lang_title'] = _MB_PUBLISHER_ITEMS;
-        $block['lang_category'] = _MB_PUBLISHER_CATEGORY;
-        $block['lang_poster'] = _MB_PUBLISHER_POSTEDBY;
-        $block['lang_date'] = _MB_PUBLISHER_DATE;
-        $modulename = $myts->displayTarea($publisher->getModule()->getVar('name'));
-        $block['lang_visitItem'] = _MB_PUBLISHER_VISITITEM . " " . $modulename;
+        $block['lang_title']            = _MB_PUBLISHER_ITEMS;
+        $block['lang_category']         = _MB_PUBLISHER_CATEGORY;
+        $block['lang_poster']           = _MB_PUBLISHER_POSTEDBY;
+        $block['lang_date']             = _MB_PUBLISHER_DATE;
+        $modulename                     = $myts->displayTarea($publisher->getModule()->getVar('name'));
+        $block['lang_visitItem']        = _MB_PUBLISHER_VISITITEM . " " . $modulename;
         $block['lang_articles_from_to'] = sprintf(_MB_PUBLISHER_ARTICLES_FROM_TO, $options[0], $options[1]);
     }
 
     return $block;
 }
 
+/**
+ * @param $options
+ *
+ * @return string
+ */
 function publisher_date_to_date_edit($options)
 {
     include_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
     xoops_load('XoopsFormCalendar');
 
-    $form = new PublisherBlockForm();
-    $fromEle = new XoopsFormCalendar(_MB_PUBLISHER_FROM,'options[0]', 15, strtotime($options[0]));
+    $form    = new PublisherBlockForm();
+    $fromEle = new XoopsFormCalendar(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));
     $fromEle->setNocolspan();
-    $untilEle = new XoopsFormCalendar(_MB_PUBLISHER_UNTIL,'options[1]', 15, strtotime($options[1]));
+    $untilEle = new XoopsFormCalendar(_MB_PUBLISHER_UNTIL, 'options[1]', 15, strtotime($options[1]));
     $untilEle->setNocolspan();
     $form->addElement($fromEle);
     $form->addElement($untilEle);

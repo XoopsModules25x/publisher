@@ -20,18 +20,18 @@
  * @version         $Id: backend.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 xoops_load('XoopsLocal');
 
 error_reporting(0);
 $GLOBALS['xoopsLogger']->activated = false;
 
-include_once XOOPS_ROOT_PATH . '/class/template.php';
+include_once $GLOBALS['xoops']->path('class/template.php');
 if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
 
-$categoryid = isset($_GET['categoryid']) ? $_GET['categoryid'] : -1;
+$categoryid = XoopsRequest::getInt('categoryid', -1, 'GET');
 
 if ($categoryid != -1) {
     $categoryObj = $publisher->getHandler('category')->get($categoryid);
@@ -42,21 +42,21 @@ $tpl = new XoopsTpl();
 $tpl->xoops_setCaching(2);
 $tpl->xoops_setCacheTime(0);
 $myts = MyTextSanitizer::getInstance();
-if (!$tpl->is_cached('db:publisher_rss.html')) {
+if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     $channel_category = $publisher->getModule()->name();
     // Check if ML Hack is installed, and if yes, parse the $content in formatForML
     if (method_exists($myts, 'formatForML')) {
-        $xoopsConfig['sitename'] = $myts->formatForML($xoopsConfig['sitename']);
-        $xoopsConfig['slogan'] = $myts->formatForML($xoopsConfig['slogan']);
-        $channel_category = $myts->formatForML($channel_category);
+        $GLOBALS['xoopsConfig']['sitename'] = $myts->formatForML($GLOBALS['xoopsConfig']['sitename']);
+        $GLOBALS['xoopsConfig']['slogan']   = $myts->formatForML($GLOBALS['xoopsConfig']['slogan']);
+        $channel_category                   = $myts->formatForML($channel_category);
     }
     $tpl->assign('channel_charset', _CHARSET);
-    $tpl->assign('channel_title', htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES));
+    $tpl->assign('channel_title', htmlspecialchars($GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES));
     $tpl->assign('channel_link', PUBLISHER_URL);
-    $tpl->assign('channel_desc', htmlspecialchars($xoopsConfig['slogan'], ENT_QUOTES));
+    $tpl->assign('channel_desc', htmlspecialchars($GLOBALS['xoopsConfig']['slogan'], ENT_QUOTES));
     $tpl->assign('channel_lastbuild', XoopsLocal::formatTimestamp(time(), 'rss'));
-    $tpl->assign('channel_webmaster', $xoopsConfig['adminmail']);
-    $tpl->assign('channel_editor', $xoopsConfig['adminmail']);
+    $tpl->assign('channel_webmaster', $GLOBALS['xoopsConfig']['adminmail']);
+    $tpl->assign('channel_editor', $GLOBALS['xoopsConfig']['adminmail']);
 
     if ($categoryid != -1) {
         $channel_category .= " > " . $categoryObj->name();
@@ -66,14 +66,14 @@ if (!$tpl->is_cached('db:publisher_rss.html')) {
     $tpl->assign('channel_generator', $publisher->getModule()->name());
     $tpl->assign('channel_language', _LANGCODE);
     $tpl->assign('image_url', XOOPS_URL . '/images/logo.gif');
-    $dimention = getimagesize(XOOPS_ROOT_PATH . '/images/logo.gif');
+    $dimention = getimagesize($GLOBALS['xoops']->path('images/logo.gif'));
     if (empty($dimention[0])) {
-        $width = 140;
+        $width  = 140;
         $height = 140;
     } else {
-        $width = ($dimention[0] > 140) ? 140 : $dimention[0];
+        $width        = ($dimention[0] > 140) ? 140 : $dimention[0];
         $dimention[1] = $dimention[1] * $width / $dimention[0];
-        $height = ($dimention[1] > 140) ? $dimention[1] * $dimention[0] / 140 : $dimention[1];
+        $height       = ($dimention[1] > 140) ? $dimention[1] * $dimention[0] / 140 : $dimention[1];
     }
     $tpl->assign('image_width', $width);
     $tpl->assign('image_height', $height);
@@ -82,12 +82,13 @@ if (!$tpl->is_cached('db:publisher_rss.html')) {
         $count = $sarray;
         foreach ($sarray as $item) {
             $tpl->append('items',
-                         array('title' => htmlspecialchars($item->title(), ENT_QUOTES),
-                               'link' => $item->getItemUrl(),
-                               'guid' => $item->getItemUrl(),
-                               'pubdate' => XoopsLocal::formatTimestamp($item->getVar('datesub'), 'rss'),
+                         array('title'       => htmlspecialchars($item->title(), ENT_QUOTES),
+                               'link'        => $item->getItemUrl(),
+                               'guid'        => $item->getItemUrl(),
+                               'pubdate'     => XoopsLocal::formatTimestamp($item->getVar('datesub'), 'rss'),
                                'description' => htmlspecialchars($item->getBlockSummary(300, true), ENT_QUOTES)));
         }
+        unset($item);
     }
 }
-$tpl->display('db:publisher_rss.html');
+$tpl->display('db:publisher_rss.tpl');

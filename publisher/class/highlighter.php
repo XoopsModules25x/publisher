@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -25,7 +26,7 @@ class PublisherHighlighter
      *
      * @var bool
      */
-    protected $_simple = false;
+    protected $simple = false;
 
     /**
      * Only match whole words in the string
@@ -33,7 +34,7 @@ class PublisherHighlighter
      *
      * @var bool
      */
-    protected $_wholeWords = false;
+    protected $wholeWords = false;
 
     /**
      * Case sensitive matching
@@ -41,37 +42,36 @@ class PublisherHighlighter
      *
      * @var bool
      */
-    protected $_caseSens = false;
+    protected $caseSens = false;
 
     /**
      * Overwrite links if matched
      * This should be used when the replacement string is a link
      * (off by default)
      */
-    protected $_stripLinks = false;
+    protected $stripLinks = false;
 
     /**
      * Style for the output string
      *
      * @var string
      */
-    protected $_replacementString = '<strong>\1</strong>';
+    protected $replacementString = '<strong>\1</strong>';
 
     /**
      * @param bool $value
      */
     public function setSimple($value)
     {
-        $this->_simple = (bool)$value;
+        $this->simple = (bool)$value;
     }
-
 
     /**
      * @param bool $value
      */
     public function setWholeWords($value)
     {
-        $this->_wholeWords = (bool)$value;
+        $this->wholeWords = (bool)$value;
     }
 
     /**
@@ -79,7 +79,7 @@ class PublisherHighlighter
      */
     public function setCaseSens($value)
     {
-        $this->_caseSens = (bool)$value;
+        $this->caseSens = (bool)$value;
     }
 
     /**
@@ -87,37 +87,37 @@ class PublisherHighlighter
      */
     public function setStripLinks($value)
     {
-        $this->_stripLinks = (bool)$value;
+        $this->stripLinks = (bool)$value;
     }
 
     /**
      * @param string $value
      */
-    public function SetReplacementString($value)
+    public function setReplacementString($value)
     {
-        $this->_replacementString = (string)$value;
+        $this->replacementString = (string)$value;
     }
 
     /**
      * Highlight a string in text without corrupting HTML tags
      *
-     * @param       string          $text           Haystack - The text to search
-     * @param       array|string    $needle         Needle - The string to highlight
+     * @param string $text Haystack - The text to search
+     * @param array|string $needle Needle - The string to highlight
      *
-     * @return      Text with needle highlighted
+     * @return string $text with needle highlighted
      */
     public function highlight($text, $needle)
     {
         // Select pattern to use
-        if ($this->_simple) {
-            $pattern = '#(%s)#';
+        if ($this->simple) {
+            $pattern    = '#(%s)#';
             $sl_pattern = '#(%s)#';
         } else {
-            $pattern = '#(?!<.*?)(%s)(?![^<>]*?>)#';
+            $pattern    = '#(?!<.*?)(%s)(?![^<>]*?>)#';
             $sl_pattern = '#<a\s(?:.*?)>(%s)</a>#';
         }
         // Case sensitivity
-        if (!$this->_caseSens) {
+        if (!$this->caseSens) {
             $pattern .= 'i';
             $sl_pattern .= 'i';
         }
@@ -125,17 +125,18 @@ class PublisherHighlighter
         foreach ($needle as $needle_s) {
             $needle_s = preg_quote($needle_s);
             // Escape needle with optional whole word check
-            if ($this->_wholeWords) {
+            if ($this->wholeWords) {
                 $needle_s = '\b' . $needle_s . '\b';
             }
             // Strip links
-            if ($this->_stripLinks) {
+            if ($this->stripLinks) {
                 $sl_regex = sprintf($sl_pattern, $needle_s);
-                $text = preg_replace($sl_regex, '\1', $text);
+                $text     = preg_replace($sl_regex, '\1', $text);
             }
             $regex = sprintf($pattern, $needle_s);
-            $text = preg_replace($regex, $this->_replacementString, $text);
+            $text  = preg_replace($regex, $this->replacementString, $text);
         }
+
         return $text;
     }
 }

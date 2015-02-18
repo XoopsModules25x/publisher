@@ -19,30 +19,29 @@
  * @version         $Id: functions.php 10661 2013-01-04 19:22:48Z trabis $
  */
 
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-include_once dirname(__FILE__) . '/common.php';
-
+include_once __DIR__ . '/common.php';
 
 /**
  * Includes scripts in HTML header
  *
  * @return void
  */
-function publisher_cpHeader()
+function publisherCpHeader()
 {
     xoops_cp_header();
 
     //cannot use xoTheme, some conflit with admin gui
-    echo '<link type="text/css" href="' . PUBLISHER_URL . '/css/jquery-ui-1.7.1.custom.css" rel="stylesheet" />
-    <link type="text/css" href="' . PUBLISHER_URL . '/css/publisher.css" rel="stylesheet" />
-    <script type="text/javascript" src="' . PUBLISHER_URL . '/js/funcs.js"></script>
-    <script type="text/javascript" src="' . PUBLISHER_URL . '/js/cookies.js"></script>
+    echo '<link type="text/css" href="' . XOOPS_URL . '/modules/system/css/ui/' . xoops_getModuleOption('jquery_theme', 'system') . '/ui.all.css" rel="stylesheet" />
+    <link type="text/css" href="' . PUBLISHER_URL . '/assets/css/publisher.css" rel="stylesheet" />
+    <script type="text/javascript" src="' . PUBLISHER_URL . '/assets/js/funcs.js"></script>
+    <script type="text/javascript" src="' . PUBLISHER_URL . '/assets/js/cookies.js"></script>
     <script type="text/javascript" src="' . XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js"></script>
-    <script type="text/javascript" src="' . PUBLISHER_URL . '/js/ui.core.js"></script>
-    <script type="text/javascript" src="' . PUBLISHER_URL . '/js/ui.tabs.js"></script>
-    <script type="text/javascript" src="' . PUBLISHER_URL . '/js/ajaxupload.3.9.js"></script>
-    <script type="text/javascript" src="' . PUBLISHER_URL . '/js/publisher.js"></script>
+    <!-- <script type="text/javascript" src="' . XOOPS_URL . '/browse.php?Frameworks/jquery/jquery-migrate-1.2.1.js"></script> -->
+    <script type="text/javascript" src="' . XOOPS_URL . '/browse.php?Frameworks/jquery/plugins/jquery.ui.js"></script>
+    <script type="text/javascript" src="' . PUBLISHER_URL . '/assets/js/ajaxupload.3.9.js"></script>
+    <script type="text/javascript" src="' . PUBLISHER_URL . '/assets/js/publisher.js"></script>
     ';
 }
 
@@ -52,15 +51,17 @@ function publisher_cpHeader()
  * @param string $sort
  * @return string
  */
-function publisher_getOrderBy($sort)
+function publisherGetOrderBy($sort)
 {
     if ($sort == "datesub") {
         return "DESC";
-    } else if ($sort == "counter") {
+    } elseif ($sort == "counter") {
         return "DESC";
-    } else if ($sort == "weight") {
+    } elseif ($sort == "weight") {
         return "ASC";
     }
+
+    return null;
 }
 
 /**
@@ -71,7 +72,7 @@ function publisher_getOrderBy($sort)
  * @param string $trimmarker
  * @return string
  */
-function publisher_substr($str, $start, $length, $trimmarker = '...')
+function publisherSubstr($str, $start, $length, $trimmarker = '...')
 {
     // if the string is empty, let's get out ;-)
     if ($str == '') {
@@ -96,7 +97,7 @@ function publisher_substr($str, $start, $length, $trimmarker = '...')
  * @param string $document
  * @return mixed
  */
-function publisher_html2text($document)
+function publisherHtml2text($document)
 {
     // PHP Manual:: function preg_replace
     // $document should contain an HTML document.
@@ -135,6 +136,7 @@ function publisher_html2text($document)
                      "chr(\\1)");
 
     $text = preg_replace($search, $replace, $document);
+
     return $text;
     //<?php
 }
@@ -142,7 +144,7 @@ function publisher_html2text($document)
 /**
  * @return array
  */
-function publisher_getAllowedImagesTypes()
+function publisherGetAllowedImagesTypes()
 {
     return array('jpg/jpeg', 'image/bmp', 'image/gif', 'image/jpeg', 'image/jpg', 'image/x-png', 'image/png', 'image/pjpeg');
 }
@@ -151,7 +153,7 @@ function publisher_getAllowedImagesTypes()
  * @param bool $withLink
  * @return string
  */
-function publisher_moduleHome($withLink = true)
+function publisherModuleHome($withLink = true)
 {
     $publisher = PublisherPublisher::getInstance();
 
@@ -171,11 +173,11 @@ function publisher_moduleHome($withLink = true)
  *
  * @author      Aidan Lister <aidan@php.net>
  * @version     1.0.0
- * @param       string   $source    The source
- * @param       string   $dest      The destination
+ * @param       string $source The source
+ * @param       string $dest The destination
  * @return      bool     Returns true on success, false on failure
  */
-function publisher_copyr($source, $dest)
+function publisherCopyr($source, $dest)
 {
     // Simple copy for a file
     if (is_file($source)) {
@@ -197,7 +199,7 @@ function publisher_copyr($source, $dest)
 
         // Deep copy directories
         if (is_dir("$source/$entry") && ($dest !== "$source/$entry")) {
-            copyr("$source/$entry", "$dest/$entry");
+            publisherCopyr("$source/$entry", "$dest/$entry");
         } else {
             copy("$source/$entry", "$dest/$entry");
         }
@@ -205,16 +207,17 @@ function publisher_copyr($source, $dest)
 
     // Clean up
     $dir->close();
+
     return true;
 }
 
 /**
-.* @credits Thanks to the NewBB2 Development Team
+ * .* @credits Thanks to the NewBB2 Development Team
  * @param string $item
  * @param bool $getStatus
  * @return bool|int|string
  */
-function &publisher_getPathStatus($item, $getStatus = false)
+function &publisherGetPathStatus($item, $getStatus = false)
 {
     if ($item == 'root') {
         $path = '';
@@ -222,18 +225,18 @@ function &publisher_getPathStatus($item, $getStatus = false)
         $path = $item;
     }
 
-    $thePath = publisher_getUploadDir(true, $path);
+    $thePath = publisherGetUploadDir(true, $path);
 
     if (empty($thePath)) return false;
-    if (@is_writable($thePath)) {
+    if (is_writable($thePath)) {
         $pathCheckResult = 1;
-        $path_status = _AM_PUBLISHER_AVAILABLE;
+        $path_status     = _AM_PUBLISHER_AVAILABLE;
     } elseif (!@is_dir($thePath)) {
         $pathCheckResult = -1;
-        $path_status = _AM_PUBLISHER_NOTAVAILABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=createdir&amp;path={$item}'>" . _AM_PUBLISHER_CREATETHEDIR . "</a>";
+        $path_status     = _AM_PUBLISHER_NOTAVAILABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=createdir&amp;path={$item}'>" . _AM_PUBLISHER_CREATETHEDIR . "</a>";
     } else {
         $pathCheckResult = -2;
-        $path_status = _AM_PUBLISHER_NOTWRITABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=setperm&amp;path={$item}'>" . _AM_SCS_SETMPERM . "</a>";
+        $path_status     = _AM_PUBLISHER_NOTWRITABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=setperm&amp;path={$item}'>" . _AM_PUBLISHER_SETMPERM . "</a>";
     }
     if (!$getStatus) {
         return $path_status;
@@ -247,7 +250,7 @@ function &publisher_getPathStatus($item, $getStatus = false)
  * @param string $target
  * @return bool
  */
-function publisher_mkdir($target)
+function publisherMkdir($target)
 {
     // http://www.php.net/manual/en/function.mkdir.php
     // saint at corenova.com
@@ -260,17 +263,18 @@ function publisher_mkdir($target)
         return false;
     }
 
-    if (publisher_mkdir(substr($target, 0, strrpos($target, '/')))) {
+    if (publisherMkdir(substr($target, 0, strrpos($target, '/')))) {
         if (!file_exists($target)) {
             $res = mkdir($target, 0777); // crawl back up & create dir tree
-            publisher_chmod($target);
+            publisherChmod($target);
+
             return $res;
         }
     }
     $res = is_dir($target);
+
     return $res;
 }
-
 
 /**
  * @credits Thanks to the NewBB2 Development Team
@@ -278,7 +282,7 @@ function publisher_mkdir($target)
  * @param int $mode
  * @return bool
  */
-function publisher_chmod($target, $mode = 0777)
+function publisherChmod($target, $mode = 0777)
 {
     return @chmod($target, $mode);
 }
@@ -288,7 +292,7 @@ function publisher_chmod($target, $mode = 0777)
  * @param bool $item
  * @return string
  */
-function publisher_getUploadDir($hasPath = true, $item = false)
+function publisherGetUploadDir($hasPath = true, $item = false)
 {
     if ($item) {
         if ($item == 'root') {
@@ -301,9 +305,9 @@ function publisher_getUploadDir($hasPath = true, $item = false)
     }
 
     if ($hasPath) {
-        return PUBLISHER_UPLOADS_PATH . '/' . $item;
+        return PUBLISHER_UPLOAD_PATH . '/' . $item;
     } else {
-        return PUBLISHER_UPLOADS_URL . '/' . $item;
+        return PUBLISHER_UPLOAD_URL . '/' . $item;
     }
 }
 
@@ -312,7 +316,7 @@ function publisher_getUploadDir($hasPath = true, $item = false)
  * @param bool $hasPath
  * @return string
  */
-function publisher_getImageDir($item = '', $hasPath = true)
+function publisherGetImageDir($item = '', $hasPath = true)
 {
     if ($item) {
         $item = "images/{$item}";
@@ -320,31 +324,30 @@ function publisher_getImageDir($item = '', $hasPath = true)
         $item = "images";
     }
 
-    return publisher_getUploadDir($hasPath, $item);
+    return publisherGetUploadDir($hasPath, $item);
 }
 
 /**
  * @param array $errors
  * @return string
  */
-function publisher_formatErrors($errors = array())
+function publisherFormatErrors($errors = array())
 {
     $ret = '';
     foreach ($errors as $key => $value) {
         $ret .= '<br /> - ' . $value;
     }
+
     return $ret;
 }
-
 
 /**
  * Checks if a user is admin of Publisher
  *
  * @return boolean
  */
-function publisher_userIsAdmin()
+function publisherUserIsAdmin()
 {
-    global $xoopsUser;
     $publisher = PublisherPublisher::getInstance();
 
     static $publisher_isAdmin;
@@ -353,10 +356,10 @@ function publisher_userIsAdmin()
         return $publisher_isAdmin;
     }
 
-    if (!$xoopsUser) {
+    if (!$GLOBALS['xoopsUser']) {
         $publisher_isAdmin = false;
     } else {
-        $publisher_isAdmin = $xoopsUser->isAdmin($publisher->getModule()->getVar('mid'));
+        $publisher_isAdmin = $GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->getVar('mid'));
     }
 
     return $publisher_isAdmin;
@@ -368,10 +371,9 @@ function publisher_userIsAdmin()
  * @param object $itemObj
  * @return bool
  */
-function publisher_userIsAuthor($itemObj)
+function publisherUserIsAuthor($itemObj)
 {
-    global $xoopsUser;
-    return (is_object($xoopsUser) && is_object($itemObj) && ($xoopsUser->uid() == $itemObj->uid()));
+    return (is_object($GLOBALS['xoopsUser']) && is_object($itemObj) && ($GLOBALS['xoopsUser']->uid() == $itemObj->uid()));
 }
 
 /**
@@ -380,10 +382,11 @@ function publisher_userIsAuthor($itemObj)
  * @param object $itemObj
  * @return bool
  */
-function publisher_userIsModerator($itemObj)
+function publisherUserIsModerator($itemObj)
 {
-    $publisher = PublisherPublisher::getInstance();
+    $publisher         = PublisherPublisher::getInstance();
     $categoriesGranted = $publisher->getHandler('permission')->getGrantedItems('category_moderation');
+
     return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted));
 }
 
@@ -395,13 +398,13 @@ function publisher_userIsModerator($itemObj)
  * @param string $perm_name : name of the permission
  * @return boolean : TRUE if the no errors occured
  */
-function publisher_saveCategoryPermissions($groups, $categoryid, $perm_name)
+function publisherSaveCategoryPermissions($groups, $categoryid, $perm_name)
 {
     $publisher = PublisherPublisher::getInstance();
 
     $result = true;
 
-    $module_id = $publisher->getModule()->getVar('mid');
+    $module_id     = $publisher->getModule()->getVar('mid');
     $gperm_handler = xoops_gethandler('groupperm');
     // First, if the permissions are already there, delete them
     $gperm_handler->deleteByModule($module_id, $perm_name, $categoryid);
@@ -412,6 +415,7 @@ function publisher_saveCategoryPermissions($groups, $categoryid, $perm_name)
             $gperm_handler->addRight($perm_name, $categoryid, $group_id, $module_id);
         }
     }
+
     return $result;
 }
 
@@ -423,17 +427,17 @@ function publisher_saveCategoryPermissions($groups, $categoryid, $perm_name)
  * @param bool $open
  * @return void
  */
-function publisher_openCollapsableBar($tablename = '', $iconname = '', $tabletitle = '', $tabledsc = '', $open = true)
+function publisherOpenCollapsableBar($tablename = '', $iconname = '', $tabletitle = '', $tabledsc = '', $open = true)
 {
-    $image = 'open12.gif';
+    $image   = 'open12.gif';
     $display = 'none';
     if ($open) {
-        $image = 'close12.gif';
+        $image   = 'close12.gif';
         $display = 'block';
     }
 
-    echo "<h3 style=\"color: #2F5376; font-weight: bold; font-size: 14px; margin: 6px 0 0 0; \"><a href='javascript:;' onclick=\"toggle('" . $tablename . "'); toggleIcon('" . $iconname . "')\";>";
-    echo "<img id='" . $iconname . "' src='" . PUBLISHER_URL . "/images/links/" . $image . "' alt='' /></a>&nbsp;" . $tabletitle . "</h3>";
+    echo "<h3 style=\"color: #2F5376; font-weight: bold; font-size: 14px; margin: 6px 0 0 0; \"><a href='javascript:;' onclick=\"toggle('" . $tablename . "'); toggleIcon('" . $iconname . "')\">";
+    echo "<img id='" . $iconname . "' src='" . PUBLISHER_URL . "/assets/images/links/" . $image . "' alt='' /></a>&nbsp;" . $tabletitle . "</h3>";
     echo "<div id='" . $tablename . "' style='display: " . $display . ";'>";
     if ($tabledsc != '') {
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . $tabledsc . "</span>";
@@ -445,16 +449,16 @@ function publisher_openCollapsableBar($tablename = '', $iconname = '', $tabletit
  * @param string $icon
  * @return void
  */
-function publisher_closeCollapsableBar($name, $icon)
+function publisherCloseCollapsableBar($name, $icon)
 {
     echo "</div>";
 
-    $urls = publisher_getCurrentUrls();
+    $urls = publisherGetCurrentUrls();
     $path = $urls['phpself'];
 
     $cookie_name = $path . '_publisher_collaps_' . $name;
     $cookie_name = str_replace('.', '_', $cookie_name);
-    $cookie = publisher_getCookieVar($cookie_name, '');
+    $cookie      = publisherGetCookieVar($cookie_name, '');
 
     if ($cookie == 'none') {
         echo '
@@ -465,13 +469,14 @@ function publisher_closeCollapsableBar($name, $icon)
         ';
     }
 }
+
 /**
  * @param string $name
  * @param string $value
  * @param int $time
  * @return void
  */
-function publisher_setCookieVar($name, $value, $time = 0)
+function publisherSetCookieVar($name, $value, $time = 0)
 {
     if ($time == 0) {
         $time = time() + 3600 * 24 * 365;
@@ -484,24 +489,28 @@ function publisher_setCookieVar($name, $value, $time = 0)
  * @param string $default
  * @return string
  */
-function publisher_getCookieVar($name, $default = '')
+function publisherGetCookieVar($name, $default = '')
 {
-    if (isset($_COOKIE[$name]) && ($_COOKIE[$name] > '')) {
-        return $_COOKIE[$name];
-    } else {
-        return $default;
-    }
+//    if (isset($_COOKIE[$name]) && ($_COOKIE[$name] > '')) {
+//        return $_COOKIE[$name];
+//    } else {
+//        return $default;
+//    }
+    return XoopsRequest::getString('name', $default, 'COOKIE');
 }
 
 /**
  * @return array
  */
-function publisher_getCurrentUrls()
+function publisherGetCurrentUrls()
 {
-    $http = strpos(XOOPS_URL, "https://") === false ? "http://" : "https://";
-    $phpself = $_SERVER['PHP_SELF'];
-    $httphost = $_SERVER['HTTP_HOST'];
-    $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+    $http        = strpos(XOOPS_URL, "https://") === false ? "http://" : "https://";
+//    $phpself     = $_SERVER['PHP_SELF'];
+//    $httphost    = $_SERVER['HTTP_HOST'];
+//    $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+    $phpself = XoopsRequest::getString('PHP_SELF', '', 'SERVER');
+    $httphost = XoopsRequest::getString('HTTP_HOST', '', 'SERVER');
+    $querystring = XoopsRequest::getString('QUERY_STRING', '', 'SERVER');
 
     if ($querystring != '') {
         $querystring = '?' . $querystring;
@@ -509,12 +518,12 @@ function publisher_getCurrentUrls()
 
     $currenturl = $http . $httphost . $phpself . $querystring;
 
-    $urls = array();
-    $urls['http'] = $http;
-    $urls['httphost'] = $httphost;
-    $urls['phpself'] = $phpself;
+    $urls                = array();
+    $urls['http']        = $http;
+    $urls['httphost']    = $httphost;
+    $urls['phpself']     = $phpself;
     $urls['querystring'] = $querystring;
-    $urls['full'] = $currenturl;
+    $urls['full']        = $currenturl;
 
     return $urls;
 }
@@ -522,25 +531,26 @@ function publisher_getCurrentUrls()
 /**
  * @return string
  */
-function publisher_getCurrentPage()
+function publisherGetCurrentPage()
 {
-    $urls = publisher_getCurrentUrls();
+    $urls = publisherGetCurrentUrls();
+
     return $urls['full'];
 }
 
 /**
- * @param object $categoryObj
+ * @param object|PublisherCategory $categoryObj
  * @param int $selectedid
  * @param int $level
  * @param string $ret
  * @return string
  */
-function publisher_addCategoryOption($categoryObj, $selectedid = 0, $level = 0, $ret = '')
+function publisherAddCategoryOption(PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
 {
     $publisher = PublisherPublisher::getInstance();
 
     $spaces = '';
-    for ($j = 0; $j < $level; $j++) {
+    for ($j = 0; $j < $level; ++$j) {
         $spaces .= '--';
     }
 
@@ -554,11 +564,12 @@ function publisher_addCategoryOption($categoryObj, $selectedid = 0, $level = 0, 
 
     $subCategoriesObj = $publisher->getHandler('category')->getCategories(0, 0, $categoryObj->categoryid());
     if (count($subCategoriesObj) > 0) {
-        $level++;
+        ++$level;
         foreach ($subCategoriesObj as $catID => $subCategoryObj) {
-            $ret .= publisher_addCategoryOption($subCategoryObj, $selectedid, $level);
+            $ret .= publisherAddCategoryOption($subCategoryObj, $selectedid, $level);
         }
     }
+
     return $ret;
 }
 
@@ -569,7 +580,7 @@ function publisher_addCategoryOption($categoryObj, $selectedid = 0, $level = 0, 
  * @param string $selectname
  * @return string
  */
-function publisher_createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[0]')
+function publisherCreateCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[0]')
 {
     $publisher = PublisherPublisher::getInstance();
 
@@ -589,10 +600,11 @@ function publisher_createCategorySelect($selectedid = 0, $parentcategory = 0, $a
 
     if (count($categoriesObj) > 0) {
         foreach ($categoriesObj as $catID => $categoryObj) {
-            $ret .= publisher_addCategoryOption($categoryObj, $selectedid);
+            $ret .= publisherAddCategoryOption($categoryObj, $selectedid);
         }
     }
     $ret .= "</select>";
+
     return $ret;
 }
 
@@ -602,7 +614,7 @@ function publisher_createCategorySelect($selectedid = 0, $parentcategory = 0, $a
  * @param bool $allCatOption
  * @return string
  */
-function publisher_createCategoryOptions($selectedid = 0, $parentcategory = 0, $allCatOption = true)
+function publisherCreateCategoryOptions($selectedid = 0, $parentcategory = 0, $allCatOption = true)
 {
     $publisher = PublisherPublisher::getInstance();
 
@@ -616,9 +628,10 @@ function publisher_createCategoryOptions($selectedid = 0, $parentcategory = 0, $
     $categoriesObj = $publisher->getHandler('category')->getCategories(0, 0, $parentcategory);
     if (count($categoriesObj) > 0) {
         foreach ($categoriesObj as $catID => $categoryObj) {
-            $ret .= publisher_addCategoryOption($categoryObj, $selectedid);
+            $ret .= publisherAddCategoryOption($categoryObj, $selectedid);
         }
     }
+
     return $ret;
 }
 
@@ -627,12 +640,12 @@ function publisher_createCategoryOptions($selectedid = 0, $parentcategory = 0, $
  * @param string $reseturl
  * @return void
  */
-function publisher_renderErrors(&$err_arr, $reseturl = '')
+function publisherRenderErrors(&$err_arr, $reseturl = '')
 {
     if (is_array($err_arr) && count($err_arr) > 0) {
-        echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' . PUBLISHER_URL . '/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
+        echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' . PUBLISHER_URL . '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
 
-        echo '<h4 style="text-align:left;margin:0; padding-top:0">' . _AM_PUBLISHER_MSG_SUBMISSION_ERR;
+        echo '<h4 style="text-align:left;margin:0; padding-top:0;">' . _AM_PUBLISHER_MSG_SUBMISSION_ERR;
 
         if ($reseturl) {
             echo ' <a href="' . $reseturl . '">[' . _AM_PUBLISHER_TEXT_SESSION_RESET . ']</a>';
@@ -663,7 +676,7 @@ function publisher_renderErrors(&$err_arr, $reseturl = '')
  *
  * @credit : xHelp module, developped by 3Dev
  */
-function publisher_makeURI($page, $vars = array(), $encodeAmp = true)
+function publisherMakeUri($page, $vars = array(), $encodeAmp = true)
 {
     $joinStr = '';
 
@@ -686,13 +699,13 @@ function publisher_makeURI($page, $vars = array(), $encodeAmp = true)
  * @param string $subject
  * @return string
  */
-function publisher_tellafriend($subject = '')
+function publisherTellAFriend($subject = '')
 {
     if (stristr($subject, '%')) {
         $subject = rawurldecode($subject);
     }
 
-    $target_uri = XOOPS_URL . $_SERVER['REQUEST_URI'];
+    $target_uri = XOOPS_URL . XoopsRequest::getString('REQUEST_URI', '', 'SERVER');
 
     return XOOPS_URL . '/modules/tellafriend/index.php?target_uri=' . rawurlencode($target_uri) . '&amp;subject=' . rawurlencode($subject);
 }
@@ -703,19 +716,19 @@ function publisher_tellafriend($subject = '')
  * @param  $itemObj
  * @return bool|string
  */
-function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
+function publisherUploadFile($another = false, $withRedirect = true, &$itemObj)
 {
     include_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
-    global $publisher_isAdmin, $xoopsUser;
+//    global $publisher_isAdmin;
     $publisher = PublisherPublisher::getInstance();
 
-    $itemid = isset($_POST['itemid']) ? intval($_POST['itemid']) : 0;
-    $uid = is_object($xoopsUser) ? $xoopsUser->uid() : 0;
+    $itemid  = XoopsRequest::getInt('itemid', 0, 'POST');
+    $uid     = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
     $session = PublisherSession::getInstance();
-    $session->set('publisher_file_filename', isset($_POST['item_file_name']) ? $_POST['item_file_name'] : '');
-    $session->set('publisher_file_description', isset($_POST['item_file_description']) ? $_POST['item_file_description'] : '');
-    $session->set('publisher_file_status', isset($_POST['item_file_status']) ? intval($_POST['item_file_status']) : 1);
+    $session->set('publisher_file_filename', XoopsRequest::getString('item_file_name', '', 'POST'));
+    $session->set('publisher_file_description', XoopsRequest::getString('item_file_description', '', 'POST'));
+    $session->set('publisher_file_status', XoopsRequest::getInt('item_file_status', 1, 'POST'));
     $session->set('publisher_file_uid', $uid);
     $session->set('publisher_file_itemid', $itemid);
 
@@ -724,9 +737,9 @@ function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
     }
 
     $fileObj = $publisher->getHandler('file')->create();
-    $fileObj->setVar('name', isset($_POST['item_file_name']) ? $_POST['item_file_name'] : '');
-    $fileObj->setVar('description', isset($_POST['item_file_description']) ? $_POST['item_file_description'] : '');
-    $fileObj->setVar('status', isset($_POST['item_file_status']) ? intval($_POST['item_file_status']) : 1);
+    $fileObj->setVar('name', XoopsRequest::getString('item_file_name', '', 'POST'));
+    $fileObj->setVar('description', XoopsRequest::getString('item_file_description', '', 'POST'));
+    $fileObj->setVar('status', XoopsRequest::getInt('item_file_status', 1, 'POST'));
     $fileObj->setVar('uid', $uid);
     $fileObj->setVar('itemid', $itemObj->getVar('itemid'));
     $fileObj->setVar('datesub', time());
@@ -750,12 +763,19 @@ function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
 
     // Storing the file
     if (!$fileObj->store($allowed_mimetypes)) {
-        if ($withRedirect) {
-            redirect_header("file.php?op=mod&itemid=" . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . publisher_formatErrors($fileObj->getErrors()));
-            exit;
-        } else {
-            return _CO_PUBLISHER_FILEUPLOAD_ERROR . publisher_formatErrors($fileObj->getErrors());
+//        if ($withRedirect) {
+//            redirect_header("file.php?op=mod&itemid=" . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . publisherFormatErrors($fileObj->getErrors()));
+//            exit;
+//        }
+        try {
+            if ($withRedirect) {
+                throw new Exception(_CO_PUBLISHER_FILEUPLOAD_ERROR . publisherFormatErrors($fileObj->getErrors()));
+            }
+        } catch (Exception $e) {
+            redirect_header("file.php?op=mod&itemid=" . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . publisherFormatErrors($fileObj->getErrors()));
         }
+    } else {
+        return _CO_PUBLISHER_FILEUPLOAD_ERROR . publisherFormatErrors($fileObj->getErrors());
     }
 
     if ($withRedirect) {
@@ -764,11 +784,17 @@ function publisher_uploadFile($another = false, $withRedirect = true, &$itemObj)
     } else {
         return true;
     }
+
+    return null;
 }
 
-function publisher_newFeatureTag()
+/**
+ * @return string
+ */
+function publisherNewFeatureTag()
 {
     $ret = '<span style="padding-right: 4px; font-weight: bold; color: red;">' . _CO_PUBLISHER_NEW_FEATURE . '</span>';
+
     return $ret;
 }
 
@@ -791,7 +817,7 @@ function publisher_newFeatureTag()
  * @param boolean
  * @return string
  */
-function publisher_truncateTagSafe($string, $length = 80, $etc = '...', $break_words = false)
+function publisherTruncateTagSafe($string, $length = 80, $etc = '...', $break_words = false)
 {
     if ($length == 0) return '';
 
@@ -800,8 +826,9 @@ function publisher_truncateTagSafe($string, $length = 80, $etc = '...', $break_w
         if (!$break_words) {
             $string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length + 1));
             $string = preg_replace('/<[^>]*$/', '', $string);
-            $string = publisher_closeTags($string);
+            $string = publisherCloseTags($string);
         }
+
         return $string . $etc;
     } else {
         return $string;
@@ -814,7 +841,7 @@ function publisher_truncateTagSafe($string, $length = 80, $etc = '...', $break_w
  * @param string $string
  * @return string
  */
-function publisher_closeTags($string)
+function publisherCloseTags($string)
 {
     // match opened tags
     if (preg_match_all('/<([a-z\:\-]+)[^\/]>/', $string, $start_tags)) {
@@ -822,7 +849,7 @@ function publisher_closeTags($string)
         // match closed tags
         if (preg_match_all('/<\/([a-z]+)>/', $string, $end_tags)) {
             $complete_tags = array();
-            $end_tags = $end_tags[1];
+            $end_tags      = $end_tags[1];
 
             foreach ($start_tags as $key => $val) {
                 $posb = array_search($val, $end_tags);
@@ -837,10 +864,12 @@ function publisher_closeTags($string)
         }
 
         $complete_tags = array_reverse($complete_tags);
-        for ($i = 0; $i < count($complete_tags); $i++) {
+        $elementCount = count($complete_tags);
+        for ($i = 0; $i < $elementCount; ++$i) {
             $string .= '</' . $complete_tags[$i] . '>';
         }
     }
+
     return $string;
 }
 
@@ -848,22 +877,22 @@ function publisher_closeTags($string)
  * @param int $itemid
  * @return string
  */
-function publisher_ratingBar($itemid)
+function publisherRatingBar($itemid)
 {
-    global $xoopsDB, $xoopsUser;
-    $publisher = PublisherPublisher::getInstance();
+    $publisher        = PublisherPublisher::getInstance();
     $rating_unitwidth = 30;
-    $units = 5;
+    $units            = 5;
 
-    $criteria = new Criteria('itemid', $itemid);
+    $criteria   = new Criteria('itemid', $itemid);
     $ratingObjs = $publisher->getHandler('rating')->getObjects($criteria);
     unset($criteria);
 
-    $uid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : 0;
-    $count = count($ratingObjs);
+    $uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
+    $count          = count($ratingObjs);
     $current_rating = 0;
-    $voted = false;
-    $ip = getenv('REMOTE_ADDR');
+    $voted          = false;
+    $ip             = getenv('REMOTE_ADDR');
+    $rating1        = $rating2 = $rating_width = 0;
 
     foreach ($ratingObjs as $ratingObj) {
         $current_rating += $ratingObj->getVar('rate');
@@ -875,14 +904,15 @@ function publisher_ratingBar($itemid)
     $tense = $count == 1 ? _MD_PUBLISHER_VOTE_lVOTE : _MD_PUBLISHER_VOTE_lVOTES; //plural form votes/vote
 
     // now draw the rating bar
-    $rating_width = @number_format($current_rating / $count, 2) * $rating_unitwidth;
-    $rating1 = @number_format($current_rating / $count, 1);
-    $rating2 = @number_format($current_rating / $count, 2);
-
-    $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+    if ($count != 0) {
+        $rating_width = number_format($current_rating / $count, 2) * $rating_unitwidth;
+        $rating1      = number_format($current_rating / $count, 1);
+        $rating2      = number_format($current_rating / $count, 2);
+    }
+    $groups        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
     $gperm_handler = $publisher->getHandler('groupperm');
 
-    if (!$gperm_handler->checkRight('global', _PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
+    if (!$gperm_handler->checkRight('global', PublisherConstantsInterface::PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
         $static_rater = array();
         $static_rater[] .= "\n" . '<div class="publisher_ratingblock">';
         $static_rater[] .= '<div id="unit_long' . $itemid . '">';
@@ -892,6 +922,7 @@ function publisher_ratingBar($itemid)
         $static_rater[] .= '<div class="publisher_static">' . _MD_PUBLISHER_VOTE_RATING . ': <strong> ' . $rating1 . '</strong>/' . $units . ' (' . $count . ' ' . $tense . ') <br /><em>' . _MD_PUBLISHER_VOTE_DISABLE . '</em></div>';
         $static_rater[] .= '</div>';
         $static_rater[] .= '</div>' . "\n\n";
+
         return join("\n", $static_rater);
     } else {
         $rater = '';
@@ -900,7 +931,7 @@ function publisher_ratingBar($itemid)
         $rater .= '<div id="unit_ul' . $itemid . '" class="publisher_unit-rating" style="width:' . $rating_unitwidth * $units . 'px;">';
         $rater .= '<div class="publisher_current-rating" style="width:' . $rating_width . 'px;">' . _MD_PUBLISHER_VOTE_RATING . ' ' . $rating2 . '/' . $units . '</div>';
 
-        for ($ncount = 1; $ncount <= $units; $ncount++) { // loop from 1 to the number of units
+        for ($ncount = 1; $ncount <= $units; ++$ncount) { // loop from 1 to the number of units
             if (!$voted) { // if the user hasn't yet voted, draw the voting stars
                 $rater .= '<div><a href="' . PUBLISHER_URL . '/rate.php?itemid=' . $itemid . '&amp;rating=' . $ncount . '" title="' . $ncount . ' ' . _MD_PUBLISHER_VOTE_OUTOF . ' ' . $units . '" class="publisher_r' . $ncount . '-unit rater" rel="nofollow">' . $ncount . '</a></div>';
             }
@@ -918,34 +949,36 @@ function publisher_ratingBar($itemid)
         $rater .= '  </div>';
         $rater .= '</div>';
         $rater .= '</div>';
+
         return $rater;
     }
 }
 
 /**
- * @param array $allowed_editors
+ * @param array $allowedEditors
  * @return array
  */
-function publisher_getEditors($allowed_editors = null)
+function publisherGetEditors($allowedEditors = null)
 {
-    $ret = array();
+    $ret    = array();
     $nohtml = false;
     xoops_load('XoopsEditorHandler');
     $editor_handler = XoopsEditorHandler::getInstance();
-    $editors = $editor_handler->getList($nohtml);
+    $editors        = $editor_handler->getList($nohtml);
     foreach ($editors as $name => $title) {
-        $key = publisher_stringToInt($name);
-        if (is_array($allowed_editors)) {
+        $key = publisherStringToInt($name);
+        if (is_array($allowedEditors)) {
             //for submit page
-            if (in_array($key, $allowed_editors)) {
+            if (in_array($key, $allowedEditors)) {
                 $ret[] = $name;
             }
         } else {
             //for admin permissions page
-            $ret[$key]['name'] = $name;
+            $ret[$key]['name']  = $name;
             $ret[$key]['title'] = $title;
         }
     }
+
     return $ret;
 }
 
@@ -954,9 +987,10 @@ function publisher_getEditors($allowed_editors = null)
  * @param int $length
  * @return int
  */
-function publisher_stringToInt($string = '', $length = 5)
+function publisherStringToInt($string = '', $length = 5)
 {
-    for ($i = 0, $final = "", $string = substr(md5($string), $length); $i < $length; $final .= intval($string[$i]), $i++);
+    for ($i = 0, $final = "", $string = substr(md5($string), $length); $i < $length; $final .= intval($string[$i]), ++$i) ;
+
     return intval($final);
 }
 
@@ -964,19 +998,20 @@ function publisher_stringToInt($string = '', $length = 5)
  * @param string $item
  * @return string
  */
-function publisher_convertCharset($item)
+function publisherConvertCharset($item)
 {
-    if (_CHARSET != 'windows-1256') return utf8_encode($item);
+    if (_CHARSET != 'windows-1256') {
+        return utf8_encode($item);
+    }
 
-    if ($unserialize = unserialize($item)) {
+    if ($unserialize == unserialize($item)) {
         foreach ($unserialize as $key => $value) {
             $unserialize[$key] = @iconv('windows-1256', 'UTF-8', $value);
         }
         $serialize = serialize($unserialize);
+
         return $serialize;
     } else {
         return @iconv('windows-1256', 'UTF-8', $item);
     }
 }
-
-?>

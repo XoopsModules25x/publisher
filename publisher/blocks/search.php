@@ -20,27 +20,34 @@
  * @version         $Id: search.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
+/**
+ * @param $options
+ *
+ * @return array
+ */
 function publisher_search_show($options)
 {
-    $block = array();
-    $publisher = PublisherPublisher::getInstance();
+    $block      = array();
+    $publisher  = PublisherPublisher::getInstance();
     $categories = $publisher->getHandler('category')->getCategoriesForSearch();
-    if (count($categories) == 0) return $block;
+    if (count($categories) == 0) {
+        return $block;
+    }
 
     xoops_loadLanguage('search');
 
-    $andor = isset($_POST["andor"]) ? $_POST["andor"] : (isset($_GET["andor"]) ? $_GET["andor"] : "");
+    $andor = XoopsRequest::getString('andor', XoopsRequest::getString('andor', '', 'GET'), 'POST');
+    $username = XoopsRequest::getString('uname', XoopsRequest::getString('uname', null, 'GET'), 'POST');
+    $searchin = XoopsRequest::getArray('searchin', (explode("|", XoopsRequest::getArray('searchin', array(), 'GET'))), 'POST');
+    $sortby   = XoopsRequest::getString('sortby', XoopsRequest::getString('sortby', null, 'GET'), 'POST');
+    $term     = XoopsRequest::getString('term', XoopsRequest::getString('term', '', 'GET'));
 
-    $category = isset($_POST["category"]) ? $_POST["category"] : (isset($_GET["category"]) ? $_GET["category"] : null);
-    $username = isset($_POST["uname"]) ? $_POST["uname"] : (isset($_GET["uname"]) ? $_GET["uname"] : null);
-    $searchin = isset($_POST["searchin"]) ? $_POST["searchin"] : (isset($_GET["searchin"]) ? explode("|", $_GET["searchin"]) : array());
-    $sortby = isset($_POST["sortby"]) ? $_POST["sortby"] : (isset($_GET["sortby"]) ? $_GET["sortby"] : null);
-    $term = isset($_POST["term"]) ? $_POST["term"] : (isset($_GET["term"]) ? $_GET["term"] : "");
-
+    //mb TODO simplify next lines with category
+    $category = XoopsRequest::getArray('category', array(), 'POST') ? XoopsRequest::getArray('category', array(), 'POST') : (XoopsRequest::getArray('category', null, 'GET'));
     if (empty($category) || (is_array($category) && in_array("all", $category))) {
         $category = array();
     } else {
@@ -48,7 +55,7 @@ function publisher_search_show($options)
         $category = array_map("intval", $category);
     }
 
-    $andor = (in_array(strtoupper($andor), array("OR", "AND", "EXACT"))) ? strtoupper($andor) : "OR";
+    $andor  = (in_array(strtoupper($andor), array("OR", "AND", "EXACT"))) ? strtoupper($andor) : "OR";
     $sortby = (in_array(strtolower($sortby), array("itemid", "datesub", "title", "categoryid"))) ? strtolower($sortby) : "itemid";
 
     /* type */
@@ -75,6 +82,7 @@ function publisher_search_show($options)
         if (in_array($id, $category)) $select_category .= "selected=\"selected\"";
         $select_category .= ">" . $cat . "</option>";
     }
+    unset($id, $cat);
     $select_category .= "</select>";
 
     /* scope */
@@ -114,13 +122,13 @@ function publisher_search_show($options)
     $sortby_select .= ">" . _CO_PUBLISHER_CATEGORY . "</option>";
     $sortby_select .= "</select>";
 
-    $block["type_select"] = $type_select;
+    $block["type_select"]     = $type_select;
     $block["searchin_select"] = $searchin_select;
     $block["category_select"] = $select_category;
-    $block["sortby_select"] = $sortby_select;
-    $block["search_term"] = $term;
-    $block["search_user"] = $username;
-    $block["publisher_url"] = PUBLISHER_URL;
+    $block["sortby_select"]   = $sortby_select;
+    $block["search_term"]     = $term;
+    $block["search_user"]     = $username;
+    $block["publisher_url"]   = PUBLISHER_URL;
 
     return $block;
 }

@@ -19,10 +19,15 @@
  * @author          Harry Fuecks (PHP Anthology Volume II)
  * @version         $Id: session.php 10283 2012-11-28 13:39:36Z trabis $
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+//namespace Publisher;
 
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
+include_once dirname(__DIR__) . '/include/common.php';
+
+/**
+ * Class PublisherSession
+ */
 class PublisherSession
 {
     /**
@@ -39,8 +44,8 @@ class PublisherSession
     /**
      * Sets a session variable
      *
-     * @param string $name  name of variable
-     * @param mixed  $value value of variable
+     * @param string $name name of variable
+     * @param mixed $value value of variable
      *
      * @return void
      * @access public
@@ -92,12 +97,16 @@ class PublisherSession
         session_destroy();
     }
 
-    static public function &getInstance()
+    /**
+     * @return PublisherSession
+     */
+    public static function &getInstance()
     {
         static $_sess;
         if (!isset($_sess)) {
             $_sess = new PublisherSession();
         }
+
         return $_sess;
     }
 }

@@ -20,41 +20,46 @@
  * @version         $Id: notification.inc.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-if (!defined("XOOPS_ROOT_PATH")) {
-    die("XOOPS root path not defined");
-}
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-include_once dirname(__FILE__) . '/seo_functions.php';
+include_once __DIR__ . '/seo_functions.php';
 
+/**
+ * @param $category
+ * @param $item_id
+ *
+ * @return mixed
+ */
 function publisher_notify_iteminfo($category, $item_id)
 {
     if ($category == 'global') {
         $item['name'] = '';
-        $item['url'] = '';
+        $item['url']  = '';
+
         return $item;
     }
 
-    global $xoopsDB;
-
     if ($category == 'category') {
         // Assume we have a valid category id
-        $sql = 'SELECT name, short_url FROM ' . $xoopsDB->prefix('publisher_categories') . ' WHERE categoryid  = ' . $item_id;
-        $result = $xoopsDB->query($sql); // TODO: error check
-        $result_array = $xoopsDB->fetchArray($result);
+        $sql          = 'SELECT name, short_url FROM ' . $GLOBALS['xoopsDB']->prefix('publisher_categories') . ' WHERE categoryid  = ' . $item_id;
+        $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
+        $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $result_array['name'];
-        $item['url'] = publisher_seo_genUrl('category', $item_id, $result_array['short_url']);
+        $item['url']  = PublisherSeo::generateUrl('category', $item_id, $result_array['short_url']);
+
         return $item;
     }
 
     if ($category == 'item') {
         // Assume we have a valid story id
-        $sql = 'SELECT title, short_url FROM ' . $xoopsDB->prefix('publisher_items') . ' WHERE itemid = ' . $item_id;
-        $result = $xoopsDB->query($sql); // TODO: error check
-        $result_array = $xoopsDB->fetchArray($result);
+        $sql          = 'SELECT title, short_url FROM ' . $GLOBALS['xoopsDB']->prefix('publisher_items') . ' WHERE itemid = ' . $item_id;
+        $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
+        $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $result_array['title'];
-        $item['url'] = publisher_seo_genUrl('item', $item_id, $result_array['short_url']);
+        $item['url']  = PublisherSeo::generateUrl('item', $item_id, $result_array['short_url']);
+
         return $item;
     }
-}
 
-?>
+    return null;
+}

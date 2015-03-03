@@ -39,7 +39,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * Database connection
      *
-     * @var    XoopsDatabase
+     * @var XoopsDatabase
      */
 //mb    public $_db; //mb it is already declared in XoopsObjectHandler
 
@@ -106,8 +106,8 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param object $criteria {@link CriteriaElement} conditions to be met
-     * @param bool $id_as_key Should the department ID be used as array key
+     * @param object $criteria  {@link CriteriaElement} conditions to be met
+     * @param bool   $id_as_key Should the department ID be used as array key
      *
      * @return array array of objects
      * @access  public
@@ -143,7 +143,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
 
     /**
      * @param object $obj
-     * @param bool $force
+     * @param bool   $force
      *
      * @return bool|void
      */
@@ -235,8 +235,8 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * delete object based on id
      *
-     * @param object $obj {@link XoopsObject} to delete
-     * @param bool $force override XOOPS delete protection
+     * @param object $obj   {@link XoopsObject} to delete
+     * @param bool   $force override XOOPS delete protection
      *
      * @return bool deletion successful?
      * @access public
@@ -285,7 +285,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *
      * @param string $fieldname
      * @param string $fieldvalue
-     * @param object $criteria {@link CriteriaElement}
+     * @param object $criteria   {@link CriteriaElement}
      *
      * @return bool FALSE if update failed
      * @access    public
@@ -393,7 +393,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
     /**
      * Name of child class
      *
-     * @var    string
+     * @var string
      */
     public $className = 'publishermimetype';
 
@@ -550,7 +550,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      * Create a "select" SQL query
      *
      * @param null|object $criteria {@link CriteriaElement} to match
-     * @param bool $join
+     * @param bool        $join
      *
      * @return string string SQL query
      * @access    private

@@ -34,10 +34,10 @@ class PublisherGroupPermHandler extends XoopsGroupPermHandler
     /**
      * Check permission
      *
-     * @param string $gperm_name Name of permission
-     * @param int $gperm_itemid ID of an item
+     * @param string     $gperm_name    Name of permission
+     * @param int        $gperm_itemid  ID of an item
      * @param int /array $gperm_groupid A group ID or an array of group IDs
-     * @param int $gperm_modid ID of a module
+     * @param int        $gperm_modid   ID of a module
      *
      * @return bool TRUE if permission is enabled
      */

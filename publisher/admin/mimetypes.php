@@ -48,7 +48,6 @@ $error = array();
 
 $op = XoopsRequest::getString('op', 'default', 'GET');
 
-
 switch ($op) {
     case "add":
         PublisherMimetypesUtilities::add();
@@ -554,7 +553,6 @@ class PublisherMimetypesUtilities
             $order = XoopsRequest::getString('order', 'ASC', 'POST');
             $sort = XoopsRequest::getString('sort', 'mime_name', 'POST');
 
-
         publisherCpHeader();
         //publisher_adminMenu(4, _AM_PUBLISHER_MIMETYPES . " > " . _AM_PUBLISHER_BUTTON_SEARCH);
 
@@ -713,7 +711,6 @@ class PublisherMimetypesUtilities
 
             $limit = XoopsRequest::getInt('limit', 0, 'GET');
             $start = XoopsRequest::getInt('start', 0, 'GET');
-
 
         if (!(XoopsRequest::getString('id', '', 'GET'))) {
             redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php", 3, _AM_PUBLISHER_MESSAGE_NO_ID);

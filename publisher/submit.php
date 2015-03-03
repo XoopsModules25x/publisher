@@ -84,7 +84,6 @@ if (XoopsRequest::getString('additem', '', 'POST')) {
 
 $op = XoopsRequest::getString('op', XoopsRequest::getString('op',  $op, 'POST'), 'GET');
 
-
 $allowedEditors = publisherGetEditors($gperm_handler->getItemIds('editors', $groups, $module_id));
 $form_view       = $gperm_handler->getItemIds('form_view', $groups, $module_id);
 

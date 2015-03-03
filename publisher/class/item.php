@@ -88,7 +88,7 @@ class PublisherItem extends XoopsObject
 
     /**
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return mixed
      */
@@ -112,7 +112,7 @@ class PublisherItem extends XoopsObject
     }
 
     /**
-     * @param int $maxLength
+     * @param int    $maxLength
      * @param string $format
      *
      * @return mixed|string
@@ -132,7 +132,7 @@ class PublisherItem extends XoopsObject
     }
 
     /**
-     * @param int $maxLength
+     * @param int    $maxLength
      * @param string $format
      *
      * @return mixed|string
@@ -152,7 +152,7 @@ class PublisherItem extends XoopsObject
     }
 
     /**
-     * @param int $maxLength
+     * @param int    $maxLength
      * @param string $format
      * @param string $stripTags
      *
@@ -177,7 +177,7 @@ class PublisherItem extends XoopsObject
     }
 
     /**
-     * @param int $maxLength
+     * @param int  $maxLength
      * @param bool $fullSummary
      *
      * @return mixed|string
@@ -231,7 +231,7 @@ class PublisherItem extends XoopsObject
     /**
      * This method returns the body to be displayed. Not to be used for editing
      *
-     * @param int $maxLength
+     * @param int    $maxLength
      * @param string $format
      * @param string $stripTags
      *
@@ -564,7 +564,7 @@ class PublisherItem extends XoopsObject
 
     /**
      * @param bool $class
-     * @param int $maxsize
+     * @param int  $maxsize
      *
      * @return string
      */
@@ -625,7 +625,7 @@ class PublisherItem extends XoopsObject
     }
 
     /**
-     * @param int $item_page_id
+     * @param int         $item_page_id
      * @param null|string $body
      *
      * @return string
@@ -696,9 +696,9 @@ class PublisherItem extends XoopsObject
 
     /**
      * @param string $display
-     * @param int $max_char_title
-     * @param int $max_char_summary
-     * @param bool $fullSummary
+     * @param int    $max_char_title
+     * @param int    $max_char_summary
+     * @param bool   $fullSummary
      *
      * @return array
      */
@@ -780,7 +780,7 @@ class PublisherItem extends XoopsObject
 
     /**
      * @param array $item
-     * @param int $item_page_id
+     * @param int   $item_page_id
      *
      * @return array
      */
@@ -848,7 +848,7 @@ class PublisherItem extends XoopsObject
     }
 
     /**
-     * @param string $content
+     * @param string       $content
      * @param string|array $keywords
      *
      * @return Text
@@ -914,7 +914,7 @@ class PublisherItem extends XoopsObject
 
     /**
      * @param string $title
-     * @param bool $checkperm
+     * @param bool   $checkperm
      *
      * @return PublisherItemForm
      */
@@ -1103,8 +1103,8 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     /**
      * insert a new item in the database
      *
-     * @param object $item reference to the {@link PublisherItem} object
-     * @param bool $force
+     * @param object $item  reference to the {@link PublisherItem} object
+     * @param bool   $force
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
@@ -1139,8 +1139,8 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     /**
      * delete an item from the database
      *
-     * @param object $item reference to the ITEM to delete
-     * @param bool $force
+     * @param object $item  reference to the ITEM to delete
+     * @param bool   $force
      *
      * @return bool FALSE if failed.
      */
@@ -1167,8 +1167,8 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve items from the database
      *
-     * @param object $criteria {@link CriteriaElement} conditions to be met
-     * @param string $id_key what shall we use as array key ? none, itemid, categoryid
+     * @param object $criteria      {@link CriteriaElement} conditions to be met
+     * @param string $id_key        what shall we use as array key ? none, itemid, categoryid
      * @param string $notNullFields
      *
      * @return array array of {@link PublisherItem} objects
@@ -1224,7 +1224,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     /**
      * count items matching a condition
      *
-     * @param object $criteria {@link CriteriaElement} to match
+     * @param object $criteria      {@link CriteriaElement} to match
      * @param string $notNullFields
      *
      * @return int count of items
@@ -1255,9 +1255,9 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int $categoryid
-     * @param string $status
-     * @param string $notNullFields
+     * @param  int           $categoryid
+     * @param  string        $status
+     * @param  string        $notNullFields
      * @param $criteriaPermissions
      * @return CriteriaCompo
      */
@@ -1350,17 +1350,18 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
                 }
         */
         $ret = $this->getCount($criteria, $notNullFields);
+
         return $ret;
     }
 
     /**
-     * @param int $limit
-     * @param int $start
-     * @param int $categoryid
+     * @param int    $limit
+     * @param int    $start
+     * @param int    $categoryid
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
-     * @param bool $asobject
+     * @param bool   $asobject
      * @param string $id_key
      *
      * @return array
@@ -1410,13 +1411,13 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int $limit
-     * @param int $start
-     * @param int $categoryid
+     * @param int    $limit
+     * @param int    $start
+     * @param int    $categoryid
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
-     * @param bool $asobject
+     * @param bool   $asobject
      * @param string $id_key
      *
      * @return array
@@ -1427,13 +1428,13 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int $limit
-     * @param int $start
-     * @param int $categoryid
+     * @param int    $limit
+     * @param int    $start
+     * @param int    $categoryid
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
-     * @param bool $asobject
+     * @param bool   $asobject
      * @param string $id_key
      *
      * @return array
@@ -1444,13 +1445,13 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int $limit
-     * @param int $start
-     * @param int $categoryid
+     * @param int    $limit
+     * @param int    $start
+     * @param int    $categoryid
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
-     * @param bool $asobject
+     * @param bool   $asobject
      * @param string $id_key
      *
      * @return array
@@ -1461,16 +1462,16 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int $limit
-     * @param int $start
-     * @param string $status
-     * @param int $categoryid
-     * @param string $sort
-     * @param string $order
-     * @param string $notNullFields
-     * @param bool $asObject
-     * @param null $otherCriteria
-     * @param string $id_key
+     * @param  int    $limit
+     * @param  int    $start
+     * @param  string $status
+     * @param  int    $categoryid
+     * @param  string $sort
+     * @param  string $order
+     * @param  string $notNullFields
+     * @param  bool   $asObject
+     * @param  null   $otherCriteria
+     * @param  string $id_key
      * @return array
      * @internal param bool $asobject
      */
@@ -1531,7 +1532,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     /**
      * @param string $field
      * @param string $status
-     * @param int $categoryId
+     * @param int    $categoryId
      *
      * @return bool
      */
@@ -1589,7 +1590,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
 
     /**
      * @param string|array $notNullFields
-     * @param bool $withAnd
+     * @param bool         $withAnd
      *
      * @return string
      */
@@ -1611,13 +1612,13 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param array $queryarray
+     * @param array  $queryarray
      * @param string $andor
-     * @param int $limit
-     * @param int $offset
-     * @param int $userid
-     * @param array $categories
-     * @param int $sortby
+     * @param int    $limit
+     * @param int    $offset
+     * @param int    $userid
+     * @param array  $categories
+     * @param int    $sortby
      * @param string $searchin
      * @param string $extra
      *
@@ -1778,7 +1779,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     /**
      * @param $parentid
      * @param $catsCount
-     * @param string $spaces
+     * @param  string $spaces
      * @return int
      */
     public function countArticlesByCat($parentid, $catsCount, $spaces = '')
@@ -1799,9 +1800,9 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int $catId
+     * @param int   $catId
      * @param array $status
-     * @param bool $inSubCat
+     * @param bool  $inSubCat
      *
      * @return array
      */

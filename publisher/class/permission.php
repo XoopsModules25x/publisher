@@ -46,7 +46,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      * Returns permissions for a certain type
      *
      * @param string $gperm_name "global", "forum" or "topic" (should perhaps have "post" as well - but I don't know)
-     * @param int $id id of the item (forum, topic or possibly post) to get permissions for
+     * @param int    $id         id of the item (forum, topic or possibly post) to get permissions for
      *
      * @return array
      */
@@ -119,7 +119,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
 
     /**
      * @param string $gperm_name
-     * @param int $id
+     * @param int    $id
      *
      * @return bool
      */
@@ -140,9 +140,9 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      * Saves permissions for the selected category
      *  saveCategoryPermissions()
      *
-     * @param array $groups : group with granted permission
-     * @param integer $itemid : itemid on which we are setting permissions for Categories and Forums
-     * @param string $perm_name : name of the permission
+     * @param array   $groups    : group with granted permission
+     * @param integer $itemid    : itemid on which we are setting permissions for Categories and Forums
+     * @param string  $perm_name : name of the permission
      *
      * @return boolean : TRUE if the no errors occured
      */
@@ -168,8 +168,8 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      * Delete all permission for a specific item
      *  deletePermissions()
      *
-     * @param integer $itemid : id of the item for which to delete the permissions
-     * @param string $gperm_name
+     * @param integer $itemid     : id of the item for which to delete the permissions
+     * @param string  $gperm_name
      *
      * @return boolean : TRUE if the no errors occured
      */

@@ -31,7 +31,7 @@ class PublisherSeo
 
     /**
      * @param string $title
-     * @param bool $withExt
+     * @param bool   $withExt
      *
      * @return mixed|string
      */

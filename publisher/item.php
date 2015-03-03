@@ -51,7 +51,6 @@ $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
 $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
 $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 
-
 include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
 // Creating the category object that holds the selected item

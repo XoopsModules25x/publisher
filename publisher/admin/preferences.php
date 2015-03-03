@@ -40,7 +40,6 @@ $op = XoopsRequest::getString('op', $op, 'GET');
 
 $configcat = XoopsRequest::getString('configcat', '', 'GET');
 
-
 if ($op == 'showmod') {
     $config_handler = xoops_gethandler('config');
 

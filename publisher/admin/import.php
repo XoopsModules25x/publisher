@@ -23,7 +23,6 @@ include_once __DIR__ . "/admin_header.php";
 
 $op = XoopsRequest::getString('op', XoopsRequest::getString('op', 'none', 'GET'), 'POST');
 
-
 switch ($op) {
 
     case "importExecute":

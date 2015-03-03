@@ -178,7 +178,7 @@ class PublisherMetagen
 
     /**
      * @param string $text
-     * @param int $minChar
+     * @param int    $minChar
      *
      * @return array
      */
@@ -256,7 +256,7 @@ class PublisherMetagen
      * Return true if the string is length > 0
      *
      * @credit psylove
-     * @var string $string Chaine de caractère
+     * @var    string  $string Chaine de caractère
      * @return boolean
      */
     public function emptyString($var)
@@ -269,8 +269,8 @@ class PublisherMetagen
      *
      * @credit psylove
      *
-     * @param string $title title of the article
-     * @param bool $withExt do we add an html extension or not
+     * @param string $title   title of the article
+     * @param bool   $withExt do we add an html extension or not
      *
      * @return string short url for article
      */

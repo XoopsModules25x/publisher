@@ -31,8 +31,8 @@ $xoops_url      = parse_url(XOOPS_URL);
 $modversion = array(
     'name'                => _MI_PUBLISHER_MD_NAME,
     'version'             => '1.02',
-    'module_status'       => 'Beta 4',
-    'release_date'        => "2014/12/17",
+    'module_status'       => 'RC1',
+    'release_date'        => "2015/05/26",
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
     'credits'             => 'w4z004, hsalazar, Mithrandir, fx2024, Ackbarr, Mariuss, Marco, Michiel, phppp, outch, Xvitry, Catzwolf, Shine, McDonald, trabis, Mowaffak, Bandit-x, Shiva',
@@ -77,12 +77,12 @@ $modversion = array(
     )
 );
 
-//include_once $GLOBALS['xoops']->path("/modules/" . $modversion['dirname'] . "/include/constants.php");
+//include_once $GLOBALS['xoops']->path("modules/" . $modversion['dirname'] . "/include/constants.php");
 xoops_load('constants', $moduleDirName);
 /*
 $logo_filename = $modversion['dirname'] . "_logo.png";
 
-if (file_exists($GLOBALS['xoops']->path("/modules/" . $modversion['dirname'] . "/assets/images/" . $logo_filename))) {
+if (file_exists($GLOBALS['xoops']->path("modules/" . $modversion['dirname'] . "/assets/images/" . $logo_filename))) {
     $modversion['image'] = "assets/images/{$logo_filename}";
 } else {
     $modversion['image'] = "assets/images/module_logo.png";

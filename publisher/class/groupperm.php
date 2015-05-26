@@ -45,7 +45,7 @@ class PublisherGroupPermHandler extends XoopsGroupPermHandler
     {
         $criteria = new CriteriaCompo(new Criteria('gperm_modid', $gperm_modid));
         $criteria->add(new Criteria('gperm_name', $gperm_name));
-        $gperm_itemid = intval($gperm_itemid);
+        $gperm_itemid = (int)($gperm_itemid);
         if ($gperm_itemid > 0) {
             $criteria->add(new Criteria('gperm_itemid', $gperm_itemid));
         }

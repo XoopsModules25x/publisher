@@ -252,4 +252,4 @@ if ($xoopsConfigSearch["keyword_min"] > 0) {
     $xoopsTpl->assign("search_rule", sprintf(_SR_KEYIGNORE, $xoopsConfigSearch["keyword_min"]));
 }
 
-include $GLOBALS['xoops']->path("/footer.php");
+include $GLOBALS['xoops']->path("footer.php");

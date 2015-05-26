@@ -86,7 +86,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      */
     public function &get($id)
     {
-        $id = intval($id);
+        $id = (int)($id);
         if ($id > 0) {
             $sql = $this->selectQuery(new Criteria($this->idfield, $id));
             if (!$result = $this->db->query($sql)) {
@@ -417,7 +417,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      */
     public function &get($id)
     {
-        $id = intval($id);
+        $id = (int)($id);
         if ($id > 0) {
             $sql = $this->selectQuery(new Criteria('mime_id', $id));
             if (!$result = $this->db->query($sql)) {

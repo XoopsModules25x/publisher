@@ -42,7 +42,7 @@ if ($op == 'start') {
     if ($totalCat == 0) {
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_PUBLISHER_IMPORT_NOCATSELECTED . "</span>";
     } else {
-        include_once $GLOBALS['xoops']->path("/class/xoopstree.php");
+        include_once $GLOBALS['xoops']->path("class/xoopstree.php");
 
         $result = $GLOBALS['xoopsDB']->query("SELECT COUNT(*) FROM " . $GLOBALS['xoopsDB']->prefix("wfs_article"));
         list ($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
@@ -131,7 +131,7 @@ if ($op == 'go') {
 
         // Category image
         if (($arrCat['imgurl'] != 'blank.gif') && ($arrCat['imgurl'])) {
-            if (copy($GLOBALS['xoops']->path("/modules/wfsection/images/category/" . $arrCat['imgurl']), PUBLISHER_UPLOAD_PATH . "/images/category/" . $arrCat['imgurl'])) {
+            if (copy($GLOBALS['xoops']->path("modules/wfsection/images/category/" . $arrCat['imgurl']), PUBLISHER_UPLOAD_PATH . "/images/category/" . $arrCat['imgurl'])) {
                 $categoryObj->setVar('image', $arrCat['imgurl']);
             }
         }
@@ -172,7 +172,7 @@ if ($op == 'go') {
 
             // HTML Wrap
             if ($arrArticle['htmlpage']) {
-                $pagewrap_filename = $GLOBALS['xoops']->path("/modules/wfsection/html/" . $arrArticle['htmlpage']);
+                $pagewrap_filename = $GLOBALS['xoops']->path("modules/wfsection/html/" . $arrArticle['htmlpage']);
                 if (file_exists($pagewrap_filename)) {
                     if (copy($pagewrap_filename, PUBLISHER_UPLOAD_PATH . "/content/" . $arrArticle['htmlpage'])) {
                         $itemObj->setVar('body', "[pagewrap=" . $arrArticle['htmlpage'] . "]");
@@ -191,7 +191,7 @@ if ($op == 'go') {
                 $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
                 $allowed_mimetypes = '';
                 while (($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles)) !== false) {
-                    $filename = $GLOBALS['xoops']->path("/modules/wfsection/cache/uploaded/" . $arrFile['filerealname']);
+                    $filename = $GLOBALS['xoops']->path("modules/wfsection/cache/uploaded/" . $arrFile['filerealname']);
                     if (file_exists($filename)) {
                         if (copy($filename, PUBLISHER_UPLOAD_PATH . "/" . $arrFile['filerealname'])) {
                             $fileObj = $publisher->getHandler('file')->create();
@@ -239,21 +239,21 @@ if ($op == 'go') {
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . "<br />";
 
-    $module_handler = xoops_gethandler('module');
-    $moduleObj      = $module_handler->getByDirname('wfsection');
+    $moduleHandler = xoops_gethandler('module');
+    $moduleObj      = $moduleHandler->getByDirname('wfsection');
     $news_module_id = $moduleObj->getVar('mid');
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $comment_handler = xoops_gethandler('comment');
+    $commentHandler = xoops_gethandler('comment');
     $criteria        = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $news_module_id));
-    $comments = $comment_handler->getObjects($criteria);
+    $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
-        if (!$comment_handler->insert($comment)) {
+        if (!$commentHandler->insert($comment)) {
             echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . "<br />";
         } else {
             echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . "<br />";

@@ -49,11 +49,10 @@ function toggleIcon(iconName)
     <{if $module_home}>
     <span class="publisher_modulename"><{$module_home}></span> <{if $title_and_welcome}>
     <span><{$lang_mainintro}></span> <{/if}> <{/if}> <{if $categoryPath}>
-			<span class="publisher_breadcrumb">
-			<{if $module_home}>
-				&gt;
-			<{/if}>
-		  	<{$categoryPath}></span>
-
+            <span class="publisher_breadcrumb">
+            <{if $module_home}>
+                &gt;
+            <{/if}>
+            <{$categoryPath}></span>
     <{/if}>
 </div><{/if}>

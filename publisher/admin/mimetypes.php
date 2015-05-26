@@ -94,7 +94,7 @@ class PublisherMimetypesUtilities
         $publisher = PublisherPublisher::getInstance();
         global $limit, $start;
         $error = array();
-        if (!(XoopsRequest::get('add_mime', '', 'POST'))) {
+        if (!(XoopsRequest::getString('add_mime', '', 'POST'))) {
             publisherCpHeader();
             //publisher_adminMenu(4, _AM_PUBLISHER_MIMETYPES);
 
@@ -771,7 +771,7 @@ class PublisherMimetypesUtilities
      */
     public static function clearEditSessionVars($id)
     {
-        $id      = intval($id);
+        $id      = (int)($id);
         $session = PublisherSession::getInstance();
         $session->del("publisher_editMime_$id");
         $session->del("publisher_editMimeErr_$id");

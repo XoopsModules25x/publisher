@@ -292,7 +292,7 @@ class PublisherMetagen
         $tableau = explode("-", $title); // Transforme la chaine de caractères en tableau
         $tableau = array_filter($tableau, array('PublisherMetagen', 'emptyString')); // Supprime les chaines vides du tableau
         $title   = implode("-", $tableau); // Transforme un tableau en chaine de caractères séparé par un tiret
-        if (sizeof($title) > 0) {
+        if (count($title) > 0) {
             if ($withExt) {
                 $title .= '.html';
             }

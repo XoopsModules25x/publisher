@@ -81,8 +81,8 @@ if (!($itemsCount > 0)) {
     foreach ($items as $item) {
         $time = XoopsLocal::formatTimestamp($item['datesub'], 'mysql', $useroffset);
         if (preg_match("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $time, $datetime)) {
-            $this_year  = intval($datetime[1]);
-            $this_month = intval($datetime[2]);
+            $this_year  = (int)($datetime[1]);
+            $this_month = (int)($datetime[2]);
             //first year
             if (empty($lastyear)) {
                 $lastyear          = $this_year;

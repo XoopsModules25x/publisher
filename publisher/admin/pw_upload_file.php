@@ -24,11 +24,11 @@ include_once __DIR__ . '/admin_header.php';
 $errors = array();
 
 if (publisher_pagewrap_upload($errors)) {
-    redirect_header(XoopsRequest::get('backto', '', 'POST'), 2, _AM_PUBLISHER_FILEUPLOAD_SUCCESS);
+    redirect_header(XoopsRequest::getString('backto', '', 'POST'), 2, _AM_PUBLISHER_FILEUPLOAD_SUCCESS);
 } else {
     $errorstxt = implode('<br />', $errors);
     $message   = sprintf(_CO_PUBLISHER_MESSAGE_FILE_ERROR, $errorstxt);
-    redirect_header(XoopsRequest::get('backto', '', 'POST'), 5, $message);
+    redirect_header(XoopsRequest::getString('backto', '', 'POST'), 5, $message);
 }
 
 /**

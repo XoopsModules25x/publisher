@@ -79,7 +79,7 @@
             <table>
                 <tr>
                     <td style="text-align: right;" align="right">
-                        <a href="javascript:openWithSelfMain('<{$publisher_url}>/pop.php?itemid=<{$item.itemid}>', 'smartpopup', 700, 519);"><img src="<{$xoops_url}>/images/press_room_go.gif" alt="" style="vertical-align: bottom;" align="right"></a>
+                        <a href="javascript:openWithSelfMain('<{$publisher_url}>/pop.php?itemid=<{$item.itemid}>', 'smartpopup', 700, 519);"><img src="<{$publisher_url}>/assets/images/links/print.gif" alt="" style="vertical-align: bottom;" align="right"></a>
                     </td>
                 </tr>
                 <tr></tr>

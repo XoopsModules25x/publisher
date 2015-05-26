@@ -107,8 +107,8 @@ if ($op == 'go') {
         _AM_PUBLISHER_IMPORT_RESULT
     );
 
-    $module_handler        = xoops_gethandler('module');
-    $moduleObj             = $module_handler->getByDirname('cjaycontent');
+    $moduleHandler        = xoops_gethandler('module');
+    $moduleObj             = $moduleHandler->getByDirname('cjaycontent');
     $cjaycontent_module_id = $moduleObj->getVar('mid');
 
     $gperm_handler = xoops_gethandler('groupperm');
@@ -151,9 +151,9 @@ if ($op == 'go') {
         /*
          // HTML Wrap
          if ($arrArticle['htmlpage']) {
-         $pagewrap_filename	= $GLOBALS['xoops']->path("/modules/wfsection/html/" .$arrArticle['htmlpage']);
+         $pagewrap_filename	= $GLOBALS['xoops']->path("modules/wfsection/html/" .$arrArticle['htmlpage']);
          if (file_exists($pagewrap_filename)) {
-         if (copy($pagewrap_filename, $GLOBALS['xoops']->path("/uploads/publisher/content/" . $arrArticle['htmlpage']))) {
+         if (copy($pagewrap_filename, $GLOBALS['xoops']->path("uploads/publisher/content/" . $arrArticle['htmlpage']))) {
          $itemObj->setVar('body', "[pagewrap=" . $arrArticle['htmlpage'] . "]");
          echo sprintf("&nbsp;&nbsp;&nbsp;&nbsp;" . _AM_PUBLISHER_IMPORT_ARTICLE_WRAP, $arrArticle['htmlpage']) . "<br/>";
          }
@@ -178,15 +178,15 @@ if ($op == 'go') {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $comment_handler = xoops_gethandler('comment');
+    $commentHandler = xoops_gethandler('comment');
     $criteria        = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $cjaycontent_module_id));
-    $comments = $comment_handler->getObjects($criteria);
+    $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
-        if (!$comment_handler->insert($comment)) {
+        if (!$commentHandler->insert($comment)) {
             echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . "<br />";
         } else {
             echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . "<br />";

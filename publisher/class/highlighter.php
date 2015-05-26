@@ -101,7 +101,7 @@ class PublisherHighlighter
     /**
      * Highlight a string in text without corrupting HTML tags
      *
-     * @param string $text Haystack - The text to search
+     * @param string       $text   Haystack - The text to search
      * @param array|string $needle Needle - The string to highlight
      *
      * @return string $text with needle highlighted

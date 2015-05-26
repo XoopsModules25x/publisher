@@ -33,8 +33,6 @@ foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
 //    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
 
-
-
 echo $indexAdmin->addNavigation('index.php');
 echo $indexAdmin->renderIndex();
 

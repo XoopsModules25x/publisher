@@ -65,7 +65,7 @@ class PublisherFile extends XoopsObject
 
     /**
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return mixed
      */
@@ -78,8 +78,8 @@ class PublisherFile extends XoopsObject
 
     /**
      * @param string $post_field
-     * @param array $allowed_mimetypes
-     * @param array $errors
+     * @param array  $allowed_mimetypes
+     * @param array  $errors
      *
      * @return bool
      */
@@ -110,8 +110,8 @@ class PublisherFile extends XoopsObject
 
     /**
      * @param string $post_field
-     * @param array $allowed_mimetypes
-     * @param array $errors
+     * @param array  $allowed_mimetypes
+     * @param array  $errors
      *
      * @return bool
      */
@@ -153,8 +153,8 @@ class PublisherFile extends XoopsObject
 
     /**
      * @param null|array $allowed_mimetypes
-     * @param bool $force
-     * @param bool $doupload
+     * @param bool       $force
+     * @param bool       $doupload
      *
      * @return bool
      */
@@ -303,8 +303,8 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
     /**
      * delete a file from the database
      *
-     * @param object $file reference to the file to delete
-     * @param bool $force
+     * @param object $file  reference to the file to delete
+     * @param bool   $force
      *
      * @return bool FALSE if failed.
      */
@@ -345,13 +345,13 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve all files
      *
-     * @param int $itemid
-     * @param int $status
-     * @param int $limit
-     * @param int $start
+     * @param int    $itemid
+     * @param int    $status
+     * @param int    $limit
+     * @param int    $start
      * @param string $sort
      * @param string $order
-     * @param array $category
+     * @param array  $category
      *
      * @return array array of {@link PublisherFile} objects
      */

@@ -51,7 +51,6 @@ $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
 $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
 $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 
-
 include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
 // Creating the category object that holds the selected item
@@ -213,7 +212,7 @@ $publisher_metagen->createMetaTags();
 
 // Include the comments if the selected ITEM supports comments
 if ((($itemObj->cancomment() == 1) || !$publisher->getConfig('perm_com_art_level')) && ($publisher->getConfig('com_rule') <> 0)) {
-    include_once $GLOBALS['xoops']->path("/include/comment_view.php");
+    include_once $GLOBALS['xoops']->path("include/comment_view.php");
     // Problem with url_rewrite and posting comments :
     $xoopsTpl->assign(array(
                           'editcomment_link'   => PUBLISHER_URL . '/comment_edit.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,

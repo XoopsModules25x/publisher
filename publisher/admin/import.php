@@ -23,13 +23,12 @@ include_once __DIR__ . "/admin_header.php";
 
 $op = XoopsRequest::getString('op', XoopsRequest::getString('op', 'none', 'GET'), 'POST');
 
-
 switch ($op) {
 
     case "importExecute":
 
         $importfile      = XoopsRequest::getString('importfile', 'nonselected', 'POST');
-        $importfile_path = $GLOBALS['xoops']->path("/modules/" . $publisher->getModule()->dirname() . "/admin/import/" . $importfile . ".php");
+        $importfile_path = $GLOBALS['xoops']->path("modules/" . $publisher->getModule()->dirname() . "/admin/import/" . $importfile . ".php");
         include_once $importfile_path;
         break;
 
@@ -45,11 +44,11 @@ switch ($op) {
 
         xoops_load('XoopsFormLoader');
 
-        $module_handler = xoops_gethandler('module');
+        $moduleHandler = xoops_gethandler('module');
 
         // WF-Section
         /*$wfs_version = 0;
-        $moduleObj = $module_handler->getByDirname('wfsection');
+        $moduleObj = $moduleHandler->getByDirname('wfsection');
         if ($moduleObj) {
         $from_module_version = round($moduleObj->getVar('version') / 100, 2);
         if (($from_module_version == 1.5) || $from_module_version == 1.04 || $from_module_version == 1.01 || $from_module_version == 2.07 || $from_module_version == 2.06) {
@@ -60,7 +59,7 @@ switch ($op) {
 
         // News
         $news_version = 0;
-        $moduleObj    = $module_handler->getByDirname('news');
+        $moduleObj    = $moduleHandler->getByDirname('news');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if (($from_module_version >= 1.1)) {
@@ -71,7 +70,7 @@ switch ($op) {
 
         // xNews
         $xnews_version = 0;
-        $moduleObj     = $module_handler->getByDirname('xnews');
+        $moduleObj     = $moduleHandler->getByDirname('xnews');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if (($from_module_version >= 1.1)) {
@@ -82,7 +81,7 @@ switch ($op) {
 
         // AMS
         $ams_version = 0;
-        $moduleObj   = $module_handler->getByDirname('AMS');
+        $moduleObj   = $moduleHandler->getByDirname('AMS');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if (($from_module_version >= 1.1)) {
@@ -93,7 +92,7 @@ switch ($op) {
 
         // Smartsection
         $smartsection_version = 0;
-        $moduleObj            = $module_handler->getByDirname('smartsection');
+        $moduleObj            = $moduleHandler->getByDirname('smartsection');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if (($from_module_version >= 1.1)) {
@@ -104,7 +103,7 @@ switch ($op) {
 
         // C-Jay Content
         $cjaycontent_version = 0;
-        $moduleObj           = $module_handler->getByDirname('cjaycontent');
+        $moduleObj           = $moduleHandler->getByDirname('cjaycontent');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if (($from_module_version >= 1.1)) {
@@ -115,7 +114,7 @@ switch ($op) {
 
         // FmContent
         $fmcontent_version = 0;
-        $moduleObj         = $module_handler->getByDirname('fmcontent');
+        $moduleObj         = $moduleHandler->getByDirname('fmcontent');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if (($from_module_version >= 1.1)) {
@@ -126,7 +125,7 @@ switch ($op) {
 
         //  XF-Section
         /*$xfs_version = 0;
-        $moduleObj = $module_handler->getByDirname('xfsection');
+        $moduleObj = $moduleHandler->getByDirname('xfsection');
         If ($moduleObj) {
         $from_module_version = round($moduleObj->getVar('version') / 100, 2);
         if ($from_module_version > 1.00) {

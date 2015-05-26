@@ -412,7 +412,7 @@ $publisher(document).ready(function () {
             this.enable();
             // add file to the list
             var result = eval(response);
-            if (result[0] == "success") {
+            if ("success" == result[0]) {
                  $publisher("#image_item").append("<option value=\'" + result[1] + "\' selected=\'selected\'>" + result[2] + "</option>");
                  publisher_updateSelectOption(\'image_item\', \'image_featured\');
                  showImgSelected(\'image_display\', \'image_item\', \'uploads/\', \'\', \'' . XOOPS_URL . '\')

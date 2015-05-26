@@ -148,39 +148,39 @@ if (!defined('PNGCRUSH_PATH')) {
 } //This will only run if OPTIPNG_PATH is not set or is not valid
 
 /*
-	-------====Website Screenshots configuration - BETA====-------
+    -------====Website Screenshots configuration - BETA====-------
 
-	If you just want image thumbnails and don't want website screenshots, you can safely leave this as is.
+    If you just want image thumbnails and don't want website screenshots, you can safely leave this as is.
 
-	If you would like to get website screenshots set up, you will need root access to your own server.
+    If you would like to get website screenshots set up, you will need root access to your own server.
 
-	Enable ALLOW_ALL_EXTERNAL_SITES so you can fetch any external web page. This is more secure now that we're using a non-web folder for cache.
-	Enable BLOCK_EXTERNAL_LEECHERS so that your site doesn't generate thumbnails for the whole Internet.
+    Enable ALLOW_ALL_EXTERNAL_SITES so you can fetch any external web page. This is more secure now that we're using a non-web folder for cache.
+    Enable BLOCK_EXTERNAL_LEECHERS so that your site doesn't generate thumbnails for the whole Internet.
 
-	Instructions to get website screenshots enabled on Ubuntu Linux:
+    Instructions to get website screenshots enabled on Ubuntu Linux:
 
-	1. Install Xvfb with the following command: sudo apt-get install subversion libqt4-webkit libqt4-dev g++ xvfb
-	2. Go to a directory where you can download some code
-	3. Check-out the latest version of CutyCapt with the following command: svn co https://cutycapt.svn.sourceforge.net/svnroot/cutycapt
-	4. Compile CutyCapt by doing: cd cutycapt/CutyCapt
-	5. qmake
-	6. make
-	7. cp CutyCapt /usr/local/bin/
-	8. Test it by running: xvfb-run --server-args="-screen 0, 1024x768x24" CutyCapt --url="http://markmaunder.com/" --out=test.png
-	9. If you get a file called test.png with something in it, it probably worked. Now test the script by accessing it as follows:
-	10. http://yoursite.com/path/to/timthumb.php?src=http://markmaunder.com/&webshot=1
+    1. Install Xvfb with the following command: sudo apt-get install subversion libqt4-webkit libqt4-dev g++ xvfb
+    2. Go to a directory where you can download some code
+    3. Check-out the latest version of CutyCapt with the following command: svn co https://cutycapt.svn.sourceforge.net/svnroot/cutycapt
+    4. Compile CutyCapt by doing: cd cutycapt/CutyCapt
+    5. qmake
+    6. make
+    7. cp CutyCapt /usr/local/bin/
+    8. Test it by running: xvfb-run --server-args="-screen 0, 1024x768x24" CutyCapt --url="http://markmaunder.com/" --out=test.png
+    9. If you get a file called test.png with something in it, it probably worked. Now test the script by accessing it as follows:
+    10. http://yoursite.com/path/to/timthumb.php?src=http://markmaunder.com/&webshot=1
 
-	Notes on performance:
-	The first time a webshot loads, it will take a few seconds.
-	From then on it uses the regular timthumb caching mechanism with the configurable options above
-	and loading will be very fast.
+    Notes on performance:
+    The first time a webshot loads, it will take a few seconds.
+    From then on it uses the regular timthumb caching mechanism with the configurable options above
+    and loading will be very fast.
 
-	--ADVANCED USERS ONLY--
-	If you'd like a slight speedup (about 25%) and you know Linux, you can run the following command which will keep Xvfb running in the background.
-	nohup Xvfb :100 -ac -nolisten tcp -screen 0, 1024x768x24 > /dev/null 2>&1 &
-	Then set WEBSHOT_XVFB_RUNNING = true below. This will save your server having to fire off a new Xvfb server and shut it down every time a new shot is generated.
-	You will need to take responsibility for keeping Xvfb running in case it crashes. (It seems pretty stable)
-	You will also need to take responsibility for server security if you're running Xvfb as root.
+    --ADVANCED USERS ONLY--
+    If you'd like a slight speedup (about 25%) and you know Linux, you can run the following command which will keep Xvfb running in the background.
+    nohup Xvfb :100 -ac -nolisten tcp -screen 0, 1024x768x24 > /dev/null 2>&1 &
+    Then set WEBSHOT_XVFB_RUNNING = true below. This will save your server having to fire off a new Xvfb server and shut it down every time a new shot is generated.
+    You will need to take responsibility for keeping Xvfb running in case it crashes. (It seems pretty stable)
+    You will also need to take responsibility for server security if you're running Xvfb as root.
 
 
 */
@@ -591,7 +591,7 @@ class timthumb
      */
     protected function haveErrors()
     {
-        if (sizeof($this->errors) > 0) {
+        if (count($this->errors) > 0) {
             return true;
         }
 

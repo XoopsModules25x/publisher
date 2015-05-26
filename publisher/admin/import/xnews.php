@@ -56,33 +56,31 @@ if ($op == 'start') {
             echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(
                     _AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS,
                     $importFromModuleName,
-                    $totalArticles
-                ) . "</span>";
+                    $totalArticles) . "</span>";
         } else {
             echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(
                     _AM_PUBLISHER_IMPORT_MODULE_FOUND,
                     $importFromModuleName,
                     $totalArticles,
-                    $totalCat
-                ) . "</span>";
+                    $totalCat) . "</span>";
 
             $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
-//---------- mb ------------------
-// add "publisher" category to "imagecategory" table
+            //---------- mb ------------------
+            // add "publisher" category to "imagecategory" table
 
-//            if (!$GLOBALS['xoopsSecurity']->check()) {
-//                redirect_header('admin.php?fct=images', 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
-//            }
+            //            if (!$GLOBALS['xoopsSecurity']->check()) {
+            //                redirect_header('admin.php?fct=images', 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
+            //            }
 
             $imageCategoryHandler =& xoops_gethandler('imagecategory');
             $imagecategory        =& $imageCategoryHandler->create();
-//            $imagecategory->setVar('imgcat_name', $imgcat_name);
+            //            $imagecategory->setVar('imgcat_name', $imgcat_name);
             $imagecategory->setVar('imgcat_name', PUBLISHER_DIRNAME); //$imgcat_name);
             $imagecategory->setVar('imgcat_maxsize', $GLOBALS['xoopsModuleConfig']['maximum_filesize']); //$imgcat_maxsize);
             $imagecategory->setVar('imgcat_maxwidth', $GLOBALS['xoopsModuleConfig']['maximum_image_width']); //$imgcat_maxwidth);
             $imagecategory->setVar('imgcat_maxheight', $GLOBALS['xoopsModuleConfig']['maximum_image_height']); //$imgcat_maxheight);
-//            $imgcat_display = empty($imgcat_display) ? 0 : 1;
+            //            $imgcat_display = empty($imgcat_display) ? 0 : 1;
             $imagecategory->setVar('imgcat_display', 1); //$imgcat_display);
             $imagecategory->setVar('imgcat_weight', 0); //$imgcat_weight);
             $imagecategory->setVar('imgcat_storetype', 'file'); //$imgcat_storetype);
@@ -130,7 +128,7 @@ if ($op == 'start') {
             }
             unset($wgroup);
 
-//---------- mb ------------------
+            //---------- mb ------------------
 
             // Categories to be imported
             $sql = "SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM " . $GLOBALS['xoopsDB']->prefix("nw_topics")
@@ -182,8 +180,8 @@ if ($op == 'go') {
         _AM_PUBLISHER_IMPORT_RESULT
     );
 
-    $module_handler  = xoops_gethandler('module');
-    $moduleObj       = $module_handler->getByDirname('xnews');
+    $moduleHandler  = xoops_gethandler('module');
+    $moduleObj       = $moduleHandler->getByDirname('xnews');
     $xnews_module_id = $moduleObj->getVar('mid');
 
     $gperm_handler = xoops_gethandler('groupperm');
@@ -201,32 +199,32 @@ if ($op == 'go') {
     $newArticleArray = array();
 
     $imageCategoryHandler =& xoops_gethandler('imagecategory');
-//    $criteria = new criteriaCombo;
+    //    $criteria = new criteriaCombo;
 
-//     get the total number of subcats for this category
-//     $criteria = new CriteriaCompo();
-//     $criteria->add(new Criteria('imagecategory', $catObj->getVar('cid'), '='));
-//     $childCount = intval($mylinksCatHandler->getCount($criteria));
+    //     get the total number of subcats for this category
+    //     $criteria = new CriteriaCompo();
+    //     $criteria->add(new Criteria('imagecategory', $catObj->getVar('cid'), '='));
+    //     $childCount = (int)($mylinksCatHandler->getCount($criteria));
 
     $criteria        = new Criteria('imgcat_name', PUBLISHER_DIRNAME);
     $imageCategoryId = $imageCategoryHandler->getObjects($criteria);
 
-//    $criteria = new CriteriaCompo();
-//    $criteria->add(new Criteria("imagecategory", PUBLISHER_DIRNAME, "="));
+    //    $criteria = new CriteriaCompo();
+    //    $criteria->add(new Criteria("imagecategory", PUBLISHER_DIRNAME, "="));
 
-//    $newid = $imageCategoryId->getVar('imgcat_id');
+    //    $newid = $imageCategoryId->getVar('imgcat_id');
     $newid = $imageCategoryId[0]->vars['imgcat_id']['value'];
-//    $newid = $imageCategoryId[0]->vars['imgcat_id'];
+    //    $newid = $imageCategoryId[0]->vars['imgcat_id'];
 
-//    $select_form = new XoopsFormSelect("", $name_current, array(), 1);
-//    $select_form->addOption("", _SELECT);
-//    $select_form->addOptionArray($writer_handler->getList($criteria));
+    //    $select_form = new XoopsFormSelect("", $name_current, array(), 1);
+    //    $select_form->addOption("", _SELECT);
+    //    $select_form->addOptionArray($writer_handler->getList($criteria));
 
-//    $sql = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('imagecategory') . " WHERE imgcat_name=" . PUBLISHER_DIRNAME;
-//            $resultImageCategory = $GLOBALS['xoopsDB']->query($sql);
-//
-//
-//    $newid = $resultImageCategory->getVar('imgcat_id');
+    //    $sql = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('imagecategory') . " WHERE imgcat_name=" . PUBLISHER_DIRNAME;
+    //            $resultImageCategory = $GLOBALS['xoopsDB']->query($sql);
+    //
+    //
+    //    $newid = $resultImageCategory->getVar('imgcat_id');
 
     $oldToNew = array();
     while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) !== false) {
@@ -246,13 +244,13 @@ if ($op == 'go') {
         // Category image: copying to Publisher category uploads
         if (($arrCat['topic_imgurl'] != 'blank.gif') && ($arrCat['topic_imgurl'] != '')) {
             if (copy(
-                $GLOBALS['xoops']->path("/uploads/xnews/topics/" . $arrCat['topic_imgurl']),
-                $GLOBALS['xoops']->path("/uploads/" . PUBLISHER_DIRNAME . "/images/category/" . $arrCat['topic_imgurl'])
+                $GLOBALS['xoops']->path("uploads/xnews/topics/" . $arrCat['topic_imgurl']),
+                $GLOBALS['xoops']->path("uploads/" . PUBLISHER_DIRNAME . "/images/category/" . $arrCat['topic_imgurl'])
             )
             ) {
                 $categoryObj->setVar('image', $arrCat['topic_imgurl']);
 
-//======== there is no need to add the category images to Image Manager, because they are handled directly from /images/category/ folder
+                //======== there is no need to add the category images to Image Manager, because they are handled directly from /images/category/ folder
 
                 /*
 
@@ -272,7 +270,7 @@ if ($op == 'go') {
 
                   */
 
-//============================
+                //============================
 
             }
         }
@@ -283,8 +281,8 @@ if ($op == 'go') {
         }
 
         //copy all images to Image Manager
-        $src = $GLOBALS['xoops']->path("/uploads/xnews/topics/");
-        $dst = $GLOBALS['xoops']->path("/uploads");
+        $src = $GLOBALS['xoops']->path("uploads/xnews/topics/");
+        $dst = $GLOBALS['xoops']->path("uploads");
         PublisherUtilities::recurseCopy($src, $dst);
 
         //populate the Image Manager with images from xNews articles (by Bleekk)
@@ -329,7 +327,7 @@ if ($op == 'go') {
             $itemObj->setVar('dobr', !$arrArticle['dobr']);
             $itemObj->setVar('item_tag', $arrArticle['tags']);
             $itemObj->setVar('notifypub', $arrArticle['notifypub']);
-//-------- image
+            //-------- image
 
             $img_handler =& xoops_gethandler('image');
 
@@ -339,7 +337,7 @@ if ($op == 'go') {
             $itemObj->setVar('image', $newImageId);
             $itemObj->setVar('images', $newImageId);
 
-//--------------
+            //--------------
 
             $itemObj->setVar('rating', $arrArticle['rating']);
             $itemObj->setVar('votes', $arrArticle['votes']);
@@ -350,9 +348,9 @@ if ($op == 'go') {
             /*
              // HTML Wrap
              if ($arrArticle['htmlpage']) {
-             $pagewrap_filename	= $GLOBALS['xoops']->path("/modules/wfsection/html/" .$arrArticle['htmlpage']);
+             $pagewrap_filename	= $GLOBALS['xoops']->path("modules/wfsection/html/" .$arrArticle['htmlpage']);
              if (file_exists($pagewrap_filename)) {
-             if (copy($pagewrap_filename, $GLOBALS['xoops']->path("/uploads/publisher/content/" . $arrArticle['htmlpage']))) {
+             if (copy($pagewrap_filename, $GLOBALS['xoops']->path("uploads/publisher/content/" . $arrArticle['htmlpage']))) {
              $itemObj->setVar('body', "[pagewrap=" . $arrArticle['htmlpage'] . "]");
              echo sprintf("&nbsp;&nbsp;&nbsp;&nbsp;" . _AM_PUBLISHER_IMPORT_ARTICLE_WRAP, $arrArticle['htmlpage']) . "<br/>";
              }
@@ -364,15 +362,15 @@ if ($op == 'go') {
                 echo sprintf("  " . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $arrArticle['storyid'] . ' ' . $arrArticle['title']) . "<br/>";
                 continue;
             } else {
-//--------------------------------------------
+                //--------------------------------------------
                 // Linkes files
                 $sql               = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix("nw_stories_files") . " WHERE storyid=" . $arrArticle['storyid'];
                 $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
                 $allowed_mimetypes = '';
                 while (($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles)) !== false) {
-                    $filename = $GLOBALS['xoops']->path("/uploads/xnews/attached/" . $arrFile['downloadname']);
+                    $filename = $GLOBALS['xoops']->path("uploads/xnews/attached/" . $arrFile['downloadname']);
                     if (file_exists($filename)) {
-                        if (copy($filename, $GLOBALS['xoops']->path("/uploads/publisher/" . $arrFile['filerealname']))) {
+                        if (copy($filename, $GLOBALS['xoops']->path("uploads/publisher/" . $arrFile['filerealname']))) {
                             $fileObj = $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['filerealname']);
                             $fileObj->setVar('description', $arrFile['filerealname']);
@@ -392,7 +390,7 @@ if ($op == 'go') {
                     }
                 }
 
-//------------------------
+                //------------------------
 
                 $newArticleArray[$arrArticle['storyid']] = $itemObj->itemid();
                 echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . "<br />";
@@ -434,15 +432,15 @@ if ($op == 'go') {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $comment_handler = xoops_gethandler('comment');
+    $commentHandler = xoops_gethandler('comment');
     $criteria        = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $xnews_module_id));
-    $comments = $comment_handler->getObjects($criteria);
+    $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
-        if (!$comment_handler->insert($comment)) {
+        if (!$commentHandler->insert($comment)) {
             echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . "<br />";
         } else {
             echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . "<br />";

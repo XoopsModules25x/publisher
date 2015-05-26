@@ -66,7 +66,7 @@ class PublisherCategory extends XoopsObject
 
     /**
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return mixed
      */
@@ -397,7 +397,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      * insert a new category in the database
      *
      * @param object $category reference to the {@link PublisherCategory} object
-     * @param bool $force
+     * @param bool   $force
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
@@ -426,7 +426,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      * delete a category from the database
      *
      * @param object $category reference to the category to delete
-     * @param bool $force
+     * @param bool   $force
      *
      * @return bool FALSE if failed.
      */
@@ -457,8 +457,8 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve categories from the database
      *
-     * @param object $criteria {@link CriteriaElement} conditions to be met
-     * @param bool $id_as_key use the categoryid as key for the array?
+     * @param object $criteria  {@link CriteriaElement} conditions to be met
+     * @param bool   $id_as_key use the categoryid as key for the array?
      *
      * @return array array of {@link XoopsItem} objects
      */
@@ -479,12 +479,12 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int $limit
-     * @param int $start
-     * @param int $parentid
+     * @param int    $limit
+     * @param int    $start
+     * @param int    $parentid
      * @param string $sort
      * @param string $order
-     * @param bool $id_as_key
+     * @param bool   $id_as_key
      *
      * @return array
      */
@@ -715,7 +715,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int $catId
+     * @param int    $catId
      * @param string $status
      *
      * @return mixed

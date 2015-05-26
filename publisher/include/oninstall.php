@@ -34,8 +34,7 @@ function xoops_module_pre_install_publisher(XoopsModule &$xoopsModule)
 function xoops_module_install_publisher(XoopsModule &$xoopsModule)
 {
     xoops_loadLanguage('modinfo', $xoopsModule->getVar('dirname'));
-    include_once $GLOBALS['xoops']->path("/modules/" . $xoopsModule->getVar('dirname') . "/include/functions.php");
-    xoops_loadLanguage('admin', $xoopsModule->getVar('dirname'));
+    include_once $GLOBALS['xoops']->path("modules/" . $xoopsModule->getVar('dirname') . "/include/functions.php");
 
     $ret = true;
     $msg = '';

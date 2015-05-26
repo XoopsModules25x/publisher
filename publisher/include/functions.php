@@ -989,9 +989,9 @@ function publisherGetEditors($allowedEditors = null)
  */
 function publisherStringToInt($string = '', $length = 5)
 {
-    for ($i = 0, $final = "", $string = substr(md5($string), $length); $i < $length; $final .= intval($string[$i]), ++$i) ;
+    for ($i = 0, $final = "", $string = substr(md5($string), $length); $i < $length; $final .= (int)($string[$i]), ++$i) ;
 
-    return intval($final);
+    return (int)($final);
 }
 
 /**

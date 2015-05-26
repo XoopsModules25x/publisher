@@ -9,7 +9,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * PedigreeBreadcrumb Class
+ * PublisherUtilities Class
  *
  * @copyright   The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -177,8 +177,8 @@ class PublisherUtilities
 
     /**
      * @param bool $showmenu
-     * @param int $categoryid
-     * @param int $nb_subcats
+     * @param int  $categoryid
+     * @param int  $nb_subcats
      * @param null $categoryObj
      */
     public static function editCategory($showmenu = false, $categoryid = 0, $nb_subcats = 4, $categoryObj = null)

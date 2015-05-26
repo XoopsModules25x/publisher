@@ -22,8 +22,8 @@
 // defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
 $dirname        = basename(dirname(__DIR__));
-$module_handler = xoops_gethandler('module');
-$module         = $module_handler->getByDirname($dirname);
+$moduleHandler = xoops_gethandler('module');
+$module         = $moduleHandler->getByDirname($dirname);
 $pathIcon32     = $module->getInfo('icons32');
 
 include_once dirname(__DIR__) . '/include/config.php';

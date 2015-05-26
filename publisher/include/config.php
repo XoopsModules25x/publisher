@@ -23,7 +23,6 @@
 // defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
-
 define("PUBLISHER_DIRNAME", basename(dirname(__DIR__)));
 define("PUBLISHER_URL", XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME);
 define("PUBLISHER_PATH", XOOPS_ROOT_PATH . "/modules/" . PUBLISHER_DIRNAME);

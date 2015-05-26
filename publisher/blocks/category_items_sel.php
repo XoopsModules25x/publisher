@@ -72,6 +72,7 @@ function publisher_category_items_sel_show($options)
     unset($items, $categories, $itemObj, $catID, $catObj);
 
     if (count($block['categories']) == 0) return $block;
+
     return $block;
 }
 

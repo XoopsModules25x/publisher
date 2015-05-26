@@ -73,7 +73,7 @@ switch ($op) {
 
         // Uploading the image, if any
         // Retreive the filename to be uploaded
-        if (($image_file = XoopsRequest::getArray('image_file', '', 'FILES')['name'])) {
+        if ($image_file = XoopsRequest::getArray('image_file', '', 'FILES')['name']) {
 //            $filename = XoopsRequest::getArray('xoops_upload_file', array(), 'POST')[0];
             if ($filename = XoopsRequest::getArray('xoops_upload_file', array(), 'POST')[0]) {
                 // TODO : implement publisher mimetype management
@@ -139,7 +139,7 @@ switch ($op) {
 
         //Added by fx2024
         $parentCat = $categoryObj->categoryid();
-        $sizeof    = sizeof(XoopsRequest::getString('scname', '', 'POST'));
+        $sizeof    = count(XoopsRequest::getString('scname', '', 'POST'));
         for ($i = 0; $i < $sizeof; ++$i) {
             if (XoopsRequest::getArray('scname', array(), 'POST')[$i] != '') {
                 $categoryObj = $publisher->getHandler('category')->create();

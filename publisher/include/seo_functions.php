@@ -31,7 +31,7 @@ class PublisherSeo
 
     /**
      * @param string $title
-     * @param bool $withExt
+     * @param bool   $withExt
      *
      * @return mixed|string
      */
@@ -62,7 +62,7 @@ class PublisherSeo
         $rep_pat = array("-", "e", "e", "e", "e", "c", "a", "a", "a", "i", "i", "u", "u", "u", "o", "o");
         $title   = preg_replace($pattern, $rep_pat, $title);
 
-        if (sizeof($title) > 0) {
+        if (count($title) > 0) {
             if ($withExt) {
                 $title .= '.html';
             }
@@ -84,7 +84,9 @@ class PublisherSeo
     {
         $publisher = PublisherPublisher::getInstance();
         if ($publisher->getConfig('seo_url_rewrite') != 'none') {
-            if (!empty($short_url)) $short_url = $short_url . '.html';
+            if (!empty($short_url)) {
+                $short_url = $short_url . '.html';
+            }
 
             if ($publisher->getConfig('seo_url_rewrite') == 'htaccess') {
                 // generate SEO url using htaccess

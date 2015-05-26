@@ -26,7 +26,7 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
 
     if ($oldversion < 102) {
         // delete old html template files
-        $templateDirectory = $GLOBALS['xoops']->path("/modules/" . $module->getVar('dirname', 'n') . "/templates/");
+        $templateDirectory = $GLOBALS['xoops']->path("modules/" . $module->getVar('dirname', 'n') . "/templates/");
         $template_list     = array_diff(scandir($templateDirectory), array('..', '.'));
         foreach ($template_list as $k => $v) {
             $fileinfo = new SplFileInfo($templateDirectory . $v);
@@ -37,7 +37,7 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
             }
         }
         // delete old block html template files
-        $templateDirectory = $GLOBALS['xoops']->path("/modules/" . $module->getVar('dirname', 'n') . "/templates/blocks/");
+        $templateDirectory = $GLOBALS['xoops']->path("modules/" . $module->getVar('dirname', 'n') . "/templates/blocks/");
         $template_list     = array_diff(scandir($templateDirectory), array('..', '.'));
         foreach ($template_list as $k => $v) {
             $fileinfo = new SplFileInfo($templateDirectory . $v);
@@ -50,23 +50,23 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
         // Load class XoopsFile
         xoops_load('xoopsfile');
         //delete /images directory
-        $imagesDirectory = $GLOBALS['xoops']->path("/modules/" . $module->getVar('dirname', 'n') . "/images/");
+        $imagesDirectory = $GLOBALS['xoops']->path("modules/" . $module->getVar('dirname', 'n') . "/images/");
         $folderHandler   = XoopsFile::getHandler("folder", $imagesDirectory);
         $folderHandler->delete($imagesDirectory);
         //delete /css directory
-        $cssDirectory  = $GLOBALS['xoops']->path("/modules/" . $module->getVar('dirname', 'n') . "/css/");
+        $cssDirectory  = $GLOBALS['xoops']->path("modules/" . $module->getVar('dirname', 'n') . "/css/");
         $folderHandler = XoopsFile::getHandler("folder", $cssDirectory);
         $folderHandler->delete($cssDirectory);
         //delete /js directory
-        $jsDirectory   = $GLOBALS['xoops']->path("/modules/" . $module->getVar('dirname', 'n') . "/js/");
+        $jsDirectory   = $GLOBALS['xoops']->path("modules/" . $module->getVar('dirname', 'n') . "/js/");
         $folderHandler = XoopsFile::getHandler("folder", $jsDirectory);
         $folderHandler->delete($jsDirectory);
         //delete /tcpdf directory
-        $tcpdfDirectory = $GLOBALS['xoops']->path("/modules/" . $module->getVar('dirname', 'n') . "/tcpdf/");
+        $tcpdfDirectory = $GLOBALS['xoops']->path("modules/" . $module->getVar('dirname', 'n') . "/tcpdf/");
         $folderHandler  = XoopsFile::getHandler("folder", $tcpdfDirectory);
         $folderHandler->delete($tcpdfDirectory);
         //delete /templates/style.css file
-//       $cssFile = $GLOBALS['xoops']->path("/modules/" . $module->getVar('dirname', 'n') . "/templates/style.css");
+//       $cssFile = $GLOBALS['xoops']->path("modules/" . $module->getVar('dirname', 'n') . "/templates/style.css");
 //       $folderHandler   = XoopsFile::getHandler("file", $cssFile);
 //       $folderHandler->delete($cssFile);
     }

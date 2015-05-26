@@ -44,8 +44,8 @@ class PublisherSession
     /**
      * Sets a session variable
      *
-     * @param string $name name of variable
-     * @param mixed $value value of variable
+     * @param string $name  name of variable
+     * @param mixed  $value value of variable
      *
      * @return void
      * @access public

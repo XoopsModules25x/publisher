@@ -161,8 +161,8 @@ if ($op == 'go') {
     include_once (dirname(dirname(__DIR__))) . '/include/common.php';
     publisherOpenCollapsableBar('amsimportgo', 'amsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
-    $module_handler = xoops_gethandler('module');
-    $moduleObj      = $module_handler->getByDirname('ams');
+    $moduleHandler = xoops_gethandler('module');
+    $moduleObj      = $moduleHandler->getByDirname('ams');
     $ams_module_id  = $moduleObj->getVar('mid');
 
     $gperm_handler = xoops_gethandler('groupperm');
@@ -185,7 +185,7 @@ if ($op == 'go') {
 //  get the total number of subcats for this category
 // $criteria = new CriteriaCompo();
 // $criteria->add(new Criteria('imagecategory', $catObj->getVar('cid'), '='));
-// $childCount = intval($mylinksCatHandler->getCount($criteria));
+// $childCount = (int)($mylinksCatHandler->getCount($criteria));
 
     $criteria        = new Criteria('imgcat_name', PUBLISHER_DIRNAME);
     $imageCategoryId = $imageCategoryHandler->getObjects($criteria);
@@ -224,7 +224,7 @@ if ($op == 'go') {
 
         // Category image: copying to Publisher category uploads
         if (($arrCat['topic_imgurl'] != 'blank.gif') && ($arrCat['topic_imgurl'] != '')) {
-            if (copy($GLOBALS['xoops']->path("/uploads/AMS/topics/" . $arrCat['topic_imgurl']), $GLOBALS['xoops']->path("/uploads/" . PUBLISHER_DIRNAME . "/images/category/" . $arrCat['topic_imgurl']))) {
+            if (copy($GLOBALS['xoops']->path("uploads/AMS/topics/" . $arrCat['topic_imgurl']), $GLOBALS['xoops']->path("uploads/" . PUBLISHER_DIRNAME . "/images/category/" . $arrCat['topic_imgurl']))) {
                 $categoryObj->setVar('image', $arrCat['topic_imgurl']);
 
 //======== there is no need to add the category images to Image Manager, because they are handled directly from /images/category/ folder
@@ -259,8 +259,8 @@ if ($op == 'go') {
 
         //copy all images to Image Manager
 
-        $src = $GLOBALS['xoops']->path("/uploads/AMS/topics/");
-        $dst = $GLOBALS['xoops']->path("/uploads");
+        $src = $GLOBALS['xoops']->path("uploads/AMS/topics/");
+        $dst = $GLOBALS['xoops']->path("uploads");
 
         PublisherUtilities::recurseCopy($src, $dst);
 
@@ -327,9 +327,9 @@ if ($op == 'go') {
             /*
              // HTML Wrap
              if ($arrArticle['htmlpage']) {
-             $pagewrap_filename	= $GLOBALS['xoops']->path("/modules/wfsection/html/" .$arrArticle['htmlpage']);
+             $pagewrap_filename	= $GLOBALS['xoops']->path("modules/wfsection/html/" .$arrArticle['htmlpage']);
              if (file_exists($pagewrap_filename)) {
-             if (copy($pagewrap_filename, $GLOBALS['xoops']->path("/uploads/publisher/content/" . $arrArticle['htmlpage']))) {
+             if (copy($pagewrap_filename, $GLOBALS['xoops']->path("uploads/publisher/content/" . $arrArticle['htmlpage']))) {
              $itemObj->setVar('body', "[pagewrap=" . $arrArticle['htmlpage'] . "]");
              echo sprintf("&nbsp;&nbsp;&nbsp;&nbsp;" . _AM_PUBLISHER_IMPORT_ARTICLE_WRAP, $arrArticle['htmlpage']) . "<br/>";
              }
@@ -347,9 +347,9 @@ if ($op == 'go') {
                 $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
                 $allowed_mimetypes = '';
                 while (($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles)) !== false) {
-                    $filename = $GLOBALS['xoops']->path("/uploads/AMS/attached/" . $arrFile['downloadname']);
+                    $filename = $GLOBALS['xoops']->path("uploads/AMS/attached/" . $arrFile['downloadname']);
                     if (file_exists($filename)) {
-                        if (copy($filename, $GLOBALS['xoops']->path("/uploads/publisher/" . $arrFile['filerealname']))) {
+                        if (copy($filename, $GLOBALS['xoops']->path("uploads/publisher/" . $arrFile['filerealname']))) {
                             $fileObj = $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['filerealname']);
                             $fileObj->setVar('description', $arrFile['filerealname']);
@@ -411,15 +411,15 @@ if ($op == 'go') {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $comment_handler = xoops_gethandler('comment');
+    $commentHandler = xoops_gethandler('comment');
     $criteria        = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $ams_module_id));
-    $comments = $comment_handler->getObjects($criteria);
+    $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
-        if (!$comment_handler->insert($comment)) {
+        if (!$commentHandler->insert($comment)) {
             echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . "<br />";
         } else {
             echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . "<br />";

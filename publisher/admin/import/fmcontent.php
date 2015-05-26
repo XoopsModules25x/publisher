@@ -37,8 +37,8 @@ if ('start' == $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     publisherOpenCollapsableBar('fmimport', 'fmimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
-    $module_handler = xoops_gethandler('module');
-    $moduleObj      = $module_handler->getByDirname('fmcontent');
+    $moduleHandler = xoops_gethandler('module');
+    $moduleObj      = $moduleHandler->getByDirname('fmcontent');
     $fm_module_id   = $moduleObj->getVar('mid');
 
     $fmTopicHdlr  =& xoops_getmodulehandler('topic', 'fmcontent');
@@ -122,8 +122,8 @@ if ('go' == $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     publisherOpenCollapsableBar('fmimportgo', 'fmimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
-    $module_handler = xoops_gethandler('module');
-    $moduleObj      = $module_handler->getByDirname('fmcontent');
+    $moduleHandler = xoops_gethandler('module');
+    $moduleObj      = $moduleHandler->getByDirname('fmcontent');
     $fm_module_id   = $moduleObj->getVar('mid');
 
     $gperm_handler = xoops_gethandler('groupperm');
@@ -319,15 +319,15 @@ if ('go' == $op) {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $comment_handler = xoops_gethandler('comment');
+    $commentHandler = xoops_gethandler('comment');
     $criteria        = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $fm_module_id));
-    $comments = $comment_handler->getObjects($criteria);
+    $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
-        if (!$comment_handler->insert($comment)) {
+        if (!$commentHandler->insert($comment)) {
             echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . "<br />\n";
         } else {
             echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . "<br />\n";

@@ -109,11 +109,11 @@ class XoopsMediaUploader
     /**
      * Constructor
      *
-     * @param string $uploadDir
+     * @param string    $uploadDir
      * @param int|array $allowedMimeTypes
-     * @param int $maxFileSize
-     * @param int $maxWidth
-     * @param int $maxHeight
+     * @param int       $maxFileSize
+     * @param int       $maxWidth
+     * @param int       $maxHeight
      */
     public function __construct($uploadDir, $allowedMimeTypes = 0, $maxFileSize, $maxWidth = 0, $maxHeight = 0)
     {
@@ -121,12 +121,12 @@ class XoopsMediaUploader
             $this->allowedMimeTypes = $allowedMimeTypes;
         }
         $this->uploadDir   = $uploadDir;
-        $this->maxFileSize = intval($maxFileSize);
+        $this->maxFileSize = (int)($maxFileSize);
         if (isset($maxWidth)) {
-            $this->maxWidth = intval($maxWidth);
+            $this->maxWidth = (int)($maxWidth);
         }
         if (isset($maxHeight)) {
-            $this->maxHeight = intval($maxHeight);
+            $this->maxHeight = (int)($maxHeight);
         }
     }
 
@@ -142,7 +142,7 @@ class XoopsMediaUploader
      * Fetch the uploaded file
      *
      * @param string $media_name Name of the file field
-     * @param int $index Index of the file (if more than one uploaded under that name)
+     * @param int    $index      Index of the file (if more than one uploaded under that name)
      *
      * @global       $HTTP_POST_FILES
      * @return bool
@@ -155,7 +155,7 @@ class XoopsMediaUploader
 
             return false;
         } elseif (is_array($_FILES[$media_name]['name']) && isset($index)) {
-            $index              = intval($index);
+            $index              = (int)($index);
             $this->mediaName    = (get_magic_quotes_gpc()) ? stripslashes($_FILES[$media_name]['name'][$index]) : $_FILES[$media_name]['name'][$index];
             $this->mediaType    = $_FILES[$media_name]['type'][$index];
             $this->mediaSize    = $_FILES[$media_name]['size'][$index];
@@ -172,7 +172,7 @@ class XoopsMediaUploader
         }
         $this->dimension = getimagesize($this->mediaTmpName);
         $this->errors    = array();
-        if (intval($this->mediaSize) < 0) {
+        if ((int)($this->mediaSize) < 0) {
             $this->setErrors('Invalid File Size');
 
             return false;
@@ -243,7 +243,7 @@ class XoopsMediaUploader
      */
     public function setTargetFileName($value)
     {
-        $this->targetFileName = strval(trim($value));
+        $this->targetFileName = (string)(trim($value));
     }
 
     /**
@@ -253,7 +253,7 @@ class XoopsMediaUploader
      */
     public function setPrefix($value)
     {
-        $this->prefix = strval(trim($value));
+        $this->prefix = (string)(trim($value));
     }
 
     /**

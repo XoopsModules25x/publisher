@@ -1,3 +1,6 @@
+<h5>1.02 RC2       (NOT RELEASED)</h5>
+- added sort by Rating, # of votes (brutalicuss/mamba)
+
 <h5>1.02 RC1       (2015-05-26)</h5>
 - updated to XOOPS 2.5.7 version of jQuery UI Tabs (noo-b/mamba)
 - replaced PublisherRequest with calls to XoopsRequest (mamba)

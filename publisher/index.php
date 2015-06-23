@@ -150,6 +150,14 @@ if ($publisher->getConfig('index_display_last_items')) {
             $order = 'DESC';
             break;
 
+        case 'rating' :
+            $sort = 'rating';
+            $order = 'DESC';
+            break;
+        case 'votes' :
+            $sort = 'votes';
+            $order = 'DESC';
+            break;
         default:
             $sort  = 'weight';
             $order = 'ASC';

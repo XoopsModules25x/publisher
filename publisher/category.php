@@ -76,6 +76,16 @@ switch ($publisher->getConfig('format_order_by')) {
         $order = 'DESC';
         break;
 
+    case 'rating' :
+        $sort = 'rating';
+        $order = 'DESC';
+        break;
+
+    case 'votes' :
+        $sort = 'votes';
+        $order = 'DESC';
+        break;
+
     default:
         $sort  = 'weight';
         $order = 'ASC';

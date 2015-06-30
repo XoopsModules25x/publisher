@@ -20,7 +20,7 @@
  * @version         $Id: seo.inc.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 //$seoOp = @$_GET['seoOp'];
 $seoOp = XoopsRequest::getString('seoOp', '', 'GET');
@@ -28,13 +28,13 @@ $seoOp = XoopsRequest::getString('seoOp', '', 'GET');
 //$seoArg = @$_GET['seoArg'];
 $seoArg = XoopsRequest::getString('seoArg', '', 'GET');
 
-if (empty($seoOp) && XoopsRequest::getString('PATH_INFO', '', 'SERVER')) {
+if ('' == $seoOp && XoopsRequest::getString('PATH_INFO', '', 'SERVER')) {
     // SEO mode is path-info
     /*
     Sample URL for path-info
     http://localhost/modules/publisher/seo.php/item.2/can-i-turn-the-ads-off.html
     */
-    $data = explode("/", XoopsRequest::getString('PATH_INFO', '', 'SERVER'));
+    $data = explode('/', XoopsRequest::getString('PATH_INFO', '', 'SERVER'));
 
     $seoParts = explode('.', $data[1]);
     $seoOp    = $seoParts[0];
@@ -47,8 +47,7 @@ if (empty($seoOp) && XoopsRequest::getString('PATH_INFO', '', 'SERVER')) {
 $seoMap = array(
     'category' => 'category.php',
     'item'     => 'item.php',
-    'print'    => 'print.php'
-);
+    'print'    => 'print.php');
 
 if (!empty($seoOp) && isset($seoMap[$seoOp])) {
     // module specific dispatching logic, other module must implement as

@@ -101,8 +101,7 @@ $form_options = array(
     PublisherConstantsInterface::PUBLISHER_DOLINEBREAK           => _CO_PUBLISHER_DOLINEBREAK,
     PublisherConstantsInterface::PUBLISHER_NOTIFY                => _AM_PUBLISHER_NOTIFY,
     PublisherConstantsInterface::PUBLISHER_SUBTITLE              => _CO_PUBLISHER_SUBTITLE,
-    PublisherConstantsInterface::PUBLISHER_AUTHOR_ALIAS          => _CO_PUBLISHER_AUTHOR_ALIAS
-);
+    PublisherConstantsInterface::PUBLISHER_AUTHOR_ALIAS          => _CO_PUBLISHER_AUTHOR_ALIAS);
 $form_submit  = new XoopsGroupPermForm("", $publisher->getModule()->mid(), "form_view", "", 'admin/permissions.php');
 foreach ($form_options as $key => $value) {
     $form_submit->addItem($key, $value);
@@ -128,8 +127,7 @@ echo "<br />\n";
 publisherOpenCollapsableBar('permissionstable_global', 'permissionsicon_global', _AM_PUBLISHER_PERMISSIONS_GLOBAL, _AM_PUBLISHER_PERMISSIONS_GLOBAL_DSC);
 $form_options = array(
     PublisherConstantsInterface::PUBLISHER_SEARCH => _AM_PUBLISHER_SEARCH,
-    PublisherConstantsInterface::PUBLISHER_RATE   => _AM_PUBLISHER_RATE
-);
+    PublisherConstantsInterface::PUBLISHER_RATE   => _AM_PUBLISHER_RATE);
 $form_submit  = new XoopsGroupPermForm("", $publisher->getModule()->mid(), "global", "", 'admin/permissions.php');
 foreach ($form_options as $key => $value) {
     $form_submit->addItem($key, $value);

@@ -53,8 +53,9 @@ if ($op == 'showmod') {
     $config_cats = $module->getInfo('configcat');
 
     if (!in_array('others', array_keys($config_cats))) {
-        $config_cats['others'] = array('name'        => _MI_PUBLISHER_CONFCAT_OTHERS,
-                                       'description' => _MI_PUBLISHER_CONFCAT_OTHERS_DSC);
+        $config_cats['others'] = array(
+            'name'        => _MI_PUBLISHER_CONFCAT_OTHERS,
+            'description' => _MI_PUBLISHER_CONFCAT_OTHERS_DSC);
     }
     $cat_others_used = false;
 

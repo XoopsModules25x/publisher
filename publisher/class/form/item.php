@@ -42,8 +42,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         _CO_PUBLISHER_TAB_MAIN   => 'mainTab',
         _CO_PUBLISHER_TAB_IMAGES => 'imagesTab',
         _CO_PUBLISHER_TAB_FILES  => 'filesTab',
-        _CO_PUBLISHER_TAB_OTHERS => 'othersTab'
-    );
+        _CO_PUBLISHER_TAB_OTHERS => 'othersTab');
 
     public $mainTab = array(
         PublisherConstantsInterface::PUBLISHER_SUBTITLE,
@@ -60,23 +59,19 @@ class PublisherItemForm extends PublisherThemeTabForm
         PublisherConstantsInterface::PUBLISHER_AUTHOR_ALIAS,
         PublisherConstantsInterface::PUBLISHER_NOTIFY,
         PublisherConstantsInterface::PUBLISHER_AVAILABLE_PAGE_WRAP,
-        PublisherConstantsInterface::PUBLISHER_UID
-    );
+        PublisherConstantsInterface::PUBLISHER_UID);
 
     public $imagesTab = array(
-        PublisherConstantsInterface::PUBLISHER_IMAGE_ITEM
-    );
+        PublisherConstantsInterface::PUBLISHER_IMAGE_ITEM);
 
     public $filesTab = array(
-        PublisherConstantsInterface::PUBLISHER_ITEM_UPLOAD_FILE
-    );
+        PublisherConstantsInterface::PUBLISHER_ITEM_UPLOAD_FILE);
 
     public $othersTab = array(
         PublisherConstantsInterface::PUBLISHER_ITEM_META_KEYWORDS,
         PublisherConstantsInterface::PUBLISHER_ITEM_META_DESCRIPTION,
         PublisherConstantsInterface::PUBLISHER_WEIGHT,
-        PublisherConstantsInterface::PUBLISHER_ALLOWCOMMENTS
-    );
+        PublisherConstantsInterface::PUBLISHER_ALLOWCOMMENTS);
 
     /**
      * @param $checkperm
@@ -185,7 +180,7 @@ class PublisherItemForm extends PublisherThemeTabForm
             } else {
                 $editor = publisherGetCookieVar('publisher_editor');
                 if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
-//                    $editor = @ $GLOBALS['xoopsUser']->getVar('publisher_editor'); // Need set through user profile
+                    //                    $editor = @ $GLOBALS['xoopsUser']->getVar('publisher_editor'); // Need set through user profile
                     $editor = (null !== ($GLOBALS['xoopsUser']->getVar('publisher_editor'))) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
@@ -222,12 +217,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         $this->addElement($body_text);
 
         // VARIOUS OPTIONS
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_DOHTML) ||
-            $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOSMILEY) ||
-            $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOXCODE) ||
-            $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOIMAGE) ||
-            $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOLINEBREAK)
-        ) {
+        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_DOHTML) || $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOSMILEY) || $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOXCODE) || $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOIMAGE) || $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOLINEBREAK)) {
             if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_DOHTML)) {
                 $html_radio = new XoopsFormRadioYN(_CO_PUBLISHER_DOHTML, 'dohtml', $obj->dohtml(), _YES, _NO);
                 $this->addElement($html_radio);
@@ -300,8 +290,7 @@ class PublisherItemForm extends PublisherThemeTabForm
                 PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED => _CO_PUBLISHER_PUBLISHED,
                 PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE   => _CO_PUBLISHER_OFFLINE,
                 PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED => _CO_PUBLISHER_SUBMITTED,
-                PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED  => _CO_PUBLISHER_REJECTED
-            );
+                PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED  => _CO_PUBLISHER_REJECTED);
             $status_select = new XoopsFormSelect(_CO_PUBLISHER_STATUS, 'status', $obj->getVar('status'));
             $status_select->addOptionArray($options);
             $status_select->setDescription(_CO_PUBLISHER_STATUS_DSC);

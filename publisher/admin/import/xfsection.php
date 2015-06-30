@@ -23,9 +23,9 @@
 include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
-$importFromModuleName = "XF-Section " . XoopsRequest::getString('xfs_version', '', 'POST');
+$importFromModuleName = 'XF-Section ' . XoopsRequest::getString('xfs_version', '', 'POST');
 
-$scriptname = "xfsection.php";
+$scriptname = 'xfsection.php';
 
 $op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 
@@ -36,7 +36,7 @@ if ($op == 'start') {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     publisherOpenCollapsableBar('xfsectionimport', 'xfsectionimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
-    $result = $GLOBALS['xoopsDB']->query("SELECT COUNT(*) FROM " . $GLOBALS['xoopsDB']->prefix("xfs_category"));
+    $result = $GLOBALS['xoopsDB']->query("SELECT COUNT(*) FROM " . $GLOBALS['xoopsDB']->prefix('xfs_category'));
     list ($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
 
     if ($totalCat == 0) {
@@ -237,14 +237,14 @@ if ($op == 'go') {
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . "<br />";
 
-    $moduleHandler = xoops_gethandler('module');
+    $moduleHandler  = xoops_gethandler('module');
     $moduleObj      = $moduleHandler->getByDirname('xfsection');
     $news_module_id = $moduleObj->getVar('mid');
 
     $publisher_module_id = $publisher->getModule()->mid();
 
     $commentHandler = xoops_gethandler('comment');
-    $criteria        = new CriteriaCompo();
+    $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $news_module_id));
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {

@@ -30,7 +30,7 @@ include_once dirname(__DIR__) . '/include/common.php';
  * @author    John
  * @copyright Copyright (c) 2009
  * @version   $Id: themetabform.php 10374 2012-12-12 23:39:48Z trabis $
- * @access public
+ * @access    public
  */
 class PublisherThemeTabForm extends XoopsForm
 {
@@ -102,10 +102,10 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function __construct($title, $name, $action, $method = "post", $addtoken = false, $summary = '')
     {
-//        global $xoTheme;
-//        $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ui.core.js');
-//        $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ui.tabs.js');
-//        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery-ui-1.7.1.custom.css');
+        //        global $xoTheme;
+        //        $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ui.core.js');
+        //        $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ui.tabs.js');
+        //        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery-ui-1.7.1.custom.css');
 
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . '/modules/system/css/ui/' . xoops_getModuleOption('jquery_theme', 'system') . '/ui.all.css');
@@ -162,11 +162,15 @@ class PublisherThemeTabForm extends XoopsForm
         }
         $js = $this->renderValidationJS();
         $tpl->assign($this->getName(), array(
-            'title'      => $this->getTitle(), 'id' => 'tab_' . preg_replace('/[^a-z0-9]+/i', '', $this->getTitle()),
-            'name'       => $this->getName(), 'action' => $this->getAction(), 'method' => $this->getMethod(),
+            'title'      => $this->getTitle(),
+            'id'         => 'tab_' . preg_replace('/[^a-z0-9]+/i', '', $this->getTitle()),
+            'name'       => $this->getName(),
+            'action'     => $this->getAction(),
+            'method'     => $this->getMethod(),
             'extra'      => 'onsubmit="return xoopsFormValidate_' . $this->getName() . '();"' . $this->getExtra(),
-            'javascript' => $js, 'tabs' => $this->_tabs, 'elements' => $elements
-        ));
+            'javascript' => $js,
+            'tabs'       => $this->_tabs,
+            'elements'   => $elements));
     }
 
     /**
@@ -181,7 +185,6 @@ class PublisherThemeTabForm extends XoopsForm
 
     /**
      * XoopsThemeTabForm::endTab()
-
      */
     public function endTabs()
     {

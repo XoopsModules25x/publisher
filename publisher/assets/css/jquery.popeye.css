@@ -12,26 +12,28 @@
  *
  */
 .ppy-outer {
-    display:                none;
+    display: none;
 }
+
 .ppy-active .ppy-outer {
-    display:                block;
+    display: block;
 }
+
 .ppy-stage {
-    background-repeat:      no-repeat !important;
-    background-position:    center center !important;
-    position:               relative;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    position: relative;
 }
 
 .ppy-placeholder {
-    position:               relative;
+    position: relative;
 }
 
 .ppy-caption,
 .ppy-captionwrap {
-    overflow:               hidden;
+    overflow: hidden;
 }
 
 .ppy-hidden {
-    display:                none !important;
+    display: none !important;
 }

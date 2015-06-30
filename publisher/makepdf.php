@@ -11,7 +11,7 @@ $itemid       = XoopsRequest::getInt('itemid', 0, 'GET');
 $item_page_id = XoopsRequest::getInt('page', -1, 'GET');
 if ($itemid == 0) {
     redirect_header("javascript:history.go(-1)", 1, _MD_PUBLISHER_NOITEMSELECTED);
-//    exit();
+    //    exit();
 }
 if (!is_file(XOOPS_PATH . '/vendor/tcpdf/tcpdf.php')) {
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['xoopsModule']->getVar('dirname') . '/viewtopic.php?topic_id=' . $itemid, 3, 'TCPF for Xoops not installed in ./xoops_lib/vendor/');
@@ -22,7 +22,7 @@ $itemObj = $publisher->getHandler('item')->get($itemid);
 // if the selected item was not found, exit
 if (!$itemObj) {
     redirect_header("javascript:history.go(-1)", 1, _MD_PUBLISHER_NOITEMSELECTED);
-//    exit();
+    //    exit();
 }
 
 // Creating the category object that holds the selected item
@@ -31,7 +31,7 @@ $categoryObj = $publisher->getHandler('category')->get($itemObj->categoryid());
 // Check user permissions to access that category of the selected item
 if (!$itemObj->accessGranted()) {
     redirect_header("javascript:history.go(-1)", 1, _NOPERM);
-//    exit();
+    //    exit();
 }
 
 xoops_loadLanguage('main', PUBLISHER_DIRNAME);
@@ -66,7 +66,9 @@ $doc_title  = publisherConvertCharset($myts->undoHtmlSpecialChars($itemObj->titl
 $docSubject = $myts->undoHtmlSpecialChars($categoryObj->name());
 
 $docKeywords = $myts->undoHtmlSpecialChars($itemObj->meta_keywords());
-if (array_key_exists('rtl', $pdf_data)) $pdf->setRTL($pdf_data['rtl']);;
+if (array_key_exists('rtl', $pdf_data)) {
+    $pdf->setRTL($pdf_data['rtl']);
+};
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor(PDF_AUTHOR);

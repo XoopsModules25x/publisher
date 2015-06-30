@@ -24,7 +24,6 @@ include_once dirname(__DIR__) . '/include/common.php';
 
 //namespace Publisher;
 
-
 /**
  * Class PublisherUtilities
  */
@@ -54,7 +53,7 @@ class PublisherUtilities
     public static function recurseCopy($src, $dst)
     {
         $dir = opendir($src);
-//    @mkdir($dst);
+        //    @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
                 if (is_dir($src . '/' . $file)) {
@@ -68,11 +67,11 @@ class PublisherUtilities
     }
 
     // auto create folders----------------------------------------
-//TODO rename this function? And exclude image folder?
+    //TODO rename this function? And exclude image folder?
     public static function createDir()
     {
         // auto crate folders
-//        $thePath = publisherGetUploadDir();
+        //        $thePath = publisherGetUploadDir();
 
         if (publisherGetPathStatus('root', true) < 0) {
             $thePath = publisherGetUploadDir();
@@ -130,7 +129,14 @@ class PublisherUtilities
         echo "<th width='40px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . "</strong></td>";
         echo "<th width='100px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMCAT . "</strong></td>";
         echo "<th class='bg3' align='center'><strong>" . _AM_PUBLISHER_TITLE . "</strong></td>";
-        echo "<th width='90px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . "</strong></td>";
+        echo "<th width='100px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . "</strong></td>";
+
+        echo "<th width='50px' class='bg3' align='center'><strong>" . _CO_PUBLISHER_WEIGHT . "</strong></td>";
+        echo "<th width='50px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_HITS . "</strong></td>";
+        echo "<th width='60px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_RATE . "</strong></td>";
+        echo "<th width='50px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_VOTES . "</strong></td>";
+        echo "<th width='60px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_COMMENTS_COUNT . "</strong></td>";
+
         echo "<th width='90px' class='bg3' align='center'><strong>" . _CO_PUBLISHER_STATUS . "</strong></td>";
         echo "<th width='90px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . "</strong></td>";
         echo "</tr>";
@@ -191,7 +197,7 @@ class PublisherUtilities
             $categoryObj = $publisher->getHandler('category')->get($categoryid);
             if ($categoryObj->notLoaded()) {
                 redirect_header("category.php", 1, _AM_PUBLISHER_NOCOLTOEDIT);
-//            exit();
+                //            exit();
             }
         } else {
             if (!$categoryObj) {

@@ -33,7 +33,7 @@ include_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_items_columns_show($options)
 {
-//    global $xoTheme;
+    //    global $xoTheme;
     $publisher = PublisherPublisher::getInstance();
 
     //Column Settings
@@ -156,8 +156,7 @@ function publisher_items_columns_edit($options)
                                 '2' => 2,
                                 '3' => 3,
                                 '4' => 4,
-                                '5' => 5,
-                            ));
+                                '5' => 5,));
     $catEle      = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisherCreateCategorySelect($options[1], 0, true, 'options[1]'));
     $cItemsEle   = new XoopsFormText(_MB_PUBLISHER_NUMBER_ITEMS_CAT, 'options[2]', 4, 255, $options[2]);
     $truncateEle = new XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[3]', 4, 255, $options[3]);
@@ -165,8 +164,7 @@ function publisher_items_columns_edit($options)
     $tempEle = new XoopsFormSelect(_MB_PUBLISHER_TEMPLATE, 'options[4]', $options[4]);
     $tempEle->addOptionArray(array(
                                  'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
-                                 'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED
-                             ));
+                                 'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED));
 
     $form->addElement($colEle);
     $form->addElement($catEle);

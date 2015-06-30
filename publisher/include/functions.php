@@ -53,12 +53,18 @@ function publisherCpHeader()
  */
 function publisherGetOrderBy($sort)
 {
-    if ($sort == "datesub") {
-        return "DESC";
-    } elseif ($sort == "counter") {
-        return "DESC";
-    } elseif ($sort == "weight") {
-        return "ASC";
+    if ($sort == 'datesub') {
+        return 'DESC';
+    } elseif ($sort == 'counter') {
+        return 'DESC';
+    } elseif ($sort == 'weight') {
+        return 'ASC';
+    } elseif ($sort == 'votes') {
+        return 'DESC';
+    } elseif ($sort == 'rating') {
+        return 'DESC';
+    } elseif ($sort == 'comments') {
+        return 'DESC';
     }
 
     return null;
@@ -67,8 +73,8 @@ function publisherGetOrderBy($sort)
 /**
  * @credits Thanks to Mithandir
  * @param string $str
- * @param int $start
- * @param int $length
+ * @param int    $start
+ * @param int    $length
  * @param string $trimmarker
  * @return string
  */
@@ -105,35 +111,37 @@ function publisherHtml2text($document)
     // and white space. It will also convert some
     // common HTML entities to their text equivalent.
     // Credits : newbb2
-    $search = array("'<script[^>]*?>.*?</script>'si", // Strip out javascript
-                    "'<img.*?/>'si", // Strip out img tags
-                    "'<[\/\!]*?[^<>]*?>'si", // Strip out HTML tags
-                    "'([\r\n])[\s]+'", // Strip out white space
-                    "'&(quot|#34);'i", // Replace HTML entities
-                    "'&(amp|#38);'i",
-                    "'&(lt|#60);'i",
-                    "'&(gt|#62);'i",
-                    "'&(nbsp|#160);'i",
-                    "'&(iexcl|#161);'i",
-                    "'&(cent|#162);'i",
-                    "'&(pound|#163);'i",
-                    "'&(copy|#169);'i",
-                    "'&#(\d+);'e"); // evaluate as php
+    $search = array(
+        "'<script[^>]*?>.*?</script>'si", // Strip out javascript
+        "'<img.*?/>'si", // Strip out img tags
+        "'<[\/\!]*?[^<>]*?>'si", // Strip out HTML tags
+        "'([\r\n])[\s]+'", // Strip out white space
+        "'&(quot|#34);'i", // Replace HTML entities
+        "'&(amp|#38);'i",
+        "'&(lt|#60);'i",
+        "'&(gt|#62);'i",
+        "'&(nbsp|#160);'i",
+        "'&(iexcl|#161);'i",
+        "'&(cent|#162);'i",
+        "'&(pound|#163);'i",
+        "'&(copy|#169);'i",
+        "'&#(\d+);'e"); // evaluate as php
 
-    $replace = array("",
-                     "",
-                     "",
-                     "\\1",
-                     "\"",
-                     "&",
-                     "<",
-                     ">",
-                     " ",
-                     chr(161),
-                     chr(162),
-                     chr(163),
-                     chr(169),
-                     "chr(\\1)");
+    $replace = array(
+        "",
+        "",
+        "",
+        "\\1",
+        "\"",
+        "&",
+        "<",
+        ">",
+        " ",
+        chr(161),
+        chr(162),
+        chr(163),
+        chr(169),
+        "chr(\\1)");
 
     $text = preg_replace($search, $replace, $document);
 
@@ -174,7 +182,7 @@ function publisherModuleHome($withLink = true)
  * @author      Aidan Lister <aidan@php.net>
  * @version     1.0.0
  * @param       string $source The source
- * @param       string $dest The destination
+ * @param       string $dest   The destination
  * @return      bool     Returns true on success, false on failure
  */
 function publisherCopyr($source, $dest)
@@ -214,7 +222,7 @@ function publisherCopyr($source, $dest)
 /**
  * .* @credits Thanks to the NewBB2 Development Team
  * @param string $item
- * @param bool $getStatus
+ * @param bool   $getStatus
  * @return bool|int|string
  */
 function &publisherGetPathStatus($item, $getStatus = false)
@@ -227,7 +235,9 @@ function &publisherGetPathStatus($item, $getStatus = false)
 
     $thePath = publisherGetUploadDir(true, $path);
 
-    if (empty($thePath)) return false;
+    if (empty($thePath)) {
+        return false;
+    }
     if (is_writable($thePath)) {
         $pathCheckResult = 1;
         $path_status     = _AM_PUBLISHER_AVAILABLE;
@@ -279,7 +289,7 @@ function publisherMkdir($target)
 /**
  * @credits Thanks to the NewBB2 Development Team
  * @param string $target
- * @param int $mode
+ * @param int    $mode
  * @return bool
  */
 function publisherChmod($target, $mode = 0777)
@@ -313,7 +323,7 @@ function publisherGetUploadDir($hasPath = true, $item = false)
 
 /**
  * @param string $item
- * @param bool $hasPath
+ * @param bool   $hasPath
  * @return string
  */
 function publisherGetImageDir($item = '', $hasPath = true)
@@ -393,9 +403,9 @@ function publisherUserIsModerator($itemObj)
 /**
  * Saves permissions for the selected category
  *
- * @param array $groups : group with granted permission
+ * @param array   $groups     : group with granted permission
  * @param integer $categoryid : categoryid on which we are setting permissions
- * @param string $perm_name : name of the permission
+ * @param string  $perm_name  : name of the permission
  * @return boolean : TRUE if the no errors occured
  */
 function publisherSaveCategoryPermissions($groups, $categoryid, $perm_name)
@@ -424,7 +434,7 @@ function publisherSaveCategoryPermissions($groups, $categoryid, $perm_name)
  * @param string $iconname
  * @param string $tabletitle
  * @param string $tabledsc
- * @param bool $open
+ * @param bool   $open
  * @return void
  */
 function publisherOpenCollapsableBar($tablename = '', $iconname = '', $tabletitle = '', $tabledsc = '', $open = true)
@@ -473,7 +483,7 @@ function publisherCloseCollapsableBar($name, $icon)
 /**
  * @param string $name
  * @param string $value
- * @param int $time
+ * @param int    $time
  * @return void
  */
 function publisherSetCookieVar($name, $value, $time = 0)
@@ -491,11 +501,11 @@ function publisherSetCookieVar($name, $value, $time = 0)
  */
 function publisherGetCookieVar($name, $default = '')
 {
-//    if (isset($_COOKIE[$name]) && ($_COOKIE[$name] > '')) {
-//        return $_COOKIE[$name];
-//    } else {
-//        return $default;
-//    }
+    //    if (isset($_COOKIE[$name]) && ($_COOKIE[$name] > '')) {
+    //        return $_COOKIE[$name];
+    //    } else {
+    //        return $default;
+    //    }
     return XoopsRequest::getString('name', $default, 'COOKIE');
 }
 
@@ -504,12 +514,12 @@ function publisherGetCookieVar($name, $default = '')
  */
 function publisherGetCurrentUrls()
 {
-    $http        = strpos(XOOPS_URL, "https://") === false ? "http://" : "https://";
-//    $phpself     = $_SERVER['PHP_SELF'];
-//    $httphost    = $_SERVER['HTTP_HOST'];
-//    $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
-    $phpself = XoopsRequest::getString('PHP_SELF', '', 'SERVER');
-    $httphost = XoopsRequest::getString('HTTP_HOST', '', 'SERVER');
+    $http = strpos(XOOPS_URL, "https://") === false ? "http://" : "https://";
+    //    $phpself     = $_SERVER['PHP_SELF'];
+    //    $httphost    = $_SERVER['HTTP_HOST'];
+    //    $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+    $phpself     = XoopsRequest::getString('PHP_SELF', '', 'SERVER');
+    $httphost    = XoopsRequest::getString('HTTP_HOST', '', 'SERVER');
     $querystring = XoopsRequest::getString('QUERY_STRING', '', 'SERVER');
 
     if ($querystring != '') {
@@ -540,9 +550,9 @@ function publisherGetCurrentPage()
 
 /**
  * @param object|PublisherCategory $categoryObj
- * @param int $selectedid
- * @param int $level
- * @param string $ret
+ * @param int                      $selectedid
+ * @param int                      $level
+ * @param string                   $ret
  * @return string
  */
 function publisherAddCategoryOption(PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
@@ -574,9 +584,9 @@ function publisherAddCategoryOption(PublisherCategory $categoryObj, $selectedid 
 }
 
 /**
- * @param int $selectedid
- * @param int $parentcategory
- * @param bool $allCatOption
+ * @param int    $selectedid
+ * @param int    $parentcategory
+ * @param bool   $allCatOption
  * @param string $selectname
  * @return string
  */
@@ -609,8 +619,8 @@ function publisherCreateCategorySelect($selectedid = 0, $parentcategory = 0, $al
 }
 
 /**
- * @param int $selectedid
- * @param int $parentcategory
+ * @param int  $selectedid
+ * @param int  $parentcategory
  * @param bool $allCatOption
  * @return string
  */
@@ -636,7 +646,7 @@ function publisherCreateCategoryOptions($selectedid = 0, $parentcategory = 0, $a
 }
 
 /**
- * @param array $err_arr
+ * @param array  $err_arr
  * @param string $reseturl
  * @return void
  */
@@ -670,8 +680,8 @@ function publisherRenderErrors(&$err_arr, $reseturl = '')
  * Generate publisher URL
  *
  * @param string $page
- * @param array $vars
- * @param bool $encodeAmp
+ * @param array  $vars
+ * @param bool   $encodeAmp
  * @return string
  *
  * @credit : xHelp module, developped by 3Dev
@@ -713,14 +723,14 @@ function publisherTellAFriend($subject = '')
 /**
  * @param bool $another
  * @param bool $withRedirect
- * @param  $itemObj
+ * @param      $itemObj
  * @return bool|string
  */
 function publisherUploadFile($another = false, $withRedirect = true, &$itemObj)
 {
     include_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
-//    global $publisher_isAdmin;
+    //    global $publisher_isAdmin;
     $publisher = PublisherPublisher::getInstance();
 
     $itemid  = XoopsRequest::getInt('itemid', 0, 'POST');
@@ -763,10 +773,10 @@ function publisherUploadFile($another = false, $withRedirect = true, &$itemObj)
 
     // Storing the file
     if (!$fileObj->store($allowed_mimetypes)) {
-//        if ($withRedirect) {
-//            redirect_header("file.php?op=mod&itemid=" . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . publisherFormatErrors($fileObj->getErrors()));
-//            exit;
-//        }
+        //        if ($withRedirect) {
+        //            redirect_header("file.php?op=mod&itemid=" . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . publisherFormatErrors($fileObj->getErrors()));
+        //            exit;
+        //        }
         try {
             if ($withRedirect) {
                 throw new Exception(_CO_PUBLISHER_FILEUPLOAD_ERROR . publisherFormatErrors($fileObj->getErrors()));
@@ -819,7 +829,9 @@ function publisherNewFeatureTag()
  */
 function publisherTruncateTagSafe($string, $length = 80, $etc = '...', $break_words = false)
 {
-    if ($length == 0) return '';
+    if ($length == 0) {
+        return '';
+    }
 
     if (strlen($string) > $length) {
         $length -= strlen($etc);
@@ -864,7 +876,7 @@ function publisherCloseTags($string)
         }
 
         $complete_tags = array_reverse($complete_tags);
-        $elementCount = count($complete_tags);
+        $elementCount  = count($complete_tags);
         for ($i = 0; $i < $elementCount; ++$i) {
             $string .= '</' . $complete_tags[$i] . '>';
         }
@@ -984,7 +996,7 @@ function publisherGetEditors($allowedEditors = null)
 
 /**
  * @param string $string
- * @param int $length
+ * @param int    $length
  * @return int
  */
 function publisherStringToInt($string = '', $length = 5)

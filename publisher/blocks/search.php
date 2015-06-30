@@ -29,7 +29,8 @@ include_once dirname(__DIR__) . '/include/common.php';
  *
  * @return array
  */
-function publisher_search_show($options) {
+function publisher_search_show($options)
+{
     $block      = array();
     $publisher  = PublisherPublisher::getInstance();
     $categories = $publisher->getHandler('category')->getCategoriesForSearch();
@@ -41,8 +42,8 @@ function publisher_search_show($options) {
 
     $andor    = XoopsRequest::getString('andor', XoopsRequest::getString('andor', '', 'GET'), 'POST');
     $username = XoopsRequest::getString('uname', XoopsRequest::getString('uname', null, 'GET'), 'POST');
-//  $searchin = isset($_POST["searchin"]) ? $_POST["searchin"] : (isset($_GET["searchin"]) ? explode("|", $_GET["searchin"]) : array());
-//  $searchin = XoopsRequest::getArray('searchin', (explode("|", XoopsRequest::getString('searchin', array(), 'GET'))), 'POST');
+    //  $searchin = isset($_POST["searchin"]) ? $_POST["searchin"] : (isset($_GET["searchin"]) ? explode("|", $_GET["searchin"]) : array());
+    //  $searchin = XoopsRequest::getArray('searchin', (explode("|", XoopsRequest::getString('searchin', array(), 'GET'))), 'POST');
 
     $searchin = XoopsRequest::getArray('searchin', '', 'POST');
     if (!isset($searchin)) {
@@ -50,8 +51,8 @@ function publisher_search_show($options) {
         $searchin = isset($searchin) ? explode("|", $searchin) : array();
     }
 
-    $sortby   = XoopsRequest::getString('sortby', XoopsRequest::getString('sortby', null, 'GET'), 'POST');
-    $term     = XoopsRequest::getString('term', XoopsRequest::getString('term', '', 'GET'));
+    $sortby = XoopsRequest::getString('sortby', XoopsRequest::getString('sortby', null, 'GET'), 'POST');
+    $term   = XoopsRequest::getString('term', XoopsRequest::getString('term', '', 'GET'));
 
     //mb TODO simplify next lines with category
     $category = XoopsRequest::getArray('category', array(), 'POST') ? XoopsRequest::getArray('category', array(), 'POST') : (XoopsRequest::getArray('category', null, 'GET'));

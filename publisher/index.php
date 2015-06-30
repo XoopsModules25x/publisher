@@ -34,7 +34,7 @@ $totalCategories = $publisher->getHandler('category')->getCategoriesCount(0);
 // if there ain't no category to display, let's get out of here
 if ($totalCategories == 0) {
     redirect_header(XOOPS_URL, 2, _MD_PUBLISHER_NO_TOP_PERMISSIONS);
-//    exit;
+    //    exit;
 }
 
 $xoopsOption['template_main'] = 'publisher_display' . '_' . $publisher->getConfig('idxcat_items_display_type') . '.tpl';
@@ -50,7 +50,7 @@ $categoriesObj = $publisher->getHandler('category')->getCategories($publisher->g
 $totalCategoriesOnPage = count($categoriesObj);
 if ($totalCategoriesOnPage == 0) {
     redirect_header("javascript:history.go(-1)", 2, _MD_PUBLISHER_NO_CAT_EXISTS);
-//    exit;
+    //    exit;
 }
 
 // Get subcats of the top categories
@@ -150,14 +150,25 @@ if ($publisher->getConfig('index_display_last_items')) {
             $order = 'DESC';
             break;
 
-        case 'rating' :
-            $sort = 'rating';
+        case 'counter':
+            $sort  = 'counter';
             $order = 'DESC';
             break;
-        case 'votes' :
-            $sort = 'votes';
+
+        case 'rating':
+            $sort  = 'rating';
             $order = 'DESC';
             break;
+        case 'votes':
+            $sort  = 'votes';
+            $order = 'DESC';
+            break;
+
+        case 'comments':
+            $sort  = 'comments';
+            $order = 'DESC';
+            break;
+
         default:
             $sort  = 'weight';
             $order = 'ASC';

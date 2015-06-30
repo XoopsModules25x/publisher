@@ -19,7 +19,7 @@
  * @version         $Id: xoops_version.php 11345 2013-04-03 22:35:51Z luciorota $
  */
 
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 xoops_load('XoopsLocal');
 xoops_load('XoopsRequest');
 
@@ -32,7 +32,7 @@ $modversion = array(
     'name'                => _MI_PUBLISHER_MD_NAME,
     'version'             => '1.02',
     'module_status'       => 'RC1',
-    'release_date'        => "2015/05/26",
+    'release_date'        => '2015/05/26',
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
     'credits'             => 'w4z004, hsalazar, Mithrandir, fx2024, Ackbarr, Mariuss, Marco, Michiel, phppp, outch, Xvitry, Catzwolf, Shine, McDonald, trabis, Mowaffak, Bandit-x, Shiva',
@@ -40,7 +40,7 @@ $modversion = array(
     'module_website_name' => 'Support site',
     'help'                => 'page=help',
     'license'             => 'GNU GPL 2.0 or later',
-    'license_url'         => "www.gnu.org/licenses/gpl-2.0.html",
+    'license_url'         => 'www.gnu.org/licenses/gpl-2.0.html',
     'official'            => 1,
     // ------------------- Folders & Files -------------------
     'dirname'             => $moduleDirName,
@@ -48,13 +48,13 @@ $modversion = array(
     'icons16'             => 'Frameworks/moduleclasses/icons/16',
     'icons32'             => 'Frameworks/moduleclasses/icons/32',
     'image'               => 'assets/images/logo.png',
-    'release_file'        => XOOPS_URL . "/modules/" . $moduleDirName . "/docs/changelog.txt",
+    'release_file'        => XOOPS_URL . '/modules/' . $moduleDirName . '/docs/changelog.txt',
     // ------------------- Install/Update -------------------
     'onInstall'           => 'include/oninstall.php',
     'onUpdate'            => 'include/onupdate.php',
     // ------------------- Min Requirements -------------------
     'min_php'             => '5.3.7',
-    'min_xoops'           => "2.5.7",
+    'min_xoops'           => '2.5.7',
     'min_admin'           => '1.1',
     'min_db'              => array('mysql' => '5.0.7', 'mysqli' => '5.0.7'),
     // ------------------- Admin Menu -------------------
@@ -68,36 +68,34 @@ $modversion = array(
     'sqlfile'             => array('mysql' => 'sql/mysql.sql'),
     // ------------------- Tables -------------------
     'tables'              => array(
-        'publisher_categories',
-        'publisher_items',
-        'publisher_files',
-        'publisher_meta',
-        'publisher_mimetypes',
-        'publisher_rating'
-    )
-);
+        $moduleDirName . '_categories',
+        $moduleDirName . '_items',
+        $moduleDirName . '_files',
+        $moduleDirName . '_meta',
+        $moduleDirName . '_mimetypes',
+        $moduleDirName . '_rating'));
 
-//include_once $GLOBALS['xoops']->path("modules/" . $modversion['dirname'] . "/include/constants.php");
+//include_once $GLOBALS['xoops']->path('modules/' . $modversion['dirname'] . '/include/constants.php');
 xoops_load('constants', $moduleDirName);
 /*
-$logo_filename = $modversion['dirname'] . "_logo.png";
+$logo_filename = $modversion['dirname'] . '_logo.png';
 
-if (file_exists($GLOBALS['xoops']->path("modules/" . $modversion['dirname'] . "/assets/images/" . $logo_filename))) {
-    $modversion['image'] = "assets/images/{$logo_filename}";
+if (file_exists($GLOBALS['xoops']->path('modules/' . $modversion['dirname'] . '/assets/images/' . $logo_filename))) {
+    $modversion['image'] = 'assets/images/{$logo_filename}';
 } else {
-    $modversion['image'] = "assets/images/module_logo.png";
+    $modversion['image'] = 'assets/images/module_logo.png';
 }
 */
 
-$modversion['people']['testers'][] = "urban, AEIOU, pacho, mariane";
-//$modversion['people']['translaters'][] = "";
-//$modversion['people']['documenters'][] = "";
-$modversion['author_word'] = "";
+$modversion['people']['testers'][] = 'urban, AEIOU, pacho, mariane';
+//$modversion['people']['translaters'][] = '';
+//$modversion['people']['documenters'][] = '';
+$modversion['author_word'] = '';
 
 // Search
 $modversion['hasSearch']      = 1;
-$modversion['search']['file'] = "include/search.inc.php";
-$modversion['search']['func'] = "publisher_search";
+$modversion['search']['file'] = 'include/search.inc.php';
+$modversion['search']['func'] = 'publisher_search';
 
 if (is_object($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirname') == $modversion['dirname']) {
     $isAdmin = false;
@@ -110,275 +108,232 @@ if (is_object($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirna
     if ($isAdmin || ($allowsubmit && (is_object($GLOBALS['xoopsUser']) || $anonpost))) {
         $modversion['sub'][] = array(
             'name' => _MI_PUBLISHER_SUB_SMNAME1,
-            'url'  => "submit.php?op=add");
+            'url'  => 'submit.php?op=add');
     }
 
-// ------------------- Search -------------------
+    // ------------------- Search -------------------
     $allowsearch = (isset($GLOBALS['xoopsModuleConfig']['perm_search']) && $GLOBALS['xoopsModuleConfig']['perm_search'] == 1) ? true : false;
     if ($allowsearch) {
         $modversion['sub'][] = array(
             'name' => _MI_PUBLISHER_SUB_SMNAME3,
-            'url'  => "search.php");
+            'url'  => 'search.php');
     }
 }
 // Add the Archive button
 $modversion['sub'][] = array(
     'name' => _MI_PUBLISHER_SUB_ARCHIVE,
-    'url'  => "archive.php");
+    'url'  => 'archive.php');
 
 // ------------------- Blocks -------------------
 $modversion['blocks'][] = array(
-    'file'        => "items_new.php",
+    'file'        => 'items_new.php',
     'name'        => _MI_PUBLISHER_ITEMSNEW,
     'description' => _MI_PUBLISHER_ITEMSNEW_DSC,
-    'show_func'   => "publisher_items_new_show",
-    'edit_func'   => "publisher_items_new_edit",
-    'options'     => "0|datesub|0|5|65|none",
-    'template'    => 'publisher_items_new.tpl'
-);
+    'show_func'   => 'publisher_items_new_show',
+    'edit_func'   => 'publisher_items_new_edit',
+    'options'     => '0|datesub|0|5|65|none',
+    'template'    => 'publisher_items_new.tpl');
 
 $modversion['blocks'][] = array(
-    'file'        => "items_recent.php",
+    'file'        => 'items_recent.php',
     'name'        => _MI_PUBLISHER_RECENTITEMS,
     'description' => _MI_PUBLISHER_RECENTITEMS_DSC,
-    'show_func'   => "publisher_items_recent_show",
-    'edit_func'   => "publisher_items_recent_edit",
-    'options'     => "0|datesub|5|65",
-    'template'    => 'publisher_items_recent.tpl'
-);
+    'show_func'   => 'publisher_items_recent_show',
+    'edit_func'   => 'publisher_items_recent_edit',
+    'options'     => '0|datesub|5|65',
+    'template'    => 'publisher_items_recent.tpl');
 
 $modversion['blocks'][] = array(
-    'file'        => "items_spot.php",
+    'file'        => 'items_spot.php',
     'name'        => _MI_PUBLISHER_ITEMSPOT,
     'description' => _MI_PUBLISHER_ITEMSPOT_DSC,
-    'show_func'   => "publisher_items_spot_show",
-    'edit_func'   => "publisher_items_spot_edit",
-    'options'     => "1|5|0|0|1|1|bullet|0|0",
-    'template'    => 'publisher_items_spot.tpl'
-);
+    'show_func'   => 'publisher_items_spot_show',
+    'edit_func'   => 'publisher_items_spot_edit',
+    'options'     => '1|5|0|0|1|1|bullet|0|0',
+    'template'    => 'publisher_items_spot.tpl');
 
 $modversion['blocks'][] = array(
-    'file'        => "items_random_item.php",
+    'file'        => 'items_random_item.php',
     'name'        => _MI_PUBLISHER_ITEMSRANDOM_ITEM,
     'description' => _MI_PUBLISHER_ITEMSRANDOM_ITEM_DSC,
-    'show_func'   => "publisher_items_random_item_show",
-    'template'    => 'publisher_items_random_item.tpl'
-);
+    'show_func'   => 'publisher_items_random_item_show',
+    'template'    => 'publisher_items_random_item.tpl');
 
 $modversion['blocks'][] = array(
-    'file'        => "items_menu.php",
+    'file'        => 'items_menu.php',
     'name'        => _MI_PUBLISHER_ITEMSMENU,
     'description' => _MI_PUBLISHER_ITEMSMENU_DSC,
-    'show_func'   => "publisher_items_menu_show",
-    'edit_func'   => "publisher_items_menu_edit",
-    'options'     => "0|datesub|5",
-    'template'    => 'publisher_items_menu.tpl'
-);
+    'show_func'   => 'publisher_items_menu_show',
+    'edit_func'   => 'publisher_items_menu_edit',
+    'options'     => '0|datesub|5',
+    'template'    => 'publisher_items_menu.tpl');
 
 $modversion['blocks'][] = array(
-    'file'        => "latest_files.php",
+    'file'        => 'latest_files.php',
     'name'        => _MI_PUBLISHER_LATESTFILES,
     'description' => _MI_PUBLISHER_LATESTFILES_DSC,
-    'show_func'   => "publisher_latest_files_show",
-    'edit_func'   => "publisher_latest_files_edit",
-    'options'     => "0|datesub|5|0",
-    'template'    => 'publisher_latest_files.tpl'
-);
+    'show_func'   => 'publisher_latest_files_show',
+    'edit_func'   => 'publisher_latest_files_edit',
+    'options'     => '0|datesub|5|0',
+    'template'    => 'publisher_latest_files.tpl');
 
 $modversion['blocks'][] = array(
-    'file'        => "date_to_date.php",
+    'file'        => 'date_to_date.php',
     'name'        => _MI_PUBLISHER_DATE_TO_DATE,
     'description' => _MI_PUBLISHER_DATE_TO_DATE_DSC,
-    'show_func'   => "publisher_date_to_date_show",
-    'edit_func'   => "publisher_date_to_date_edit",
+    'show_func'   => 'publisher_date_to_date_show',
+    'edit_func'   => 'publisher_date_to_date_edit',
     'options'     => "XoopsLocal::formatTimestamp(time(), 'm/j/Y') . " | " . XoopsLocal::formatTimestamp(time(), 'm/j/Y')",
-    'template'    => 'publisher_date_to_date.tpl'
-);
+    'template'    => 'publisher_date_to_date.tpl');
 
 $modversion['blocks'][] = array(
-    'file'        => "items_columns.php",
+    'file'        => 'items_columns.php',
     'name'        => _MI_PUBLISHER_COLUMNS,
     'description' => _MI_PUBLISHER_COLUMNS_DSC,
-    'show_func'   => "publisher_items_columns_show",
-    'edit_func'   => "publisher_items_columns_edit",
-    'options'     => "2|0|4|256|normal",
-    'template'    => 'publisher_items_columns.tpl'
-);
+    'show_func'   => 'publisher_items_columns_show',
+    'edit_func'   => 'publisher_items_columns_edit',
+    'options'     => '2|0|4|256|normal',
+    'template'    => 'publisher_items_columns.tpl');
 
 $modversion['blocks'][] = array(
-    'file'        => "latest_news.php",
+    'file'        => 'latest_news.php',
     'name'        => _MI_PUBLISHER_LATEST_NEWS,
     'description' => _MI_PUBLISHER_LATEST_NEWS_DSC,
-    'show_func'   => "publisher_latest_news_show",
-    'edit_func'   => "publisher_latest_news_edit",
-    'options'     => "0|6|2|300|0|0|100|30|published|1|120|120|1|dcdcdc|RIGHT|1|1|1|1|1|1|1|1|1|1|1|1|1|extended|",
-    'template'    => 'publisher_latest_news.tpl'
-);
+    'show_func'   => 'publisher_latest_news_show',
+    'edit_func'   => 'publisher_latest_news_edit',
+    'options'     => '0|6|2|300|0|0|100|30|published|1|120|120|1|dcdcdc|RIGHT|1|1|1|1|1|1|1|1|1|1|1|1|1|extended|',
+    'template'    => 'publisher_latest_news.tpl');
 
 $modversion['blocks'][] = array(
-    'file'        => "search.php",
+    'file'        => 'search.php',
     'name'        => _MI_PUBLISHER_SEARCH,
     'description' => _MI_PUBLISHER_SEARCH_DSC,
-    'show_func'   => "publisher_search_show",
-    'template'    => 'publisher_search_block.tpl'
-);
+    'show_func'   => 'publisher_search_show',
+    'template'    => 'publisher_search_block.tpl');
 
 $modversion['blocks'][] = array(
-    'file'        => "category_items_sel.ph",
+    'file'        => 'category_items_sel.ph',
     'name'        => _MI_PUBLISHER_CATEGORY_ITEMS_SEL,
     'description' => _MI_PUBLISHER_CATEGORY_ITEMS_SEL_DSC,
-    'show_func'   => "publisher_category_items_sel_show",
-    'edit_func'   => "publisher_category_items_sel_edit",
-    'options'     => "0|datesub|5|65",
-    'template'    => 'publisher_category_items_sel.tpl'
-);
+    'show_func'   => 'publisher_category_items_sel_show',
+    'edit_func'   => 'publisher_category_items_sel_edit',
+    'options'     => '0|datesub|5|65',
+    'template'    => 'publisher_category_items_sel.tpl');
 
 // ------------------- Templates -------------------
 
 $modversion['templates'] = array(
     array(
         'file'        => 'publisher_header.tpl',
-        'description' => '_MI_PUBLISHER_HEADER_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_HEADER_DSC'),
     array(
         'file'        => 'publisher_footer.tpl',
-        'description' => '_MI_PUBLISHER_FOOTER_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_FOOTER_DSC'),
     array(
         'file'        => 'publisher_footer.tpl',
-        'description' => '_MI_PUBLISHER_FOOTER_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_FOOTER_DSC'),
     array(
         'file'        => 'publisher_singleitem.tpl',
-        'description' => '_MI_PUBLISHER_SINGLEITEM_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_SINGLEITEM_DSC'),
     array(
         'file'        => 'publisher_categories_table.tpl',
-        'description' => '_MI_PUBLISHER_CATEGORIES_TABLE_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_CATEGORIES_TABLE_DSC'),
     array(
         'file'        => 'publisher_display_list.tpl',
-        'description' => '_MI_PUBLISHER_DISPLAY_LIST_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_DISPLAY_LIST_DSC'),
     array(
         'file'        => 'publisher_display_summary.tpl',
-        'description' => '_MI_PUBLISHER_DISPLAY_SUMMARY_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_DISPLAY_SUMMARY_DSC'),
     array(
         'file'        => 'publisher_display_full.tpl',
-        'description' => '_MI_PUBLISHER_DISPLAY_FULL_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_DISPLAY_FULL_DSC'),
     array(
         'file'        => 'publisher_display_wfsection.tpl',
-        'description' => '_MI_PUBLISHER_DISPLAY_WFSECTION_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_DISPLAY_WFSECTION_DSC'),
     array(
         'file'        => 'publisher_item.tpl',
-        'description' => '_MI_PUBLISHER_ITEM_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_ITEM_DSC'),
     array(
         'file'        => 'publisher_submit.tpl',
-        'description' => '_MI_PUBLISHER_SUBMIT_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_SUBMIT_DSC'),
     array(
         'file'        => 'publisher_submit.tpl',
-        'description' => '_MI_PUBLISHER_SUBMIT_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_SUBMIT_DSC'),
     array(
         'file'        => 'publisher_singleitem_block.tpl',
-        'description' => '_MI_PUBLISHER_SINGLEITEM_BLOCK_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_SINGLEITEM_BLOCK_DSC'),
     array(
         'file'        => 'publisher_print.tpl',
-        'description' => '_MI_PUBLISHER_PRINT_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_PRINT_DSC'),
     array(
         'file'        => 'publisher_rss.tpl',
-        'description' => '_MI_PUBLISHER_RSS_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_RSS_DSC'),
     array(
         'file'        => 'publisher_addfile.tpl',
-        'description' => '_MI_PUBLISHER_ADDFILE_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_ADDFILE_DSC'),
     array(
         'file'        => 'publisher_search.tpl',
-        'description' => '_MI_PUBLISHER_SEARCH_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_SEARCH_DSC'),
     array(
         'file'        => 'publisher_author_items.tpl',
-        'description' => '_MI_PUBLISHER_AUTHOR_ITEMS_DSC'
-    ),
+        'description' => '_MI_PUBLISHER_AUTHOR_ITEMS_DSC'),
     array(
         'file'        => 'publisher_archive.tpl',
-        'description' => '_MI_PUBLISHER_ARCHIVE__DSC'
-    )
-);
+        'description' => '_MI_PUBLISHER_ARCHIVE__DSC'));
 
 // Config categories
 
 $modversion['configcat']['seo']      = array(
     'name'        => _MI_PUBLISHER_CONFCAT_SEO,
-    'description' => _MI_PUBLISHER_CONFCAT_SEO_DSC
-);
+    'description' => _MI_PUBLISHER_CONFCAT_SEO_DSC);
 $modversion['configcat']['indexcat'] = array(
     'name'        => _MI_PUBLISHER_CONFCAT_INDEXCAT,
-    'description' => _MI_PUBLISHER_CONFCAT_INDEXCAT_DSC
-);
+    'description' => _MI_PUBLISHER_CONFCAT_INDEXCAT_DSC);
 
 $modversion['configcat']['index'] = array(
     'name'        => _MI_PUBLISHER_CONFCAT_INDEX,
-    'description' => _MI_PUBLISHER_CONFCAT_INDEX_DSC
-);
+    'description' => _MI_PUBLISHER_CONFCAT_INDEX_DSC);
 
 $modversion['configcat']['category'] = array(
     'name'        => _MI_PUBLISHER_CONFCAT_CATEGORY,
-    'description' => _MI_PUBLISHER_CONFCAT_CATEGORY_DSC
-);
+    'description' => _MI_PUBLISHER_CONFCAT_CATEGORY_DSC);
 
 $modversion['configcat']['item'] = array(
     'name'        => _MI_PUBLISHER_CONFCAT_ITEM,
-    'description' => _MI_PUBLISHER_CONFCAT_ITEM_DSC
-);
+    'description' => _MI_PUBLISHER_CONFCAT_ITEM_DSC);
 
 $modversion['configcat']['print'] = array(
     'name'        => _MI_PUBLISHER_CONFCAT_PRINT,
-    'description' => _MI_PUBLISHER_CONFCAT_PRINT_DSC
-);
+    'description' => _MI_PUBLISHER_CONFCAT_PRINT_DSC);
 
 $modversion['configcat']['search'] = array(
     'name'        => _MI_PUBLISHER_CONFCAT_SEARCH,
-    'description' => _MI_PUBLISHER_CONFCAT_SEARCH_DSC
-);
+    'description' => _MI_PUBLISHER_CONFCAT_SEARCH_DSC);
 
 $modversion['configcat']['submit'] = array(
     'name'        => _MI_PUBLISHER_CONFCAT_SUBMIT,
-    'description' => _MI_PUBLISHER_CONFCAT_SUBMIT_DSC
-);
+    'description' => _MI_PUBLISHER_CONFCAT_SUBMIT_DSC);
 
 $modversion['configcat']['permissions'] = array(
     'name'        => _MI_PUBLISHER_CONFCAT_PERMISSIONS,
-    'description' => _MI_PUBLISHER_CONFCAT_PERMISSIONS_DSC
-);
+    'description' => _MI_PUBLISHER_CONFCAT_PERMISSIONS_DSC);
 
 $modversion['configcat']['format'] = array(
     'name'        => _MI_PUBLISHER_CONFCAT_FORMAT,
-    'description' => _MI_PUBLISHER_CONFCAT_FORMAT_DSC
-);
+    'description' => _MI_PUBLISHER_CONFCAT_FORMAT_DSC);
 
 //mb
 $modversion['configcat']['group_header'] = array(
     'name'        => _MI_PUBLISHER_CONFCAT_FORMAT,
-    'description' => _MI_PUBLISHER_CONFCAT_FORMAT_DSC
-);
+    'description' => _MI_PUBLISHER_CONFCAT_FORMAT_DSC);
 
 // Config Settings (only for modules that need config settings generated automatically)
 
-
 ################### SEO ####################
 
-//$isModuleAction = (!empty($_POST["fct"]) && "modulesadmin" == $_POST["fct"]) ? true : false;
+//$isModuleAction = (!empty($_POST['fct']) && 'modulesadmin' == $_POST['fct']) ? true : false;
 $isModuleAction = ('modulesadmin' == XoopsRequest::getString('fct', '', 'POST')) ? true : false;
-//if ($isModuleAction && (in_array(php_sapi_name(), array("apache", "apache2handler", "cgi-fcgi")))) {
+//if ($isModuleAction && (in_array(php_sapi_name(), array('apache', 'apache2handler', 'cgi-fcgi')))) {
 //    _MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'
 //}
 
@@ -390,8 +345,7 @@ $modversion['config'][] = array(
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'odd',
-    'category'    => 'group_header'
-);
+    'category'    => 'group_header');
 
 $modversion['config'][] = array(
     'name'        => 'seo_url_rewrite',
@@ -400,13 +354,9 @@ $modversion['config'][] = array(
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'default'     => 'none',
-    'options'     => array_merge(array(_MI_PUBLISHER_URL_REWRITE_NONE => 'none'),
-                                 array(_MI_PUBLISHER_URL_REWRITE_PATHINFO => 'path-info'),
-        // Is performing module install/update?
-                                 ($isModuleAction && (in_array(php_sapi_name(), array("apache", "apache2handler", "cgi-fcgi")))) ? array(_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess') : array()),
-
-    'category'    => 'seo'
-);
+    'options'     => array_merge(array(_MI_PUBLISHER_URL_REWRITE_NONE => 'none'), array(_MI_PUBLISHER_URL_REWRITE_PATHINFO => 'path-info'), // Is performing module install/update?
+                                 ($isModuleAction && (in_array(php_sapi_name(), array('apache', 'apache2handler', 'cgi-fcgi')))) ? array(_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess') : array()),
+    'category'    => 'seo');
 
 $modversion['config'][] = array(
     'name'        => 'seo_module_name',
@@ -415,8 +365,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => $modversion['dirname'],
-    'category'    => 'seo'
-);
+    'category'    => 'seo');
 $modversion['config'][] = array(
     'name'        => 'seo_meta_keywords',
     'title'       => '_MI_PUBLISHER_SEO_METAKEYWORDS',
@@ -424,8 +373,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '',
-    'category'    => 'seo'
-);
+    'category'    => 'seo');
 ################### INDEX PAGE ####################
 
 // group header
@@ -436,8 +384,7 @@ $modversion['config'][] = array(
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'even',
-    'category'    => 'group_header'
-);
+    'category'    => 'group_header');
 
 $modversion['config'][] = array(
     'name'        => 'index_title_and_welcome',
@@ -446,8 +393,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'index'
-);
+    'category'    => 'index');
 
 $modversion['config'][] = array(
     'name'        => 'index_welcome_msg',
@@ -456,8 +402,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textarea',
     'valuetype'   => 'text',
     'default'     => _MI_PUBLISHER_INDEXMSGDEF,
-    'category'    => 'index'
-);
+    'category'    => 'index');
 
 $modversion['config'][] = array(
     'name'        => 'index_display_last_items',
@@ -466,8 +411,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'index'
-);
+    'category'    => 'index');
 
 $modversion['config'][] = array(
     'name'        => 'index_footer',
@@ -476,8 +420,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textarea',
     'valuetype'   => 'text',
     'default'     => '',
-    'category'    => 'index'
-);
+    'category'    => 'index');
 ################### CATEGORY PAGE ####################
 // display_categeory_summary enabled by Freeform Solutions March 21 2006
 
@@ -489,8 +432,7 @@ $modversion['config'][] = array(
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'odd',
-    'category'    => 'group_header'
-);
+    'category'    => 'group_header');
 
 $modversion['config'][] = array(
     'name'        => 'cat_display_summary',
@@ -499,8 +441,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'category'
-);
+    'category'    => 'category');
 
 $modversion['config'][] = array(
     'name'        => 'cat_list_image_width',
@@ -509,8 +450,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '90',
-    'category'    => 'category'
-);
+    'category'    => 'category');
 
 $modversion['config'][] = array(
     'name'        => 'cat_main_image_width',
@@ -519,8 +459,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '150',
-    'category'    => 'category'
-);
+    'category'    => 'category');
 ################### ITEM PAGE ####################
 // group header
 $modversion['config'][] = array(
@@ -530,8 +469,7 @@ $modversion['config'][] = array(
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'even',
-    'category'    => 'group_header'
-);
+    'category'    => 'group_header');
 
 $modversion['config'][] = array(
     'name'        => 'item_title_size',
@@ -540,8 +478,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '60',
-    'category'    => 'item'
-);
+    'category'    => 'item');
 
 $modversion['config'][] = array(
     'name'        => 'item_disp_comment_link',
@@ -550,8 +487,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'item'
-);
+    'category'    => 'item');
 
 $modversion['config'][] = array(
     'name'        => 'item_disp_whowhen_link',
@@ -560,8 +496,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'item'
-);
+    'category'    => 'item');
 
 $modversion['config'][] = array(
     'name'        => 'item_admin_hits',
@@ -570,8 +505,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
-    'category'    => 'item'
-);
+    'category'    => 'item');
 
 $modversion['config'][] = array(
     'name'        => 'item_footer',
@@ -580,8 +514,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textarea',
     'valuetype'   => 'text',
     'default'     => '',
-    'category'    => 'item'
-);
+    'category'    => 'item');
 
 $modversion['config'][] = array(
     'name'        => 'item_other_items_type',
@@ -592,11 +525,9 @@ $modversion['config'][] = array(
     'options'     => array(
         _MI_PUBLISHER_OTHER_ITEMS_TYPE_NONE          => 'none',
         _MI_PUBLISHER_OTHER_ITEMS_TYPE_PREVIOUS_NEXT => 'previous_next',
-        _MI_PUBLISHER_OTHER_ITEMS_TYPE_ALL           => 'all'
-    ),
+        _MI_PUBLISHER_OTHER_ITEMS_TYPE_ALL           => 'all'),
     'default'     => 'previous_next',
-    'category'    => 'item'
-);
+    'category'    => 'item');
 
 ################### INDEX AND CATEGORIES ####################
 // group header
@@ -607,8 +538,7 @@ $modversion['config'][] = array(
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'odd',
-    'category'    => 'group_header'
-);
+    'category'    => 'group_header');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_show_subcats',
@@ -621,10 +551,8 @@ $modversion['config'][] = array(
         _MI_PUBLISHER_SHOW_SUBCATS_NO       => 'no',
         _MI_PUBLISHER_SHOW_SUBCATS_NOTEMPTY => 'nonempty',
         _MI_PUBLISHER_SHOW_SUBCATS_ALL      => 'all',
-        _MI_PUBLISHER_SHOW_SUBCATS_NOMAIN   => 'nomain'
-    ),
-    'category'    => 'indexcat'
-);
+        _MI_PUBLISHER_SHOW_SUBCATS_NOMAIN   => 'nomain'),
+    'category'    => 'indexcat');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_display_last_item',
@@ -633,8 +561,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'indexcat'
-);
+    'category'    => 'indexcat');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_last_item_size',
@@ -643,8 +570,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '50',
-    'category'    => 'indexcat'
-);
+    'category'    => 'indexcat');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_items_display_type',
@@ -656,11 +582,9 @@ $modversion['config'][] = array(
         _MI_PUBLISHER_DISPLAYTYPE_SUMMARY   => 'summary',
         _MI_PUBLISHER_DISPLAYTYPE_FULL      => 'full',
         _MI_PUBLISHER_DISPLAYTYPE_LIST      => 'list',
-        _MI_PUBLISHER_DISPLAYTYPE_WFSECTION => 'wfsection'
-    ),
+        _MI_PUBLISHER_DISPLAYTYPE_WFSECTION => 'wfsection'),
     'default'     => 'summary',
-    'category'    => 'indexcat'
-);
+    'category'    => 'indexcat');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_display_subcat_dsc',
@@ -669,8 +593,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'indexcat'
-);
+    'category'    => 'indexcat');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_display_date_col',
@@ -679,8 +602,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'indexcat'
-);
+    'category'    => 'indexcat');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_display_hits_col',
@@ -689,8 +611,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'indexcat'
-);
+    'category'    => 'indexcat');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_show_rss_link',
@@ -699,8 +620,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'indexcat'
-);
+    'category'    => 'indexcat');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_collaps_heading',
@@ -709,8 +629,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'indexcat'
-);
+    'category'    => 'indexcat');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_cat_perpage',
@@ -720,8 +639,7 @@ $modversion['config'][] = array(
     'valuetype'   => 'int',
     'default'     => 15,
     'options'     => array('5' => 5, '10' => 10, '15' => 15, '20' => 20, '25' => 25, '30' => 30, '50' => 50),
-    'category'    => 'indexcat'
-);
+    'category'    => 'indexcat');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_perpage',
@@ -731,8 +649,7 @@ $modversion['config'][] = array(
     'valuetype'   => 'int',
     'default'     => 15,
     'options'     => array('5' => 5, '10' => 10, '15' => 15, '20' => 20, '25' => 25, '30' => 30, '50' => 50),
-    'category'    => 'indexcat'
-);
+    'category'    => 'indexcat');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_index_perpage',
@@ -742,8 +659,7 @@ $modversion['config'][] = array(
     'valuetype'   => 'int',
     'default'     => 15,
     'options'     => array('5' => 5, '10' => 10, '15' => 15, '20' => 20, '25' => 25, '30' => 30, '50' => 50),
-    'category'    => 'indexcat'
-);
+    'category'    => 'indexcat');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_partial_view_text',
@@ -752,8 +668,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textarea',
     'valuetype'   => 'text',
     'default'     => _MI_PUBLISHER_PV_TEXT_DEF,
-    'category'    => 'indexcat'
-);
+    'category'    => 'indexcat');
 
 $modversion['config'][] = array(
     'name'        => 'idxcat_display_art_count',
@@ -762,8 +677,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
-    'category'    => 'indexcat'
-);
+    'category'    => 'indexcat');
 
 ################### PRINT ####################
 // group header
@@ -774,8 +688,7 @@ $modversion['config'][] = array(
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'even',
-    'category'    => 'group_header'
-);
+    'category'    => 'group_header');
 
 $modversion['config'][] = array(
     'name'        => 'print_header',
@@ -784,8 +697,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textarea',
     'valuetype'   => 'text',
     'default'     => '',
-    'category'    => 'print'
-);
+    'category'    => 'print');
 
 $modversion['config'][] = array(
     'name'        => 'print_logourl',
@@ -794,8 +706,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => XOOPS_URL . '/images/logo.gif',
-    'category'    => 'print'
-);
+    'category'    => 'print');
 
 $modversion['config'][] = array(
     'name'        => 'print_footer',
@@ -809,8 +720,7 @@ $modversion['config'][] = array(
         _MI_PUBLISHER_INDEXFOOTER_SEL => 'index footer',
         _MI_PUBLISHER_BOTH_FOOTERS    => 'both',
         _MI_PUBLISHER_NO_FOOTERS      => 'none'),
-    'category'    => 'print'
-);
+    'category'    => 'print');
 
 ################### FORMAT ####################
 // group header
@@ -821,8 +731,7 @@ $modversion['config'][] = array(
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'odd',
-    'category'    => 'group_header'
-);
+    'category'    => 'group_header');
 
 $modversion['config'][] = array(
     'name'        => 'format_date',
@@ -831,8 +740,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'd-M-Y H:i',
-    'category'    => 'format'
-);
+    'category'    => 'format');
 
 $modversion['config'][] = array(
     'name'        => 'format_order_by',
@@ -841,14 +749,15 @@ $modversion['config'][] = array(
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'options'     => array(
-        _MI_PUBLISHER_ORDERBY_TITLE  => 'title',
-        _MI_PUBLISHER_ORDERBY_DATE   => 'date',
-        _MI_PUBLISHER_ORDERBY_RATING => 'rating',
-        _MI_PUBLISHER_ORDERBY_VOTES  => 'votes',
-        _MI_PUBLISHER_ORDERBY_WEIGHT => 'weight'),
+        _MI_PUBLISHER_ORDERBY_TITLE    => 'title',
+        _MI_PUBLISHER_ORDERBY_DATE     => 'date',
+        _MI_PUBLISHER_ORDERBY_HITS     => 'hits',
+        _MI_PUBLISHER_ORDERBY_RATING   => 'rating',
+        _MI_PUBLISHER_ORDERBY_VOTES    => 'votes',
+        _MI_PUBLISHER_ORDERBY_COMMENTS => 'comments',
+        _MI_PUBLISHER_ORDERBY_WEIGHT   => 'weight'),
     'default'     => 'date',
-    'category'    => 'format'
-);
+    'category'    => 'format');
 
 $modversion['config'][] = array(
     'name'        => 'format_image_nav',
@@ -857,8 +766,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
-    'category'    => 'format'
-);
+    'category'    => 'format');
 
 $modversion['config'][] = array(
     'name'        => 'format_realname',
@@ -867,8 +775,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
-    'category'    => 'format'
-);
+    'category'    => 'format');
 
 $modversion['config'][] = array(
     'name'        => 'format_highlight_color',
@@ -877,8 +784,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '#FFFF80',
-    'category'    => 'format'
-);
+    'category'    => 'format');
 
 $modversion['config'][] = array(
     'name'        => 'format_linked_path',
@@ -887,8 +793,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'format'
-);
+    'category'    => 'format');
 
 $modversion['config'][] = array(
     'name'        => 'format_breadcrumb_modname',
@@ -897,8 +802,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'format'
-);
+    'category'    => 'format');
 
 ################### SEARCH ####################
 // group header
@@ -909,8 +813,7 @@ $modversion['config'][] = array(
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'even',
-    'category'    => 'group_header'
-);
+    'category'    => 'group_header');
 
 $modversion['config'][] = array(
     'name'        => 'search_cat_path',
@@ -919,8 +822,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
-    'category'    => 'search'
-);
+    'category'    => 'search');
 
 ################### SUBMIT ####################
 // group header
@@ -931,8 +833,7 @@ $modversion['config'][] = array(
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'odd',
-    'category'    => 'group_header'
-);
+    'category'    => 'group_header');
 
 $modversion['config'][] = array(
     'name'        => 'submit_intro_msg',
@@ -941,8 +842,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textarea',
     'valuetype'   => 'text',
     'default'     => _MI_PUBLISHER_SUBMITMSGDEF,
-    'category'    => 'submit'
-);
+    'category'    => 'submit');
 
 xoops_load('XoopsEditorHandler');
 $editor_handler = XoopsEditorHandler::getInstance();
@@ -955,8 +855,7 @@ $modversion['config'][] = array(
     'valuetype'   => 'text',
     'options'     => array_flip($editor_handler->getList()),
     'default'     => 'dhtmltextarea',
-    'category'    => 'submit'
-);
+    'category'    => 'submit');
 
 $modversion['config'][] = array(
     'name'        => 'submit_editor_rows',
@@ -965,8 +864,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '35',
-    'category'    => 'submit'
-);
+    'category'    => 'submit');
 
 $modversion['config'][] = array(
     'name'        => 'submit_editor_cols',
@@ -975,8 +873,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '60',
-    'category'    => 'submit'
-);
+    'category'    => 'submit');
 
 $modversion['config'][] = array(
     'name'        => 'submit_editor_width',
@@ -985,8 +882,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '100%',
-    'category'    => 'submit'
-);
+    'category'    => 'submit');
 
 $modversion['config'][] = array(
     'name'        => 'submit_editor_height',
@@ -995,8 +891,7 @@ $modversion['config'][] = array(
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '400px',
-    'category'    => 'submit'
-);
+    'category'    => 'submit');
 
 $modversion['config'][] = array(
     'name'        => 'submit_status',
@@ -1008,11 +903,9 @@ $modversion['config'][] = array(
         _MI_PUBLISHER_PUBLISHED => PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED,
         _MI_PUBLISHER_OFFLINE   => PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE,
         _MI_PUBLISHER_SUBMITTED => PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED,
-        _MI_PUBLISHER_REJECTED  => PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED
-    ),
+        _MI_PUBLISHER_REJECTED  => PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED),
     'default'     => PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED,
-    'category'    => 'submit'
-);
+    'category'    => 'submit');
 
 $modversion['config'][] = array(
     'name'        => 'submit_allowcomments',
@@ -1021,8 +914,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'submit'
-);
+    'category'    => 'submit');
 
 $modversion['config'][] = array(
     'name'        => 'submit_dohtml',
@@ -1031,8 +923,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'submit'
-);
+    'category'    => 'submit');
 
 $modversion['config'][] = array(
     'name'        => 'submit_dosmiley',
@@ -1041,8 +932,7 @@ $modversion['config'][] = array(
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'submit'
-);
+    'category'    => 'submit');
 
 $modversion['config'][] = array(
     'name'        => 'submit_doxcode',
@@ -1080,8 +970,7 @@ $modversion['config'][] = array(
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'even',
-    'category'    => 'group_header'
-);
+    'category'    => 'group_header');
 
 $modversion['config'][] = array(
     'name'        => 'perm_submit',
@@ -1191,8 +1080,7 @@ $modversion['config'][] = array(
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'odd',
-    'category'    => 'group_header'
-);
+    'category'    => 'group_header');
 
 $modversion['config'][] = array(
     'name'        => 'display_breadcrumb',
@@ -1291,8 +1179,7 @@ $modversion['notification']['category'][] = array(
     'name'           => 'global_item',
     'title'          => _MI_PUBLISHER_GLOBAL_ITEM_NOTIFY,
     'description'    => _MI_PUBLISHER_GLOBAL_ITEM_NOTIFY_DSC,
-    'subscribe_from' => "array('index.php', 'category.php', 'item.php')"
-);
+    'subscribe_from' => "array('index.php', 'category.php', 'item.php')");
 
 $modversion['notification']['category'][] = array(
     'name'           => 'category_item',
@@ -1300,16 +1187,14 @@ $modversion['notification']['category'][] = array(
     'description'    => _MI_PUBLISHER_CATEGORY_ITEM_NOTIFY_DSC,
     'subscribe_from' => "array('index.php', 'category.php', 'item.php')",
     'item_name'      => 'categoryid',
-    'allow_bookmark' => 1
-);
+    'allow_bookmark' => 1);
 $modversion['notification']['category'][] = array(
     'name'           => 'item',
     'title'          => _MI_PUBLISHER_ITEM_NOTIFY,
     'description'    => _MI_PUBLISHER_ITEM_NOTIFY_DSC,
     'subscribe_from' => "array('item.php')",
     'item_name'      => 'itemid',
-    'allow_bookmark' => 1
-);
+    'allow_bookmark' => 1);
 
 $modversion['notification']['event'][] = array(
     'name'          => 'category_created',
@@ -1318,8 +1203,7 @@ $modversion['notification']['event'][] = array(
     'caption'       => _MI_PUBLISHER_GLOBAL_ITEM_CATEGORY_CREATED_NOTIFY_CAP,
     'description'   => _MI_PUBLISHER_GLOBAL_ITEM_CATEGORY_CREATED_NOTIFY_DSC,
     'mail_template' => 'global_item_category_created',
-    'mail_subject'  => _MI_PUBLISHER_GLOBAL_ITEM_CATEGORY_CREATED_NOTIFY_SBJ
-);
+    'mail_subject'  => _MI_PUBLISHER_GLOBAL_ITEM_CATEGORY_CREATED_NOTIFY_SBJ);
 $modversion['notification']['event'][] = array(
     'name'          => 'submitted',
     'category'      => 'global_item',
@@ -1328,8 +1212,7 @@ $modversion['notification']['event'][] = array(
     'caption'       => _MI_PUBLISHER_GLOBAL_ITEM_SUBMITTED_NOTIFY_CAP,
     'description'   => _MI_PUBLISHER_GLOBAL_ITEM_SUBMITTED_NOTIFY_DSC,
     'mail_template' => 'global_item_submitted',
-    'mail_subject'  => _MI_PUBLISHER_GLOBAL_ITEM_SUBMITTED_NOTIFY_SBJ
-);
+    'mail_subject'  => _MI_PUBLISHER_GLOBAL_ITEM_SUBMITTED_NOTIFY_SBJ);
 $modversion['notification']['event'][] = array(
     'name'          => 'published',
     'category'      => 'global_item',
@@ -1337,8 +1220,7 @@ $modversion['notification']['event'][] = array(
     'caption'       => _MI_PUBLISHER_GLOBAL_ITEM_PUBLISHED_NOTIFY_CAP,
     'description'   => _MI_PUBLISHER_GLOBAL_ITEM_PUBLISHED_NOTIFY_DSC,
     'mail_template' => 'global_item_published',
-    'mail_subject'  => _MI_PUBLISHER_GLOBAL_ITEM_PUBLISHED_NOTIFY_SBJ
-);
+    'mail_subject'  => _MI_PUBLISHER_GLOBAL_ITEM_PUBLISHED_NOTIFY_SBJ);
 $modversion['notification']['event'][] = array(
     'name'          => 'submitted',
     'category'      => 'category_item',
@@ -1347,8 +1229,7 @@ $modversion['notification']['event'][] = array(
     'caption'       => _MI_PUBLISHER_CATEGORY_ITEM_SUBMITTED_NOTIFY_CAP,
     'description'   => _MI_PUBLISHER_CATEGORY_ITEM_SUBMITTED_NOTIFY_DSC,
     'mail_template' => 'category_item_submitted',
-    'mail_subject'  => _MI_PUBLISHER_CATEGORY_ITEM_SUBMITTED_NOTIFY_SBJ
-);
+    'mail_subject'  => _MI_PUBLISHER_CATEGORY_ITEM_SUBMITTED_NOTIFY_SBJ);
 $modversion['notification']['event'][] = array(
     'name'          => 'published',
     'category'      => 'category_item',
@@ -1356,8 +1237,7 @@ $modversion['notification']['event'][] = array(
     'caption'       => _MI_PUBLISHER_CATEGORY_ITEM_PUBLISHED_NOTIFY_CAP,
     'description'   => _MI_PUBLISHER_CATEGORY_ITEM_PUBLISHED_NOTIFY_DSC,
     'mail_template' => 'category_item_published',
-    'mail_subject'  => _MI_PUBLISHER_CATEGORY_ITEM_PUBLISHED_NOTIFY_SBJ
-);
+    'mail_subject'  => _MI_PUBLISHER_CATEGORY_ITEM_PUBLISHED_NOTIFY_SBJ);
 $modversion['notification']['event'][] = array(
     'name'          => 'rejected',
     'category'      => 'item',
@@ -1366,8 +1246,7 @@ $modversion['notification']['event'][] = array(
     'caption'       => _MI_PUBLISHER_ITEM_REJECTED_NOTIFY_CAP,
     'description'   => _MI_PUBLISHER_ITEM_REJECTED_NOTIFY_DSC,
     'mail_template' => 'item_rejected',
-    'mail_subject'  => _MI_PUBLISHER_ITEM_REJECTED_NOTIFY_SBJ
-);
+    'mail_subject'  => _MI_PUBLISHER_ITEM_REJECTED_NOTIFY_SBJ);
 $modversion['notification']['event'][] = array(
     'name'          => 'approved',
     'category'      => 'item',
@@ -1376,5 +1255,4 @@ $modversion['notification']['event'][] = array(
     'caption'       => _MI_PUBLISHER_ITEM_APPROVED_NOTIFY_CAP,
     'description'   => _MI_PUBLISHER_ITEM_APPROVED_NOTIFY_DSC,
     'mail_template' => 'item_approved',
-    'mail_subject'  => _MI_PUBLISHER_ITEM_APPROVED_NOTIFY_SBJ
-);
+    'mail_subject'  => _MI_PUBLISHER_ITEM_APPROVED_NOTIFY_SBJ);

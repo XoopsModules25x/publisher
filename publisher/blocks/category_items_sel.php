@@ -49,13 +49,17 @@ function publisher_category_items_sel_show($options)
     // creating the ITEM objects that belong to the selected category
     $block['categories'] = array();
     foreach ($categories as $catID => $catObj) {
-        if (!in_array(0, $selectedcatids) && !in_array($catID, $selectedcatids)) continue;
+        if (!in_array(0, $selectedcatids) && !in_array($catID, $selectedcatids)) {
+            continue;
+        }
 
         $criteria = new Criteria('categoryid', $catID);
         $items    = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
         unset($criteria);
 
-        if (count($items) == 0) continue;
+        if (count($items) == 0) {
+            continue;
+        }
 
         $item['title']                          = $catObj->name();
         $item['itemurl']                        = 'none';
@@ -71,7 +75,9 @@ function publisher_category_items_sel_show($options)
 
     unset($items, $categories, $itemObj, $catID, $catObj);
 
-    if (count($block['categories']) == 0) return $block;
+    if (count($block['categories']) == 0) {
+        return $block;
+    }
 
     return $block;
 }
@@ -93,8 +99,7 @@ function publisher_category_items_sel_edit($options)
     $orderEle->addOptionArray(array(
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT,
-                              ));
+                                  'weight'  => _MB_PUBLISHER_WEIGHT,));
     $dispEle  = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $charsEle = new XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);
 

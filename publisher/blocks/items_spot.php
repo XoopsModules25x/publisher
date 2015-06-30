@@ -29,7 +29,7 @@ include_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_items_spot_show($options)
 {
-//    global $xoTheme;
+    //    global $xoTheme;
     $publisher           = PublisherPublisher::getInstance();
     $opt_display_last    = $options[0];
     $opt_items_count     = $options[1];
@@ -144,8 +144,7 @@ function publisher_items_spot_edit($options)
     $typeEle = new XoopsFormSelect(_MB_PUBLISHER_DISPLAY_TYPE, 'options[6]', $options[6]);
     $typeEle->addOptionArray(array(
                                  'block'  => _MB_PUBLISHER_DISPLAY_TYPE_BLOCK,
-                                 'bullet' => _MB_PUBLISHER_DISPLAY_TYPE_BULLET,
-                             ));
+                                 'bullet' => _MB_PUBLISHER_DISPLAY_TYPE_BULLET,));
     $truncateEle = new XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[7]', 4, 255, $options[7]);
     $imageEle    = new XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_CATIMAGE, 'options[8]', $options[8]);
     $form->addElement($autoEle);

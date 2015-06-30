@@ -27,16 +27,16 @@ publisherOpenCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLI
 if ('submit' == XoopsRequest::getString('op', '', 'POST')) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header('clone.php', 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
-//        exit();
+        //        exit();
     }
 
-//    $clone = $_POST['clone'];
+    //    $clone = $_POST['clone'];
     $clone = XoopsRequest::getString('clone', '', 'POST');
 
     //check if name is valid
     if (empty($clone) || preg_match('/[^a-zA-Z0-9\_\-]/', $clone)) {
         redirect_header('clone.php', 3, sprintf(_AM_PUBLISHER_CLONE_INVALIDNAME, $clone));
-//        exit();
+        //        exit();
     }
 
     // Check wether the cloned module exists or not
@@ -47,8 +47,7 @@ if ('submit' == XoopsRequest::getString('op', '', 'POST')) {
     $patterns = array(
         strtolower(PUBLISHER_DIRNAME)          => strtolower($clone),
         strtoupper(PUBLISHER_DIRNAME)          => strtoupper($clone),
-        ucfirst(strtolower(PUBLISHER_DIRNAME)) => ucfirst(strtolower($clone))
-    );
+        ucfirst(strtolower(PUBLISHER_DIRNAME)) => ucfirst(strtolower($clone)));
 
     $patKeys   = array_keys($patterns);
     $patValues = array_values($patterns);
@@ -100,14 +99,14 @@ if (!function_exists('file_put_contents')) {
 class PublisherClone
 {
 
-// recursive clonning script
+    // recursive clonning script
     /**
      * @param $path
      */
     public static function cloneFileFolder($path)
     {
-    global $patKeys;
-    global $patValues;
+        global $patKeys;
+        global $patValues;
 
         $newPath = str_replace($patKeys[0], $patValues[0], $path);
 

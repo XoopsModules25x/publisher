@@ -23,24 +23,24 @@
 // defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
-define("PUBLISHER_DIRNAME", basename(dirname(__DIR__)));
-define("PUBLISHER_URL", XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME);
-define("PUBLISHER_PATH", XOOPS_ROOT_PATH . "/modules/" . PUBLISHER_DIRNAME);
-define("PUBLISHER_IMAGES_URL", PUBLISHER_URL . '/assets/images');
-define("PUBLISHER_ADMIN_URL", PUBLISHER_URL . '/admin');
-define("PUBLISHER_ADMIN_PATH", PUBLISHER_PATH . "/admin/index.php");
-define("PUBLISHER_ROOT_PATH", $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME));
-define("PUBLISHER_AUTHOR_LOGOIMG", PUBLISHER_URL . "/assets/images/logo.png");
+define('PUBLISHER_DIRNAME', basename(dirname(__DIR__)));
+define('PUBLISHER_URL', XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME);
+define('PUBLISHER_PATH', XOOPS_ROOT_PATH . '/modules/' . PUBLISHER_DIRNAME);
+define('PUBLISHER_IMAGES_URL', PUBLISHER_URL . '/assets/images');
+define('PUBLISHER_ADMIN_URL', PUBLISHER_URL . '/admin');
+define('PUBLISHER_ADMIN_PATH', PUBLISHER_PATH . '/admin/index.php');
+define('PUBLISHER_ROOT_PATH', $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME));
+define('PUBLISHER_AUTHOR_LOGOIMG', PUBLISHER_URL . '/assets/images/logo.png');
 
 /*
 //global $xoopsModule;
 if (!defined('PUBLISHER_MODULE_PATH')) {
-    define("PUBLISHER_DIRNAME", $GLOBALS['xoopsModule']->dirname());
-    define("PUBLISHER_PATH", XOOPS_ROOT_PATH . "/modules/" . PUBLISHER_DIRNAME);
-    define("PUBLISHER_URL", XOOPS_URL . "/modules/" . PUBLISHER_DIRNAME);
-    define("PUBLISHER_ADMIN_URL", PUBLISHER_URL . "/admin/index.php");
-    define("PUBLISHER_ADMIN_PATH", PUBLISHER_PATH . "/admin/index.php");
-    define("PUBLISHER_AUTHOR_LOGOIMG", PUBLISHER_URL . "/assets/images/xoopsproject_logo.png");
+    define('PUBLISHER_DIRNAME', $GLOBALS['xoopsModule']->dirname());
+    define('PUBLISHER_PATH', XOOPS_ROOT_PATH . '/modules/' . PUBLISHER_DIRNAME);
+    define('PUBLISHER_URL', XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME);
+    define('PUBLISHER_ADMIN_URL', PUBLISHER_URL . '/admin/index.php');
+    define('PUBLISHER_ADMIN_PATH', PUBLISHER_PATH . '/admin/index.php');
+    define('PUBLISHER_AUTHOR_LOGOIMG', PUBLISHER_URL . '/assets/images/xoopsproject_logo.png');
 
 }
 */
@@ -48,21 +48,18 @@ if (!defined('PUBLISHER_MODULE_PATH')) {
 // Define here the folder for the main upload path
 //$img_dir = $GLOBALS['xoopsModuleConfig']['uploaddir'];
 
-define("PUBLISHER_UPLOAD_URL", XOOPS_UPLOAD_URL . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
-//define("PUBLISHER_UPLOAD_PATH", $img_dir); // WITHOUT Trailing slash
-define("PUBLISHER_UPLOAD_PATH", XOOPS_UPLOAD_PATH . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
+define('PUBLISHER_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
+//define('PUBLISHER_UPLOAD_PATH', $img_dir); // WITHOUT Trailing slash
+define('PUBLISHER_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
 
-//define("PUBLISHER_UPLOADS_URL", XOOPS_URL . '/uploads/' . PUBLISHER_DIRNAME);
-//define("PUBLISHER_UPLOADS_PATH", $GLOBALS['xoops']->path('uploads/' . PUBLISHER_DIRNAME));
-
+//define('PUBLISHER_UPLOADS_URL', XOOPS_URL . '/uploads/' . PUBLISHER_DIRNAME);
+//define('PUBLISHER_UPLOADS_PATH', $GLOBALS['xoops']->path('uploads/' . PUBLISHER_DIRNAME));
 
 $uploadFolders = array(
     PUBLISHER_UPLOAD_PATH,
     PUBLISHER_UPLOAD_PATH . '/images',
-    PUBLISHER_UPLOAD_PATH . '/images/thumbnails'
-);
+    PUBLISHER_UPLOAD_PATH . '/images/thumbnails');
 
 // module information
-$mod_copyright
-    = "<a href='http://xoops.org' title='XOOPS Project' target='_blank'>
+$mod_copyright = "<a href='http://xoops.org' title='XOOPS Project' target='_blank'>
                      <img src='" . PUBLISHER_AUTHOR_LOGOIMG . "' alt='XOOPS Project' /></a>";

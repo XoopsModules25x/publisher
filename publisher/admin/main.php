@@ -23,12 +23,12 @@ include_once __DIR__ . '/admin_header.php';
 include_once $GLOBALS['xoops']->path('class/xoopslists.php');
 include_once $GLOBALS['xoops']->path('class/pagenav.php');
 
-$itemid =  XoopsRequest::getInt('itemid', 0, 'POST');
+$itemid = XoopsRequest::getInt('itemid', 0, 'POST');
 
-$pick = XoopsRequest::getInt('pick', XoopsRequest::getInt('pick', 0, 'GET'), 'POST');
+$pick      = XoopsRequest::getInt('pick', XoopsRequest::getInt('pick', 0, 'GET'), 'POST');
 $statussel = XoopsRequest::getInt('statussel', XoopsRequest::getInt('statussel', 0, 'GET'), 'POST');
-$sortsel = XoopsRequest::getString('sortsel', XoopsRequest::getString('sortsel', 'itemid', 'GET'), 'POST');
-$ordersel = XoopsRequest::getString('ordersel', XoopsRequest::getString('ordersel', 'DESC', 'GET'), 'POST');
+$sortsel   = XoopsRequest::getString('sortsel', XoopsRequest::getString('sortsel', 'itemid', 'GET'), 'POST');
+$ordersel  = XoopsRequest::getString('ordersel', XoopsRequest::getString('ordersel', 'DESC', 'GET'), 'POST');
 
 $module_id     = $publisher->getModule()->mid();
 $gperm_handler = xoops_gethandler('groupperm');
@@ -60,12 +60,7 @@ $totaloffline = $publisher->getHandler('item')->getItemsCount(-1, array(Publishe
 $totalrejected = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED));
 
 // Check Path Configuration
-if ((publisherGetPathStatus('root', true) < 0) ||
-    (publisherGetPathStatus('images', true) < 0) ||
-    (publisherGetPathStatus('images/category', true) < 0) ||
-    (publisherGetPathStatus('images/item', true) < 0) ||
-    (publisherGetPathStatus('content', true) < 0)
-) {
+if ((publisherGetPathStatus('root', true) < 0) || (publisherGetPathStatus('images', true) < 0) || (publisherGetPathStatus('images/category', true) < 0) || (publisherGetPathStatus('images/item', true) < 0) || (publisherGetPathStatus('content', true) < 0)) {
     PublisherUtilities::createDir();
 }
 
@@ -91,17 +86,22 @@ publisherOpenCollapsableBar('allitemstable', 'allitemsicon', _AM_PUBLISHER_ALLIT
 
 $showingtxt   = '';
 $selectedtxt  = '';
-$cond         = "";
+$cond         = '';
 $selectedtxt0 = '';
 $selectedtxt1 = '';
 $selectedtxt2 = '';
 $selectedtxt3 = '';
 $selectedtxt4 = '';
 
-$sorttxttitle   = "";
-$sorttxtcreated = "";
-$sorttxtweight  = "";
-$sorttxtitemid  = "";
+$sorttxttitle   = '';
+$sorttxtcreated = '';
+$sorttxtweight  = '';
+$sorttxtitemid  = '';
+
+$sorttxthits     = '';
+$sorttxtvotes    = '';
+$sorttxtcomments = '';
+$sorttxtrating   = '';
 
 $ordertxtasc  = '';
 $ordertxtdesc = '';
@@ -117,6 +117,22 @@ switch ($sortsel) {
 
     case 'weight':
         $sorttxtweight = "selected='selected'";
+        break;
+
+    case 'counter':
+        $sorttxthits = "selected='selected'";
+        break;
+
+    case 'rating':
+        $sorttxtrating = "selected='selected'";
+        break;
+
+    case 'votes':
+        $sorttxtvotes = "selected='selected'";
+        break;
+
+    case 'comments':
+        $sorttxtcomments = "selected='selected'";
         break;
 
     default :
@@ -138,35 +154,35 @@ switch ($statussel) {
     case PublisherConstantsInterface::PUBLISHER_STATUS_ALL:
         $selectedtxt0        = "selected='selected'";
         $caption             = _AM_PUBLISHER_ALL;
-        $cond                = "";
+        $cond                = '';
         $status_explaination = _AM_PUBLISHER_ALL_EXP;
         break;
 
     case PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED:
         $selectedtxt1        = "selected='selected'";
         $caption             = _CO_PUBLISHER_SUBMITTED;
-        $cond                = " WHERE status = " . PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED . " ";
+        $cond                = ' WHERE status = ' . PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED . ' ';
         $status_explaination = _AM_PUBLISHER_SUBMITTED_EXP;
         break;
 
     case PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED:
         $selectedtxt2        = "selected='selected'";
         $caption             = _CO_PUBLISHER_PUBLISHED;
-        $cond                = " WHERE status = " . PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED . " ";
+        $cond                = ' WHERE status = ' . PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED . ' ';
         $status_explaination = _AM_PUBLISHER_PUBLISHED_EXP;
         break;
 
     case PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE:
         $selectedtxt3        = "selected='selected'";
         $caption             = _CO_PUBLISHER_OFFLINE;
-        $cond                = " WHERE status = " . PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE . " ";
+        $cond                = ' WHERE status = ' . PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE . ' ';
         $status_explaination = _AM_PUBLISHER_OFFLINE_EXP;
         break;
 
     case PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED:
         $selectedtxt4        = "selected='selected'";
         $caption             = _CO_PUBLISHER_REJECTED;
-        $cond                = " WHERE status = " . PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED . " ";
+        $cond                = ' WHERE status = ' . PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED . ' ';
         $status_explaination = _AM_PUBLISHER_REJECTED_ITEM_EXP;
         break;
 }
@@ -184,6 +200,12 @@ echo "
                     <option value='title' $sorttxttitle>" . _AM_PUBLISHER_TITLE . "</option>
                     <option value='datesub' $sorttxtcreated>" . _AM_PUBLISHER_CREATED . "</option>
                     <option value='weight' $sorttxtweight>" . _CO_PUBLISHER_WEIGHT . "</option>
+
+                    <option value='counter' $sorttxthits>" . _AM_PUBLISHER_HITS . "</option>
+                    <option value='rating' $sorttxtrating>" . _AM_PUBLISHER_RATE . "</option>
+                    <option value='votes' $sorttxtvotes>" . _AM_PUBLISHER_VOTES . "</option>
+                    <option value='comments' $sorttxtcomments>" . _AM_PUBLISHER_COMMENTS_COUNT . "</option>
+
                 </select>
                 <select name='ordersel' onchange='submit()'>
                     <option value='ASC' $ordertxtasc>" . _AM_PUBLISHER_ASC . "</option>
@@ -270,6 +292,13 @@ if ($numrows > 0) {
         echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . "</td>";
         echo "<td class='even' align='left'>" . $itemsObj[$i]->getItemLink() . "</td>";
         echo "<td class='even' align='center'>" . $itemsObj[$i]->datesub() . "</td>";
+
+        echo "<td class='even' align='center'>" . $itemsObj[$i]->weight() . "</td>";
+        echo "<td class='even' align='center'>" . $itemsObj[$i]->counter() . "</td>";
+        echo "<td class='even' align='center'>" . $itemsObj[$i]->rating() . "</td>";
+        echo "<td class='even' align='center'>" . $itemsObj[$i]->votes() . "</td>";
+        echo "<td class='even' align='center'>" . $itemsObj[$i]->comments() . "</td>";
+
         echo "<td class='even' align='center'>" . $statustxt . "</td>";
         echo "<td class='even' align='center'> " . $approve . $clone . $modify . $delete . "</td>";
         echo "</tr>";

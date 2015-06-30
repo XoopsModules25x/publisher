@@ -73,7 +73,7 @@ $itemsCount = count($items);
 
 if (!($itemsCount > 0)) {
     redirect_header(XOOPS_URL, 2, _MD_PUBLISHER_NO_TOP_PERMISSIONS);
-//mb    exit;
+    //mb    exit;
 } else {
     $years  = array();
     $months = array();
@@ -94,7 +94,7 @@ if (!($itemsCount > 0)) {
                 $lastmonth                    = $this_month;
                 $months[$lastmonth]['string'] = $months_arr[$lastmonth];
                 $months[$lastmonth]['number'] = $lastmonth;
-//                $months[$lastmonth]['articlesMonthCount'] = 1;
+                //                $months[$lastmonth]['articlesMonthCount'] = 1;
                 $articlesThisMonth = 0;
             }
             //new year
@@ -176,17 +176,13 @@ if ($fromyear != 0 && $frommonth != 0) {
     $count = count($storyarray);
     if (is_array($storyarray) && $count > 0) {
         foreach ($storyarray as $item) {
-            $story     = array();
-            $htmltitle = '';
-            $story['title']
-                                 =
-                "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . "</a>: <a href='" . $item->getItemUrl() . "'"
-                . $htmltitle . ">" . $item->title() . "</a>";
+            $story               = array();
+            $htmltitle           = '';
+            $story['title']      = "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . "</a>: <a href='" . $item->getItemUrl() . "'" . $htmltitle . ">" . $item->title() . "</a>";
             $story['counter']    = $item->counter();
             $story['date']       = $item->datesub();
             $story['print_link'] = XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/print.php?itemid=' . $item->itemid();
-            $story['mail_link']  = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  '
-                                   . $item->getItemUrl();
+            $story['mail_link']  = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  ' . $item->getItemUrl();
 
             $xoopsTpl->append('stories', $story);
         }

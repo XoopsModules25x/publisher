@@ -30,13 +30,13 @@ $categoryObj = $publisher->getHandler('category')->get($categoryid);
 // if the selected category was not found, exit
 if (!is_object($categoryObj) || $categoryObj->notLoaded()) {
     redirect_header("javascript:history.go(-1)", 1, _MD_PUBLISHER_NOCATEGORYSELECTED);
-//    exit();
+    //    exit();
 }
 
 // Check user permissions to access this category
 if (!$categoryObj->checkPermission()) {
     redirect_header("javascript:history.go(-1)", 1, _NOPERM);
-//    exit;
+    //    exit;
 }
 
 // At which record shall we start
@@ -66,23 +66,33 @@ $module_id = $publisher->getModule()->getVar('mid');
 
 // creating the Item objects that belong to the selected category
 switch ($publisher->getConfig('format_order_by')) {
-    case 'title' :
+    case 'title':
         $sort  = 'title';
         $order = 'ASC';
         break;
 
-    case 'date' :
+    case 'date':
         $sort  = 'datesub';
         $order = 'DESC';
         break;
 
-    case 'rating' :
-        $sort = 'rating';
+        case 'counter':
+            $sort  = 'counter';
+            $order = 'DESC';
+            break;
+
+    case 'rating':
+        $sort  = 'rating';
         $order = 'DESC';
         break;
 
-    case 'votes' :
-        $sort = 'votes';
+    case 'votes':
+        $sort  = 'votes';
+        $order = 'DESC';
+        break;
+
+    case 'comments' :
+        $sort  = 'comments';
         $order = 'DESC';
         break;
 

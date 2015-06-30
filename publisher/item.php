@@ -27,7 +27,7 @@ $item_page_id = XoopsRequest::getInt('page', -1, 'GET');
 
 if ($itemid == 0) {
     redirect_header("javascript:history.go(-1)", 1, _MD_PUBLISHER_NOITEMSELECTED);
-//    exit();
+    //    exit();
 }
 
 // Creating the item object for the selected item
@@ -36,7 +36,7 @@ $itemObj = $publisher->getHandler('item')->get($itemid);
 // if the selected item was not found, exit
 if (!$itemObj) {
     redirect_header("javascript:history.go(-1)", 1, _MD_PUBLISHER_NOITEMSELECTED);
-//    exit();
+    //    exit();
 }
 
 $xoopsOption['template_main'] = 'publisher_item.tpl';
@@ -59,7 +59,7 @@ $categoryObj = $publisher->getHandler('category')->get($itemObj->categoryid());
 // Check user permissions to access that category of the selected item
 if (!$itemObj->accessGranted()) {
     redirect_header("javascript:history.go(-1)", 1, _NOPERM);
-//    exit;
+    //    exit;
 }
 
 // Update the read counter of the selected item
@@ -79,12 +79,23 @@ switch ($publisher->getConfig('format_order_by')) {
         $order = 'DESC';
         break;
 
+        case 'counter':
+            $sort  = 'counter';
+            $order = 'DESC';
+            break;
+
     case 'rating' :
-        $sort = 'rating';
+        $sort  = 'rating';
         $order = 'DESC';
         break;
+
     case 'votes' :
-        $sort = 'votes';
+        $sort  = 'votes';
+        $order = 'DESC';
+        break;
+
+    case 'comments' :
+        $sort  = 'comments';
         $order = 'DESC';
         break;
 

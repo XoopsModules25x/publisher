@@ -227,7 +227,6 @@ if (!defined('WEBSHOT_XVFB_RUNNING')) {
     define('WEBSHOT_XVFB_RUNNING', false);
 }            //ADVANCED: Enable this if you've got Xvfb running in the background.
 
-
 // If ALLOW_EXTERNAL is true and ALLOW_ALL_EXTERNAL_SITES is false, then external images will only be fetched from these domains and their subdomains.
 if (!isset($ALLOWED_SITES)) {
     $ALLOWED_SITES = array(
@@ -239,8 +238,7 @@ if (!isset($ALLOWED_SITES)) {
         'photobucket.com',
         'imgur.com',
         'imageshack.us',
-        'tinypic.com',
-    );
+        'tinypic.com',);
 }
 // -------------------------------------------------------------
 // -------------- STOP EDITING CONFIGURATION HERE --------------
@@ -271,7 +269,7 @@ class timthumb
     protected        $cropTop                  = false;
     protected        $salt                     = "";
     protected        $fileCacheVersion         = 1; //Generally if timthumb.php is modifed (upgraded) then the salt changes and all cache files are recreated. This is a backup mechanism to force regen.
-    protected        $filePrependSecurityBlock = "<?php die('Execution denied!'); //"; //Designed to have three letter mime type, space, question mark and greater than symbol appended. 6 bytes total.
+    protected        $filePrependSecurityBlock = "<?php exit('Execution denied!'); //"; //Designed to have three letter mime type, space, question mark and greater than symbol appended. 6 bytes total.
     protected static $curlDataWritten          = 0;
     protected static $curlFH                   = false;
 
@@ -338,9 +336,7 @@ class timthumb
         if (BLOCK_EXTERNAL_LEECHERS && array_key_exists('HTTP_REFERER', $_SERVER) && (!preg_match('/^https?:\/\/(?:www\.)?' . $this->myHost . '(?:$|\/)/i', $_SERVER['HTTP_REFERER']))) {
             // base64 encoded red image that says 'no hotlinkers'
             // nothing to worry about! :)
-            $imgData = base64_decode(
-                "R0lGODlhUAAMAIAAAP8AAP///yH5BAAHAP8ALAAAAABQAAwAAAJpjI+py+0Po5y0OgAMjjv01YUZ\nOGplhWXfNa6JCLnWkXplrcBmW+spbwvaVr/cDyg7IoFC2KbYVC2NQ5MQ4ZNao9Ynzjl9ScNYpneb\nDULB3RP6JuPuaGfuuV4fumf8PuvqFyhYtjdoeFgAADs="
-            );
+            $imgData = base64_decode("R0lGODlhUAAMAIAAAP8AAP///yH5BAAHAP8ALAAAAABQAAwAAAJpjI+py+0Po5y0OgAMjjv01YUZ\nOGplhWXfNa6JCLnWkXplrcBmW+spbwvaVr/cDyg7IoFC2KbYVC2NQ5MQ4ZNao9Ynzjl9ScNYpneb\nDULB3RP6JuPuaGfuuV4fumf8PuvqFyhYtjdoeFgAADs=");
             header('Content-Type: image/gif');
             header('Content-Length: ' . strlen($imgData));
             header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
@@ -375,9 +371,7 @@ class timthumb
                     }
                 }
                 if (!$allowed) {
-                    return $this->error(
-                        "You may not fetch images from that site. To enable this site in timthumb, you can either add it to \$ALLOWED_SITES and set ALLOW_EXTERNAL=true. Or you can set ALLOW_ALL_EXTERNAL_SITES=true, depending on your security needs."
-                    );
+                    return $this->error("You may not fetch images from that site. To enable this site in timthumb, you can either add it to \$ALLOWED_SITES and set ALLOW_EXTERNAL=true. Or you can set ALLOW_ALL_EXTERNAL_SITES=true, depending on your security needs.");
                 }
             }
         }
@@ -399,8 +393,7 @@ class timthumb
             $this->debug(1, "Local image path is {$this->localImage}");
             $this->localImageMTime = @filemtime($this->localImage);
             //We include the mtime of the local file in case in changes on disk.
-            $this->cachefile
-                = $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
+            $this->cachefile = $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
         }
         $this->debug(2, "Cache file is: " . $this->cachefile);
 
@@ -723,8 +716,7 @@ class timthumb
                 8  => array(IMG_FILTER_GAUSSIAN_BLUR, 0),
                 9  => array(IMG_FILTER_SELECTIVE_BLUR, 0),
                 10 => array(IMG_FILTER_MEAN_REMOVAL, 0),
-                11 => array(IMG_FILTER_SMOOTH, 0),
-            );
+                11 => array(IMG_FILTER_SMOOTH, 0),);
         }
 
         // get standard input properties
@@ -934,8 +926,7 @@ class timthumb
             $sharpenMatrix = array(
                 array(-1, -1, -1),
                 array(-1, 16, -1),
-                array(-1, -1, -1),
-            );
+                array(-1, -1, -1),);
 
             $divisor = 8;
             $offset  = 0;
@@ -1079,9 +1070,7 @@ class timthumb
                 return $this->realpath($file);
             }
 
-            return $this->error(
-                "Could not find your website document root and the file specified doesn't exist in timthumbs directory. We don't support serving files outside timthumb's directory without a document root for security reasons."
-            );
+            return $this->error("Could not find your website document root and the file specified doesn't exist in timthumbs directory. We don't support serving files outside timthumb's directory without a document root for security reasons.");
         } else {
             if (!is_dir($this->docRoot)) {
                 $this->error("Server path does not exist. Ensure variable \$_SERVER['DOCUMENT_ROOT'] is set correctly");
@@ -1207,11 +1196,9 @@ class timthumb
         // We're doing this because we're passing this URL to the shell and need to make very sure it's not going to execute arbitrary commands.
         if (WEBSHOT_XVFB_RUNNING) {
             putenv('DISPLAY=:100.0');
-            $command
-                = "$cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
+            $command = "$cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
         } else {
-            $command
-                = "$xv --server-args=\"-screen 0, {$screenX}x{$screenY}x{$colDepth}\" $cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
+            $command = "$xv --server-args=\"-screen 0, {$screenX}x{$screenY}x{$colDepth}\" $cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
         }
         $this->debug(3, "Executing command: $command");
         $out = `$command`;
@@ -1474,9 +1461,7 @@ class timthumb
      */
     protected function sanityFail($msg)
     {
-        return $this->error(
-            "There is a problem in the timthumb code. Message: Please report this error at <a href='http://code.google.com/p/timthumb/issues/list'>timthumb's bug tracking page</a>: $msg"
-        );
+        return $this->error("There is a problem in the timthumb code. Message: Please report this error at <a href='http://code.google.com/p/timthumb/issues/list'>timthumb's bug tracking page</a>: $msg");
     }
 
     /**

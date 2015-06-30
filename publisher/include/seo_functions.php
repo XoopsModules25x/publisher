@@ -14,7 +14,7 @@
  *
  * @credit psylove
  *
- * @var string $title title of the article
+ * @var string $title   title of the article
  * @var string $withExt do we add an html extension or not
  * @return string sort_url for the article
  */
@@ -95,7 +95,7 @@ class PublisherSeo
                 // generate SEO url using path-info
                 return PUBLISHER_URL . "/index.php/${op}.${id}/${short_url}";
             } else {
-                die('Unknown SEO method.');
+                exit('Unknown SEO method.');
             }
         } else {
             // generate classic url
@@ -106,7 +106,7 @@ class PublisherSeo
                 case 'print':
                     return PUBLISHER_URL . "/${op}.php?itemid=${id}";
                 default:
-                    die('Unknown SEO operation.');
+                    exit('Unknown SEO operation.');
             }
         }
     }

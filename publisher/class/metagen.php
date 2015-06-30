@@ -256,7 +256,7 @@ class PublisherMetagen
      * Return true if the string is length > 0
      *
      * @credit psylove
-     * @var    string  $string Chaine de caractère
+     * @var    string $string Chaine de caractère
      * @return boolean
      */
     public function emptyString($var)
@@ -363,8 +363,7 @@ class PublisherMetagen
             "'&(iexcl|#161);'i",
             "'&(cent|#162);'i",
             "'&(pound|#163);'i",
-            "'&(copy|#169);'i",
-            //"'&#(\d+);'e"
+            "'&(copy|#169);'i",//"'&#(\d+);'e"
         );
         // evaluate as php
         $replace = array(
@@ -380,8 +379,7 @@ class PublisherMetagen
             chr(161),
             chr(162),
             chr(163),
-            chr(169),
-            //"chr(\\1)"
+            chr(169),//"chr(\\1)"
         );
         $text    = preg_replace($search, $replace, $document);
 

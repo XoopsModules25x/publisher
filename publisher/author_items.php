@@ -22,21 +22,21 @@
 include_once __DIR__ . '/header.php';
 
 $uid = XoopsRequest::getInt('uid', 0, 'GET');
-if (empty($uid)) {
+if (0 == $uid) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
-//   exit();
+    //   exit();
 }
 
 $member_handler = xoops_gethandler('member');
 $thisuser       = $member_handler->getUser($uid);
 if (!is_object($thisuser)) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
-//    exit();
+    //    exit();
 }
 
 if (!$publisher->getConfig('perm_author_items')) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
-//mb    exit();
+    //mb    exit();
 }
 
 $myts = MyTextSanitizer::getInstance();
@@ -70,8 +70,7 @@ if ($count > 0) {
                 'count_items' => 0,
                 'count_hits'  => 0,
                 'title'       => $item->getCategoryName(),
-                'link'        => $item->getCategoryLink()
-            );
+                'link'        => $item->getCategoryLink());
         }
 
         $categories[$catid]['count_items']++;

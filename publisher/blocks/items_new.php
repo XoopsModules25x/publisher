@@ -106,12 +106,18 @@ function publisher_items_new_show($options)
 
             $item['title'] = $itemsObj[$i]->title();
 
-            if ($sort == "datesub") {
+            if ($sort == 'datesub') {
                 $item['new'] = $itemsObj[$i]->datesub();
-            } elseif ($sort == "counter") {
+            } elseif ($sort == 'counter') {
                 $item['new'] = $itemsObj[$i]->counter();
-            } elseif ($sort == "weight") {
+            } elseif ($sort == 'weight') {
                 $item['new'] = $itemsObj[$i]->weight();
+            } elseif ($sort == 'rating') {
+                $item['new'] = $itemsObj[$i]->rating();
+            } elseif ($sort == 'votes') {
+                $item['new'] = $itemsObj[$i]->votes();
+            } elseif ($sort == 'comments') {
+                $item['new'] = $itemsObj[$i]->comments();
             }
 
             $block['newitems'][] = $item;
@@ -138,10 +144,12 @@ function publisher_items_new_edit($options)
     $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisherCreateCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray(array(
-                                  'datesub' => _MB_PUBLISHER_DATE,
-                                  'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT,
-                              ));
+                                  'datesub'  => _MB_PUBLISHER_DATE,
+                                  'counter'  => _MB_PUBLISHER_HITS,
+                                  'weight'   => _MB_PUBLISHER_WEIGHT,
+                                  'rating'   => _MI_PUBLISHER_ORDERBY_RATING,
+                                  'votes'    => _MI_PUBLISHER_ORDERBY_VOTES,
+                                  'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS));
 
     $showEle  = new XoopsFormRadioYN(_MB_PUBLISHER_ORDER_SHOW, 'options[2]', $options[2]);
     $dispEle  = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[3]', 10, 255, $options[3]);
@@ -152,8 +160,7 @@ function publisher_items_new_edit($options)
                                   'none'     => _NONE,
                                   'article'  => _MB_PUBLISHER_IMAGE_ARTICLE,
                                   'category' => _MB_PUBLISHER_IMAGE_CATEGORY,
-                                  'avatar'   => _MB_PUBLISHER_IMAGE_AVATAR,
-                              ));
+                                  'avatar'   => _MB_PUBLISHER_IMAGE_AVATAR,));
 
     $form->addElement($catEle);
     $form->addElement($orderEle);

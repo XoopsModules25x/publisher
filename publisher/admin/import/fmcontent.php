@@ -24,9 +24,9 @@
 include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
-$importFromModuleName = "FmContent " . XoopsRequest::getString('fmcontent_version', '', 'POST');
+$importFromModuleName = 'FmContent ' . XoopsRequest::getString('fmcontent_version', '', 'POST');
 
-$scriptname = "fmcontent.php";
+$scriptname = 'fmcontent.php';
 
 $op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 
@@ -38,14 +38,14 @@ if ('start' == $op) {
     publisherOpenCollapsableBar('fmimport', 'fmimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $moduleHandler = xoops_gethandler('module');
-    $moduleObj      = $moduleHandler->getByDirname('fmcontent');
-    $fm_module_id   = $moduleObj->getVar('mid');
+    $moduleObj     = $moduleHandler->getByDirname('fmcontent');
+    $fm_module_id  = $moduleObj->getVar('mid');
 
     $fmTopicHdlr  =& xoops_getmodulehandler('topic', 'fmcontent');
     $fmTopicCount = $fmTopicHdlr->getCount(new Criteria('topic_modid', $fm_module_id));
 
     if (empty($fmTopicCount)) {
-        echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . _AM_PUBLISHER_IMPORT_NO_CATEGORY . "</span>";
+        echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . _AM_PUBLISHER_IMPORT_NO_CATEGORY . '</span>';
     } else {
         include_once $GLOBALS['xoops']->path('www/class/xoopstree.php');
         $fmContentHdlr  =& xoops_getmodulehandler('page', 'fmcontent');
@@ -59,7 +59,7 @@ if ('start' == $op) {
                         $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
             */
             // Categories to be imported
-            $sql = "SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.content_id) FROM " . $GLOBALS['xoopsDB']->prefix("fmcontent_topic") . " AS cat INNER JOIN " . $GLOBALS['xoopsDB']->prefix("fmcontent_content") . " AS art ON ((cat.topic_id=art.content_topic) AND (cat.topic_modid=art.content_modid)) WHERE cat.topic_modid={$fm_module_id} GROUP BY art.content_topic";
+            $sql = "SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.content_id) FROM " . $GLOBALS['xoopsDB']->prefix('fmcontent_topic') . " AS cat INNER JOIN " . $GLOBALS['xoopsDB']->prefix("fmcontent_content") . " AS art ON ((cat.topic_id=art.content_topic) AND (cat.topic_modid=art.content_modid)) WHERE cat.topic_modid={$fm_module_id} GROUP BY art.content_topic";
 
             $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = array();
@@ -81,7 +81,7 @@ if ('start' == $op) {
             echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $fmContentCount, count($cat_cbox_options)) . "</span>";
             $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
-            $cat_label = new XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode("<br />", $cat_cbox_options));
+            $cat_label = new XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br />', $cat_cbox_options));
             $cat_label->setDescription(_AM_PUBLISHER_IMPORT_CATEGORIES_DSC);
             $form->addElement($cat_label);
 
@@ -123,8 +123,8 @@ if ('go' == $op) {
     publisherOpenCollapsableBar('fmimportgo', 'fmimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
     $moduleHandler = xoops_gethandler('module');
-    $moduleObj      = $moduleHandler->getByDirname('fmcontent');
-    $fm_module_id   = $moduleObj->getVar('mid');
+    $moduleObj     = $moduleHandler->getByDirname('fmcontent');
+    $fm_module_id  = $moduleObj->getVar('mid');
 
     $gperm_handler = xoops_gethandler('groupperm');
 
@@ -146,15 +146,16 @@ if ('go' == $op) {
 
         // create Publsher category to hold FmContent Content items with no Topic (content_topic=0)
         $categoryObj = $publisher->getHandler('category')->create();
-        $categoryObj->setVars(array('parentid'    => $parentId,
-                                    'name'        => _AM_PUBLISHER_IMPORT_FMCONTENT_NAME,
-                                    'description' => _AM_PUBLISHER_IMPORT_FMCONTENT_TLT,
-                                    'image'       => '',
-                                    'total'       => 0,
-                                    'weight'      => 1,
-                                    'created'     => time(),
-                                    'moderator', $GLOBALS['xoopsUser']->getVar('uid'))
-        );
+        $categoryObj->setVars(array(
+                                  'parentid'    => $parentId,
+                                  'name'        => _AM_PUBLISHER_IMPORT_FMCONTENT_NAME,
+                                  'description' => _AM_PUBLISHER_IMPORT_FMCONTENT_TLT,
+                                  'image'       => '',
+                                  'total'       => 0,
+                                  'weight'      => 1,
+                                  'created'     => time(),
+                                  'moderator',
+                                  $GLOBALS['xoopsUser']->getVar('uid')));
         $categoryObj->store();
 
         $fmTopicHdlr =& xoops_getmodulehandler('topic', 'fmcontent');
@@ -162,39 +163,39 @@ if ('go' == $op) {
         // insert articles for this category
         foreach ($fmContentObjs as $thisFmContentObj) {
             $itemObj = $publisher->getHandler('item')->create();
-            $itemObj->setVars(array('categoryid'       => $categoryObj->categoryid(),
-                                    'title'            => $thisFmContentObj->getVar('content_title'),
-                                    'uid'              => $thisFmContentObj->getVar('content_uid'),
-                                    'summary'          => $thisFmContentObj->getVar('content_short'),
-                                    'body'             => $thisFmContentObj->getVar('content_text'),
-                                    'datesub'          => $thisFmContentObj->getVar('content_create'),
-                                    'dohtml'           => $thisFmContentObj->getVar('dohtml'),
-                                    'dosmiley'         => $thisFmContentObj->getVar('dosmiley'),
-                                    'doxcode'          => $thisFmContentObj->getVar('doxcode'),
-                                    'doimage'          => $thisFmContentObj->getVar('doimage'),
-                                    'dobr'             => $thisFmContentObj->getVar('dobr'),
-                                    'weight'           => $thisFmContentObj->getVar('content_order'),
-                                    'status'           => ($thisFmContentObj->getVar('content_status')) ? PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED : PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE,
-                                    'counter'          => $thisFmContentObj->getVar('content_hits'),
-                                    'rating'           => 0,
-                                    'votes'            => 0,
-                                    'comments'         => $thisFmContentObj->getVar('content_comments'),
-                                    'meta_keywords'    => $thisFmContentObj->getVar('content_words'),
-                                    'meta_description' => $thisFmContentObj->getVar('content_desc'))
-            );
+            $itemObj->setVars(array(
+                                  'categoryid'       => $categoryObj->categoryid(),
+                                  'title'            => $thisFmContentObj->getVar('content_title'),
+                                  'uid'              => $thisFmContentObj->getVar('content_uid'),
+                                  'summary'          => $thisFmContentObj->getVar('content_short'),
+                                  'body'             => $thisFmContentObj->getVar('content_text'),
+                                  'datesub'          => $thisFmContentObj->getVar('content_create'),
+                                  'dohtml'           => $thisFmContentObj->getVar('dohtml'),
+                                  'dosmiley'         => $thisFmContentObj->getVar('dosmiley'),
+                                  'doxcode'          => $thisFmContentObj->getVar('doxcode'),
+                                  'doimage'          => $thisFmContentObj->getVar('doimage'),
+                                  'dobr'             => $thisFmContentObj->getVar('dobr'),
+                                  'weight'           => $thisFmContentObj->getVar('content_order'),
+                                  'status'           => ($thisFmContentObj->getVar('content_status')) ? PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED : PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE,
+                                  'counter'          => $thisFmContentObj->getVar('content_hits'),
+                                  'rating'           => 0,
+                                  'votes'            => 0,
+                                  'comments'         => $thisFmContentObj->getVar('content_comments'),
+                                  'meta_keywords'    => $thisFmContentObj->getVar('content_words'),
+                                  'meta_description' => $thisFmContentObj->getVar('content_desc')));
             $contentImg = $thisFmContentObj->getVar('content_img');
             if (!empty($contentImg)) {
-                $itemObj->setVars(array('images' => 1,
-                                        'image'  => $thisFmContentObj->getVar('content_img'))
-                );
+                $itemObj->setVars(array(
+                                      'images' => 1,
+                                      'image'  => $thisFmContentObj->getVar('content_img')));
             }
 
             if (!$itemObj->store()) {
-                echo sprintf("  " . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $thisFmContentObj->getVar('title')) . "<br />\n";
+                echo sprintf("  " . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $thisFmContentObj->getVar('title')) . '<br />\n';
                 continue;
             } else {
                 $newArticleArray[$thisFmContentObj->getVar('storyid')] = $itemObj->itemid();
-                echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . "<br />\n";
+                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . '<br />\n';
                 ++$cnt_imported_articles;
             }
         }
@@ -218,17 +219,17 @@ if ('go' == $op) {
 
     // first create FmContent Topics as Publisher Categories
     foreach ($fmTopicObjs as $thisFmTopicObj) {
-        $CatIds = array('oldid'  => $thisFmTopicObj->getVar('topic_id'),
-                        'oldpid' => $thisFmTopicObj->getVar('topic_pid')
-        );
+        $CatIds = array(
+            'oldid'  => $thisFmTopicObj->getVar('topic_id'),
+            'oldpid' => $thisFmTopicObj->getVar('topic_pid'));
 
         $categoryObj = $publisher->getHandler('category')->create();
 
-        $categoryObj->setVars(array('parentid'    => $thisFmTopicObj->getVar('topic_pid'),
-                                    'weight'      => $thisFmTopicObj->getVar('topic_weight'),
-                                    'name'        => $thisFmTopicObj->getVar('topic_title'),
-                                    'description' => $thisFmTopicObj->getVar('topic_desc'))
-        );
+        $categoryObj->setVars(array(
+                                  'parentid'    => $thisFmTopicObj->getVar('topic_pid'),
+                                  'weight'      => $thisFmTopicObj->getVar('topic_weight'),
+                                  'name'        => $thisFmTopicObj->getVar('topic_title'),
+                                  'description' => $thisFmTopicObj->getVar('topic_desc')));
 
         // Category image
         if (('blank.gif' != $thisFmTopicObj->getVar('topic_img')) && ('' != $thisFmTopicObj->getVar('topic_img'))) {
@@ -255,26 +256,26 @@ if ('go' == $op) {
         // insert articles for this category
         foreach ($fmContentObjs as $thisFmContentObj) {
             $itemObj = $publisher->getHandler('item')->create();
-            $itemObj->setVars(array('categoryid'       => $CatIds['newid'],
-                                    'title'            => $thisFmContentObj->getVar('content_title'),
-                                    'uid'              => $thisFmContentObj->getVar('content_uid'),
-                                    'summary'          => $thisFmContentObj->getVar('content_short'),
-                                    'body'             => $thisFmContentObj->getVar('content_text'),
-                                    'counter'          => $thisFmContentObj->getVar('content_hits'),
-                                    'datesub'          => $thisFmContentObj->getVar('content_create'),
-                                    'dohtml'           => $thisFmContentObj->getVar('dohtml'),
-                                    'dosmiley'         => $thisFmContentObj->getVar('dosmiley'),
-                                    'doxcode'          => $thisFmContentObj->getVar('doxcode'),
-                                    'doimage'          => $thisFmContentObj->getVar('doimage'),
-                                    'dobr'             => $thisFmContentObj->getVar('dobr'),
-                                    'weight'           => $thisFmContentObj->getVar('content_order'),
-                                    'status'           => ($thisFmContentObj->getVar('content_status')) ? PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED : PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE,
-                                    'rating'           => 0,
-                                    'votes'            => 0,
-                                    'comments'         => $thisFmContentObj->getVar('content_comments'),
-                                    'meta_keywords'    => $thisFmContentObj->getVar('content_words'),
-                                    'meta_description' => $thisFmContentObj->getVar('content_desc'))
-            );
+            $itemObj->setVars(array(
+                                  'categoryid'       => $CatIds['newid'],
+                                  'title'            => $thisFmContentObj->getVar('content_title'),
+                                  'uid'              => $thisFmContentObj->getVar('content_uid'),
+                                  'summary'          => $thisFmContentObj->getVar('content_short'),
+                                  'body'             => $thisFmContentObj->getVar('content_text'),
+                                  'counter'          => $thisFmContentObj->getVar('content_hits'),
+                                  'datesub'          => $thisFmContentObj->getVar('content_create'),
+                                  'dohtml'           => $thisFmContentObj->getVar('dohtml'),
+                                  'dosmiley'         => $thisFmContentObj->getVar('dosmiley'),
+                                  'doxcode'          => $thisFmContentObj->getVar('doxcode'),
+                                  'doimage'          => $thisFmContentObj->getVar('doimage'),
+                                  'dobr'             => $thisFmContentObj->getVar('dobr'),
+                                  'weight'           => $thisFmContentObj->getVar('content_order'),
+                                  'status'           => ($thisFmContentObj->getVar('content_status')) ? PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED : PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE,
+                                  'rating'           => 0,
+                                  'votes'            => 0,
+                                  'comments'         => $thisFmContentObj->getVar('content_comments'),
+                                  'meta_keywords'    => $thisFmContentObj->getVar('content_words'),
+                                  'meta_description' => $thisFmContentObj->getVar('content_desc')));
             $contentImg = $thisFmContentObj->getVar('content_img');
             if (!empty($contentImg)) {
                 $itemObj->setVar('images', 1);
@@ -286,7 +287,7 @@ if ('go' == $op) {
                 continue;
             } else {
                 $newArticleArray[$thisFmContentObj->getVar('storyid')] = $itemObj->itemid();
-                echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . "<br />\n";
+                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . "<br />\n";
                 ++$cnt_imported_articles;
             }
         }
@@ -301,7 +302,7 @@ if ('go' == $op) {
         unset($CatIds, $thisFmContentObj);
         echo "<br />\n";
     }
-    unset($thisFmTopicObj);
+    //    unset($thisFmTopicObj);
 
     // Looping through cat to change the parentid to the new parentid
     foreach ($newCatArray as $oldid => $CatIds) {
@@ -320,7 +321,7 @@ if ('go' == $op) {
     $publisher_module_id = $publisher->getModule()->mid();
 
     $commentHandler = xoops_gethandler('comment');
-    $criteria        = new CriteriaCompo();
+    $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $fm_module_id));
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
@@ -334,12 +335,9 @@ if ('go' == $op) {
         }
 
     }
-    unset($comment);
+    //    unset($comment);
 
-    echo "<br /><br />" . _AM_PUBLISHER_IMPORT_DONE . "<br />\n"
-         . "" . sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat) . "<br />\n"
-         . "" . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . "<br />\n"
-         . "<br/>\n<a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . "</a><br />\n";
+    echo "<br /><br />" . _AM_PUBLISHER_IMPORT_DONE . "<br />\n" . "" . sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat) . "<br />\n" . "" . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . "<br />\n" . "<br/>\n<a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . "</a><br />\n";
 
     publisherCloseCollapsableBar('fmimportgo', 'fmimportgoicon');
     xoops_cp_footer();

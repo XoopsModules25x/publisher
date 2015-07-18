@@ -82,13 +82,14 @@ function publisher_date_to_date_edit($options)
 {
     include_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
-    xoops_load('XoopsFormCalendar');
+    xoops_load('XoopsFormTextDateSelect');
 
     $form    = new PublisherBlockForm();
-    $fromEle = new XoopsFormCalendar(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));
-    $fromEle->setNocolspan();
-    $untilEle = new XoopsFormCalendar(_MB_PUBLISHER_UNTIL, 'options[1]', 15, strtotime($options[1]));
-    $untilEle->setNocolspan();
+    $fromEle = new XoopsFormTextDateSelect(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));
+//    $fromEle->setNocolspan();
+    $untilEle = new XoopsFormTextDateSelect(_MB_PUBLISHER_UNTIL, 'options[1]', 15, isset($options[1])? strtotime($options[1]): '');
+//    $untilEle->setNocolspan();
+
     $form->addElement($fromEle);
     $form->addElement($untilEle);
 

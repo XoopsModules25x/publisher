@@ -1,6 +1,8 @@
 <h5>1.02 RC2       (NOT RELEASED)</h5>
 - added sort by Rating, Hits, # of Votes and Comments (brutalicuss/mamba)
 - added extra columns in Admin's Summary view (mamba)
+- remove non-existent XoopsFormCalendar in blocks (mamba)
+- replace XoopsLocal::formatTimestamp() with formatTimestamp() so we have User local time (mamba/geekwright)
 
 
 <h5>1.02 RC1       (2015-05-26)</h5>

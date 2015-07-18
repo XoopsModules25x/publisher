@@ -21,7 +21,7 @@
  */
 
 include_once __DIR__ . '/header.php';
-xoops_load('XoopsLocal');
+//xoops_load('XoopsLocal'); //mb
 
 error_reporting(0);
 $GLOBALS['xoopsLogger']->activated = false;
@@ -54,7 +54,8 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     $tpl->assign('channel_title', htmlspecialchars($GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES));
     $tpl->assign('channel_link', PUBLISHER_URL);
     $tpl->assign('channel_desc', htmlspecialchars($GLOBALS['xoopsConfig']['slogan'], ENT_QUOTES));
-    $tpl->assign('channel_lastbuild', XoopsLocal::formatTimestamp(time(), 'rss'));
+//mb    $tpl->assign('channel_lastbuild', XoopsLocal::formatTimestamp(time(), 'rss'));
+    $tpl->assign('channel_lastbuild',  formatTimestamp(time(), 'rss'));
     $tpl->assign('channel_webmaster', $GLOBALS['xoopsConfig']['adminmail']);
     $tpl->assign('channel_editor', $GLOBALS['xoopsConfig']['adminmail']);
 
@@ -85,7 +86,8 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
                 'title'       => htmlspecialchars($item->title(), ENT_QUOTES),
                 'link'        => $item->getItemUrl(),
                 'guid'        => $item->getItemUrl(),
-                'pubdate'     => XoopsLocal::formatTimestamp($item->getVar('datesub'), 'rss'),
+//mb                'pubdate'     => XoopsLocal::formatTimestamp($item->getVar('datesub'), 'rss'),
+                'pubdate'     =>  formatTimestamp($this->getVar('datesub', $format), 'rss'),
                 'description' => htmlspecialchars($item->getBlockSummary(300, true), ENT_QUOTES)));
         }
         unset($item);

@@ -20,7 +20,7 @@
  */
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
-xoops_load('XoopsLocal');
+//mb xoops_load('XoopsLocal');
 xoops_load('XoopsRequest');
 
 $moduleDirName = basename(__DIR__);
@@ -183,7 +183,7 @@ $modversion['blocks'][] = array(
     'description' => _MI_PUBLISHER_DATE_TO_DATE_DSC,
     'show_func'   => 'publisher_date_to_date_show',
     'edit_func'   => 'publisher_date_to_date_edit',
-    'options'     => "XoopsLocal::formatTimestamp(time(), 'm/j/Y') . " | " . XoopsLocal::formatTimestamp(time(), 'm/j/Y')",
+    'options'     => "formatTimestamp(time(), 'm/j/Y') . " | " . formatTimestamp(time(), 'm/j/Y')",
     'template'    => 'publisher_date_to_date.tpl');
 
 $modversion['blocks'][] = array(

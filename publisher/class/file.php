@@ -187,9 +187,10 @@ class PublisherFile extends XoopsObject
      */
     public function datesub($dateFormat = 's', $format = "S")
     {
-        xoops_load('XoopsLocal');
+//mb        xoops_load('XoopsLocal');
+//mb        return XoopsLocal::formatTimestamp($this->getVar('datesub', $format), $dateFormat);
+        return formatTimestamp($this->getVar('datesub', $format), $dateFormat);
 
-        return XoopsLocal::formatTimestamp($this->getVar('datesub', $format), $dateFormat);
     }
 
     /**
@@ -303,7 +304,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
     /**
      * delete a file from the database
      *
-     * @param object $file  reference to the file to delete
+     * @param object $file reference to the file to delete
      * @param bool   $force
      *
      * @return bool FALSE if failed.

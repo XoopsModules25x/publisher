@@ -1006,7 +1006,22 @@ class PublisherItem extends XoopsObject
             //            } else {
             $resDate = (XoopsRequest::getArray('datesub', array(), 'POST'));
             $resTime = (XoopsRequest::getArray('datesub', array(), 'POST'));
-            $this->setVar('datesub', strtotime($resDate['date']) + $resTime['time']);
+//            $this->setVar('datesub', strtotime($resDate['date']) + $resTime['time']);
+            $localTimestamp = strtotime($resDate['date']) + $resTime['time'];
+
+            // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime
+            $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
+            $tz = timezone_name_from_abbr(null, $userTimeoffset * 3600, true);
+            if($tz === false) $tz = timezone_name_from_abbr(null, $userTimeoffset * 3600, false);
+
+            $userTimezone = new DateTimeZone($tz);
+            $gmtTimezone  = new DateTimeZone('GMT');
+            $myDateTime   = new DateTime('now', $gmtTimezone);
+            $offset       = $userTimezone->getOffset($myDateTime);
+
+            $gmtTimestamp      = $localTimestamp - $offset;
+            $this->setVar('datesub', $gmtTimestamp);
+
             //            }
         } elseif ($this->isnew()) {
             $this->setVar('datesub', time());

@@ -22,7 +22,7 @@
 
 include_once __DIR__ . '/admin_header.php';
 
-$itemid = XoopsRequest::getInt('itemid', (XoopsRequest::getInt('itemid', 0, 'POST')), 'GET') ;
+$itemid = XoopsRequest::getInt('itemid', (XoopsRequest::getInt('itemid', 0, 'POST')), 'GET');
 $op     = ($itemid > 0 || (XoopsRequest::getString('editor', '', 'POST'))) ? 'mod' : '';
 $op     = XoopsRequest::getString('op', $op, 'GET');
 
@@ -46,7 +46,7 @@ switch ($op) {
             $totalcategories = $publisher->getHandler('category')->getCategoriesCount(-1);
             if ($totalcategories == 0) {
                 redirect_header("category.php?op=mod", 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
-//                exit();
+                //                exit();
             }
         }
         publisherCpHeader();
@@ -58,7 +58,7 @@ switch ($op) {
             $totalcategories = $publisher->getHandler('category')->getCategoriesCount(-1);
             if ($totalcategories == 0) {
                 redirect_header("category.php?op=mod", 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
-//                exit();
+                //                exit();
             }
         }
 
@@ -123,7 +123,7 @@ switch ($op) {
         // Storing the item
         if (!$itemObj->store()) {
             redirect_header("javascript:history.go(-1)", 3, $error_msg . publisherFormatErrors($itemObj->getErrors()));
-//            exit;
+            //            exit;
         }
 
         // attach file if any
@@ -131,7 +131,7 @@ switch ($op) {
             $file_upload_result = publisherUploadFile(false, false, $itemObj);
             if ($file_upload_result !== true) {
                 redirect_header("javascript:history.go(-1)", 3, $file_upload_result);
-//                exit;
+                //                exit;
             }
         }
 
@@ -151,10 +151,10 @@ switch ($op) {
         if ($confirm) {
             if (!$publisher->getHandler('item')->delete($itemObj)) {
                 redirect_header("item.php", 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . publisherFormatErrors($itemObj->getErrors()));
-//                exit();
+                //                exit();
             }
             redirect_header("item.php", 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->title()));
-//            exit();
+            //            exit();
         } else {
             xoops_cp_header();
             xoops_confirm(array('op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->title()), 'item.php', _AM_PUBLISHER_DELETETHISITEM . " <br />'" . $itemObj->title() . "'. <br /> <br />", _AM_PUBLISHER_DELETE);
@@ -330,7 +330,7 @@ switch ($op) {
 
         // Get the total number of Rejected ITEM
         $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED));
-        $itemsObj = $publisher->getHandler('item')->getAllRejected($publisher->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj   = $publisher->getHandler('item')->getAllRejected($publisher->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -343,7 +343,7 @@ switch ($op) {
         echo "<th width='80' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . "</strong></td>";
         echo "</tr>";
 
-    if ($totalitems > 0) {
+        if ($totalitems > 0) {
             for ($i = 0; $i < $totalItemsOnPage; ++$i) {
                 $categoryObj = $itemsObj[$i]->category();
 
@@ -378,7 +378,7 @@ xoops_cp_footer();
 
 /**
  * @param bool $showmenu
- * @param int $itemid
+ * @param int  $itemid
  * @param bool $clone
  */
 function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
@@ -400,7 +400,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
         if (!$itemObj) {
             redirect_header("item.php", 1, _AM_PUBLISHER_NOITEMSELECTED);
-//            exit();
+            //            exit();
         }
 
         if ($clone) {
@@ -505,6 +505,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     }
 
     $sform = $itemObj->getForm(_AM_PUBLISHER_ITEMS);
+
     $sform->assign($formTpl);
     $formTpl->display('db:publisher_submit.tpl');
 

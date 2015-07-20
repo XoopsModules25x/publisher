@@ -33,13 +33,17 @@ class PublisherFormDateTime extends XoopsFormElementTray
      * @param int $size
      * @param int $value
      */
-    public function __construct($caption, $name, $size = 15, $value = 0)
+    public function __construct($caption, $name, $size = 15, $value = 0, $showtime = true, $formatTimestamp = true)
     {
         parent::__construct($caption, '&nbsp;');
         $value    = (int)($value);
         $value    = ($value > 0) ? $value : time();
+        if ($formatTimestamp) {
+            $value = strtotime(formatTimestamp($value));
+        }
         $datetime = getDate($value);
-        $this->addElement(new XoopsFormTextDateSelect('', $name . '[date]', $size, $value));
+
+        $this->addElement(new XoopsFormTextDateSelect('', $name . '[date]', $size, $value, $showtime));
         $timearray = array();
         for ($i = 0; $i < 24; ++$i) {
             for ($j = 0; $j < 60; $j = $j + 10) {

@@ -300,8 +300,14 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // Datesub
         if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_DATESUB)) {
-            $datesub          = ($obj->getVar('datesub') == 0) ? time() : $obj->getVar('datesub');
-            $datesub_datetime = new PublisherFormDateTime(_CO_PUBLISHER_DATESUB, 'datesub', $size = 15, $datesub);
+            if ($obj->isNew()) {
+                $datesub = time();
+            } else {
+                $datesub = ($obj->getVar('datesub') == 0) ? time() : $obj->getVar('datesub');
+            }
+            $datesub_datetime = new PublisherFormDateTime(_CO_PUBLISHER_DATESUB, 'datesub', $size = 15, $datesub, true, true);
+            // $datesub_datetime = new XoopsFormDateTime(_CO_PUBLISHER_DATESUB, 'datesub', $size = 15, $datesub, true, true);
+
             $datesub_datetime->setDescription(_CO_PUBLISHER_DATESUB_DSC);
             $this->addElement($datesub_datetime);
         }
@@ -430,17 +436,11 @@ $publisher(document).ready(function () {
             $image_upload_tray->addElement($js_data);
             $image_upload_tray->addElement($messages);
             $image_upload_tray->addElement($opentable);
-
             $image_upload_tray->addElement($imagecat);
-
             $image_upload_tray->addElement($addbreak);
-
             $image_upload_tray->addElement($nicename);
-
             $image_upload_tray->addElement($addbreak);
-
             $image_upload_tray->addElement($button);
-
             $image_upload_tray->addElement($closetable);
             $this->addElement($image_upload_tray);
 

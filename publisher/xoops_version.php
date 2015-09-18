@@ -230,9 +230,6 @@ $modversion['templates'] = array(
         'file'        => 'publisher_footer.tpl',
         'description' => '_MI_PUBLISHER_FOOTER_DSC'),
     array(
-        'file'        => 'publisher_footer.tpl',
-        'description' => '_MI_PUBLISHER_FOOTER_DSC'),
-    array(
         'file'        => 'publisher_singleitem.tpl',
         'description' => '_MI_PUBLISHER_SINGLEITEM_DSC'),
     array(
@@ -253,9 +250,6 @@ $modversion['templates'] = array(
     array(
         'file'        => 'publisher_item.tpl',
         'description' => '_MI_PUBLISHER_ITEM_DSC'),
-    array(
-        'file'        => 'publisher_submit.tpl',
-        'description' => '_MI_PUBLISHER_SUBMIT_DSC'),
     array(
         'file'        => 'publisher_submit.tpl',
         'description' => '_MI_PUBLISHER_SUBMIT_DSC'),

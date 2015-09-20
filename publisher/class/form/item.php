@@ -517,9 +517,10 @@ $publisher(document).ready(function () {
                     $table .= "</tr>";
 
                     foreach ($filesObj as $fileObj) {
-                        $modify = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _CO_PUBLISHER_EDITFILE . "' alt='" . _CO_PUBLISHER_EDITFILE . "' /></a>";
-                        $delete = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _CO_PUBLISHER_DELETEFILE . "' alt='" . _CO_PUBLISHER_DELETEFILE . "'/></a>";
-                        if ($fileObj->status() == 0) {
+                        $modify = '<a href="file.php?op=mod&fileid=' . $fileObj->fileid() . '"><img src="' . PUBLISHER_URL . '/assets/images/links/edit.gif" title="' . _CO_PUBLISHER_EDITFILE . '" alt="' . _CO_PUBLISHER_EDITFILE . '" /></a>';
+                        $delete = '<a href="file.php?op=del&fileid=' . $fileObj->fileid() . '"><img src="' . PUBLISHER_URL . '/assets/images/links/delete.png" title="' . _CO_PUBLISHER_DELETEFILE . '" alt="' . _CO_PUBLISHER_DELETEFILE . '"/></a>';
+                        
+						if ($fileObj->status() == 0) {
                             $not_visible = "<img src='" . PUBLISHER_URL . "/assets/images/no.gif'/>";
                         } else {
                             $not_visible = '';

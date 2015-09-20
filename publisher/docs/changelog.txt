@@ -4,6 +4,7 @@
 - remove non-existent XoopsFormCalendar in blocks (mamba)
 - replace XoopsLocal::formatTimestamp() with formatTimestamp() so we have User local time (mamba/geekwright)
 - replaced hard-coded GMT date in PublisherFormDateTime with formatTimestamp (mamba) (TODO: do the same for XoopsFormDateTime)
+- adjusted apostrophes to prevent the define translation errors (slider84)
 
 
 <h5>1.02 RC1       (2015-05-26)</h5>

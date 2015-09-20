@@ -439,28 +439,29 @@ class PublisherItem extends XoopsObject
             if (publisherUserIsAdmin() || publisherUserIsAuthor($this) || publisherUserIsModerator($this)) {
                 if ($this->publisher->getConfig('perm_edit') || publisherUserIsModerator($this) || publisherUserIsAdmin()) {
                     // Edit button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . "/submit.php?itemid=" . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . _CO_PUBLISHER_EDIT . "' alt='" . _CO_PUBLISHER_EDIT . "'/></a>";
+                    $adminLinks .= '<a href="' . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . '"><img src="' . PUBLISHER_URL . '/assets/images/links/edit.gif"' . ' title="' . _CO_PUBLISHER_EDIT . '" alt="' . _CO_PUBLISHER_EDIT . '"/></a>';
                     $adminLinks .= " ";
                 }
                 if ($this->publisher->getConfig('perm_delete') || publisherUserIsModerator($this) || publisherUserIsAdmin()) {
                     // Delete button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . "/submit.php?op=del&amp;itemid=" . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . _CO_PUBLISHER_DELETE . "' alt='" . _CO_PUBLISHER_DELETE . "' /></a>";
+                    $adminLinks .= '<a href="' . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . '"><img src="' . PUBLISHER_URL . '/assets/images/links/delete.png"' . ' title="' . _CO_PUBLISHER_DELETE . '" alt="' . _CO_PUBLISHER_DELETE . '" /></a>';
                     $adminLinks .= " ";
                 }
             }
             if ($this->publisher->getConfig('perm_clone') || publisherUserIsModerator($this) || publisherUserIsAdmin()) {
                 // Duplicate button
-                $adminLinks .= "<a href='" . PUBLISHER_URL . "/submit.php?op=clone&amp;itemid=" . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif'" . " title='" . _CO_PUBLISHER_CLONE . "' alt='" . _CO_PUBLISHER_CLONE . "' /></a>";
+                $adminLinks .= '<a href="' . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . '"><img src="' . PUBLISHER_URL . '/assets/images/links/clone.gif"' . ' title="' . _CO_PUBLISHER_CLONE . '" alt="' . _CO_PUBLISHER_CLONE . '" /></a>';
                 $adminLinks .= " ";
             }
         }
         if ($this->publisher->getConfig('display_pdf')) {
             // PDF button
-            $adminLinks .= "<a href='" . PUBLISHER_URL . "/makepdf.php?itemid=" . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif' title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "' /></a>";
+            $adminLinks .= '<a href="' . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . '" rel="nofollow" target="_blank"><img src="' . PUBLISHER_URL . '/assets/images/links/pdf.gif" title="' . _CO_PUBLISHER_PDF . '" alt="' . _CO_PUBLISHER_PDF . '" /></a>';
             $adminLinks .= " ";
         }
         // Print button
-        $adminLinks .= "<a href='" . PublisherSeo::generateUrl("print", $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . _CO_PUBLISHER_PRINT . "' alt='" . _CO_PUBLISHER_PRINT . "' /></a>";
+           $adminLinks .= '<a href="' . publisher_seo_genUrl('print', $this->itemid(), $this->short_url()) . '" rel="nofollow" target="_blank"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '" /></a>';
+
         $adminLinks .= " ";
         // Email button
         if (xoops_isActiveModule('tellafriend')) {

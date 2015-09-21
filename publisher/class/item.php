@@ -460,7 +460,7 @@ class PublisherItem extends XoopsObject
             $adminLinks .= " ";
         }
         // Print button
-           $adminLinks .= '<a href="' . publisher_seo_genUrl('print', $this->itemid(), $this->short_url()) . '" rel="nofollow" target="_blank"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '" /></a>';
+           $adminLinks .= '<a href="' . PublisherSeo::generateUrl('print', $this->itemid(), $this->short_url()) . '" rel="nofollow" target="_blank"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '" /></a>';
 
         $adminLinks .= " ";
         // Email button

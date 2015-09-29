@@ -189,8 +189,9 @@ class PublisherCategoryForm extends XoopsThemeForm
         $cat_tray = new XoopsFormElementTray(_AM_PUBLISHER_SCATEGORYNAME, '<br /><br />');
         for ($i = 0; $i < $this->subCatsCount; ++$i) {
 
-            if ($i < (($scname = XoopsRequest::getString('scname', '', 'POST'))) ? count($scname) : 0) {
-                $subname = ($scname = XoopsRequest::getString('scname', '', 'POST')) ? XoopsRequest::getArray('scname', array(), 'POST')[$i] : '';
+            if ($i < (($scname = XoopsRequest::getArray('scname', '', 'POST'))) ? count($scname) : 0) {
+                $temp = XoopsRequest::getArray('scname', array(), 'POST');
+                $subname = ($scname = XoopsRequest::getArray('scname', '', 'POST')) ? $temp[$i] : '';
             } else {
                 $subname = '';
             }

@@ -1021,7 +1021,7 @@ class PublisherItem extends XoopsObject
             $this->setVar('uid', is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0);
             $this->setVar('cancoment', $this->publisher->getConfig('submit_allowcomments'));
             $this->setVar('status', $this->publisher->getConfig('submit_status'));
-            $this->setVar('status', $this->publisher->getConfig('submit_dohtml'));
+            $this->setVar('dohtml', $this->publisher->getConfig('submit_dohtml'));
             $this->setVar('dosmiley', $this->publisher->getConfig('submit_dosmiley'));
             $this->setVar('doxcode', $this->publisher->getConfig('submit_doxcode'));
             $this->setVar('doimage', $this->publisher->getConfig('submit_doimage'));

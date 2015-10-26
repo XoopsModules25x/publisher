@@ -30,13 +30,13 @@ include_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_category_items_sel_show($options)
 {
-    $publisher = PublisherPublisher::getInstance();
+    $publisher =& PublisherPublisher::getInstance();
 
     $block = array();
 
-    $categories = $publisher->getHandler('category')->getCategories(0, 0, -1);
+    $categories =& $publisher->getHandler('category')->getCategories(0, 0, -1);
 
-    if (count($categories) == 0) {
+    if (count($categories) === 0) {
         return $block;
     }
 
@@ -54,10 +54,10 @@ function publisher_category_items_sel_show($options)
         }
 
         $criteria = new Criteria('categoryid', $catID);
-        $items    = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
+        $items    =& $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
         unset($criteria);
 
-        if (count($items) == 0) {
+        if (count($items) === 0) {
             continue;
         }
 
@@ -66,7 +66,7 @@ function publisher_category_items_sel_show($options)
         $block['categories'][$catID]['items'][] = $item;
 
         foreach ($items as $itemObj) {
-            $item['title']                          = $itemObj->title(isset($options[3]) ? $options[3] : 0);
+            $item['title']                          = $itemObj->getTitle(isset($options[3]) ? $options[3] : 0);
             $item['itemurl']                        = $itemObj->getItemUrl();
             $block['categories'][$catID]['items'][] = $item;
         }
@@ -75,7 +75,7 @@ function publisher_category_items_sel_show($options)
 
     unset($items, $categories, $itemObj, $catID, $catObj);
 
-    if (count($block['categories']) == 0) {
+    if (count($block['categories']) === 0) {
         return $block;
     }
 
@@ -99,7 +99,7 @@ function publisher_category_items_sel_edit($options)
     $orderEle->addOptionArray(array(
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT,));
+                                  'weight'  => _MB_PUBLISHER_WEIGHT));
     $dispEle  = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $charsEle = new XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);
 

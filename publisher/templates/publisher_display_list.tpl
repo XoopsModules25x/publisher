@@ -12,7 +12,7 @@
 
 <{if $items}>    <{if $collapsable_heading == 1}>
     <div class="publisher_collaps_title">
-        <a href='javascript:' onclick="toggle('bottomtable'); toggleIcon('bottomtableicon')"><img id='bottomtableicon' src='<{$publisher_url}>/assets/images/links/close12.gif' alt=''/></a>&nbsp;<{$lang_items_title}>
+        <a href='javascript:' onclick="toggle('bottomtable'); toggleIcon('bottomtableicon')"><img id='bottomtableicon' src='<{$moduleUrl}>/assets/images/links/close12.gif' alt=''/></a>&nbsp;<{$lang_items_title}>
     </div>
     <div id='bottomtable'>
 <{else}> <{if $subcats}>

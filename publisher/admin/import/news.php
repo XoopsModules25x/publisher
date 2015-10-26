@@ -27,9 +27,9 @@ $importFromModuleName = 'News ' . XoopsRequest::getString('news_version', '', 'P
 
 $scriptname = 'news.php';
 
-$op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
+$op = ('go' === XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 
-if ($op == 'start') {
+if ($op === 'start') {
     xoops_load('XoopsFormLoader');
 
     publisherCpHeader();
@@ -92,16 +92,16 @@ if ($op == 'start') {
     xoops_cp_footer();
 }
 
-if ($op == 'go') {
+if ($op === 'go') {
     publisherCpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     publisherOpenCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
-    $moduleHandler  = xoops_gethandler('module');
+    $moduleHandler  =& xoops_getHandler('module');
     $moduleObj      = $moduleHandler->getByDirname('news');
     $news_module_id = $moduleObj->getVar('mid');
 
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gpermHandler =& xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
@@ -117,12 +117,11 @@ if ($op == 'go') {
 
     $oldToNew = array();
     while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) !== false) {
-
         $newCat           = array();
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
 
-        $categoryObj = $publisher->getHandler('category')->create();
+        $categoryObj =& $publisher->getHandler('category')->create();
 
         $categoryObj->setVar('parentid', $arrCat['topic_pid']);
         $categoryObj->setVar('weight', 0);
@@ -130,7 +129,7 @@ if ($op == 'go') {
         $categoryObj->setVar('description', $arrCat['topic_description']);
 
         // Category image
-        if (($arrCat['topic_imgurl'] != 'blank.gif') && ($arrCat['topic_imgurl'] != '')) {
+        if (($arrCat['topic_imgurl'] !== 'blank.gif') && ($arrCat['topic_imgurl'] !== '')) {
             if (copy($GLOBALS['xoops']->path('modules/news/assets/images/topics/' . $arrCat['topic_imgurl']), $GLOBALS['xoops']->path('uploads/publisher/images/category/' . $arrCat['topic_imgurl']))) {
                 $categoryObj->setVar('image', $arrCat['topic_imgurl']);
             }
@@ -150,7 +149,7 @@ if ($op == 'go') {
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
-            $itemObj = $publisher->getHandler('item')->create();
+            $itemObj =& $publisher->getHandler('item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
             $itemObj->setVar('title', $arrArticle['title']);
@@ -173,7 +172,7 @@ if ($op == 'go') {
             /*
              // HTML Wrap
              if ($arrArticle['htmlpage']) {
-             $pagewrap_filename	= $GLOBALS['xoops']->path('modules/wfsection/html/' .$arrArticle['htmlpage']);
+             $pagewrap_filename = $GLOBALS['xoops']->path('modules/wfsection/html/' .$arrArticle['htmlpage']);
              if (file_exists($pagewrap_filename)) {
              if (copy($pagewrap_filename, $GLOBALS['xoops']->path('uploads/publisher/content/' . $arrArticle['htmlpage']))) {
              $itemObj->setVar('body', '[pagewrap=' . $arrArticle['htmlpage'] . ']');
@@ -197,7 +196,7 @@ if ($op == 'go') {
                  $filename = $GLOBALS['xoops']->path('modules/wfsection/cache/uploaded/' . $arrFile['filerealname']);
                  if (file_exists($filename)) {
                  if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
-                 $fileObj = $publisher_file_handler->create();
+                 $fileObj = $publisher_fileHandler->create();
                  $fileObj->setVar('name', $arrFile['fileshowname']);
                  $fileObj->setVar('description', $arrFile['filedescript']);
                  $fileObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE);
@@ -216,15 +215,15 @@ if ($op == 'go') {
                  }
                  */
                 $newArticleArray[$arrArticle['storyid']] = $itemObj->itemid();
-                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br />';
                 ++$cnt_imported_articles;
             }
         }
 
         // Saving category permissions
-        $groupsIds = $gperm_handler->getGroupIds('news_view', $arrCat['topic_id'], $news_module_id);
+        $groupsIds = $gpermHandler->getGroupIds('news_view', $arrCat['topic_id'], $news_module_id);
         publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
-        $groupsIds = $gperm_handler->getGroupIds('news_submit', $arrCat['topic_id'], $news_module_id);
+        $groupsIds = $gpermHandler->getGroupIds('news_submit', $arrCat['topic_id'], $news_module_id);
         publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         $newCatArray[$newCat['oldid']] = $newCat;
@@ -252,7 +251,7 @@ if ($op == 'go') {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $commentHandler = xoops_gethandler('comment');
+    $commentHandler =& xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $news_module_id));
     $comments = $commentHandler->getObjects($criteria);

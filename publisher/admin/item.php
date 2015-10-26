@@ -41,11 +41,11 @@ $offlinestartitem   = XoopsRequest::getInt('offlinestartitem', (XoopsRequest::ge
 $rejectedstartitem  = XoopsRequest::getInt('rejectedstartitem', (XoopsRequest::getInt('submittedstartitem', 0, 'GET')), 'POST');
 
 switch ($op) {
-    case "clone":
+    case 'clone':
         if ($itemid == 0) {
-            $totalcategories = $publisher->getHandler('category')->getCategoriesCount(-1);
+            $totalcategories =& $publisher->getHandler('category')->getCategoriesCount(-1);
             if ($totalcategories == 0) {
-                redirect_header("category.php?op=mod", 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
+                redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
                 //                exit();
             }
         }
@@ -53,11 +53,11 @@ switch ($op) {
         publisher_editItem(true, $itemid, true);
         break;
 
-    case "mod":
+    case 'mod':
         if ($itemid == 0) {
-            $totalcategories = $publisher->getHandler('category')->getCategoriesCount(-1);
+            $totalcategories =& $publisher->getHandler('category')->getCategoriesCount(-1);
             if ($totalcategories == 0) {
-                redirect_header("category.php?op=mod", 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
+                redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
                 //                exit();
             }
         }
@@ -66,21 +66,21 @@ switch ($op) {
         publisher_editItem(true, $itemid);
         break;
 
-    case "additem":
-        $redirect_msg = '';
+    case 'additem':
+        $redirect_msg = $error_msg = '';
         // Creating the item object
         if ($itemid != 0) {
-            $itemObj = $publisher->getHandler('item')->get($itemid);
+            $itemObj =& $publisher->getHandler('item')->get($itemid);
         } else {
-            $itemObj = $publisher->getHandler('item')->create();
+            $itemObj =& $publisher->getHandler('item')->create();
         }
 
         $itemObj->setVarsFromRequest();
 
         $old_status = $itemObj->status();
-        $new_status = XoopsRequest::getInt('status', PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
+        $newStatus = XoopsRequest::getInt('status', PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
 
-        switch ($new_status) {
+        switch ($newStatus) {
             case PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED:
                 if (($old_status == PublisherConstantsInterface::PUBLISHER_STATUS_NOTSET)) {
                     $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
@@ -118,19 +118,19 @@ switch ($op) {
                 $redirect_msg = _AM_PUBLISHER_ITEM_REJECTED;
                 break;
         }
-        $itemObj->setVar('status', $new_status);
+        $itemObj->setVar('status', $newStatus);
 
         // Storing the item
         if (!$itemObj->store()) {
-            redirect_header("javascript:history.go(-1)", 3, $error_msg . publisherFormatErrors($itemObj->getErrors()));
+            redirect_header('javascript:history.go(-1)', 3, $error_msg . publisherFormatErrors($itemObj->getErrors()));
             //            exit;
         }
 
         // attach file if any
-        if (($item_upload_file = XoopsRequest::getArray('item_upload_file', '', 'FILES')) && $item_upload_file['name'] !== "") {
+        if (($item_upload_file = XoopsRequest::getArray('item_upload_file', '', 'FILES')) && $item_upload_file['name'] !== '') {
             $file_upload_result = publisherUploadFile(false, false, $itemObj);
             if ($file_upload_result !== true) {
-                redirect_header("javascript:history.go(-1)", 3, $file_upload_result);
+                redirect_header('javascript:history.go(-1)', 3, $file_upload_result);
                 //                exit;
             }
         }
@@ -140,30 +140,30 @@ switch ($op) {
             $itemObj->sendNotifications($notifToDo);
         }
 
-        redirect_header("item.php", 2, $redirect_msg);
+        redirect_header('item.php', 2, $redirect_msg);
 
         break;
 
-    case "del":
-        $itemObj = $publisher->getHandler('item')->get($itemid);
+    case 'del':
+        $itemObj =& $publisher->getHandler('item')->get($itemid);
         $confirm = XoopsRequest::getInt('confirm', '', 'POST');
 
         if ($confirm) {
             if (!$publisher->getHandler('item')->delete($itemObj)) {
-                redirect_header("item.php", 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . publisherFormatErrors($itemObj->getErrors()));
+                redirect_header('item.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . publisherFormatErrors($itemObj->getErrors()));
                 //                exit();
             }
-            redirect_header("item.php", 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->title()));
+            redirect_header('item.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
             //            exit();
         } else {
             xoops_cp_header();
-            xoops_confirm(array('op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->title()), 'item.php', _AM_PUBLISHER_DELETETHISITEM . " <br />'" . $itemObj->title() . "'. <br /> <br />", _AM_PUBLISHER_DELETE);
+            xoops_confirm(array('op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()), 'item.php', _AM_PUBLISHER_DELETETHISITEM . " <br />'" . $itemObj->getTitle() . "'. <br /> <br />", _AM_PUBLISHER_DELETE);
             xoops_cp_footer();
         }
         exit();
         break;
 
-    case "default":
+    case 'default':
     default:
         publisherCpHeader();
         //publisher_adminMenu(2, _AM_PUBLISHER_ITEMS);
@@ -172,7 +172,7 @@ switch ($op) {
         echo "<br />\n";
         echo "<form><div style=\"margin-bottom: 12px;\">";
         echo "<input type='button' name='button' onclick=\"location='item.php?op=mod'\" value='" . _AM_PUBLISHER_CREATEITEM . "'>&nbsp;&nbsp;";
-        echo "</div></form>";
+        echo '</div></form>';
 
         $orderBy   = 'datesub';
         $ascOrDesc = 'DESC';
@@ -181,42 +181,42 @@ switch ($op) {
         publisherOpenCollapsableBar('submiteditemstable', 'submiteditemsicon', _AM_PUBLISHER_SUBMISSIONSMNGMT, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of submitted ITEM
-        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED));
+        $totalitems =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED));
 
-        $itemsObj = $publisher->getHandler('item')->getAllSubmitted($publisher->getConfig('idxcat_perpage'), $submittedstartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj =& $publisher->getHandler('item')->getAllSubmitted($publisher->getConfig('idxcat_perpage'), $submittedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
         echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
-        echo "<tr>";
-        echo "<th width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . "</strong></td>";
-        echo "<th width='20%' class='bg3' align='left'><strong>" . _AM_PUBLISHER_ITEMCATEGORYNAME . "</strong></td>";
-        echo "<th class='bg3' align='left'><strong>" . _AM_PUBLISHER_TITLE . "</strong></td>";
-        echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . "</strong></td>";
-        echo "<th width='80' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . "</strong></td>";
-        echo "</tr>";
+        echo '<tr>';
+        echo "<th width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . '</strong></td>';
+        echo "<th width='20%' class='bg3' align='left'><strong>" . _AM_PUBLISHER_ITEMCATEGORYNAME . '</strong></td>';
+        echo "<th class='bg3' align='left'><strong>" . _AM_PUBLISHER_TITLE . '</strong></td>';
+        echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . '</strong></td>';
+        echo "<th width='80' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . '</strong></td>';
+        echo '</tr>';
         if ($totalitems > 0) {
             for ($i = 0; $i < $totalItemsOnPage; ++$i) {
-                $categoryObj = $itemsObj[$i]->category();
+                $categoryObj = $itemsObj[$i]->getCategory();
 
                 $approve = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/approve.gif' title='" . _AM_PUBLISHER_SUBMISSION_MODERATE . "' alt='" . _AM_PUBLISHER_SUBMISSION_MODERATE . "' /></a>&nbsp;";
                 $clone   = '';
                 $delete  = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "' /></a>";
-                $modify  = "";
+                $modify  = '';
 
-                echo "<tr>";
-                echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . "</td>";
-                echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . "</td>";
-                echo "<td class='even' align='left'><a href='" . PUBLISHER_URL . "/item.php?itemid=" . $itemsObj[$i]->itemid() . "'>" . $itemsObj[$i]->title() . "</a></td>";
-                echo "<td class='even' align='center'>" . $itemsObj[$i]->datesub() . "</td>";
+                echo '<tr>';
+                echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
+                echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . '</td>';
+                echo "<td class='even' align='left'><a href='" . PUBLISHER_URL . '/item.php?itemid=' . $itemsObj[$i]->itemid() . "'>" . $itemsObj[$i]->getTitle() . '</a></td>';
+                echo "<td class='even' align='center'>" . $itemsObj[$i]->getDatesub() . '</td>';
                 echo "<td class='even' align='center'> $approve $clone $modify $delete </td>";
-                echo "</tr>";
+                echo '</tr>';
             }
         } else {
             $itemid = 0;
-            echo "<tr>";
-            echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOITEMS_SUBMITTED . "</td>";
-            echo "</tr>";
+            echo '<tr>';
+            echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOITEMS_SUBMITTED . '</td>';
+            echo '</tr>';
         }
         echo "</table>\n";
         echo "<br />\n";
@@ -230,43 +230,43 @@ switch ($op) {
         publisherOpenCollapsableBar('item_publisheditemstable', 'item_publisheditemsicon', _AM_PUBLISHER_PUBLISHEDITEMS, _AM_PUBLISHER_PUBLISHED_DSC);
 
         // Get the total number of published ITEM
-        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED));
+        $totalitems =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED));
 
-        $itemsObj = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $publishedstartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj =& $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $publishedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
         echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
-        echo "<tr>";
-        echo "<th width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . "</strong></td>";
-        echo "<th width='20%' class='bg3' align='left'><strong>" . _AM_PUBLISHER_ITEMCATEGORYNAME . "</strong></td>";
-        echo "<th class='bg3' align='left'><strong>" . _AM_PUBLISHER_TITLE . "</strong></td>";
-        echo "<th width='30' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEM_VIEWS . "</strong></td>";
-        echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . "</strong></td>";
-        echo "<th width='80' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . "</strong></td>";
-        echo "</tr>";
+        echo '<tr>';
+        echo "<th width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . '</strong></td>';
+        echo "<th width='20%' class='bg3' align='left'><strong>" . _AM_PUBLISHER_ITEMCATEGORYNAME . '</strong></td>';
+        echo "<th class='bg3' align='left'><strong>" . _AM_PUBLISHER_TITLE . '</strong></td>';
+        echo "<th width='30' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEM_VIEWS . '</strong></td>';
+        echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . '</strong></td>';
+        echo "<th width='80' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . '</strong></td>';
+        echo '</tr>';
         if ($totalitems > 0) {
             for ($i = 0; $i < $totalItemsOnPage; ++$i) {
-                $categoryObj = $itemsObj[$i]->category();
+                $categoryObj = $itemsObj[$i]->getCategory();
 
                 $modify = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "' /></a>";
                 $delete = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'/></a>";
                 $clone  = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "' /></a>";
 
-                echo "<tr>";
-                echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . "</td>";
-                echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . "</td>";
-                echo "<td class='even' align='left'>" . $itemsObj[$i]->getItemLink() . "</td>";
-                echo "<td class='even' align='center'>" . $itemsObj[$i]->counter() . "</td>";
-                echo "<td class='even' align='center'>" . $itemsObj[$i]->datesub() . "</td>";
+                echo '<tr>';
+                echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
+                echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . '</td>';
+                echo "<td class='even' align='left'>" . $itemsObj[$i]->getItemLink() . '</td>';
+                echo "<td class='even' align='center'>" . $itemsObj[$i]->counter() . '</td>';
+                echo "<td class='even' align='center'>" . $itemsObj[$i]->getDatesub() . '</td>';
                 echo "<td class='even' align='center'> $clone $modify $delete </td>";
-                echo "</tr>";
+                echo '</tr>';
             }
         } else {
             $itemid = 0;
-            echo "<tr>";
-            echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOITEMS . "</td>";
-            echo "</tr>";
+            echo '<tr>';
+            echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOITEMS . '</td>';
+            echo '</tr>';
         }
         echo "</table>\n";
         echo "<br />\n";
@@ -277,45 +277,45 @@ switch ($op) {
         publisherCloseCollapsableBar('item_publisheditemstable', 'item_publisheditemsicon');
 
         // Display Offline articles
-        publisherOpenCollapsableBar('offlineitemstable', 'offlineitemsicon', _AM_PUBLISHER_ITEMS . " " . _CO_PUBLISHER_OFFLINE, _AM_PUBLISHER_OFFLINE_EXP);
+        publisherOpenCollapsableBar('offlineitemstable', 'offlineitemsicon', _AM_PUBLISHER_ITEMS . ' ' . _CO_PUBLISHER_OFFLINE, _AM_PUBLISHER_OFFLINE_EXP);
 
-        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE));
+        $totalitems =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE));
 
-        $itemsObj = $publisher->getHandler('item')->getAllOffline($publisher->getConfig('idxcat_perpage'), $offlinestartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj =& $publisher->getHandler('item')->getAllOffline($publisher->getConfig('idxcat_perpage'), $offlinestartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
         echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
-        echo "<tr>";
-        echo "<th width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . "</strong></td>";
-        echo "<th width='20%' class='bg3' align='left'><strong>" . _AM_PUBLISHER_ITEMCATEGORYNAME . "</strong></td>";
-        echo "<th class='bg3' align='left'><strong>" . _AM_PUBLISHER_TITLE . "</strong></td>";
-        echo "<th width='30' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEM_VIEWS . "</strong></td>";
-        echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . "</strong></td>";
-        echo "<th width='80' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . "</strong></td>";
-        echo "</tr>";
+        echo '<tr>';
+        echo "<th width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . '</strong></td>';
+        echo "<th width='20%' class='bg3' align='left'><strong>" . _AM_PUBLISHER_ITEMCATEGORYNAME . '</strong></td>';
+        echo "<th class='bg3' align='left'><strong>" . _AM_PUBLISHER_TITLE . '</strong></td>';
+        echo "<th width='30' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEM_VIEWS . '</strong></td>';
+        echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . '</strong></td>';
+        echo "<th width='80' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . '</strong></td>';
+        echo '</tr>';
         if ($totalitems > 0) {
             for ($i = 0; $i < $totalItemsOnPage; ++$i) {
-                $categoryObj = $itemsObj[$i]->category();
+                $categoryObj = $itemsObj[$i]->getCategory();
 
                 $modify = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "' /></a>";
                 $delete = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'/></a>";
                 $clone  = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "' /></a>";
 
-                echo "<tr>";
-                echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . "</td>";
-                echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . "</td>";
-                echo "<td class='even' align='left'>" . $itemsObj[$i]->getItemLink() . "</td>";
-                echo "<td class='even' align='center'>" . $itemsObj[$i]->counter() . "</td>";
-                echo "<td class='even' align='center'>" . $itemsObj[$i]->datesub() . "</td>";
+                echo '<tr>';
+                echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
+                echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . '</td>';
+                echo "<td class='even' align='left'>" . $itemsObj[$i]->getItemLink() . '</td>';
+                echo "<td class='even' align='center'>" . $itemsObj[$i]->counter() . '</td>';
+                echo "<td class='even' align='center'>" . $itemsObj[$i]->getDatesub() . '</td>';
                 echo "<td class='even' align='center'> $clone $modify $delete </td>";
-                echo "</tr>";
+                echo '</tr>';
             }
         } else {
             $itemid = 0;
-            echo "<tr>";
-            echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOITEMS_OFFLINE . "</td>";
-            echo "</tr>";
+            echo '<tr>';
+            echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOITEMS_OFFLINE . '</td>';
+            echo '</tr>';
         }
         echo "</table>\n";
         echo "<br />\n";
@@ -329,41 +329,41 @@ switch ($op) {
         publisherOpenCollapsableBar('Rejecteditemstable', 'rejecteditemsicon', _AM_PUBLISHER_REJECTED_ITEM, _AM_PUBLISHER_REJECTED_ITEM_EXP, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of Rejected ITEM
-        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED));
-        $itemsObj   = $publisher->getHandler('item')->getAllRejected($publisher->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
+        $totalitems =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED));
+        $itemsObj   =& $publisher->getHandler('item')->getAllRejected($publisher->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
         echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
-        echo "<tr>";
-        echo "<th width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . "</strong></td>";
-        echo "<th width='20%' class='bg3' align='left'><strong>" . _AM_PUBLISHER_ITEMCATEGORYNAME . "</strong></td>";
-        echo "<th class='bg3' align='left'><strong>" . _AM_PUBLISHER_TITLE . "</strong></td>";
-        echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . "</strong></td>";
-        echo "<th width='80' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . "</strong></td>";
-        echo "</tr>";
+        echo '<tr>';
+        echo "<th width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . '</strong></td>';
+        echo "<th width='20%' class='bg3' align='left'><strong>" . _AM_PUBLISHER_ITEMCATEGORYNAME . '</strong></td>';
+        echo "<th class='bg3' align='left'><strong>" . _AM_PUBLISHER_TITLE . '</strong></td>';
+        echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . '</strong></td>';
+        echo "<th width='80' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . '</strong></td>';
+        echo '</tr>';
 
         if ($totalitems > 0) {
             for ($i = 0; $i < $totalItemsOnPage; ++$i) {
-                $categoryObj = $itemsObj[$i]->category();
+                $categoryObj = $itemsObj[$i]->getCategory();
 
                 $modify = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "' /></a>";
                 $delete = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'/></a>";
                 $clone  = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "' /></a>";
 
-                echo "<tr>";
-                echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . "</td>";
-                echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . "</td>";
-                echo "<td class='even' align='left'>" . $itemsObj[$i]->getItemLink() . "</td>";
-                echo "<td class='even' align='center'>" . $itemsObj[$i]->datesub() . "</td>";
+                echo '<tr>';
+                echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
+                echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . '</td>';
+                echo "<td class='even' align='left'>" . $itemsObj[$i]->getItemLink() . '</td>';
+                echo "<td class='even' align='center'>" . $itemsObj[$i]->getDatesub() . '</td>';
                 echo "<td class='even' align='center'> $clone $modify $delete </td>";
-                echo "</tr>";
+                echo '</tr>';
             }
         } else {
             $itemid = 0;
-            echo "<tr>";
-            echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOITEMS_REJECTED . "</td>";
-            echo "</tr>";
+            echo '<tr>';
+            echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOITEMS_REJECTED . '</td>';
+            echo '</tr>';
         }
         echo "</table>\n";
         echo "<br />\n";
@@ -383,8 +383,8 @@ xoops_cp_footer();
  */
 function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 {
-    $publisher = PublisherPublisher::getInstance();
-    global $publisher_current_page;
+    $publisher =& PublisherPublisher::getInstance();
+    global $publisherCurrentPage;
 
     xoops_load('XoopsFormLoader');
 
@@ -394,12 +394,11 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     // if there is a parameter, and the id exists, retrieve data: we're editing a item
 
     if ($itemid != 0) {
-
         // Creating the ITEM object
-        $itemObj = $publisher->getHandler('item')->get($itemid);
+        $itemObj =& $publisher->getHandler('item')->get($itemid);
 
         if (!$itemObj) {
-            redirect_header("item.php", 1, _AM_PUBLISHER_NOITEMSELECTED);
+            redirect_header('item.php', 1, _AM_PUBLISHER_NOITEMSELECTED);
             //            exit();
         }
 
@@ -411,92 +410,91 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
         }
 
         switch ($itemObj->status()) {
-
             case PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED:
-                $breadcrumb_action1 = _CO_PUBLISHER_SUBMITTED;
-                $breadcrumb_action2 = _AM_PUBLISHER_APPROVING;
-                $page_title         = _AM_PUBLISHER_SUBMITTED_TITLE;
-                $page_info          = _AM_PUBLISHER_SUBMITTED_INFO;
-                $button_caption     = _AM_PUBLISHER_APPROVE;
-                $new_status         = PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED;
+                $breadcrumbAction1 = _CO_PUBLISHER_SUBMITTED;
+                $breadcrumbAction2 = _AM_PUBLISHER_APPROVING;
+                $pageTitle         = _AM_PUBLISHER_SUBMITTED_TITLE;
+                $pageInfo          = _AM_PUBLISHER_SUBMITTED_INFO;
+                $buttonCaption     = _AM_PUBLISHER_APPROVE;
+                $newStatus         = PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED;
                 break;
 
             case PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED:
-                $breadcrumb_action1 = _CO_PUBLISHER_PUBLISHED;
-                $breadcrumb_action2 = _AM_PUBLISHER_EDITING;
-                $page_title         = _AM_PUBLISHER_PUBLISHEDEDITING;
-                $page_info          = _AM_PUBLISHER_PUBLISHEDEDITING_INFO;
-                $button_caption     = _AM_PUBLISHER_MODIFY;
-                $new_status         = PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED;
+                $breadcrumbAction1 = _CO_PUBLISHER_PUBLISHED;
+                $breadcrumbAction2 = _AM_PUBLISHER_EDITING;
+                $pageTitle         = _AM_PUBLISHER_PUBLISHEDEDITING;
+                $pageInfo          = _AM_PUBLISHER_PUBLISHEDEDITING_INFO;
+                $buttonCaption     = _AM_PUBLISHER_MODIFY;
+                $newStatus         = PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED;
                 break;
 
             case PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE:
-                $breadcrumb_action1 = _CO_PUBLISHER_OFFLINE;
-                $breadcrumb_action2 = _AM_PUBLISHER_EDITING;
-                $page_title         = _AM_PUBLISHER_OFFLINEEDITING;
-                $page_info          = _AM_PUBLISHER_OFFLINEEDITING_INFO;
-                $button_caption     = _AM_PUBLISHER_MODIFY;
-                $new_status         = PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE;
+                $breadcrumbAction1 = _CO_PUBLISHER_OFFLINE;
+                $breadcrumbAction2 = _AM_PUBLISHER_EDITING;
+                $pageTitle         = _AM_PUBLISHER_OFFLINEEDITING;
+                $pageInfo          = _AM_PUBLISHER_OFFLINEEDITING_INFO;
+                $buttonCaption     = _AM_PUBLISHER_MODIFY;
+                $newStatus         = PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE;
                 break;
 
             case PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED:
-                $breadcrumb_action1 = _CO_PUBLISHER_REJECTED;
-                $breadcrumb_action2 = _AM_PUBLISHER_REJECTED;
-                $page_title         = _AM_PUBLISHER_REJECTED_EDIT;
-                $page_info          = _AM_PUBLISHER_REJECTED_EDIT_INFO;
-                $button_caption     = _AM_PUBLISHER_MODIFY;
-                $new_status         = PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED;
+                $breadcrumbAction1 = _CO_PUBLISHER_REJECTED;
+                $breadcrumbAction2 = _AM_PUBLISHER_REJECTED;
+                $pageTitle         = _AM_PUBLISHER_REJECTED_EDIT;
+                $pageInfo          = _AM_PUBLISHER_REJECTED_EDIT_INFO;
+                $buttonCaption     = _AM_PUBLISHER_MODIFY;
+                $newStatus         = PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED;
                 break;
 
             case PublisherConstantsInterface::PUBLISHER_STATUS_NOTSET: // Then it's a clone...
-                $breadcrumb_action1 = _AM_PUBLISHER_ITEMS;
-                $breadcrumb_action2 = _AM_PUBLISHER_CLONE_NEW;
-                $button_caption     = _AM_PUBLISHER_CREATE;
-                $new_status         = PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED;
-                $page_title         = _AM_PUBLISHER_ITEM_DUPLICATING;
-                $page_info          = _AM_PUBLISHER_ITEM_DUPLICATING_DSC;
+                $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;
+                $breadcrumbAction2 = _AM_PUBLISHER_CLONE_NEW;
+                $buttonCaption     = _AM_PUBLISHER_CREATE;
+                $newStatus         = PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED;
+                $pageTitle         = _AM_PUBLISHER_ITEM_DUPLICATING;
+                $pageInfo          = _AM_PUBLISHER_ITEM_DUPLICATING_DSC;
                 break;
 
-            case "default" :
-            default :
-                $breadcrumb_action1 = _AM_PUBLISHER_ITEMS;
-                $breadcrumb_action2 = _AM_PUBLISHER_EDITING;
-                $page_title         = _AM_PUBLISHER_PUBLISHEDEDITING;
-                $page_info          = _AM_PUBLISHER_PUBLISHEDEDITING_INFO;
-                $button_caption     = _AM_PUBLISHER_MODIFY;
-                $new_status         = PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED;
+            case 'default':
+            default:
+                $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;
+                $breadcrumbAction2 = _AM_PUBLISHER_EDITING;
+                $pageTitle         = _AM_PUBLISHER_PUBLISHEDEDITING;
+                $pageInfo          = _AM_PUBLISHER_PUBLISHEDEDITING_INFO;
+                $buttonCaption     = _AM_PUBLISHER_MODIFY;
+                $newStatus         = PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED;
                 break;
         }
 
-        $categoryObj = $itemObj->category();
+        $categoryObj = $itemObj->getCategory();
 
         if ($showmenu) {
-            //publisher_adminMenu(2, $breadcrumb_action1 . " > " . $breadcrumb_action2);
+            //publisher_adminMenu(2, $breadcrumbAction1 . " > " . $breadcrumbAction2);
         }
 
         echo "<br />\n";
-        publisherOpenCollapsableBar('edititemtable', 'edititemicon', $page_title, $page_info);
+        publisherOpenCollapsableBar('edititemtable', 'edititemicon', $pageTitle, $pageInfo);
 
         if ($clone) {
             echo "<form><div style=\"margin-bottom: 10px;\">";
             echo "<input type='button' name='button' onclick=\"location='item.php?op=clone&itemid=" . $itemObj->itemid() . "'\" value='" . _AM_PUBLISHER_CLONE_ITEM . "'>&nbsp;&nbsp;";
-            echo "</div></form>";
+            echo '</div></form>';
         }
 
     } else {
         // there's no parameter, so we're adding an item
 
-        $itemObj = $publisher->getHandler('item')->create();
+        $itemObj =& $publisher->getHandler('item')->create();
         $itemObj->setVarsFromRequest();
 
-        $categoryObj        = $publisher->getHandler('category')->create();
-        $breadcrumb_action1 = _AM_PUBLISHER_ITEMS;
-        $breadcrumb_action2 = _AM_PUBLISHER_CREATINGNEW;
-        $button_caption     = _AM_PUBLISHER_CREATE;
-        $new_status         = PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED;
+        $categoryObj        =& $publisher->getHandler('category')->create();
+        $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;
+        $breadcrumbAction2 = _AM_PUBLISHER_CREATINGNEW;
+        $buttonCaption     = _AM_PUBLISHER_CREATE;
+        $newStatus         = PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED;
 
         if ($showmenu) {
-            //publisher_adminMenu(2, $breadcrumb_action1 . " > " . $breadcrumb_action2);
+            //publisher_adminMenu(2, $breadcrumbAction1 . " > " . $breadcrumbAction2);
         }
 
         $categoryObj->setVar('categoryid', XoopsRequest::getInt('categoryid', 0, 'GET'));
@@ -515,39 +513,39 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     $dir = publisherGetUploadDir(true, 'content');
 
-    if (!preg_match('/777/i', decoct(fileperms($dir)))) {
-        echo "<span style='color:#ff0000;'><h4>" . _AM_PUBLISHER_PERMERROR . "</h4></span>";
+    if (false !== strpos(decoct(fileperms($dir)), '777')) {
+        echo "<span style='color:#ff0000;'><h4>" . _AM_PUBLISHER_PERMERROR . '</h4></span>';
     }
 
     // Upload File
     echo "<form name='form_name2' id='form_name2' action='pw_upload_file.php' method='post' enctype='multipart/form-data'>";
     echo "<table cellspacing='1' width='100%' class='outer'>";
-    echo "<tr><th colspan='2'>" . _AM_PUBLISHER_UPLOAD_FILE . "</th></tr>";
+    echo "<tr><th colspan='2'>" . _AM_PUBLISHER_UPLOAD_FILE . '</th></tr>';
     echo "<tr valign='top' align='left'><td class='head'>" . _AM_PUBLISHER_SEARCH_PW . "</td><td class='even'><input type='file' name='fileupload' id='fileupload' size='30' /></td></tr>";
     echo "<tr valign='top' align='left'><td class='head'><input type='hidden' name='MAX_FILE_SIZE' id='op' value='500000' /></td><td class='even'><input type='submit' name='submit' value='" . _AM_PUBLISHER_UPLOAD . "' /></td></tr>";
-    echo "<input type='hidden' name='backto' value='$publisher_current_page'/>";
-    echo "</table>";
-    echo "</form>";
+    echo "<input type='hidden' name='backto' value='$publisherCurrentPage'/>";
+    echo '</table>';
+    echo '</form>';
 
     // Delete File
-    $form = new XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, "form_name", "pw_delete_file.php");
+    $form = new XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
 
-    $pWrap_select = new XoopsFormSelect(publisherGetUploadDir(true, 'content'), "address");
+    $pWrapSelect = new XoopsFormSelect(publisherGetUploadDir(true, 'content'), 'address');
     $folder       = dir($dir);
     while (($file = $folder->read()) !== false) {
-        if ($file != "." && $file != "..") {
-            $pWrap_select->addOption($file, $file);
+        if ($file !== '.' && $file !== '..') {
+            $pWrapSelect->addOption($file, $file);
         }
     }
     $folder->close();
-    $form->addElement($pWrap_select);
+    $form->addElement($pWrapSelect);
 
-    $delfile = "delfile";
+    $delfile = 'delfile';
     $form->addElement(new XoopsFormHidden('op', $delfile));
-    $submit = new XoopsFormButton("", "submit", _AM_PUBLISHER_BUTTON_DELETE, "submit");
+    $submit = new XoopsFormButton('', 'submit', _AM_PUBLISHER_BUTTON_DELETE, 'submit');
     $form->addElement($submit);
 
-    $form->addElement(new XoopsFormHidden('backto', $publisher_current_page));
+    $form->addElement(new XoopsFormHidden('backto', $publisherCurrentPage));
     $form->display();
 
     publisherCloseCollapsableBar('pagewraptable', 'pagewrapicon');

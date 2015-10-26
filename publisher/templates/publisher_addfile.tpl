@@ -1,7 +1,7 @@
 <{include file="db:publisher_header.tpl" item=$item}>
 
-<div class="publisher_infotitle"><{$lang_intro_title}></div>
-<div class="publisher_infotext"><{$lang_intro_text}></div>
+<div class="publisher_infotitle"><{$langIntroTitle}></div>
+<div class="publisher_infotext"><{$langIntroText}></div>
 <br/><{$form.javascript}>
 <form name="<{$form.name}>" action="<{$form.action}>" method="<{$form.method}>" <{$form.extra}>>
     <table class="outer" cellspacing="1">

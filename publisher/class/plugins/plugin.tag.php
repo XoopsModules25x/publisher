@@ -28,32 +28,32 @@
  */
 function publisher_tag_iteminfo(&$items)
 {
-    $items_id = array();
+    $itemsId = array();
     foreach (array_keys($items) as $catId) {
         // Some handling here to build the link upon catid
         // if catid is not used, just skip it
-        foreach (array_keys($items[$catId]) as $item_id) {
+        foreach (array_keys($items[$catId]) as $itemId) {
             // In article, the item_id is "art_id"
-            $items_id[] = (int)($item_id);
+            $itemsId[] = (int)($itemId);
         }
     }
-    $item_handler = xoops_getmodulehandler("item", "publisher");
-    $criteria     = new Criteria("itemid", "(" . implode(", ", $items_id) . ")", "IN");
-    $items_obj    = $item_handler->getObjects($criteria, 'itemid');
+    $itemHandler =& xoops_getModuleHandler('item', 'publisher');
+    $criteria     = new Criteria('itemid', '(' . implode(', ', $itemsId) . ')', 'IN');
+    $itemsObj    = $itemHandler->getObjects($criteria, 'itemid');
 
     foreach (array_keys($items) as $catId) {
-        foreach (array_keys($items[$catId]) as $item_id) {
-            $item_obj                = $items_obj[$item_id];
-            $items[$catId][$item_id] = array(
-                "title"   => $item_obj->getVar("title"),
-                "uid"     => $item_obj->getVar("uid"),
-                "link"    => "item.php?itemid={$item_id}",
-                "time"    => $item_obj->getVar("datesub"),
-                "tags"    => tag_parse_tag($item_obj->getVar("item_tag", "n")), // optional
-                "content" => "",);
+        foreach (array_keys($items[$catId]) as $itemId) {
+            $itemObj                = $itemsObj[$itemId];
+            $items[$catId][$itemId] = array(
+                'title'   => $itemObj->getVar('title'),
+                'uid'     => $itemObj->getVar('uid'),
+                'link'    => "item.php?itemid={$itemId}",
+                'time'    => $itemObj->getVar('datesub'),
+                'tags'    => tag_parse_tag($itemObj->getVar('item_tag', 'n')), // optional
+                'content' => '');
         }
     }
-    unset($items_obj);
+    unset($itemsObj);
 }
 
 /** Remove orphan tag-item links *

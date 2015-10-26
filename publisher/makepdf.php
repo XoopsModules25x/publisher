@@ -10,41 +10,38 @@ include_once __DIR__ . '/header.php';
 $itemid       = XoopsRequest::getInt('itemid', 0, 'GET');
 $item_page_id = XoopsRequest::getInt('page', -1, 'GET');
 if ($itemid == 0) {
-    redirect_header("javascript:history.go(-1)", 1, _MD_PUBLISHER_NOITEMSELECTED);
-    //    exit();
+    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 if (!is_file(XOOPS_PATH . '/vendor/tcpdf/tcpdf.php')) {
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['xoopsModule']->getVar('dirname') . '/viewtopic.php?topic_id=' . $itemid, 3, 'TCPF for Xoops not installed in ./xoops_lib/vendor/');
 }
 // Creating the item object for the selected item
-$itemObj = $publisher->getHandler('item')->get($itemid);
+$itemObj =& $publisher->getHandler('item')->get($itemid);
 
 // if the selected item was not found, exit
 if (!$itemObj) {
-    redirect_header("javascript:history.go(-1)", 1, _MD_PUBLISHER_NOITEMSELECTED);
-    //    exit();
+    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 // Creating the category object that holds the selected item
-$categoryObj = $publisher->getHandler('category')->get($itemObj->categoryid());
+$categoryObj =& $publisher->getHandler('category')->get($itemObj->categoryid());
 
 // Check user permissions to access that category of the selected item
 if (!$itemObj->accessGranted()) {
-    redirect_header("javascript:history.go(-1)", 1, _NOPERM);
-    //    exit();
+    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
 }
 
 xoops_loadLanguage('main', PUBLISHER_DIRNAME);
 
-$dateformat    = $itemObj->datesub();
-$sender_inform = sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemObj->datesub());
+$dateformat    = $itemObj->getDatesub();
+$sender_inform = sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemObj->getDatesub());
 $mainImage     = $itemObj->getMainImage();
 
 $content = '';
 if ($mainImage['image_path'] != '') {
     $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"/><br />';
 }
-$content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" style="text-decoration: none; color: black; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->title()) . '">' . $myts->undoHtmlSpecialChars($itemObj->title()) . '</a>';
+$content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" style="text-decoration: none; color: black; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '">' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '</a>';
 $content .= '<br /><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">' . _CO_PUBLISHER_CATEGORY . ' : </span><a href="' . PUBLISHER_URL . '/category.php?categoryid=' . $itemObj->categoryid() . '" style="color: #CCCCCC; font-weight: bold; font-size: 80%;" title="' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '">' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '</a>';
 $content .= '<br /><span style="font-size: 80%; font-style: italic;">' . $sender_inform . '</span><br />';
 $content .= $itemObj->plainMaintext();
@@ -62,7 +59,7 @@ require_once(XOOPS_PATH . '/vendor/tcpdf/tcpdf.php');
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
-$doc_title  = publisherConvertCharset($myts->undoHtmlSpecialChars($itemObj->title()));
+$doc_title  = publisherConvertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
 $docSubject = $myts->undoHtmlSpecialChars($categoryObj->name());
 
 $docKeywords = $myts->undoHtmlSpecialChars($itemObj->meta_keywords());

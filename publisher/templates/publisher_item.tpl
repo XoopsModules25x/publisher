@@ -8,11 +8,12 @@
         <small><{$item.who_when}> (<{$item.counter}> <{$smarty.const._MD_PUBLISHER_READS}>)</small>
     <{/if}>
     <div class="itemBody">
-        <!--
-            <{if $item.posterAvatar != 'blank.gif'}>
-            <img class="publisher_item_image" src="<{$xoops_url}>/uploads/<{$item.posterAvatar}>"  align="right" alt="<{$item.posterName}>" title="<{$item.posterName}>" />
-            <{/if}>
-        --><{if $pagenav}>
+
+            <{*<{if $item.posterAvatar != 'blank.gif'}>*}>
+            <{*<img class="publisher_item_image" src="<{$xoops_url}>/uploads/<{$item.posterAvatar}>"  align="right" alt="<{$item.posterName}>" title="<{$item.posterName}>" />*}>
+            <{*<{/if}>*}>
+
+        <{if $pagenav}>
         <div class="publisher_pagenav_top"><{$smarty.const._MD_PUBLISHER_PAGE}>: <{$pagenav}></div>
         <{/if}>
         <div class="itemText">
@@ -83,7 +84,7 @@
                 <span style="float: left;">&nbsp;</span>
             <{/if}> <{if $perm_author_items && $item.uid != 0}>
                 <span style="float: left; margin-left: 5px;">
-          <a href="<{$publisher_url}>/author_items.php?uid=<{$item.uid}>"><{$smarty.const._MD_PUBLISHER_ITEMS_SAME_AUTHOR}></a>
+          <a href="<{$moduleUrl}>/author_items.php?uid=<{$item.uid}>"><{$smarty.const._MD_PUBLISHER_ITEMS_SAME_AUTHOR}></a>
         </span>
             <{/if}>
             <span style="float: right; text-align: right;"><{$item.adminlink}></span>
@@ -113,13 +114,13 @@
         <tr>
             <td class="odd" align="left">
                 <{if $file.mod}>
-                    <a href="<{$publisher_url}>/file.php?op=mod&fileid=<{$file.fileid}>">
-                        <img src="<{$publisher_url}>/assets/images/links/edit.gif" title="<{$smarty.const._CO_PUBLISHER_EDITFILE}>" alt="<{$smarty.const._CO_PUBLISHER_EDITFILE}>"/></a>
-                    <a href="<{$publisher_url}>/file.php?op=del&fileid=<{$file.fileid}>">
-                        <img src="<{$publisher_url}>/assets/images/links/delete.png" title="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>" alt="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>"/></a>
+                    <a href="<{$moduleUrl}>/file.php?op=mod&fileid=<{$file.fileid}>">
+                        <img src="<{$moduleUrl}>/assets/images/links/edit.gif" title="<{$smarty.const._CO_PUBLISHER_EDITFILE}>" alt="<{$smarty.const._CO_PUBLISHER_EDITFILE}>"/></a>
+                    <a href="<{$moduleUrl}>/file.php?op=del&fileid=<{$file.fileid}>">
+                        <img src="<{$moduleUrl}>/assets/images/links/delete.png" title="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>" alt="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>"/></a>
                 <{/if}>
-                <a href="<{$publisher_url}>/visit.php?fileid=<{$file.fileid}>" target="_blank">
-                    <img src="<{$publisher_url}>/assets/images/links/file.gif" title="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>" alt="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>"/>&nbsp;<strong><{$file.name}></strong>
+                <a href="<{$moduleUrl}>/visit.php?fileid=<{$file.fileid}>" target="_blank">
+                    <img src="<{$moduleUrl}>/assets/images/links/file.gif" title="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>" alt="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>"/>&nbsp;<strong><{$file.name}></strong>
                 </a>
 
                 <div><{$file.description}></div>
@@ -132,7 +133,7 @@
     <br/>
 <{/if}>
 
-<{if $other_items == "previous_next"}><{if $previous_item_link || $next_item_link}>
+<{if $other_items == "previous_next"}><{if $previousItemLink || $nextItemLink}>
     <table class="outer">
     <tr>
         <td class="itemHead" colspan="2">
@@ -140,15 +141,15 @@
     </tr>
     <tr style="vertical-align: middle;">
         <td class="odd" width="50%" align="left">
-            <{if $previous_item_link}>
-                <a href="<{$previous_item_url}>">
-                    <img style="vertical-align: middle;" src="<{$publisher_images_url}>/links/previous.gif" title="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>" alt="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>"/>
+            <{if $previousItemLink}>
+                <a href="<{$previousItemUrl}>">
+                    <img style="vertical-align: middle;" src="<{$publisherImagesUrl}>/links/previous.gif" title="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>" alt="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>"/>
                 </a>
-                <{$previous_item_link}> <{/if}>
+                <{$previousItemLink}> <{/if}>
         </td>
         <td class="odd" width="50%" align="right">
-            <{if $next_item_link}> <{$next_item_link}>
-                <a href="<{$next_item_url}>"><img style="vertical-align: middle;" src="<{$publisher_images_url}>/links/next.gif" title="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>" alt="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>"/></a>
+            <{if $nextItemLink}> <{$nextItemLink}>
+                <a href="<{$nextItemUrl}>"><img style="vertical-align: middle;" src="<{$publisherImagesUrl}>/links/next.gif" title="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>" alt="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>"/></a>
             <{/if}>
         </td>
     </tr>

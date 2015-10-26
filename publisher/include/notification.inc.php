@@ -26,37 +26,37 @@ include_once __DIR__ . '/seo_functions.php';
 
 /**
  * @param $category
- * @param $item_id
+ * @param $itemId
  *
  * @return mixed
  */
-function publisher_notify_iteminfo($category, $item_id)
+function publisher_notify_iteminfo($category, $itemId)
 {
-    if ($category == 'global') {
+    if ($category === 'global') {
         $item['name'] = '';
         $item['url']  = '';
 
         return $item;
     }
 
-    if ($category == 'category') {
+    if ($category === 'category') {
         // Assume we have a valid category id
-        $sql          = 'SELECT name, short_url FROM ' . $GLOBALS['xoopsDB']->prefix('publisher_categories') . ' WHERE categoryid  = ' . $item_id;
+        $sql          = 'SELECT name, short_url FROM ' . $GLOBALS['xoopsDB']->prefix('publisher_categories') . ' WHERE categoryid  = ' . $itemId;
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
-        $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
-        $item['name'] = $result_array['name'];
-        $item['url']  = PublisherSeo::generateUrl('category', $item_id, $result_array['short_url']);
+        $resultArray = $GLOBALS['xoopsDB']->fetchArray($result);
+        $item['name'] = $resultArray['name'];
+        $item['url']  = PublisherSeo::generateUrl('category', $itemId, $resultArray['short_url']);
 
         return $item;
     }
 
-    if ($category == 'item') {
+    if ($category === 'item') {
         // Assume we have a valid story id
-        $sql          = 'SELECT title, short_url FROM ' . $GLOBALS['xoopsDB']->prefix('publisher_items') . ' WHERE itemid = ' . $item_id;
+        $sql          = 'SELECT title, short_url FROM ' . $GLOBALS['xoopsDB']->prefix('publisher_items') . ' WHERE itemid = ' . $itemId;
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
-        $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
-        $item['name'] = $result_array['title'];
-        $item['url']  = PublisherSeo::generateUrl('item', $item_id, $result_array['short_url']);
+        $resultArray = $GLOBALS['xoopsDB']->fetchArray($result);
+        $item['name'] = $resultArray['title'];
+        $item['url']  = PublisherSeo::generateUrl('item', $itemId, $resultArray['short_url']);
 
         return $item;
     }

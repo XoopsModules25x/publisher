@@ -39,15 +39,15 @@ xoops_load('XoopsRequest');
 xoops_load('XoopsFilterInput');
 
 $debug     = false;
-$publisher = PublisherPublisher::getInstance($debug);
+$publisher =& PublisherPublisher::getInstance($debug);
 
 //This is needed or it will not work in blocks.
-global $publisher_isAdmin;
+global $publisherIsAdmin;
 
 // Load only if module is installed
 if (is_object($publisher->getModule())) {
     // Find if the user is admin of the module
-    $publisher_isAdmin = publisherUserIsAdmin();
+    $publisherIsAdmin = publisherUserIsAdmin();
     // get current page
-    $publisher_current_page = publisherGetCurrentPage();
+    $publisherCurrentPage = publisherGetCurrentPage();
 }

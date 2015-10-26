@@ -10,7 +10,7 @@
 //   are "rewrite" & "path-info"
 
 /**
- * Create a title for the short_url field of an article
+ * Create a title for the shortUrl field of an article
  *
  * @credit psylove
  *
@@ -52,15 +52,15 @@ class PublisherSeo
 
         // Transformation des ponctuations
         //                 Tab     Space      !        "        #        %        &        '        (        )        ,        /        :        ;        <        =        >        ?        @        [        \        ]        ^        {        |        }        ~       .
-        $pattern = array("/%09/", "/%20/", "/%21/", "/%22/", "/%23/", "/%25/", "/%26/", "/%27/", "/%28/", "/%29/", "/%2C/", "/%2F/", "/%3A/", "/%3B/", "/%3C/", "/%3D/", "/%3E/", "/%3F/", "/%40/", "/%5B/", "/%5C/", "/%5D/", "/%5E/", "/%7B/", "/%7C/", "/%7D/", "/%7E/", "/\./");
-        $rep_pat = array("-", "-", "", "", "", "-100", "", "-", "", "", "", "-", "", "", "", "-", "", "", "-at-", "", "-", "", "-", "", "-", "", "-", "");
-        $title   = preg_replace($pattern, $rep_pat, $title);
+        $pattern = array('/%09/', '/%20/', '/%21/', '/%22/', '/%23/', '/%25/', '/%26/', '/%27/', '/%28/', '/%29/', '/%2C/', '/%2F/', '/%3A/', '/%3B/', '/%3C/', '/%3D/', '/%3E/', '/%3F/', '/%40/', '/%5B/', '/%5C/', '/%5D/', '/%5E/', '/%7B/', '/%7C/', '/%7D/', '/%7E/', "/\./");
+        $repPattern = array('-', '-', '', '', '', '-100', '', '-', '', '', '', '-', '', '', '', '-', '', '', '-at-', '', '-', '', '-', '', '-', '', '-', '');
+        $title   = preg_replace($pattern, $repPattern, $title);
 
         // Transformation des caractères accentués
         //                  è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
-        $pattern = array("/%B0/", "/%E8/", "/%E9/", "/%EA/", "/%EB/", "/%E7/", "/%E0/", "/%E2/", "/%E4/", "/%EE/", "/%EF/", "/%F9/", "/%FC/", "/%FB/", "/%F4/", "/%F6/");
-        $rep_pat = array("-", "e", "e", "e", "e", "c", "a", "a", "a", "i", "i", "u", "u", "u", "o", "o");
-        $title   = preg_replace($pattern, $rep_pat, $title);
+        $pattern = array('/%B0/', '/%E8/', '/%E9/', '/%EA/', '/%EB/', '/%E7/', '/%E0/', '/%E2/', '/%E4/', '/%EE/', '/%EF/', '/%F9/', '/%FC/', '/%FB/', '/%F4/', '/%F6/');
+        $repPattern = array('-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o');
+        $title   = preg_replace($pattern, $repPattern, $title);
 
         if (count($title) > 0) {
             if ($withExt) {
@@ -76,24 +76,24 @@ class PublisherSeo
     /**
      * @param        $op
      * @param        $id
-     * @param string $short_url
+     * @param string $shortUrl
      *
      * @return string
      */
-    public static function generateUrl($op, $id, $short_url = "")
+    public static function generateUrl($op, $id, $shortUrl = '')
     {
-        $publisher = PublisherPublisher::getInstance();
-        if ($publisher->getConfig('seo_url_rewrite') != 'none') {
-            if (!empty($short_url)) {
-                $short_url = $short_url . '.html';
+        $publisher =& PublisherPublisher::getInstance();
+        if ($publisher->getConfig('seo_url_rewrite') !== 'none') {
+            if (!empty($shortUrl)) {
+                $shortUrl .= '.html';
             }
 
-            if ($publisher->getConfig('seo_url_rewrite') == 'htaccess') {
+            if ($publisher->getConfig('seo_url_rewrite') === 'htaccess') {
                 // generate SEO url using htaccess
-                return XOOPS_URL . '/' . $publisher->getConfig('seo_module_name') . ".${op}.${id}/${short_url}";
-            } elseif ($publisher->getConfig('seo_url_rewrite') == 'path-info') {
+                return XOOPS_URL . '/' . $publisher->getConfig('seo_module_name') . ".${op}.${id}/${shortUrl}";
+            } elseif ($publisher->getConfig('seo_url_rewrite') === 'path-info') {
                 // generate SEO url using path-info
-                return PUBLISHER_URL . "/index.php/${op}.${id}/${short_url}";
+                return PUBLISHER_URL . "/index.php/${op}.${id}/${shortUrl}";
             } else {
                 exit('Unknown SEO method.');
             }

@@ -45,7 +45,7 @@ class PublisherMetagen
     /**
      * @var string
      */
-    public $original_title;
+    public $originalTitle;
 
     /**
      * @var string
@@ -76,7 +76,7 @@ class PublisherMetagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        $this->publisher = PublisherPublisher::getInstance();
+        $this->publisher =& PublisherPublisher::getInstance();
         $this->myts      = MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
         $this->setTitle($title);
@@ -93,7 +93,7 @@ class PublisherMetagen
     public function setTitle($title)
     {
         $this->title          = $this->html2text($title);
-        $this->original_title = $this->title;
+        $this->originalTitle = $this->title;
         $titleTag             = array();
         $titleTag['module']   = $this->publisher->getModule()->getVar('name');
         if (isset($this->title) && ($this->title != '') && (strtoupper($this->title) != strtoupper($titleTag['module']))) {
@@ -161,7 +161,7 @@ class PublisherMetagen
     {
         $description = $this->purifyText($this->description);
         $description = $this->html2text($description);
-        $words       = explode(" ", $description);
+        $words       = explode(' ', $description);
         $ret         = '';
         $i           = 1;
         $wordCount   = count($words);
@@ -187,7 +187,7 @@ class PublisherMetagen
         $keywords         = array();
         $text             = $this->purifyText($text);
         $text             = $this->html2text($text);
-        $originalKeywords = explode(" ", $text);
+        $originalKeywords = explode(' ', $text);
         foreach ($originalKeywords as $originalKeyword) {
             $secondRoundKeywords = explode("'", $originalKeyword);
             foreach ($secondRoundKeywords as $secondRoundKeyword) {
@@ -207,10 +207,10 @@ class PublisherMetagen
      */
     public function createMetaKeywords()
     {
-        $keywords       = $this->findMetaKeywords($this->original_title . " " . $this->description, $this->minChar);
+        $keywords       = $this->findMetaKeywords($this->originalTitle . ' ' . $this->description, $this->minChar);
         $moduleKeywords = $this->publisher->getConfig('seo_meta_keywords');
         if ($moduleKeywords != '') {
-            $moduleKeywords = explode(",", $moduleKeywords);
+            $moduleKeywords = explode(',', $moduleKeywords);
             $keywords       = array_merge($keywords, array_map('trim', $moduleKeywords));
         }
         $ret = implode(',', $keywords);
@@ -281,17 +281,17 @@ class PublisherMetagen
         $title = rawurlencode(strtolower($title));
         // Transformation des ponctuations
         //                 Tab     Space      !        "        #        %        &        '        (        )        ,        /        :        ;        <        =        >        ?        @        [        \        ]        ^        {        |        }        ~       .
-        $pattern = array("/%09/", "/%20/", "/%21/", "/%22/", "/%23/", "/%25/", "/%26/", "/%27/", "/%28/", "/%29/", "/%2C/", "/%2F/", "/%3A/", "/%3B/", "/%3C/", "/%3D/", "/%3E/", "/%3F/", "/%40/", "/%5B/", "/%5C/", "/%5D/", "/%5E/", "/%7B/", "/%7C/", "/%7D/", "/%7E/", "/\./");
-        $rep_pat = array("-", "-", "-", "-", "-", "-100", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-at-", "-", "-", "-", "-", "-", "-", "-", "-", "-");
-        $title   = preg_replace($pattern, $rep_pat, $title);
+        $pattern = array('/%09/', '/%20/', '/%21/', '/%22/', '/%23/', '/%25/', '/%26/', '/%27/', '/%28/', '/%29/', '/%2C/', '/%2F/', '/%3A/', '/%3B/', '/%3C/', '/%3D/', '/%3E/', '/%3F/', '/%40/', '/%5B/', '/%5C/', '/%5D/', '/%5E/', '/%7B/', '/%7C/', '/%7D/', '/%7E/', "/\./");
+        $repPat = array('-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-');
+        $title   = preg_replace($pattern, $repPat, $title);
         // Transformation des caractères accentués
         //                  °        è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
-        $pattern = array("/%B0/", "/%E8/", "/%E9/", "/%EA/", "/%EB/", "/%E7/", "/%E0/", "/%E2/", "/%E4/", "/%EE/", "/%EF/", "/%F9/", "/%FC/", "/%FB/", "/%F4/", "/%F6/");
-        $rep_pat = array("-", "e", "e", "e", "e", "c", "a", "a", "a", "i", "i", "u", "u", "u", "o", "o");
-        $title   = preg_replace($pattern, $rep_pat, $title);
-        $tableau = explode("-", $title); // Transforme la chaine de caractères en tableau
+        $pattern = array('/%B0/', '/%E8/', '/%E9/', '/%EA/', '/%EB/', '/%E7/', '/%E0/', '/%E2/', '/%E4/', '/%EE/', '/%EF/', '/%F9/', '/%FC/', '/%FB/', '/%F4/', '/%F6/');
+        $repPat = array('-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o');
+        $title   = preg_replace($pattern, $repPat, $title);
+        $tableau = explode('-', $title); // Transforme la chaine de caractères en tableau
         $tableau = array_filter($tableau, array('PublisherMetagen', 'emptyString')); // Supprime les chaines vides du tableau
-        $title   = implode("-", $tableau); // Transforme un tableau en chaine de caractères séparé par un tiret
+        $title   = implode('-', $tableau); // Transforme un tableau en chaine de caractères séparé par un tiret
         if (count($title) > 0) {
             if ($withExt) {
                 $title .= '.html';
@@ -311,26 +311,30 @@ class PublisherMetagen
      */
     public function purifyText($text, $keyword = false)
     {
-        $text = str_replace('&nbsp;', ' ', $text);
-        $text = str_replace('<br />', ' ', $text);
+        $text = str_replace(['&nbsp;', ' '], ['<br />', ' '], $text);
+        //        $text = str_replace('<br />', ' ', $text);
         $text = strip_tags($text);
         $text = html_entity_decode($text);
         $text = $this->myts->undoHtmlSpecialChars($text);
-        $text = str_replace(')', ' ', $text);
-        $text = str_replace('(', ' ', $text);
-        $text = str_replace(':', ' ', $text);
-        $text = str_replace('&euro', ' euro ', $text);
-        $text = str_replace('&hellip', '...', $text);
-        $text = str_replace('&rsquo', ' ', $text);
-        $text = str_replace('!', ' ', $text);
-        $text = str_replace('?', ' ', $text);
-        $text = str_replace('"', ' ', $text);
-        $text = str_replace('-', ' ', $text);
-        $text = str_replace('\n', ' ', $text);
+        //        $text = str_replace(')', ' ', $text);
+        //        $text = str_replace('(', ' ', $text);
+        //        $text = str_replace(':', ' ', $text);
+        //        $text = str_replace('&euro', ' euro ', $text);
+        //        $text = str_replace('&hellip', '...', $text);
+        //        $text = str_replace('&rsquo', ' ', $text);
+        //        $text = str_replace('!', ' ', $text);
+        //        $text = str_replace('?', ' ', $text);
+        //        $text = str_replace('"', ' ', $text);
+        //        $text = str_replace('-', ' ', $text);
+        //        $text = str_replace('\n', ' ', $text);
+
+        $text = str_replace([')','(',':','&euro','&hellip','&rsquo','!','?','"','-','\n'], [' ' , ' ',  ' ',  ' euro ',  '...',  ' ', ' ', ' ',  ' ', ' ',  ' '], $text);
+
         if ($keyword) {
-            $text = str_replace('.', ' ', $text);
-            $text = str_replace(',', ' ', $text);
-            $text = str_replace('\'', ' ', $text);
+//            $text = str_replace('.', ' ', $text);
+//            $text = str_replace(',', ' ', $text);
+//            $text = str_replace('\'', ' ', $text);
+            $text = str_replace(['.', ' '], [',', ' '], ['\'', ' '], $text);
         }
         $text = str_replace(';', ' ', $text);
 
@@ -367,15 +371,15 @@ class PublisherMetagen
         );
         // evaluate as php
         $replace = array(
-            "",
-            "",
-            "",
+            '',
+            '',
+            '',
             "\\1",
             "\"",
-            "&",
-            "<",
-            ">",
-            " ",
+            '&',
+            '<',
+            '>',
+            ' ',
             chr(161),
             chr(162),
             chr(163),

@@ -34,59 +34,59 @@ include_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_columns_show($options)
 {
     //    global $xoTheme;
-    $publisher = PublisherPublisher::getInstance();
+    $publisher =& PublisherPublisher::getInstance();
 
     //Column Settings
-    $opt_num_columns  = isset($options[0]) ? (int)($options[0]) : '2';
-    $sel_categories   = isset($options[1]) ? explode(',', $options[1]) : array();
-    $opt_cat_items    = (int)($options[2]);
-    $opt_cat_truncate = isset($options[3]) ? (int)($options[3]) : '0';
+    $optNumColumns  = isset($options[0]) ? (int)($options[0]) : '2';
+    $selCategories   = isset($options[1]) ? explode(',', $options[1]) : array();
+    $optCatItems    = (int)($options[2]);
+    $optCatTruncate = isset($options[3]) ? (int)($options[3]) : '0';
 
     $block                  = array();
     $block['lang_reads']    = _MB_PUBLISHER_READS;
     $block['lang_comments'] = _MB_PUBLISHER_COMMENTS;
     $block['lang_readmore'] = _MB_PUBLISHER_READMORE;
 
-    $sel_categories_obj = array();
+    $selCategoriesObj = array();
 
     //get permited categories only once
-    $categories_obj = $publisher->getHandler('category')->getCategories(0, 0, -1);
+    $categoriesObj =& $publisher->getHandler('category')->getCategories(0, 0, -1);
 
     //if not selected 'all', let's get the selected ones
-    if (!in_array(0, $sel_categories)) {
-        foreach ($categories_obj as $key => $value) {
-            if (in_array($key, $sel_categories)) {
-                $sel_categories_obj[$key] = $value;
+    if (!in_array(0, $selCategories)) {
+        foreach ($categoriesObj as $key => $value) {
+            if (in_array($key, $selCategories)) {
+                $selCategoriesObj[$key] = $value;
             }
         }
     } else {
-        $sel_categories_obj = $categories_obj;
+        $selCategoriesObj =& $categoriesObj;
     }
     unset($key, $value);
 
-    $ccount = count($sel_categories_obj);
+    $ccount = count($selCategoriesObj);
 
-    if ($ccount == 0) {
+    if ($ccount === 0) {
         return false;
     }
 
-    if ($ccount < $opt_num_columns) {
-        $opt_num_columns = $ccount;
+    if ($ccount < $optNumColumns) {
+        $optNumColumns = $ccount;
     }
 
     $k       = 0;
     $columns = array();
 
-    foreach ($sel_categories_obj as $categoryId => $mainitemCatObj) {
-        $categoryItemsObj = $publisher->getHandler('item')->getAllPublished($opt_cat_items, 0, $categoryId);
+    foreach ($selCategoriesObj as $categoryId => $mainitemCatObj) {
+        $categoryItemsObj =& $publisher->getHandler('item')->getAllPublished($optCatItems, 0, $categoryId);
         $scount           = count($categoryItemsObj);
         if ($scount > 0 && is_array($categoryItemsObj)) {
             reset($categoryItemsObj);
             //First Item
             list($itemid, $thisitem) = each($categoryItemsObj);
 
-            $mainitem['item_title']      = $thisitem->title();
-            $mainitem['item_cleantitle'] = strip_tags($thisitem->title());
+            $mainitem['item_title']      = $thisitem->getTitle();
+            $mainitem['item_cleantitle'] = strip_tags($thisitem->getTitle());
             $mainitem['item_link']       = $thisitem->itemid();
             $mainitem['itemurl']         = $thisitem->getItemUrl();
             $mainImage                   = $thisitem->getMainImage();
@@ -97,31 +97,30 @@ function publisher_items_columns_show($options)
                 $mainitem['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=100';
             }
 
-            $mainitem['item_summary'] = $thisitem->getBlockSummary($opt_cat_truncate);
+            $mainitem['item_summary'] = $thisitem->getBlockSummary($optCatTruncate);
 
             $mainitem['item_cat_name']        = $mainitemCatObj->name();
-            $mainitem['item_cat_description'] = $mainitemCatObj->description() != '' ? $mainitemCatObj->description() : $mainitemCatObj->name();
+            $mainitem['item_cat_description'] = $mainitemCatObj->description() !== '' ? $mainitemCatObj->description() : $mainitemCatObj->name();
             $mainitem['item_cat_link']        = $mainitemCatObj->getCategoryLink();
             $mainitem['categoryurl']          = $mainitemCatObj->getCategoryUrl();
 
             //The Rest
             if ($scount > 1) {
                 while ((list($itemid, $thisitem) = each($categoryItemsObj)) !== false) {
-                    $subitem['title']      = $thisitem->title();
-                    $subitem['cleantitle'] = strip_tags($thisitem->title());
+                    $subitem['title']      = $thisitem->getTitle();
+                    $subitem['cleantitle'] = strip_tags($thisitem->getTitle());
                     $subitem['link']       = $thisitem->getItemLink();
                     $subitem['itemurl']    = $thisitem->getItemUrl();
-                    $subitem['summary']    = $thisitem->getBlockSummary($opt_cat_truncate);
+                    $subitem['summary']    = $thisitem->getBlockSummary($optCatTruncate);
                     $mainitem['subitem'][] = $subitem;
                     unset($subitem);
                 }
             }
             $columns[$k][] = $mainitem;
-            unset($thisitem);
-            unset($mainitem);
+            unset($thisitem, $mainitem);
             ++$k;
 
-            if ($k == $opt_num_columns) {
+            if ($k == $optNumColumns) {
                 $k = 0;
             }
         }
@@ -130,7 +129,7 @@ function publisher_items_columns_show($options)
 
     $block['template']    = $options[4];
     $block['columns']     = $columns;
-    $block['columnwidth'] = (int)(100 / $opt_num_columns);
+    $block['columnwidth'] = (int)(100 / $optNumColumns);
 
     $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/assets/css/publisher.css');
 
@@ -156,7 +155,7 @@ function publisher_items_columns_edit($options)
                                 '2' => 2,
                                 '3' => 3,
                                 '4' => 4,
-                                '5' => 5,));
+                                '5' => 5));
     $catEle      = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisherCreateCategorySelect($options[1], 0, true, 'options[1]'));
     $cItemsEle   = new XoopsFormText(_MB_PUBLISHER_NUMBER_ITEMS_CAT, 'options[2]', 4, 255, $options[2]);
     $truncateEle = new XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[3]', 4, 255, $options[3]);

@@ -37,19 +37,19 @@ class PublisherFileForm extends XoopsThemeForm
      * @var PublisherPublisher
      * @access public
      */
-    public $publisher = null;
+    public $publisher;
 
-    public $targetObject = null;
+    public $targetObject;
 
     /**
      * @param $target
      */
     public function __construct(&$target)
     {
-        $this->publisher    = PublisherPublisher::getInstance();
-        $this->targetObject = $target;
+        $this->publisher    =& PublisherPublisher::getInstance();
+        $this->targetObject =& $target;
 
-        parent::__construct(_AM_PUBLISHER_UPLOAD_FILE, "form", xoops_getenv('PHP_SELF'));
+        parent::__construct(_AM_PUBLISHER_UPLOAD_FILE, 'form', xoops_getenv('PHP_SELF'));
         $this->setExtra('enctype="multipart/form-data"');
 
         $this->createElements();
@@ -59,25 +59,25 @@ class PublisherFileForm extends XoopsThemeForm
     public function createElements()
     {
         // NAME
-        $name_text = new XoopsFormText(_CO_PUBLISHER_FILENAME, 'name', 50, 255, $this->targetObject->name());
-        $name_text->setDescription(_CO_PUBLISHER_FILE_NAME_DSC);
-        $this->addElement($name_text, true);
+        $nameText = new XoopsFormText(_CO_PUBLISHER_FILENAME, 'name', 50, 255, $this->targetObject->name());
+        $nameText->setDescription(_CO_PUBLISHER_FILE_NAME_DSC);
+        $this->addElement($nameText, true);
 
         // DESCRIPTION
-        $description_text = new XoopsFormTextArea(_CO_PUBLISHER_FILE_DESCRIPTION, 'description', $this->targetObject->description());
-        $description_text->setDescription(_CO_PUBLISHER_FILE_DESCRIPTION_DSC);
-        $this->addElement($description_text);
+        $descriptionText = new XoopsFormTextArea(_CO_PUBLISHER_FILE_DESCRIPTION, 'description', $this->targetObject->description());
+        $descriptionText->setDescription(_CO_PUBLISHER_FILE_DESCRIPTION_DSC);
+        $this->addElement($descriptionText);
 
         // FILE TO UPLOAD
         //if (!$this->targetObject->fileid()) {
-        $file_box = new XoopsFormFile(_CO_PUBLISHER_FILE_TO_UPLOAD, "item_upload_file", 0);
-        $file_box->setExtra("size ='50'");
-        $this->addElement($file_box);
+        $fileBox = new XoopsFormFile(_CO_PUBLISHER_FILE_TO_UPLOAD, 'item_upload_file', 0);
+        $fileBox->setExtra("size ='50'");
+        $this->addElement($fileBox);
         //}
 
-        $status_select = new XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'file_status', PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE);
-        $status_select->setDescription(_CO_PUBLISHER_FILE_STATUS_DSC);
-        $this->addElement($status_select);
+        $statusSelect = new XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'file_status', PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE);
+        $statusSelect->setDescription(_CO_PUBLISHER_FILE_STATUS_DSC);
+        $this->addElement($statusSelect);
 
         // fileid
         $this->addElement(new XoopsFormHidden('fileid', $this->targetObject->fileid()));
@@ -88,31 +88,31 @@ class PublisherFileForm extends XoopsThemeForm
 
     public function createButtons()
     {
-        $files_button_tray = new XoopsFormElementTray('', '');
-        $files_hidden      = new XoopsFormHidden('op', 'uploadfile');
-        $files_button_tray->addElement($files_hidden);
+        $filesButtonTray = new XoopsFormElementTray('', '');
+        $filesHidden      = new XoopsFormHidden('op', 'uploadfile');
+        $filesButtonTray->addElement($filesHidden);
 
         if (!$this->targetObject->fileid()) {
-            $files_butt_create = new XoopsFormButton('', '', _MD_PUBLISHER_UPLOAD, 'submit');
-            $files_butt_create->setExtra('onclick="this.form.elements.op.value=\'uploadfile\'"');
-            $files_button_tray->addElement($files_butt_create);
+            $filesButtonCreate = new XoopsFormButton('', '', _MD_PUBLISHER_UPLOAD, 'submit');
+            $filesButtonCreate->setExtra('onclick="this.form.elements.op.value=\'uploadfile\'"');
+            $filesButtonTray->addElement($filesButtonCreate);
 
-            $files_butt_another = new XoopsFormButton('', '', _CO_PUBLISHER_FILE_UPLOAD_ANOTHER, 'submit');
-            $files_butt_another->setExtra('onclick="this.form.elements.op.value=\'uploadanother\'"');
-            $files_button_tray->addElement($files_butt_another);
+            $filesButtonAnother = new XoopsFormButton('', '', _CO_PUBLISHER_FILE_UPLOAD_ANOTHER, 'submit');
+            $filesButtonAnother->setExtra('onclick="this.form.elements.op.value=\'uploadanother\'"');
+            $filesButtonTray->addElement($filesButtonAnother);
         } else {
-            $files_butt_create = new XoopsFormButton('', '', _MD_PUBLISHER_MODIFY, 'submit');
-            $files_butt_create->setExtra('onclick="this.form.elements.op.value=\'modify\'"');
-            $files_button_tray->addElement($files_butt_create);
+            $filesButtonCreate = new XoopsFormButton('', '', _MD_PUBLISHER_MODIFY, 'submit');
+            $filesButtonCreate->setExtra('onclick="this.form.elements.op.value=\'modify\'"');
+            $filesButtonTray->addElement($filesButtonCreate);
         }
 
-        $files_butt_clear = new XoopsFormButton('', '', _MD_PUBLISHER_CLEAR, 'reset');
-        $files_button_tray->addElement($files_butt_clear);
+        $filesButtonClear = new XoopsFormButton('', '', _MD_PUBLISHER_CLEAR, 'reset');
+        $filesButtonTray->addElement($filesButtonClear);
 
-        $butt_cancel = new XoopsFormButton('', '', _MD_PUBLISHER_CANCEL, 'button');
-        $butt_cancel->setExtra('onclick="history.go(-1)"');
-        $files_button_tray->addElement($butt_cancel);
+        $buttonCancel = new XoopsFormButton('', '', _MD_PUBLISHER_CANCEL, 'button');
+        $buttonCancel->setExtra('onclick="history.go(-1)"');
+        $filesButtonTray->addElement($buttonCancel);
 
-        $this->addElement($files_button_tray);
+        $this->addElement($filesButtonTray);
     }
 }

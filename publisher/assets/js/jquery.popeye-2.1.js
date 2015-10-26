@@ -4,7 +4,7 @@
  * converts a HTML image list in image gallery with inline enlargement
  *
  * Copyright (C) 2008 - 2011 Christoph Schuessler (schreib@herr-schuessler.de)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -22,6 +22,7 @@
     //
     ////////////////////////////////////////////////////////////////////////////
     $.fn.popeye = function (options) {
+        'use strict';
 
         // build main options before element iteration
         //----------------------------------------------------------------------
@@ -36,10 +37,10 @@
         ////////////////////////////////////////////////////////////////////////////////
         function debug(text, type) {
             if (window.console && window.console.log && opts.debug) {
-                if (type == 'info' && window.console.info) {
+                if (type === 'info' && window.console.info) {
                     window.console.info(text);
                 }
-                else if (type == 'warn' && window.console.warn) {
+                else if (type === 'warn' && window.console.warn) {
                     window.console.warn(text);
                 }
                 else {
@@ -52,7 +53,7 @@
         //----------------------------------------------------------------------
         return this.each(function () {
 
-            // first thing to do: make ppy html visible           
+            // first thing to do: make ppy html visible
             $(this).addClass('ppy-active');
 
             // cache object
@@ -64,7 +65,7 @@
                 tot = img.length,
 
             // single image mode
-                singleImageMode = (tot == 1) ? true : false,
+                singleImageMode = (tot === 1) ,
 
             // flag for moueover check
                 ismouseover = false,
@@ -106,8 +107,8 @@
                     height: 'auto',
                     margin: 0,
                     top: 0,
-                    left: (opts.direction == 'right') ? 0 : 'auto',
-                    right: (opts.direction == 'left') ? 0 : 'auto'
+                    left: (opts.direction === 'right') ? 0 : 'auto',
+                    right: (opts.direction === 'left') ? 0 : 'auto'
                 },
                 cssStage = {
                     height: ppyStage.height(),
@@ -117,8 +118,8 @@
                     height: ppyCaption.height()
                 },
                 cssPlaceholder = {
-                    'height': (opts.caption == 'hover' || false) ? ppyOuter.outerHeight() : $self.outerHeight(),
-                    'width': (opts.caption == 'hover' || false) ? ppyOuter.outerWidth() : $self.outerWidth(),
+                    'height': (opts.caption === 'hover' || false) ? ppyOuter.outerHeight() : $self.outerHeight(),
+                    'width': (opts.caption === 'hover' || false) ? ppyOuter.outerWidth() : $self.outerWidth(),
                     'float': $self.css('float'),
                     'margin-top': $self.css('margin-top'),
                     'margin-right': $self.css('margin-right'),
@@ -126,7 +127,7 @@
                     'margin-left': $self.css('margin-left')
                 };
 
-            // make caption array from caption element or alt tag           
+            // make caption array from caption element or alt tag
             var cap = [];
             for (var i = 0; i < img.length; i++) {
                 var extcap = $self.find('.ppy-imglist li').eq(i).find('.ppy-extcaption');
@@ -142,7 +143,7 @@
             else if (tot === 0) {
                 debug('$.fn.popeye: No images found', 'warn');
             }
-            // no errors, setup done! 
+            // no errors, setup done!
             //------------------------------------------------------------------
             else {
                 singleImageMode ? debug('$.fn.popeye -> SingleImageMode started') : debug('$.fn.popeye -> ' + tot + ' thumbnails found.');
@@ -231,10 +232,10 @@
                                 $(this).fadeTo((opts.duration / 2), 1);
 
                                 // update counter and caption
-                                if (opts.caption == 'hover' && ismouseover) {
+                                if (opts.caption === 'hover' && ismouseover) {
                                     showCaption(cap[i]);
                                 }
-                                else if (opts.caption == 'permanent') {
+                                else if (opts.caption === 'permanent') {
                                     updateCaption(cap[i]);
                                 }
                                 updateCounter();
@@ -323,7 +324,7 @@
                         easing: opts.easing,
                         complete: function () {
 
-                            if (opts.navigation == 'hover' && ismouseover) {
+                            if (opts.navigation === 'hover' && ismouseover) {
                                 showNav();
                             }
 
@@ -626,7 +627,7 @@
                 }
 
                 // hover behaviour for caption
-                if (opts.caption == 'hover') {
+                if (opts.caption === 'hover') {
                     hideCaption();
                     $self.hover(
                         function () {
@@ -671,6 +672,7 @@
                     ppyPlay.addClass('ppy-hidden');
 
                     // initiate Slideshow
+                    var slideshow;
                     slideshow = window.setInterval(function () {
                         next();
                     }, opts.slidespeed);
@@ -727,7 +729,7 @@
         slidespeed: 2000,               //timespan that one image is shown in a slideshow
         autoslide: false,              //should the slideshow start automatically?
 
-        debug: false               //turn on console output (slows down IE8!)
+        debug: false
 
     };
 

@@ -16,7 +16,7 @@
  *              secure transmission
  */
 function setCookie(name, value, expires, path, domain, secure) {
-    document.cookie = name + "=" + escape(value) +
+    document.cookie = name + "=" + encodeURIComponent(value) +
         ((expires) ? "; expires=" + expires.toGMTString() : "") +
         ((path) ? "; path=" + path : "") +
         ((domain) ? "; domain=" + domain : "") +
@@ -46,7 +46,7 @@ function getCookie(name) {
     if (end == -1) {
         end = dc.length;
     }
-    return unescape(dc.substring(begin + prefix.length, end));
+    return decodeURIComponent(dc.substring(begin + prefix.length, end));
 }
 
 /**

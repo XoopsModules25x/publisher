@@ -72,9 +72,9 @@
  * }
  * </code>
  *
- * @package    kernel
- * @subpackage core
- * @author     Kazumi Ono <onokazu@xoops.org>
+ * @package        kernel
+ * @subpackage     core
+ * @author         Kazumi Ono <onokazu@xoops.org>
  * @copyright  (c) 2000-2003 The Xoops Project - www.xoops.org
  */
 mt_srand((double)microtime() * 1000000);
@@ -104,7 +104,7 @@ class XoopsMediaUploader
     /**
      * No admin check for uploads
      */
-    public $noadmin_sizecheck;
+    private $noAdminSizeCheck;
 
     /**
      * Constructor
@@ -133,42 +133,42 @@ class XoopsMediaUploader
     /**
      * @param $value
      */
-    public function noAdminSizeCheck($value)
+    public function setNoAdminSizeCheck($value)
     {
-        $this->noadmin_sizecheck = $value;
+        $this->noAdminSizeCheck = $value;
     }
 
     /**
      * Fetch the uploaded file
      *
-     * @param string $media_name Name of the file field
+     * @param string $mediaName Name of the file field
      * @param int    $index      Index of the file (if more than one uploaded under that name)
      *
      * @global       $HTTP_POST_FILES
      * @return bool
      */
-    public function fetchMedia($media_name, $index = null)
+    public function fetchMedia($mediaName, $index = null)
     {
         global $_FILES;
-        if (!isset($_FILES[$media_name])) {
+        if (!isset($_FILES[$mediaName])) {
             $this->setErrors('You either did not choose a file to upload or the server has insufficient read/writes to upload this file.!');
 
             return false;
-        } elseif (is_array($_FILES[$media_name]['name']) && isset($index)) {
+        } elseif (isset($index) && is_array($_FILES[$mediaName]['name'])) {
             $index              = (int)($index);
-            $this->mediaName    = (get_magic_quotes_gpc()) ? stripslashes($_FILES[$media_name]['name'][$index]) : $_FILES[$media_name]['name'][$index];
-            $this->mediaType    = $_FILES[$media_name]['type'][$index];
-            $this->mediaSize    = $_FILES[$media_name]['size'][$index];
-            $this->mediaTmpName = $_FILES[$media_name]['tmp_name'][$index];
-            $this->mediaError   = !empty($_FILES[$media_name]['error'][$index]) ? $_FILES[$media_name]['errir'][$index] : 0;
+            $this->mediaName    = $_FILES[$mediaName]['name'][$index];
+            $this->mediaType    = $_FILES[$mediaName]['type'][$index];
+            $this->mediaSize    = $_FILES[$mediaName]['size'][$index];
+            $this->mediaTmpName = $_FILES[$mediaName]['tmp_name'][$index];
+            $this->mediaError   = !empty($_FILES[$mediaName]['error'][$index]) ? $_FILES[$mediaName]['errir'][$index] : 0;
         } else {
-            $media_name         = @$_FILES[$media_name];
-            $this->mediaName    = (get_magic_quotes_gpc()) ? stripslashes($media_name['name']) : $media_name['name'];
-            $this->mediaName    = $media_name['name'];
-            $this->mediaType    = $media_name['type'];
-            $this->mediaSize    = $media_name['size'];
-            $this->mediaTmpName = $media_name['tmp_name'];
-            $this->mediaError   = !empty($media_name['error']) ? $media_name['error'] : 0;
+            $mediaName         = @$_FILES[$mediaName];
+            $this->mediaName    = $mediaName['name'];
+            $this->mediaName    = $mediaName['name'];
+            $this->mediaType    = $mediaName['type'];
+            $this->mediaSize    = $mediaName['size'];
+            $this->mediaTmpName = $mediaName['tmp_name'];
+            $this->mediaError   = !empty($mediaName['error']) ? $mediaName['error'] : 0;
         }
         $this->dimension = getimagesize($this->mediaTmpName);
         $this->errors    = array();
@@ -177,12 +177,12 @@ class XoopsMediaUploader
 
             return false;
         }
-        if ($this->mediaName == '') {
+        if ('' === $this->mediaName) {
             $this->setErrors('Filename Is Empty');
 
             return false;
         }
-        if ($this->mediaTmpName == 'none') {
+        if ('none' === $this->mediaTmpName) {
             $this->setErrors('No file uploaded, this is a error');
 
             return false;
@@ -333,7 +333,7 @@ class XoopsMediaUploader
         if (!is_dir($this->uploadDir)) {
             $this->setErrors('Failed opening directory: ' . $this->uploadDir);
         }
-        if (!is_writeable($this->uploadDir)) {
+        if (!is_writable($this->uploadDir)) {
             $this->setErrors('Failed opening directory with write permission: ' . $this->uploadDir);
         }
         if (!$this->checkMaxFileSize()) {
@@ -350,7 +350,7 @@ class XoopsMediaUploader
         if (!$this->checkMimeType()) {
             $this->setErrors('MIME type not allowed: ' . $this->mediaType);
         }
-        if (!$this->_copyFile($chmod)) {
+        if (!$this->copyFile($chmod)) {
             $this->setErrors('Failed uploading file: ' . $this->mediaName);
         }
         if (count($this->errors) > 0) {
@@ -367,7 +367,7 @@ class XoopsMediaUploader
      *
      * @return bool
      */
-    public function _copyFile($chmod)
+    public function copyFile($chmod)
     {
         $matched = array();
         if (!preg_match("/\.([a-zA-Z0-9]+)$/", $this->mediaName, $matched)) {
@@ -376,7 +376,7 @@ class XoopsMediaUploader
         if (isset($this->targetFileName)) {
             $this->savedFileName = $this->targetFileName;
         } elseif (isset($this->prefix)) {
-            $this->savedFileName = uniqid($this->prefix) . '.' . strtolower($matched[1]);
+            $this->savedFileName = uniqid($this->prefix, true) . '.' . strtolower($matched[1]);
         } else {
             $this->savedFileName = strtolower($this->mediaName);
         }
@@ -402,7 +402,7 @@ class XoopsMediaUploader
      */
     public function checkMaxFileSize()
     {
-        if ($this->noadmin_sizecheck) {
+        if ($this->noAdminSizeCheck) {
             return true;
         }
         if ($this->mediaSize > $this->maxFileSize) {

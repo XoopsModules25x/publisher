@@ -32,8 +32,8 @@ include_once dirname(__DIR__) . '/include/common.php';
 function publisher_search_show($options)
 {
     $block      = array();
-    $publisher  = PublisherPublisher::getInstance();
-    $categories = $publisher->getHandler('category')->getCategoriesForSearch();
+    $publisher  =& PublisherPublisher::getInstance();
+    $categories =& $publisher->getHandler('category')->getCategoriesForSearch();
     if (count($categories) == 0) {
         return $block;
     }
@@ -48,125 +48,125 @@ function publisher_search_show($options)
     $searchin = XoopsRequest::getArray('searchin', '', 'POST');
     if (!isset($searchin)) {
         $searchin = XoopsRequest::getString('searchin', array(), 'GET');
-        $searchin = isset($searchin) ? explode("|", $searchin) : array();
+        $searchin = isset($searchin) ? explode('|', $searchin) : array();
     }
 
     $sortby = XoopsRequest::getString('sortby', XoopsRequest::getString('sortby', null, 'GET'), 'POST');
     $term   = XoopsRequest::getString('term', XoopsRequest::getString('term', '', 'GET'));
 
     //mb TODO simplify next lines with category
-    $category = XoopsRequest::getArray('category', array(), 'POST') ? XoopsRequest::getArray('category', array(), 'POST') : (XoopsRequest::getArray('category', null, 'GET'));
-    if (empty($category) || (is_array($category) && in_array("all", $category))) {
+    $category = XoopsRequest::getArray('category', array(), 'POST') ?: (XoopsRequest::getArray('category', null, 'GET'));
+    if (empty($category) || (is_array($category) && in_array('all', $category))) {
         $category = array();
     } else {
-        $category = (!is_array($category)) ? explode(",", $category) : $category;
-        $category = array_map("intval", $category);
+        $category = (!is_array($category)) ? explode(',', $category) : $category;
+        $category = array_map('intval', $category);
     }
 
-    $andor  = (in_array(strtoupper($andor), array("OR", "AND", "EXACT"))) ? strtoupper($andor) : "OR";
-    $sortby = (in_array(strtolower($sortby), array("itemid", "datesub", "title", "categoryid"))) ? strtolower($sortby) : "itemid";
+    $andor  = (in_array(strtoupper($andor), array('OR', 'AND', 'EXACT'))) ? strtoupper($andor) : 'OR';
+    $sortby = (in_array(strtolower($sortby), array('itemid', 'datesub', 'title', 'categoryid'))) ? strtolower($sortby) : 'itemid';
 
     /* type */
-    $type_select = "<select name=\"andor\">";
-    $type_select .= "<option value=\"OR\"";
-    if ("OR" == $andor) {
-        $type_select .= " selected=\"selected\"";
+    $typeSelect = "<select name=\"andor\">";
+    $typeSelect .= "<option value=\"OR\"";
+    if ('OR' === $andor) {
+        $typeSelect .= " selected=\"selected\"";
     }
-    $type_select .= ">" . _SR_ANY . "</option>";
-    $type_select .= "<option value=\"AND\"";
-    if ("AND" == $andor) {
-        $type_select .= " selected=\"selected\"";
+    $typeSelect .= '>' . _SR_ANY . '</option>';
+    $typeSelect .= "<option value=\"AND\"";
+    if ('AND' === $andor) {
+        $typeSelect .= " selected=\"selected\"";
     }
-    $type_select .= ">" . _SR_ALL . "</option>";
-    $type_select .= "<option value=\"EXACT\"";
-    if ("exact" == $andor) {
-        $type_select .= " selected=\"selected\"";
+    $typeSelect .= '>' . _SR_ALL . '</option>';
+    $typeSelect .= "<option value=\"EXACT\"";
+    if ('exact' === $andor) {
+        $typeSelect .= " selected=\"selected\"";
     }
-    $type_select .= ">" . _SR_EXACT . "</option>";
-    $type_select .= "</select>";
+    $typeSelect .= '>' . _SR_EXACT . '</option>';
+    $typeSelect .= '</select>';
 
     /* category */
 
-    $select_category = "<select name=\"category[]\" size=\"5\" multiple=\"multiple\" width=\"150\" style=\"width:150px;\">";
-    $select_category .= "<option value=\"all\"";
+    $categorySelect = "<select name=\"category[]\" size=\"5\" multiple=\"multiple\" width=\"150\" style=\"width:150px;\">";
+    $categorySelect .= "<option value=\"all\"";
     if (empty($category) || count($category) == 0) {
-        $select_category .= "selected=\"selected\"";
+        $categorySelect .= "selected=\"selected\"";
     }
-    $select_category .= ">" . _ALL . "</option>";
+    $categorySelect .= '>' . _ALL . '</option>';
     foreach ($categories as $id => $cat) {
-        $select_category .= "<option value=\"" . $id . "\"";
+        $categorySelect .= "<option value=\"" . $id . "\"";
         if (in_array($id, $category)) {
-            $select_category .= "selected=\"selected\"";
+            $categorySelect .= "selected=\"selected\"";
         }
-        $select_category .= ">" . $cat . "</option>";
+        $categorySelect .= '>' . $cat . '</option>';
     }
     unset($id, $cat);
-    $select_category .= "</select>";
+    $categorySelect .= '</select>';
 
     /* scope */
-    $searchin_select = "";
-    $searchin_select .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"title\"";
-    if (is_array($searchin) && in_array("title", $searchin)) {
-        $searchin_select .= " checked";
+    $searchSelect = '';
+    $searchSelect .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"title\"";
+    if (is_array($searchin) && in_array('title', $searchin)) {
+        $searchSelect .= ' checked';
     }
-    $searchin_select .= " />" . _CO_PUBLISHER_TITLE . "&nbsp;&nbsp;";
-    $searchin_select .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"subtitle\"";
-    if (is_array($searchin) && in_array("subtitle", $searchin)) {
-        $searchin_select .= " checked";
+    $searchSelect .= ' />' . _CO_PUBLISHER_TITLE . '&nbsp;&nbsp;';
+    $searchSelect .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"subtitle\"";
+    if (is_array($searchin) && in_array('subtitle', $searchin)) {
+        $searchSelect .= ' checked';
     }
-    $searchin_select .= " />" . _CO_PUBLISHER_SUBTITLE . "&nbsp;&nbsp;";
-    $searchin_select .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"summary\"";
-    if (is_array($searchin) && in_array("summary", $searchin)) {
-        $searchin_select .= " checked";
+    $searchSelect .= ' />' . _CO_PUBLISHER_SUBTITLE . '&nbsp;&nbsp;';
+    $searchSelect .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"summary\"";
+    if (is_array($searchin) && in_array('summary', $searchin)) {
+        $searchSelect .= ' checked';
     }
-    $searchin_select .= " />" . _CO_PUBLISHER_SUMMARY . "&nbsp;&nbsp;";
-    $searchin_select .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"text\"";
-    if (is_array($searchin) && in_array("body", $searchin)) {
-        $searchin_select .= " checked";
+    $searchSelect .= ' />' . _CO_PUBLISHER_SUMMARY . '&nbsp;&nbsp;';
+    $searchSelect .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"text\"";
+    if (is_array($searchin) && in_array('body', $searchin)) {
+        $searchSelect .= ' checked';
     }
-    $searchin_select .= " />" . _CO_PUBLISHER_BODY . "&nbsp;&nbsp;";
-    $searchin_select .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"keywords\"";
-    if (is_array($searchin) && in_array("meta_keywords", $searchin)) {
-        $searchin_select .= " checked";
+    $searchSelect .= ' />' . _CO_PUBLISHER_BODY . '&nbsp;&nbsp;';
+    $searchSelect .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"keywords\"";
+    if (is_array($searchin) && in_array('meta_keywords', $searchin)) {
+        $searchSelect .= ' checked';
     }
-    $searchin_select .= " />" . _CO_PUBLISHER_ITEM_META_KEYWORDS . "&nbsp;&nbsp;";
-    $searchin_select .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"all\"";
-    if ((is_array($searchin) && in_array("all", $searchin)) || empty($searchin)) {
-        $searchin_select .= " checked";
+    $searchSelect .= ' />' . _CO_PUBLISHER_ITEM_META_KEYWORDS . '&nbsp;&nbsp;';
+    $searchSelect .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"all\"";
+    if (empty($searchin) || (is_array($searchin) && in_array('all', $searchin))) {
+        $searchSelect .= ' checked';
     }
-    $searchin_select .= " />" . _ALL . "&nbsp;&nbsp;";
+    $searchSelect .= ' />' . _ALL . '&nbsp;&nbsp;';
 
     /* sortby */
-    $sortby_select = "<select name=\"sortby\">";
-    $sortby_select .= "<option value=\"itemid\"";
-    if ("itemid" == $sortby || empty($sortby)) {
-        $sortby_select .= " selected=\"selected\"";
+    $sortbySelect = "<select name=\"sortby\">";
+    $sortbySelect .= "<option value=\"itemid\"";
+    if ('itemid' === $sortby || empty($sortby)) {
+        $sortbySelect .= " selected=\"selected\"";
     }
-    $sortby_select .= ">" . _NONE . "</option>";
-    $sortby_select .= "<option value=\"datesub\"";
-    if ("datesub" == $sortby) {
-        $sortby_select .= " selected=\"selected\"";
+    $sortbySelect .= '>' . _NONE . '</option>';
+    $sortbySelect .= "<option value=\"datesub\"";
+    if ('datesub' === $sortby) {
+        $sortbySelect .= " selected=\"selected\"";
     }
-    $sortby_select .= ">" . _CO_PUBLISHER_DATESUB . "</option>";
-    $sortby_select .= "<option value=\"title\"";
-    if ("title" == $sortby) {
-        $sortby_select .= " selected=\"selected\"";
+    $sortbySelect .= '>' . _CO_PUBLISHER_DATESUB . '</option>';
+    $sortbySelect .= "<option value=\"title\"";
+    if ('title' === $sortby) {
+        $sortbySelect .= " selected=\"selected\"";
     }
-    $sortby_select .= ">" . _CO_PUBLISHER_TITLE . "</option>";
-    $sortby_select .= "<option value=\"categoryid\"";
-    if ("categoryid" == $sortby) {
-        $sortby_select .= " selected=\"selected\"";
+    $sortbySelect .= '>' . _CO_PUBLISHER_TITLE . '</option>';
+    $sortbySelect .= "<option value=\"categoryid\"";
+    if ('categoryid' === $sortby) {
+        $sortbySelect .= " selected=\"selected\"";
     }
-    $sortby_select .= ">" . _CO_PUBLISHER_CATEGORY . "</option>";
-    $sortby_select .= "</select>";
+    $sortbySelect .= '>' . _CO_PUBLISHER_CATEGORY . '</option>';
+    $sortbySelect .= '</select>';
 
-    $block["type_select"]     = $type_select;
-    $block["searchin_select"] = $searchin_select;
-    $block["category_select"] = $select_category;
-    $block["sortby_select"]   = $sortby_select;
-    $block["search_term"]     = $term;
-    $block["search_user"]     = $username;
-    $block["publisher_url"]   = PUBLISHER_URL;
+    $block['typeSelect']     = $typeSelect;
+    $block['searchSelect'] = $searchSelect;
+    $block['categorySelect'] = $categorySelect;
+    $block['sortbySelect']   = $sortbySelect;
+    $block['search_term']     = $term;
+    $block['search_user']     = $username;
+    $block['moduleUrl']   = PUBLISHER_URL;
 
     return $block;
 }

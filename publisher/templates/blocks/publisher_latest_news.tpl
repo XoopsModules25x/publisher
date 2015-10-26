@@ -90,10 +90,10 @@
             $('ul.pub_slideshow1 li:first').css({opacity: 1.0});
 
             //Get the caption of the first image from REL attribute and display it
-            $('#pub_slideshow1-caption h3').html($('ul.pub_slideshow1 a:first').find('img').attr('title'));
+            $('#pub_slideshow1-caption h3').tpl($('ul.pub_slideshow1 a:first').find('img').attr('title'));
 //        $('#pub_slideshow1-caption').find('h3').html($('ul.pub_slideshow1 a:first').find('img').attr('title')); //suggested by PhpStorm
 
-            $('#pub_slideshow1-caption p').html($('ul.pub_slideshow1 a:first').find('img').attr('alt'));
+            $('#pub_slideshow1-caption p').tpl($('ul.pub_slideshow1 a:first').find('img').attr('alt'));
 
             //Display the caption
             $('#pub_slideshow1-caption').css({opacity: 0.7, bottom: 0});
@@ -132,8 +132,8 @@
             //Hide the caption first, and then set and display the caption
             $('#pub_slideshow1-caption').animate({bottom: -70}, 300, function () {
                 //Display the content
-                $('#pub_slideshow1-caption h3').html(title);
-                $('#pub_slideshow1-caption p').html(desc);
+                $('#pub_slideshow1-caption h3')._createTrPlaceholder(title);
+                $('#pub_slideshow1-caption p').tpl(desc);
                 $('#pub_slideshow1-caption').animate({bottom: 0}, 500);
             });
 

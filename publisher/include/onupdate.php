@@ -27,10 +27,10 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
     if ($oldversion < 102) {
         // delete old html template files
         $templateDirectory = $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/templates/');
-        $template_list     = array_diff(scandir($templateDirectory), array('..', '.'));
-        foreach ($template_list as $k => $v) {
-            $fileinfo = new SplFileInfo($templateDirectory . $v);
-            if ($fileinfo->getExtension() == 'html' && $fileinfo->getFilename() != 'index.html') {
+        $templateList     = array_diff(scandir($templateDirectory), array('..', '.'));
+        foreach ($templateList as $k => $v) {
+            $fileInfo = new SplFileInfo($templateDirectory . $v);
+            if ($fileInfo->getExtension() === 'html' && $fileInfo->getFilename() !== 'index.html') {
                 if (file_exists($templateDirectory . $v)) {
                     unlink($templateDirectory . $v);
                 }
@@ -38,10 +38,10 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
         }
         // delete old block html template files
         $templateDirectory = $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/templates/blocks/');
-        $template_list     = array_diff(scandir($templateDirectory), array('..', '.'));
-        foreach ($template_list as $k => $v) {
-            $fileinfo = new SplFileInfo($templateDirectory . $v);
-            if ($fileinfo->getExtension() == 'html' && $fileinfo->getFilename() != 'index.html') {
+        $templateList     = array_diff(scandir($templateDirectory), array('..', '.'));
+        foreach ($templateList as $k => $v) {
+            $fileInfo = new SplFileInfo($templateDirectory . $v);
+            if ($fileInfo->getExtension() === 'html' && $fileInfo->getFilename() !== 'index.html') {
                 if (file_exists($templateDirectory . $v)) {
                     unlink($templateDirectory . $v);
                 }
@@ -71,7 +71,7 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
         //       $folderHandler->delete($cssFile);
     }
 
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gpermHandler =& xoops_getHandler('groupperm');
 
-    return $gperm_handler->deleteByModule($module->getVar('mid'), 'item_read');
+    return $gpermHandler->deleteByModule($module->getVar('mid'), 'item_read');
 }

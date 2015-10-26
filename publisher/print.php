@@ -26,33 +26,33 @@ require_once $GLOBALS['xoops']->path('class/template.php');
 $itemid = XoopsRequest::getInt('itemid', 0, 'GET');
 
 if ($itemid == 0) {
-    redirect_header("javascript:history.go(-1)", 1, _MD_PUBLISHER_NOITEMSELECTED);
-//    exit();
+    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
+    //    exit();
 }
 
 // Creating the ITEM object for the selected ITEM
-$itemObj = $publisher->getHandler('item')->get($itemid);
+$itemObj =& $publisher->getHandler('item')->get($itemid);
 
 // if the selected ITEM was not found, exit
 if ($itemObj->notLoaded()) {
-    redirect_header("javascript:history.go(-1)", 1, _MD_PUBLISHER_NOITEMSELECTED);
-//    exit();
+    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
+    //    exit();
 }
 
 // Check user permissions to access that category of the selected ITEM
 if (!$itemObj->accessGranted()) {
-    redirect_header("javascript:history.go(-1)", 1, _NOPERM);
-//    exit;
+    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    //    exit;
 }
 
 // Creating the category object that holds the selected ITEM
-$categoryObj = $itemObj->category();
+$categoryObj = $itemObj->getCategory();
 
 $xoopsTpl = new XoopsTpl();
 $myts     = MyTextSanitizer::getInstance();
 
-$item['title']        = $itemObj->title();
-$item['body']         = $itemObj->body();
+$item['title']        = $itemObj->getTitle();
+$item['body']         = $itemObj->getBody();
 $item['categoryname'] = $myts->displayTarea($categoryObj->name());
 
 $mainImage = $itemObj->getMainImage();
@@ -60,11 +60,11 @@ if ($mainImage['image_path'] != '') {
     $item['image'] = '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"/>';
 }
 $xoopsTpl->assign('item', $item);
-$xoopsTpl->assign('printtitle', $GLOBALS['xoopsConfig']['sitename'] . " - " . publisherHtml2text($categoryObj->getCategoryPath()) . " > " . $myts->displayTarea($itemObj->title()));
+$xoopsTpl->assign('printtitle', $GLOBALS['xoopsConfig']['sitename'] . ' - ' . publisherHtml2text($categoryObj->getCategoryPath()) . ' > ' . $myts->displayTarea($itemObj->getTitle()));
 $xoopsTpl->assign('printlogourl', $publisher->getConfig('print_logourl'));
 $xoopsTpl->assign('printheader', $myts->displayTarea($publisher->getConfig('print_header'), 1));
 $xoopsTpl->assign('lang_category', _CO_PUBLISHER_CATEGORY);
-$xoopsTpl->assign('lang_author_date', sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemObj->datesub()));
+$xoopsTpl->assign('lang_author_date', sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemObj->getDatesub()));
 
 $doNotStartPrint = false;
 $noTitle         = false;
@@ -76,10 +76,10 @@ $xoopsTpl->assign('noTitle', $noTitle);
 $xoopsTpl->assign('smartPopup', $smartPopup);
 $xoopsTpl->assign('current_language', $GLOBALS['xoopsConfig']['language']);
 
-if ($publisher->getConfig('print_footer') == 'item footer' || $publisher->getConfig('print_footer') == 'both') {
+if ($publisher->getConfig('print_footer') === 'item footer' || $publisher->getConfig('print_footer') === 'both') {
     $xoopsTpl->assign('itemfooter', $myts->displayTarea($publisher->getConfig('item_footer'), 1));
 }
-if ($publisher->getConfig('print_footer') == 'index footer' || $publisher->getConfig('print_footer') == 'both') {
+if ($publisher->getConfig('print_footer') === 'index footer' || $publisher->getConfig('print_footer') === 'both') {
     $xoopsTpl->assign('indexfooter', $myts->displayTarea($publisher->getConfig('index_footer'), 1));
 }
 

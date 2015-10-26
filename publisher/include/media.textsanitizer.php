@@ -10,24 +10,27 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Include
- * @since           1.0
- * @author          trabis <lusopoemas@gmail.com>
+ * @copyright         The XUUPS Project http://sourceforge.net/projects/xuups/
+ * @license           http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @package           Publisher
+ * @subpackage        Include
+ * @since             1.0
+ * @author            trabis <lusopoemas@gmail.com>
  * @author            Taiwen Jiang (phppp or D.J.) <php_pp@hotmail.com>
- * @version         $Id: media.textsanitizer.php 10374 2012-12-12 23:39:48Z trabis $
+ * @version           $Id: media.textsanitizer.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-define("MYTEXTSANITIZER_EXTENDED_MEDIA", 1);
+define('MYTEXTSANITIZER_EXTENDED_MEDIA', 1);
 
 /**
  * Class MyTextSanitizerExtension
  */
 class MyTextSanitizerExtension
 {
-    public function MyTextSanitizerExtension()
+    /**
+     * MyTextSanitizerExtension constructor.
+     */
+    public function __construct()
     {
     }
 
@@ -66,7 +69,7 @@ class MyTextSanitizerExtension
      *
      * @return string
      */
-    public function _displayFlash($url, $width = false, $height = false)
+    public function displayFlash($url, $width = false, $height = false)
     {
         if (!$width || !$height) {
             if (!$dimension = @getimagesize($url)) {
@@ -87,7 +90,7 @@ class MyTextSanitizerExtension
         $rp .= "<PARAM NAME='bgcolor' VALUE='#FFFFFF'>";
         $rp .= "<param name='wmode' value='transparent'>";
         $rp .= "<embed src='{$url}' width='{$width}' height='{$height}' quality='high' bgcolor='#FFFFFF' wmode='transparent'  pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash'></embed>";
-        $rp .= "</object>";
+        $rp .= '</object>';
 
         return $rp;
     }
@@ -99,7 +102,7 @@ class MyTextSanitizerExtension
     public function flash(&$patterns, &$replacements)
     {
         $patterns[]     = "/\[(swf|flash)=(['\"]?)([^\"']*),([^\"']*)\\2]([^\"]*)\[\/\\1\]/esU";
-        $replacements[] = "MyTextSanitizerExtension::_displayFlash( '\\5', '\\3', '\\4' )";
+        $replacements[] = "MyTextSanitizerExtension::displayFlash( '\\5', '\\3', '\\4' )";
     }
 
     /**
@@ -135,7 +138,7 @@ class MyTextSanitizerExtension
         $rp .= "<PARAM NAME=\"enableErrorDialogs\" VALUE=\"0\">";
         $rp .= "<PARAM NAME=\"_cx\" VALUE=\"12700\">";
         $rp .= "<PARAM NAME=\"_cy\" VALUE=\"8731\">";
-        $rp .= "</OBJECT>";
+        $rp .= '</OBJECT>';
         $replacements[] = $rp;
     }
 
@@ -162,7 +165,7 @@ class MyTextSanitizerExtension
         $rp .= "<param NAME=\"BACKGROUNDCOLOR\" VALUE=\"#000000\">";
         $rp .= "<param NAME=\"SRC\" VALUE=\"\\4\">";
         $rp .= "<embed autostart=\"0\" src=\"\\4\" type=\"audio/x-pn-realaudio-plugin\" HEIGHT='\\3' WIDTH='\\2' controls=\"ImageWindow\" console=\"cons\"> </embed>";
-        $rp .= "</object>";
+        $rp .= '</object>';
         $rp .= "<br /><object CLASSID=clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA HEIGHT=32 ID=Player WIDTH='\\2' VIEWASTEXT>";
         $rp .= "<param NAME=\"_ExtentX\" VALUE=\"18256\">";
         $rp .= "<param NAME=\"_ExtentY\" VALUE=\"794\">";
@@ -179,7 +182,7 @@ class MyTextSanitizerExtension
         $rp .= "<param NAME=\"BACKGROUNDCOLOR\" VALUE=\"#000000\">";
         $rp .= "<param NAME=\"SRC\" VALUE=\"\\4\">";
         $rp .= "<embed autostart=\"0\" src=\"\\4\" type=\"audio/x-pn-realaudio-plugin\" HEIGHT='30' WIDTH='\\2' controls=\"ControlPanel\" console=\"cons\"> </embed>";
-        $rp .= "</object>";
+        $rp .= '</object>';
 
         $replacements[] = $rp;
     }

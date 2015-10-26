@@ -27,7 +27,7 @@ $importFromModuleName = 'cjaycontent ' . XoopsRequest::getString('cjaycontent_ve
 
 $scriptname = 'cjaycontent.php';
 
-$op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
+$op = ('go' === XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 
 /**
  * @param $src
@@ -49,20 +49,20 @@ $op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 //    closedir($dir);
 //}
 
-if ($op == 'start') {
+if ($op === 'start') {
     xoops_load('XoopsFormLoader');
 
     publisherCpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     publisherOpenCollapsableBar('cjaycontentimport', 'cjaycontentimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
-    $result = $GLOBALS['xoopsDB']->query("SELECT COUNT(*) FROM " . $GLOBALS['xoopsDB']->prefix("cjaycontent"));
+    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('cjaycontent'));
     list ($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
 
     if ($totalArticles == 0) {
-        echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles) . "</span>";
+        echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles) . '</span>';
     } else {
-        echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat) . "</span>";
+        echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat) . '</span>';
 
         $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
@@ -81,17 +81,17 @@ if ($op == 'start') {
     xoops_cp_footer();
 }
 
-if ($op == 'go') {
+if ($op === 'go') {
     publisherCpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    include_once (dirname(dirname(__DIR__))) . '/include/common.php';
+    include_once(dirname(dirname(__DIR__))) . '/include/common.php';
     publisherOpenCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
-    $moduleHandler         = xoops_gethandler('module');
+    $moduleHandler         =& xoops_getHandler('module');
     $moduleObj             = $moduleHandler->getByDirname('cjaycontent');
     $cjaycontent_module_id = $moduleObj->getVar('mid');
 
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gpermHandler =& xoops_getHandler('groupperm');
 
     $cnt_imported_articles = 0;
 
@@ -99,11 +99,11 @@ if ($op == 'go') {
 
     $oldToNew = array();
 
-    $sql            = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('cjaycontent');
+    $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('cjaycontent');
     $resultArticles = $GLOBALS['xoopsDB']->query($sql);
     while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
         // insert article
-        $itemObj = $publisher->getHandler('item')->create();
+        $itemObj =& $publisher->getHandler('item')->create();
         $itemObj->setVar('itemid', $arrArticle['id']);
         //      $itemObj->setVar('categoryid', $categoryObj->categoryid());
         $itemObj->setVar('title', $arrArticle['title']);
@@ -131,7 +131,7 @@ if ($op == 'go') {
         /*
          // HTML Wrap
          if ($arrArticle['htmlpage']) {
-         $pagewrap_filename	= $GLOBALS['xoops']->path("modules/wfsection/html/" .$arrArticle['htmlpage']);
+         $pagewrap_filename = $GLOBALS['xoops']->path("modules/wfsection/html/" .$arrArticle['htmlpage']);
          if (file_exists($pagewrap_filename)) {
          if (copy($pagewrap_filename, $GLOBALS['xoops']->path("uploads/publisher/content/" . $arrArticle['htmlpage']))) {
          $itemObj->setVar('body', "[pagewrap=" . $arrArticle['htmlpage'] . "]");
@@ -146,7 +146,7 @@ if ($op == 'go') {
             continue;
         } else {
             $newArticleArray[$arrArticle['id']] = $itemObj->itemid();
-            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . '<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br />';
             ++$cnt_imported_articles;
         }
     }
@@ -158,7 +158,7 @@ if ($op == 'go') {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $commentHandler = xoops_gethandler('comment');
+    $commentHandler =& xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $cjaycontent_module_id));
     $comments = $commentHandler->getObjects($criteria);
@@ -167,15 +167,15 @@ if ($op == 'go') {
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
         if (!$commentHandler->insert($comment)) {
-            echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . '<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . '<br />';
         } else {
-            echo "&nbsp;&nbsp;" . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . '<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . '<br />';
         }
 
     }
-    unset($comment);
+//    unset($comment);
 
-    echo "<br/><br/>Done.<br/>";
+    echo '<br/><br/>Done.<br/>';
 
     echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br/>';
     echo "<br/><a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br/>';

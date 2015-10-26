@@ -15,7 +15,7 @@ define('_MI_PUBLISHER_AUTHOR_WORD', 'The Author\'s Word');
 define('_MI_PUBLISHER_AUTOAPP', 'Auto approve submitted articles?');
 define('_MI_PUBLISHER_AUTOAPPDSC', 'Auto approves submitted articles without admin intervention?');
 define('_MI_PUBLISHER_BCRUMB', 'Show the module name in the breadcrumb?');
-define('_MI_PUBLISHER_BCRUMBDSC', 'If you select “Yes”, the breadcrumb will show "Publisher > category name > article name". <br>Otherwise, only "category name > article name" will be shown.');
+define('_MI_PUBLISHER_BCRUMBDSC', "If you select “Yes”, the breadcrumb will show 'Publisher > category name > article name'. <br>Otherwise, only 'category name > article name' will be shown.");
 define('_MI_PUBLISHER_BOTH_FOOTERS', 'Both footers');
 define('_MI_PUBLISHER_BY', 'by');
 define('_MI_PUBLISHER_CATEGORY_ITEM_NOTIFY', 'Category Items');
@@ -41,7 +41,7 @@ define('_MI_PUBLISHER_COLLHEADDSC', 'If you set this option to “Yes”, the ca
 define('_MI_PUBLISHER_COMMENTS', 'Control comments at the article level?');
 define('_MI_PUBLISHER_COMMENTSDSC', 'if you set this option to “Yes”, you will see comments only on those items that have their comment checkbox marked. <br /><br />Select “No” to have comments managed at the global level (look below under the tag \'Comment rules\'.');
 define('_MI_PUBLISHER_DATEFORMAT', 'Date format:');
-define('_MI_PUBLISHER_DATEFORMATDSC', 'Select a display style. Example: "d-M-Y H:i" translates to "30-Mar-2004 22:35"<br /><a href=\'http://jp.php.net/date\'>Refer to the PHP manual for more display options.</a>');
+define('_MI_PUBLISHER_DATEFORMATDSC', "Select a display style. Example: 'd-M-Y H:i' translates to '30-Mar-2004 22:35'<br /><a href=\'http://jp.php.net/date\'>Refer to the PHP manual for more display options.</a>");
 define('_MI_PUBLISHER_DEMO_SITE', 'SmartFactory Demo Site');
 define('_MI_PUBLISHER_DEVELOPER_CONTRIBUTOR', 'Contributor(s)');
 define('_MI_PUBLISHER_DEVELOPER_CREDITS', 'Credits');
@@ -322,5 +322,3 @@ define('_MI_PUBLISHER_ORDERBY_RATING', 'Rating DESC');
 define('_MI_PUBLISHER_ORDERBY_VOTES', 'Votes DESC');
 define('_MI_PUBLISHER_ORDERBY_COMMENTS', 'Comments DESC');
 define('_MI_PUBLISHER_ORDERBY_HITS', 'Hits DESC');
-
-

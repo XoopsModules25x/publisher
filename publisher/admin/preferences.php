@@ -21,7 +21,7 @@
 
 include_once __DIR__ . '/admin_header.php';
 
-$module  = $publisher->getModule();
+$module  =& $publisher->getModule();
 $mod     = $module->mid();
 $modname = $module->name();
 
@@ -40,10 +40,10 @@ $op = XoopsRequest::getString('op', $op, 'GET');
 
 $configcat = XoopsRequest::getString('configcat', '', 'GET');
 
-if ($op == 'showmod') {
-    $config_handler = xoops_gethandler('config');
+if ($op === 'showmod') {
+    $configHandler =& xoops_getHandler('config');
 
-    $config = $config_handler->getConfigs(new Criteria('conf_modid', $mod));
+    $config = $configHandler->getConfigs(new Criteria('conf_modid', $mod));
     $count  = count($config);
     if ($count < 1) {
         redirect_header($module->getInfo('adminindex'), 1);
@@ -52,7 +52,7 @@ if ($op == 'showmod') {
     $xv_configs  = $module->getInfo('config');
     $config_cats = $module->getInfo('configcat');
 
-    if (!in_array('others', array_keys($config_cats))) {
+    if (!array_key_exists('others', $config_cats)) {
         $config_cats['others'] = array(
             'name'        => _MI_PUBLISHER_CONFCAT_OTHERS,
             'description' => _MI_PUBLISHER_CONFCAT_OTHERS_DSC);
@@ -71,10 +71,10 @@ if ($op == 'showmod') {
 
     xoops_load('XoopsFormLoader');
 
-    foreach ($config_cats as $form_cat => $info) {
-        $$form_cat = new XoopsThemeForm($info['name'], 'pref_form_' . $form_cat, 'preferences.php', 'post', true);
+    foreach ($config_cats as $formCat => $info) {
+        $$formCat = new XoopsThemeForm($info['name'], 'pref_form_' . $formCat, 'preferences.php', 'post', true);
     }
-    unset($form_cat, $info);
+    unset($formCat, $info);
 
     for ($i = 0; $i < $count; ++$i) {
         foreach ($xv_configs as $xv_config) {
@@ -83,12 +83,12 @@ if ($op == 'showmod') {
             }
         }
 
-        $form_cat = @$xv_config['category'];
-        $form_cat = isset($xv_config['category']) ? $xv_config['category'] : '';
+        $formCat = @$xv_config['category'];
+        $formCat = isset($xv_config['category']) ? $xv_config['category'] : '';
         unset($xv_config);
 
-        if (!in_array($form_cat, array_keys($config_cats))) {
-            $form_cat        = 'others';
+        if (!array_key_exists($formCat, $config_cats)) {
+            $formCat        = 'others';
             $cat_others_used = true;
         }
 
@@ -96,7 +96,7 @@ if ($op == 'showmod') {
         switch ($config[$i]->getVar('conf_formtype')) {
             case 'textarea':
                 $myts = MyTextSanitizer::getInstance();
-                if ($config[$i]->getVar('conf_valuetype') == 'array') {
+                if ($config[$i]->getVar('conf_valuetype') === 'array') {
                     // this is exceptional.. only when value type is arrayneed a smarter way for this
                     $ele = ($config[$i]->getVar('conf_value') != '') ? new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), $myts->htmlspecialchars(implode('|', $config[$i]->getConfValueForOutput())), 5, 50) : new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), '', 5, 50);
                 } else {
@@ -105,7 +105,7 @@ if ($op == 'showmod') {
                 break;
             case 'select':
                 $ele     = new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput());
-                $options = $config_handler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
+                $options = $configHandler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
                 $opcount = count($options);
                 for ($j = 0; $j < $opcount; ++$j) {
                     $optval = defined($options[$j]->getVar('confop_value')) ? constant($options[$j]->getVar('confop_value')) : $options[$j]->getVar('confop_value');
@@ -115,7 +115,7 @@ if ($op == 'showmod') {
                 break;
             case 'select_multi':
                 $ele     = new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput(), 5, true);
-                $options = $config_handler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
+                $options = $configHandler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
                 $opcount = count($options);
                 for ($j = 0; $j < $opcount; ++$j) {
                     $optval = defined($options[$j]->getVar('confop_value')) ? constant($options[$j]->getVar('confop_value')) : $options[$j]->getVar('confop_value');
@@ -161,44 +161,43 @@ if ($op == 'showmod') {
                 break;
         }
         $hidden = new XoopsFormHidden('conf_ids[]', $config[$i]->getVar('conf_id'));
-        $$form_cat->addElement($ele);
-        $$form_cat->addElement($hidden);
-        unset($ele);
-        unset($hidden);
+        $$formCat->addElement($ele);
+        $$formCat->addElement($hidden);
+        unset($ele, $hidden);
     }
 
     publisherCpHeader();
     //publisher_adminMenu(5, _PREFERENCES);
-    foreach ($config_cats as $form_cat => $info) {
-        if ($form_cat == 'others' && !$cat_others_used) {
+    foreach ($config_cats as $formCat => $info) {
+        if ($formCat === 'others' && !$cat_others_used) {
             continue;
         }
-        $$form_cat->addElement(new XoopsFormHidden('op', 'save'));
-        $$form_cat->addElement(new XoopsFormButton('', 'button', _GO, 'submit'));
-        publisherOpenCollapsableBar($form_cat . '_table', $form_cat . '_icon', $info['name'], $info['description']);
-        $$form_cat->display();
-        publisherCloseCollapsableBar($form_cat . '_table', $form_cat . '_icon');
+        $$formCat->addElement(new XoopsFormHidden('op', 'save'));
+        $$formCat->addElement(new XoopsFormButton('', 'button', _GO, 'submit'));
+        publisherOpenCollapsableBar($formCat . '_table', $formCat . '_icon', $info['name'], $info['description']);
+        $$formCat->display();
+        publisherCloseCollapsableBar($formCat . '_table', $formCat . '_icon');
     }
-    unset($form_cat, $info);
+    unset($formCat, $info);
     xoops_cp_footer();
     exit();
 }
 
-if ($op == 'save') {
+if ($op === 'save') {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header($module->getInfo('adminindex'), 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
     }
-    $count          = count($conf_ids);
-    $config_handler = xoops_gethandler('config');
+    $count          = count($confIds);
+    $configHandler =& xoops_getHandler('config');
     if ($count > 0) {
         for ($i = 0; $i < $count; ++$i) {
-            $config    = $config_handler->getConfig($conf_ids[$i]);
-            $new_value =& ${$config->getVar('conf_name')};
-            if (is_array($new_value) || $new_value != $config->getVar('conf_value')) {
-                $config->setConfValueForInput($new_value);
-                $config_handler->insertConfig($config);
+            $config    = $configHandler->getConfig($confIds[$i]);
+            $newValue =& ${$config->getVar('conf_name')};
+            if (is_array($newValue) || $newValue != $config->getVar('conf_value')) {
+                $config->setConfValueForInput($newValue);
+                $configHandler->insertConfig($config);
             }
-            unset($new_value);
+            unset($newValue);
         }
     }
     redirect_header('preferences.php', 2, _AM_DBUPDATED);

@@ -27,9 +27,9 @@ $importFromModuleName = 'xNews ' . XoopsRequest::getString('xnews_version', '', 
 
 $scriptname = 'xnews.php';
 
-$op = ('go' == XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
+$op = ('go' === XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 
-if ($op == 'start') {
+if ('start' === $op) {
     xoops_load('XoopsFormLoader');
 
     publisherCpHeader();
@@ -61,7 +61,7 @@ if ($op == 'start') {
             //                redirect_header('admin.php?fct=images', 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
             //            }
 
-            $imageCategoryHandler =& xoops_gethandler('imagecategory');
+            $imageCategoryHandler =& xoops_getHandler('imagecategory');
             $imagecategory        =& $imageCategoryHandler->create();
             //            $imagecategory->setVar('imgcat_name', $imgcat_name);
             $imagecategory->setVar('imgcat_name', PUBLISHER_DIRNAME); //$imgcat_name);
@@ -81,7 +81,7 @@ if ($op == 'start') {
             }
 
             $newid                     = $imagecategory->getVar('imgcat_id');
-            $imagecategoryperm_handler =& xoops_gethandler('groupperm');
+            $imagecategorypermHandler =& xoops_getHandler('groupperm');
             if (!isset($readgroup)) {
                 $readgroup = array();
             }
@@ -89,12 +89,12 @@ if ($op == 'start') {
                 $readgroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($readgroup as $rgroup) {
-                $imagecategoryperm =& $imagecategoryperm_handler->create();
+                $imagecategoryperm =& $imagecategorypermHandler->create();
                 $imagecategoryperm->setVar('gperm_groupid', $rgroup);
                 $imagecategoryperm->setVar('gperm_itemid', $newid);
                 $imagecategoryperm->setVar('gperm_name', 'imgcat_read');
                 $imagecategoryperm->setVar('gperm_modid', 1);
-                $imagecategoryperm_handler->insert($imagecategoryperm);
+                $imagecategorypermHandler->insert($imagecategoryperm);
                 unset($imagecategoryperm);
             }
             //            unset($rgroup);
@@ -106,12 +106,12 @@ if ($op == 'start') {
                 $writegroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($writegroup as $wgroup) {
-                $imagecategoryperm =& $imagecategoryperm_handler->create();
+                $imagecategoryperm =& $imagecategorypermHandler->create();
                 $imagecategoryperm->setVar('gperm_groupid', $wgroup);
                 $imagecategoryperm->setVar('gperm_itemid', $newid);
                 $imagecategoryperm->setVar('gperm_name', 'imgcat_write');
                 $imagecategoryperm->setVar('gperm_modid', 1);
-                $imagecategoryperm_handler->insert($imagecategoryperm);
+                $imagecategorypermHandler->insert($imagecategoryperm);
                 unset($imagecategoryperm);
             }
             //            unset($wgroup);
@@ -156,17 +156,17 @@ if ($op == 'start') {
     xoops_cp_footer();
 }
 
-if ($op == 'go') {
+if ($op === 'go') {
     publisherCpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    include_once (dirname(dirname(__DIR__))) . '/include/common.php';
+    include_once(dirname(dirname(__DIR__))) . '/include/common.php';
     publisherOpenCollapsableBar('xnewsimportgo', 'xnewsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
-    $moduleHandler   = xoops_gethandler('module');
+    $moduleHandler   =& xoops_getHandler('module');
     $moduleObj       = $moduleHandler->getByDirname('xnews');
     $xnews_module_id = $moduleObj->getVar('mid');
 
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gpermHandler =& xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
@@ -180,7 +180,7 @@ if ($op == 'go') {
     $newCatArray     = array();
     $newArticleArray = array();
 
-    $imageCategoryHandler =& xoops_gethandler('imagecategory');
+    $imageCategoryHandler =& xoops_getHandler('imagecategory');
     //    $criteria = new criteriaCombo;
 
     //     get the total number of subcats for this category
@@ -200,7 +200,7 @@ if ($op == 'go') {
 
     //    $select_form = new XoopsFormSelect('', $name_current, array(), 1);
     //    $select_form->addOption('', _SELECT);
-    //    $select_form->addOptionArray($writer_handler->getList($criteria));
+    //    $select_form->addOptionArray($writerHandler->getList($criteria));
 
     //    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('imagecategory') . ' WHERE imgcat_name=' . PUBLISHER_DIRNAME;
     //            $resultImageCategory = $GLOBALS['xoopsDB']->query($sql);
@@ -214,7 +214,7 @@ if ($op == 'go') {
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
 
-        $categoryObj = $publisher->getHandler('category')->create();
+        $categoryObj =& $publisher->getHandler('category')->create();
 
         $categoryObj->setVar('parentid', $arrCat['topic_pid']);
         $categoryObj->setVar('image', $arrCat['topic_imgurl']);
@@ -224,7 +224,7 @@ if ($op == 'go') {
         $categoryObj->setVar('moderator', 1);
 
         // Category image: copying to Publisher category uploads
-        if (($arrCat['topic_imgurl'] != 'blank.gif') && ($arrCat['topic_imgurl'] != '')) {
+        if (($arrCat['topic_imgurl'] !== 'blank.gif') && ($arrCat['topic_imgurl'] !== '')) {
             if (copy($GLOBALS['xoops']->path('uploads/xnews/topics/' . $arrCat['topic_imgurl']), $GLOBALS['xoops']->path('uploads/' . PUBLISHER_DIRNAME . '/images/category/' . $arrCat['topic_imgurl']))) {
                 $categoryObj->setVar('image', $arrCat['topic_imgurl']);
 
@@ -232,8 +232,8 @@ if ($op == 'go') {
 
                 /*
 
-                  $image_handler =& xoops_gethandler('image');
-                  $image =& $image_handler->create();
+                  $imageHandler =& xoops_getHandler('image');
+                  $image =& $imageHandler->create();
                   $image->setVar('image_name', $arrCat['topic_imgurl']);//'images/' . $uploader->getSavedFileName());
                   $image->setVar('image_nicename', substr($arrCat['topic_imgurl'],-13)); //$image_nicename);
                   $image->setVar('image_mimetype', 'image/'. substr($arrCat['topic_imgurl'],-3));//$uploader->getMediaType());
@@ -242,7 +242,7 @@ if ($op == 'go') {
                   $image->setVar('image_display', 1); //$image_display);
                   $image->setVar('image_weight', 0);//$image_weight);
                   $image->setVar('imgcat_id', $newid );//$imgcat_id);
-                  if (!$image_handler->insert($image)) {
+                  if (!$imageHandler->insert($image)) {
                       $err[] = sprintf(_FAILSAVEIMG, $image->getVar('image_nicename'));
                   }
 
@@ -288,7 +288,7 @@ if ($op == 'go') {
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
-            $itemObj = $publisher->getHandler('item')->create();
+            $itemObj =& $publisher->getHandler('item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
             $itemObj->setVar('title', $arrArticle['title']);
@@ -307,10 +307,10 @@ if ($op == 'go') {
             $itemObj->setVar('notifypub', $arrArticle['notifypub']);
             //-------- image
 
-            $img_handler =& xoops_gethandler('image');
+            $imgHandler =& xoops_getHandler('image');
 
             $criteria   = new Criteria('image_name', $arrArticle['picture']);
-            $imageId    = $img_handler->getObjects($criteria);
+            $imageId    = $imgHandler->getObjects($criteria);
             $newImageId = $imageId[0]->vars['image_id']['value'];
             $itemObj->setVar('image', $newImageId);
             $itemObj->setVar('images', $newImageId);
@@ -326,7 +326,7 @@ if ($op == 'go') {
             /*
              // HTML Wrap
              if ($arrArticle['htmlpage']) {
-             $pagewrap_filename	= $GLOBALS['xoops']->path('modules/wfsection/html/' .$arrArticle['htmlpage']);
+             $pagewrap_filename = $GLOBALS['xoops']->path('modules/wfsection/html/' .$arrArticle['htmlpage']);
              if (file_exists($pagewrap_filename)) {
              if (copy($pagewrap_filename, $GLOBALS['xoops']->path('uploads/publisher/content/' . $arrArticle['htmlpage']))) {
              $itemObj->setVar('body', '[pagewrap=' . $arrArticle['htmlpage'] . ']');
@@ -349,7 +349,7 @@ if ($op == 'go') {
                     $filename = $GLOBALS['xoops']->path('uploads/xnews/attached/' . $arrFile['downloadname']);
                     if (file_exists($filename)) {
                         if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
-                            $fileObj = $publisher->getHandler('file')->create();
+                            $fileObj =& $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['filerealname']);
                             $fileObj->setVar('description', $arrFile['filerealname']);
                             $fileObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE);
@@ -371,18 +371,18 @@ if ($op == 'go') {
                 //------------------------
 
                 $newArticleArray[$arrArticle['storyid']] = $itemObj->itemid();
-                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->title()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br />';
                 ++$cnt_imported_articles;
             }
         }
 
         // Saving category permissions
-        $groupsIds = $gperm_handler->getGroupIds('nw_view', $arrCat['topic_id'], $xnews_module_id);
+        $groupsIds = $gpermHandler->getGroupIds('nw_view', $arrCat['topic_id'], $xnews_module_id);
         publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
-        $groupsIds = $gperm_handler->getGroupIds('nw_submit', $arrCat['topic_id'], $xnews_module_id);
+        $groupsIds = $gpermHandler->getGroupIds('nw_submit', $arrCat['topic_id'], $xnews_module_id);
         publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
-        $groupsIds = $gperm_handler->getGroupIds('nw_approve', $arrCat['topic_id'], $xnews_module_id);
+        $groupsIds = $gpermHandler->getGroupIds('nw_approve', $arrCat['topic_id'], $xnews_module_id);
         publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_moderation');
 
         $newCatArray[$newCat['oldid']] = $newCat;
@@ -410,7 +410,7 @@ if ($op == 'go') {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $commentHandler = xoops_gethandler('comment');
+    $commentHandler =& xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $xnews_module_id));
     $comments = $commentHandler->getObjects($criteria);

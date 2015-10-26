@@ -24,6 +24,6 @@ include_once __DIR__ . '/include/common.php';
 
 $myts = MyTextSanitizer::getInstance();
 
-if ($publisher->getConfig('seo_url_rewrite') != 'none') {
+if ('none' !== $publisher->getConfig('seo_url_rewrite')) {
     include_once PUBLISHER_ROOT_PATH . '/include/seo.inc.php';
 }

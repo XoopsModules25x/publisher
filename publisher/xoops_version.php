@@ -25,7 +25,7 @@ xoops_load('XoopsRequest');
 
 $moduleDirName = basename(__DIR__);
 xoops_load('xoopseditorhandler');
-$editor_handler = XoopsEditorHandler::getInstance();
+$editorHandler =& XoopsEditorHandler::getInstance();
 $xoops_url      = parse_url(XOOPS_URL);
 
 $modversion = array(
@@ -53,7 +53,7 @@ $modversion = array(
     'onInstall'           => 'include/oninstall.php',
     'onUpdate'            => 'include/onupdate.php',
     // ------------------- Min Requirements -------------------
-    'min_php'             => '5.3.7',
+    'min_php'             => '5.5',
     'min_xoops'           => '2.5.7',
     'min_admin'           => '1.1',
     'min_db'              => array('mysql' => '5.0.7', 'mysqli' => '5.0.7'),
@@ -103,8 +103,8 @@ if (is_object($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirna
         $isAdmin = $GLOBALS['xoopsUser']->isAdmin($GLOBALS['xoopsModule']->getVar('mid'));
     }
     // Add the Submit new item button
-    $allowsubmit = (isset($GLOBALS['xoopsModuleConfig']['perm_submit']) && $GLOBALS['xoopsModuleConfig']['perm_submit'] == 1) ? true : false;
-    $anonpost    = (isset($GLOBALS['xoopsModuleConfig']['permissions_anon_post']) && $GLOBALS['xoopsModuleConfig']['permissions_anon_post'] == 1) ? true : false;
+    $allowsubmit = (isset($GLOBALS['xoopsModuleConfig']['perm_submit']) && $GLOBALS['xoopsModuleConfig']['perm_submit'] == 1);
+    $anonpost    = (isset($GLOBALS['xoopsModuleConfig']['permissions_anon_post']) && $GLOBALS['xoopsModuleConfig']['permissions_anon_post'] == 1);
     if ($isAdmin || ($allowsubmit && (is_object($GLOBALS['xoopsUser']) || $anonpost))) {
         $modversion['sub'][] = array(
             'name' => _MI_PUBLISHER_SUB_SMNAME1,
@@ -112,7 +112,7 @@ if (is_object($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirna
     }
 
     // ------------------- Search -------------------
-    $allowsearch = (isset($GLOBALS['xoopsModuleConfig']['perm_search']) && $GLOBALS['xoopsModuleConfig']['perm_search'] == 1) ? true : false;
+    $allowsearch = (isset($GLOBALS['xoopsModuleConfig']['perm_search']) && $GLOBALS['xoopsModuleConfig']['perm_search'] == 1);
     if ($allowsearch) {
         $modversion['sub'][] = array(
             'name' => _MI_PUBLISHER_SUB_SMNAME3,
@@ -326,7 +326,7 @@ $modversion['configcat']['group_header'] = array(
 ################### SEO ####################
 
 //$isModuleAction = (!empty($_POST['fct']) && 'modulesadmin' == $_POST['fct']) ? true : false;
-$isModuleAction = ('modulesadmin' == XoopsRequest::getString('fct', '', 'POST')) ? true : false;
+$isModuleAction = ('modulesadmin' === XoopsRequest::getString('fct', '', 'POST'));
 //if ($isModuleAction && (in_array(php_sapi_name(), array('apache', 'apache2handler', 'cgi-fcgi')))) {
 //    _MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'
 //}
@@ -839,7 +839,7 @@ $modversion['config'][] = array(
     'category'    => 'submit');
 
 xoops_load('XoopsEditorHandler');
-$editor_handler = XoopsEditorHandler::getInstance();
+$editorHandler =& XoopsEditorHandler::getInstance();
 
 $modversion['config'][] = array(
     'name'        => 'submit_editor',
@@ -847,7 +847,7 @@ $modversion['config'][] = array(
     'description' => '_MI_PUBLISHER_EDITOR_DSC',
     'formtype'    => 'select',
     'valuetype'   => 'text',
-    'options'     => array_flip($editor_handler->getList()),
+    'options'     => array_flip($editorHandler->getList()),
     'default'     => 'dhtmltextarea',
     'category'    => 'submit');
 

@@ -60,8 +60,8 @@ class PublisherBlockForm extends XoopsForm
                 if (!$ele->getNocolspan()) {
                     $ret .= '<tr><td style="vertical-align: top; width: 250px;">';
                     $ret .= '<span style="font-weight: bold;">' . $ele->getCaption() . '</span>';
-                    if (isset($ele_desc) && $ele_desc == $ele->getDescription()) {
-                        $ret .= '<br /><br /><span style="font-weight: normal;">' . $ele_desc . '</span>';
+                    if (isset($eleDesc) && $eleDesc == $ele->getDescription()) {
+                        $ret .= '<br /><br /><span style="font-weight: normal;">' . $eleDesc . '</span>';
                     }
                     $ret .= '</td><td>' . $ele->render() . '</td></tr>';
                 } else {

@@ -111,7 +111,7 @@ class PublisherCategory extends XoopsObject
      *
      * @return mixed|string
      */
-    public function image($format = 's')
+    public function getImage($format = 's')
     {
         if ($this->getVar('image') != '') {
             return $this->getVar('image', $format);
@@ -291,8 +291,8 @@ class PublisherCategory extends XoopsObject
             $category['last_itemid']     = $this->getVar('last_itemid', 'n');
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
-        if ($this->image() !== 'blank.png') {
-            $category['image_path'] = publisherGetImageDir('category', false) . $this->image();
+        if ($this->getImage() !== 'blank.png') {
+            $category['image_path'] = publisherGetImageDir('category', false) . $this->getImage();
         } else {
             $category['image_path'] = '';
         }
@@ -316,8 +316,8 @@ class PublisherCategory extends XoopsObject
             $category['last_itemid']     = $this->getVar('last_itemid', 'n');
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
-        if ($this->image() !== 'blank.png') {
-            $category['image_path'] = publisherGetImageDir('category', false) . $this->image();
+        if ($this->getImage() !== 'blank.png') {
+            $category['image_path'] = publisherGetImageDir('category', false) . $this->getImage();
         } else {
             $category['image_path'] = '';
         }

@@ -418,7 +418,7 @@ class PublisherItem extends XoopsObject
      */
     public function getCategoryImagePath()
     {
-        return publisherGetImageDir('category', false) . $this->getCategory()->image();
+        return publisherGetImageDir('category', false) . $this->getCategory()->getImage();
     }
 
     /**
@@ -786,7 +786,7 @@ class PublisherItem extends XoopsObject
      */
     public function toArrayAll($item, $itemPageId)
     {
-        $item['maintext'] = $this->buildmaintext($itemPageId, $this->body());
+        $item['maintext'] = $this->buildmaintext($itemPageId, $this->getBody());
         $item             = $this->getOtherImages($item);
 
         return $item;
@@ -996,7 +996,7 @@ class PublisherItem extends XoopsObject
 
         if (($authorAlias = XoopsRequest::getString('author_alias', '', 'POST'))) {
             $this->setVar('author_alias', $authorAlias);
-            if ($this->getVar('autor_alias') !== '') {
+            if ($this->getVar('author_alias') !== '') {
                 $this->setVar('uid', 0);
             }
         }

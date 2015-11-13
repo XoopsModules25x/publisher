@@ -53,8 +53,8 @@ function publisher_items_spot_show($options)
                 $cat                     =& $publisher->getHandler('category')->get($optCategoryId);
                 $category['name']        = $cat->name();
                 $category['categoryurl'] = $cat->getCategoryUrl();
-                if ($cat->image() !== 'blank.png') {
-                    $category['image_path'] = publisherGetImageDir('category', false) . $cat->image();
+                if ($cat->getImage() !== 'blank.png') {
+                    $category['image_path'] = publisherGetImageDir('category', false) . $cat->getImage();
                 } else {
                     $category['image_path'] = '';
                 }

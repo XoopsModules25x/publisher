@@ -66,10 +66,10 @@ array(
         'icon'  => '../../' . $pathIcon32 . '/type.png'),
 
 // Preferences
-    array(
-        'title' => _PREFERENCES,
-        'link'  => 'admin/preferences.php',
-        'icon'  => '../../' . $pathIcon32 . '/administration.png'),
+//    array(
+//        'title' => _PREFERENCES,
+//        'link'  => 'admin/preferences.php',
+//        'icon'  => '../../' . $pathIcon32 . '/administration.png'),
 
 /*
  //Comments

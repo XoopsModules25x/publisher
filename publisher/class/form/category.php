@@ -105,28 +105,28 @@ class PublisherCategoryForm extends XoopsThemeForm
             $editor = $this->publisher->getConfig('submit_editor');
         }
 
-        $editor_configs           = array();
-        $editor_configs['rows']   = $this->publisher->getConfig('submit_editor_rows') == '' ? 35 : $this->publisher->getConfig('submit_editor_rows');
-        $editor_configs['cols']   = $this->publisher->getConfig('submit_editor_cols') == '' ? 60 : $this->publisher->getConfig('submit_editor_cols');
-        $editor_configs['width']  = $this->publisher->getConfig('submit_editor_width') == '' ? '100%' : $this->publisher->getConfig('submit_editor_width');
-        $editor_configs['height'] = $this->publisher->getConfig('submit_editor_height') == '' ? '400px' : $this->publisher->getConfig('submit_editor_height');
+        $editorConfigs           = array();
+        $editorConfigs['rows']   = $this->publisher->getConfig('submit_editor_rows') == '' ? 35 : $this->publisher->getConfig('submit_editor_rows');
+        $editorConfigs['cols']   = $this->publisher->getConfig('submit_editor_cols') == '' ? 60 : $this->publisher->getConfig('submit_editor_cols');
+        $editorConfigs['width']  = $this->publisher->getConfig('submit_editor_width') == '' ? '100%' : $this->publisher->getConfig('submit_editor_width');
+        $editorConfigs['height'] = $this->publisher->getConfig('submit_editor_height') == '' ? '400px' : $this->publisher->getConfig('submit_editor_height');
 
-        $editor_configs['name']  = 'header';
-        $editor_configs['value'] = $this->targetObject->header('e');
+        $editorConfigs['name']  = 'header';
+        $editorConfigs['value'] = $this->targetObject->header('e');
 
-        $text_header = new XoopsFormEditor(_AM_PUBLISHER_CATEGORY_HEADER, $editor, $editor_configs, $nohtml, $onfailure = null);
+        $text_header = new XoopsFormEditor(_AM_PUBLISHER_CATEGORY_HEADER, $editor, $editorConfigs, $nohtml, $onfailure = null);
         $text_header->setDescription(_AM_PUBLISHER_CATEGORY_HEADER_DSC);
         $this->addElement($text_header);
 
         // IMAGE
-        $image_array  = XoopsLists::getImgListAsArray(publisherGetImageDir('category'));
-        $imageSelect = new XoopsFormSelect('', 'image', $this->targetObject->image());
+        $imageArray  = XoopsLists::getImgListAsArray(publisherGetImageDir('category'));
+        $imageSelect = new XoopsFormSelect('', 'image', $this->targetObject->getImage());
         //$imageSelect -> addOption ('-1', '---------------');
-        $imageSelect->addOptionArray($image_array);
+        $imageSelect->addOptionArray($imageArray);
         $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"image\", \"" . 'uploads/' . PUBLISHER_DIRNAME . '/images/category/' . "\", \"\", \"" . XOOPS_URL . "\")'");
         $imageTray = new XoopsFormElementTray(_AM_PUBLISHER_IMAGE, '&nbsp;');
         $imageTray->addElement($imageSelect);
-        $imageTray->addElement(new XoopsFormLabel('', "<br /><br /><img src='" . publisherGetImageDir('category', false) . $this->targetObject->image() . "' name='image3' id='image3' alt='' />"));
+        $imageTray->addElement(new XoopsFormLabel('', "<br /><br /><img src='" . publisherGetImageDir('category', false) . $this->targetObject->getImage() . "' name='image3' id='image3' alt='' />"));
         $imageTray->setDescription(_AM_PUBLISHER_IMAGE_DSC);
         $this->addElement($imageTray);
 
@@ -138,19 +138,19 @@ class PublisherCategoryForm extends XoopsThemeForm
         $this->addElement($fileBox);
 
         // Short url
-        $text_short_url = new XoopsFormText(_AM_PUBLISHER_CATEGORY_SHORT_URL, 'short_url', 50, 255, $this->targetObject->short_url('e'));
-        $text_short_url->setDescription(_AM_PUBLISHER_CATEGORY_SHORT_URL_DSC);
-        $this->addElement($text_short_url);
+        $textShortUrl = new XoopsFormText(_AM_PUBLISHER_CATEGORY_SHORT_URL, 'short_url', 50, 255, $this->targetObject->short_url('e'));
+        $textShortUrl->setDescription(_AM_PUBLISHER_CATEGORY_SHORT_URL_DSC);
+        $this->addElement($textShortUrl);
 
         // Meta Keywords
-        $text_meta_keywords = new XoopsFormTextArea(_AM_PUBLISHER_CATEGORY_META_KEYWORDS, 'meta_keywords', $this->targetObject->meta_keywords('e'), 7, 60);
-        $text_meta_keywords->setDescription(_AM_PUBLISHER_CATEGORY_META_KEYWORDS_DSC);
-        $this->addElement($text_meta_keywords);
+        $textMetaKeywords = new XoopsFormTextArea(_AM_PUBLISHER_CATEGORY_META_KEYWORDS, 'meta_keywords', $this->targetObject->meta_keywords('e'), 7, 60);
+        $textMetaKeywords->setDescription(_AM_PUBLISHER_CATEGORY_META_KEYWORDS_DSC);
+        $this->addElement($textMetaKeywords);
 
         // Meta Description
-        $text_meta_description = new XoopsFormTextArea(_AM_PUBLISHER_CATEGORY_META_DESCRIPTION, 'meta_description', $this->targetObject->meta_description('e'), 7, 60);
-        $text_meta_description->setDescription(_AM_PUBLISHER_CATEGORY_META_DESCRIPTION_DSC);
-        $this->addElement($text_meta_description);
+        $textMetaDescription = new XoopsFormTextArea(_AM_PUBLISHER_CATEGORY_META_DESCRIPTION, 'meta_description', $this->targetObject->meta_description('e'), 7, 60);
+        $textMetaDescription->setDescription(_AM_PUBLISHER_CATEGORY_META_DESCRIPTION_DSC);
+        $this->addElement($textMetaDescription);
 
         // Weight
         $this->addElement(new XoopsFormText(_AM_PUBLISHER_COLPOSIT, 'weight', 4, 4, $this->targetObject->weight()));

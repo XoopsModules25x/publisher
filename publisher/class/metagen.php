@@ -30,7 +30,7 @@ class PublisherMetagen
      * @var PublisherPublisher
      * @access public
      */
-    public $publisher = null;
+    public $publisher;
 
     /**
      * @var MyTextSanitizer

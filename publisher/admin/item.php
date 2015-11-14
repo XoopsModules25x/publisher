@@ -23,8 +23,8 @@
 include_once __DIR__ . '/admin_header.php';
 
 $itemid = XoopsRequest::getInt('itemid', (XoopsRequest::getInt('itemid', 0, 'POST')), 'GET');
-$op     = ($itemid > 0 || (XoopsRequest::getString('editor', '', 'POST'))) ? 'mod' : XoopsRequest::getString('op', '', 'GET');
-//$op     = XoopsRequest::getString('op', $op, 'GET');
+$op     = ($itemid > 0 || (XoopsRequest::getString('editor', '', 'POST'))) ? 'mod' : '';
+$op     = XoopsRequest::getString('op', $op, 'GET');
 
 //if (!empty(XoopsRequest::getString('additem', '', 'POST'))) {
 //    $op0 = 'additem';

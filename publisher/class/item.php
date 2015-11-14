@@ -1013,7 +1013,7 @@ class PublisherItem extends XoopsObject
 
             // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime
             $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
-            $tz             = timezone_name_from_abbr(null, $userTimeoffset * 3600, true);
+            $tz             = timezone_name_from_abbr(null, $userTimeoffset * 3600);
             if ($tz === false) {
                 $tz = timezone_name_from_abbr(null, $userTimeoffset * 3600, false);
             }

@@ -40,10 +40,9 @@ class PublisherUtilities
     public static function prepareFolder($folder)
     {
         if (!is_dir($folder)) {
-            mkdir($folder, 0777);
+            mkdir($folder);
             file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
         }
-        chmod($folder, 0777);
     }
 
     /**

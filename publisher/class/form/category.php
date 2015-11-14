@@ -187,14 +187,14 @@ class PublisherCategoryForm extends XoopsThemeForm
         $this->addElement($moderator);
 
         //SUBCATEGORY
-        $cat_tray = new XoopsFormElementTray(_AM_PUBLISHER_SCATEGORYNAME, '<br /><br />');
+        $catTray = new XoopsFormElementTray(_AM_PUBLISHER_SCATEGORYNAME, '<br /><br />');
         for ($i = 0; $i < $this->subCatsCount; ++$i) {
             $subname = '';
             if ($i < (($scname = XoopsRequest::getArray('scname', array(), 'POST')) ? count($scname) : 0)) {
                 $temp    = XoopsRequest::getArray('scname', array(), 'POST');
                 $subname = ($scname = XoopsRequest::getArray('scname', '', 'POST')) ? $temp[$i] : '';
             }
-            $cat_tray->addElement(new XoopsFormText('', 'scname[' . $i . ']', 50, 255, $subname));
+            $catTray->addElement(new XoopsFormText('', 'scname[' . $i . ']', 50, 255, $subname));
 
         }
         $t = new XoopsFormText('', 'nb_subcats', 3, 2);
@@ -210,8 +210,8 @@ class PublisherCategoryForm extends XoopsThemeForm
         $r = new XoopsFormElementTray('');
         $r->addElement($l);
         $r->addElement($b);
-        $cat_tray->addElement($r);
-        $this->addElement($cat_tray);
+        $catTray->addElement($r);
+        $this->addElement($catTray);
 
         $this->addElement(new XoopsFormHidden('categoryid', $this->targetObject->categoryid()));
         $this->addElement(new XoopsFormHidden('nb_sub_yet', $this->subCatsCount));

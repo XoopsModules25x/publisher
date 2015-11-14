@@ -1,4 +1,4 @@
-<h5>1.02 RC2       (NOT RELEASED)</h5>
+<h5>1.02 RC2       (2015-11-14)</h5>
 - added sort by Rating, Hits, # of Votes and Comments (brutalicuss/mamba)
 - added extra columns in Admin's Summary view (mamba)
 - remove non-existent XoopsFormCalendar in blocks (mamba)

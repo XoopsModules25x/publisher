@@ -32,7 +32,7 @@ include_once dirname(__DIR__) . '/include/common.php';
 function publisher_date_to_date_show($options)
 {
     $myts      = MyTextSanitizer::getInstance();
-    $publisher = PublisherPublisher::getInstance();
+    $publisher =& PublisherPublisher::getInstance();
 
     $block = array();
 
@@ -43,22 +43,20 @@ function publisher_date_to_date_show($options)
     $criteria->setOrder('DESC');
 
     // creating the ITEM objects that belong to the selected category
-    $itemsObj   = $publisher->getHandler('item')->getObjects($criteria);
+    $itemsObj   =& $publisher->getHandler('item')->getObjects($criteria);
     $totalItems = count($itemsObj);
 
     if ($itemsObj) {
         for ($i = 0; $i < $totalItems; ++$i) {
-
             $newItems['itemid']       = $itemsObj[$i]->itemid();
-            $newItems['title']        = $itemsObj[$i]->title();
+            $newItems['title']        = $itemsObj[$i]->getTitle();
             $newItems['categoryname'] = $itemsObj[$i]->getCategoryName();
             $newItems['categoryid']   = $itemsObj[$i]->categoryid();
-            $newItems['date']         = $itemsObj[$i]->datesub();
-            $newItems['poster']       = $itemsObj[$i]->linkedPosterName();
+            $newItems['date']         = $itemsObj[$i]->getDatesub();
+            $newItems['poster']       = $itemsObj[$i]->getLinkedPosterName();
             $newItems['itemlink']     = $itemsObj[$i]->getItemLink(false, isset($options[3]) ? $options[3] : 65);
             $newItems['categorylink'] = $itemsObj[$i]->getCategoryLink();
-
-            $block['items'][] = $newItems;
+            $block['items'][]         = $newItems;
         }
 
         $block['lang_title']            = _MB_PUBLISHER_ITEMS;
@@ -66,7 +64,7 @@ function publisher_date_to_date_show($options)
         $block['lang_poster']           = _MB_PUBLISHER_POSTEDBY;
         $block['lang_date']             = _MB_PUBLISHER_DATE;
         $modulename                     = $myts->displayTarea($publisher->getModule()->getVar('name'));
-        $block['lang_visitItem']        = _MB_PUBLISHER_VISITITEM . " " . $modulename;
+        $block['lang_visitItem']        = _MB_PUBLISHER_VISITITEM . ' ' . $modulename;
         $block['lang_articles_from_to'] = sprintf(_MB_PUBLISHER_ARTICLES_FROM_TO, $options[0], $options[1]);
     }
 
@@ -82,13 +80,14 @@ function publisher_date_to_date_edit($options)
 {
     include_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
-    xoops_load('XoopsFormCalendar');
+    xoops_load('XoopsFormTextDateSelect');
 
     $form    = new PublisherBlockForm();
-    $fromEle = new XoopsFormCalendar(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));
-    $fromEle->setNocolspan();
-    $untilEle = new XoopsFormCalendar(_MB_PUBLISHER_UNTIL, 'options[1]', 15, strtotime($options[1]));
-    $untilEle->setNocolspan();
+    $fromEle = new XoopsFormTextDateSelect(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));
+    //    $fromEle->setNocolspan();
+    $untilEle = new XoopsFormTextDateSelect(_MB_PUBLISHER_UNTIL, 'options[1]', 15, isset($options[1]) ? strtotime($options[1]) : '');
+    //    $untilEle->setNocolspan();
+
     $form->addElement($fromEle);
     $form->addElement($untilEle);
 

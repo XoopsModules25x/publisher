@@ -46,20 +46,20 @@ if ($image_nicename == '' || $image_nicename == _CO_PUBLISHER_IMAGE_NICENAME) {
 
 $imgcat_id = XoopsRequest::getInt('imgcat_id', 0, 'POST');
 
-$imgcat_handler = xoops_gethandler('imagecategory');
-$imgcat         = $imgcat_handler->get($imgcat_id);
+$imgcatHandler =& xoops_getHandler('imagecategory');
+$imgcat         = $imgcatHandler->get($imgcat_id);
 
 $error = false;
 if (!is_object($imgcat)) {
     $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
 } else {
-    $imgcatperm_handler = xoops_gethandler('groupperm');
+    $imgcatpermHandler =& xoops_getHandler('groupperm');
     if (is_object($GLOBALS['xoopsUser'])) {
-        if (!$imgcatperm_handler->checkRight('imgcat_write', $imgcat_id, $GLOBALS['xoopsUser']->getGroups())) {
+        if (!$imgcatpermHandler->checkRight('imgcat_write', $imgcat_id, $GLOBALS['xoopsUser']->getGroups())) {
             $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
         }
     } else {
-        if (!$imgcatperm_handler->checkRight('imgcat_write', $imgcat_id, XOOPS_GROUP_ANONYMOUS)) {
+        if (!$imgcatpermHandler->checkRight('imgcat_write', $imgcat_id, XOOPS_GROUP_ANONYMOUS)) {
             $error = _CO_PUBLISHER_IMAGE_CAT_NOPERM;
         }
     }
@@ -71,11 +71,11 @@ if ($error === false) {
     $uploader->setPrefix('img');
     if ($uploader->fetchMedia('publisher_upload_file')) {
         if (!$uploader->upload()) {
-            $error = implode("<br />", $uploader->getErrors(false));
+            $error = implode('<br />', $uploader->getErrors(false));
 
         } else {
-            $image_handler = xoops_gethandler('image');
-            $image         = $image_handler->create();
+            $imageHandler =& xoops_getHandler('image');
+            $image         = $imageHandler->create();
             $image->setVar('image_name', 'images/' . $uploader->getSavedFileName());
             $image->setVar('image_nicename', $image_nicename);
             $image->setVar('image_mimetype', $uploader->getMediaType());
@@ -83,7 +83,7 @@ if ($error === false) {
             $image->setVar('image_display', 1);
             $image->setVar('image_weight', 0);
             $image->setVar('imgcat_id', $imgcat_id);
-            if ($imgcat->getVar('imgcat_storetype') == 'db') {
+            if ($imgcat->getVar('imgcat_storetype') === 'db') {
                 $fp      = @fopen($uploader->getSavedDestination(), 'rb');
                 $fbinary = @fread($fp, filesize($uploader->getSavedDestination()));
                 @fclose($fp);
@@ -92,19 +92,19 @@ if ($error === false) {
                     unlink($uploader->getSavedDestination());
                 }
             }
-            if (!$image_handler->insert($image)) {
+            if (!$imageHandler->insert($image)) {
                 $error = sprintf(_FAILSAVEIMG, $image->getVar('image_nicename'));
             }
         }
     } else {
-        $error = sprintf(_FAILFETCHIMG, 0) . "<br />" . implode("<br />", $uploader->getErrors(false));
+        $error = sprintf(_FAILFETCHIMG, 0) . '<br />' . implode('<br />', $uploader->getErrors(false));
     }
 }
 
 if ($error) {
     $arr = array('error', publisherConvertCharset($error));
 } else {
-    $arr = array('success', $image->getVar("image_name"), publisherConvertCharset($image->getVar("image_nicename")));
+    $arr = array('success', $image->getVar('image_name'), publisherConvertCharset($image->getVar('image_nicename')));
 }
 
 echo json_encode($arr);

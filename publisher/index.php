@@ -29,65 +29,64 @@ $catstart = XoopsRequest::getInt('catstart', 0, 'GET');
 $start = XoopsRequest::getInt('start', 0, 'GET');
 
 // Number of categories at the top level
-$totalCategories = $publisher->getHandler('category')->getCategoriesCount(0);
+$totalCategories =& $publisher->getHandler('category')->getCategoriesCount(0);
 
 // if there ain't no category to display, let's get out of here
 if ($totalCategories == 0) {
     redirect_header(XOOPS_URL, 2, _MD_PUBLISHER_NO_TOP_PERMISSIONS);
-//    exit;
+    //    exit;
 }
 
 $xoopsOption['template_main'] = 'publisher_display' . '_' . $publisher->getConfig('idxcat_items_display_type') . '.tpl';
 include_once $GLOBALS['xoops']->path('header.php');
 include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
-$gperm_handler = xoops_gethandler('groupperm');
+$gpermHandler =& xoops_getHandler('groupperm');
 
 // Creating the top categories objects
-$categoriesObj = $publisher->getHandler('category')->getCategories($publisher->getConfig('idxcat_cat_perpage'), $catstart);
+$categoriesObj =& $publisher->getHandler('category')->getCategories($publisher->getConfig('idxcat_cat_perpage'), $catstart);
 
 // if no categories are found, exit
 $totalCategoriesOnPage = count($categoriesObj);
 if ($totalCategoriesOnPage == 0) {
-    redirect_header("javascript:history.go(-1)", 2, _MD_PUBLISHER_NO_CAT_EXISTS);
-//    exit;
+    redirect_header('javascript:history.go(-1)', 2, _MD_PUBLISHER_NO_CAT_EXISTS);
+    //    exit;
 }
 
 // Get subcats of the top categories
-$subcats = $publisher->getHandler('category')->getSubCats($categoriesObj);
+$subcats =& $publisher->getHandler('category')->getSubCats($categoriesObj);
 
 // Count of items within each top categories
-$totalItems = $publisher->getHandler('category')->publishedItemsCount();
+$totalItems =& $publisher->getHandler('category')->publishedItemsCount();
 
 // real total count of items
-$real_total_items = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED));
+$real_total_items =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED));
 
 if ($publisher->getConfig('idxcat_display_last_item') == 1) {
     // Get the last item in each category
-    $last_itemObj = $publisher->getHandler('item')->getLastPublishedByCat(array_merge(array($categoriesObj), $subcats));
+    $last_itemObj =& $publisher->getHandler('item')->getLastPublishedByCat(array_merge(array($categoriesObj), $subcats));
 }
 
 // Max size of the title in the last item column
 $lastitemsize = (int)($publisher->getConfig('idxcat_last_item_size'));
 
 // Hide sub categories in main page only - hacked by Mowaffak
-if ($publisher->getConfig('idxcat_show_subcats') == 'nomain') {
+if ('nomain' === $publisher->getConfig('idxcat_show_subcats')) {
     $publisher->setConfig('idxcat_show_subcats', 'no');
 }
 
 $categories = array();
 foreach ($categoriesObj as $catId => $category) {
-
     $total = 0;
     // Do we display sub categories ?
-    if ($publisher->getConfig('idxcat_show_subcats') != 'no') {
+    if ($publisher->getConfig('idxcat_show_subcats') !== 'no') {
         // if this category has subcats
         if (isset($subcats[$catId])) {
             foreach ($subcats[$catId] as $key => $subcat) {
                 // Get the items count of this very category
                 $subcat_total_items = isset($totalItems[$key]) ? $totalItems[$key] : 0;
                 // Do we display empty sub-cats ?
-                if (($subcat_total_items > 0) || ($publisher->getConfig('idxcat_show_subcats') == 'all')) {
+                if (($subcat_total_items > 0) || ($publisher->getConfig('idxcat_show_subcats') === 'all')) {
                     $subcat_id = $subcat->getVar('categoryid');
                     // if we retrieved the last item object for this category
                     if (isset($last_itemObj[$subcat_id])) {
@@ -102,7 +101,7 @@ foreach ($categoriesObj as $catId => $category) {
                     //$total += $numItems;
                 }
             }
-            unset($subcat);
+//            unset($subcat);
         }
     }
 
@@ -150,6 +149,25 @@ if ($publisher->getConfig('index_display_last_items')) {
             $order = 'DESC';
             break;
 
+        case 'counter':
+            $sort  = 'counter';
+            $order = 'DESC';
+            break;
+
+        case 'rating':
+            $sort  = 'rating';
+            $order = 'DESC';
+            break;
+        case 'votes':
+            $sort  = 'votes';
+            $order = 'DESC';
+            break;
+
+        case 'comments':
+            $sort  = 'comments';
+            $order = 'DESC';
+            break;
+
         default:
             $sort  = 'weight';
             $order = 'ASC';
@@ -157,7 +175,7 @@ if ($publisher->getConfig('index_display_last_items')) {
     }
 
     // Creating the last ITEMs
-    $itemsObj   = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_index_perpage'), $start, -1, $sort, $order);
+    $itemsObj   =& $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_index_perpage'), $start, -1, $sort, $order);
     $itemsCount = count($itemsObj);
 
     //todo: make config for summary size
@@ -212,7 +230,7 @@ $publisher_metagen->createMetaTags();
 
 // RSS Link
 if ($publisher->getConfig('idxcat_show_rss_link') == 1) {
-    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . "/backend.php", _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . "/assets/images/rss.gif", _MD_PUBLISHER_RSSFEED);
+    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . '/backend.php', _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . '/assets/images/rss.gif', _MD_PUBLISHER_RSSFEED);
     $xoopsTpl->assign('rssfeed_link', $link);
 }
 

@@ -16,23 +16,24 @@
 #
 
 CREATE TABLE `publisher_categories` (
-  `categoryid` int(11) NOT NULL auto_increment,
-  `parentid` int(11) NOT NULL default '0',
-  `name` varchar(100) NOT NULL default '',
-  `description` text NOT NULL,
-  `image` varchar(255) NOT NULL default '',
-  `total` int(11) NOT NULL default '0',
-  `weight` int(11) NOT NULL default '1',
-  `created` int(11) NOT NULL default '1033141070',
-  `template` varchar(255) NOT NULL default '',
-  `header` text NOT NULL,
-  `meta_keywords` text NOT NULL,
-  `meta_description` text NOT NULL,
-  `short_url` varchar(255) NOT NULL default '',
-  `moderator` int(6) NOT NULL default '0',
+  `categoryid`       INT(11)      NOT NULL AUTO_INCREMENT,
+  `parentid`         INT(11)      NOT NULL DEFAULT '0',
+  `name`             VARCHAR(100) NOT NULL DEFAULT '',
+  `description`      TEXT         NOT NULL,
+  `image`            VARCHAR(255) NOT NULL DEFAULT '',
+  `total`            INT(11)      NOT NULL DEFAULT '0',
+  `weight`           INT(11)      NOT NULL DEFAULT '1',
+  `created`          INT(11)      NOT NULL DEFAULT '1033141070',
+  `template`         VARCHAR(255) NOT NULL DEFAULT '',
+  `header`           TEXT         NOT NULL,
+  `meta_keywords`    TEXT         NOT NULL,
+  `meta_description` TEXT         NOT NULL,
+  `short_url`        VARCHAR(255) NOT NULL DEFAULT '',
+  `moderator`        INT(6)       NOT NULL DEFAULT '0',
   PRIMARY KEY (`categoryid`),
   KEY parentid (parentid)
-) ENGINE=MyISAM;
+)
+  ENGINE = MyISAM;
 # --------------------------------------------------------
 
 #
@@ -43,38 +44,39 @@ CREATE TABLE `publisher_categories` (
 #
 
 CREATE TABLE `publisher_items` (
-  `itemid` int(11) NOT NULL auto_increment,
-  `categoryid` int(11) NOT NULL default '0',
-  `title` varchar(255) NOT NULL default '',
-  `subtitle` varchar(255) NOT NULL default '',
-  `summary` TEXT NOT NULL,
-  `body` LONGTEXT NOT NULL,
-  `uid` int(6) default '0',
-  `author_alias` varchar(255) NOT NULL default '',
-  `datesub` int(11) NOT NULL default '0',
-  `status` int(1) NOT NULL default '-1',
-  `image` int(11) NOT NULL default '0',
-  `images` varchar(255) NOT NULL default '',
-  `counter` int(8) unsigned NOT NULL default '0',
-  `rating` double(6,4) NOT NULL default '0.0000',
-  `votes` int(11) unsigned NOT NULL default '0',
-  `weight` int(11) NOT NULL default '1',
-  `dohtml` tinyint(1) NOT NULL default '1',
-  `dosmiley` tinyint(1) NOT NULL default '1',
-  `doxcode` tinyint(1) NOT NULL default '1',
-  `doimage` tinyint(1) NOT NULL default '1',
-  `dobr` tinyint(1) NOT NULL default '1',
-  `cancomment` tinyint(1) NOT NULL default '1',
-  `comments` int(11) NOT NULL default '0',
-  `notifypub` tinyint(1) NOT NULL default '0',
-  `meta_keywords` TEXT NOT NULL,
-  `meta_description` TEXT NOT NULL,
-  `short_url` VARCHAR(255) NOT NULL,
-  `item_tag` TEXT NOT NULL,
+  `itemid`           INT(11)          NOT NULL AUTO_INCREMENT,
+  `categoryid`       INT(11)          NOT NULL DEFAULT '0',
+  `title`            VARCHAR(255)     NOT NULL DEFAULT '',
+  `subtitle`         VARCHAR(255)     NOT NULL DEFAULT '',
+  `summary`          TEXT             NOT NULL,
+  `body`             LONGTEXT         NOT NULL,
+  `uid`              INT(6)                    DEFAULT '0',
+  `author_alias`     VARCHAR(255)     NOT NULL DEFAULT '',
+  `datesub`          INT(11)          NOT NULL DEFAULT '0',
+  `status`           INT(1)           NOT NULL DEFAULT '-1',
+  `image`            INT(11)          NOT NULL DEFAULT '0',
+  `images`           VARCHAR(255)     NOT NULL DEFAULT '',
+  `counter`          INT(8) UNSIGNED  NOT NULL DEFAULT '0',
+  `rating`           DOUBLE(6, 4)     NOT NULL DEFAULT '0.0000',
+  `votes`            INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  `weight`           INT(11)          NOT NULL DEFAULT '1',
+  `dohtml`           TINYINT(1)       NOT NULL DEFAULT '1',
+  `dosmiley`         TINYINT(1)       NOT NULL DEFAULT '1',
+  `doxcode`          TINYINT(1)       NOT NULL DEFAULT '1',
+  `doimage`          TINYINT(1)       NOT NULL DEFAULT '1',
+  `dobr`             TINYINT(1)       NOT NULL DEFAULT '1',
+  `cancomment`       TINYINT(1)       NOT NULL DEFAULT '1',
+  `comments`         INT(11)          NOT NULL DEFAULT '0',
+  `notifypub`        TINYINT(1)       NOT NULL DEFAULT '0',
+  `meta_keywords`    TEXT             NOT NULL,
+  `meta_description` TEXT             NOT NULL,
+  `short_url`        VARCHAR(255)     NOT NULL,
+  `item_tag`         TEXT             NOT NULL,
   PRIMARY KEY (`itemid`),
   KEY categoryid (categoryid),
   KEY status (status)
-) ENGINE=MyISAM;
+)
+  ENGINE = MyISAM;
 
 
 #
@@ -85,35 +87,37 @@ CREATE TABLE `publisher_items` (
 #
 
 CREATE TABLE `publisher_files` (
-  `fileid` int(11) NOT NULL auto_increment,
-  `itemid` int(11) NOT NULL default '0',
-  `name` varchar(255) NOT NULL default '',
-  `description` TEXT NOT NULL,
-  `filename` varchar(255) NOT NULL default '',
-  `mimetype` varchar(64) NOT NULL default '',
-  `uid` int(6) default '0',
-  `datesub` int(11) NOT NULL default '0',
-  `status` int(1) NOT NULL default '-1',
-  `notifypub` tinyint(1) NOT NULL default '1',
-  `counter` int(8) unsigned NOT NULL default '0',
+  `fileid`      INT(11)         NOT NULL AUTO_INCREMENT,
+  `itemid`      INT(11)         NOT NULL DEFAULT '0',
+  `name`        VARCHAR(255)    NOT NULL DEFAULT '',
+  `description` TEXT            NOT NULL,
+  `filename`    VARCHAR(255)    NOT NULL DEFAULT '',
+  `mimetype`    VARCHAR(64)     NOT NULL DEFAULT '',
+  `uid`         INT(6)                   DEFAULT '0',
+  `datesub`     INT(11)         NOT NULL DEFAULT '0',
+  `status`      INT(1)          NOT NULL DEFAULT '-1',
+  `notifypub`   TINYINT(1)      NOT NULL DEFAULT '1',
+  `counter`     INT(8) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`fileid`)
-) ENGINE=MyISAM;
+)
+  ENGINE = MyISAM;
 
 
 # --------------------------------------------------------
 
 
 CREATE TABLE `publisher_meta` (
-  `metakey` varchar(50) NOT NULL default '',
-  `metavalue` varchar(255) NOT NULL default '',
+  `metakey`   VARCHAR(50)  NOT NULL DEFAULT '',
+  `metavalue` VARCHAR(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`metakey`)
-) ENGINE=MyISAM;
+)
+  ENGINE = MyISAM;
 
 #
 # Dumping data for table `publisher_categories`
 #
 
-INSERT INTO `publisher_meta` VALUES ('version','0.1');
+INSERT INTO `publisher_meta` VALUES ('version', '0.1');
 # --------------------------------------------------------
 
 #
@@ -121,14 +125,15 @@ INSERT INTO `publisher_meta` VALUES ('version','0.1');
 #
 
 CREATE TABLE publisher_mimetypes (
-  mime_id int(11) NOT NULL auto_increment,
-  mime_ext varchar(60) NOT NULL default '',
-  mime_types text NOT NULL,
-  mime_name varchar(255) NOT NULL default '',
-  mime_admin int(1) NOT NULL default '1',
-  mime_user int(1) NOT NULL default '0',
+  mime_id    INT(11)      NOT NULL AUTO_INCREMENT,
+  mime_ext   VARCHAR(60)  NOT NULL DEFAULT '',
+  mime_types TEXT         NOT NULL,
+  mime_name  VARCHAR(255) NOT NULL DEFAULT '',
+  mime_admin INT(1)       NOT NULL DEFAULT '1',
+  mime_user  INT(1)       NOT NULL DEFAULT '0',
   KEY mime_id (mime_id)
-) ENGINE=MyISAM;
+)
+  ENGINE = MyISAM;
 
 # --------------------------------------------------------
 
@@ -137,16 +142,17 @@ CREATE TABLE publisher_mimetypes (
 #
 
 CREATE TABLE `publisher_rating` (
-  `ratingid` int(11) NOT NULL auto_increment,
-  `itemid` int(11) NOT NULL,
-  `uid` int(11) NOT NULL,
-  `rate` int(1) NOT NULL,
-  `date` int(11) NOT NULL,
-  `ip` varchar(60) NOT NULL default '',
-  PRIMARY KEY  (`ratingid`),
+  `ratingid` INT(11)     NOT NULL AUTO_INCREMENT,
+  `itemid`   INT(11)     NOT NULL,
+  `uid`      INT(11)     NOT NULL,
+  `rate`     INT(1)      NOT NULL,
+  `date`     INT(11)     NOT NULL,
+  `ip`       VARCHAR(60) NOT NULL DEFAULT '',
+  PRIMARY KEY (`ratingid`),
   KEY uid (uid),
   KEY ip (ip)
-) ENGINE=MyISAM;
+)
+  ENGINE = MyISAM;
 
 # --------------------------------------------------------
 

@@ -1,6 +1,6 @@
 var $publisher = jQuery.noConflict();
 
-$publisher(document).ready(function() {
+$publisher(document).ready(function () {
     //Functions to execute on page load
     if ($publisher.isFunction($publisher.fn.tabs)) {
         $publisher("#tabs").tabs();

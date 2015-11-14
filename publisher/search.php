@@ -24,29 +24,29 @@ include_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
 
 //Checking general permissions
-$config_handler    = xoops_gethandler("config");
-$xoopsConfigSearch = $config_handler->getConfigsByCat(XOOPS_CONF_SEARCH);
-if (empty($xoopsConfigSearch["enable_search"])) {
-    redirect_header(PUBLISHER_URL . "/index.php", 2, _NOPERM);
-//    exit();
+$configHandler    =& xoops_getHandler('config');
+$xoopsConfigSearch = $configHandler->getConfigsByCat(XOOPS_CONF_SEARCH);
+if (empty($xoopsConfigSearch['enable_search'])) {
+    redirect_header(PUBLISHER_URL . '/index.php', 2, _NOPERM);
+    //    exit();
 }
 
 $groups        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-$gperm_handler = xoops_getmodulehandler('groupperm', PUBLISHER_DIRNAME);
+$gpermHandler =& xoops_getModuleHandler('groupperm', PUBLISHER_DIRNAME);
 $module_id     = $publisher->getModule()->mid();
 
 //Checking permissions
-if (!$publisher->getConfig('perm_search') || !$gperm_handler->checkRight('global', PublisherConstantsInterface::PUBLISHER_SEARCH, $groups, $module_id)) {
+if (!$publisher->getConfig('perm_search') || !$gpermHandler->checkRight('global', PublisherConstantsInterface::PUBLISHER_SEARCH, $groups, $module_id)) {
     redirect_header(PUBLISHER_URL, 2, _NOPERM);
-//    exit();
+    //    exit();
 }
 
-$GLOBALS['xoopsConfig']["module_cache"][$module_id] = 0;
-$xoopsOption["template_main"]                       = 'publisher_search.tpl';
+$GLOBALS['xoopsConfig']['module_cache'][$module_id] = 0;
+$xoopsOption['template_main']                       = 'publisher_search.tpl';
 include $GLOBALS['xoops']->path('header.php');
 
-$module_info_search = $publisher->getModule()->getInfo("search");
-include_once PUBLISHER_ROOT_PATH . '/' . $module_info_search["file"];
+$module_info_search = $publisher->getModule()->getInfo('search');
+include_once PUBLISHER_ROOT_PATH . '/' . $module_info_search['file'];
 
 $limit    = 10; //$publisher->getConfig('idxcat_perpage');
 $uid      = 0;
@@ -59,197 +59,231 @@ $searchin = XoopsRequest::getArray('searchin', array(), 'POST');
 $sortby   = XoopsRequest::getString('sortby', '', 'POST');
 $term     = XoopsRequest::getString('term', '', 'POST');
 
-if (empty($category) || (is_array($category) && in_array("all", $category))) {
+if (empty($category) || (is_array($category) && in_array('all', $category))) {
     $category = array();
 } else {
-    $category = !is_array($category) ? explode(",", $category) : $category;
-    $category = array_map("intval", $category);
+    $category = !is_array($category) ? explode(',', $category) : $category;
+    $category = array_map('intval', $category);
 }
 
-$andor  = (in_array(strtoupper($andor), array("OR", "AND", "EXACT"))) ? strtoupper($andor) : "OR";
-$sortby = (in_array(strtolower($sortby), array("itemid", "datesub", "title", "categoryid"))) ? strtolower($sortby) : "itemid";
+$andor  = (in_array(strtoupper($andor), array('OR', 'AND', 'EXACT'))) ? strtoupper($andor) : 'OR';
+$sortby = (in_array(strtolower($sortby), array('itemid', 'datesub', 'title', 'categoryid'))) ? strtolower($sortby) : 'itemid';
 
-if ((XoopsRequest::getString('submit', '', 'POST')) && $term) {
-
-    $next_search["category"] = implode(",", $category);
-    $next_search["andor"]    = $andor;
-    $next_search["term"]     = $term;
+if ($term && (XoopsRequest::getString('submit', '', 'POST'))) {
+    $next_search['category'] = implode(',', $category);
+    $next_search['andor']    = $andor;
+    $next_search['term']     = $term;
     $query                   = trim($term);
 
-    if ($andor != "EXACT") {
+    if ($andor !== 'EXACT') {
         $ignored_queries = array(); // holds kewords that are shorter than allowed minmum length
         $temp_queries    = preg_split("/[\s,]+/", $query);
         foreach ($temp_queries as $q) {
             $q = trim($q);
-            if (strlen($q) >= $xoopsConfigSearch["keyword_min"]) {
+            if (strlen($q) >= $xoopsConfigSearch['keyword_min']) {
                 $queries[] = $myts->addSlashes($q);
             } else {
                 $ignored_queries[] = $myts->addSlashes($q);
             }
         }
-        unset($q);
+//        unset($q);
         if (count($queries) == 0) {
-            redirect_header(PUBLISHER_URL . "/search.php", 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch["keyword_min"]));
-//            exit();
+            redirect_header(PUBLISHER_URL . '/search.php', 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch['keyword_min']));
+            //            exit();
         }
     } else {
-        if (strlen($query) < $xoopsConfigSearch["keyword_min"]) {
-            redirect_header(PUBLISHER_URL . "/search.php", 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch["keyword_min"]));
-//            exit();
+        if (strlen($query) < $xoopsConfigSearch['keyword_min']) {
+            redirect_header(PUBLISHER_URL . '/search.php', 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch['keyword_min']));
+            //            exit();
         }
         $queries = array($myts->addSlashes($query));
     }
 
     $uname_required       = false;
     $search_username      = trim($username);
-    $next_search["uname"] = $search_username;
+    $next_search['uname'] = $search_username;
     if (!empty($search_username)) {
         $uname_required  = true;
         $search_username = $myts->addSlashes($search_username);
-        if (!$result = $GLOBALS['xoopsDB']->query("SELECT uid FROM " . $GLOBALS['xoopsDB']->prefix("users") . " WHERE uname LIKE " . $GLOBALS['xoopsDB']->quoteString("%$search_username%"))) {
-            redirect_header(PUBLISHER_URL . "/search.php", 1, _CO_PUBLISHER_ERROR);
-//            exit();
+        if (!$result = $GLOBALS['xoopsDB']->query('SELECT uid FROM ' . $GLOBALS['xoopsDB']->prefix('users') . ' WHERE uname LIKE ' . $GLOBALS['xoopsDB']->quoteString("%$search_username%"))) {
+            redirect_header(PUBLISHER_URL . '/search.php', 1, _CO_PUBLISHER_ERROR);
+            //            exit();
         }
         $uid = array();
         while (($row = $GLOBALS['xoopsDB']->fetchArray($result)) !== false) {
-            $uid[] = $row["uid"];
+            $uid[] = $row['uid'];
         }
     } else {
         $uid = 0;
     }
 
-    $next_search["sortby"]   = $sortby;
-    $next_search["searchin"] = implode("|", $searchin);
+    $next_search['sortby']   = $sortby;
+    $next_search['searchin'] = implode('|', $searchin);
 
     if (!empty($time)) {
-        $extra = "";
+        $extra = '';
     } else {
-        $extra = "";
+        $extra = '';
     }
 
     if ($uname_required && (!$uid || count($uid) < 1)) {
         $results = array();
     } else {
-        $results = $module_info_search["func"]($queries, $andor, $limit, $start, $uid, $category, $sortby, $searchin, $extra);
+        $results = $module_info_search['func']($queries, $andor, $limit, $start, $uid, $category, $sortby, $searchin, $extra);
     }
 
     if (count($results) < 1) {
-        $results[] = array("text" => _SR_NOMATCH);
+        $results[] = array('text' => _SR_NOMATCH);
     }
 
-    $xoopsTpl->assign("results", $results);
+    $xoopsTpl->assign('results', $results);
 
     if (count($next_search) > 0) {
         $items = array();
         foreach ($next_search as $para => $val) {
-            if (!empty($val)) $items[] = "{$para}={$val}";
+            if (!empty($val)) {
+                $items[] = "{$para}={$val}";
+            }
         }
-        if (count($items) > 0) $paras = implode("&", $items);
-        unset($next_search, $para, $val);
-        unset($items);
+        if (count($items) > 0) {
+            $paras = implode('&', $items);
+        }
+        unset($next_search, $para, $val, $items);
     }
-    $search_url = PUBLISHER_URL . "/search.php?" . $paras;
+    $search_url = PUBLISHER_URL . '/search.php?' . $paras;
 
     if (count($results)) {
         $next            = $start + $limit;
-        $queries         = implode(",", $queries);
+        $queries         = implode(',', $queries);
         $search_url_next = $search_url . "&start={$next}";
-        $search_next     = "<a href=\"" . htmlspecialchars($search_url_next) . "\">" . _SR_NEXT . "</a>";
-        $xoopsTpl->assign("search_next", $search_next);
+        $search_next     = "<a href=\"" . htmlspecialchars($search_url_next) . "\">" . _SR_NEXT . '</a>';
+        $xoopsTpl->assign('search_next', $search_next);
     }
     if ($start > 0) {
         $prev            = $start - $limit;
         $search_url_prev = $search_url . "&start={$prev}";
-        $search_prev     = "<a href=\"" . htmlspecialchars($search_url_prev) . "\">" . _SR_PREVIOUS . "</a>";
-        $xoopsTpl->assign("search_prev", $search_prev);
+        $search_prev     = "<a href=\"" . htmlspecialchars($search_url_prev) . "\">" . _SR_PREVIOUS . '</a>';
+        $xoopsTpl->assign('search_prev', $search_prev);
     }
 
     unset($results);
-    $search_info = _SR_KEYWORDS . ": " . $myts->htmlSpecialChars($term);
+    $search_info = _SR_KEYWORDS . ': ' . $myts->htmlSpecialChars($term);
     if ($uname_required) {
-        if ($search_info) $search_info .= "<br />";
-        $search_info .= _CO_PUBLISHER_UID . ": " . $myts->htmlSpecialChars($search_username);
+        if ($search_info) {
+            $search_info .= '<br />';
+        }
+        $search_info .= _CO_PUBLISHER_UID . ': ' . $myts->htmlSpecialChars($search_username);
     }
-    $xoopsTpl->assign("search_info", $search_info);
+    $xoopsTpl->assign('search_info', $search_info);
 }
 
 /* type */
-$type_select = "<select name=\"andor\">";
-$type_select .= "<option value=\"OR\"";
-if ("OR" == $andor) $type_select .= " selected=\"selected\"";
-$type_select .= ">" . _SR_ANY . "</option>";
-$type_select .= "<option value=\"AND\"";
-if ("AND" == $andor) $type_select .= " selected=\"selected\"";
-$type_select .= ">" . _SR_ALL . "</option>";
-$type_select .= "<option value=\"EXACT\"";
-if ("EXACT" == $andor) $type_select .= " selected=\"selected\"";
-$type_select .= ">" . _SR_EXACT . "</option>";
-$type_select .= "</select>";
+$typeSelect = "<select name=\"andor\">";
+$typeSelect .= "<option value=\"OR\"";
+if ('OR' === $andor) {
+    $typeSelect .= " selected=\"selected\"";
+}
+$typeSelect .= '>' . _SR_ANY . '</option>';
+$typeSelect .= "<option value=\"AND\"";
+if ('AND' === $andor) {
+    $typeSelect .= " selected=\"selected\"";
+}
+$typeSelect .= '>' . _SR_ALL . '</option>';
+$typeSelect .= "<option value=\"EXACT\"";
+if ('EXACT' === $andor) {
+    $typeSelect .= " selected=\"selected\"";
+}
+$typeSelect .= '>' . _SR_EXACT . '</option>';
+$typeSelect .= '</select>';
 
 /* category */
-$categories = $publisher->getHandler('category')->getCategoriesForSearch();
+$categories =& $publisher->getHandler('category')->getCategoriesForSearch();
 
-$select_category = "<select name=\"category[]\" size=\"5\" multiple=\"multiple\">";
-$select_category .= "<option value=\"all\"";
-if (empty($category) || count($category) == 0) $select_category .= "selected=\"selected\"";
-$select_category .= ">" . _ALL . "</option>";
+$categorySelect = "<select name=\"category[]\" size=\"5\" multiple=\"multiple\">";
+$categorySelect .= "<option value=\"all\"";
+if (empty($category) || count($category) == 0) {
+    $categorySelect .= "selected=\"selected\"";
+}
+$categorySelect .= '>' . _ALL . '</option>';
 foreach ($categories as $id => $cat) {
-    $select_category .= "<option value=\"" . $id . "\"";
-    if (in_array($id, $category)) $select_category .= "selected=\"selected\"";
-    $select_category .= ">" . $cat . "</option>";
+    $categorySelect .= "<option value=\"" . $id . "\"";
+    if (in_array($id, $category)) {
+        $categorySelect .= "selected=\"selected\"";
+    }
+    $categorySelect .= '>' . $cat . '</option>';
 }
 unset($id, $cat);
-$select_category .= "</select>";
+$categorySelect .= '</select>';
 
 /* scope */
-$searchin_select = "";
-$searchin_select .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"title\"";
-if (in_array("title", $searchin)) $searchin_select .= " checked";
-$searchin_select .= " />" . _CO_PUBLISHER_TITLE . "&nbsp;&nbsp;";
-$searchin_select .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"subtitle\"";
-if (in_array("subtitle", $searchin)) $searchin_select .= " checked";
-$searchin_select .= " />" . _CO_PUBLISHER_SUBTITLE . "&nbsp;&nbsp;";
-$searchin_select .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"summary\"";
-if (in_array("summary", $searchin)) $searchin_select .= " checked";
-$searchin_select .= " />" . _CO_PUBLISHER_SUMMARY . "&nbsp;&nbsp;";
-$searchin_select .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"text\"";
-if (in_array("body", $searchin)) $searchin_select .= " checked";
-$searchin_select .= " />" . _CO_PUBLISHER_BODY . "&nbsp;&nbsp;";
-$searchin_select .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"keywords\"";
-if (in_array("meta_keywords", $searchin)) $searchin_select .= " checked";
-$searchin_select .= " />" . _CO_PUBLISHER_ITEM_META_KEYWORDS . "&nbsp;&nbsp;";
-$searchin_select .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"all\"";
-if (in_array("all", $searchin) || empty($searchin)) $searchin_select .= " checked";
-$searchin_select .= " />" . _ALL . "&nbsp;&nbsp;";
+$searchSelect = '';
+$searchSelect .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"title\"";
+if (in_array('title', $searchin)) {
+    $searchSelect .= ' checked';
+}
+$searchSelect .= ' />' . _CO_PUBLISHER_TITLE . '&nbsp;&nbsp;';
+$searchSelect .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"subtitle\"";
+if (in_array('subtitle', $searchin)) {
+    $searchSelect .= ' checked';
+}
+$searchSelect .= ' />' . _CO_PUBLISHER_SUBTITLE . '&nbsp;&nbsp;';
+$searchSelect .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"summary\"";
+if (in_array('summary', $searchin)) {
+    $searchSelect .= ' checked';
+}
+$searchSelect .= ' />' . _CO_PUBLISHER_SUMMARY . '&nbsp;&nbsp;';
+$searchSelect .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"text\"";
+if (in_array('body', $searchin)) {
+    $searchSelect .= ' checked';
+}
+$searchSelect .= ' />' . _CO_PUBLISHER_BODY . '&nbsp;&nbsp;';
+$searchSelect .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"keywords\"";
+if (in_array('meta_keywords', $searchin)) {
+    $searchSelect .= ' checked';
+}
+$searchSelect .= ' />' . _CO_PUBLISHER_ITEM_META_KEYWORDS . '&nbsp;&nbsp;';
+$searchSelect .= "<input type=\"checkbox\" name=\"searchin[]\" value=\"all\"";
+if (empty($searchin) || in_array('all', $searchin)) {
+    $searchSelect .= ' checked';
+}
+$searchSelect .= ' />' . _ALL . '&nbsp;&nbsp;';
 
 /* sortby */
-$sortby_select = "<select name=\"sortby\">";
-$sortby_select .= "<option value=\"itemid\"";
-if ("itemid" == $sortby || empty($sortby)) $sortby_select .= " selected=\"selected\"";
-$sortby_select .= ">" . _NONE . "</option>";
-$sortby_select .= "<option value=\"datesub\"";
-if ("datesub" == $sortby) $sortby_select .= " selected=\"selected\"";
-$sortby_select .= ">" . _CO_PUBLISHER_DATESUB . "</option>";
-$sortby_select .= "<option value=\"title\"";
-if ("title" == $sortby) $sortby_select .= " selected=\"selected\"";
-$sortby_select .= ">" . _CO_PUBLISHER_TITLE . "</option>";
-$sortby_select .= "<option value=\"categoryid\"";
-if ("categoryid" == $sortby) $sortby_select .= " selected=\"selected\"";
-$sortby_select .= ">" . _CO_PUBLISHER_CATEGORY . "</option>";
-$sortby_select .= "</select>";
+$sortbySelect = "<select name=\"sortby\">";
+$sortbySelect .= "<option value=\"itemid\"";
+if ('itemid' === $sortby || empty($sortby)) {
+    $sortbySelect .= " selected=\"selected\"";
+}
+$sortbySelect .= '>' . _NONE . '</option>';
+$sortbySelect .= "<option value=\"datesub\"";
+if ('datesub' === $sortby) {
+    $sortbySelect .= " selected=\"selected\"";
+}
+$sortbySelect .= '>' . _CO_PUBLISHER_DATESUB . '</option>';
+$sortbySelect .= "<option value=\"title\"";
+if ('title' === $sortby) {
+    $sortbySelect .= " selected=\"selected\"";
+}
+$sortbySelect .= '>' . _CO_PUBLISHER_TITLE . '</option>';
+$sortbySelect .= "<option value=\"categoryid\"";
+if ('categoryid' === $sortby) {
+    $sortbySelect .= " selected=\"selected\"";
+}
+$sortbySelect .= '>' . _CO_PUBLISHER_CATEGORY . '</option>';
+$sortbySelect .= '</select>';
 
-$xoopsTpl->assign("type_select", $type_select);
-$xoopsTpl->assign("searchin_select", $searchin_select);
-$xoopsTpl->assign("category_select", $select_category);
-$xoopsTpl->assign("sortby_select", $sortby_select);
-$xoopsTpl->assign("search_term", $term);
-$xoopsTpl->assign("search_user", $username);
+$xoopsTpl->assign('typeSelect', $typeSelect);
+$xoopsTpl->assign('searchSelect', $searchSelect);
+$xoopsTpl->assign('categorySelect', $categorySelect);
+$xoopsTpl->assign('sortbySelect', $sortbySelect);
+$xoopsTpl->assign('search_term', $term);
+$xoopsTpl->assign('search_user', $username);
 
-$xoopsTpl->assign("modulename", $publisher->getModule()->name());
+$xoopsTpl->assign('modulename', $publisher->getModule()->name());
 $xoopsTpl->assign('module_dirname', $publisher->getModule()->getVar('dirname'));
 
-if ($xoopsConfigSearch["keyword_min"] > 0) {
-    $xoopsTpl->assign("search_rule", sprintf(_SR_KEYIGNORE, $xoopsConfigSearch["keyword_min"]));
+if ($xoopsConfigSearch['keyword_min'] > 0) {
+    $xoopsTpl->assign('search_rule', sprintf(_SR_KEYIGNORE, $xoopsConfigSearch['keyword_min']));
 }
 
-include $GLOBALS['xoops']->path("footer.php");
+include $GLOBALS['xoops']->path('footer.php');

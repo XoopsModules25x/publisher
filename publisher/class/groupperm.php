@@ -34,29 +34,29 @@ class PublisherGroupPermHandler extends XoopsGroupPermHandler
     /**
      * Check permission
      *
-     * @param string     $gperm_name    Name of permission
-     * @param int        $gperm_itemid  ID of an item
-     * @param int /array $gperm_groupid A group ID or an array of group IDs
-     * @param int        $gperm_modid   ID of a module
+     * @param string $gpermName   Name of permission
+     * @param int    $gpermItemId ID of an item
+     * @param        int           /array $gpermGroupId A group ID or an array of group IDs
+     * @param int    $gpermModId  ID of a module
      *
      * @return bool TRUE if permission is enabled
      */
-    public function checkRight($gperm_name, $gperm_itemid, $gperm_groupid, $gperm_modid = 1)
+    public function checkRight($gpermName, $gpermItemId, $gpermGroupId, $gpermModId = 1)
     {
-        $criteria = new CriteriaCompo(new Criteria('gperm_modid', $gperm_modid));
-        $criteria->add(new Criteria('gperm_name', $gperm_name));
-        $gperm_itemid = (int)($gperm_itemid);
-        if ($gperm_itemid > 0) {
-            $criteria->add(new Criteria('gperm_itemid', $gperm_itemid));
+        $criteria = new CriteriaCompo(new Criteria('gperm_modid', $gpermModId));
+        $criteria->add(new Criteria('gperm_name', $gpermName));
+        $gpermItemId = (int)($gpermItemId);
+        if ($gpermItemId > 0) {
+            $criteria->add(new Criteria('gperm_itemid', $gpermItemId));
         }
-        if (is_array($gperm_groupid)) {
+        if (is_array($gpermGroupId)) {
             $criteria2 = new CriteriaCompo();
-            foreach ($gperm_groupid as $gid) {
+            foreach ($gpermGroupId as $gid) {
                 $criteria2->add(new Criteria('gperm_groupid', $gid), 'OR');
             }
             $criteria->add($criteria2);
         } else {
-            $criteria->add(new Criteria('gperm_groupid', $gperm_groupid));
+            $criteria->add(new Criteria('gperm_groupid', $gpermGroupId));
         }
         if ($this->getCount($criteria) > 0) {
             return true;

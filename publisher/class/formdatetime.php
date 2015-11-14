@@ -28,21 +28,27 @@ include_once dirname(__DIR__) . '/include/common.php';
 class PublisherFormDateTime extends XoopsFormElementTray
 {
     /**
-     * @param     $caption
-     * @param     $name
-     * @param int $size
-     * @param int $value
+     * @param      $caption
+     * @param      $name
+     * @param int  $size
+     * @param int  $value
+     * @param bool $showtime
+     * @param bool $formatTimestamp
      */
-    public function __construct($caption, $name, $size = 15, $value = 0)
+    public function __construct($caption, $name, $size = 15, $value = 0, $showtime = true, $formatTimestamp = true)
     {
         parent::__construct($caption, '&nbsp;');
-        $value    = (int)($value);
-        $value    = ($value > 0) ? $value : time();
-        $datetime = getDate($value);
-        $this->addElement(new XoopsFormTextDateSelect('', $name . '[date]', $size, $value));
+        $value = (int)($value);
+        $value = ($value > 0) ? $value : time();
+        if ($formatTimestamp) {
+            $value = strtotime(formatTimestamp($value));
+        }
+        $datetime = getdate($value);
+
+        $this->addElement(new XoopsFormTextDateSelect('', $name . '[date]', $size, $value, $showtime));
         $timearray = array();
         for ($i = 0; $i < 24; ++$i) {
-            for ($j = 0; $j < 60; $j = $j + 10) {
+            for ($j = 0; $j < 60; $j += 10) {
                 $key             = ($i * 3600) + ($j * 60);
                 $timearray[$key] = ($j != 0) ? $i . ':' . $j : $i . ':0' . $j;
             }

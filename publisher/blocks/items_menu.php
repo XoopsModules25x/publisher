@@ -33,19 +33,19 @@ function publisher_items_menu_show($options)
 {
     $block = array();
 
-    $publisher = PublisherPublisher::getInstance();
+    $publisher =& PublisherPublisher::getInstance();
 
     // Getting all top cats
-    $block_categoriesObj = $publisher->getHandler('category')->getCategories(0, 0, 0);
+    $blockCategoriesObj =& $publisher->getHandler('category')->getCategories(0, 0, 0);
 
-    if (count($block_categoriesObj) == 0) {
+    if (count($blockCategoriesObj) == 0) {
         return $block;
     }
 
     // Are we in Publisher ?
     $block['inModule'] = (isset($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirname') == $publisher->getModule()->getVar('dirname'));
 
-    $catlink_class = 'menuMain';
+    $catLinkClass = 'menuMain';
 
     $categoryid = 0;
 
@@ -57,13 +57,13 @@ function publisher_items_menu_show($options)
             // if we are in a category, then the $categoryObj is already defined in publisher/category.php
             global $categoryObj;
             $block['currentcat'] = $categoryObj->getCategoryLink('menuTop');
-            $catlink_class       = 'menuSub';
+            $catLinkClass       = 'menuSub';
         }
     }
 
-    foreach ($block_categoriesObj as $catid => $block_categoryObj) {
+    foreach ($blockCategoriesObj as $catid => $blockCategoryObj) {
         if ($catid != $categoryid) {
-            $block['categories'][$catid]['categoryLink'] = $block_categoryObj->getCategoryLink($catlink_class);
+            $block['categories'][$catid]['categoryLink'] = $blockCategoryObj->getCategoryLink($catLinkClass);
         }
     }
 
@@ -87,8 +87,7 @@ function publisher_items_menu_edit($options)
     $orderEle->addOptionArray(array(
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT,
-                              ));
+                                  'weight'  => _MB_PUBLISHER_WEIGHT));
     $dispEle = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
 
     $form->addElement($catEle);

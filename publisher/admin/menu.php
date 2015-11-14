@@ -21,75 +21,80 @@
 
 // defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-$dirname        = basename(dirname(__DIR__));
-$moduleHandler = xoops_gethandler('module');
-$module         = $moduleHandler->getByDirname($dirname);
-$pathIcon32     = $module->getInfo('icons32');
+$dirname       = basename(dirname(__DIR__));
+$moduleHandler =& xoops_getHandler('module');
+$module        = $moduleHandler->getByDirname($dirname);
+$pathIcon32    = $module->getInfo('icons32');
 
 include_once dirname(__DIR__) . '/include/config.php';
 
 xoops_loadLanguage('admin', $dirname);
 
-$i = 0;
+$adminmenu = array(
+    array(
+        'title' => _MI_PUBLISHER_ADMENU0,
+        'link'  => 'admin/index.php',
+        'icon'  => '../../' . $pathIcon32 . '/home.png'),
 
-// Index
-$adminmenu[$i]['title'] = _MI_PUBLISHER_ADMENU0;
-$adminmenu[$i]['link']  = "admin/index.php";
-$adminmenu[$i]["icon"]  = '../../' . $pathIcon32 . '/home.png';
-++$i;
-
-$adminmenu[$i]['title'] = _MI_PUBLISHER_ADMENU1;
-$adminmenu[$i]['link']  = "admin/main.php";
-$adminmenu[$i]["icon"]  = '../../' . $pathIcon32 . '/manage.png';
-++$i;
+    array(
+        'title' => _MI_PUBLISHER_ADMENU1,
+        'link'  => 'admin/main.php',
+        'icon'  => '../../' . $pathIcon32 . '/manage.png'),
 
 // Category
-$adminmenu[$i]['title'] = _MI_PUBLISHER_ADMENU2;
-$adminmenu[$i]['link']  = "admin/category.php";
-$adminmenu[$i]["icon"]  = '../../' . $pathIcon32 . '/category.png';
-++$i;
+    array(
+        'title' => _MI_PUBLISHER_ADMENU2,
+        'link'  => 'admin/category.php',
+        'icon'  => '../../' . $pathIcon32 . '/category.png'),
 
 // Items
-$adminmenu[$i]['title'] = _MI_PUBLISHER_ADMENU3;
-$adminmenu[$i]['link']  = "admin/item.php";
-$adminmenu[$i]["icon"]  = '../../' . $pathIcon32 . '/content.png';
-++$i;
+array(
+    'title' => _MI_PUBLISHER_ADMENU3,
+    'link'  => 'admin/item.php',
+    'icon'  => '../../' . $pathIcon32 . '/content.png'),
 
 // Permissions
-$adminmenu[$i]['title'] = _MI_PUBLISHER_ADMENU4;
-$adminmenu[$i]['link']  = "admin/permissions.php";
-$adminmenu[$i]["icon"]  = '../../' . $pathIcon32 . '/permissions.png';
-++$i;
+    array(
+        'title' => _MI_PUBLISHER_ADMENU4,
+        'link'  => 'admin/permissions.php',
+        'icon'  => '../../' . $pathIcon32 . '/permissions.png'),
 
 // Mimetypes
-$adminmenu[$i]['title'] = _MI_PUBLISHER_ADMENU6;
-$adminmenu[$i]['link']  = "admin/mimetypes.php";
-$adminmenu[$i]["icon"]  = '../../' . $pathIcon32 . '/type.png';
-++$i;
+    array(
+        'title' => _MI_PUBLISHER_ADMENU6,
+        'link'  => 'admin/mimetypes.php',
+        'icon'  => '../../' . $pathIcon32 . '/type.png'),
 
 // Preferences
-$adminmenu[$i]['title'] = _PREFERENCES;
-$adminmenu[$i]['link']  = "admin/preferences.php";
-$adminmenu[$i]["icon"]  = '../../' . $pathIcon32 . '/administration.png';
-++$i;
+//    array(
+//        'title' => _PREFERENCES,
+//        'link'  => 'admin/preferences.php',
+//        'icon'  => '../../' . $pathIcon32 . '/administration.png'),
+
 /*
-$adminmenu[$i]['title'] = _AM_PUBLISHER_COMMENTS;
-$adminmenu[$i]['link']  = '../../modules/system/admin.php?fct=comments&amp;module=' . $module->getVar('mid');
-$adminmenu[$i]["icon"]  = './assets/images/icon32/folder_txt.png';
-++$i;
+ //Comments
+    array(
+        "title" => _AM_PUBLISHER_COMMENTS,
+        "link"  => '../../modules/system/admin.php?fct=comments&amp;module=' . $module->getVar('mid'),
+        "icon"  => './assets/images/icon32/folder_txt.png'),
 */
-$adminmenu[$i]['title'] = _AM_PUBLISHER_IMPORT;
-$adminmenu[$i]['link']  = "admin/import.php";
-$adminmenu[$i]["icon"]  = '../../' . $pathIcon32 . '/download.png';
-++$i;
 
-$adminmenu[$i]['title'] = _AM_PUBLISHER_CLONE;
-$adminmenu[$i]['link']  = "admin/clone.php";
-$adminmenu[$i]["icon"]  = './assets/images/icon32/editcopy.png';
-++$i;
+//Import
+    array(
+        'title' => _AM_PUBLISHER_IMPORT,
+        'link'  => 'admin/import.php',
+        'icon'  => '../../' . $pathIcon32 . '/download.png'),
 
-$adminmenu[$i]['title'] = _AM_PUBLISHER_ABOUT;
-$adminmenu[$i]['link']  = "admin/about.php";
-$adminmenu[$i]["icon"]  = '../../' . $pathIcon32 . '/about.png';
+//Clone
+    array(
+        'title' => _AM_PUBLISHER_CLONE,
+        'link'  => 'admin/clone.php',
+        'icon'  => './assets/images/icon32/editcopy.png'),
 
-$GLOBALS['xoTheme']->addStylesheet("modules/" . $dirname . "/assets/css/style.css");
+//About
+array(
+    'title' => _AM_PUBLISHER_ABOUT,
+    'link'  => 'admin/about.php',
+    'icon'  => '../../' . $pathIcon32 . '/about.png'));
+
+$GLOBALS['xoTheme']->addStylesheet('modules/' . $dirname . '/assets/css/style.css');

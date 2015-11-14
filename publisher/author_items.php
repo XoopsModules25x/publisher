@@ -22,21 +22,21 @@
 include_once __DIR__ . '/header.php';
 
 $uid = XoopsRequest::getInt('uid', 0, 'GET');
-if (empty($uid)) {
+if (0 == $uid) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
-//   exit();
+    //   exit();
 }
 
-$member_handler = xoops_gethandler('member');
-$thisuser       = $member_handler->getUser($uid);
+$memberHandler =& xoops_getHandler('member');
+$thisuser       = $memberHandler->getUser($uid);
 if (!is_object($thisuser)) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
-//    exit();
+    //    exit();
 }
 
 if (!$publisher->getConfig('perm_author_items')) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
-//mb    exit();
+    //mb    exit();
 }
 
 $myts = MyTextSanitizer::getInstance();
@@ -48,7 +48,7 @@ include_once PUBLISHER_ROOT_PATH . '/footer.php';
 $criteria = new CriteriaCompo(new Criteria('datesub', time(), '<='));
 $criteria->add(new Criteria('uid', $uid));
 
-$items = $publisher->getHandler('item')->getItems($limit = 0, $start = 0, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, 'datesub', 'DESC', '', true, $criteria);
+$items =& $publisher->getHandler('item')->getItems($limit = 0, $start = 0, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, 'datesub', 'DESC', '', true, $criteria);
 unset($criteria);
 $count = count($items);
 
@@ -70,17 +70,16 @@ if ($count > 0) {
                 'count_items' => 0,
                 'count_hits'  => 0,
                 'title'       => $item->getCategoryName(),
-                'link'        => $item->getCategoryLink()
-            );
+                'link'        => $item->getCategoryLink());
         }
 
         $categories[$catid]['count_items']++;
         $categories[$catid]['count_hits'] += $item->counter();
         $categories[$catid]['items'][] = array(
-            'title'     => $item->title(),
+            'title'     => $item->getTitle(),
             'hits'      => $item->counter(),
             'link'      => $item->getItemLink(),
-            'published' => $item->datesub(),
+            'published' => $item->getDatesub(),
             'rating'    => $item->rating());
     }
 }

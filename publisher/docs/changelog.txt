@@ -1,3 +1,15 @@
+<h5>1.02 RC3       (2015-11-14)</h5>
+- added sort by Rating, Hits, # of Votes and Comments (brutalicuss/mamba)
+- added extra columns in Admin's Summary view (mamba)
+- remove non-existent XoopsFormCalendar in blocks (mamba)
+- replace XoopsLocal::formatTimestamp() with formatTimestamp() so we have User local time (mamba/geekwright)
+- replaced hard-coded GMT date in PublisherFormDateTime with formatTimestamp (mamba) (TODO: do the same for XoopsFormDateTime)
+- adjusted apostrophes to prevent the define translation errors (slider84)
+- bug #6: Array to string conversion (cesagonchu/mamba)
+- fixed bug: not able to delete category (Dante7237/mamba)
+- fixed bug: cloning of article (mamba)
+
+
 <h5>1.02 RC1       (2015-05-26)</h5>
 - updated to XOOPS 2.5.7 version of jQuery UI Tabs (noo-b/mamba)
 - replaced PublisherRequest with calls to XoopsRequest (mamba)

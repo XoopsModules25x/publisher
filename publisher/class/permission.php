@@ -32,37 +32,37 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      * @var PublisherPublisher
      * @access public
      */
-    public $publisher = null;
+    public $publisher;
 
     /**
      *
      */
     public function __construct()
     {
-        $this->publisher = PublisherPublisher::getInstance();
+        $this->publisher =& PublisherPublisher::getInstance();
     }
 
     /**
      * Returns permissions for a certain type
      *
-     * @param string $gperm_name "global", "forum" or "topic" (should perhaps have "post" as well - but I don't know)
+     * @param string $gpermName "global", "forum" or "topic" (should perhaps have "post" as well - but I don't know)
      * @param int    $id         id of the item (forum, topic or possibly post) to get permissions for
      *
      * @return array
      */
-    public function getGrantedGroupsById($gperm_name, $id)
+    public function getGrantedGroupsById($gpermName, $id)
     {
         static $items;
-        if (isset($items[$gperm_name][$id])) {
-            return $items[$gperm_name][$id];
+        if (isset($items[$gpermName][$id])) {
+            return $items[$gpermName][$id];
         }
         $groups   = array();
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('gperm_modid', $this->publisher->getModule()->getVar('mid')));
-        $criteria->add(new Criteria('gperm_name', $gperm_name));
+        $criteria->add(new Criteria('gperm_name', $gpermName));
         $criteria->add(new Criteria('gperm_itemid', $id));
         //Instead of calling groupperm handler and get objects, we will save some memory and do it our way
-        $db    = XoopsDatabaseFactory::getDatabaseConnection();
+        $db    =& XoopsDatabaseFactory::getDatabaseConnection();
         $limit = $start = 0;
         $sql   = 'SELECT gperm_groupid FROM ' . $db->prefix('group_permission');
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
@@ -74,7 +74,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
         while (($myrow = $db->fetchArray($result)) !== false) {
             $groups[$myrow['gperm_groupid']] = $myrow['gperm_groupid'];
         }
-        $items[$gperm_name][$id] = $groups;
+        $items[$gpermName][$id] = $groups;
 
         return $groups;
     }
@@ -82,20 +82,20 @@ class PublisherPermissionHandler extends XoopsObjectHandler
     /**
      * Returns permissions for a certain type
      *
-     * @param string $gperm_name "global", "forum" or "topic" (should perhaps have "post" as well - but I don't know)
+     * @param string $gpermName "global", "forum" or "topic" (should perhaps have "post" as well - but I don't know)
      *
      * @return array
      */
-    public function getGrantedItems($gperm_name)
+    public function getGrantedItems($gpermName)
     {
         static $items;
-        if (isset($items[$gperm_name])) {
-            return $items[$gperm_name];
+        if (isset($items[$gpermName])) {
+            return $items[$gpermName];
         }
 
         $ret = array();
         //Instead of calling groupperm handler and get objects, we will save some memory and do it our way
-        $criteria = new CriteriaCompo(new Criteria('gperm_name', $gperm_name));
+        $criteria = new CriteriaCompo(new Criteria('gperm_name', $gpermName));
         $criteria->add(new Criteria('gperm_modid', $this->publisher->getModule()->getVar('mid')));
 
         //Get user's groups
@@ -105,30 +105,30 @@ class PublisherPermissionHandler extends XoopsObjectHandler
             $criteria2->add(new Criteria('gperm_groupid', $gid), 'OR');
         }
         $criteria->add($criteria2);
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  =& XoopsDatabaseFactory::getDatabaseConnection();
         $sql = 'SELECT gperm_itemid FROM ' . $db->prefix('group_permission');
         $sql .= ' ' . $criteria->renderWhere();
         $result = $db->query($sql, 0, 0);
         while (($myrow = $db->fetchArray($result)) !== false) {
             $ret[$myrow['gperm_itemid']] = $myrow['gperm_itemid'];
         }
-        $items[$gperm_name] = $ret;
+        $items[$gpermName] = $ret;
 
         return $ret;
     }
 
     /**
-     * @param string $gperm_name
+     * @param string $gpermName
      * @param int    $id
      *
      * @return bool
      */
-    public function isGranted($gperm_name, $id)
+    public function isGranted($gpermName, $id)
     {
         if (!$id) {
             return false;
         }
-        $permissions = $this->getGrantedItems($gperm_name);
+        $permissions = $this->getGrantedItems($gpermName);
         if (!empty($permissions) && isset ($permissions[$id])) {
             return true;
         } else {
@@ -141,23 +141,23 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      *  saveCategoryPermissions()
      *
      * @param array   $groups    : group with granted permission
-     * @param integer $itemid    : itemid on which we are setting permissions for Categories and Forums
-     * @param string  $perm_name : name of the permission
+     * @param integer $itemId    : itemid on which we are setting permissions for Categories and Forums
+     * @param string  $permName : name of the permission
      *
      * @return boolean : TRUE if the no errors occured
      */
-    public function saveItemPermissions($groups, $itemid, $perm_name)
+    public function saveItemPermissions($groups, $itemId, $permName)
     {
         $result        = true;
-        $module_id     = $this->publisher->getModule()->getVar('mid');
-        $gperm_handler = xoops_gethandler('groupperm');
+        $moduleId     = $this->publisher->getModule()->getVar('mid');
+        $gpermHandler =& xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
-        $gperm_handler->deleteByModule($module_id, $perm_name, $itemid);
+        $gpermHandler->deleteByModule($moduleId, $permName, $itemId);
         // Save the new permissions
         if (count($groups) > 0) {
-            foreach ($groups as $group_id) {
-                echo $group_id . "-";
-                echo $gperm_handler->addRight($perm_name, $itemid, $group_id, $module_id);
+            foreach ($groups as $groupId) {
+                echo $groupId . '-';
+                echo $gpermHandler->addRight($permName, $itemId, $groupId, $moduleId);
             }
         }
 
@@ -168,16 +168,16 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      * Delete all permission for a specific item
      *  deletePermissions()
      *
-     * @param integer $itemid     : id of the item for which to delete the permissions
-     * @param string  $gperm_name
+     * @param integer $itemId : id of the item for which to delete the permissions
+     * @param string  $gpermName
      *
      * @return boolean : TRUE if the no errors occured
      */
-    public function deletePermissions($itemid, $gperm_name)
+    public function deletePermissions($itemId, $gpermName)
     {
         $result        = true;
-        $gperm_handler = xoops_gethandler('groupperm');
-        $gperm_handler->deleteByModule($this->publisher->getModule()->getVar('mid'), $gperm_name, $itemid);
+        $gpermHandler =& xoops_getHandler('groupperm');
+        $gpermHandler->deleteByModule($this->publisher->getModule()->getVar('mid'), $gpermName, $itemId);
 
         return $result;
     }

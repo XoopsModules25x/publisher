@@ -21,7 +21,7 @@
 
 include_once __DIR__ . '/admin_header.php';
 
-if ('delfileok' == XoopsRequest::getString('op', '', 'POST')) {
+if ('delfileok' === XoopsRequest::getString('op', '', 'POST')) {
     $dir      = publisherGetUploadDir(true, 'content');
     $filename = XoopsRequest::getString('address', '', 'POST');
     if (file_exists($dir . '/' . $filename)) {

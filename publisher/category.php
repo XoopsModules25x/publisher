@@ -25,18 +25,18 @@ include_once __DIR__ . '/header.php';
 $categoryid = XoopsRequest::getInt('categoryid', 0, 'GET');
 
 // Creating the category object for the selected category
-$categoryObj = $publisher->getHandler('category')->get($categoryid);
+$categoryObj =& $publisher->getHandler('category')->get($categoryid);
 
 // if the selected category was not found, exit
 if (!is_object($categoryObj) || $categoryObj->notLoaded()) {
-    redirect_header("javascript:history.go(-1)", 1, _MD_PUBLISHER_NOCATEGORYSELECTED);
-//    exit();
+    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOCATEGORYSELECTED);
+    //    exit();
 }
 
 // Check user permissions to access this category
 if (!$categoryObj->checkPermission()) {
-    redirect_header("javascript:history.go(-1)", 1, _NOPERM);
-//    exit;
+    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    //    exit;
 }
 
 // At which record shall we start
@@ -44,7 +44,7 @@ $start = XoopsRequest::getInt('start', 0, 'GET');
 
 $item_page_id = XoopsRequest::getInt('page', -1, 'GET');
 
-$totalItems = $publisher->getHandler('category')->publishedItemsCount();
+$totalItems =& $publisher->getHandler('category')->publishedItemsCount();
 
 // if there is no Item under this categories or the sub-categories, exit
 // why?
@@ -66,13 +66,33 @@ $module_id = $publisher->getModule()->getVar('mid');
 
 // creating the Item objects that belong to the selected category
 switch ($publisher->getConfig('format_order_by')) {
-    case 'title' :
+    case 'title':
         $sort  = 'title';
         $order = 'ASC';
         break;
 
-    case 'date' :
+    case 'date':
         $sort  = 'datesub';
+        $order = 'DESC';
+        break;
+
+    case 'counter':
+        $sort  = 'counter';
+        $order = 'DESC';
+        break;
+
+    case 'rating':
+        $sort  = 'rating';
+        $order = 'DESC';
+        break;
+
+    case 'votes':
+        $sort  = 'votes';
+        $order = 'DESC';
+        break;
+
+    case 'comments':
+        $sort  = 'comments';
         $order = 'DESC';
         break;
 
@@ -82,7 +102,7 @@ switch ($publisher->getConfig('format_order_by')) {
         break;
 }
 
-$itemsObj = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_index_perpage'), $start, $categoryid, $sort, $order);
+$itemsObj =& $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_index_perpage'), $start, $categoryid, $sort, $order);
 
 if ($itemsObj) {
     $totalItemOnPage = count($itemsObj);
@@ -98,23 +118,23 @@ $items    = array();
 $category                 = $categoryObj->toArraySimple(null, true);
 $category['categoryPath'] = $categoryObj->getCategoryPath($publisher->getConfig('format_linked_path'));
 
-//$totalItems = $publisher_category_handler->publishedItemsCount($publisher->getConfig('idxcat_display_last_item'));
+//$totalItems = $publisher_categoryHandler->publishedItemsCount($publisher->getConfig('idxcat_display_last_item'));
 
 if ($publisher->getConfig('idxcat_display_last_item') == 1) {
     // Get the last smartitem
-    $last_itemObj = $publisher->getHandler('item')->getLastPublishedByCat(array(array($categoryObj)));
+    $last_itemObj =& $publisher->getHandler('item')->getLastPublishedByCat(array(array($categoryObj)));
 }
 $lastitemsize = (int)($publisher->getConfig('idxcat_last_item_size'));
 
 // Creating the sub-categories objects that belong to the selected category
-$subcatsObj    = $publisher->getHandler('category')->getCategories(0, 0, $categoryid);
+$subcatsObj    =& $publisher->getHandler('category')->getCategories(0, 0, $categoryid);
 $total_subcats = count($subcatsObj);
 
 $total_items = 0;
 
 $subcategories = array();
 
-if ($publisher->getConfig('idxcat_show_subcats') != 'no') {
+if ($publisher->getConfig('idxcat_show_subcats') !== 'no') {
     // if this category has subcats
     if (isset($subcatsObj) && $total_subcats > 0) {
         foreach ($subcatsObj as $key => $subcat) {
@@ -122,7 +142,7 @@ if ($publisher->getConfig('idxcat_show_subcats') != 'no') {
             $subcat_total_items = isset($totalItems[$key]) ? $totalItems[$key] : 0;
 
             // Do we display empty sub-cats ?
-            if (($subcat_total_items > 0) || ($publisher->getConfig('idxcat_show_subcats') == 'all')) {
+            if (($subcat_total_items > 0) || ($publisher->getConfig('idxcat_show_subcats') === 'all')) {
                 $subcat_id = $subcat->getVar('categoryid');
                 // if we retreived the last item object for this category
                 if (isset($last_itemObj[$subcat_id])) {
@@ -170,15 +190,15 @@ if (count($itemsObj) > 0) {
             $userids[$thisitem->uid()] = 1;
         }
     }
-    $member_handler = xoops_gethandler('member');
-    //$users = $member_handler->getUsers(new Criteria('uid', "(" . implode(',', array_keys($userids)) . ")", "IN"), true);
+    $memberHandler =& xoops_getHandler('member');
+    //$users = $memberHandler->getUsers(new Criteria('uid', "(" . implode(',', array_keys($userids)) . ")", "IN"), true);
     */
     // Adding the items of the selected category
 
     for ($i = 0; $i < $totalItemOnPage; ++$i) {
         $item                 = $itemsObj[$i]->toArraySimple('default', $publisher->getConfig('item_title_size'));
         $item['categoryname'] = $categoryObj->name();
-        $item['categorylink'] = "<a href='" . PublisherSeo::generateUrl('category', $itemsObj[$i]->categoryid(), $categoryObj->short_url()) . "'>" . $categoryObj->name() . "</a>";
+        $item['categorylink'] = "<a href='" . PublisherSeo::generateUrl('category', $itemsObj[$i]->categoryid(), $categoryObj->short_url()) . "'>" . $categoryObj->name() . '</a>';
         $item['who_when']     = $itemsObj[$i]->getWhoAndWhen();
         $xoopsTpl->append('items', $item);
     }
@@ -225,7 +245,7 @@ $publisher_metagen->createMetaTags();
 
 // RSS Link
 if ($publisher->getConfig('idxcat_show_rss_link') == 1) {
-    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . "/backend.php?categoryid=" . $categoryid, _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . "/assets/images/rss.gif", _MD_PUBLISHER_RSSFEED);
+    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . '/backend.php?categoryid=' . $categoryid, _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . '/assets/images/rss.gif', _MD_PUBLISHER_RSSFEED);
     $xoopsTpl->assign('rssfeed_link', $link);
 }
 

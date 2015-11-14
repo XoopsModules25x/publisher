@@ -32,12 +32,12 @@ class PublisherRating extends XoopsObject
      */
     public function __construct()
     {
-        $this->initVar("ratingid", XOBJ_DTYPE_INT, null, false);
-        $this->initVar("itemid", XOBJ_DTYPE_INT, null, false);
-        $this->initVar("uid", XOBJ_DTYPE_INT, null, false);
-        $this->initVar("rate", XOBJ_DTYPE_INT, null, false);
-        $this->initVar("ip", XOBJ_DTYPE_TXTAREA, null, false);
-        $this->initVar("date", XOBJ_DTYPE_INT, null, false);
+        $this->initVar('ratingid', XOBJ_DTYPE_INT, null, false);
+        $this->initVar('itemid', XOBJ_DTYPE_INT, null, false);
+        $this->initVar('uid', XOBJ_DTYPE_INT, null, false);
+        $this->initVar('rate', XOBJ_DTYPE_INT, null, false);
+        $this->initVar('ip', XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('date', XOBJ_DTYPE_INT, null, false);
     }
 }
 
@@ -49,7 +49,7 @@ class PublisherRatingHandler extends XoopsPersistableObjectHandler
     /**
      * @param null|XoopsDatabase $db
      */
-    public function __construct($db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'publisher_rating', 'PublisherRating', 'ratingid', 'itemid');
     }

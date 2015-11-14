@@ -89,7 +89,7 @@ array(
     array(
         'title' => _AM_PUBLISHER_CLONE,
         'link'  => 'admin/clone.php',
-        'icon'  => '../../' . $pathIcon32 . '/editcopy.png'),
+        'icon'  => './assets/images/icon32/editcopy.png'),
 
 //About
 array(

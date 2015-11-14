@@ -23,14 +23,15 @@
 include_once __DIR__ . '/admin_header.php';
 
 $itemid = XoopsRequest::getInt('itemid', (XoopsRequest::getInt('itemid', 0, 'POST')), 'GET');
-$op     = ($itemid > 0 || (XoopsRequest::getString('editor', '', 'POST'))) ? 'mod' : '';
-$op     = XoopsRequest::getString('op', $op, 'GET');
+$op     = ($itemid > 0 || (XoopsRequest::getString('editor', '', 'POST'))) ? 'mod' : XoopsRequest::getString('op', '', 'GET');
+//$op     = XoopsRequest::getString('op', $op, 'GET');
 
 //if (!empty(XoopsRequest::getString('additem', '', 'POST'))) {
-//    $op = 'additem';
+//    $op0 = 'additem';
 //} elseif (!empty(XoopsRequest::getString('del', '', 'POST'))) {
-//    $op = 'del';
+//    $op0 = 'del';
 //}
+
 
 $op = (XoopsRequest::getString('additem', '', 'POST')) ? 'additem' : ((XoopsRequest::getString('del', '', 'POST')) ? 'del' : $op);
 
@@ -93,7 +94,7 @@ switch ($op) {
             case PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED:
                 if (($old_status == PublisherConstantsInterface::PUBLISHER_STATUS_NOTSET) || ($old_status == PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED)) {
                     $redirect_msg = _AM_PUBLISHER_SUBMITTED_APPROVE_SUCCESS;
-                    $notifToDo    = array(PublisherConstantsInterface::PUBLISHER_NOT_ITEM_PUBLISHED);
+                    $notifToDo    = array(PublisherConstantsInterface::PUBLISHER_NOTIFY_ITEM_PUBLISHED);
                 } else {
                     $redirect_msg = _AM_PUBLISHER_PUBLISHED_MOD_SUCCESS;
                 }
@@ -513,7 +514,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     $dir = publisherGetUploadDir(true, 'content');
 
-    if (false !== strpos(decoct(fileperms($dir)), '777')) {
+    if (false !== strpos(decoct(fileperms($dir)), '755')) {
         echo "<span style='color:#ff0000;'><h4>" . _AM_PUBLISHER_PERMERROR . '</h4></span>';
     }
 

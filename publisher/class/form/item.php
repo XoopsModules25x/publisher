@@ -192,29 +192,29 @@ class PublisherItemForm extends PublisherThemeTabForm
             $editor = $publisher->getConfig('submit_editor');
         }
 
-        $editor_configs           = array();
-        $editor_configs['rows']   = !$publisher->getConfig('submit_editor_rows') ? 35 : $publisher->getConfig('submit_editor_rows');
-        $editor_configs['cols']   = !$publisher->getConfig('submit_editor_cols') ? 60 : $publisher->getConfig('submit_editor_cols');
-        $editor_configs['width']  = !$publisher->getConfig('submit_editor_width') ? '100%' : $publisher->getConfig('submit_editor_width');
-        $editor_configs['height'] = !$publisher->getConfig('submit_editor_height') ? '400px' : $publisher->getConfig('submit_editor_height');
+        $editorConfigs           = array();
+        $editorConfigs['rows']   = !$publisher->getConfig('submit_editor_rows') ? 35 : $publisher->getConfig('submit_editor_rows');
+        $editorConfigs['cols']   = !$publisher->getConfig('submit_editor_cols') ? 60 : $publisher->getConfig('submit_editor_cols');
+        $editorConfigs['width']  = !$publisher->getConfig('submit_editor_width') ? '100%' : $publisher->getConfig('submit_editor_width');
+        $editorConfigs['height'] = !$publisher->getConfig('submit_editor_height') ? '400px' : $publisher->getConfig('submit_editor_height');
 
         // SUMMARY
         if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_SUMMARY)) {
             // Description
-            //$summary_text = new XoopsFormTextArea(_CO_PUBLISHER_SUMMARY, 'summary', $obj->getVar('summary', 'e'), 7, 60);
-            $editor_configs['name']  = 'summary';
-            $editor_configs['value'] = $obj->getVar('summary', 'e');
-            $summary_text            = new XoopsFormEditor(_CO_PUBLISHER_SUMMARY, $editor, $editor_configs, $nohtml, $onfailure = null);
-            $summary_text->setDescription(_CO_PUBLISHER_SUMMARY_DSC);
-            $this->addElement($summary_text);
+            //$summaryText = new XoopsFormTextArea(_CO_PUBLISHER_SUMMARY, 'summary', $obj->getVar('summary', 'e'), 7, 60);
+            $editorConfigs['name']  = 'summary';
+            $editorConfigs['value'] = $obj->getVar('summary', 'e');
+            $summaryText            = new XoopsFormEditor(_CO_PUBLISHER_SUMMARY, $editor, $editorConfigs, $nohtml, $onfailure = null);
+            $summaryText->setDescription(_CO_PUBLISHER_SUMMARY_DSC);
+            $this->addElement($summaryText);
         }
 
         // BODY
-        $editor_configs['name']  = 'body';
-        $editor_configs['value'] = $obj->getVar('body', 'e');
-        $body_text               = new XoopsFormEditor(_CO_PUBLISHER_BODY, $editor, $editor_configs, $nohtml, $onfailure = null);
-        $body_text->setDescription(_CO_PUBLISHER_BODY_DSC);
-        $this->addElement($body_text);
+        $editorConfigs['name']  = 'body';
+        $editorConfigs['value'] = $obj->getVar('body', 'e');
+        $bodyText               = new XoopsFormEditor(_CO_PUBLISHER_BODY, $editor, $editorConfigs, $nohtml, $onfailure = null);
+        $bodyText->setDescription(_CO_PUBLISHER_BODY_DSC);
+        $this->addElement($bodyText);
 
         // VARIOUS OPTIONS
         if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_DOHTML) || $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOSMILEY) || $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOXCODE) || $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOIMAGE) || $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOLINEBREAK)) {
@@ -242,14 +242,14 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // Available pages to wrap
         if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_AVAILABLE_PAGE_WRAP)) {
-            $wrap_pages                = XoopsLists::getHtmlListAsArray(publisherGetUploadDir(true, 'content'));
-            $available_wrap_pages_text = array();
-            foreach ($wrap_pages as $page) {
-                $available_wrap_pages_text[] = "<span onclick='publisherPageWrap(\"body\", \"[pagewrap=$page] \");' onmouseover='style.cursor=\"pointer\"'>$page</span>";
+            $wrapPages                = XoopsLists::getHtmlListAsArray(publisherGetUploadDir(true, 'content'));
+            $availableWrapPagesText = array();
+            foreach ($wrapPages as $page) {
+                $availableWrapPagesText[] = "<span onclick='publisherPageWrap(\"body\", \"[pagewrap=$page] \");' onmouseover='style.cursor=\"pointer\"'>$page</span>";
             }
-            $available_wrap_pages = new XoopsFormLabel(_CO_PUBLISHER_AVAILABLE_PAGE_WRAP, implode(', ', $available_wrap_pages_text));
-            $available_wrap_pages->setDescription(_CO_PUBLISHER_AVAILABLE_PAGE_WRAP_DSC);
-            $this->addElement($available_wrap_pages);
+            $availableWrapPages = new XoopsFormLabel(_CO_PUBLISHER_AVAILABLE_PAGE_WRAP, implode(', ', $availableWrapPagesText));
+            $availableWrapPages->setDescription(_CO_PUBLISHER_AVAILABLE_PAGE_WRAP_DSC);
+            $this->addElement($availableWrapPages);
         }
 
         // Uid
@@ -258,17 +258,17 @@ class PublisherItemForm extends PublisherThemeTabForm
          */
         // Trabis : well, maybe is because you are getting 6000 objects into memory , no??? LOL
         if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_UID)) {
-            $uid_select = new XoopsFormSelect(_CO_PUBLISHER_UID, 'uid', $obj->uid(), 1, false);
-            $uid_select->setDescription(_CO_PUBLISHER_UID_DSC);
+            $uidSelect = new XoopsFormSelect(_CO_PUBLISHER_UID, 'uid', $obj->uid(), 1, false);
+            $uidSelect->setDescription(_CO_PUBLISHER_UID_DSC);
             $sql            = 'SELECT uid, uname FROM ' . $obj->db->prefix('users') . ' ORDER BY uname ASC';
             $result         = $obj->db->query($sql);
-            $users_array    = array();
-            $users_array[0] = $GLOBALS['xoopsConfig']['anonymous'];
+            $usersArray    = array();
+            $usersArray[0] = $GLOBALS['xoopsConfig']['anonymous'];
             while (($myrow = $obj->db->fetchArray($result)) !== false) {
-                $users_array[$myrow['uid']] = $myrow['uname'];
+                $usersArray[$myrow['uid']] = $myrow['uname'];
             }
-            $uid_select->addOptionArray($users_array);
-            $this->addElement($uid_select);
+            $uidSelect->addOptionArray($usersArray);
+            $this->addElement($uidSelect);
         }
         /* else {
         $hidden = new XoopsFormHidden('uid', $obj->uid());

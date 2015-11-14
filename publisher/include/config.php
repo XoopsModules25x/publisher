@@ -57,6 +57,7 @@ define('PUBLISHER_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PUBLISHER_DIRNAME); //
 
 $uploadFolders = array(
     PUBLISHER_UPLOAD_PATH,
+    PUBLISHER_UPLOAD_PATH . '/content',
     PUBLISHER_UPLOAD_PATH . '/images',
     PUBLISHER_UPLOAD_PATH . '/images/thumbnails');
 

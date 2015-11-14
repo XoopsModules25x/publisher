@@ -114,9 +114,9 @@ class PublisherCategoryForm extends XoopsThemeForm
         $editorConfigs['name']  = 'header';
         $editorConfigs['value'] = $this->targetObject->header('e');
 
-        $text_header = new XoopsFormEditor(_AM_PUBLISHER_CATEGORY_HEADER, $editor, $editorConfigs, $nohtml, $onfailure = null);
-        $text_header->setDescription(_AM_PUBLISHER_CATEGORY_HEADER_DSC);
-        $this->addElement($text_header);
+        $textHeader = new XoopsFormEditor(_AM_PUBLISHER_CATEGORY_HEADER, $editor, $editorConfigs, $nohtml, $onfailure = null);
+        $textHeader->setDescription(_AM_PUBLISHER_CATEGORY_HEADER_DSC);
+        $this->addElement($textHeader);
 
         // IMAGE
         $imageArray  = XoopsLists::getImgListAsArray(publisherGetImageDir('category'));

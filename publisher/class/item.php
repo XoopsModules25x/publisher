@@ -242,7 +242,7 @@ class PublisherItem extends XoopsObject
         $ret     = $this->getVar('body', $format);
         $wrapPos = strpos($ret, '[pagewrap=');
         if (!($wrapPos === false)) {
-            $wrapPages      = array();
+            $wrapPages       = array();
             $wrapCodeLength = strlen('[pagewrap=');
             while (!($wrapPos === false)) {
                 $endWrapPos = strpos($ret, ']', $wrapPos);
@@ -254,7 +254,7 @@ class PublisherItem extends XoopsObject
             }
             foreach ($wrapPages as $page) {
                 $wrapPageContent = $this->wrapPage($page);
-                $ret             = str_replace("[pagewrap={$page}]", $wrapPageContent, $ret);
+                $ret               = str_replace("[pagewrap={$page}]", $wrapPageContent, $ret);
             }
         }
         if ($this->publisher->getConfig('item_disp_blocks_summary')) {
@@ -490,18 +490,18 @@ class PublisherItem extends XoopsObject
         $tags['DATESUB']       = $this->getDatesub();
         foreach ($notifications as $notification) {
             switch ($notification) {
-                case PublisherConstantsInterface::PUBLISHER_NOT_ITEM_PUBLISHED:
+                case PublisherConstantsInterface::PUBLISHER_NOTIFY_ITEM_PUBLISHED:
                     $tags['ITEM_URL'] = PUBLISHER_URL . '/item.php?itemid=' . $this->itemid();
                     $notificationHandler->triggerEvent('global_item', 0, 'published', $tags, array(), $this->publisher->getModule()->getVar('mid'));
                     $notificationHandler->triggerEvent('category_item', $this->categoryid(), 'published', $tags, array(), $this->publisher->getModule()->getVar('mid'));
                     $notificationHandler->triggerEvent('item', $this->itemid(), 'approved', $tags, array(), $this->publisher->getModule()->getVar('mid'));
                     break;
-                case PublisherConstantsInterface::PUBLISHER_NOT_ITEM_SUBMITTED:
+                case PublisherConstantsInterface::PUBLISHER_NOTIFY_ITEM_SUBMITTED:
                     $tags['WAITINGFILES_URL'] = PUBLISHER_URL . '/admin/item.php?itemid=' . $this->itemid();
                     $notificationHandler->triggerEvent('global_item', 0, 'submitted', $tags, array(), $this->publisher->getModule()->getVar('mid'));
                     $notificationHandler->triggerEvent('category_item', $this->categoryid(), 'submitted', $tags, array(), $this->publisher->getModule()->getVar('mid'));
                     break;
-                case PublisherConstantsInterface::PUBLISHER_NOT_ITEM_REJECTED:
+                case PublisherConstantsInterface::PUBLISHER_NOTIFY_ITEM_REJECTED:
                     $notificationHandler->triggerEvent('item', $this->itemid(), 'rejected', $tags, array(), $this->publisher->getModule()->getVar('mid'));
                     break;
                 case -1:
@@ -1046,14 +1046,14 @@ class PublisherItem extends XoopsObject
             $this->setVar('doimage', $this->publisher->getConfig('submit_doimage'));
             $this->setVar('dobr', $this->publisher->getConfig('submit_dobr'));
         } else {
-            $this->setVar('uid', XoopsRequest::getString('uid', '', 'POST'));
-            $this->setVar('cancomment', XoopsRequest::getString('allowcomments', '', 'POST'));
-            $this->setVar('status', XoopsRequest::getString('status', '', 'POST'));
-            $this->setVar('dohtml', XoopsRequest::getString('dohtml', '', 'POST'));
-            $this->setVar('dosmiley', XoopsRequest::getString('dosmiley', '', 'POST'));
-            $this->setVar('doxcode', XoopsRequest::getString('doxcode', '', 'POST'));
-            $this->setVar('doimage', XoopsRequest::getString('doimage', '', 'POST'));
-            $this->setVar('dobr', XoopsRequest::getString('dolinebreak', '', 'POST'));
+            $this->setVar('uid', XoopsRequest::getInt('uid', 0, 'POST'));
+            $this->setVar('cancomment', XoopsRequest::getInt('allowcomments', 1, 'POST'));
+            $this->setVar('status', XoopsRequest::getInt('status', -1, 'POST'));
+            $this->setVar('dohtml', XoopsRequest::getInt('dohtml', 1, 'POST'));
+            $this->setVar('dosmiley', XoopsRequest::getInt('dosmiley', 1, 'POST'));
+            $this->setVar('doxcode', XoopsRequest::getInt('doxcode', 1, 'POST'));
+            $this->setVar('doimage', XoopsRequest::getInt('doimage', 1, 'POST'));
+            $this->setVar('dobr', XoopsRequest::getInt('dolinebreak', 1, 'POST'));
         }
 
         $this->setVar('notifypub', XoopsRequest::getString('notify', '', 'POST'));

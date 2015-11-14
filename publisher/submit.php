@@ -208,7 +208,7 @@ switch ($op) {
                 // We do not not subscribe user to notification on publish since we publish it right away
 
                 // Send notifications
-                $itemObj->sendNotifications(array(PublisherConstantsInterface::PUBLISHER_NOT_ITEM_PUBLISHED));
+                $itemObj->sendNotifications(array(PublisherConstantsInterface::PUBLISHER_NOTIFY_ITEM_PUBLISHED));
 
                 $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_AND_PUBLISHED;
                 redirect_header($itemObj->getItemUrl(), 2, $redirect_msg);
@@ -220,7 +220,7 @@ switch ($op) {
                     $notificationHandler->subscribe('item', $itemObj->itemid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
-                $itemObj->sendNotifications(array(PublisherConstantsInterface::PUBLISHER_NOT_ITEM_SUBMITTED));
+                $itemObj->sendNotifications(array(PublisherConstantsInterface::PUBLISHER_NOTIFY_ITEM_SUBMITTED));
 
                 $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
             }

@@ -21,7 +21,7 @@
 
 include_once __DIR__ . '/admin_header.php';
 
-$op = XoopsRequest::getString('op', '', 'GET');
+$op = XoopsRequest::getString('op', (XoopsRequest::getString('op', '', 'POST')), 'GET');
 
 $op = (XoopsRequest::getString('editor', '', 'POST')) ? 'mod' : $op;
 $op = (XoopsRequest::getString('addcategory', '', 'POST')) ? 'addcategory' : $op;

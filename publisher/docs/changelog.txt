@@ -6,6 +6,7 @@
 - replaced hard-coded GMT date in PublisherFormDateTime with formatTimestamp (mamba) (TODO: do the same for XoopsFormDateTime)
 - adjusted apostrophes to prevent the define translation errors (slider84)
 - bug #6: Array to string conversion (cesagonchu/mamba)
+- fixed bug: not able to delete category (Dante7237/mamba)
 
 
 <h5>1.02 RC1       (2015-05-26)</h5>

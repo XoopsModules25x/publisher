@@ -470,7 +470,7 @@ $publisher(document).ready(function () {
             $imageSelect3->setDescription(_CO_PUBLISHER_IMAGE_ITEM_DSC);
             $this->addElement($imageSelect3);
 
-            $image_preview = new XoopsFormLabel(_CO_PUBLISHER_IMAGE_PREVIEW, "<img width='500' src='" . XOOPS_URL . '/uploads/' . $imageforpath . "' name='image_display' id='image_display' alt='' />");
+            $image_preview = new XoopsFormLabel(_CO_PUBLISHER_IMAGE_PREVIEW, "<img src='" . XOOPS_URL . '/uploads/' . $imageforpath . "' name='image_display' id='image_display' alt='' />");
             $this->addElement($image_preview);
         }
 

@@ -630,7 +630,7 @@ class PublisherItem extends XoopsObject
      *
      * @return string
      */
-    public function buildmaintext($itemPageId = -1, $body = null)
+    public function buildMainText($itemPageId = -1, $body = null)
     {
         if (!$body) {
             $body = $this->body();
@@ -786,7 +786,7 @@ class PublisherItem extends XoopsObject
      */
     public function toArrayAll($item, $itemPageId)
     {
-        $item['maintext'] = $this->buildmaintext($itemPageId, $this->getBody());
+        $item['maintext'] = $this->buildMainText($itemPageId, $this->getBody());
         $item             = $this->getOtherImages($item);
 
         return $item;
@@ -1048,7 +1048,7 @@ class PublisherItem extends XoopsObject
         } else {
             $this->setVar('uid', XoopsRequest::getInt('uid', 0, 'POST'));
             $this->setVar('cancomment', XoopsRequest::getInt('allowcomments', 1, 'POST'));
-            $this->setVar('status', XoopsRequest::getInt('status', -1, 'POST'));
+            $this->setVar('status', XoopsRequest::getInt('status', 1, 'POST'));
             $this->setVar('dohtml', XoopsRequest::getInt('dohtml', 1, 'POST'));
             $this->setVar('dosmiley', XoopsRequest::getInt('dosmiley', 1, 'POST'));
             $this->setVar('doxcode', XoopsRequest::getInt('doxcode', 1, 'POST'));

@@ -20,8 +20,10 @@
 }
 
 .ppy-stage {
-    background: no-repeat center center !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
     position: relative;
+    background-size: contain;
 }
 
 .ppy-placeholder {

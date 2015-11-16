@@ -1,3 +1,8 @@
+<h5>1.02 RC4       (NOT RELEASED)</h5>
+- fix issues with Popeye images (mamba)
+- removed 500px hardcoded width for image preview in Admin, as it looks bad for small images (mamba)
+- fixed bug: wrong flag for status after modification in frontend (Dante7237/mamba)
+
 <h5>1.02 RC3       (2015-11-14)</h5>
 - added sort by Rating, Hits, # of Votes and Comments (brutalicuss/mamba)
 - added extra columns in Admin's Summary view (mamba)

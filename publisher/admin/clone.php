@@ -155,11 +155,7 @@ class PublisherClone
 //            unset($func);
         }
 
-<<<<<<< HEAD
         if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo.png')) || !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))) {
-=======
-        if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/module_logo.png')) || !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))) {
->>>>>>> ae6abf5e4e07287b20291c4065df46da32d892a6
             return false;
         }
 
@@ -178,11 +174,7 @@ class PublisherClone
         $white = imagecolorallocatealpha($imageModule, 255, 255, 255, 127);
         imagefill($imageModule, 0, 0, $white);
         imagecolortransparent($imageModule, $white);
-<<<<<<< HEAD
         imagepng($imageModule, $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo.png'));
-=======
-        imagepng($imageModule, $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/module_logo.png'));
->>>>>>> ae6abf5e4e07287b20291c4065df46da32d892a6
         imagedestroy($imageModule);
 
         return true;

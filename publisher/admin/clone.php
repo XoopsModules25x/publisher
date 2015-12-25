@@ -113,7 +113,7 @@ class PublisherClone
             mkdir($newPath);
 
             // check all files in dir, and process it
-            if ($handle == opendir($path)) {
+            if ($handle = opendir($path)) {
                 while (($file = readdir($handle)) !== false) {
                     if ($file !== '.' && $file !== '..' && $file !== '.svn') {
                         self::cloneFileFolder("{$path}/{$file}");
@@ -153,7 +153,7 @@ class PublisherClone
             //            unset($func);
         }
 
-        if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/module_logo.png')) || !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))) {
+        if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo.png')) || !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))) {
             return false;
         }
 
@@ -172,7 +172,7 @@ class PublisherClone
         $white = imagecolorallocatealpha($imageModule, 255, 255, 255, 127);
         imagefill($imageModule, 0, 0, $white);
         imagecolortransparent($imageModule, $white);
-        imagepng($imageModule, $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/module_logo.png'));
+        imagepng($imageModule, $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo.png'));
         imagedestroy($imageModule);
 
         return true;

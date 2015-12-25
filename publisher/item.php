@@ -176,7 +176,7 @@ $hasFilePermissions = true;
 if (!(publisherUserIsAdmin() || publisherUserIsModerator($itemObj))) {
     $hasFilePermissions = false;
 }
-if (null != $filesObj) {
+if (null !== $filesObj) {
     foreach ($filesObj as $fileObj) {
         $file        = array();
         $file['mod'] = false;

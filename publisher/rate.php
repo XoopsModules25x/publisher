@@ -26,23 +26,23 @@ $rating = XoopsRequest::getInt('rating', 0, 'GET');
 $itemid = XoopsRequest::getInt('itemid', 0, 'GET');
 
 $groups        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-$gperm_handler = xoops_getmodulehandler('groupperm');
-$hModConfig    = xoops_gethandler('config');
+$gpermHandler =& xoops_getModuleHandler('groupperm');
+$hModConfig    =& xoops_getHandler('config');
 $module_id     = $publisher->getModule()->getVar('mid');
 
 //Checking permissions
-if (!$publisher->getConfig('perm_rating') || !$gperm_handler->checkRight('global', PublisherConstantsInterface::PUBLISHER_RATE, $groups, $module_id)) {
+if (!$publisher->getConfig('perm_rating') || !$gpermHandler->checkRight('global', PublisherConstantsInterface::PUBLISHER_RATE, $groups, $module_id)) {
     redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _NOPERM);
-//    exit();
+    //    exit();
 }
 
 if ($rating > 5 || $rating < 1) {
     redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _MD_PUBLISHER_VOTE_BAD);
-//    exit();
+    //    exit();
 }
 
 $criteria   = new Criteria('itemid', $itemid);
-$ratingObjs = $publisher->getHandler('rating')->getObjects($criteria);
+$ratingObjs =& $publisher->getHandler('rating')->getObjects($criteria);
 
 $uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
 $count          = count($ratingObjs);
@@ -56,14 +56,14 @@ foreach ($ratingObjs as $ratingObj) {
         $voted = true;
     }
 }
-unset($ratingObj);
+//unset($ratingObj);
 
 if ($voted) {
     redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _MD_PUBLISHER_VOTE_ALREADY);
-//    exit();
+    //    exit();
 }
 
-$newRatingObj = $publisher->getHandler('rating')->create();
+$newRatingObj =& $publisher->getHandler('rating')->create();
 $newRatingObj->setVar('itemid', $itemid);
 $newRatingObj->setVar('ip', $ip);
 $newRatingObj->setVar('uid', $uid);

@@ -28,22 +28,20 @@ $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.0.4.js');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
 
-$xoopsTpl->assign("xoops_module_header", '<link rel="alternate" type="application/rss+xml" title="'
-                                         . $publisher->getModule()->name() . '" href="' . PUBLISHER_URL . '/backend.php" />'
-                                         . @$xoopsTpl->get_template_vars("xoops_module_header"));
+$xoopsTpl->assign('xoops_module_header', '<link rel="alternate" type="application/rss+xml" title="' . $publisher->getModule()->name() . '" href="' . PUBLISHER_URL . '/backend.php" />' . @$xoopsTpl->get_template_vars('xoops_module_header'));
 
-$xoopsTpl->assign("publisher_adminpage", "<a href='" . PUBLISHER_URL . "/admin/index.php'>" . _MD_PUBLISHER_ADMIN_PAGE . "</a>");
-$xoopsTpl->assign("isAdmin", $publisher_isAdmin);
-$xoopsTpl->assign('publisher_url', PUBLISHER_URL);
-$xoopsTpl->assign('publisher_images_url', PUBLISHER_IMAGES_URL);
+$xoopsTpl->assign('publisher_adminpage', "<a href='" . PUBLISHER_URL . "/admin/index.php'>" . _MD_PUBLISHER_ADMIN_PAGE . '</a>');
+$xoopsTpl->assign('isAdmin', $publisherIsAdmin);
+$xoopsTpl->assign('moduleUrl', PUBLISHER_URL);
+$xoopsTpl->assign('publisherImagesUrl', PUBLISHER_IMAGES_URL);
 
 $xoopsTpl->assign('displayType', $publisher->getConfig('idxcat_items_display_type'));
 
 // display_category_summary enabled by Freeform Solutions March 21 2006
 $xoopsTpl->assign('display_category_summary', $publisher->getConfig('cat_display_summary'));
 
-$xoopsTpl->assign('displayList', $publisher->getConfig('idxcat_items_display_type') == 'list');
-$xoopsTpl->assign('displayFull', $publisher->getConfig('idxcat_items_display_type') == 'full');
+$xoopsTpl->assign('displayList', $publisher->getConfig('idxcat_items_display_type') === 'list');
+$xoopsTpl->assign('displayFull', $publisher->getConfig('idxcat_items_display_type') === 'full');
 $xoopsTpl->assign('module_dirname', $publisher->getModule()->dirname());
 
 $xoopsTpl->assign('displaylastitem', $publisher->getConfig('idxcat_display_last_item'));

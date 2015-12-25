@@ -32,9 +32,9 @@ include_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_random_item_show($options)
 {
     $block     = array();
-    $publisher = PublisherPublisher::getInstance();
+    $publisher =& PublisherPublisher::getInstance();
     // creating the ITEM object
-    $itemsObj = $publisher->getHandler('item')->getRandomItem('', array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED));
+    $itemsObj =& $publisher->getHandler('item')->getRandomItem('', array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED));
 
     if (!is_object($itemsObj)) {
         return $block;

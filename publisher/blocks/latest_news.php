@@ -35,21 +35,21 @@ function publisher_latest_news_show($options)
     $block = array();
 
     xoops_loadLanguage('main', 'publisher');
-    $publisher = PublisherPublisher::getInstance();
+    $publisher =& PublisherPublisher::getInstance();
 
     $start            = $options[0]; // You can show articles from specified range
     $limit            = $options[1];
-    $column_count     = $options[2];
+    $columnCount     = $options[2];
     $letters          = $options[3];
-    $selected_stories = $options[4];
+    $selectedStories = $options[4];
     $sort             = $options[9];
     $order            = publisherGetOrderBy($sort);
-    $imgwidth         = $options[11];
-    $imgheight        = $options[12];
+    $imgWidth         = $options[11];
+    $imgHeight        = $options[12];
     $border           = $options[13];
     $bordercolor      = $options[14];
 
-    $block['spec']['columnwidth'] = (int)(1 / $column_count * 100);
+    $block['spec']['columnwidth'] = (int)(1 / $columnCount * 100);
 
     $allcats = false;
     if (!isset($options[29])) {
@@ -67,13 +67,13 @@ function publisher_latest_news_show($options)
     }
 
     // Use specific ITEMS
-    if ($selected_stories != 0) {
+    if ($selectedStories != 0) {
         unset($criteria); //removes category option
         $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('itemid', '(' . $selected_stories . ')', 'IN'));
+        $criteria->add(new Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
     }
 
-    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'itemid');
+    $itemsObj =& $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);
 
@@ -93,45 +93,45 @@ function publisher_latest_news_show($options)
         if (!function_exists('imagecreatetruecolor')) {
             $item['item_image'] = $mainImage['image_path'];
         } else {
-            $item['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=' . $imgwidth; // No $imgheight for autoheight option
+            $item['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=' . $imgWidth; // No $imgHeight for autoheight option
         }
         $item['text'] = $itemObj->getBlockSummary($letters);
 
         $item = $itemObj->getMainImage($item); //returns an array
 
-        $ls_height = '';
+        $lsHeight = '';
         if ($options[12] != 0) {
-            $ls_height = 'height="' . $imgheight . '" ';
+            $lsHeight = 'height="' . $imgHeight . '" ';
         } // set height = 0 in block option for auto height
 
-        if ($options[15] == 'LEFT') {
-            $imgposition = "float: left";
-            $ls_margin   = '-right';
+        if ($options[15] === 'LEFT') {
+            $imgPosition = 'float: left';
+            $lsMargin   = '-right';
         }
 
-        if ($options[15] == 'CENTER') {
-            $imgposition = "text-align:center";
-            $ls_margin   = '';
+        if ($options[15] === 'CENTER') {
+            $imgPosition = 'text-align:center';
+            $lsMargin   = '';
         }
 
-        if ($options[15] == 'RIGHT') {
-            $imgposition = "float: right";
-            $ls_margin   = '-left';
+        if ($options[15] === 'RIGHT') {
+            $imgPosition = 'float: right';
+            $lsMargin   = '-left';
         }
 
         //Image
         if ($options[10] == 1 && $item['image_path'] != '') {
-            $startdiv = '<div style="' . $imgposition . '"><a href="' . $item['itemurl'] . '">';
-            $style    = 'style="margin' . $ls_margin . ': 10px; padding: 2px; border: ' . $border . 'px solid #' . $bordercolor . '"';
-            $enddiv   = 'width="' . $imgwidth . '" ' . $ls_height . '/></a></div>';
+            $startdiv = '<div style="' . $imgPosition . '"><a href="' . $item['itemurl'] . '">';
+            $style    = 'style="margin' . $lsMargin . ': 10px; padding: 2px; border: ' . $border . 'px solid #' . $bordercolor . '"';
+            $enddiv   = 'width="' . $imgWidth . '" ' . $lsHeight . '/></a></div>';
             $image    = $startdiv . '<img ' . $style . ' src="' . $item['item_image'] . '" alt="' . $item['image_name'] . '" ' . $enddiv;
 
             $item['image'] = $image;
         }
 
         if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->isAdmin(-1)) {
-            $item['admin'] = "<a href='" . PUBLISHER_URL . "/submit.php?itemid=" . $itemObj->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . _CO_PUBLISHER_EDIT . "' alt='" . _CO_PUBLISHER_EDIT . "' /></a>&nbsp;";
-            $item['admin'] .= "<a href='" . PUBLISHER_URL . "/admin/item.php?op=del&amp;itemid=" . $itemObj->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . _CO_PUBLISHER_DELETE . "' alt='" . _CO_PUBLISHER_DELETE . "' /></a>";
+            $item['admin'] = "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $itemObj->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . _CO_PUBLISHER_EDIT . "' alt='" . _CO_PUBLISHER_EDIT . "' /></a>&nbsp;";
+            $item['admin'] .= "<a href='" . PUBLISHER_URL . '/admin/item.php?op=del&amp;itemid=' . $itemObj->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . _CO_PUBLISHER_DELETE . "' alt='" . _CO_PUBLISHER_DELETE . "' /></a>";
         } else {
             $item['admin'] = '';
         }
@@ -160,7 +160,7 @@ function publisher_latest_news_show($options)
 
         $item['posttime'] = '';
         if ($options[20] == 1) {
-            $item['posttime'] = _ON . ' ' . $itemObj->datesub();
+            $item['posttime'] = _ON . ' ' . $itemObj->getDatesub();
         }
 
         $item['topic_title'] = '';
@@ -195,14 +195,13 @@ function publisher_latest_news_show($options)
 
         $item['print'] = '';
         if ($options[24] == 1) {
-            $item['print'] = '<a href="' . PublisherSeo::generateUrl("print", $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '" /></a>&nbsp;';
+            $item['print'] = '<a href="' . PublisherSeo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '" /></a>&nbsp;';
         }
 
         $item['pdf'] = '';
         if ($publisher->getConfig('display_pdf')) {
             if ($options[25] == 1) {
-                $item['pdf'] = "<a href='" . PUBLISHER_URL . "/makepdf.php?itemid=" . $itemObj->itemid() . "' rel='nofollow'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif' title='"
-                               . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "' /></a>&nbsp;";
+                $item['pdf'] = "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $itemObj->itemid() . "' rel='nofollow'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif' title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "' /></a>&nbsp;";
             }
         }
         $item['email'] = '';
@@ -238,7 +237,7 @@ function publisher_latest_news_show($options)
         $columns[$k][] = $item;
         ++$k;
 
-        if ($k == $column_count) {
+        if ($k == $columnCount) {
             $k = 0;
         }
     }
@@ -264,13 +263,13 @@ function publisher_latest_news_edit($options)
     $form = "<table border='0' cellpadding='0' cellspacing='0'>";
     $form .= $tabletag3 . _MB_PUBLISHER_GENERALCONFIG . $tabletag4; // General Options
     $form .= $tabletag1 . _MB_PUBLISHER_FIRST . $tabletag2;
-    $form .= "<input type='text' name='options[]' value='" . $options[0] . "' size='4'>&nbsp;" . _MB_PUBLISHER_ITEMS . "</td></tr>";
+    $form .= "<input type='text' name='options[]' value='" . $options[0] . "' size='4'>&nbsp;" . _MB_PUBLISHER_ITEMS . '</td></tr>';
     $form .= $tabletag1 . _MB_PUBLISHER_DISP . $tabletag2;
-    $form .= "<input type='text' name='options[]' value='" . $options[1] . "' size='4'>&nbsp;" . _MB_PUBLISHER_ITEMS . "</td></tr>";
+    $form .= "<input type='text' name='options[]' value='" . $options[1] . "' size='4'>&nbsp;" . _MB_PUBLISHER_ITEMS . '</td></tr>';
     $form .= $tabletag1 . _MB_PUBLISHER_COLUMNS . $tabletag2;
-    $form .= "<input type='text' name='options[]' value='" . $options[2] . "' size='4'>&nbsp;" . _MB_PUBLISHER_COLUMN . "</td></tr>";
+    $form .= "<input type='text' name='options[]' value='" . $options[2] . "' size='4'>&nbsp;" . _MB_PUBLISHER_COLUMN . '</td></tr>';
     $form .= $tabletag1 . _MB_PUBLISHER_TEXTLENGTH . $tabletag2;
-    $form .= "<input type='text' name='options[]' value='" . $options[3] . "' size='4'>&nbsp;" . _MB_PUBLISHER_LETTER . "</td></tr>";
+    $form .= "<input type='text' name='options[]' value='" . $options[3] . "' size='4'>&nbsp;" . _MB_PUBLISHER_LETTER . '</td></tr>';
     $form .= $tabletag1 . _MB_PUBLISHER_SELECTEDSTORIES . $tabletag2;
     $form .= "<input type='text' name='options[]' value='" . $options[4] . "' size='16'></td></tr>";
     $form .= $tabletag1 . _MB_PUBLISHER_SCROLL . $tabletag2;
@@ -291,62 +290,62 @@ function publisher_latest_news_edit($options)
         }
         $form .= ">{$value}</option>";
     }
-    $form .= "</select></td></tr>";
+    $form .= '</select></td></tr>';
 
     $form .= $tabletag1 . _MB_PUBLISHER_ORDER . $tabletag2;
 
     $form .= "<select name='options[9]'>";
     $form .= "<option value='datesub'";
-    if ($options[9] == "datesub") {
+    if ($options[9] === 'datesub') {
         $form .= " selected='selected'";
     }
-    $form .= ">" . _MB_PUBLISHER_DATE . "</option>";
+    $form .= '>' . _MB_PUBLISHER_DATE . '</option>';
 
     $form .= "<option value='counter'";
-    if ($options[9] == "counter") {
+    if ($options[9] === 'counter') {
         $form .= " selected='selected'";
     }
-    $form .= ">" . _MB_PUBLISHER_HITS . "</option>";
+    $form .= '>' . _MB_PUBLISHER_HITS . '</option>';
 
     $form .= "<option value='weight'";
-    if ($options[9] == "weight") {
+    if ($options[9] === 'weight') {
         $form .= " selected='selected'";
     }
-    $form .= ">" . _MB_PUBLISHER_WEIGHT . "</option>";
+    $form .= '>' . _MB_PUBLISHER_WEIGHT . '</option>';
 
-    $form .= "</select></td></tr>";
+    $form .= '</select></td></tr>';
 
     $form .= $tabletag3 . _MB_PUBLISHER_PHOTOSCONFIG . $tabletag4; // Photos Options
     $form .= $tabletag1 . _MB_PUBLISHER_IMGDISPLAY . $tabletag2;
     $form .= publisher_mk_chkbox($options, 10);
     $form .= $tabletag1 . _MB_PUBLISHER_IMGWIDTH . $tabletag2;
-    $form .= "<input type='text' name='options[]' value='" . $options[11] . "' size='4'>&nbsp;" . _MB_PUBLISHER_PIXEL . "</td></tr>";
+    $form .= "<input type='text' name='options[]' value='" . $options[11] . "' size='4'>&nbsp;" . _MB_PUBLISHER_PIXEL . '</td></tr>';
     $form .= $tabletag1 . _MB_PUBLISHER_IMGHEIGHT . $tabletag2;
-    $form .= "<input type='text' name='options[]' value='" . $options[12] . "' size='4'>&nbsp;" . _MB_PUBLISHER_PIXEL . "</td></tr>";
+    $form .= "<input type='text' name='options[]' value='" . $options[12] . "' size='4'>&nbsp;" . _MB_PUBLISHER_PIXEL . '</td></tr>';
     $form .= $tabletag1 . _MB_PUBLISHER_BORDER . $tabletag2;
-    $form .= "<input type='text' name='options[]' value='" . $options[13] . "' size='4'>&nbsp;" . _MB_PUBLISHER_PIXEL . "</td></tr>";
+    $form .= "<input type='text' name='options[]' value='" . $options[13] . "' size='4'>&nbsp;" . _MB_PUBLISHER_PIXEL . '</td></tr>';
     $form .= $tabletag1 . _MB_PUBLISHER_BORDERCOLOR . $tabletag2;
     $form .= "<input type='text' name='options[]' value='" . $options[14] . "' size='8'></td></tr>";
     $form .= $tabletag1 . _MB_PUBLISHER_IMGPOSITION . $tabletag2;
     $form .= "<select name='options[]'>";
     $form .= "<option value='LEFT'";
-    if ($options[15] == 'LEFT') {
+    if ($options[15] === 'LEFT') {
         $form .= " selected='selected'";
     }
     $form .= '>' . _LEFT . "</option>\n";
 
     $form .= "<option value='CENTER'";
-    if ($options[15] == 'CENTER') {
+    if ($options[15] === 'CENTER') {
         $form .= " selected='selected'";
     }
     $form .= '>' . _CENTER . "</option>\n";
 
     $form .= "<option value='RIGHT'";
-    if ($options[15] == 'RIGHT') {
+    if ($options[15] === 'RIGHT') {
         $form .= " selected='selected'";
     }
     $form .= '>' . _RIGHT . '</option>';
-    $form .= "</select></td></tr>";
+    $form .= '</select></td></tr>';
 
     $form .= $tabletag3 . _MB_PUBLISHER_LINKSCONFIG . $tabletag4; // Links Options
     $form .= $tabletag1 . _MB_PUBLISHER_DISPLAY_TOPICLINK . $tabletag2;
@@ -386,7 +385,7 @@ function publisher_latest_news_edit($options)
         }
         $form .= ">{$value}</option>";
     }
-    $form .= "</select></td></tr>";
+    $form .= '</select></td></tr>';
 
     //Select Which Categories To Show
     $form .= $tabletag3 . _MB_PUBLISHER_TOPICSCONFIG . $tabletag4; // Topics Options
@@ -394,7 +393,7 @@ function publisher_latest_news_edit($options)
     $form .= publisherCreateCategorySelect($options[29], 0, true, 'options[29]');
     $form .= '</td></tr>';
 
-    $form .= "</table>";
+    $form .= '</table>';
 
     return $form;
 }
@@ -407,16 +406,16 @@ function publisher_latest_news_edit($options)
  */
 function publisher_mk_chkbox($options, $number)
 {
-    $chk = "";
+    $chk = '';
     if ($options[$number] == 1) {
         $chk = " checked='checked'";
     }
-    $chkbox = "<input type='radio' name='options[{$number}]' value='1'" . $chk . " />&nbsp;" . _YES . "&nbsp;&nbsp;";
-    $chk    = "";
+    $chkbox = "<input type='radio' name='options[{$number}]' value='1'" . $chk . ' />&nbsp;' . _YES . '&nbsp;&nbsp;';
+    $chk    = '';
     if ($options[$number] == 0) {
         $chk = " checked='checked'";
     }
-    $chkbox .= "<input type='radio' name='options[{$number}]' value='0'" . $chk . " />&nbsp;" . _NO . "</td></tr>";
+    $chkbox .= "<input type='radio' name='options[{$number}]' value='0'" . $chk . ' />&nbsp;' . _NO . '</td></tr>';
 
     return $chkbox;
 }
@@ -429,21 +428,21 @@ function publisher_mk_chkbox($options, $number)
  */
 function publisher_mk_select($options, $number)
 {
-    $slc = "";
+    $slc = '';
     if ($options[$number] == 2) {
         $slc = " checked='checked'";
     }
-    $select = "<input type='radio' name='options[{$number}]' value='2'" . $slc . " />&nbsp;" . _LEFT . "&nbsp;&nbsp;";
-    $slc    = "";
+    $select = "<input type='radio' name='options[{$number}]' value='2'" . $slc . ' />&nbsp;' . _LEFT . '&nbsp;&nbsp;';
+    $slc    = '';
     if ($options[$number] == 1) {
         $slc = " checked='checked'";
     }
-    $select = "<input type='radio' name='options[{$number}]' value='1'" . $slc . " />&nbsp;" . _CENTER . "&nbsp;&nbsp;";
-    $slc    = "";
+    $select = "<input type='radio' name='options[{$number}]' value='1'" . $slc . ' />&nbsp;' . _CENTER . '&nbsp;&nbsp;';
+    $slc    = '';
     if ($options[$number] == 0) {
         $slc = " checked='checked'";
     }
-    $select .= "<input type='radio' name='options[{$number}]' value='0'" . $slc . " />&nbsp;" . _RIGHT . "</td></tr>";
+    $select .= "<input type='radio' name='options[{$number}]' value='0'" . $slc . ' />&nbsp;' . _RIGHT . '</td></tr>';
 
     return $select;
 }

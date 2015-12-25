@@ -30,67 +30,67 @@ include_once dirname(__DIR__) . '/include/common.php';
  * @author    John
  * @copyright Copyright (c) 2009
  * @version   $Id: themetabform.php 10374 2012-12-12 23:39:48Z trabis $
- * @access public
+ * @access    public
  */
 class PublisherThemeTabForm extends XoopsForm
 {
-    public $_tabs;
+    public $formTabs = array();
 
     /**
      * "action" attribute for the html form
      *
      * @var string
      */
-    public $_action;
+    public $action;
 
     /**
      * "method" attribute for the form.
      *
      * @var string
      */
-    public $_method;
+    public $method;
 
     /**
      * "name" attribute of the form
      *
      * @var string
      */
-    public $_name;
+    public $name;
 
     /**
      * title for the form
      *
      * @var string
      */
-    public $_title;
+    public $title;
 
     /**
      * summary for the form (WGAC2 Requirement)
      *
      * @var string
      */
-    public $_summary = '';
+    public $summary = '';
 
     /**
      * array of {@link XoopsFormElement} objects
      *
      * @var array
      */
-    public $_elements = array();
+    public $elements = array();
 
     /**
      * extra information for the <form> tag
      *
      * @var array
      */
-    public $_extra = array();
+    public $extra = array();
 
     /**
      * required elements
      *
      * @var array
      */
-    public $_required = array();
+    public $required = array();
 
     /**
      * @param string $title
@@ -100,21 +100,21 @@ class PublisherThemeTabForm extends XoopsForm
      * @param bool   $addtoken
      * @param string $summary
      */
-    public function __construct($title, $name, $action, $method = "post", $addtoken = false, $summary = '')
+    public function __construct($title, $name, $action, $method = 'post', $addtoken = false, $summary = '')
     {
-//        global $xoTheme;
-//        $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ui.core.js');
-//        $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ui.tabs.js');
-//        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery-ui-1.7.1.custom.css');
+        //        global $xoTheme;
+        //        $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ui.core.js');
+        //        $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ui.tabs.js');
+        //        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery-ui-1.7.1.custom.css');
 
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . '/modules/system/css/ui/' . xoops_getModuleOption('jquery_theme', 'system') . '/ui.all.css');
 
-        $this->_title   = $title;
-        $this->_name    = $name;
-        $this->_action  = $action;
-        $this->_method  = $method;
-        $this->_summary = $summary;
+        $this->title   = $title;
+        $this->name    = $name;
+        $this->action  = $action;
+        $this->method  = $method;
+        $this->summary = $summary;
         if ($addtoken !== false) {
             $this->addElement(new XoopsFormHiddenToken());
         }
@@ -130,15 +130,15 @@ class PublisherThemeTabForm extends XoopsForm
         $tab      = -1;
         $elements = array();
         if (count($this->getRequired()) > 0) {
-            $this->_elements[] = "<tr class='foot'><td colspan='2'>* = " . _REQUIRED . "</td></tr>";
+            $this->elements[] = "<tr class='foot'><td colspan='2'>* = " . _REQUIRED . '</td></tr>';
         }
         foreach ($this->getElements() as $ele) {
             ++$i;
-            if (is_string($ele) && $ele == 'addTab') {
+            if (is_string($ele) && $ele === 'addTab') {
                 ++$tab;
                 continue;
             }
-            if (is_string($ele) && $ele == 'endTabs') {
+            if (is_string($ele) && $ele === 'endTabs') {
                 $tab = -1;
                 continue;
             }
@@ -147,26 +147,30 @@ class PublisherThemeTabForm extends XoopsForm
                 $elements[$i]['tab']  = $tab;
                 continue;
             }
-            $ele_name                 = $ele->getName();
-            $ele_description          = $ele->getDescription();
-            $n                        = $ele_name ? $ele_name : $i;
-            $elements[$n]['name']     = $ele_name;
+            $eleName                 = $ele->getName();
+            $eleDescription          = $ele->getDescription();
+            $n                        = $eleName ?: $i;
+            $elements[$n]['name']     = $eleName;
             $elements[$n]['caption']  = $ele->getCaption();
             $elements[$n]['body']     = $ele->render();
             $elements[$n]['hidden']   = $ele->isHidden() ? true : false;
             $elements[$n]['required'] = $ele->isRequired();
-            if ($ele_description != '') {
-                $elements[$n]['description'] = $ele_description;
+            if ($eleDescription != '') {
+                $elements[$n]['description'] = $eleDescription;
             }
             $elements[$n]['tab'] = $tab;
         }
         $js = $this->renderValidationJS();
         $tpl->assign($this->getName(), array(
-            'title'      => $this->getTitle(), 'id' => 'tab_' . preg_replace('/[^a-z0-9]+/i', '', $this->getTitle()),
-            'name'       => $this->getName(), 'action' => $this->getAction(), 'method' => $this->getMethod(),
+            'title'      => $this->getTitle(),
+            'id'         => 'tab_' . preg_replace('/[^a-z0-9]+/i', '', $this->getTitle()),
+            'name'       => $this->getName(),
+            'action'     => $this->getAction(),
+            'method'     => $this->getMethod(),
             'extra'      => 'onsubmit="return xoopsFormValidate_' . $this->getName() . '();"' . $this->getExtra(),
-            'javascript' => $js, 'tabs' => $this->_tabs, 'elements' => $elements
-        ));
+            'javascript' => $js,
+            'tabs'       => $this->formTabs,
+            'elements'   => $elements));
     }
 
     /**
@@ -176,16 +180,15 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function startTab($tabText)
     {
-        $this->addElement($this->_startTab($tabText));
+        $this->addElement($this->startFormTabs($tabText));
     }
 
     /**
      * XoopsThemeTabForm::endTab()
-
      */
     public function endTabs()
     {
-        $this->addElement($this->_endTabs());
+        $this->addElement($this->endFormTabs());
     }
 
     /**
@@ -195,9 +198,9 @@ class PublisherThemeTabForm extends XoopsForm
      *
      * @return string
      */
-    public function _startTab($tabText)
+    public function startFormTabs($tabText)
     {
-        $this->_tabs[] = $tabText;
+        $this->formTabs[] = $tabText;
         $ret           = 'addTab';
 
         return $ret;
@@ -208,7 +211,7 @@ class PublisherThemeTabForm extends XoopsForm
      *
      * @return string
      */
-    public function _endTabs()
+    public function endFormTabs()
     {
         $ret = 'endTabs';
 
@@ -222,7 +225,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function getSummary($encode = false)
     {
-        return $encode ? htmlspecialchars($this->_summary, ENT_QUOTES) : $this->_summary;
+        return $encode ? htmlspecialchars($this->summary, ENT_QUOTES) : $this->summary;
     }
 
     /**
@@ -234,7 +237,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function getTitle($encode = false)
     {
-        return $encode ? htmlspecialchars($this->_title, ENT_QUOTES) : $this->_title;
+        return $encode ? htmlspecialchars($this->title, ENT_QUOTES) : $this->title;
     }
 
     /**
@@ -247,7 +250,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function getName($encode = true)
     {
-        return $encode ? htmlspecialchars($this->_name, ENT_QUOTES) : $this->_name;
+        return $encode ? htmlspecialchars($this->name, ENT_QUOTES) : $this->name;
     }
 
     /**
@@ -260,7 +263,7 @@ class PublisherThemeTabForm extends XoopsForm
     public function getAction($encode = true)
     {
         // Convert &amp; to & for backward compatibility
-        return $encode ? htmlspecialchars(str_replace('&amp;', '&', $this->_action), ENT_QUOTES) : $this->_action;
+        return $encode ? htmlspecialchars(str_replace('&amp;', '&', $this->action), ENT_QUOTES) : $this->action;
     }
 
     /**
@@ -270,7 +273,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function getMethod()
     {
-        return (strtolower($this->_method) == 'get') ? 'get' : 'post';
+        return (strtolower($this->method) === 'get') ? 'get' : 'post';
     }
 
     /**
@@ -282,16 +285,16 @@ class PublisherThemeTabForm extends XoopsForm
     public function addElement(&$formElement, $required = false)
     {
         if (is_string($formElement)) {
-            $this->_elements[] = $formElement;
+            $this->elements[] =& $formElement;
         } elseif (is_subclass_of($formElement, 'xoopsformelement')) {
-            $this->_elements[] = &$formElement;
+            $this->elements[] = &$formElement;
             if ($required) {
                 if (method_exists($formElement, 'setRequired')) {
                     $formElement->setRequired(true);
                 } else {
-                    $formElement->_required = true;
+                    $formElement->required = true;
                 }
-                $this->_required[] = &$formElement;
+                $this->required[] = &$formElement;
             }
         }
     }
@@ -306,13 +309,13 @@ class PublisherThemeTabForm extends XoopsForm
     public function getElements($recurse = false)
     {
         if (!$recurse) {
-            return $this->_elements;
+            return $this->elements;
         } else {
             $ret   = array();
-            $count = count($this->_elements);
+            $count = count($this->elements);
             for ($i = 0; $i < $count; ++$i) {
-                if (is_object($this->_elements[$i])) {
-                    $ret[] = &$this->_elements[$i];
+                if (is_object($this->elements[$i])) {
+                    $ret[] = &$this->elements[$i];
                 }
             }
 
@@ -441,7 +444,7 @@ class PublisherThemeTabForm extends XoopsForm
     public function setExtra($extra)
     {
         if (!empty($extra)) {
-            $this->_extra[] = $extra;
+            $this->extra[] = $extra;
         }
     }
 
@@ -453,7 +456,7 @@ class PublisherThemeTabForm extends XoopsForm
     public function setSummary($summary)
     {
         if (!empty($summary)) {
-            $this->_summary = strip_tags($summary);
+            $this->summary = strip_tags($summary);
         }
     }
 
@@ -464,7 +467,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function &getExtra()
     {
-        $extra = empty($this->_extra) ? '' : ' ' . implode(' ', $this->_extra);
+        $extra = empty($this->extra) ? '' : ' ' . implode(' ', $this->extra);
 
         return $extra;
     }
@@ -472,11 +475,11 @@ class PublisherThemeTabForm extends XoopsForm
     /**
      * make an element "required"
      *
-     * @param object $formElement reference to a {@link XoopsFormElement}
+     * @param XoopsFormElement $formElement reference to a {@link XoopsFormElement}
      */
-    public function setRequired(&$formElement)
+    public function setRequired(XoopsFormElement $formElement)
     {
-        $this->_required[] = &$formElement;
+        $this->required[] = &$formElement;
     }
 
     /**
@@ -486,7 +489,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function getRequired()
     {
-        return $this->_required;
+        return $this->required;
     }
 
     /**

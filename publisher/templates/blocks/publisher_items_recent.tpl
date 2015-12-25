@@ -9,14 +9,14 @@
 
     <{foreach item=item from=$block.items}>
     <tr class="<{cycle values=" even,odd"}>">
-    <td><{$item.itemlink}></td>
-    <td align="left"><{$item.categorylink}></td>
-    <td align="center"><{$item.poster}></td>
-    <td align="right"><{$item.date}></td>
-    </tr><{/foreach}>
+        <td><{$item.itemlink}></td>
+        <td align="left"><{$item.categorylink}></td>
+        <td align="center"><{$item.poster}></td>
+        <td align="right"><{$item.date}></td>
+        </tr><{/foreach}>
 
 </table>
 
 <div style="text-align:right; padding: 5px;">
-    <a href="<{$publisher_url}>"><{$block.lang_visitItem}></a>
+    <a href="<{$moduleUrl}>"><{$block.lang_visitItem}></a>
 </div>

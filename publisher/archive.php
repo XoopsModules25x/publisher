@@ -30,17 +30,17 @@ $xoopsOption['template_main'] = 'publisher_archive.tpl';
 include_once $GLOBALS['xoops']->path('header.php');
 include_once PUBLISHER_ROOT_PATH . '/footer.php';
 xoops_loadLanguage('calendar');
-xoops_load('XoopsLocal');
+//mb xoops_load('XoopsLocal');
 
 $lastyear   = 0;
 $lastmonth  = 0;
-$months_arr = array(1 => _CAL_JANUARY, 2 => _CAL_FEBRUARY, 3 => _CAL_MARCH, 4 => _CAL_APRIL, 5 => _CAL_MAY, 6 => _CAL_JUNE, 7 => _CAL_JULY, 8 => _CAL_AUGUST, 9 => _CAL_SEPTEMBER, 10 => _CAL_OCTOBER, 11 => _CAL_NOVEMBER, 12 => _CAL_DECEMBER);
+$monthsArray = array(1 => _CAL_JANUARY, 2 => _CAL_FEBRUARY, 3 => _CAL_MARCH, 4 => _CAL_APRIL, 5 => _CAL_MAY, 6 => _CAL_JUNE, 7 => _CAL_JULY, 8 => _CAL_AUGUST, 9 => _CAL_SEPTEMBER, 10 => _CAL_OCTOBER, 11 => _CAL_NOVEMBER, 12 => _CAL_DECEMBER);
 $fromyear   = XoopsRequest::getInt('year');
 $frommonth  = XoopsRequest::getInt('month');
 
 $pgtitle = '';
 if ($fromyear && $frommonth) {
-    $pgtitle = sprintf(" - %d - %d", $fromyear, $frommonth);
+    $pgtitle = sprintf(' - %d - %d', $fromyear, $frommonth);
 }
 
 $dateformat = $publisher->getConfig('format_date');
@@ -68,37 +68,38 @@ $criteria->add(new Criteria('datesub', time(), '<='), 'AND');
 $criteria->setSort('datesub');
 $criteria->setOrder('DESC');
 //Get all articles dates as an array to save memory
-$items      = $publisher->getHandler('item')->getAll($criteria, array('datesub'), false);
+$items      =& $publisher->getHandler('item')->getAll($criteria, array('datesub'), false);
 $itemsCount = count($items);
 
 if (!($itemsCount > 0)) {
     redirect_header(XOOPS_URL, 2, _MD_PUBLISHER_NO_TOP_PERMISSIONS);
-//mb    exit;
+    //mb    exit;
 } else {
     $years  = array();
     $months = array();
     $i      = 0;
     foreach ($items as $item) {
-        $time = XoopsLocal::formatTimestamp($item['datesub'], 'mysql', $useroffset);
-        if (preg_match("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $time, $datetime)) {
-            $this_year  = (int)($datetime[1]);
-            $this_month = (int)($datetime[2]);
+        //mb        $time = XoopsLocal::formatTimestamp($item['datesub'], 'mysql', $useroffset);
+        $time = formatTimestamp($item['datesub'], 'mysql', $useroffset);
+        if (preg_match('/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})/', $time, $datetime)) {
+            $thisYear  = (int)($datetime[1]);
+            $thisMonth = (int)($datetime[2]);
             //first year
             if (empty($lastyear)) {
-                $lastyear          = $this_year;
+                $lastyear          = $thisYear;
                 $articlesThisYear  = 0;
                 $articlesThisMonth = 0;
             }
             //first month of the year reset
             if ($lastmonth == 0) {
-                $lastmonth                    = $this_month;
-                $months[$lastmonth]['string'] = $months_arr[$lastmonth];
+                $lastmonth                    = $thisMonth;
+                $months[$lastmonth]['string'] = $monthsArray[$lastmonth];
                 $months[$lastmonth]['number'] = $lastmonth;
-//                $months[$lastmonth]['articlesMonthCount'] = 1;
+                //                $months[$lastmonth]['articlesMonthCount'] = 1;
                 $articlesThisMonth = 0;
             }
             //new year
-            if ($lastyear != $this_year) {
+            if ($lastyear != $thisYear) {
                 $years[$i]['number'] = $lastyear;
                 $years[$i]['months'] = $months;
 
@@ -106,18 +107,18 @@ if (!($itemsCount > 0)) {
 
                 $months            = array();
                 $lastmonth         = 0;
-                $lastyear          = $this_year;
+                $lastyear          = $thisYear;
                 $articlesThisYear  = 0;
                 $articlesThisMonth = 0;
                 ++$i;
             }
             //new month
-            if ($lastmonth != $this_month) {
+            if ($lastmonth != $thisMonth) {
                 if ($articlesThisMonth > 0) {
                     $months[$lastmonth]['articlesMonthCount'] = $articlesThisMonth;
                 }
-                $lastmonth                                = $this_month;
-                $months[$lastmonth]['string']             = $months_arr[$lastmonth];
+                $lastmonth                                = $thisMonth;
+                $months[$lastmonth]['string']             = $monthsArray[$lastmonth];
                 $months[$lastmonth]['number']             = $lastmonth;
                 $months[$lastmonth]['articlesMonthCount'] = 1;
                 $articlesThisMonth                        = 0;
@@ -127,8 +128,8 @@ if (!($itemsCount > 0)) {
             ++$articlesThisYear;
         }
     }
-    unset($item);
-    $years[$i]['number'] = $this_year;
+//    unset($item);
+    $years[$i]['number'] = $thisYear;
     $years[$i]['months'] = $months;
 
     $years[$i]['articlesYearCount'] = $articlesThisYear;
@@ -140,7 +141,7 @@ unset($items);
 if ($fromyear != 0 && $frommonth != 0) {
     $xoopsTpl->assign('show_articles', true);
     $xoopsTpl->assign('lang_articles', _MD_PUBLISHER_ITEM);
-    $xoopsTpl->assign('currentmonth', $months_arr[$frommonth]);
+    $xoopsTpl->assign('currentmonth', $monthsArray[$frommonth]);
     $xoopsTpl->assign('currentyear', $fromyear);
     $xoopsTpl->assign('lang_actions', _MD_PUBLISHER_ACTIONS);
     $xoopsTpl->assign('lang_date', _MD_PUBLISHER_DATE);
@@ -154,13 +155,13 @@ if ($fromyear != 0 && $frommonth != 0) {
 
     $count = 0;
 
-    $itemhandler               = $publisher->getHandler('item');
-    $itemhandler->table_link   = $GLOBALS['xoopsDB']->prefix('publisher_categories');
-    $itemhandler->field_link   = 'categoryid';
-    $itemhandler->field_object = 'categoryid';
+    $itemHandler               =& $publisher->getHandler('item');
+    $itemHandler->tableLink   = $GLOBALS['xoopsDB']->prefix('publisher_categories');
+    $itemHandler->fieldLink   = 'categoryid';
+    $itemHandler->fieldObject = 'categoryid';
     // Categories for which user has access
     $categoriesGranted =& $publisher->getHandler('permission')->getGrantedItems('category_read');
-    $grantedCategories = new Criteria('l.categoryid', "(" . implode(',', $categoriesGranted) . ")", 'IN');
+    $grantedCategories = new Criteria('l.categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
     $criteria          = new CriteriaCompo();
     $criteria->add($grantedCategories, 'AND');
     $criteria->add(new Criteria('o.status', 2), 'AND');
@@ -171,26 +172,22 @@ if ($fromyear != 0 && $frommonth != 0) {
     $criteria->setSort('o.datesub');
     $criteria->setOrder('DESC');
     $criteria->setLimit(3000);
-    $storyarray = $itemhandler->getByLink($criteria); //Query Efficiency?
+    $storyarray = $itemHandler->getByLink($criteria); //Query Efficiency?
 
     $count = count($storyarray);
     if (is_array($storyarray) && $count > 0) {
         foreach ($storyarray as $item) {
-            $story     = array();
-            $htmltitle = '';
-            $story['title']
-                                 =
-                "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . "</a>: <a href='" . $item->getItemUrl() . "'"
-                . $htmltitle . ">" . $item->title() . "</a>";
+            $story               = array();
+            $htmltitle           = '';
+            $story['title']      = "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . "</a>: <a href='" . $item->getItemUrl() . "'" . $htmltitle . '>' . $item->getTitle() . '</a>';
             $story['counter']    = $item->counter();
-            $story['date']       = $item->datesub();
+            $story['date']       = $item->getDatesub();
             $story['print_link'] = XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/print.php?itemid=' . $item->itemid();
-            $story['mail_link']  = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  '
-                                   . $item->getItemUrl();
+            $story['mail_link']  = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  ' . $item->getItemUrl();
 
             $xoopsTpl->append('stories', $story);
         }
-        unset($item);
+//        unset($item);
     }
     $xoopsTpl->assign('lang_printer', _MD_PUBLISHER_PRINTERFRIENDLY);
     $xoopsTpl->assign('lang_sendstory', _MD_PUBLISHER_SENDSTORY);

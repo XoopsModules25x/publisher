@@ -111,29 +111,29 @@ class PublisherHighlighter
         // Select pattern to use
         if ($this->simple) {
             $pattern    = '#(%s)#';
-            $sl_pattern = '#(%s)#';
+            $slPattern = '#(%s)#';
         } else {
             $pattern    = '#(?!<.*?)(%s)(?![^<>]*?>)#';
-            $sl_pattern = '#<a\s(?:.*?)>(%s)</a>#';
+            $slPattern = '#<a\s(?:.*?)>(%s)</a>#';
         }
         // Case sensitivity
         if (!$this->caseSens) {
             $pattern .= 'i';
-            $sl_pattern .= 'i';
+            $slPattern .= 'i';
         }
         $needle = (array)$needle;
-        foreach ($needle as $needle_s) {
-            $needle_s = preg_quote($needle_s);
+        foreach ($needle as $needleS) {
+            $needleS = preg_quote($needleS);
             // Escape needle with optional whole word check
             if ($this->wholeWords) {
-                $needle_s = '\b' . $needle_s . '\b';
+                $needleS = '\b' . $needleS . '\b';
             }
             // Strip links
             if ($this->stripLinks) {
-                $sl_regex = sprintf($sl_pattern, $needle_s);
-                $text     = preg_replace($sl_regex, '\1', $text);
+                $slRegex = sprintf($slPattern, $needleS);
+                $text     = preg_replace($slRegex, '\1', $text);
             }
-            $regex = sprintf($pattern, $needle_s);
+            $regex = sprintf($pattern, $needleS);
             $text  = preg_replace($regex, $this->replacementString, $text);
         }
 

@@ -31,7 +31,7 @@ include_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_latest_files_show($options)
 {
-    $publisher = PublisherPublisher::getInstance();
+    $publisher =& PublisherPublisher::getInstance();
     /**
      * $options[0] : Category
      * $options[1] : Sort order - datesub | counter
@@ -47,15 +47,15 @@ function publisher_latest_files_show($options)
     $directDownload = $options[3];
 
     // creating the files objects
-    $filesObj = $publisher->getHandler('file')->getAllFiles(0, PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE, $limit, 0, $sort, $order, explode(',', $options[0]));
+    $filesObj =& $publisher->getHandler('file')->getAllFiles(0, PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE, $limit, 0, $sort, $order, explode(',', $options[0]));
     foreach ($filesObj as $fileObj) {
         $aFile         = array();
         $aFile['link'] = $directDownload ? $fileObj->getFileLink() : $fileObj->getItemLink();
-        if ($sort == "datesub") {
-            $aFile['new'] = $fileObj->datesub();
-        } elseif ($sort == "counter") {
+        if ($sort === 'datesub') {
+            $aFile['new'] = $fileObj->getDatesub();
+        } elseif ($sort === 'counter') {
             $aFile['new'] = $fileObj->counter();
-        } elseif ($sort == "weight") {
+        } elseif ($sort === 'weight') {
             $aFile['new'] = $fileObj->weight();
         }
         $block['files'][] = $aFile;
@@ -81,8 +81,7 @@ function publisher_latest_files_edit($options)
     $orderEle->addOptionArray(array(
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT,
-                              ));
+                                  'weight'  => _MB_PUBLISHER_WEIGHT));
     $dispEle   = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $directEle = new XoopsFormRadioYN(_MB_PUBLISHER_DIRECTDOWNLOAD, 'options[3]', $options[3]);
 

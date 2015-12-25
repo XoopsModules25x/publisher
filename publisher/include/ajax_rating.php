@@ -22,8 +22,8 @@ include_once dirname(__DIR__) . '/header.php';
 error_reporting(0);
 $xoopsLogger->activated = false;
 
-header("Cache-Control: no-cache");
-header("Pragma: nocache");
+header('Cache-Control: no-cache');
+header('Pragma: nocache');
 
 //getting the values
 $rating = XoopsRequest::getInt('rating', 0, 'GET');
@@ -31,23 +31,23 @@ $itemid = XoopsRequest::getInt('itemid', 0, 'GET');
 
 xoops_loadLanguage('main', PUBLISHER_DIRNAME);
 $groups        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-$gperm_handler = $publisher->getHandler('groupperm');
-$hModConfig    = xoops_gethandler('config');
+$gpermHandler =& $publisher->getHandler('groupperm');
+$hModConfig    =& xoops_getHandler('config');
 $module_id     = $publisher->getModule()->getVar('mid');
 
 //Checking permissions
-//if (!$publisher->getConfig('perm_rating') || !$gperm_handler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
+//if (!$publisher->getConfig('perm_rating') || !$gpermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
 //    $output = "unit_long$itemid|" . _NOPERM . "\n";
 //    echo $output;
 //    exit();
 //}
 
 try {
-    if (!$publisher->getConfig('perm_rating') || !$gperm_handler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
+    if (!$publisher->getConfig('perm_rating') || !$gpermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
         throw new Exception(_NOPERM);
     }
 } catch (Exception $e) {
-//    redirect_header("javascript:history.go(-1)", 1, _NOPERM);
+    //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _NOPERM . "\n";
     echo $output;
 }
@@ -66,13 +66,13 @@ try {
         throw new Exception(_MD_PUBLISHER_VOTE_BAD);
     }
 } catch (Exception $e) {
-//    redirect_header("javascript:history.go(-1)", 1, _NOPERM);
+    //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_BAD . "\n";
     echo $output;
 }
 
 $criteria   = new Criteria('itemid', $itemid);
-$ratingObjs = $publisher->getHandler('rating')->getObjects($criteria);
+$ratingObjs =& $publisher->getHandler('rating')->getObjects($criteria);
 
 $uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
 $count          = count($ratingObjs);
@@ -98,12 +98,12 @@ try {
         throw new Exception(_MD_PUBLISHER_VOTE_ALREADY);
     }
 } catch (Exception $e) {
-//    redirect_header("javascript:history.go(-1)", 1, _NOPERM);
+    //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_ALREADY . "\n";
     echo $output;
 }
 
-$newRatingObj = $publisher->getHandler('rating')->create();
+$newRatingObj =& $publisher->getHandler('rating')->create();
 $newRatingObj->setVar('itemid', $itemid);
 $newRatingObj->setVar('ip', $ip);
 $newRatingObj->setVar('uid', $uid);
@@ -117,7 +117,7 @@ $current_rating += $rating;
 $publisher->getHandler('item')->updateAll('rating', number_format($current_rating / $count, 4), $criteria, true);
 $publisher->getHandler('item')->updateAll('votes', $count, $criteria, true);
 
-$tense = $count == 1 ? _MD_PUBLISHER_VOTE_lVOTE : _MD_PUBLISHER_VOTE_lVOTES; //plural form votes/vote
+$tense = $count == 1 ? _MD_PUBLISHER_VOTE_VOTE : _MD_PUBLISHER_VOTE_VOTES; //plural form votes/vote
 
 // $new_back is what gets 'drawn' on your page after a successful 'AJAX/Javascript' vote
 $new_back = array();
@@ -138,7 +138,7 @@ $new_back[] .= '</div>';
 $new_back[] .= '<div class="publisher_voted">' . _MD_PUBLISHER_VOTE_RATING . ' <strong>' . ($count !== 0 ? number_format($current_rating / $count, 2) : 0) . '</strong>/' . $units . ' (' . $count . ' ' . $tense . ')</div>';
 $new_back[] .= '<div class="publisher_thanks">' . _MD_PUBLISHER_VOTE_THANKS . '</div>';
 
-$allnewback = join("\n", $new_back);
+$allnewback = implode("\n", $new_back);
 
 // ========================
 

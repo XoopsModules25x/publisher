@@ -31,12 +31,12 @@
     <div class="publisher_pre_itemInfo">
         <div class="itemInfo" style="height: 14px;">
 
-            <{if $display_comment_link && $item.cancomment && $item.comments != -1 && $com_rule <> 0}>
+            <{if $display_comment_link && $item.cancomment && $item.comments != -1 && $com_rule != 0}>
                 <span style="float: left;"><a href="<{$item.itemurl}>"><{$item.comments}> <{$smarty.const._MD_PUBLISHER_COMMENTS}></a></span>
             <{else}>
                 <span style="float: left;">&nbsp;</span>
             <{/if}>
-            <{if $op <> 'preview'}>
+            <{if $op != 'preview'}>
                 <span style="float: right; text-align: right;"><{$item.adminlink}></span>
             <{else}>
                 <span style="float: right;">&nbsp;</span>

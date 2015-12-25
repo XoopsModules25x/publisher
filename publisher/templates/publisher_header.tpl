@@ -1,58 +1,58 @@
 <{if $collapsable_heading == 1}>
-<script type="text/javascript"><!--
-function goto_URL(object)
-{
-    window.location.href = object.options[object.selectedIndex].value;
-}
-
-function toggle(id)
-{
-    if (document.getElementById) {
-        obj = document.getElementById(id);
-    }
-    if (document.all) {
-        obj = document.all[id];
-    }
-    if (document.layers) {
-        obj = document.layers[id];
-    }
-    if (obj) {
-        if (obj.style.display == "none") {
-            obj.style.display = "";
-        } else {
-            obj.style.display = "none";
+    <script type="text/javascript"><!--
+        function goto_URL(object) {
+            window.location.href = object.options[object.selectedIndex].value;
         }
-    }
-    return false;
-}
 
-var iconClose = new Image();
-iconClose.src = 'assets/images/links/close12.gif';
-var iconOpen = new Image();
-iconOpen.src = 'assets/images/links/open12.gif';
+        function toggle(id) {
+            if (document.getElementById) {
+                obj = document.getElementById(id);
+            }
+            if (document.all) {
+                obj = document.all[id];
+            }
+            if (document.layers) {
+                obj = document.layers[id];
+            }
+            if (obj) {
+                if (obj.style.display == "none") {
+                    obj.style.display = "";
+                } else {
+                    obj.style.display = "none";
+                }
+            }
+            return false;
+        }
 
-function toggleIcon(iconName)
-{
-    if (document.images[iconName].src == window.iconOpen.src) {
-        document.images[iconName].src = window.iconClose.src;
-    } else if (document.images[iconName].src == window.iconClose.src) {
-        document.images[iconName].src = window.iconOpen.src;
-    }
-}
+        var iconClose = new Image();
+        iconClose.src = '../assets/images/links/close12.gif';
+        var iconOpen = new Image();
+        iconOpen.src = '../assets/images/links/open12.gif';
 
-//-->
-</script><{/if}>
+        function toggleIcon(iconName) {
+            if (document.images[iconName].src == window.iconOpen.src) {
+                document.images[iconName].src = window.iconClose.src;
+            } else if (document.images[iconName].src == window.iconClose.src) {
+                document.images[iconName].src = window.iconOpen.src;
+            }
+        }
+
+        //-->
+    </script>
+<{/if}>
 
 <{if $publisher_display_breadcrumb}>
 
-<div class="publisher_headertable">
+    <div class="publisher_headertable">
     <{if $module_home}>
-    <span class="publisher_modulename"><{$module_home}></span> <{if $title_and_welcome}>
-    <span><{$lang_mainintro}></span> <{/if}> <{/if}> <{if $categoryPath}>
-            <span class="publisher_breadcrumb">
+        <span class="publisher_modulename"><{$module_home}></span>
+        <{if $title_and_welcome}>
+            <span><{$lang_mainintro}></span>
+        <{/if}> <{/if}> <{if $categoryPath}>
+    <span class="publisher_breadcrumb">
             <{if $module_home}>
                 &gt;
             <{/if}>
-            <{$categoryPath}></span>
-    <{/if}>
-</div><{/if}>
+        <{$categoryPath}></span>
+<{/if}>
+    </div><{/if}>

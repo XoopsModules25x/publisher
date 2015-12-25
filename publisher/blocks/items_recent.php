@@ -31,7 +31,7 @@ include_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_items_recent_show($options)
 {
-    $publisher = PublisherPublisher::getInstance();
+    $publisher =& PublisherPublisher::getInstance();
     $myts      = MyTextSanitizer::getInstance();
 
     $block = array();
@@ -56,18 +56,18 @@ function publisher_items_recent_show($options)
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
     }
-    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
+    $itemsObj =& $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
 
     $totalItems = count($itemsObj);
 
-    if ($itemsObj) {
+    if ($itemsObj && $totalItems > 1) {
         for ($i = 0; $i < $totalItems; ++$i) {
             $newItems['itemid']       = $itemsObj[$i]->itemid();
-            $newItems['title']        = $itemsObj[$i]->title();
+            $newItems['title']        = $itemsObj[$i]->getTitle();
             $newItems['categoryname'] = $itemsObj[$i]->getCategoryName();
             $newItems['categoryid']   = $itemsObj[$i]->categoryid();
-            $newItems['date']         = $itemsObj[$i]->datesub();
-            $newItems['poster']       = $itemsObj[$i]->linkedPosterName();
+            $newItems['date']         = $itemsObj[$i]->getDatesub();
+            $newItems['poster']       = $itemsObj[$i]->getLinkedPosterName();
             $newItems['itemlink']     = $itemsObj[$i]->getItemLink(false, isset($options[3]) ? $options[3] : 65);
             $newItems['categorylink'] = $itemsObj[$i]->getCategoryLink();
 
@@ -79,7 +79,7 @@ function publisher_items_recent_show($options)
         $block['lang_poster']    = _MB_PUBLISHER_POSTEDBY;
         $block['lang_date']      = _MB_PUBLISHER_DATE;
         $modulename              = $myts->displayTarea($publisher->getModule()->getVar('name'));
-        $block['lang_visitItem'] = _MB_PUBLISHER_VISITITEM . " " . $modulename;
+        $block['lang_visitItem'] = _MB_PUBLISHER_VISITITEM . ' ' . $modulename;
     }
 
     return $block;
@@ -102,8 +102,7 @@ function publisher_items_recent_edit($options)
     $orderEle->addOptionArray(array(
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT,
-                              ));
+                                  'weight'  => _MB_PUBLISHER_WEIGHT));
     $dispEle  = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $charsEle = new XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);
 

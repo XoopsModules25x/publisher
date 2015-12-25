@@ -77,7 +77,7 @@ class PublisherPublisher
             $this->initConfig();
         }
         if (!$name) {
-            $this->addLog("Getting all config");
+            $this->addLog('Getting all config');
 
             return $this->config;
         }
@@ -115,12 +115,12 @@ class PublisherPublisher
      */
     public function &getHandler($name)
     {
-        if (!isset($this->handler[$name . '_handler'])) {
+        if (!isset($this->handler[$name . 'Handler'])) {
             $this->initHandler($name);
         }
         $this->addLog("Getting handler '{$name}'");
 
-        return $this->handler[$name . '_handler'];
+        return $this->handler[$name . 'Handler'];
     }
 
     public function initModule()
@@ -128,7 +128,7 @@ class PublisherPublisher
         if (isset($GLOBALS['xoopsModule']) && is_object($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirname') == $this->dirname) {
             $this->module = $GLOBALS['xoopsModule'];
         } else {
-            $hModule      = xoops_gethandler('module');
+            $hModule      =& xoops_getHandler('module');
             $this->module = $hModule->getByDirname($this->dirname);
         }
         $this->addLog('INIT MODULE');
@@ -137,7 +137,7 @@ class PublisherPublisher
     public function initConfig()
     {
         $this->addLog('INIT CONFIG');
-        $hModConfig   = xoops_gethandler('config');
+        $hModConfig   =& xoops_getHandler('config');
         $this->config = $hModConfig->getConfigsByCat(0, $this->getModule()->getVar('mid'));
     }
 
@@ -147,7 +147,7 @@ class PublisherPublisher
     public function initHandler($name)
     {
         $this->addLog('INIT ' . $name . ' HANDLER');
-        $this->handler[$name . '_handler'] = xoops_getModuleHandler($name, $this->dirname);
+        $this->handler[$name . 'Handler'] =& xoops_getModuleHandler($name, $this->dirname);
     }
 
     /**

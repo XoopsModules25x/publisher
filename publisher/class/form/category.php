@@ -55,7 +55,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $this->targetObject =& $target;
         $this->subCatsCount = $subCatsCount;
 
-        $memberHandler   =& xoops_getHandler('member');
+        $memberHandler    =& xoops_getHandler('member');
         $this->userGroups = $memberHandler->getGroupList();
 
         parent::__construct(_AM_PUBLISHER_CATEGORY, 'form', xoops_getenv('PHP_SELF'));
@@ -72,7 +72,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $criteria = new Criteria(null);
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
-        $myTree     = new XoopsObjectTree($this->publisher->getHandler('category')->getObjects($criteria), 'categoryid', 'parentid');
+        $myTree    = new XoopsObjectTree($this->publisher->getHandler('category')->getObjects($criteria), 'categoryid', 'parentid');
         $catSelect = $myTree->makeSelBox('parentid', 'name', '--', $this->targetObject->parentid(), true);
         $this->addElement(new XoopsFormLabel(_AM_PUBLISHER_PARENT_CATEGORY_EXP, $catSelect));
 
@@ -84,8 +84,8 @@ class PublisherCategoryForm extends XoopsThemeForm
 
         // EDITOR
         $groups         = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $gpermHandler  =& $this->publisher->getHandler('groupperm');
-        $moduleId      = $this->publisher->getModule()->mid();
+        $gpermHandler   =& $this->publisher->getHandler('groupperm');
+        $moduleId       = $this->publisher->getModule()->mid();
         $allowedEditors = publisherGetEditors($gpermHandler->getItemIds('editors', $groups, $moduleId));
         $nohtml         = false;
         if (count($allowedEditors) > 0) {
@@ -98,7 +98,7 @@ class PublisherCategoryForm extends XoopsThemeForm
                     $editor = (null !== ($GLOBALS['xoopsUser']->getVar('publisher_editor'))) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
-            $editor      = (empty($editor) || !in_array($editor, $allowedEditors)) ? $this->publisher->getConfig('submit_editor') : $editor;
+            $editor     = (empty($editor) || !in_array($editor, $allowedEditors)) ? $this->publisher->getConfig('submit_editor') : $editor;
             $formEditor = new XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowedEditors);
             $this->addElement($formEditor);
         } else {
@@ -132,7 +132,7 @@ class PublisherCategoryForm extends XoopsThemeForm
 
         // IMAGE UPLOAD
         $max_size = 5000000;
-        $fileBox = new XoopsFormFile(_AM_PUBLISHER_IMAGE_UPLOAD, 'image_file', $max_size);
+        $fileBox  = new XoopsFormFile(_AM_PUBLISHER_IMAGE_UPLOAD, 'image_file', $max_size);
         $fileBox->setExtra("size ='45'");
         $fileBox->setDescription(_AM_PUBLISHER_IMAGE_UPLOAD_DSC);
         $this->addElement($fileBox);
@@ -160,27 +160,55 @@ class PublisherCategoryForm extends XoopsThemeForm
         $this->addElement(new XoopsFormText('Custom template', 'template', 50, 255, $this->targetObject->template('e')), false);
 
         // READ PERMISSIONS
-        $groupsReadCheckbox = new XoopsFormCheckBox(_AM_PUBLISHER_PERMISSIONS_CAT_READ, 'groupsRead[]', $this->targetObject->getGroupsRead());
+        $readPermissionsTray   = new XoopsFormElementTray(_AM_PUBLISHER_PERMISSIONS_CAT_READ, '');
+        $selectAllReadCheckbox = new XoopsFormCheckBox('', "adminbox", 1);
+        $selectAllReadCheckbox->addOption('allbox', _AM_SYSTEM_ALL);
+        $selectAllReadCheckbox->setExtra(" onclick='xoopsCheckGroup(\"form\", \"adminbox\" , \"groupsRead[]\");' ");
+        $selectAllReadCheckbox->setClass('xo-checkall');
+        $readPermissionsTray->addElement($selectAllReadCheckbox);
+
+        $groupsReadCheckbox = new XoopsFormCheckBox('', 'groupsRead[]', $this->targetObject->getGroupsRead());
+
         foreach ($this->userGroups as $group_id => $group_name) {
             $groupsReadCheckbox->addOption($group_id, $group_name);
         }
-        $this->addElement($groupsReadCheckbox);
+        $readPermissionsTray->addElement($groupsReadCheckbox);
+        $this->addElement($readPermissionsTray);
 
         // SUBMIT PERMISSIONS
-        $groupsSubmitCheckbox = new XoopsFormCheckBox(_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT, 'groupsSubmit[]', $this->targetObject->getGroupsSubmit());
-        $groupsSubmitCheckbox->setDescription(_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT_DSC);
+        $submitPermissionsTray = new XoopsFormElementTray(_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT, '');
+        $submitPermissionsTray->setDescription(_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT_DSC);
+
+        $selectAllSubmitCheckbox = new XoopsFormCheckBox('', "adminbox2", 1);
+        $selectAllSubmitCheckbox->addOption('allbox', _AM_SYSTEM_ALL);
+        $selectAllSubmitCheckbox->setExtra(" onclick='xoopsCheckGroup(\"form\", \"adminbox2\" , \"groupsSubmit[]\");' ");
+        $selectAllSubmitCheckbox->setClass('xo-checkall');
+        $submitPermissionsTray->addElement($selectAllSubmitCheckbox);
+
+        $groupsSubmitCheckbox = new XoopsFormCheckBox('', 'groupsSubmit[]', $this->targetObject->getGroupsSubmit());
         foreach ($this->userGroups as $group_id => $group_name) {
             $groupsSubmitCheckbox->addOption($group_id, $group_name);
         }
-        $this->addElement($groupsSubmitCheckbox);
+        $submitPermissionsTray->addElement($groupsSubmitCheckbox);
+        $this->addElement($submitPermissionsTray);
 
         // MODERATION PERMISSIONS
-        $groupsModerationCheckbox = new XoopsFormCheckBox(_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR, 'groupsModeration[]', $this->targetObject->getGroupsModeration());
-        $groupsModerationCheckbox->setDescription(_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR_DSC);
+        $moderatePermissionsTray = new XoopsFormElementTray(_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR, '');
+        $moderatePermissionsTray->setDescription(_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR_DSC);
+
+        $selectAllModerateCheckbox = new XoopsFormCheckBox('', "adminbox3", 1);
+        $selectAllModerateCheckbox->addOption('allbox', _AM_SYSTEM_ALL);
+        $selectAllModerateCheckbox->setExtra(" onclick='xoopsCheckGroup(\"form\", \"adminbox3\" , \"groupsModeration[]\");' ");
+        $selectAllModerateCheckbox->setClass('xo-checkall');
+        $moderatePermissionsTray->addElement($selectAllModerateCheckbox);
+
+        $groupsModerationCheckbox = new XoopsFormCheckBox('', 'groupsModeration[]', $this->targetObject->getGroupsModeration());
+
         foreach ($this->userGroups as $group_id => $group_name) {
             $groupsModerationCheckbox->addOption($group_id, $group_name);
         }
-        $this->addElement($groupsModerationCheckbox);
+        $moderatePermissionsTray->addElement($groupsModerationCheckbox);
+        $this->addElement($moderatePermissionsTray);
 
         $moderator = new XoopsFormSelectUser(_AM_PUBLISHER_CATEGORY_MODERATOR, 'moderator', true, $this->targetObject->moderator('e'), 1, false);
         $moderator->setDescription(_AM_PUBLISHER_CATEGORY_MODERATOR_DSC);
@@ -195,7 +223,6 @@ class PublisherCategoryForm extends XoopsThemeForm
                 $subname = ($scname = XoopsRequest::getArray('scname', '', 'POST')) ? $temp[$i] : '';
             }
             $catTray->addElement(new XoopsFormText('', 'scname[' . $i . ']', 50, 255, $subname));
-
         }
         $t = new XoopsFormText('', 'nb_subcats', 3, 2);
         $l = new XoopsFormLabel('', sprintf(_AM_PUBLISHER_ADD_OPT, $t->render()));

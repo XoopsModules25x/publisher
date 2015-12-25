@@ -65,7 +65,7 @@ $docSubject = $myts->undoHtmlSpecialChars($categoryObj->name());
 $docKeywords = $myts->undoHtmlSpecialChars($itemObj->meta_keywords());
 if (array_key_exists('rtl', $pdf_data)) {
     $pdf->setRTL($pdf_data['rtl']);
-};
+}
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor(PDF_AUTHOR);

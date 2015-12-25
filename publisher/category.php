@@ -122,7 +122,7 @@ $category['categoryPath'] = $categoryObj->getCategoryPath($publisher->getConfig(
 
 if ($publisher->getConfig('idxcat_display_last_item') == 1) {
     // Get the last smartitem
-    $last_itemObj =& $publisher->getHandler('item')->getLastPublishedByCat(array(array($categoryObj)));
+    $lastItemObj =& $publisher->getHandler('item')->getLastPublishedByCat(array(array($categoryObj)));
 }
 $lastitemsize = (int)($publisher->getConfig('idxcat_last_item_size'));
 
@@ -145,9 +145,9 @@ if ($publisher->getConfig('idxcat_show_subcats') !== 'no') {
             if (($subcat_total_items > 0) || ($publisher->getConfig('idxcat_show_subcats') === 'all')) {
                 $subcat_id = $subcat->getVar('categoryid');
                 // if we retreived the last item object for this category
-                if (isset($last_itemObj[$subcat_id])) {
-                    $subcat->setVar('last_itemid', $last_itemObj[$subcat_id]->itemid());
-                    $subcat->setVar('last_title_link', $last_itemObj[$key]->getItemLink(false, $lastitemsize));
+                if (isset($lastItemObj[$subcat_id])) {
+                    $subcat->setVar('last_itemid', $lastItemObj[$subcat_id]->itemid());
+                    $subcat->setVar('last_title_link', $lastItemObj[$key]->getItemLink(false, $lastitemsize));
                 }
 
                 $numItems = isset($totalItems[$subcat_id]) ? $totalItems[$key] : 0;
@@ -160,9 +160,9 @@ if ($publisher->getConfig('idxcat_show_subcats') !== 'no') {
             if ($subcat_total_items > 0) {
                 $subcat_id = $subcat->getVar('categoryid');
                 // if we retreived the last item object for this category
-                if (isset($last_itemObj[$subcat_id])) {
-                    $subcat->setVar('last_itemid', $last_itemObj[$subcat_id]->itemid());
-                    $subcat->setVar('last_title_link', $last_itemObj[$key]->getItemLink(false, $lastitemsize));
+                if (isset($lastItemObj[$subcat_id])) {
+                    $subcat->setVar('last_itemid', $lastItemObj[$subcat_id]->itemid());
+                    $subcat->setVar('last_title_link', $lastItemObj[$key]->getItemLink(false, $lastitemsize));
                 }
 
                 $numItems = isset($totalItems[$subcat_id]) ? $totalItems[$key] : 0;
@@ -203,9 +203,9 @@ if (count($itemsObj) > 0) {
         $xoopsTpl->append('items', $item);
     }
 
-    if (isset($last_itemObj[$categoryObj->getVar('categoryid')]) && $last_itemObj[$categoryObj->getVar('categoryid')]) {
-        $category['last_itemid']     = $last_itemObj[$categoryObj->getVar('categoryid')]->getVar('itemid');
-        $category['last_title_link'] = $last_itemObj[$categoryObj->getVar('categoryid')]->getItemLink(false, $lastitemsize);
+    if (isset($lastItemObj[$categoryObj->getVar('categoryid')]) && $lastItemObj[$categoryObj->getVar('categoryid')]) {
+        $category['last_itemid']     = $lastItemObj[$categoryObj->getVar('categoryid')]->getVar('itemid');
+        $category['last_title_link'] = $lastItemObj[$categoryObj->getVar('categoryid')]->getItemLink(false, $lastitemsize);
     }
 
     $xoopsTpl->assign('show_subtitle', $publisher->getConfig('cat_disp_subtitle'));
@@ -240,8 +240,8 @@ $xoopsTpl->assign('navbar', $navbar);
 /**
  * Generating meta information for this page
  */
-$publisher_metagen = new PublisherMetagen($categoryObj->getVar('name'), $categoryObj->getVar('meta_keywords', 'n'), $categoryObj->getVar('meta_description', 'n'), $categoryObj->getCategoryPathForMetaTitle());
-$publisher_metagen->createMetaTags();
+$publisherMetagen = new PublisherMetagen($categoryObj->getVar('name'), $categoryObj->getVar('meta_keywords', 'n'), $categoryObj->getVar('meta_description', 'n'), $categoryObj->getCategoryPathForMetaTitle());
+$publisherMetagen->createMetaTags();
 
 // RSS Link
 if ($publisher->getConfig('idxcat_show_rss_link') == 1) {

@@ -57,7 +57,7 @@ if ($op === 'start') {
     publisherOpenCollapsableBar('cjaycontentimport', 'cjaycontentimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('cjaycontent'));
-    list ($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
+    list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
 
     if ($totalArticles == 0) {
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles) . '</span>';
@@ -84,7 +84,7 @@ if ($op === 'start') {
 if ($op === 'go') {
     publisherCpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    include_once(dirname(dirname(__DIR__))) . '/include/common.php';
+    include_once (dirname(dirname(__DIR__))) . '/include/common.php';
     publisherOpenCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
     $moduleHandler         =& xoops_getHandler('module');
@@ -171,9 +171,8 @@ if ($op === 'go') {
         } else {
             echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . '<br />';
         }
-
     }
-//    unset($comment);
+    //    unset($comment);
 
     echo '<br/><br/>Done.<br/>';
 

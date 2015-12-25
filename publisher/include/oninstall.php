@@ -35,18 +35,20 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
 {
     xoops_loadLanguage('admin', $xoopsModule->getVar('dirname'));
     xoops_loadLanguage('modinfo', $xoopsModule->getVar('dirname'));
-    include_once $GLOBALS['xoops']->path('modules/' . $xoopsModule->getVar('dirname') . '/include/functions.php');
+    /*
+        include_once $GLOBALS['xoops']->path('modules/' . $xoopsModule->getVar('dirname') . '/include/functions.php');
 
-    $ret = true;
-    $msg = '';
-    // Create content directory
-    $dir = $GLOBALS['xoops']->path('uploads/' . $xoopsModule->getVar('dirname') . '/content');
-    if (!publisherMkdir($dir)) {
-        $msg .= sprintf(_AM_PUBLISHER_DIRNOTCREATED, $dir);
-    }
-    if (empty($msg)) {
-        return $ret;
-    } else {
-        return $msg;
-    }
+        $ret = true;
+        $msg = '';
+        // Create content directory
+        $dir = $GLOBALS['xoops']->path('uploads/' . $xoopsModule->getVar('dirname') . '/content');
+        if (!publisherMkdir($dir)) {
+            $msg .= sprintf(_AM_PUBLISHER_DIRNOTCREATED, $dir);
+        }
+        if (empty($msg)) {
+            return $ret;
+        } else {
+            return $msg;
+        }
+    */
 }

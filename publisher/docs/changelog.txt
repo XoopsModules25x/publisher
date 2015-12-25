@@ -1,3 +1,7 @@
+<h5>1.02 RC5       (2015-12-23)</h5>
+- fixed bug: wrong options in Latest News block (mamba)
+- added "All" checkbox in Category for group permissions (mamba)
+
 <h5>1.02 RC4       (NOT RELEASED)</h5>
 - fix issues with Popeye images (mamba)
 - removed 500px hardcoded width for image preview in Admin, as it looks bad for small images (mamba)

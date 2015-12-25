@@ -91,7 +91,7 @@ class PublisherFile extends XoopsObject
 
             return false;
         }
-        if (empty($allowedMimetypes)) {
+        if (0 === count($allowedMimetypes)) {
             $allowedMimetypes = $this->publisher->getHandler('mimetype')->getArrayByType();
         }
         $maxfilesize   = $this->publisher->getConfig('maximum_filesize');
@@ -118,7 +118,7 @@ class PublisherFile extends XoopsObject
     public function storeUpload($postField, $allowedMimetypes = array(), &$errors)
     {
         $itemid = $this->getVar('itemid');
-        if (empty($allowedMimetypes)) {
+        if (0 === count($allowedMimetypes)) {
             $allowedMimetypes = $this->publisher->getHandler('mimetype')->getArrayByType();
         }
         $maxfilesize   = $this->publisher->getConfig('maximum_filesize');
@@ -190,7 +190,6 @@ class PublisherFile extends XoopsObject
         //mb        xoops_load('XoopsLocal');
         //mb        return XoopsLocal::formatTimestamp($this->getVar('datesub', $format), $dateFormat);
         return formatTimestamp($this->getVar('datesub', $format), $dateFormat);
-
     }
 
     /**
@@ -260,9 +259,9 @@ class PublisherFile extends XoopsObject
      */
     public function getNameFromFilename()
     {
-        $ret     = $this->filename();
+        $ret    = $this->filename();
         $sepPos = strpos($ret, '_');
-        $ret     = substr($ret, $sepPos + 1, strlen($ret) - $sepPos);
+        $ret    = substr($ret, $sepPos + 1, strlen($ret) - $sepPos);
 
         return $ret;
     }
@@ -358,45 +357,55 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
      */
     public function &getAllFiles($itemid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = array())
     {
-        $this->table_link   = $this->db->prefix('publisher_items');
-        $this->field_object = 'itemid';
-        $this->field_link   = 'itemid';
-        $hasStatusCriteria  = false;
-        $criteriaStatus     = new CriteriaCompo();
-        if (is_array($status)) {
-            $hasStatusCriteria = true;
-            foreach ($status as $v) {
-                $criteriaStatus->add(new Criteria('o.status', $v), 'OR');
+        global $xoopsDB;
+        $files = array();
+
+        $this->table_link = $this->db->prefix('publisher_items');
+
+        $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $this->db->prefix('publisher_files'));
+        list($count) = $GLOBALS['xoopsDB']->fetchRow($result);
+        if ($count > 0) {
+            $this->field_object = 'itemid';
+            $this->field_link   = 'itemid';
+            $hasStatusCriteria  = false;
+            $criteriaStatus     = new CriteriaCompo();
+            if (is_array($status)) {
+                $hasStatusCriteria = true;
+                foreach ($status as $v) {
+                    $criteriaStatus->add(new Criteria('o.status', $v), 'OR');
+                }
+            } elseif ($status != -1) {
+                $hasStatusCriteria = true;
+                $criteriaStatus->add(new Criteria('o.status', $status), 'OR');
             }
-        } elseif ($status != -1) {
-            $hasStatusCriteria = true;
-            $criteriaStatus->add(new Criteria('o.status', $status), 'OR');
-        }
-        $hasCategoryCriteria = false;
-        $criteriaCategory    = new CriteriaCompo();
-        $category            = (array)$category;
-        if (count($category) > 0 && $category[0] != 0) {
-            $hasCategoryCriteria = true;
-            foreach ($category as $cat) {
-                $criteriaCategory->add(new Criteria('l.categoryid', $cat), 'OR');
+            $hasCategoryCriteria = false;
+            $criteriaCategory    = new CriteriaCompo();
+            $category            = (array)$category;
+            if (count($category) > 0 && $category[0] != 0) {
+                $hasCategoryCriteria = true;
+                foreach ($category as $cat) {
+                    $criteriaCategory->add(new Criteria('l.categoryid', $cat), 'OR');
+                }
             }
+            $criteriaItemid = new Criteria('o.itemid', $itemid);
+            $criteria       = new CriteriaCompo();
+            if ($itemid != 0) {
+                $criteria->add($criteriaItemid);
+            }
+            if ($hasStatusCriteria) {
+                $criteria->add($criteriaStatus);
+            }
+            if ($hasCategoryCriteria) {
+                $criteria->add($criteriaCategory);
+            }
+            $criteria->setSort($sort);
+            $criteria->setOrder($order);
+            $criteria->setLimit($limit);
+            $criteria->setStart($start);
+            $files =& $this->getByLink($criteria, array('o.*'), true);
+
+            //            return $files;
         }
-        $criteriaItemid = new Criteria('o.itemid', $itemid);
-        $criteria       = new CriteriaCompo();
-        if ($itemid != 0) {
-            $criteria->add($criteriaItemid);
-        }
-        if ($hasStatusCriteria) {
-            $criteria->add($criteriaStatus);
-        }
-        if ($hasCategoryCriteria) {
-            $criteria->add($criteriaCategory);
-        }
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setLimit($limit);
-        $criteria->setStart($start);
-        $files =& $this->getByLink($criteria, array('o.*'), true);
 
         return $files;
     }

@@ -64,7 +64,7 @@ $real_total_items =& $publisher->getHandler('item')->getItemsCount(-1, array(Pub
 
 if ($publisher->getConfig('idxcat_display_last_item') == 1) {
     // Get the last item in each category
-    $last_itemObj =& $publisher->getHandler('item')->getLastPublishedByCat(array_merge(array($categoriesObj), $subcats));
+    $lastItemObj =& $publisher->getHandler('item')->getLastPublishedByCat(array_merge(array($categoriesObj), $subcats));
 }
 
 // Max size of the title in the last item column
@@ -89,9 +89,9 @@ foreach ($categoriesObj as $catId => $category) {
                 if (($subcat_total_items > 0) || ($publisher->getConfig('idxcat_show_subcats') === 'all')) {
                     $subcat_id = $subcat->getVar('categoryid');
                     // if we retrieved the last item object for this category
-                    if (isset($last_itemObj[$subcat_id])) {
-                        $subcat->setVar('last_itemid', $last_itemObj[$subcat_id]->itemid());
-                        $subcat->setVar('last_title_link', $last_itemObj[$subcat_id]->getItemLink(false, $lastitemsize));
+                    if (isset($lastItemObj[$subcat_id])) {
+                        $subcat->setVar('last_itemid', $lastItemObj[$subcat_id]->itemid());
+                        $subcat->setVar('last_title_link', $lastItemObj[$subcat_id]->getItemLink(false, $lastitemsize));
                     }
 
                     $numItems = isset($totalItems[$subcat_id]) ? $totalItems[$key] : 0;
@@ -101,7 +101,7 @@ foreach ($categoriesObj as $catId => $category) {
                     //$total += $numItems;
                 }
             }
-//            unset($subcat);
+            //            unset($subcat);
         }
     }
 
@@ -113,9 +113,9 @@ foreach ($categoriesObj as $catId => $category) {
     }
     // I'm commenting out this to also display empty categories...
     // if ($total > 0) {
-    if (isset($last_itemObj[$catId])) {
-        $category->setVar('last_itemid', $last_itemObj[$catId]->getVar('itemid'));
-        $category->setVar('last_title_link', $last_itemObj[$catId]->getItemLink(false, $lastitemsize));
+    if (isset($lastItemObj[$catId])) {
+        $category->setVar('last_itemid', $lastItemObj[$catId]->getVar('itemid'));
+        $category->setVar('last_title_link', $lastItemObj[$catId]->getItemLink(false, $lastitemsize));
     }
     $category->setVar('itemcount', $total);
 
@@ -187,7 +187,6 @@ if ($publisher->getConfig('index_display_last_items')) {
         unset($allcategories, $itemObj);
     }
     unset($itemsObj);
-
 }
 
 // Language constants
@@ -225,8 +224,8 @@ $xoopsTpl->assign('displaylastitems', $publisher->getConfig('index_display_last_
 /**
  * Generating meta information for this page
  */
-$publisher_metagen = new PublisherMetagen($publisher->getModule()->getVar('name'));
-$publisher_metagen->createMetaTags();
+$publisherMetagen = new PublisherMetagen($publisher->getModule()->getVar('name'));
+$publisherMetagen->createMetaTags();
 
 // RSS Link
 if ($publisher->getConfig('idxcat_show_rss_link') == 1) {

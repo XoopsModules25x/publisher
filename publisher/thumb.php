@@ -431,7 +431,6 @@ class Timthumb
             } else {
                 $this->debug(3, 'webshot is NOT set so we\'re going to try to fetch a regular image.');
                 $this->serveExternalImage();
-
             }
         } else {
             $this->debug(3, 'Got request for internal image. Starting serveInternalImage()');
@@ -576,7 +575,6 @@ class Timthumb
         $this->errors[] = $err;
 
         return false;
-
     }
 
     /**
@@ -720,8 +718,8 @@ class Timthumb
         }
 
         // get standard input properties
-        $newWidth    = (int)abs($this->param('w', 0));
-        $newHeight   = (int)abs($this->param('h', 0));
+        $newWidth     = (int)abs($this->param('w', 0));
+        $newHeight    = (int)abs($this->param('h', 0));
         $zoom_crop    = (int)$this->param('zc', DEFAULT_ZC);
         $quality      = (int)abs($this->param('q', DEFAULT_Q));
         $align        = $this->cropTop ? 't' : $this->param('a', 'c');
@@ -771,7 +769,6 @@ class Timthumb
             } else {
                 $newHeight = $final_height;
             }
-
         }
 
         // create a new true color image
@@ -803,13 +800,13 @@ class Timthumb
         if ($zoom_crop == 2) {
             $final_height = $height * ($newWidth / $width);
             if ($final_height > $newHeight) {
-                $origin_x  = $newWidth / 2;
+                $origin_x = $newWidth / 2;
                 $newWidth = $width * ($newHeight / $height);
-                $origin_x  = round($origin_x - ($newWidth / 2));
+                $origin_x = round($origin_x - ($newWidth / 2));
             } else {
-                $origin_y   = $newHeight / 2;
+                $origin_y  = $newHeight / 2;
                 $newHeight = $final_height;
-                $origin_y   = round($origin_y - ($newHeight / 2));
+                $origin_y  = round($origin_y - ($newHeight / 2));
             }
         }
 
@@ -828,11 +825,9 @@ class Timthumb
             if ($cmp_x > $cmp_y) {
                 $src_w = round($width / $cmp_x * $cmp_y);
                 $src_x = round(($width - ($width / $cmp_x * $cmp_y)) / 2);
-
             } elseif ($cmp_y > $cmp_x) {
                 $src_h = round($height / $cmp_y * $cmp_x);
                 $src_y = round(($height - ($height / $cmp_y * $cmp_x)) / 2);
-
             }
 
             // positional cropping!
@@ -855,7 +850,6 @@ class Timthumb
         } else {
             // copy and resize part of an image with resampling
             imagecopyresampled($canvas, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-
         }
 
         if (defined('IMG_FILTER_NEGATE') && $filters != '' && function_exists('imagefilter')) {
@@ -908,7 +902,6 @@ class Timthumb
             $offset  = 0;
 
             imageconvolution($canvas, $sharpenMatrix, $divisor, $offset);
-
         }
         //Straight from Wordpress core code. Reduces filesize by up to 70% for PNG's
         if ((IMAGETYPE_PNG == $origType || IMAGETYPE_GIF == $origType) && function_exists('imageistruecolor') && !imageistruecolor($image) && imagecolortransparent($image) > 0) {
@@ -1027,7 +1020,6 @@ class Timthumb
         }
         $this->debug(3, 'Doc root is: ' . $docRoot);
         $this->docRoot = $docRoot;
-
     }
 
     /**
@@ -1564,7 +1556,6 @@ class Timthumb
 
             return true;
         }
-
     }
 
     /**
@@ -1594,7 +1585,6 @@ class Timthumb
         }
 
         return false;
-
     }
 
     protected function set404()

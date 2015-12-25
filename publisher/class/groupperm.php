@@ -36,7 +36,7 @@ class PublisherGroupPermHandler extends XoopsGroupPermHandler
      *
      * @param string $gpermName   Name of permission
      * @param int    $gpermItemId ID of an item
-     * @param        int           /array $gpermGroupId A group ID or an array of group IDs
+     * @param        int          /array $gpermGroupId A group ID or an array of group IDs
      * @param int    $gpermModId  ID of a module
      *
      * @return bool TRUE if permission is enabled
@@ -45,7 +45,7 @@ class PublisherGroupPermHandler extends XoopsGroupPermHandler
     {
         $criteria = new CriteriaCompo(new Criteria('gperm_modid', $gpermModId));
         $criteria->add(new Criteria('gperm_name', $gpermName));
-        $gpermItemId = (int)($gpermItemId);
+        $gpermItemId = (int)$gpermItemId;
         if ($gpermItemId > 0) {
             $criteria->add(new Criteria('gperm_itemid', $gpermItemId));
         }

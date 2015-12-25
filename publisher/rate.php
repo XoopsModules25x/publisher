@@ -25,10 +25,10 @@ include_once __DIR__ . '/header.php';
 $rating = XoopsRequest::getInt('rating', 0, 'GET');
 $itemid = XoopsRequest::getInt('itemid', 0, 'GET');
 
-$groups        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+$groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $gpermHandler =& xoops_getModuleHandler('groupperm');
-$hModConfig    =& xoops_getHandler('config');
-$module_id     = $publisher->getModule()->getVar('mid');
+$hModConfig   =& xoops_getHandler('config');
+$module_id    = $publisher->getModule()->getVar('mid');
 
 //Checking permissions
 if (!$publisher->getConfig('perm_rating') || !$gpermHandler->checkRight('global', PublisherConstantsInterface::PUBLISHER_RATE, $groups, $module_id)) {
@@ -79,3 +79,4 @@ $publisher->getHandler('item')->updateAll('votes', $count, $criteria, true);
 
 redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _MD_PUBLISHER_VOTE_THANKS);
 //exit();
+

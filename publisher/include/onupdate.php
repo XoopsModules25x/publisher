@@ -23,11 +23,10 @@
 
 function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
 {
-
     if ($oldversion < 102) {
         // delete old html template files
         $templateDirectory = $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/templates/');
-        $templateList     = array_diff(scandir($templateDirectory), array('..', '.'));
+        $templateList      = array_diff(scandir($templateDirectory), array('..', '.'));
         foreach ($templateList as $k => $v) {
             $fileInfo = new SplFileInfo($templateDirectory . $v);
             if ($fileInfo->getExtension() === 'html' && $fileInfo->getFilename() !== 'index.html') {
@@ -38,7 +37,7 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
         }
         // delete old block html template files
         $templateDirectory = $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/templates/blocks/');
-        $templateList     = array_diff(scandir($templateDirectory), array('..', '.'));
+        $templateList      = array_diff(scandir($templateDirectory), array('..', '.'));
         foreach ($templateList as $k => $v) {
             $fileInfo = new SplFileInfo($templateDirectory . $v);
             if ($fileInfo->getExtension() === 'html' && $fileInfo->getFilename() !== 'index.html') {

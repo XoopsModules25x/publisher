@@ -88,7 +88,7 @@ if ($op === 'showmod') {
         unset($xv_config);
 
         if (!array_key_exists($formCat, $config_cats)) {
-            $formCat        = 'others';
+            $formCat         = 'others';
             $cat_others_used = true;
         }
 
@@ -187,11 +187,11 @@ if ($op === 'save') {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header($module->getInfo('adminindex'), 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
     }
-    $count          = count($confIds);
+    $count         = count($confIds);
     $configHandler =& xoops_getHandler('config');
     if ($count > 0) {
         for ($i = 0; $i < $count; ++$i) {
-            $config    = $configHandler->getConfig($confIds[$i]);
+            $config   = $configHandler->getConfig($confIds[$i]);
             $newValue =& ${$config->getVar('conf_name')};
             if (is_array($newValue) || $newValue != $config->getVar('conf_value')) {
                 $config->setConfValueForInput($newValue);
@@ -201,5 +201,4 @@ if ($op === 'save') {
         }
     }
     redirect_header('preferences.php', 2, _AM_DBUPDATED);
-
 }

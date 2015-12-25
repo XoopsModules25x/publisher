@@ -32,11 +32,11 @@ include_once PUBLISHER_ROOT_PATH . '/footer.php';
 xoops_loadLanguage('calendar');
 //mb xoops_load('XoopsLocal');
 
-$lastyear   = 0;
-$lastmonth  = 0;
+$lastyear    = 0;
+$lastmonth   = 0;
 $monthsArray = array(1 => _CAL_JANUARY, 2 => _CAL_FEBRUARY, 3 => _CAL_MARCH, 4 => _CAL_APRIL, 5 => _CAL_MAY, 6 => _CAL_JUNE, 7 => _CAL_JULY, 8 => _CAL_AUGUST, 9 => _CAL_SEPTEMBER, 10 => _CAL_OCTOBER, 11 => _CAL_NOVEMBER, 12 => _CAL_DECEMBER);
-$fromyear   = XoopsRequest::getInt('year');
-$frommonth  = XoopsRequest::getInt('month');
+$fromyear    = XoopsRequest::getInt('year');
+$frommonth   = XoopsRequest::getInt('month');
 
 $pgtitle = '';
 if ($fromyear && $frommonth) {
@@ -128,7 +128,7 @@ if (!($itemsCount > 0)) {
             ++$articlesThisYear;
         }
     }
-//    unset($item);
+    //    unset($item);
     $years[$i]['number'] = $thisYear;
     $years[$i]['months'] = $months;
 
@@ -156,9 +156,9 @@ if ($fromyear != 0 && $frommonth != 0) {
     $count = 0;
 
     $itemHandler               =& $publisher->getHandler('item');
-    $itemHandler->tableLink   = $GLOBALS['xoopsDB']->prefix('publisher_categories');
-    $itemHandler->fieldLink   = 'categoryid';
-    $itemHandler->fieldObject = 'categoryid';
+    $itemHandler->table_link   = $GLOBALS['xoopsDB']->prefix('publisher_categories');
+    $itemHandler->field_link   = 'categoryid';
+    $itemHandler->field_object = 'categoryid';
     // Categories for which user has access
     $categoriesGranted =& $publisher->getHandler('permission')->getGrantedItems('category_read');
     $grantedCategories = new Criteria('l.categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
@@ -187,7 +187,7 @@ if ($fromyear != 0 && $frommonth != 0) {
 
             $xoopsTpl->append('stories', $story);
         }
-//        unset($item);
+        //        unset($item);
     }
     $xoopsTpl->assign('lang_printer', _MD_PUBLISHER_PRINTERFRIENDLY);
     $xoopsTpl->assign('lang_sendstory', _MD_PUBLISHER_SENDSTORY);

@@ -35,10 +35,10 @@ interface PublisherConstantsInterface
     const PUBLISHER_STATUS_REJECTED  = 4;
 
     // Notification Events
-    const PUBLISHER_NOT_CATEGORY_CREATED = 1;
-    const PUBLISHER_NOTIFY_ITEM_SUBMITTED   = 2;
-    const PUBLISHER_NOTIFY_ITEM_PUBLISHED   = 3;
-    const PUBLISHER_NOTIFY_ITEM_REJECTED    = 4;
+    const PUBLISHER_NOT_CATEGORY_CREATED  = 1;
+    const PUBLISHER_NOTIFY_ITEM_SUBMITTED = 2;
+    const PUBLISHER_NOTIFY_ITEM_PUBLISHED = 3;
+    const PUBLISHER_NOTIFY_ITEM_REJECTED  = 4;
 
     // Form constants
     const PUBLISHER_SUMMARY = 1;
@@ -75,5 +75,4 @@ interface PublisherConstantsInterface
     const PUBLISHER_STATUS_FILE_NOTSET   = -1;
     const PUBLISHER_STATUS_FILE_ACTIVE   = 1;
     const PUBLISHER_STATUS_FILE_INACTIVE = 2;
-
 }

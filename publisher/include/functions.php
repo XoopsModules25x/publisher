@@ -48,7 +48,7 @@ function publisherCpHeader()
 /**
  * Default sorting for a given order
  *
- * @param string $sort
+ * @param  string $sort
  * @return string
  */
 function publisherGetOrderBy($sort)
@@ -72,10 +72,10 @@ function publisherGetOrderBy($sort)
 
 /**
  * @credits Thanks to Mithandir
- * @param string $str
- * @param int    $start
- * @param int    $length
- * @param string $trimMarker
+ * @param  string $str
+ * @param  int    $start
+ * @param  int    $length
+ * @param  string $trimMarker
  * @return string
  */
 function publisherSubstr($str, $start, $length, $trimMarker = '...')
@@ -100,7 +100,7 @@ function publisherSubstr($str, $start, $length, $trimMarker = '...')
 }
 
 /**
- * @param string $document
+ * @param  string $document
  * @return mixed
  */
 function publisherHtml2text($document)
@@ -158,7 +158,7 @@ function publisherGetAllowedImagesTypes()
 }
 
 /**
- * @param bool $withLink
+ * @param  bool $withLink
  * @return string
  */
 function publisherModuleHome($withLink = true)
@@ -181,9 +181,9 @@ function publisherModuleHome($withLink = true)
  *
  * @author      Aidan Lister <aidan@php.net>
  * @version     1.0.0
- * @param       string $source The source
- * @param       string $dest   The destination
- * @return      bool     Returns true on success, false on failure
+ * @param  string $source The source
+ * @param  string $dest   The destination
+ * @return bool   Returns true on success, false on failure
  */
 function publisherCopyr($source, $dest)
 {
@@ -221,8 +221,8 @@ function publisherCopyr($source, $dest)
 
 /**
  * .* @credits Thanks to the NewBB2 Development Team
- * @param string $item
- * @param bool   $getStatus
+ * @param  string $item
+ * @param  bool   $getStatus
  * @return bool|int|string
  */
 function &publisherGetPathStatus($item, $getStatus = false)
@@ -240,13 +240,13 @@ function &publisherGetPathStatus($item, $getStatus = false)
     }
     if (is_writable($thePath)) {
         $pathCheckResult = 1;
-        $pathStatus     = _AM_PUBLISHER_AVAILABLE;
+        $pathStatus      = _AM_PUBLISHER_AVAILABLE;
     } elseif (!@is_dir($thePath)) {
         $pathCheckResult = -1;
-        $pathStatus     = _AM_PUBLISHER_NOTAVAILABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=createdir&amp;path={$item}'>" . _AM_PUBLISHER_CREATETHEDIR . '</a>';
+        $pathStatus      = _AM_PUBLISHER_NOTAVAILABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=createdir&amp;path={$item}'>" . _AM_PUBLISHER_CREATETHEDIR . '</a>';
     } else {
         $pathCheckResult = -2;
-        $pathStatus     = _AM_PUBLISHER_NOTWRITABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=setperm&amp;path={$item}'>" . _AM_PUBLISHER_SETMPERM . '</a>';
+        $pathStatus      = _AM_PUBLISHER_NOTWRITABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=setperm&amp;path={$item}'>" . _AM_PUBLISHER_SETMPERM . '</a>';
     }
     if (!$getStatus) {
         return $pathStatus;
@@ -257,7 +257,7 @@ function &publisherGetPathStatus($item, $getStatus = false)
 
 /**
  * @credits Thanks to the NewBB2 Development Team
- * @param string $target
+ * @param  string $target
  * @return bool
  */
 function publisherMkdir($target)
@@ -288,8 +288,8 @@ function publisherMkdir($target)
 
 /**
  * @credits Thanks to the NewBB2 Development Team
- * @param string $target
- * @param int    $mode
+ * @param  string $target
+ * @param  int    $mode
  * @return bool
  */
 function publisherChmod($target, $mode = 0777)
@@ -298,8 +298,8 @@ function publisherChmod($target, $mode = 0777)
 }
 
 /**
- * @param bool $hasPath
- * @param bool $item
+ * @param  bool $hasPath
+ * @param  bool $item
  * @return string
  */
 function publisherGetUploadDir($hasPath = true, $item = false)
@@ -322,8 +322,8 @@ function publisherGetUploadDir($hasPath = true, $item = false)
 }
 
 /**
- * @param string $item
- * @param bool   $hasPath
+ * @param  string $item
+ * @param  bool   $hasPath
  * @return string
  */
 function publisherGetImageDir($item = '', $hasPath = true)
@@ -338,7 +338,7 @@ function publisherGetImageDir($item = '', $hasPath = true)
 }
 
 /**
- * @param array $errors
+ * @param  array $errors
  * @return string
  */
 function publisherFormatErrors($errors = array())
@@ -378,7 +378,7 @@ function publisherUserIsAdmin()
 /**
  * Check is current user is author of a given article
  *
- * @param object $itemObj
+ * @param  object $itemObj
  * @return bool
  */
 function publisherUserIsAuthor($itemObj)
@@ -389,7 +389,7 @@ function publisherUserIsAuthor($itemObj)
 /**
  * Check is current user is moderator of a given article
  *
- * @param object $itemObj
+ * @param  object $itemObj
  * @return bool
  */
 function publisherUserIsModerator($itemObj)
@@ -403,9 +403,9 @@ function publisherUserIsModerator($itemObj)
 /**
  * Saves permissions for the selected category
  *
- * @param array   $groups     : group with granted permission
- * @param integer $categoryId : categoryid on which we are setting permissions
- * @param string  $permName  : name of the permission
+ * @param  array   $groups     : group with granted permission
+ * @param  integer $categoryId : categoryid on which we are setting permissions
+ * @param  string  $permName   : name of the permission
  * @return boolean : TRUE if the no errors occured
  */
 function publisherSaveCategoryPermissions($groups, $categoryId, $permName)
@@ -430,11 +430,11 @@ function publisherSaveCategoryPermissions($groups, $categoryId, $permName)
 }
 
 /**
- * @param string $tablename
- * @param string $iconname
- * @param string $tabletitle
- * @param string $tabledsc
- * @param bool   $open
+ * @param  string $tablename
+ * @param  string $iconname
+ * @param  string $tabletitle
+ * @param  string $tabledsc
+ * @param  bool   $open
  * @return void
  */
 function publisherOpenCollapsableBar($tablename = '', $iconname = '', $tabletitle = '', $tabledsc = '', $open = true)
@@ -455,8 +455,8 @@ function publisherOpenCollapsableBar($tablename = '', $iconname = '', $tabletitl
 }
 
 /**
- * @param string $name
- * @param string $icon
+ * @param  string $name
+ * @param  string $icon
  * @return void
  */
 function publisherCloseCollapsableBar($name, $icon)
@@ -468,7 +468,7 @@ function publisherCloseCollapsableBar($name, $icon)
 
     $cookieName = $path . '_publisher_collaps_' . $name;
     $cookieName = str_replace('.', '_', $cookieName);
-    $cookie      = publisherGetCookieVar($cookieName, '');
+    $cookie     = publisherGetCookieVar($cookieName, '');
 
     if ($cookie === 'none') {
         echo '
@@ -481,9 +481,9 @@ function publisherCloseCollapsableBar($name, $icon)
 }
 
 /**
- * @param string $name
- * @param string $value
- * @param int    $time
+ * @param  string $name
+ * @param  string $value
+ * @param  int    $time
  * @return void
  */
 function publisherSetCookieVar($name, $value, $time = 0)
@@ -495,8 +495,8 @@ function publisherSetCookieVar($name, $value, $time = 0)
 }
 
 /**
- * @param string $name
- * @param string $default
+ * @param  string $name
+ * @param  string $default
  * @return string
  */
 function publisherGetCookieVar($name, $default = '')
@@ -549,10 +549,10 @@ function publisherGetCurrentPage()
 }
 
 /**
- * @param null|PublisherCategory $categoryObj
- * @param int                      $selectedid
- * @param int                      $level
- * @param string                   $ret
+ * @param  null|PublisherCategory $categoryObj
+ * @param  int                    $selectedid
+ * @param  int                    $level
+ * @param  string                 $ret
  * @return string
  */
 function publisherAddCategoryOption(PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
@@ -584,10 +584,10 @@ function publisherAddCategoryOption(PublisherCategory $categoryObj, $selectedid 
 }
 
 /**
- * @param int    $selectedid
- * @param int    $parentcategory
- * @param bool   $allCatOption
- * @param string $selectname
+ * @param  int    $selectedid
+ * @param  int    $parentcategory
+ * @param  bool   $allCatOption
+ * @param  string $selectname
  * @return string
  */
 function publisherCreateCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[0]')
@@ -619,9 +619,9 @@ function publisherCreateCategorySelect($selectedid = 0, $parentcategory = 0, $al
 }
 
 /**
- * @param int  $selectedid
- * @param int  $parentcategory
- * @param bool $allCatOption
+ * @param  int  $selectedid
+ * @param  int  $parentcategory
+ * @param  bool $allCatOption
  * @return string
  */
 function publisherCreateCategoryOptions($selectedid = 0, $parentcategory = 0, $allCatOption = true)
@@ -646,8 +646,8 @@ function publisherCreateCategoryOptions($selectedid = 0, $parentcategory = 0, $a
 }
 
 /**
- * @param array  $errArray
- * @param string $reseturl
+ * @param  array  $errArray
+ * @param  string $reseturl
  * @return void
  */
 function publisherRenderErrors(&$errArray, $reseturl = '')
@@ -679,9 +679,9 @@ function publisherRenderErrors(&$errArray, $reseturl = '')
 /**
  * Generate publisher URL
  *
- * @param string $page
- * @param array  $vars
- * @param bool   $encodeAmp
+ * @param  string $page
+ * @param  array  $vars
+ * @param  bool   $encodeAmp
  * @return string
  *
  * @credit : xHelp module, developped by 3Dev
@@ -706,7 +706,7 @@ function publisherMakeUri($page, $vars = array(), $encodeAmp = true)
 }
 
 /**
- * @param string $subject
+ * @param  string $subject
  * @return string
  */
 function publisherTellAFriend($subject = '')
@@ -721,9 +721,9 @@ function publisherTellAFriend($subject = '')
 }
 
 /**
- * @param bool $another
- * @param bool $withRedirect
- * @param      $itemObj
+ * @param  bool        $another
+ * @param  bool        $withRedirect
+ * @param              $itemObj
  * @return bool|string
  */
 function publisherUploadFile($another = false, $withRedirect = true, &$itemObj)
@@ -784,8 +784,8 @@ function publisherUploadFile($another = false, $withRedirect = true, &$itemObj)
         } catch (Exception $e) {
             redirect_header('file.php?op=mod&itemid=' . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . publisherFormatErrors($fileObj->getErrors()));
         }
-    } else {
-        return _CO_PUBLISHER_FILEUPLOAD_ERROR . publisherFormatErrors($fileObj->getErrors());
+        //    } else {
+        //        return _CO_PUBLISHER_FILEUPLOAD_ERROR . publisherFormatErrors($fileObj->getErrors());
     }
 
     if ($withRedirect) {
@@ -850,7 +850,7 @@ function publisherTruncateTagSafe($string, $length = 80, $etc = '...', $breakWor
 /**
  * @author   Monte Ohrt <monte at ohrt dot com>, modified by Amos Robinson
  *           <amos dot robinson at gmail dot com>
- * @param string $string
+ * @param  string $string
  * @return string
  */
 function publisherCloseTags($string)
@@ -876,7 +876,7 @@ function publisherCloseTags($string)
         }
 
         $completeTags = array_reverse($completeTags);
-        $elementCount  = count($completeTags);
+        $elementCount = count($completeTags);
         for ($i = 0; $i < $elementCount; ++$i) {
             $string .= '</' . $completeTags[$i] . '>';
         }
@@ -886,25 +886,25 @@ function publisherCloseTags($string)
 }
 
 /**
- * @param int $itemId
+ * @param  int $itemId
  * @return string
  */
 function publisherRatingBar($itemId)
 {
-    $publisher        =& PublisherPublisher::getInstance();
+    $publisher       =& PublisherPublisher::getInstance();
     $ratingUnitWidth = 30;
-    $units            = 5;
+    $units           = 5;
 
     $criteria   = new Criteria('itemid', $itemId);
     $ratingObjs =& $publisher->getHandler('rating')->getObjects($criteria);
     unset($criteria);
 
-    $uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
-    $count          = count($ratingObjs);
+    $uid           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
+    $count         = count($ratingObjs);
     $currentRating = 0;
-    $voted          = false;
-    $ip             = getenv('REMOTE_ADDR');
-    $rating1        = $rating2 = $ratingWidth = 0;
+    $voted         = false;
+    $ip            = getenv('REMOTE_ADDR');
+    $rating1       = $rating2 = $ratingWidth = 0;
 
     foreach ($ratingObjs as $ratingObj) {
         $currentRating += $ratingObj->getVar('rate');
@@ -918,10 +918,10 @@ function publisherRatingBar($itemId)
     // now draw the rating bar
     if ($count != 0) {
         $ratingWidth = number_format($currentRating / $count, 2) * $ratingUnitWidth;
-        $rating1      = number_format($currentRating / $count, 1);
-        $rating2      = number_format($currentRating / $count, 2);
+        $rating1     = number_format($currentRating / $count, 1);
+        $rating2     = number_format($currentRating / $count, 2);
     }
-    $groups        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+    $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
     $gpermHandler =& $publisher->getHandler('groupperm');
 
     if (!$gpermHandler->checkRight('global', PublisherConstantsInterface::PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
@@ -967,7 +967,7 @@ function publisherRatingBar($itemId)
 }
 
 /**
- * @param array $allowedEditors
+ * @param  array $allowedEditors
  * @return array
  */
 function publisherGetEditors($allowedEditors = null)
@@ -976,7 +976,7 @@ function publisherGetEditors($allowedEditors = null)
     $nohtml = false;
     xoops_load('XoopsEditorHandler');
     $editorHandler =& XoopsEditorHandler::getInstance();
-    $editors        = $editorHandler->getList($nohtml);
+    $editors       = $editorHandler->getList($nohtml);
     foreach ($editors as $name => $title) {
         $key = publisherStringToInt($name);
         if (is_array($allowedEditors)) {
@@ -995,8 +995,8 @@ function publisherGetEditors($allowedEditors = null)
 }
 
 /**
- * @param string $string
- * @param int    $length
+ * @param  string $string
+ * @param  int    $length
  * @return int
  */
 function publisherStringToInt($string = '', $length = 5)
@@ -1007,7 +1007,7 @@ function publisherStringToInt($string = '', $length = 5)
 }
 
 /**
- * @param string $item
+ * @param  string $item
  * @return string
  */
 function publisherConvertCharset($item)

@@ -34,11 +34,11 @@ function publisher_tag_iteminfo(&$items)
         // if catid is not used, just skip it
         foreach (array_keys($items[$catId]) as $itemId) {
             // In article, the item_id is "art_id"
-            $itemsId[] = (int)($itemId);
+            $itemsId[] = (int)$itemId;
         }
     }
     $itemHandler =& xoops_getModuleHandler('item', 'publisher');
-    $criteria     = new Criteria('itemid', '(' . implode(', ', $itemsId) . ')', 'IN');
+    $criteria    = new Criteria('itemid', '(' . implode(', ', $itemsId) . ')', 'IN');
     $itemsObj    = $itemHandler->getObjects($criteria, 'itemid');
 
     foreach (array_keys($items) as $catId) {

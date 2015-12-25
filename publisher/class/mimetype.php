@@ -106,8 +106,8 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param object $criteria  {@link CriteriaElement} conditions to be met
-     * @param bool   $idAsKey Should the department ID be used as array key
+     * @param object $criteria {@link CriteriaElement} conditions to be met
+     * @param bool   $idAsKey  Should the department ID be used as array key
      *
      * @return array array of objects
      * @access  public
@@ -293,7 +293,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     public function updateAll($fieldname, $fieldvalue, $criteria = null)
     {
         $setClause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
-        $sql        = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
+        $sql       = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
@@ -363,7 +363,6 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
  */
 class PublisherMimetype extends XoopsObject
 {
-
     /**
      * @param null|int $id
      */

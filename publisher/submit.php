@@ -31,7 +31,7 @@ if (!$categoriesArray) {
     //    exit();
 }
 
-$groups        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+$groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $gpermHandler =& xoops_getModuleHandler('groupperm');
 $moduleId     = $publisher->getModule()->getVar('mid');
 
@@ -85,7 +85,7 @@ if (XoopsRequest::getString('additem', '', 'POST')) {
 $op = XoopsRequest::getString('op', XoopsRequest::getString('op', $op, 'POST'), 'GET');
 
 $allowedEditors = publisherGetEditors($gpermHandler->getItemIds('editors', $groups, $moduleId));
-$formView      = $gpermHandler->getItemIds('form_view', $groups, $moduleId);
+$formView       = $gpermHandler->getItemIds('form_view', $groups, $moduleId);
 
 // This code makes sure permissions are not manipulated
 $elements = array(
@@ -195,10 +195,10 @@ switch ($op) {
 
         // attach file if any
         if ($itemUploadFile && $itemUploadFile['name'] != '') {
-            $fileUploadResult = publisherUploadFile(false, false, $itemObj);
+            $fileUploadResult = publisherUploadFile(false, true, $itemObj);
             if ($fileUploadResult !== true) {
                 redirect_header('javascript:history.go(-1)', 3, $fileUploadResult);
-                //                exit;
+                exit;
             }
         }
 

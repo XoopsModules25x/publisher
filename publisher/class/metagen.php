@@ -92,10 +92,10 @@ class PublisherMetagen
      */
     public function setTitle($title)
     {
-        $this->title          = $this->html2text($title);
+        $this->title         = $this->html2text($title);
         $this->originalTitle = $this->title;
-        $titleTag             = array();
-        $titleTag['module']   = $this->publisher->getModule()->getVar('name');
+        $titleTag            = array();
+        $titleTag['module']  = $this->publisher->getModule()->getVar('name');
         if (isset($this->title) && ($this->title != '') && (strtoupper($this->title) != strtoupper($titleTag['module']))) {
             $titleTag['title'] = $this->title;
         }
@@ -282,12 +282,12 @@ class PublisherMetagen
         // Transformation des ponctuations
         //                 Tab     Space      !        "        #        %        &        '        (        )        ,        /        :        ;        <        =        >        ?        @        [        \        ]        ^        {        |        }        ~       .
         $pattern = array('/%09/', '/%20/', '/%21/', '/%22/', '/%23/', '/%25/', '/%26/', '/%27/', '/%28/', '/%29/', '/%2C/', '/%2F/', '/%3A/', '/%3B/', '/%3C/', '/%3D/', '/%3E/', '/%3F/', '/%40/', '/%5B/', '/%5C/', '/%5D/', '/%5E/', '/%7B/', '/%7C/', '/%7D/', '/%7E/', "/\./");
-        $repPat = array('-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-');
+        $repPat  = array('-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-');
         $title   = preg_replace($pattern, $repPat, $title);
         // Transformation des caractères accentués
         //                  °        è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
         $pattern = array('/%B0/', '/%E8/', '/%E9/', '/%EA/', '/%EB/', '/%E7/', '/%E0/', '/%E2/', '/%E4/', '/%EE/', '/%EF/', '/%F9/', '/%FC/', '/%FB/', '/%F4/', '/%F6/');
-        $repPat = array('-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o');
+        $repPat  = array('-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o');
         $title   = preg_replace($pattern, $repPat, $title);
         $tableau = explode('-', $title); // Transforme la chaine de caractères en tableau
         $tableau = array_filter($tableau, array('PublisherMetagen', 'emptyString')); // Supprime les chaines vides du tableau
@@ -311,30 +311,32 @@ class PublisherMetagen
      */
     public function purifyText($text, $keyword = false)
     {
-        $text = str_replace(['&nbsp;', ' '], ['<br />', ' '], $text);
-        //        $text = str_replace('<br />', ' ', $text);
+        //        $text = str_replace(['&nbsp;', ' '], ['<br />', ' '], $text); //for php 5.4
+        $text = str_replace('&nbsp;', ' ', $text);
+        $text = str_replace('<br />', ' ', $text);
         $text = strip_tags($text);
         $text = html_entity_decode($text);
         $text = $this->myts->undoHtmlSpecialChars($text);
-        //        $text = str_replace(')', ' ', $text);
-        //        $text = str_replace('(', ' ', $text);
-        //        $text = str_replace(':', ' ', $text);
-        //        $text = str_replace('&euro', ' euro ', $text);
-        //        $text = str_replace('&hellip', '...', $text);
-        //        $text = str_replace('&rsquo', ' ', $text);
-        //        $text = str_replace('!', ' ', $text);
-        //        $text = str_replace('?', ' ', $text);
-        //        $text = str_replace('"', ' ', $text);
-        //        $text = str_replace('-', ' ', $text);
-        //        $text = str_replace('\n', ' ', $text);
 
-        $text = str_replace([')','(',':','&euro','&hellip','&rsquo','!','?','"','-','\n'], [' ' , ' ',  ' ',  ' euro ',  '...',  ' ', ' ', ' ',  ' ', ' ',  ' '], $text);
+        $text = str_replace(')', ' ', $text);
+        $text = str_replace('(', ' ', $text);
+        $text = str_replace(':', ' ', $text);
+        $text = str_replace('&euro', ' euro ', $text);
+        $text = str_replace('&hellip', '...', $text);
+        $text = str_replace('&rsquo', ' ', $text);
+        $text = str_replace('!', ' ', $text);
+        $text = str_replace('?', ' ', $text);
+        $text = str_replace('"', ' ', $text);
+        $text = str_replace('-', ' ', $text);
+        $text = str_replace('\n', ' ', $text);
+
+        //        $text = str_replace([')','(',':','&euro','&hellip','&rsquo','!','?','"','-','\n'], [' ' , ' ',  ' ',  ' euro ',  '...',  ' ', ' ', ' ',  ' ', ' ',  ' '], $text); //for PHP 5.4
 
         if ($keyword) {
-//            $text = str_replace('.', ' ', $text);
-//            $text = str_replace(',', ' ', $text);
-//            $text = str_replace('\'', ' ', $text);
-            $text = str_replace(['.', ' '], [',', ' '], ['\'', ' '], $text);
+            $text = str_replace('.', ' ', $text);
+            $text = str_replace(',', ' ', $text);
+            $text = str_replace('\'', ' ', $text);
+            //            $text = str_replace(['.', ' '], [',', ' '], ['\'', ' '], $text); //for PHP 5.4
         }
         $text = str_replace(';', ' ', $text);
 

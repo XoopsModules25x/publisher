@@ -29,7 +29,6 @@ include_once dirname(__DIR__) . '/include/common.php';
  */
 class PublisherUtilities
 {
-
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
      *
@@ -177,7 +176,7 @@ class PublisherUtilities
             }
             unset($key, $thiscat);
         }
-//        unset($categoryObj);
+        //        unset($categoryObj);
     }
 
     /**
@@ -255,7 +254,7 @@ class PublisherUtilities
                     echo "<td class='even' align='right'> {$modify} {$delete} </td>";
                     echo '</tr>';
                 }
-//                unset($subcat);
+                //                unset($subcat);
             } else {
                 echo '<tr>';
                 echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOSUBCAT . '</td>';
@@ -302,7 +301,7 @@ class PublisherUtilities
             }
             echo "</table>\n";
             echo "<br />\n";
-            $parentid           = XoopsRequest::getInt('parentid', 0, 'GET');
+            $parentid         = XoopsRequest::getInt('parentid', 0, 'GET');
             $pagenavExtraArgs = "op=mod&categoryid=$selCat&parentid=$parentid";
             xoops_load('XoopsPageNav');
             $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $startitem, 'startitem', $pagenavExtraArgs);

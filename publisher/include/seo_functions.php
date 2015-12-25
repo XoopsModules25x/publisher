@@ -14,8 +14,8 @@
  *
  * @credit psylove
  *
- * @var string $title   title of the article
- * @var string $withExt do we add an html extension or not
+ * @var    string $title   title of the article
+ * @var    string $withExt do we add an html extension or not
  * @return string sort_url for the article
  */
 
@@ -28,7 +28,6 @@ include_once __DIR__ . '/common.php';
  */
 class PublisherSeo
 {
-
     /**
      * @param string $title
      * @param bool   $withExt
@@ -52,15 +51,15 @@ class PublisherSeo
 
         // Transformation des ponctuations
         //                 Tab     Space      !        "        #        %        &        '        (        )        ,        /        :        ;        <        =        >        ?        @        [        \        ]        ^        {        |        }        ~       .
-        $pattern = array('/%09/', '/%20/', '/%21/', '/%22/', '/%23/', '/%25/', '/%26/', '/%27/', '/%28/', '/%29/', '/%2C/', '/%2F/', '/%3A/', '/%3B/', '/%3C/', '/%3D/', '/%3E/', '/%3F/', '/%40/', '/%5B/', '/%5C/', '/%5D/', '/%5E/', '/%7B/', '/%7C/', '/%7D/', '/%7E/', "/\./");
+        $pattern    = array('/%09/', '/%20/', '/%21/', '/%22/', '/%23/', '/%25/', '/%26/', '/%27/', '/%28/', '/%29/', '/%2C/', '/%2F/', '/%3A/', '/%3B/', '/%3C/', '/%3D/', '/%3E/', '/%3F/', '/%40/', '/%5B/', '/%5C/', '/%5D/', '/%5E/', '/%7B/', '/%7C/', '/%7D/', '/%7E/', "/\./");
         $repPattern = array('-', '-', '', '', '', '-100', '', '-', '', '', '', '-', '', '', '', '-', '', '', '-at-', '', '-', '', '-', '', '-', '', '-', '');
-        $title   = preg_replace($pattern, $repPattern, $title);
+        $title      = preg_replace($pattern, $repPattern, $title);
 
         // Transformation des caractères accentués
         //                  è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
-        $pattern = array('/%B0/', '/%E8/', '/%E9/', '/%EA/', '/%EB/', '/%E7/', '/%E0/', '/%E2/', '/%E4/', '/%EE/', '/%EF/', '/%F9/', '/%FC/', '/%FB/', '/%F4/', '/%F6/');
+        $pattern    = array('/%B0/', '/%E8/', '/%E9/', '/%EA/', '/%EB/', '/%E7/', '/%E0/', '/%E2/', '/%E4/', '/%EE/', '/%EF/', '/%F9/', '/%FC/', '/%FB/', '/%F4/', '/%F6/');
         $repPattern = array('-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o');
-        $title   = preg_replace($pattern, $repPattern, $title);
+        $title      = preg_replace($pattern, $repPattern, $title);
 
         if (count($title) > 0) {
             if ($withExt) {

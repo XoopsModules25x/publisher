@@ -37,17 +37,17 @@ function publisher_latest_news_show($options)
     xoops_loadLanguage('main', 'publisher');
     $publisher =& PublisherPublisher::getInstance();
 
-    $start            = $options[0]; // You can show articles from specified range
-    $limit            = $options[1];
+    $start           = $options[0]; // You can show articles from specified range
+    $limit           = $options[1];
     $columnCount     = $options[2];
-    $letters          = $options[3];
+    $letters         = $options[3];
     $selectedStories = $options[4];
-    $sort             = $options[9];
-    $order            = publisherGetOrderBy($sort);
-    $imgWidth         = $options[11];
-    $imgHeight        = $options[12];
-    $border           = $options[13];
-    $bordercolor      = $options[14];
+    $sort            = $options[9];
+    $order           = publisherGetOrderBy($sort);
+    $imgWidth        = $options[11];
+    $imgHeight       = $options[12];
+    $border          = $options[13];
+    $bordercolor     = $options[14];
 
     $block['spec']['columnwidth'] = (int)(1 / $columnCount * 100);
 
@@ -106,17 +106,17 @@ function publisher_latest_news_show($options)
 
         if ($options[15] === 'LEFT') {
             $imgPosition = 'float: left';
-            $lsMargin   = '-right';
+            $lsMargin    = '-right';
         }
 
         if ($options[15] === 'CENTER') {
             $imgPosition = 'text-align:center';
-            $lsMargin   = '';
+            $lsMargin    = '';
         }
 
         if ($options[15] === 'RIGHT') {
             $imgPosition = 'float: right';
-            $lsMargin   = '-left';
+            $lsMargin    = '-left';
         }
 
         //Image
@@ -149,7 +149,7 @@ function publisher_latest_news_show($options)
 
         //TODO: Should we not show link to Anonymous?
         $block['submitlink'] = '';
-        if ($options[18] == 1 && ($GLOBALS['xoopsUser'])) {
+        if ($options[18] == 1 && $GLOBALS['xoopsUser']) {
             $block['submitlink'] = '| <a href="' . PUBLISHER_URL . '/submit.php">' . _MB_PUBLISHER_SUBMITNEWS . '</a> ';
         }
 

@@ -24,14 +24,15 @@ include_once __DIR__ . '/admin_header.php';
 
 $itemid = XoopsRequest::getInt('itemid', (XoopsRequest::getInt('itemid', 0, 'POST')), 'GET');
 $op     = ($itemid > 0 || (XoopsRequest::getString('editor', '', 'POST'))) ? 'mod' : '';
-$op     = XoopsRequest::getString('op', $op, 'GET');
+//$op     = XoopsRequest::getString('op', $op, 'GET');
+
+$op = XoopsRequest::getString('op', XoopsRequest::getString('op', $op, 'POST'), 'GET');
 
 //if (!empty(XoopsRequest::getString('additem', '', 'POST'))) {
-//    $op0 = 'additem';
+//    $op = 'additem';
 //} elseif (!empty(XoopsRequest::getString('del', '', 'POST'))) {
-//    $op0 = 'del';
+//    $op = 'del';
 //}
-
 
 $op = (XoopsRequest::getString('additem', '', 'POST')) ? 'additem' : ((XoopsRequest::getString('del', '', 'POST')) ? 'del' : $op);
 
@@ -79,7 +80,7 @@ switch ($op) {
         $itemObj->setVarsFromRequest();
 
         $old_status = $itemObj->status();
-        $newStatus = XoopsRequest::getInt('status', PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
+        $newStatus  = XoopsRequest::getInt('status', PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
 
         switch ($newStatus) {
             case PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED:
@@ -481,14 +482,13 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
             echo "<input type='button' name='button' onclick=\"location='item.php?op=clone&itemid=" . $itemObj->itemid() . "'\" value='" . _AM_PUBLISHER_CLONE_ITEM . "'>&nbsp;&nbsp;";
             echo '</div></form>';
         }
-
     } else {
         // there's no parameter, so we're adding an item
 
         $itemObj =& $publisher->getHandler('item')->create();
         $itemObj->setVarsFromRequest();
 
-        $categoryObj        =& $publisher->getHandler('category')->create();
+        $categoryObj       =& $publisher->getHandler('category')->create();
         $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;
         $breadcrumbAction2 = _AM_PUBLISHER_CREATINGNEW;
         $buttonCaption     = _AM_PUBLISHER_CREATE;
@@ -532,7 +532,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     $form = new XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
 
     $pWrapSelect = new XoopsFormSelect(publisherGetUploadDir(true, 'content'), 'address');
-    $folder       = dir($dir);
+    $folder      = dir($dir);
     while (($file = $folder->read()) !== false) {
         if ($file !== '.' && $file !== '..') {
             $pWrapSelect->addOption($file, $file);
@@ -550,5 +550,4 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     $form->display();
 
     publisherCloseCollapsableBar('pagewraptable', 'pagewrapicon');
-
 }

@@ -47,7 +47,7 @@ if ($image_nicename == '' || $image_nicename == _CO_PUBLISHER_IMAGE_NICENAME) {
 $imgcat_id = XoopsRequest::getInt('imgcat_id', 0, 'POST');
 
 $imgcatHandler =& xoops_getHandler('imagecategory');
-$imgcat         = $imgcatHandler->get($imgcat_id);
+$imgcat        = $imgcatHandler->get($imgcat_id);
 
 $error = false;
 if (!is_object($imgcat)) {
@@ -72,10 +72,9 @@ if ($error === false) {
     if ($uploader->fetchMedia('publisher_upload_file')) {
         if (!$uploader->upload()) {
             $error = implode('<br />', $uploader->getErrors(false));
-
         } else {
             $imageHandler =& xoops_getHandler('image');
-            $image         = $imageHandler->create();
+            $image        = $imageHandler->create();
             $image->setVar('image_name', 'images/' . $uploader->getSavedFileName());
             $image->setVar('image_nicename', $image_nicename);
             $image->setVar('image_mimetype', $uploader->getMediaType());
@@ -101,10 +100,9 @@ if ($error === false) {
     }
 }
 
+$arr = array('success', $image->getVar('image_name'), publisherConvertCharset($image->getVar('image_nicename')));
 if ($error) {
     $arr = array('error', publisherConvertCharset($error));
-} else {
-    $arr = array('success', $image->getVar('image_name'), publisherConvertCharset($image->getVar('image_nicename')));
 }
 
 echo json_encode($arr);

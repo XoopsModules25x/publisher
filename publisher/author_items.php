@@ -28,7 +28,7 @@ if (0 == $uid) {
 }
 
 $memberHandler =& xoops_getHandler('member');
-$thisuser       = $memberHandler->getUser($uid);
+$thisuser      = $memberHandler->getUser($uid);
 if (!is_object($thisuser)) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
     //    exit();
@@ -91,7 +91,7 @@ $title = _MD_PUBLISHER_ITEMS_SAME_AUTHOR . ' - ' . $author_name;
 /**
  * Generating meta information for this page
  */
-$publisher_metagen = new PublisherMetagen($title, '', $title);
-$publisher_metagen->createMetaTags();
+$publisherMetagen = new PublisherMetagen($title, '', $title);
+$publisherMetagen->createMetaTags();
 
 include_once $GLOBALS['xoops']->path('footer.php');

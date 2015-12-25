@@ -64,7 +64,6 @@ if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
         $msg .= _AM_PUBLISHER_CLONE_FAIL;
     }
     echo $msg;
-
 } else {
     include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
     $form  = new XoopsThemeForm(sprintf(_AM_PUBLISHER_CLONE_TITLE, $publisher->getModule()->getVar('name', 'E')), 'clone', 'clone.php', 'post', true);
@@ -98,7 +97,6 @@ if (!function_exists('file_put_contents')) {
  */
 class PublisherClone
 {
-
     // recursive clonning script
     /**
      * @param $path
@@ -152,7 +150,7 @@ class PublisherClone
                     return false;
                 }
             }
-//            unset($func);
+            //            unset($func);
         }
 
         if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo.png')) || !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))) {
@@ -166,7 +164,7 @@ class PublisherClone
         imagefilledrectangle($imageModule, 5, 35, 85, 46, $greyColor);
 
         // Write text
-        $textColor      = imagecolorallocate($imageModule, 0, 0, 0);
+        $textColor     = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceToBorder = (80 - strlen($dirname) * 6.5) / 2;
         imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, ucfirst($dirname), array());
 

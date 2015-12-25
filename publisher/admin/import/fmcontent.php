@@ -64,7 +64,7 @@ if ('start' === $op) {
             $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = array();
 
-            while ((list ($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
+            while ((list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
                 $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "{$cat_title} ($art_count)";
             }
@@ -333,7 +333,6 @@ if ('go' === $op) {
         } else {
             echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . "<br />\n";
         }
-
     }
     //    unset($comment);
 

@@ -41,10 +41,10 @@ function publisher_pagewrap_upload(&$errors)
     //    include_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
     xoops_load('XoopsMediaUploader');
 
-    $publisher  =& PublisherPublisher::getInstance();
+    $publisher =& PublisherPublisher::getInstance();
     $postField = 'fileupload';
 
-    $maxFileSize      = $publisher->getConfig('maximum_filesize');
+    $maxFileSize    = $publisher->getConfig('maximum_filesize');
     $maxImageWidth  = $publisher->getConfig('maximum_image_width');
     $maxImageHeight = $publisher->getConfig('maximum_image_height');
 
@@ -52,7 +52,7 @@ function publisher_pagewrap_upload(&$errors)
         mkdir(publisherGetUploadDir(true, 'content'), 0757);
     }
     $allowedMimeTypes = array('text/html', 'text/plain', 'application/xhtml+xml');
-    $uploader          = new XoopsMediaUploader(publisherGetUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
+    $uploader         = new XoopsMediaUploader(publisherGetUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
     if ($uploader->fetchMedia($postField)) {
         $uploader->setTargetFileName($uploader->getMediaName());
         if ($uploader->upload()) {
@@ -62,7 +62,6 @@ function publisher_pagewrap_upload(&$errors)
 
             return false;
         }
-
     } else {
         $errors = array_merge($errors, $uploader->getErrors(false));
 

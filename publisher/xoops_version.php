@@ -26,13 +26,13 @@ xoops_load('XoopsRequest');
 $moduleDirName = basename(__DIR__);
 xoops_load('xoopseditorhandler');
 $editorHandler =& XoopsEditorHandler::getInstance();
-$xoops_url      = parse_url(XOOPS_URL);
+$xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = array(
     'name'                => _MI_PUBLISHER_MD_NAME,
     'version'             => '1.02',
-    'module_status'       => 'RC4',
-    'release_date'        => '2015/11/14',
+    'module_status'       => 'RC5',
+    'release_date'        => '2015/12/23',
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
     'credits'             => 'w4z004, hsalazar, Mithrandir, fx2024, Ackbarr, Mariuss, Marco, Michiel, phppp, outch, Xvitry, Catzwolf, Shine, McDonald, trabis, Mowaffak, Bandit-x, Shiva',
@@ -54,7 +54,7 @@ $modversion = array(
     'onUpdate'            => 'include/onupdate.php',
     // ------------------- Min Requirements -------------------
     'min_php'             => '5.5',
-    'min_xoops'           => '2.5.7',
+    'min_xoops'           => '2.5.7.1',
     'min_admin'           => '1.1',
     'min_db'              => array('mysql' => '5.0.7', 'mysqli' => '5.0.7'),
     // ------------------- Admin Menu -------------------
@@ -201,7 +201,7 @@ $modversion['blocks'][] = array(
     'description' => _MI_PUBLISHER_LATEST_NEWS_DSC,
     'show_func'   => 'publisher_latest_news_show',
     'edit_func'   => 'publisher_latest_news_edit',
-    'options'     => '0|6|2|300|0|0|100|30|published|1|120|120|1|dcdcdc|RIGHT|1|1|1|1|1|1|1|1|1|1|1|1|1|extended|',
+    'options'     => '0|6|2|300|0|0|100|30|1|published|1|120|120|1|dcdcdc|RIGHT|1|1|1|1|1|1|1|1|1|1|1|1|1|extended|',
     'template'    => 'publisher_latest_news.tpl');
 
 $modversion['blocks'][] = array(

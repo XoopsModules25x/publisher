@@ -115,12 +115,13 @@ class PublisherPublisher
      */
     public function &getHandler($name)
     {
-        if (!isset($this->handler[$name . 'Handler'])) {
+        $nameHandler = $name . 'Handler';
+        if (!isset($this->handler[$nameHandler])) {
             $this->initHandler($name);
         }
         $this->addLog("Getting handler '{$name}'");
 
-        return $this->handler[$name . 'Handler'];
+        return $this->handler[$nameHandler];
     }
 
     public function initModule()

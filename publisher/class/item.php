@@ -242,7 +242,7 @@ class PublisherItem extends XoopsObject
         $ret     = $this->getVar('body', $format);
         $wrapPos = strpos($ret, '[pagewrap=');
         if (!($wrapPos === false)) {
-            $wrapPages       = array();
+            $wrapPages      = array();
             $wrapCodeLength = strlen('[pagewrap=');
             while (!($wrapPos === false)) {
                 $endWrapPos = strpos($ret, ']', $wrapPos);
@@ -254,7 +254,7 @@ class PublisherItem extends XoopsObject
             }
             foreach ($wrapPages as $page) {
                 $wrapPageContent = $this->wrapPage($page);
-                $ret               = str_replace("[pagewrap={$page}]", $wrapPageContent, $ret);
+                $ret             = str_replace("[pagewrap={$page}]", $wrapPageContent, $ret);
             }
         }
         if ($this->publisher->getConfig('item_disp_blocks_summary')) {
@@ -871,8 +871,8 @@ class PublisherItem extends XoopsObject
      */
     public function createMetaTags()
     {
-        $publisher_metagen = new PublisherMetagen($this->getTitle(), $this->meta_keywords(), $this->meta_description(), $this->category->categoryPath);
-        $publisher_metagen->createMetaTags();
+        $publisherMetagen = new PublisherMetagen($this->getTitle(), $this->meta_keywords(), $this->meta_description(), $this->category->categoryPath);
+        $publisherMetagen->createMetaTags();
     }
 
     /**
@@ -983,7 +983,7 @@ class PublisherItem extends XoopsObject
             $result = $GLOBALS['xoopsDB']->query($sql, 0, 0);
             while (($myrow = $GLOBALS['xoopsDB']->fetchArray($result)) !== false) {
                 $imageName = $myrow['image_name'];
-                $id         = $myrow['image_id'];
+                $id        = $myrow['image_id'];
                 if ($imageName == $imageFeatured) {
                     $this->setVar('image', $id);
                 }
@@ -1130,17 +1130,17 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     public function insert(&$item, $force = false)
     {
         if (!$item->meta_keywords() || !$item->meta_description() || !$item->short_url()) {
-            $publisher_metagen = new PublisherMetagen($item->getTitle(), $item->getVar('meta_keywords'), $item->getVar('summary'));
+            $publisherMetagen = new PublisherMetagen($item->getTitle(), $item->getVar('meta_keywords'), $item->getVar('summary'));
             // Auto create meta tags if empty
             if (!$item->meta_keywords()) {
-                $item->setVar('meta_keywords', $publisher_metagen->keywords);
+                $item->setVar('meta_keywords', $publisherMetagen->keywords);
             }
             if (!$item->meta_description()) {
-                $item->setVar('meta_description', $publisher_metagen->description);
+                $item->setVar('meta_description', $publisherMetagen->description);
             }
             // Auto create short_url if empty
             if (!$item->short_url()) {
-                $item->setVar('short_url', substr($publisher_metagen->generateSeoTitle($item->getVar('title', 'n'), false), 0, 254));
+                $item->setVar('short_url', substr($publisherMetagen->generateSeoTitle($item->getVar('title', 'n'), false), 0, 254));
             }
         }
         if (!parent::insert($item, $force)) {
@@ -1187,12 +1187,12 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      * retrieve items from the database
      *
      * @param object $criteria {@link CriteriaElement} conditions to be met
-     * @param string $id_key   what shall we use as array key ? none, itemid, categoryid
+     * @param string $idKey    what shall we use as array key ? none, itemid, categoryid
      * @param string $notNullFields
      *
      * @return array array of {@link PublisherItem} objects
      */
-    public function &getObjects($criteria = null, $id_key = 'none', $notNullFields = '')
+    public function &getObjects($criteria = null, $idKey = 'none', $notNullFields = '')
     {
         $ret   = array();
         $limit = $start = 0;
@@ -1227,12 +1227,12 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             unset($item);
         }
         foreach ($theObjects as $theObject) {
-            if ($id_key === 'none') {
+            if ($idKey == 'none') {
                 $ret[] = $theObject;
-            } elseif ($id_key === 'itemid') {
+            } elseif ($idKey == 'itemid') {
                 $ret[$theObject->itemid()] = $theObject;
             } else {
-                $ret[$theObject->getVar($id_key)][$theObject->itemid()] = $theObject;
+                $ret[$theObject->getVar($idKey)][$theObject->itemid()] = $theObject;
             }
             unset($theObject);
         }
@@ -1274,10 +1274,10 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param  int    $categoryid
-     * @param  string $status
-     * @param  string $notNullFields
-     * @param         $criteriaPermissions
+     * @param  int           $categoryid
+     * @param  string        $status
+     * @param  string        $notNullFields
+     * @param                $criteriaPermissions
      * @return CriteriaCompo
      */
     private function getItemsCriteria($categoryid = -1, $status = '', $notNullFields = '', $criteriaPermissions)
@@ -1380,16 +1380,16 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
-     * @param bool   $asobject
-     * @param string $id_key
+     * @param bool   $asObject
+     * @param string $idKey
      *
      * @return array
      */
-    public function getAllPublished($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asobject = true, $id_key = 'none')
+    public function getAllPublished($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none')
     {
         $otherCriteria = new Criteria('datesub', time(), '<=');
 
-        return $this->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), $categoryid, $sort, $order, $notNullFields, $asobject, $otherCriteria, $id_key);
+        return $this->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), $categoryid, $sort, $order, $notNullFields, $asObject, $otherCriteria, $idKey);
     }
 
     /**
@@ -1436,14 +1436,14 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
-     * @param bool   $asobject
-     * @param string $id_key
+     * @param bool   $asObject
+     * @param string $idKey
      *
      * @return array
      */
-    public function getAllSubmitted($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asobject = true, $id_key = 'none')
+    public function getAllSubmitted($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none')
     {
-        return $this->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED), $categoryid, $sort, $order, $notNullFields, $asobject, null, $id_key);
+        return $this->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED), $categoryid, $sort, $order, $notNullFields, $asObject, null, $idKey);
     }
 
     /**
@@ -1453,14 +1453,14 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
-     * @param bool   $asobject
-     * @param string $id_key
+     * @param bool   $asObject
+     * @param string $idKey
      *
      * @return array
      */
-    public function getAllOffline($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asobject = true, $id_key = 'none')
+    public function getAllOffline($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none')
     {
-        return $this->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE), $categoryid, $sort, $order, $notNullFields, $asobject, null, $id_key);
+        return $this->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE), $categoryid, $sort, $order, $notNullFields, $asObject, null, $idKey);
     }
 
     /**
@@ -1470,14 +1470,14 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
-     * @param bool   $asobject
-     * @param string $id_key
+     * @param bool   $asObject
+     * @param string $idKey
      *
      * @return array
      */
-    public function getAllRejected($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asobject = true, $id_key = 'none')
+    public function getAllRejected($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none')
     {
-        return $this->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED), $categoryid, $sort, $order, $notNullFields, $asobject, null, $id_key);
+        return $this->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED), $categoryid, $sort, $order, $notNullFields, $asObject, null, $idKey);
     }
 
     /**
@@ -1490,11 +1490,11 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      * @param  string $notNullFields
      * @param  bool   $asObject
      * @param  null   $otherCriteria
-     * @param  string $id_key
+     * @param  string $idKey
      * @return array
-     * @internal param bool $asobject
+     * @internal param bool $asObject
      */
-    public function getItems($limit = 0, $start = 0, $status = '', $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $otherCriteria = null, $id_key = 'none')
+    public function getItems($limit = 0, $start = 0, $status = '', $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $otherCriteria = null, $idKey = 'none')
     {
         //        global $publisherIsAdmin;
         $criteriaPermissions = '';
@@ -1543,7 +1543,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $criteria->setStart($start);
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $ret =& $this->getObjects($criteria, $id_key, $notNullFields);
+        $ret =& $this->getObjects($criteria, $idKey, $notNullFields);
 
         return $ret;
     }

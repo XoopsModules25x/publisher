@@ -37,7 +37,7 @@ if ('start' === $op) {
     publisherOpenCollapsableBar('xnewsimport', 'xnewsimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('nw_topics'));
-    list ($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
+    list($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
 
     if ($totalCat == 0) {
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_PUBLISHER_IMPORT_NO_CATEGORY . '</span>';
@@ -45,7 +45,7 @@ if ('start' === $op) {
         include_once $GLOBALS['xoops']->path('class/xoopstree.php');
 
         $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('nw_stories'));
-        list ($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
+        list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
 
         if ($totalArticles == 0) {
             echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles) . '</span>';
@@ -80,7 +80,7 @@ if ('start' === $op) {
                 echo "Caught exception: : couldn't insert Image Category " . $e->getMessage() . 'n';
             }
 
-            $newid                     = $imagecategory->getVar('imgcat_id');
+            $newid                    = $imagecategory->getVar('imgcat_id');
             $imagecategorypermHandler =& xoops_getHandler('groupperm');
             if (!isset($readgroup)) {
                 $readgroup = array();
@@ -124,7 +124,7 @@ if ('start' === $op) {
             $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = array();
 
-            while ((list ($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
+            while ((list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
                 $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }
@@ -159,7 +159,7 @@ if ('start' === $op) {
 if ($op === 'go') {
     publisherCpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    include_once(dirname(dirname(__DIR__))) . '/include/common.php';
+    include_once (dirname(dirname(__DIR__))) . '/include/common.php';
     publisherOpenCollapsableBar('xnewsimportgo', 'xnewsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
     $moduleHandler   =& xoops_getHandler('module');
@@ -249,7 +249,6 @@ if ($op === 'go') {
                   */
 
                 //============================
-
             }
         }
 
@@ -423,7 +422,6 @@ if ($op === 'go') {
         } else {
             echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . '<br />';
         }
-
     }
     //    unset($comment);
 

@@ -41,7 +41,6 @@ if ('' == $seoOp && XoopsRequest::getString('PATH_INFO', '', 'SERVER')) {
     $seoArg   = $seoParts[1];
     // for multi-argument modules, where itemid and catid both are required.
     // $seoArg = substr($data[1], strlen($seoOp) + 1);
-
 }
 
 $seoMap = array(

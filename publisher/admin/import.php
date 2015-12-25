@@ -59,7 +59,7 @@ switch ($op) {
         $moduleObj    = $moduleHandler->getByDirname('news');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
-            if (($from_module_version >= 1.1)) {
+            if ($from_module_version >= 1.1) {
                 $importfile_select_array['news'] = 'News ' . $from_module_version;
                 $news_version                    = $from_module_version;
             }
@@ -70,7 +70,7 @@ switch ($op) {
         $moduleObj     = $moduleHandler->getByDirname('xnews');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
-            if (($from_module_version >= 1.1)) {
+            if ($from_module_version >= 1.1) {
                 $importfile_select_array['xnews'] = 'xNews ' . $from_module_version;
                 $xnews_version                    = $from_module_version;
             }
@@ -81,7 +81,7 @@ switch ($op) {
         $moduleObj   = $moduleHandler->getByDirname('AMS');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
-            if (($from_module_version >= 1.1)) {
+            if ($from_module_version >= 1.1) {
                 $importfile_select_array['ams'] = 'AMS ' . $from_module_version;
                 $ams_version                    = $from_module_version;
             }
@@ -92,7 +92,7 @@ switch ($op) {
         $moduleObj            = $moduleHandler->getByDirname('smartsection');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
-            if (($from_module_version >= 1.1)) {
+            if ($from_module_version >= 1.1) {
                 $importfile_select_array['smartsection'] = 'Smartsection ' . $from_module_version;
                 $smartsection_version                    = $from_module_version;
             }
@@ -103,7 +103,7 @@ switch ($op) {
         $moduleObj           = $moduleHandler->getByDirname('cjaycontent');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
-            if (($from_module_version >= 1.1)) {
+            if ($from_module_version >= 1.1) {
                 $importfile_select_array['cjaycontent'] = 'C-Jay Content ' . $from_module_version;
                 $cjaycontent_version                    = $from_module_version;
             }
@@ -114,7 +114,7 @@ switch ($op) {
         $moduleObj         = $moduleHandler->getByDirname('fmcontent');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
-            if (($from_module_version >= 1.1)) {
+            if ($from_module_version >= 1.1) {
                 $importfile_select_array['fmcontent'] = 'FmContent ' . $from_module_version;
                 $fmcontent_version                    = $from_module_version;
             }

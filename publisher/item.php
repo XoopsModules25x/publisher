@@ -22,7 +22,7 @@
 
 include_once __DIR__ . '/header.php';
 
-$itemId       = XoopsRequest::getInt('itemid', 0, 'GET');
+$itemId     = XoopsRequest::getInt('itemid', 0, 'GET');
 $itemPageId = XoopsRequest::getInt('page', -1, 'GET');
 
 if ($itemId == 0) {
@@ -44,7 +44,9 @@ include_once $GLOBALS['xoops']->path('header.php');
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 //$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery-migrate-1.2.1.js');
+
 $xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.1.js');
+//$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.0.4.js');
 $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
 
 $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
@@ -135,15 +137,15 @@ if ($publisher->getConfig('item_other_items_type') === 'all') {
     $itemsObj = $publisher->getHandler('item')->getAllPublished(0, 0, $categoryObj->categoryid(), $sort, $order, '', true, true);
     $items    = array();
     foreach ($itemsObj as $theItemObj) {
-        $theitem              = array();
-        $theitem['titlelink'] = $theItemObj->getItemLink();
-        $theitem['datesub']   = $theItemObj->getDatesub();
-        $theitem['counter']   = $theItemObj->counter();
+        $theItem              = array();
+        $theItem['titlelink'] = $theItemObj->getItemLink();
+        $theItem['datesub']   = $theItemObj->getDatesub();
+        $theItem['counter']   = $theItemObj->counter();
         if ($theItemObj->itemId() == $itemObj->itemId()) {
-            $theitem['titlelink'] = $theItemObj->getTitle();
+            $theItem['titlelink'] = $theItemObj->getTitle();
         }
-        $items[] = $theitem;
-        unset($theitem);
+        $items[] = $theItem;
+        unset($theItem);
     }
     unset($itemsObj, $theItemObj);
     $xoopsTpl->assign('items', $items);
@@ -164,40 +166,41 @@ if ($itemObj->pagescount() > 0) {
 }
 
 // Creating the files object associated with this item
-$file          = array();
-$files         = array();
+$file         = array();
+$files        = array();
 $embededFiles = array();
-$filesObj      = $itemObj->getFiles();
+$filesObj     = $itemObj->getFiles();
 
 // check if user has permission to modify files
 $hasFilePermissions = true;
 if (!(publisherUserIsAdmin() || publisherUserIsModerator($itemObj))) {
     $hasFilePermissions = false;
 }
-
-foreach ($filesObj as $fileObj) {
-    $file        = array();
-    $file['mod'] = false;
-    if ($hasFilePermissions || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid'))) {
-        $file['mod'] = true;
-    }
-
-    if ($fileObj->mimetype() === 'application/x-shockwave-flash') {
-        $file['content'] = $fileObj->displayFlash();
-        if (strpos($item['maintext'], '[flash-' . $fileObj->getVar('fileid') . ']')) {
-            $item['maintext'] = str_replace('[flash-' . $fileObj->getVar('fileid') . ']', $file['content'], $item['maintext']);
-        } else {
-            $embededFiles[] = $file;
+if (null !== $filesObj) {
+    foreach ($filesObj as $fileObj) {
+        $file        = array();
+        $file['mod'] = false;
+        if ($hasFilePermissions || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid'))) {
+            $file['mod'] = true;
         }
-    } else {
-        $file['fileid']      = $fileObj->fileid();
-        $file['name']        = $fileObj->name();
-        $file['description'] = $fileObj->description();
-        $file['name']        = $fileObj->name();
-        $file['type']        = $fileObj->mimetype();
-        $file['datesub']     = $fileObj->getDatesub();
-        $file['hits']        = $fileObj->counter();
-        $files[]             = $file;
+
+        if ($fileObj->mimetype() === 'application/x-shockwave-flash') {
+            $file['content'] = $fileObj->displayFlash();
+            if (strpos($item['maintext'], '[flash-' . $fileObj->getVar('fileid') . ']')) {
+                $item['maintext'] = str_replace('[flash-' . $fileObj->getVar('fileid') . ']', $file['content'], $item['maintext']);
+            } else {
+                $embededFiles[] = $file;
+            }
+        } else {
+            $file['fileid']      = $fileObj->fileid();
+            $file['name']        = $fileObj->name();
+            $file['description'] = $fileObj->description();
+            $file['name']        = $fileObj->name();
+            $file['type']        = $fileObj->mimetype();
+            $file['datesub']     = $fileObj->getDatesub();
+            $file['hits']        = $fileObj->counter();
+            $files[]             = $file;
+        }
     }
 }
 
@@ -221,14 +224,14 @@ $xoopsTpl->assign('perm_author_items', $publisher->getConfig('perm_author_items'
 // tags support
 if (xoops_isActiveModule('tag')) {
     include_once $GLOBALS['xoops']->path('modules/tag/include/tagbar.php');
-    $xoopsTpl->assign('tagbar', tagBar($itemId, $catid = 0));
+    $xoopsTpl->assign('tagbar', tagbar($itemId, $catid = 0));
 }
 
 /**
  * Generating meta information for this page
  */
-$publisher_metagen = new PublisherMetagen($itemObj->getVar('title'), $itemObj->getVar('meta_keywords', 'n'), $itemObj->getVar('meta_description', 'n'), $itemObj->getCategoryPath());
-$publisher_metagen->createMetaTags();
+$publisherMetagen = new PublisherMetagen($itemObj->getVar('title'), $itemObj->getVar('meta_keywords', 'n'), $itemObj->getVar('meta_description', 'n'), $itemObj->getCategoryPath());
+$publisherMetagen->createMetaTags();
 
 // Include the comments if the selected ITEM supports comments
 if (($publisher->getConfig('com_rule') <> 0) && (($itemObj->cancomment() == 1) || !$publisher->getConfig('perm_com_art_level'))) {

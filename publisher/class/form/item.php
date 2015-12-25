@@ -36,7 +36,6 @@ include_once PUBLISHER_ROOT_PATH . '/class/themetabform.php';
  */
 class PublisherItemForm extends PublisherThemeTabForm
 {
-
     public $checkperm = true;
     public $tabs      = array(
         _CO_PUBLISHER_TAB_MAIN   => 'mainTab',
@@ -126,7 +125,6 @@ class PublisherItemForm extends PublisherThemeTabForm
      */
     public function createElements($obj)
     {
-
         $publisher =& PublisherPublisher::getInstance();
 
         $allowedEditors = publisherGetEditors($publisher->getHandler('permission')->getGrantedItems('editors'));
@@ -242,7 +240,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // Available pages to wrap
         if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_AVAILABLE_PAGE_WRAP)) {
-            $wrapPages                = XoopsLists::getHtmlListAsArray(publisherGetUploadDir(true, 'content'));
+            $wrapPages              = XoopsLists::getHtmlListAsArray(publisherGetUploadDir(true, 'content'));
             $availableWrapPagesText = array();
             foreach ($wrapPages as $page) {
                 $availableWrapPagesText[] = "<span onclick='publisherPageWrap(\"body\", \"[pagewrap=$page] \");' onmouseover='style.cursor=\"pointer\"'>$page</span>";
@@ -260,8 +258,8 @@ class PublisherItemForm extends PublisherThemeTabForm
         if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_UID)) {
             $uidSelect = new XoopsFormSelect(_CO_PUBLISHER_UID, 'uid', $obj->uid(), 1, false);
             $uidSelect->setDescription(_CO_PUBLISHER_UID_DSC);
-            $sql            = 'SELECT uid, uname FROM ' . $obj->db->prefix('users') . ' ORDER BY uname ASC';
-            $result         = $obj->db->query($sql);
+            $sql           = 'SELECT uid, uname FROM ' . $obj->db->prefix('users') . ' ORDER BY uname ASC';
+            $result        = $obj->db->query($sql);
             $usersArray    = array();
             $usersArray[0] = $GLOBALS['xoopsConfig']['anonymous'];
             while (($myrow = $obj->db->fetchArray($result)) !== false) {
@@ -286,7 +284,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // STATUS
         if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_STATUS)) {
-            $options       = array(
+            $options      = array(
                 PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED => _CO_PUBLISHER_PUBLISHED,
                 PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE   => _CO_PUBLISHER_OFFLINE,
                 PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED => _CO_PUBLISHER_SUBMITTED,
@@ -343,7 +341,7 @@ class PublisherItemForm extends PublisherThemeTabForm
             $imageObjs = array();
             if (!empty($catids)) {
                 $imageHandler =& xoops_getHandler('image');
-                $criteria      = new CriteriaCompo(new Criteria('imgcat_id', '(' . implode(',', $catids) . ')', 'IN'));
+                $criteria     = new CriteriaCompo(new Criteria('imgcat_id', '(' . implode(',', $catids) . ')', 'IN'));
                 $criteria->add(new Criteria('image_display', 1));
                 $criteria->setSort('image_nicename');
                 $criteria->setOrder('ASC');
@@ -539,7 +537,6 @@ $publisher(document).ready(function () {
                     $this->addElement($files_box);
                     unset($files_box, $filesObj, $fileObj);
                 }
-
             }
         }
 
@@ -582,7 +579,6 @@ $publisher(document).ready(function () {
 
         if (!$obj->isNew()) {
             $button_tray->addElement(new XoopsFormButton('', 'additem', _SUBMIT, 'submit')); //orclone
-
         } else {
             $button_tray->addElement(new XoopsFormButton('', 'additem', _CO_PUBLISHER_CREATE, 'submit'));
             $button_tray->addElement(new XoopsFormButton('', '', _CO_PUBLISHER_CLEAR, 'reset'));

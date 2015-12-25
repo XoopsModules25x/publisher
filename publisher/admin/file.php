@@ -72,7 +72,6 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
     } else {
         publisherCloseCollapsableBar('addfile', 'addfileicon');
     }
-
 }
 
 $false = false;

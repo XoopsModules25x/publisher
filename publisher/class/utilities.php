@@ -36,13 +36,39 @@ class PublisherUtilities
      *
      * @return void
      */
-    public static function prepareFolder($folder)
+    public static function createFolder($folder)
     {
-        if (!is_dir($folder)) {
-            mkdir($folder);
-            file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
+        try {
+            if (!@mkdir($folder) && !is_dir($folder)) {
+                throw new \RuntimeException(sprintf('Unable to create the %s directory', $folder));
+            } else {
+                file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ', $e->getMessage(), "\n", "<br/>";
         }
     }
+
+    /**
+     * @param $file
+     * @param $folder
+     * @return bool
+     */
+    public static function copyFile($file, $folder)
+    {
+                return copy($file, $folder);
+//        try {
+//            if (!is_dir($folder)) {
+//                throw new \RuntimeException(sprintf('Unable to copy file as: %s ', $folder));
+//            } else {
+//                return copy($file, $folder);
+//            }
+//        } catch (Exception $e) {
+//            echo 'Caught exception: ', $e->getMessage(), "\n", "<br/>";
+//        }
+//        return false;
+    }
+
 
     /**
      * @param $src
@@ -267,7 +293,7 @@ class PublisherUtilities
             publisherOpenCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = XoopsRequest::getInt('startitem');
             // Get the total number of published ITEMS
-            $totalitems =& $publisher->getHandler('item')->getItemsCount($selCat, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED));
+            $totalitems =& $publisher->getHandler('item')->getItemsCount($selCat, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
             // creating the items objects that are published
             $itemsObj         =& $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $startitem, $selCat);
             $totalitemsOnPage = count($itemsObj);

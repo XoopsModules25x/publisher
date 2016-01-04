@@ -177,4 +177,5 @@ switch ($op) {
         break;
 }
 
-xoops_cp_footer();
+//xoops_cp_footer();
+include_once __DIR__ . '/admin_footer.php';

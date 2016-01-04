@@ -75,7 +75,7 @@ class PublisherFileForm extends XoopsThemeForm
         $this->addElement($fileBox);
         //}
 
-        $statusSelect = new XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'file_status', PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE);
+        $statusSelect = new XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'file_status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
         $statusSelect->setDescription(_CO_PUBLISHER_FILE_STATUS_DSC);
         $this->addElement($statusSelect);
 
@@ -89,7 +89,7 @@ class PublisherFileForm extends XoopsThemeForm
     public function createButtons()
     {
         $filesButtonTray = new XoopsFormElementTray('', '');
-        $filesHidden      = new XoopsFormHidden('op', 'uploadfile');
+        $filesHidden     = new XoopsFormHidden('op', 'uploadfile');
         $filesButtonTray->addElement($filesHidden);
 
         if (!$this->targetObject->fileid()) {

@@ -924,7 +924,7 @@ function publisherRatingBar($itemId)
     $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
     $gpermHandler =& $publisher->getHandler('groupperm');
 
-    if (!$gpermHandler->checkRight('global', PublisherConstantsInterface::PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
+    if (!$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
         $staticRater = array();
         $staticRater[] .= "\n" . '<div class="publisher_ratingblock">';
         $staticRater[] .= '<div id="unit_long' . $itemId . '">';

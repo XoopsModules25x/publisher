@@ -45,8 +45,14 @@ $modversion = array(
     // ------------------- Folders & Files -------------------
     'dirname'             => $moduleDirName,
     'dirmoduleadmin'      => 'Frameworks/moduleclasses',
-    'icons16'             => 'Frameworks/moduleclasses/icons/16',
-    'icons32'             => 'Frameworks/moduleclasses/icons/32',
+    'sysIcons16'          => 'Frameworks/moduleclasses/icons/16',
+    'sysIcons32'          => 'Frameworks/moduleclasses/icons/32',
+    // Local path icons
+    'modIcons16'          => 'assets/images/icons/16',
+    'modIcons32'          => 'assets/images/icons/32',
+    // images
+    'iconsmall'           => 'assets/images/iconsmall.png',
+    'iconbig'             => 'assets/images/iconbig.png',
     'image'               => 'assets/images/logo.png',
     'release_file'        => XOOPS_URL . '/modules/' . $moduleDirName . '/docs/changelog.txt',
     // ------------------- Install/Update -------------------
@@ -894,11 +900,11 @@ $modversion['config'][] = array(
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'options'     => array(
-        _MI_PUBLISHER_PUBLISHED => PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED,
-        _MI_PUBLISHER_OFFLINE   => PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE,
-        _MI_PUBLISHER_SUBMITTED => PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED,
-        _MI_PUBLISHER_REJECTED  => PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED),
-    'default'     => PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED,
+        _MI_PUBLISHER_PUBLISHED => PublisherConstants::PUBLISHER_STATUS_PUBLISHED,
+        _MI_PUBLISHER_OFFLINE   => PublisherConstants::PUBLISHER_STATUS_OFFLINE,
+        _MI_PUBLISHER_SUBMITTED => PublisherConstants::PUBLISHER_STATUS_SUBMITTED,
+        _MI_PUBLISHER_REJECTED  => PublisherConstants::PUBLISHER_STATUS_REJECTED),
+    'default'     => PublisherConstants::PUBLISHER_STATUS_SUBMITTED,
     'category'    => 'submit');
 
 $modversion['config'][] = array(

@@ -167,7 +167,7 @@ if ($op === 'go') {
             $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
             $itemObj->setVar('dobr', $arrArticle['nobreaks']);
             $itemObj->setVar('weight', $arrArticle['weight']);
-            $itemObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED);
+            $itemObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_PUBLISHED);
             $itemObj->setGroupsRead(explode(' ', trim($arrArticle['groupid'])));
 
             // HTML Wrap
@@ -197,7 +197,7 @@ if ($op === 'go') {
                             $fileObj =& $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['fileshowname']);
                             $fileObj->setVar('description', $arrFile['filedescript']);
-                            $fileObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE);
+                            $fileObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
                             $fileObj->setVar('uid', $arrArticle['uid']);
                             $fileObj->setVar('itemid', $itemObj->itemid());
                             $fileObj->setVar('mimetype', $arrFile['minetype']);

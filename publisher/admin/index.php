@@ -28,12 +28,12 @@ xoops_cp_header();
 $indexAdmin = new ModuleAdmin();
 
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    PublisherUtilities::prepareFolder($uploadFolders[$i]);
+    PublisherUtilities::createFolder($uploadFolders[$i]);
     $indexAdmin->addConfigBoxLine($uploadFolders[$i], 'folder');
-//    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+    //    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
 
 echo $indexAdmin->addNavigation('index.php');
 echo $indexAdmin->renderIndex();
 
-xoops_cp_footer();
+include_once __DIR__ . '/admin_footer.php';

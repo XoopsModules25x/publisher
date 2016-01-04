@@ -73,7 +73,7 @@ function publisher_latest_news_show($options)
         $criteria->add(new Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
     }
 
-    $itemsObj =& $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'itemid');
+    $itemsObj =& $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);
 

@@ -23,6 +23,7 @@
 
 function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
 {
+    global $xoopsDB;
     if ($oldversion < 102) {
         // delete old html template files
         $templateDirectory = $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/templates/');
@@ -46,8 +47,24 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
                 }
             }
         }
+
+        //delete old files:
+        $oldFiles = array(
+            '/class/request.php',
+            '/class/registry.php',
+            '/include/constants.php',
+            '/ajaxrating.txt');
+
+        foreach (array_keys($oldFiles) as $i) {
+            unlink($GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . $oldFiles[$i]));
+        }
+
+        //delete .html entries from the tpl table
+        $sql = "DELETE FROM " . $xoopsDB->prefix("tplfile") . " WHERE `tpl_module` = '" .$module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
+        $xoopsDB->queryF($sql);
+
         // Load class XoopsFile
-        xoops_load('xoopsfile');
+        xoops_load('XoopsFile');
         //delete /images directory
         $imagesDirectory = $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/images/');
         $folderHandler   = XoopsFile::getHandler('folder', $imagesDirectory);
@@ -68,25 +85,23 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
         //       $cssFile = $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/templates/style.css');
         //       $folderHandler   = XoopsFile::getHandler('file', $cssFile);
         //       $folderHandler->delete($cssFile);
-    }
-    
-    // Checking/Making of "uploads" folders
-    $indexFile = $GLOBALS['xoops']->path('uploads/index.html');
-    $dirUpload = $GLOBALS['xoops']->path('uploads/' . $module->getVar('dirname', 'n') . '/images/');
-    if(!is_dir($dirUpload)) {
-      mkdir($dirUpload, 0777);
-      chmod($dirUpload, 0777);
-      copy($indexFile, $dirUpload.'/index.html');
-    }
-    $dirUpload = $GLOBALS['xoops']->path('uploads/' . $module->getVar('dirname', 'n') . '/images/category/');
-    if(!is_dir($dirUpload)) {
-      mkdir($dirUpload, 0777);
-      chmod($dirUpload, 0777);
-      copy($indexFile, $dirUpload.'/index.html');
+
+        //create upload directories, if needed
+        $moduleDirName =  $module->getVar('dirname');
+        include $GLOBALS['xoops']->path('modules/'.$moduleDirName.'/include/config.php');
+
+        foreach (array_keys($uploadFolders) as $i) {
+            PublisherUtilities::createFolder($uploadFolders[$i]);
+        }
+        //copy blank.png files, if needed
+        $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
+        foreach (array_keys($copyFiles) as $i) {
+            $dest   = $copyFiles[$i] . '/blank.png';
+            PublisherUtilities::copyFile($file, $dest);
+        }
     }
 
     $gpermHandler =& xoops_getHandler('groupperm');
-    
-    return $gpermHandler->deleteByModule($module->getVar('mid'), 'item_read');
 
+    return $gpermHandler->deleteByModule($module->getVar('mid'), 'item_read');
 }

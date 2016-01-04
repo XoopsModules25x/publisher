@@ -77,7 +77,8 @@ if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
 
 // End of collapsable bar
 publisherCloseCollapsableBar('clone', 'cloneicon');
-xoops_cp_footer();
+
+include_once __DIR__ . '/admin_footer.php';
 
 // work around for PHP < 5.0.x
 /*

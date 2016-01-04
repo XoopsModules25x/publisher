@@ -44,33 +44,33 @@ class PublisherItemForm extends PublisherThemeTabForm
         _CO_PUBLISHER_TAB_OTHERS => 'othersTab');
 
     public $mainTab = array(
-        PublisherConstantsInterface::PUBLISHER_SUBTITLE,
-        PublisherConstantsInterface::PUBLISHER_ITEM_SHORT_URL,
-        PublisherConstantsInterface::PUBLISHER_ITEM_TAG,
-        PublisherConstantsInterface::PUBLISHER_SUMMARY,
-        PublisherConstantsInterface::PUBLISHER_DOHTML,
-        PublisherConstantsInterface::PUBLISHER_DOSMILEY,
-        PublisherConstantsInterface::PUBLISHER_DOXCODE,
-        PublisherConstantsInterface::PUBLISHER_DOIMAGE,
-        PublisherConstantsInterface::PUBLISHER_DOLINEBREAK,
-        PublisherConstantsInterface::PUBLISHER_DATESUB,
-        PublisherConstantsInterface::PUBLISHER_STATUS,
-        PublisherConstantsInterface::PUBLISHER_AUTHOR_ALIAS,
-        PublisherConstantsInterface::PUBLISHER_NOTIFY,
-        PublisherConstantsInterface::PUBLISHER_AVAILABLE_PAGE_WRAP,
-        PublisherConstantsInterface::PUBLISHER_UID);
+        PublisherConstants::PUBLISHER_SUBTITLE,
+        PublisherConstants::PUBLISHER_ITEM_SHORT_URL,
+        PublisherConstants::PUBLISHER_ITEM_TAG,
+        PublisherConstants::PUBLISHER_SUMMARY,
+        PublisherConstants::PUBLISHER_DOHTML,
+        PublisherConstants::PUBLISHER_DOSMILEY,
+        PublisherConstants::PUBLISHER_DOXCODE,
+        PublisherConstants::PUBLISHER_DOIMAGE,
+        PublisherConstants::PUBLISHER_DOLINEBREAK,
+        PublisherConstants::PUBLISHER_DATESUB,
+        PublisherConstants::PUBLISHER_STATUS,
+        PublisherConstants::PUBLISHER_AUTHOR_ALIAS,
+        PublisherConstants::PUBLISHER_NOTIFY,
+        PublisherConstants::PUBLISHER_AVAILABLE_PAGE_WRAP,
+        PublisherConstants::PUBLISHER_UID);
 
     public $imagesTab = array(
-        PublisherConstantsInterface::PUBLISHER_IMAGE_ITEM);
+        PublisherConstants::PUBLISHER_IMAGE_ITEM);
 
     public $filesTab = array(
-        PublisherConstantsInterface::PUBLISHER_ITEM_UPLOAD_FILE);
+        PublisherConstants::PUBLISHER_ITEM_UPLOAD_FILE);
 
     public $othersTab = array(
-        PublisherConstantsInterface::PUBLISHER_ITEM_META_KEYWORDS,
-        PublisherConstantsInterface::PUBLISHER_ITEM_META_DESCRIPTION,
-        PublisherConstantsInterface::PUBLISHER_WEIGHT,
-        PublisherConstantsInterface::PUBLISHER_ALLOWCOMMENTS);
+        PublisherConstants::PUBLISHER_ITEM_META_KEYWORDS,
+        PublisherConstants::PUBLISHER_ITEM_META_DESCRIPTION,
+        PublisherConstants::PUBLISHER_WEIGHT,
+        PublisherConstants::PUBLISHER_ALLOWCOMMENTS);
 
     /**
      * @param $checkperm
@@ -149,19 +149,19 @@ class PublisherItemForm extends PublisherThemeTabForm
         $this->addElement(new XoopsFormText(_CO_PUBLISHER_TITLE, 'title', 50, 255, $obj->getVar('title', 'e')), true);
 
         // SUBTITLE
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_SUBTITLE)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_SUBTITLE)) {
             $this->addElement(new XoopsFormText(_CO_PUBLISHER_SUBTITLE, 'subtitle', 50, 255, $obj->getVar('subtitle', 'e')));
         }
 
         // SHORT URL
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_ITEM_SHORT_URL)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_ITEM_SHORT_URL)) {
             $textShortUrl = new XoopsFormText(_CO_PUBLISHER_ITEM_SHORT_URL, 'item_short_url', 50, 255, $obj->short_url('e'));
             $textShortUrl->setDescription(_CO_PUBLISHER_ITEM_SHORT_URL_DSC);
             $this->addElement($textShortUrl);
         }
 
         // TAGS
-        if (xoops_isActiveModule('tag') && $this->isGranted(PublisherConstantsInterface::PUBLISHER_ITEM_TAG)) {
+        if (xoops_isActiveModule('tag') && $this->isGranted(PublisherConstants::PUBLISHER_ITEM_TAG)) {
             include_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
             $textTags = new XoopsFormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
             $this->addElement($textTags);
@@ -197,7 +197,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         $editorConfigs['height'] = !$publisher->getConfig('submit_editor_height') ? '400px' : $publisher->getConfig('submit_editor_height');
 
         // SUMMARY
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_SUMMARY)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_SUMMARY)) {
             // Description
             //$summaryText = new XoopsFormTextArea(_CO_PUBLISHER_SUMMARY, 'summary', $obj->getVar('summary', 'e'), 7, 60);
             $editorConfigs['name']  = 'summary';
@@ -215,31 +215,31 @@ class PublisherItemForm extends PublisherThemeTabForm
         $this->addElement($bodyText);
 
         // VARIOUS OPTIONS
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_DOHTML) || $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOSMILEY) || $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOXCODE) || $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOIMAGE) || $this->isGranted(PublisherConstantsInterface::PUBLISHER_DOLINEBREAK)) {
-            if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_DOHTML)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_DOHTML) || $this->isGranted(PublisherConstants::PUBLISHER_DOSMILEY) || $this->isGranted(PublisherConstants::PUBLISHER_DOXCODE) || $this->isGranted(PublisherConstants::PUBLISHER_DOIMAGE) || $this->isGranted(PublisherConstants::PUBLISHER_DOLINEBREAK)) {
+            if ($this->isGranted(PublisherConstants::PUBLISHER_DOHTML)) {
                 $html_radio = new XoopsFormRadioYN(_CO_PUBLISHER_DOHTML, 'dohtml', $obj->dohtml(), _YES, _NO);
                 $this->addElement($html_radio);
             }
-            if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_DOSMILEY)) {
+            if ($this->isGranted(PublisherConstants::PUBLISHER_DOSMILEY)) {
                 $smiley_radio = new XoopsFormRadioYN(_CO_PUBLISHER_DOSMILEY, 'dosmiley', $obj->dosmiley(), _YES, _NO);
                 $this->addElement($smiley_radio);
             }
-            if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_DOXCODE)) {
+            if ($this->isGranted(PublisherConstants::PUBLISHER_DOXCODE)) {
                 $xcode_radio = new XoopsFormRadioYN(_CO_PUBLISHER_DOXCODE, 'doxcode', $obj->doxcode(), _YES, _NO);
                 $this->addElement($xcode_radio);
             }
-            if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_DOIMAGE)) {
+            if ($this->isGranted(PublisherConstants::PUBLISHER_DOIMAGE)) {
                 $image_radio = new XoopsFormRadioYN(_CO_PUBLISHER_DOIMAGE, 'doimage', $obj->doimage(), _YES, _NO);
                 $this->addElement($image_radio);
             }
-            if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_DOLINEBREAK)) {
+            if ($this->isGranted(PublisherConstants::PUBLISHER_DOLINEBREAK)) {
                 $linebreak_radio = new XoopsFormRadioYN(_CO_PUBLISHER_DOLINEBREAK, 'dolinebreak', $obj->dobr(), _YES, _NO);
                 $this->addElement($linebreak_radio);
             }
         }
 
         // Available pages to wrap
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_AVAILABLE_PAGE_WRAP)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_AVAILABLE_PAGE_WRAP)) {
             $wrapPages              = XoopsLists::getHtmlListAsArray(publisherGetUploadDir(true, 'content'));
             $availableWrapPagesText = array();
             foreach ($wrapPages as $page) {
@@ -255,7 +255,7 @@ class PublisherItemForm extends PublisherThemeTabForm
          the method users::getobjects encounters a memory error
          */
         // Trabis : well, maybe is because you are getting 6000 objects into memory , no??? LOL
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_UID)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_UID)) {
             $uidSelect = new XoopsFormSelect(_CO_PUBLISHER_UID, 'uid', $obj->uid(), 1, false);
             $uidSelect->setDescription(_CO_PUBLISHER_UID_DSC);
             $sql           = 'SELECT uid, uname FROM ' . $obj->db->prefix('users') . ' ORDER BY uname ASC';
@@ -275,7 +275,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         }*/
 
         // Author ALias
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_AUTHOR_ALIAS)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_AUTHOR_ALIAS)) {
             $element = new XoopsFormText(_CO_PUBLISHER_AUTHOR_ALIAS, 'author_alias', 50, 255, $obj->getVar('author_alias', 'e'));
             $element->setDescription(_CO_PUBLISHER_AUTHOR_ALIAS_DSC);
             $this->addElement($element);
@@ -283,12 +283,12 @@ class PublisherItemForm extends PublisherThemeTabForm
         }
 
         // STATUS
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_STATUS)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_STATUS)) {
             $options      = array(
-                PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED => _CO_PUBLISHER_PUBLISHED,
-                PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE   => _CO_PUBLISHER_OFFLINE,
-                PublisherConstantsInterface::PUBLISHER_STATUS_SUBMITTED => _CO_PUBLISHER_SUBMITTED,
-                PublisherConstantsInterface::PUBLISHER_STATUS_REJECTED  => _CO_PUBLISHER_REJECTED);
+                PublisherConstants::PUBLISHER_STATUS_PUBLISHED => _CO_PUBLISHER_PUBLISHED,
+                PublisherConstants::PUBLISHER_STATUS_OFFLINE   => _CO_PUBLISHER_OFFLINE,
+                PublisherConstants::PUBLISHER_STATUS_SUBMITTED => _CO_PUBLISHER_SUBMITTED,
+                PublisherConstants::PUBLISHER_STATUS_REJECTED  => _CO_PUBLISHER_REJECTED);
             $statusSelect = new XoopsFormSelect(_CO_PUBLISHER_STATUS, 'status', $obj->getVar('status'));
             $statusSelect->addOptionArray($options);
             $statusSelect->setDescription(_CO_PUBLISHER_STATUS_DSC);
@@ -297,7 +297,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         }
 
         // Datesub
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_DATESUB)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_DATESUB)) {
             if ($obj->isNew()) {
                 $datesub = time();
             } else {
@@ -311,7 +311,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         }
 
         // NOTIFY ON PUBLISH
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_NOTIFY)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_NOTIFY)) {
             $notify_radio = new XoopsFormRadioYN(_CO_PUBLISHER_NOTIFY, 'notify', $obj->notifypub(), _YES, _NO);
             $this->addElement($notify_radio);
         }
@@ -321,7 +321,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         }
 
         // IMAGE
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_IMAGE_ITEM)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_IMAGE_ITEM)) {
             $objimages      = $obj->getImages();
             $mainarray      = is_object($objimages['main']) ? array($objimages['main']) : array();
             $mergedimages   = array_merge($mainarray, $objimages['others']);
@@ -476,7 +476,7 @@ $publisher(document).ready(function () {
             $this->startTab(_CO_PUBLISHER_TAB_FILES);
         }
         // File upload UPLOAD
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_ITEM_UPLOAD_FILE)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_ITEM_UPLOAD_FILE)) {
             // NAME
             $nameText = new XoopsFormText(_CO_PUBLISHER_FILENAME, 'item_file_name', 50, 255, '');
             $nameText->setDescription(_CO_PUBLISHER_FILE_NAME_DSC);
@@ -545,14 +545,14 @@ $publisher(document).ready(function () {
         }
         //$this->startTab(_CO_PUBLISHER_TAB_META);
         // Meta Keywords
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_ITEM_META_KEYWORDS)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_ITEM_META_KEYWORDS)) {
             $text_meta_keywords = new XoopsFormTextArea(_CO_PUBLISHER_ITEM_META_KEYWORDS, 'item_meta_keywords', $obj->meta_keywords('e'), 7, 60);
             $text_meta_keywords->setDescription(_CO_PUBLISHER_ITEM_META_KEYWORDS_DSC);
             $this->addElement($text_meta_keywords);
         }
 
         // Meta Description
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_ITEM_META_DESCRIPTION)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_ITEM_META_DESCRIPTION)) {
             $text_meta_description = new XoopsFormTextArea(_CO_PUBLISHER_ITEM_META_DESCRIPTION, 'item_meta_description', $obj->meta_description('e'), 7, 60);
             $text_meta_description->setDescription(_CO_PUBLISHER_ITEM_META_DESCRIPTION_DSC);
             $this->addElement($text_meta_description);
@@ -561,13 +561,13 @@ $publisher(document).ready(function () {
         //$this->startTab(_CO_PUBLISHER_TAB_PERMISSIONS);
 
         // COMMENTS
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_ALLOWCOMMENTS)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_ALLOWCOMMENTS)) {
             $addcomments_radio = new XoopsFormRadioYN(_CO_PUBLISHER_ALLOWCOMMENTS, 'allowcomments', $obj->cancomment(), _YES, _NO);
             $this->addElement($addcomments_radio);
         }
 
         // WEIGHT
-        if ($this->isGranted(PublisherConstantsInterface::PUBLISHER_WEIGHT)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_WEIGHT)) {
             $this->addElement(new XoopsFormText(_CO_PUBLISHER_WEIGHT, 'weight', 5, 5, $obj->weight()));
         }
 

@@ -24,7 +24,8 @@
 $dirname       = basename(dirname(__DIR__));
 $moduleHandler =& xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($dirname);
-$pathIcon32    = $module->getInfo('icons32');
+$pathIcon32     = '../../' . $module->getInfo('sysIcons32');
+$pathModIcon32     = $module->getInfo('modIcons32');
 
 include_once dirname(__DIR__) . '/include/config.php';
 
@@ -34,67 +35,67 @@ $adminmenu = array(
     array(
         'title' => _MI_PUBLISHER_ADMENU0,
         'link'  => 'admin/index.php',
-        'icon'  => '../../' . $pathIcon32 . '/home.png'),
+        'icon'  => $pathIcon32 . '/home.png'),
 
     array(
         'title' => _MI_PUBLISHER_ADMENU1,
         'link'  => 'admin/main.php',
-        'icon'  => '../../' . $pathIcon32 . '/manage.png'),
+        'icon'  => $pathIcon32 . '/manage.png'),
 
-// Category
+    // Category
     array(
         'title' => _MI_PUBLISHER_ADMENU2,
         'link'  => 'admin/category.php',
-        'icon'  => '../../' . $pathIcon32 . '/category.png'),
+        'icon'  => $pathIcon32 . '/category.png'),
 
-// Items
-array(
-    'title' => _MI_PUBLISHER_ADMENU3,
-    'link'  => 'admin/item.php',
-    'icon'  => '../../' . $pathIcon32 . '/content.png'),
+    // Items
+    array(
+        'title' => _MI_PUBLISHER_ADMENU3,
+        'link'  => 'admin/item.php',
+        'icon'  => $pathIcon32 . '/content.png'),
 
-// Permissions
+    // Permissions
     array(
         'title' => _MI_PUBLISHER_ADMENU4,
         'link'  => 'admin/permissions.php',
-        'icon'  => '../../' . $pathIcon32 . '/permissions.png'),
+        'icon'  => $pathIcon32 . '/permissions.png'),
 
-// Mimetypes
+    // Mimetypes
     array(
         'title' => _MI_PUBLISHER_ADMENU6,
         'link'  => 'admin/mimetypes.php',
-        'icon'  => '../../' . $pathIcon32 . '/type.png'),
+        'icon'  => $pathIcon32 . '/type.png'),
 
-// Preferences
-//    array(
-//        'title' => _PREFERENCES,
-//        'link'  => 'admin/preferences.php',
-//        'icon'  => '../../' . $pathIcon32 . '/administration.png'),
+    // Preferences
+    //    array(
+    //        'title' => _PREFERENCES,
+    //        'link'  => 'admin/preferences.php',
+    //        'icon'  => '../../' . $pathIcon32 . '/administration.png'),
 
-/*
- //Comments
-    array(
-        "title" => _AM_PUBLISHER_COMMENTS,
-        "link"  => '../../modules/system/admin.php?fct=comments&amp;module=' . $module->getVar('mid'),
-        "icon"  => './assets/images/icon32/folder_txt.png'),
-*/
+    /*
+     //Comments
+        array(
+            "title" => _AM_PUBLISHER_COMMENTS,
+            "link"  => '../../modules/system/admin.php?fct=comments&amp;module=' . $module->getVar('mid'),
+            "icon"  => './assets/images/icon32/folder_txt.png'),
+    */
 
-//Import
+    //Import
     array(
         'title' => _AM_PUBLISHER_IMPORT,
         'link'  => 'admin/import.php',
-        'icon'  => '../../' . $pathIcon32 . '/download.png'),
+        'icon'  => $pathIcon32 . '/download.png'),
 
-//Clone
+    //Clone
     array(
         'title' => _AM_PUBLISHER_CLONE,
         'link'  => 'admin/clone.php',
-        'icon'  => './assets/images/icon32/editcopy.png'),
+        'icon'  => $pathModIcon32.'/editcopy.png'),
 
-//About
-array(
-    'title' => _AM_PUBLISHER_ABOUT,
-    'link'  => 'admin/about.php',
-    'icon'  => '../../' . $pathIcon32 . '/about.png'));
+    //About
+    array(
+        'title' => _AM_PUBLISHER_ABOUT,
+        'link'  => 'admin/about.php',
+        'icon'  => $pathIcon32 . '/about.png'));
 
 $GLOBALS['xoTheme']->addStylesheet('modules/' . $dirname . '/assets/css/style.css');

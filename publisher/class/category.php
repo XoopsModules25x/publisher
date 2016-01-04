@@ -266,7 +266,7 @@ class PublisherCategory extends XoopsObject
         $tags['MODULE_NAME']   = $this->publisher->getModule()->getVar('name');
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = $this->getCategoryUrl();
-        $notificationHandler  =& xoops_getHandler('notification');
+        $notificationHandler   =& xoops_getHandler('notification');
         $notificationHandler->triggerEvent('global_item', 0, 'category_created', $tags);
     }
 
@@ -457,8 +457,8 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve categories from the database
      *
-     * @param object $criteria  {@link CriteriaElement} conditions to be met
-     * @param bool   $idAsKey use the categoryid as key for the array?
+     * @param object $criteria {@link CriteriaElement} conditions to be met
+     * @param bool   $idAsKey  use the categoryid as key for the array?
      *
      * @return array array of {@link XoopsItem} objects
      */
@@ -711,7 +711,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      */
     public function publishedItemsCount($catId = 0)
     {
-        return $this->itemsCount($catId, $status = array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED));
+        return $this->itemsCount($catId, $status = array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
     }
 
     /**

@@ -115,7 +115,7 @@ if ($op === 'go') {
         //            $itemObj->setVar('dohtml', !$arrArticle['nohtml']);
         //            $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
         $itemObj->setVar('weight', $arrArticle['weight']);
-        $itemObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED);
+        $itemObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_PUBLISHED);
 
         //            $itemObj->setVar('dobr', !$arrArticle['dobr']);
         //            $itemObj->setVar('item_tag', $arrArticle['tags']);

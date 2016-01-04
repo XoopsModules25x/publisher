@@ -82,8 +82,8 @@ switch ($op) {
                 $max_imgwidth      = $publisher->getConfig('maximum_image_width');
                 $max_imgheight     = $publisher->getConfig('maximum_image_height');
                 $allowed_mimetypes = publisherGetAllowedImagesTypes();
-                $temp3             = XoopsRequest::getArray('filename', array(), 'FILES');
-                if (!is_readable($tmp_name) || !($tmp_name = $temp3['tmp_name'])) {
+                // $temp3             = XoopsRequest::getArray('filename', array(), 'FILES');
+                if (!is_readable($temp['tmp_name']) || ($temp['tmp_name'] == '')) {
                     redirect_header('javascript:history.go(-1)', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
                     //                    exit();
                 }

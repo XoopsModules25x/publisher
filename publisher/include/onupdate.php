@@ -100,24 +100,8 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
             PublisherUtilities::copyFile($file, $dest);
         }
     }
-    
-    // Checking/Making of "uploads" folders
-    $indexFile = $GLOBALS['xoops']->path('uploads/index.html');
-    $dirUpload = $GLOBALS['xoops']->path('uploads/' . $module->getVar('dirname', 'n') . '/images/');
-    if(!is_dir($dirUpload)) {
-      mkdir($dirUpload, 0777);
-      chmod($dirUpload, 0777);
-      copy($indexFile, $dirUpload.'/index.html');
-    }
-    $dirUpload = $GLOBALS['xoops']->path('uploads/' . $module->getVar('dirname', 'n') . '/images/category/');
-    if(!is_dir($dirUpload)) {
-      mkdir($dirUpload, 0777);
-      chmod($dirUpload, 0777);
-      copy($indexFile, $dirUpload.'/index.html');
-    }
 
     $gpermHandler =& xoops_getHandler('groupperm');
-    
-    return $gpermHandler->deleteByModule($module->getVar('mid'), 'item_read');
 
+    return $gpermHandler->deleteByModule($module->getVar('mid'), 'item_read');
 }

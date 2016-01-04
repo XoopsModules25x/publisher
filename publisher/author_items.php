@@ -48,7 +48,7 @@ include_once PUBLISHER_ROOT_PATH . '/footer.php';
 $criteria = new CriteriaCompo(new Criteria('datesub', time(), '<='));
 $criteria->add(new Criteria('uid', $uid));
 
-$items =& $publisher->getHandler('item')->getItems($limit = 0, $start = 0, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED), -1, 'datesub', 'DESC', '', true, $criteria);
+$items =& $publisher->getHandler('item')->getItems($limit = 0, $start = 0, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, 'datesub', 'DESC', '', true, $criteria);
 unset($criteria);
 $count = count($items);
 

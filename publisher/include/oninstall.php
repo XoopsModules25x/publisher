@@ -20,6 +20,11 @@
  * @return bool
  */
 
+
+/**
+ * @param XoopsModule $xoopsModule
+ * @return bool
+ */
 function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
 {
     // NOP
@@ -33,8 +38,27 @@ function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
  */
 function xoops_module_install_publisher(XoopsModule $xoopsModule)
 {
+    include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+
     xoops_loadLanguage('admin', $xoopsModule->getVar('dirname'));
     xoops_loadLanguage('modinfo', $xoopsModule->getVar('dirname'));
+
+    $moduleDirName =  $xoopsModule->getVar('dirname');
+    include_once $GLOBALS['xoops']->path('modules/'.$moduleDirName.'/include/config.php');
+
+
+    foreach (array_keys($uploadFolders) as $i) {
+        PublisherUtilities::createFolder($uploadFolders[$i]);
+    }
+
+    $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
+    foreach (array_keys($copyFiles) as $i) {
+        $dest   = $copyFiles[$i] . '/blank.png';
+        PublisherUtilities::copyFile($file, $dest);
+    }
+
+    return true;
+
     /*
         include_once $GLOBALS['xoops']->path('modules/' . $xoopsModule->getVar('dirname') . '/include/functions.php');
 

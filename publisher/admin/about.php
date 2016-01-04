@@ -35,4 +35,4 @@ echo $aboutAdmin->renderAbout('6KJ7RW5DR3VTJ', false);
 //        echo 'I am using PHP lower than 5.4, my version: ' . PHP_VERSION . "\n";
 //    }
 
-xoops_cp_footer();
+include_once __DIR__ . '/admin_footer.php';

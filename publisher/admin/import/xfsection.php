@@ -162,9 +162,9 @@ if ($op === 'go') {
             $itemObj->setGroupsRead(explode(' ', trim($arrArticle['groupid'])));
 
             // status
-            $status = PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED;
+            $status = PublisherConstants::PUBLISHER_STATUS_PUBLISHED;
             if ($arrArticle['offline']) {
-                $status = PublisherConstantsInterface::PUBLISHER_STATUS_OFFLINE;
+                $status = PublisherConstants::PUBLISHER_STATUS_OFFLINE;
             }
             $itemObj->setVar('status', $status);
 
@@ -195,7 +195,7 @@ if ($op === 'go') {
                             $fileObj =& $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['fileshowname']);
                             $fileObj->setVar('description', $arrFile['filedescript']);
-                            $fileObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE);
+                            $fileObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
                             $fileObj->setVar('uid', $arrArticle['uid']);
                             $fileObj->setVar('itemid', $itemObj->itemid());
                             $fileObj->setVar('mimetype', $arrFile['minetype']);

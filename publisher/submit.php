@@ -111,7 +111,7 @@ $elements = array(
     'subtitle',
     'author_alias');
 foreach ($elements as $element) {
-    if (XoopsRequest::getString('element', '', 'POST') && !in_array(constant('PublisherConstantsInterface::PUBLISHER_' . strtoupper($element)), $formView)) {
+    if (XoopsRequest::getString('element', '', 'POST') && !in_array(constant('PublisherConstants::PUBLISHER_' . strtoupper($element)), $formView)) {
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
         //        exit();
     }
@@ -204,11 +204,11 @@ switch ($op) {
 
         // if autoapprove_submitted. This does not apply if we are editing an article
         if (!$itemId) {
-            if ($itemObj->getVar('status') == PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED /*$publisher->getConfig('perm_autoapprove'] ==  1*/) {
+            if ($itemObj->getVar('status') == PublisherConstants::PUBLISHER_STATUS_PUBLISHED /*$publisher->getConfig('perm_autoapprove'] ==  1*/) {
                 // We do not not subscribe user to notification on publish since we publish it right away
 
                 // Send notifications
-                $itemObj->sendNotifications(array(PublisherConstantsInterface::PUBLISHER_NOTIFY_ITEM_PUBLISHED));
+                $itemObj->sendNotifications(array(PublisherConstants::PUBLISHER_NOTIFY_ITEM_PUBLISHED));
 
                 $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_AND_PUBLISHED;
                 redirect_header($itemObj->getItemUrl(), 2, $redirect_msg);
@@ -220,7 +220,7 @@ switch ($op) {
                     $notificationHandler->subscribe('item', $itemObj->itemid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
-                $itemObj->sendNotifications(array(PublisherConstantsInterface::PUBLISHER_NOTIFY_ITEM_SUBMITTED));
+                $itemObj->sendNotifications(array(PublisherConstants::PUBLISHER_NOTIFY_ITEM_SUBMITTED));
 
                 $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
             }

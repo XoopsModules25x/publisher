@@ -20,7 +20,7 @@
  */
 
 include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-include_once dirname(__DIR__) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/config.php';
 include_once $GLOBALS['xoops']->path('include/cp_header.php');
 
 //xoops_loadLanguage('admin', PUBLISHER_DIRNAME);

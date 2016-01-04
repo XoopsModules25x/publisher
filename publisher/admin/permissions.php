@@ -77,31 +77,31 @@ publisherCloseCollapsableBar('permissionstable_moderation', 'permissionsicon_mod
 echo "<br />\n";
 publisherOpenCollapsableBar('permissionstable_form', 'permissionsicon_form', _AM_PUBLISHER_PERMISSIONS_FORM, _AM_PUBLISHER_PERMISSIONS_FORM_DSC);
 $form_options = array(
-    PublisherConstantsInterface::PUBLISHER_SUMMARY               => _AM_PUBLISHER_SUMMARY,
-    //PublisherConstantsInterface::PUBLISHER_DISPLAY_SUMMARY        => _CO_PUBLISHER_DISPLAY_SUMMARY,
-    PublisherConstantsInterface::PUBLISHER_AVAILABLE_PAGE_WRAP   => _CO_PUBLISHER_AVAILABLE_PAGE_WRAP,
-    PublisherConstantsInterface::PUBLISHER_ITEM_TAG              => _AM_PUBLISHER_ITEM_TAG,
-    PublisherConstantsInterface::PUBLISHER_IMAGE_ITEM            => _AM_PUBLISHER_IMAGE_ITEM,
+    PublisherConstants::PUBLISHER_SUMMARY               => _AM_PUBLISHER_SUMMARY,
+    //PublisherConstants::PUBLISHER_DISPLAY_SUMMARY        => _CO_PUBLISHER_DISPLAY_SUMMARY,
+    PublisherConstants::PUBLISHER_AVAILABLE_PAGE_WRAP   => _CO_PUBLISHER_AVAILABLE_PAGE_WRAP,
+    PublisherConstants::PUBLISHER_ITEM_TAG              => _AM_PUBLISHER_ITEM_TAG,
+    PublisherConstants::PUBLISHER_IMAGE_ITEM            => _AM_PUBLISHER_IMAGE_ITEM,
     //_PUBLISHER_IMAGE_UPLOAD           => _AM_PUBLISHER_IMAGE_UPLOAD,
-    PublisherConstantsInterface::PUBLISHER_ITEM_UPLOAD_FILE      => _CO_PUBLISHER_ITEM_UPLOAD_FILE,
-    PublisherConstantsInterface::PUBLISHER_UID                   => _CO_PUBLISHER_UID,
-    PublisherConstantsInterface::PUBLISHER_DATESUB               => _CO_PUBLISHER_DATESUB,
-    PublisherConstantsInterface::PUBLISHER_STATUS                => _CO_PUBLISHER_STATUS,
-    PublisherConstantsInterface::PUBLISHER_ITEM_SHORT_URL        => _CO_PUBLISHER_ITEM_SHORT_URL,
-    PublisherConstantsInterface::PUBLISHER_ITEM_META_KEYWORDS    => _CO_PUBLISHER_ITEM_META_KEYWORDS,
-    PublisherConstantsInterface::PUBLISHER_ITEM_META_DESCRIPTION => _CO_PUBLISHER_ITEM_META_DESCRIPTION,
-    PublisherConstantsInterface::PUBLISHER_WEIGHT                => _CO_PUBLISHER_WEIGHT,
-    PublisherConstantsInterface::PUBLISHER_ALLOWCOMMENTS         => _CO_PUBLISHER_ALLOWCOMMENTS,
-    //PublisherConstantsInterface::PUBLISHER_PERMISSIONS_ITEM => _CO_PUBLISHER_PERMISSIONS_ITEM,
-    // PublisherConstantsInterface::PUBLISHER_PARTIAL_VIEW => _CO_PUBLISHER_PARTIAL_VIEW,
-    PublisherConstantsInterface::PUBLISHER_DOHTML                => _CO_PUBLISHER_DOHTML,
-    PublisherConstantsInterface::PUBLISHER_DOSMILEY              => _CO_PUBLISHER_DOSMILEY,
-    PublisherConstantsInterface::PUBLISHER_DOXCODE               => _CO_PUBLISHER_DOXCODE,
-    PublisherConstantsInterface::PUBLISHER_DOIMAGE               => _CO_PUBLISHER_DOIMAGE,
-    PublisherConstantsInterface::PUBLISHER_DOLINEBREAK           => _CO_PUBLISHER_DOLINEBREAK,
-    PublisherConstantsInterface::PUBLISHER_NOTIFY                => _AM_PUBLISHER_NOTIFY,
-    PublisherConstantsInterface::PUBLISHER_SUBTITLE              => _CO_PUBLISHER_SUBTITLE,
-    PublisherConstantsInterface::PUBLISHER_AUTHOR_ALIAS          => _CO_PUBLISHER_AUTHOR_ALIAS);
+    PublisherConstants::PUBLISHER_ITEM_UPLOAD_FILE      => _CO_PUBLISHER_ITEM_UPLOAD_FILE,
+    PublisherConstants::PUBLISHER_UID                   => _CO_PUBLISHER_UID,
+    PublisherConstants::PUBLISHER_DATESUB               => _CO_PUBLISHER_DATESUB,
+    PublisherConstants::PUBLISHER_STATUS                => _CO_PUBLISHER_STATUS,
+    PublisherConstants::PUBLISHER_ITEM_SHORT_URL        => _CO_PUBLISHER_ITEM_SHORT_URL,
+    PublisherConstants::PUBLISHER_ITEM_META_KEYWORDS    => _CO_PUBLISHER_ITEM_META_KEYWORDS,
+    PublisherConstants::PUBLISHER_ITEM_META_DESCRIPTION => _CO_PUBLISHER_ITEM_META_DESCRIPTION,
+    PublisherConstants::PUBLISHER_WEIGHT                => _CO_PUBLISHER_WEIGHT,
+    PublisherConstants::PUBLISHER_ALLOWCOMMENTS         => _CO_PUBLISHER_ALLOWCOMMENTS,
+    //PublisherConstants::PUBLISHER_PERMISSIONS_ITEM => _CO_PUBLISHER_PERMISSIONS_ITEM,
+    // PublisherConstants::PUBLISHER_PARTIAL_VIEW => _CO_PUBLISHER_PARTIAL_VIEW,
+    PublisherConstants::PUBLISHER_DOHTML                => _CO_PUBLISHER_DOHTML,
+    PublisherConstants::PUBLISHER_DOSMILEY              => _CO_PUBLISHER_DOSMILEY,
+    PublisherConstants::PUBLISHER_DOXCODE               => _CO_PUBLISHER_DOXCODE,
+    PublisherConstants::PUBLISHER_DOIMAGE               => _CO_PUBLISHER_DOIMAGE,
+    PublisherConstants::PUBLISHER_DOLINEBREAK           => _CO_PUBLISHER_DOLINEBREAK,
+    PublisherConstants::PUBLISHER_NOTIFY                => _AM_PUBLISHER_NOTIFY,
+    PublisherConstants::PUBLISHER_SUBTITLE              => _CO_PUBLISHER_SUBTITLE,
+    PublisherConstants::PUBLISHER_AUTHOR_ALIAS          => _CO_PUBLISHER_AUTHOR_ALIAS);
 $form_submit  = new XoopsGroupPermForm('', $publisher->getModule()->mid(), 'form_view', '', 'admin/permissions.php');
 foreach ($form_options as $key => $value) {
     $form_submit->addItem($key, $value);
@@ -126,8 +126,8 @@ publisherCloseCollapsableBar('permissionstable_editors', 'permissionsicon_editor
 echo "<br />\n";
 publisherOpenCollapsableBar('permissionstable_global', 'permissionsicon_global', _AM_PUBLISHER_PERMISSIONS_GLOBAL, _AM_PUBLISHER_PERMISSIONS_GLOBAL_DSC);
 $form_options = array(
-    PublisherConstantsInterface::PUBLISHER_SEARCH => _AM_PUBLISHER_SEARCH,
-    PublisherConstantsInterface::PUBLISHER_RATE   => _AM_PUBLISHER_RATE);
+    PublisherConstants::PUBLISHER_SEARCH => _AM_PUBLISHER_SEARCH,
+    PublisherConstants::PUBLISHER_RATE   => _AM_PUBLISHER_RATE);
 $form_submit  = new XoopsGroupPermForm('', $publisher->getModule()->mid(), 'global', '', 'admin/permissions.php');
 foreach ($form_options as $key => $value) {
     $form_submit->addItem($key, $value);
@@ -136,4 +136,4 @@ unset($key, $value);
 echo $form_submit->render();
 publisherCloseCollapsableBar('permissionstable_global', 'permissionsicon_global');
 
-xoops_cp_footer();
+include_once __DIR__ . '/admin_footer.php';

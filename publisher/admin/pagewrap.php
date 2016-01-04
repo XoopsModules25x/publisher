@@ -45,7 +45,7 @@ echo '</form>';
 $form = new XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
 
 $pWrapSelect = new XoopsFormSelect(publisherGetUploadDir(true, 'content'), 'address');
-$folder       = dir($dir);
+$folder      = dir($dir);
 while ($file == $folder->read()) {
     if ($file !== '.' && $file !== '..') {
         $pWrapSelect->addOption($file, $file);
@@ -61,4 +61,5 @@ $form->addElement($submit);
 $form->display();
 
 publisherCloseCollapsableBar('pagewraptable', 'pagewrapicon');
-xoops_cp_footer();
+
+include_once __DIR__ . '/admin_footer.php';

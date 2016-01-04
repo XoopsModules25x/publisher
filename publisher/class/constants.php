@@ -22,9 +22,9 @@
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
- * Interface PublisherConstantsInterface
+ * Interface PublisherConstants
  */
-interface PublisherConstantsInterface
+interface PublisherConstants
 {
     // ITEM status
     const PUBLISHER_STATUS_NOTSET    = -1;

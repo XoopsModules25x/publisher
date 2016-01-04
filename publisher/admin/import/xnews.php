@@ -299,7 +299,7 @@ if ($op === 'go') {
             $itemObj->setVar('dohtml', !$arrArticle['nohtml']);
             $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
             $itemObj->setVar('weight', 0);
-            $itemObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED);
+            $itemObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_PUBLISHED);
 
             $itemObj->setVar('dobr', !$arrArticle['dobr']);
             $itemObj->setVar('item_tag', $arrArticle['tags']);
@@ -351,7 +351,7 @@ if ($op === 'go') {
                             $fileObj =& $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['filerealname']);
                             $fileObj->setVar('description', $arrFile['filerealname']);
-                            $fileObj->setVar('status', PublisherConstantsInterface::PUBLISHER_STATUS_FILE_ACTIVE);
+                            $fileObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
                             $fileObj->setVar('uid', $arrArticle['uid']);
                             $fileObj->setVar('itemid', $itemObj->itemid());
                             $fileObj->setVar('mimetype', $arrFile['mimetype']);

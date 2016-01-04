@@ -161,4 +161,4 @@ switch ($op) {
         //publisher_adminMenu(2, _AM_PUBLISHER_ITEMS);
         break;
 }
-xoops_cp_footer();
+include_once __DIR__ . '/admin_footer.php';

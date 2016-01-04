@@ -60,7 +60,7 @@ $subcats =& $publisher->getHandler('category')->getSubCats($categoriesObj);
 $totalItems =& $publisher->getHandler('category')->publishedItemsCount();
 
 // real total count of items
-$real_total_items =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstantsInterface::PUBLISHER_STATUS_PUBLISHED));
+$real_total_items =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
 
 if ($publisher->getConfig('idxcat_display_last_item') == 1) {
     // Get the last item in each category

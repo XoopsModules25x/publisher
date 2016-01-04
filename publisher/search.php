@@ -24,19 +24,19 @@ include_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
 
 //Checking general permissions
-$configHandler    =& xoops_getHandler('config');
+$configHandler     =& xoops_getHandler('config');
 $xoopsConfigSearch = $configHandler->getConfigsByCat(XOOPS_CONF_SEARCH);
 if (empty($xoopsConfigSearch['enable_search'])) {
     redirect_header(PUBLISHER_URL . '/index.php', 2, _NOPERM);
     //    exit();
 }
 
-$groups        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+$groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $gpermHandler =& xoops_getModuleHandler('groupperm', PUBLISHER_DIRNAME);
-$module_id     = $publisher->getModule()->mid();
+$module_id    = $publisher->getModule()->mid();
 
 //Checking permissions
-if (!$publisher->getConfig('perm_search') || !$gpermHandler->checkRight('global', PublisherConstantsInterface::PUBLISHER_SEARCH, $groups, $module_id)) {
+if (!$publisher->getConfig('perm_search') || !$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_SEARCH, $groups, $module_id)) {
     redirect_header(PUBLISHER_URL, 2, _NOPERM);
     //    exit();
 }
@@ -86,7 +86,7 @@ if ($term && (XoopsRequest::getString('submit', '', 'POST'))) {
                 $ignored_queries[] = $myts->addSlashes($q);
             }
         }
-//        unset($q);
+        //        unset($q);
         if (count($queries) == 0) {
             redirect_header(PUBLISHER_URL . '/search.php', 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch['keyword_min']));
             //            exit();

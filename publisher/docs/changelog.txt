@@ -6,6 +6,7 @@
 - fix for creating upload folders for category images (ggoffy/mamba)
 - fix for RSS problem with date (dante7237/mamba)
 - fix for file deletes (mamba)
+- adding link to on-line Tutorial (mamba)
 
 <h5>1.02 RC4       (NOT RELEASED)</h5>
 - fix issues with Popeye images (mamba)

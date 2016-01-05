@@ -118,11 +118,11 @@ switch ($op) {
 
         // Storing the file
         if (!$fileObj->store()) {
-            redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . publisherFormatErrors($fileObj->getErrors()));
+            redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid().'#tab_2', 3, _AM_PUBLISHER_FILE_EDITING_ERROR . publisherFormatErrors($fileObj->getErrors()));
             //            exit;
         }
 
-        redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid(), 2, _AM_PUBLISHER_FILE_EDITING_SUCCESS);
+        redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid().'#tab_2', 2, _AM_PUBLISHER_FILE_EDITING_SUCCESS);
         //        exit();
         break;
 
@@ -137,11 +137,11 @@ switch ($op) {
 
         if ($confirm) {
             if (!$publisher->getHandler('file')->delete($fileObj)) {
-                redirect_header('item.php', 2, _AM_PUBLISHER_FILE_DELETE_ERROR);
+                redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid().'#tab_2', 2, _AM_PUBLISHER_FILE_DELETE_ERROR);
                 //                exit;
             }
 
-            redirect_header('item.php', 2, sprintf(_AM_PUBLISHER_FILEISDELETED, $fileObj->name()));
+            redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid().'#tab_2', 2, sprintf(_AM_PUBLISHER_FILEISDELETED, $fileObj->name()));
             //            exit();
         } else {
             // no confirm: show deletion condition

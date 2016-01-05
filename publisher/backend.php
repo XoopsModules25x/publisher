@@ -43,6 +43,7 @@ $tpl->xoops_setCaching(2);
 $tpl->xoops_setCacheTime(0);
 $myts = MyTextSanitizer::getInstance();
 if (!$tpl->is_cached('db:publisher_rss.tpl')) {
+//    xoops_load('XoopsLocal');
     $channel_category = $publisher->getModule()->name();
     // Check if ML Hack is installed, and if yes, parse the $content in formatForML
     if (method_exists($myts, 'formatForML')) {
@@ -79,7 +80,7 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     $tpl->assign('image_width', $width);
     $tpl->assign('image_height', $height);
     $sarray =& $publisher->getHandler('item')->getAllPublished(10, 0, $categoryid);
-    if (is_array($sarray)) {
+    if (!empty($sarray) && is_array($sarray)) {
         $count = $sarray;
         foreach ($sarray as $item) {
             $tpl->append('items', array(
@@ -87,10 +88,10 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
                 'link'        => $item->getItemUrl(),
                 'guid'        => $item->getItemUrl(),
                 //mb                'pubdate'     => XoopsLocal::formatTimestamp($item->getVar('datesub'), 'rss'),
-                'pubdate'     => formatTimestamp($this->getVar('datesub', $format), 'rss'),
+                'pubdate'     => formatTimestamp($item->getVar('datesub'), 'rss'),
                 'description' => htmlspecialchars($item->getBlockSummary(300, true), ENT_QUOTES)));
         }
-//        unset($item);
+        //        unset($item);
     }
 }
 $tpl->display('db:publisher_rss.tpl');

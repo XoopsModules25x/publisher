@@ -84,7 +84,9 @@ switch ($op) {
             // TODO : display the available mimetypes to the user
             $errors = array();
 
-            if ($publisher->getConfig('perm_upload') && is_uploaded_file(XoopsRequest::getArray('item_upload_file', array(), 'FILES')['tmp_name'])) {
+//            if ($publisher->getConfig('perm_upload') && is_uploaded_file(XoopsRequest::getArray('item_upload_file', array(), 'FILES')['tmp_name'])) {
+            $temp = XoopsRequest::getArray('item_upload_file', array(), 'FILES');
+            if ($publisher->getConfig('perm_upload') && is_uploaded_file($temp['tmp_name'])) {
                 if ($fileObj->checkUpload('item_upload_file', $allowed_mimetypes, $errors)) {
                     if ($fileObj->storeUpload('item_upload_file', $allowed_mimetypes, $errors)) {
                         unlink($oldfile);

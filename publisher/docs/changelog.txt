@@ -1,9 +1,12 @@
-<h5>1.02 RC5       (2015-12-24)</h5>
+<h5>1.02 Final       (2016-01-05)</h5>
 - fixed bug: wrong options in Latest News block (mamba)
 - added "All" checkbox in Category for group permissions (mamba)
 - fixes in clone.php (ggoffy)
 - fix error when uploading category image (ggoffy)
 - fix for creating upload folders for category images (ggoffy/mamba)
+- fix for RSS problem with date (dante7237/mamba)
+- fix for file deletes (mamba)
+- adding link to on-line Tutorial (mamba)
 
 <h5>1.02 RC4       (NOT RELEASED)</h5>
 - fix issues with Popeye images (mamba)

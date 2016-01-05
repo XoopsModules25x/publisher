@@ -9,7 +9,8 @@
 
 Content Publishing module for [XOOPS CMS](http://xoops.org) for static/HTML content and dynamic articles stored and presented in a hierarchical manner
 
-Tutorial: see [here](https://www.gitbook.com/book/xoops/xoops-publisher-module/). To contribute to the Tutorial, [fork it on GitHub](https://github.com/XoopsDocs/publisher-tutorial)
+[![Tutorial Available](http://xoops.org/images/tutorial-available-blue.svg)](https://www.gitbook.com/book/xoops/xoops-publisher-module/) Tutorial: see [here](https://www.gitbook.com/book/xoops/xoops-publisher-module/). 
+To contribute to the Tutorial, [fork it on GitHub](https://github.com/XoopsDocs/publisher-tutorial)
 
 Please visit us on http://xoops.org
 

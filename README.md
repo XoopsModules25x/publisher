@@ -12,7 +12,7 @@ Content Publishing module for [XOOPS CMS](http://xoops.org) for static/HTML cont
 [![Tutorial Available](http://xoops.org/images/tutorial-available-blue.svg)](https://www.gitbook.com/book/xoops/xoops-publisher-module/) Tutorial: see [here](https://www.gitbook.com/book/xoops/xoops-publisher-module/). 
 To contribute to the Tutorial, [fork it on GitHub](https://github.com/XoopsDocs/publisher-tutorial)
 
-[![Translations on Transifex](https://img.shields.io/badge/translations-transifex-blue.svg)](https://www.transifex.com/xoops) 
+[![Translations on Transifex](http://xoops.org/images/translations-transifex-blue.svg)](https://www.transifex.com/xoops) 
 
 Please visit us on http://xoops.org
 

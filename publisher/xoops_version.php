@@ -30,9 +30,9 @@ $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = array(
     'name'                => _MI_PUBLISHER_MD_NAME,
-    'version'             => '1.02',
-    'module_status'       => 'Final',
-    'release_date'        => '2016/01/05',
+    'version'             => '1.03',
+    'module_status'       => 'Beta 1',
+    'release_date'        => '2016/01/10',
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
     'credits'             => 'w4z004, hsalazar, Mithrandir, fx2024, Ackbarr, Mariuss, Marco, Michiel, phppp, outch, Xvitry, Catzwolf, Shine, McDonald, trabis, Mowaffak, Bandit-x, Shiva',

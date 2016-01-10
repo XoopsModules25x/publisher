@@ -22,6 +22,13 @@ function publisher_appendSelectOption(fromMenuId, toMenuId) {
     newOption.selected = true;
     toMenuDom.options[toMenuDom.options.length] = newOption;
     fromMenuDom.remove(fromMenuDom.selectedIndex);
+	
+	var MenuDom = xoopsGetElementById('image_item');
+    if (MenuDom != null) {
+        for (var i = 0; i < MenuDom.options.length; i++) {
+            MenuDom.options[i].selected = true;
+        }
+    }
 }
 
 function publisher_updateSelectOption(fromMenuId, toMenuId) {

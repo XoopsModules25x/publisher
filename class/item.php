@@ -727,9 +727,9 @@ class PublisherItem extends XoopsObject
             case 'full':
             case 'wfsection':
             case 'default':
-                $summary = $this->summary($max_char_summary);
+                $summary = $this->getSummary($max_char_summary);
                 if (!$summary) {
-                    $summary = $this->body($max_char_summary);
+                    $summary = $this->getBody($max_char_summary);
                 }
                 $item['summary'] = $summary;
                 $item            = $this->toArrayFull($item);
@@ -993,9 +993,9 @@ class PublisherItem extends XoopsObject
             }
             $this->setVar('images', implode('|', $imageItemIds));
         } else {
- 			$this->setVar('image', 0);
-			$this->setVar('images', '');
-		}
+            $this->setVar('image', 0);
+            $this->setVar('images', '');
+        }
 
         if (($authorAlias = XoopsRequest::getString('author_alias', '', 'POST'))) {
             $this->setVar('author_alias', $authorAlias);

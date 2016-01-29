@@ -1,5 +1,6 @@
 <h5>1.03 Beta 1       (NOT RELEASED)</h5>
 - fixed: deleting item image (ggoffy)
+- fixed: calling getSummary & getBody (bleekk)
 
 <h5>1.02 Final       (2016-01-05)</h5>
 - fixed bug: wrong options in Latest News block (mamba)

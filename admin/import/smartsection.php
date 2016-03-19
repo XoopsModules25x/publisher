@@ -97,11 +97,11 @@ if ($op === 'go') {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     publisherOpenCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
-    $moduleHandler          =& xoops_getHandler('module');
+    $moduleHandler          = xoops_getHandler('module');
     $moduleObj              = $moduleHandler->getByDirname('smartsection');
     $smartsection_module_id = $moduleObj->getVar('mid');
 
-    $gpermHandler =& xoops_getHandler('groupperm');
+    $gpermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
@@ -121,7 +121,7 @@ if ($op === 'go') {
         $newCat['oldid']  = $arrCat['categoryid'];
         $newCat['oldpid'] = $arrCat['parentid'];
 
-        $categoryObj =& $publisher->getHandler('category')->create();
+        $categoryObj = $publisher->getHandler('category')->create();
 
         $categoryObj->setVars($arrCat);
         $categoryObj->setVar('categoryid', 0);
@@ -146,7 +146,7 @@ if ($op === 'go') {
 
         while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
-            $itemObj =& $publisher->getHandler('item')->create();
+            $itemObj = $publisher->getHandler('item')->create();
 
             $itemObj->setVars($arrArticle);
             $itemObj->setVar('itemid', 0);
@@ -180,7 +180,7 @@ if ($op === 'go') {
                     $filename = $GLOBALS['xoops']->path('uploads/smartsection/' . $arrFile['filename']);
                     if (file_exists($filename)) {
                         if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filename']))) {
-                            $fileObj =& $publisher->getHandler('file')->create();
+                            $fileObj = $publisher->getHandler('file')->create();
                             $fileObj->setVars($arrFile);
                             $fileObj->setVar('fileid', 0);
 
@@ -228,7 +228,7 @@ if ($op === 'go') {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $commentHandler =& xoops_getHandler('comment');
+    $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $smartsection_module_id));
     $comments = $commentHandler->getObjects($criteria);

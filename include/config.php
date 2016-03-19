@@ -20,7 +20,7 @@
  * @version         $Id: const_entete.php 9860 2012-07-13 10:41:41Z beckmi $
  */
 
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 include_once __DIR__ . '/common.php';
 
 $moduleDirName =  basename(dirname(__DIR__));

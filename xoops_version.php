@@ -25,14 +25,14 @@ xoops_load('XoopsRequest');
 
 $moduleDirName = basename(__DIR__);
 xoops_load('xoopseditorhandler');
-$editorHandler =& XoopsEditorHandler::getInstance();
+$editorHandler = XoopsEditorHandler::getInstance();
 $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = array(
     'name'                => _MI_PUBLISHER_MD_NAME,
     'version'             => '1.03',
     'module_status'       => 'Beta 1',
-    'release_date'        => '2016/01/10',
+    'release_date'        => '2016/03/19',
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
     'credits'             => 'w4z004, hsalazar, Mithrandir, fx2024, Ackbarr, Mariuss, Marco, Michiel, phppp, outch, Xvitry, Catzwolf, Shine, McDonald, trabis, Mowaffak, Bandit-x, Shiva',
@@ -60,7 +60,7 @@ $modversion = array(
     'onUpdate'            => 'include/onupdate.php',
     // ------------------- Min Requirements -------------------
     'min_php'             => '5.5',
-    'min_xoops'           => '2.5.7.2',
+    'min_xoops'           => '2.5.8',
     'min_admin'           => '1.1',
     'min_db'              => array('mysql' => '5.0.7', 'mysqli' => '5.0.7'),
     // ------------------- Admin Menu -------------------
@@ -355,7 +355,7 @@ $modversion['config'][] = array(
     'valuetype'   => 'text',
     'default'     => 'none',
     'options'     => array_merge(array(_MI_PUBLISHER_URL_REWRITE_NONE => 'none'), array(_MI_PUBLISHER_URL_REWRITE_PATHINFO => 'path-info'), // Is performing module install/update?
-                                 ($isModuleAction && (in_array(php_sapi_name(), array('apache', 'apache2handler', 'cgi-fcgi')))) ? array(_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess') : array()),
+                                 ($isModuleAction && in_array(php_sapi_name(), array('apache', 'apache2handler', 'cgi-fcgi'))) ? array(_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess') : array()),
     'category'    => 'seo');
 
 $modversion['config'][] = array(
@@ -845,7 +845,7 @@ $modversion['config'][] = array(
     'category'    => 'submit');
 
 xoops_load('XoopsEditorHandler');
-$editorHandler =& XoopsEditorHandler::getInstance();
+$editorHandler = XoopsEditorHandler::getInstance();
 
 $modversion['config'][] = array(
     'name'        => 'submit_editor',

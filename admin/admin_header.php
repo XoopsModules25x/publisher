@@ -20,8 +20,13 @@
  */
 
 include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+include_once $GLOBALS['xoops']->path('www/include/cp_functions.php');
+include_once $GLOBALS['xoops']->path('www/include/cp_header.php');
+include_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
+
+xoops_load('XoopsRequest');
+
 include_once dirname(__DIR__) . '/include/config.php';
-include_once $GLOBALS['xoops']->path('include/cp_header.php');
 
 //xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 xoops_loadLanguage('modinfo', PUBLISHER_DIRNAME);
@@ -31,8 +36,9 @@ $imagearray = array(
     'deleteimg' => "<img src='" . PUBLISHER_IMAGES_URL . "/button_delete.png' alt='" . _AM_PUBLISHER_ICO_DELETE . "' align='middle' />",
     'online'    => "<img src='" . PUBLISHER_IMAGES_URL . "/on.png' alt='" . _AM_PUBLISHER_ICO_ONLINE . "' align='middle' />",
     'offline'   => "<img src='" . PUBLISHER_IMAGES_URL . "/off.png' alt='" . _AM_PUBLISHER_ICO_OFFLINE . "' align='middle' />");
-include_once $GLOBALS['xoops']->path('Frameworks/moduleclasses/moduleadmin/moduleadmin.php');
 
+include_once $GLOBALS['xoops']->path('Frameworks/moduleclasses/moduleadmin/moduleadmin.php');
+//ModuleAdmin::loadLanguage();
 /*
 $myts = MyTextSanitizer::getInstance();
 

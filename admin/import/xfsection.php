@@ -106,7 +106,7 @@ if ($op === 'go') {
 
     $newCatArray = array();
     while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) !== false) {
-        $categoryObj =& $publisher->getHandler('category')->create();
+        $categoryObj = $publisher->getHandler('category')->create();
 
         $newCat = array();
 
@@ -122,7 +122,7 @@ if ($op === 'go') {
         $categoryObj->setVar('description', $arrCat['description']);
 
         // Category image
-        if (($arrCat['imgurl'] !== 'blank.gif') && ($arrCat['imgurl'])) {
+        if (($arrCat['imgurl'] !== 'blank.gif') && $arrCat['imgurl']) {
             if (copy($GLOBALS['xoops']->path('modules/xfsection/images/category/' . $arrCat['imgurl']), PUBLISHER_UPLOAD_PATH . '/images/category/' . $arrCat['imgurl'])) {
                 $categoryObj->setVar('image', $arrCat['imgurl']);
             }
@@ -146,7 +146,7 @@ if ($op === 'go') {
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
-            $itemObj =& $publisher->getHandler('item')->create();
+            $itemObj = $publisher->getHandler('item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
             $itemObj->setVar('title', $arrArticle['title']);
@@ -192,7 +192,7 @@ if ($op === 'go') {
                     $filename = $GLOBALS['xoops']->path('modules/xfsection/cache/uploaded/' . $arrFile['filerealname']);
                     if (file_exists($filename)) {
                         if (copy($filename, PUBLISHER_UPLOAD_PATH . '/' . $arrFile['filerealname'])) {
-                            $fileObj =& $publisher->getHandler('file')->create();
+                            $fileObj = $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['fileshowname']);
                             $fileObj->setVar('description', $arrFile['filedescript']);
                             $fileObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
@@ -237,13 +237,13 @@ if ($op === 'go') {
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br />';
 
-    $moduleHandler  =& xoops_getHandler('module');
+    $moduleHandler  = xoops_getHandler('module');
     $moduleObj      = $moduleHandler->getByDirname('xfsection');
     $news_module_id = $moduleObj->getVar('mid');
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $commentHandler =& xoops_getHandler('comment');
+    $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $news_module_id));
     $comments = $commentHandler->getObjects($criteria);

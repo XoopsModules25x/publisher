@@ -41,7 +41,7 @@ function publisher_pagewrap_upload(&$errors)
     //    include_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
     xoops_load('XoopsMediaUploader');
 
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
     $postField = 'fileupload';
 
     $maxFileSize    = $publisher->getConfig('maximum_filesize');

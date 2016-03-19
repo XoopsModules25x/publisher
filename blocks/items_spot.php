@@ -18,7 +18,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  * @version         $Id: items_spot.php 10374 2012-12-12 23:39:48Z trabis $
  */
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -30,7 +30,7 @@ include_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_spot_show($options)
 {
     //    global $xoTheme;
-    $publisher           =& PublisherPublisher::getInstance();
+    $publisher           = PublisherPublisher::getInstance();
     $optDisplayLast    = $options[0];
     $optItemsCount     = $options[1];
     $optCategoryId      = $options[2];
@@ -38,19 +38,19 @@ function publisher_items_spot_show($options)
     $optDisplayPoster  = $options[4];
     $optDisplayComment = $options[5];
     $optDisplayType    = $options[6];
-    $optTruncate        = (int)($options[7]);
+    $optTruncate        = (int)$options[7];
     $optCatImage        = $options[8];
     if ($optCategoryId == 0) {
         $optCategoryId = -1;
     }
     $block = array();
     if ($optDisplayLast == 1) {
-        $itemsObj   =& $publisher->getHandler('item')->getAllPublished($optItemsCount, 0, $optCategoryId, $sort = 'datesub', $order = 'DESC', 'summary');
+        $itemsObj   = $publisher->getHandler('item')->getAllPublished($optItemsCount, 0, $optCategoryId, $sort = 'datesub', $order = 'DESC', 'summary');
         $i          = 1;
         $itemsCount = count($itemsObj);
         if ($itemsObj) {
             if ($optCategoryId != -1 && $optCatImage) {
-                $cat                     =& $publisher->getHandler('category')->get($optCategoryId);
+                $cat                     = $publisher->getHandler('category')->get($optCategoryId);
                 $category['name']        = $cat->name();
                 $category['categoryurl'] = $cat->getCategoryUrl();
                 if ($cat->getImage() !== 'blank.png') {
@@ -78,7 +78,7 @@ function publisher_items_spot_show($options)
         $i          = 1;
         $itemsCount = count($selItems);
         foreach ($selItems as $itemId) {
-            $itemObj =& $publisher->getHandler('item')->get($itemId);
+            $itemObj = $publisher->getHandler('item')->get($itemId);
             if (!$itemObj->notLoaded()) {
                 $item             = $itemObj->toArraySimple();
                 $item['who_when'] = sprintf(_MB_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemObj->getDatesub());
@@ -125,11 +125,11 @@ function publisher_items_spot_edit($options)
     $autoEle   = new XoopsFormRadioYN(_MB_PUBLISHER_AUTO_LAST_ITEMS, 'options[0]', $options[0]);
     $countEle  = new XoopsFormText(_MB_PUBLISHER_LAST_ITEMS_COUNT, 'options[1]', 2, 255, $options[1]);
     $catEle    = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisherCreateCategorySelect($options[2], 0, true, 'options[2]'));
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
     $criteria  = new CriteriaCompo();
     $criteria->setSort('datesub');
     $criteria->setOrder('DESC');
-    $itemsObj =& $publisher->getHandler('item')->getList($criteria);
+    $itemsObj = $publisher->getHandler('item')->getList($criteria);
     $keys     = array_keys($itemsObj);
     unset($criteria);
     if (empty($options[3]) || ($options[3] == 0)) {

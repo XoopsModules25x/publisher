@@ -20,7 +20,7 @@
  * @version         $Id: date_to_date.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -32,7 +32,7 @@ include_once dirname(__DIR__) . '/include/common.php';
 function publisher_date_to_date_show($options)
 {
     $myts      = MyTextSanitizer::getInstance();
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
 
     $block = array();
 
@@ -43,7 +43,7 @@ function publisher_date_to_date_show($options)
     $criteria->setOrder('DESC');
 
     // creating the ITEM objects that belong to the selected category
-    $itemsObj   =& $publisher->getHandler('item')->getObjects($criteria);
+    $itemsObj   = $publisher->getHandler('item')->getObjects($criteria);
     $totalItems = count($itemsObj);
 
     if ($itemsObj) {

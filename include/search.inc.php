@@ -17,7 +17,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: search.inc.php 10374 2012-12-12 23:39:48Z trabis $
  */
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -36,7 +36,7 @@ include_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_search($queryarray, $andor, $limit, $offset, $userid, $categories = array(), $sortby = 0, $searchin = '', $extra = '')
 {
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
     $ret       = array();
     if ($queryarray == '' || count($queryarray) == 0) {
         $hightlightKey = '';
@@ -44,7 +44,7 @@ function publisher_search($queryarray, $andor, $limit, $offset, $userid, $catego
         $keywords       = implode('+', $queryarray);
         $hightlightKey = '&amp;keywords=' . $keywords;
     }
-    $itemsObjs        =& $publisher->getHandler('item')->getItemsFromSearch($queryarray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
+    $itemsObjs        = $publisher->getHandler('item')->getItemsFromSearch($queryarray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
     $withCategoryPath = $publisher->getConfig('search_cat_path');
     //xoops_load("xoopslocal");
     $usersIds = array();
@@ -68,7 +68,7 @@ function publisher_search($queryarray, $andor, $limit, $offset, $userid, $catego
         if ($queryarray[0] != '' && count($queryarray) > 0) {
             foreach ($queryarray as $query) {
                 $pos     = strpos($textLower, strtolower($query)); //xoops_local("strpos", $textLower, strtolower($query));
-                $start   = max(($pos - 100), 0);
+                $start   = max($pos - 100, 0);
                 $length  = strlen($query) + 200; //xoops_local("strlen", $query) + 200;
                 $context = $obj->highlight(xoops_substr($text, $start, $length, ' [...]'), $query);
                 $sanitizedText .= '<p>[...] ' . $context . '</p>';

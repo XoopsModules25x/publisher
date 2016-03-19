@@ -24,7 +24,7 @@ include_once __DIR__ . '/header.php';
 xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
 // Get the total number of categories
-$categoriesArray =& $publisher->getHandler('category')->getCategoriesForSubmit();
+$categoriesArray = $publisher->getHandler('category')->getCategoriesForSubmit();
 
 if (!$categoriesArray) {
     redirect_header('index.php', 1, _MD_PUBLISHER_NEED_CATEGORY_ITEM);
@@ -32,13 +32,13 @@ if (!$categoriesArray) {
 }
 
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-$gpermHandler =& xoops_getModuleHandler('groupperm');
+$gpermHandler = xoops_getModuleHandler('groupperm');
 $moduleId     = $publisher->getModule()->getVar('mid');
 
-$itemId = XoopsRequest::getInt('itemid', (XoopsRequest::getInt('itemid', 0, 'POST')), 'GET');
+$itemId = XoopsRequest::getInt('itemid', XoopsRequest::getInt('itemid', 0, 'POST'), 'GET');
 if ($itemId != 0) {
     // We are editing or deleting an article
-    $itemObj =& $publisher->getHandler('item')->get($itemId);
+    $itemObj = $publisher->getHandler('item')->get($itemId);
     if (!(publisherUserIsAdmin() || publisherUserIsAuthor($itemObj) || publisherUserIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
         //        exit();
@@ -61,8 +61,8 @@ if ($itemId != 0) {
         redirect_header('index.php', 1, _NOPERM);
         //        exit();
     }
-    $itemObj     =& $publisher->getHandler('item')->create();
-    $categoryObj =& $publisher->getHandler('category')->create();
+    $itemObj     = $publisher->getHandler('item')->create();
+    $categoryObj = $publisher->getHandler('category')->create();
 }
 
 if ('clone' === XoopsRequest::getString('op', '', 'GET')) {
@@ -73,13 +73,12 @@ if ('clone' === XoopsRequest::getString('op', '', 'GET')) {
     $formtitle = _MD_PUBLISHER_SUB_SMNAME;
 }
 
-$op = '';
+//$op = '';
+$op = 'add';
 if (XoopsRequest::getString('additem', '', 'POST')) {
     $op = 'post';
 } elseif (XoopsRequest::getString('preview', '', 'POST')) {
     $op = 'preview';
-} else {
-    $op = 'add';
 }
 
 $op = XoopsRequest::getString('op', XoopsRequest::getString('op', $op, 'POST'), 'GET');
@@ -146,11 +145,10 @@ switch ($op) {
         $xoopsOption['template_main'] = 'publisher_submit.tpl';
         include_once $GLOBALS['xoops']->path('header.php');
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-        //        $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery-migrate-1.2.1.js');
-        $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
+                $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
         include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
-        $categoryObj =& $publisher->getHandler('category')->get(XoopsRequest::getInt('categoryid', 0, 'POST'));
+        $categoryObj = $publisher->getHandler('category')->get(XoopsRequest::getInt('categoryid', 0, 'POST'));
 
         $item                 = $itemObj->toArraySimple();
         $item['summary']      = $itemObj->body();
@@ -216,7 +214,7 @@ switch ($op) {
                 // Subscribe the user to On Published notification, if requested
                 if ($itemObj->getVar('notifypub')) {
                     include_once $GLOBALS['xoops']->path('include/notification_constants.php');
-                    $notificationHandler =& xoops_getHandler('notification');
+                    $notificationHandler = xoops_getHandler('notification');
                     $notificationHandler->subscribe('item', $itemObj->itemid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
@@ -238,7 +236,6 @@ switch ($op) {
         $xoopsOption['template_main'] = 'publisher_submit.tpl';
         include_once $GLOBALS['xoops']->path('header.php');
         $GLOBALS['xoTheme']->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-        //        $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery-migrate-1.2.1.js');
         $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
         include_once PUBLISHER_ROOT_PATH . '/footer.php';
 

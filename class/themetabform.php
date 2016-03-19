@@ -19,7 +19,7 @@
  * @author          John Neill <catzwolf@xoosla.com>
  * @version         $Id: themetabform.php 10374 2012-12-12 23:39:48Z trabis $
  */
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -122,9 +122,9 @@ class PublisherThemeTabForm extends XoopsForm
 
     //function render() {}
     /**
-     * @param object $tpl
+     * @param XoopsTpl $tpl
      */
-    public function assign(&$tpl)
+    public function assign(XoopsTpl $tpl)
     {
         $i        = -1;
         $tab      = -1;
@@ -180,7 +180,8 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function startTab($tabText)
     {
-        $this->addElement($this->startFormTabs($tabText));
+        $temp = $this->startFormTabs($tabText);
+        $this->addElement($temp);
     }
 
     /**
@@ -188,7 +189,8 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function endTabs()
     {
-        $this->addElement($this->endFormTabs());
+        $temp =  $this->endFormTabs();
+        $this->addElement($temp);
     }
 
     /**
@@ -282,7 +284,7 @@ class PublisherThemeTabForm extends XoopsForm
      * @param object $formElement reference to a {@link XoopsFormElement}
      * @param bool   $required    is this a "required" element?
      */
-    public function addElement(&$formElement, $required = false)
+    public function addElement($formElement, $required = false)
     {
         if (is_string($formElement)) {
             $this->elements[] =& $formElement;
@@ -306,7 +308,7 @@ class PublisherThemeTabForm extends XoopsForm
      *
      * @return array array of {@link XoopsFormElement}s
      */
-    public function getElements($recurse = false)
+    public function &getElements($recurse = false)
     {
         if (!$recurse) {
             return $this->elements;
@@ -487,7 +489,7 @@ class PublisherThemeTabForm extends XoopsForm
      *
      * @return array array of {@link XoopsFormElement}s
      */
-    public function getRequired()
+    public function &getRequired()
     {
         return $this->required;
     }

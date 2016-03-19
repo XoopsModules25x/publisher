@@ -20,7 +20,7 @@
  * @version         $Id: items_columns.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -34,13 +34,13 @@ include_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_columns_show($options)
 {
     //    global $xoTheme;
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
 
     //Column Settings
-    $optNumColumns  = isset($options[0]) ? (int)($options[0]) : '2';
+    $optNumColumns  = isset($options[0]) ? (int)$options[0] : '2';
     $selCategories   = isset($options[1]) ? explode(',', $options[1]) : array();
-    $optCatItems    = (int)($options[2]);
-    $optCatTruncate = isset($options[3]) ? (int)($options[3]) : '0';
+    $optCatItems    = (int)$options[2];
+    $optCatTruncate = isset($options[3]) ? (int)$options[3] : '0';
 
     $block                  = array();
     $block['lang_reads']    = _MB_PUBLISHER_READS;
@@ -50,7 +50,7 @@ function publisher_items_columns_show($options)
     $selCategoriesObj = array();
 
     //get permited categories only once
-    $categoriesObj =& $publisher->getHandler('category')->getCategories(0, 0, -1);
+    $categoriesObj = $publisher->getHandler('category')->getCategories(0, 0, -1);
 
     //if not selected 'all', let's get the selected ones
     if (!in_array(0, $selCategories)) {
@@ -78,7 +78,7 @@ function publisher_items_columns_show($options)
     $columns = array();
 
     foreach ($selCategoriesObj as $categoryId => $mainitemCatObj) {
-        $categoryItemsObj =& $publisher->getHandler('item')->getAllPublished($optCatItems, 0, $categoryId);
+        $categoryItemsObj = $publisher->getHandler('item')->getAllPublished($optCatItems, 0, $categoryId);
         $scount           = count($categoryItemsObj);
         if ($scount > 0 && is_array($categoryItemsObj)) {
             reset($categoryItemsObj);

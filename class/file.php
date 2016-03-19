@@ -17,7 +17,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  * @version         $Id: file.php 10374 2012-12-12 23:39:48Z trabis $
  */
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -42,8 +42,8 @@ class PublisherFile extends XoopsObject
      */
     public function __construct($id = null)
     {
-        $this->publisher =& PublisherPublisher::getInstance();
-        $this->db        =& XoopsDatabaseFactory::getDatabaseConnection();
+        $this->publisher = PublisherPublisher::getInstance();
+        $this->db        = XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('fileid', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('itemid', XOBJ_DTYPE_INT, null, true);
         $this->initVar('name', XOBJ_DTYPE_TXTBOX, null, true, 255);
@@ -162,10 +162,9 @@ class PublisherFile extends XoopsObject
     {
         if ($this->isNew()) {
             $errors = array();
+            $ret = true;
             if ($doupload) {
                 $ret = $this->storeUpload('item_upload_file', $allowedMimetypes, $errors);
-            } else {
-                $ret = true;
             }
             if (!$ret) {
                 foreach ($errors as $error) {
@@ -249,7 +248,7 @@ class PublisherFile extends XoopsObject
         if (!defined('MYTEXTSANITIZER_EXTENDED_MEDIA')) {
             include_once PUBLISHER_ROOT_PATH . '/include/media.textsanitizer.php';
         }
-        $mediaTs =& MyTextSanitizerExtension::getInstance();
+        $mediaTs = MyTextSanitizerExtension::getInstance();
 
         return $mediaTs->displayFlash($this->getFileUrl());
     }
@@ -303,7 +302,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
     /**
      * delete a file from the database
      *
-     * @param object $file reference to the file to delete
+     * @param object $file  reference to the file to delete
      * @param bool   $force
      *
      * @return bool FALSE if failed.
@@ -381,7 +380,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
             $hasCategoryCriteria = false;
             $criteriaCategory    = new CriteriaCompo();
             $category            = (array)$category;
-            if (count($category) > 0 && $category[0] != 0) {
+            if ($category[0] != 0 && count($category) > 0) {
                 $hasCategoryCriteria = true;
                 foreach ($category as $cat) {
                     $criteriaCategory->add(new Criteria('l.categoryid', $cat), 'OR');

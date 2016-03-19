@@ -68,7 +68,7 @@ $criteria->add(new Criteria('datesub', time(), '<='), 'AND');
 $criteria->setSort('datesub');
 $criteria->setOrder('DESC');
 //Get all articles dates as an array to save memory
-$items      =& $publisher->getHandler('item')->getAll($criteria, array('datesub'), false);
+$items      = $publisher->getHandler('item')->getAll($criteria, array('datesub'), false);
 $itemsCount = count($items);
 
 if (!($itemsCount > 0)) {
@@ -82,8 +82,8 @@ if (!($itemsCount > 0)) {
         //mb        $time = XoopsLocal::formatTimestamp($item['datesub'], 'mysql', $useroffset);
         $time = formatTimestamp($item['datesub'], 'mysql', $useroffset);
         if (preg_match('/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})/', $time, $datetime)) {
-            $thisYear  = (int)($datetime[1]);
-            $thisMonth = (int)($datetime[2]);
+            $thisYear  = (int)$datetime[1];
+            $thisMonth = (int)$datetime[2];
             //first year
             if (empty($lastyear)) {
                 $lastyear          = $thisYear;
@@ -155,12 +155,12 @@ if ($fromyear != 0 && $frommonth != 0) {
 
     $count = 0;
 
-    $itemHandler               =& $publisher->getHandler('item');
+    $itemHandler               = $publisher->getHandler('item');
     $itemHandler->table_link   = $GLOBALS['xoopsDB']->prefix('publisher_categories');
     $itemHandler->field_link   = 'categoryid';
     $itemHandler->field_object = 'categoryid';
     // Categories for which user has access
-    $categoriesGranted =& $publisher->getHandler('permission')->getGrantedItems('category_read');
+    $categoriesGranted = $publisher->getHandler('permission')->getGrantedItems('category_read');
     $grantedCategories = new Criteria('l.categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
     $criteria          = new CriteriaCompo();
     $criteria->add($grantedCategories, 'AND');

@@ -31,7 +31,7 @@ if ($itemid == 0) {
 }
 
 // Creating the ITEM object for the selected ITEM
-$itemObj =& $publisher->getHandler('item')->get($itemid);
+$itemObj = $publisher->getHandler('item')->get($itemid);
 
 // if the selected ITEM was not found, exit
 if ($itemObj->notLoaded()) {

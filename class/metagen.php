@@ -17,7 +17,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  * @version         $Id: metagen.php 10374 2012-12-12 23:39:48Z trabis $
  */
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -76,7 +76,7 @@ class PublisherMetagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        $this->publisher =& PublisherPublisher::getInstance();
+        $this->publisher = PublisherPublisher::getInstance();
         $this->myts      = MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
         $this->setTitle($title);
@@ -256,7 +256,7 @@ class PublisherMetagen
      * Return true if the string is length > 0
      *
      * @credit psylove
-     * @var    string $string Chaine de caractère
+     * @var    string  $string Chaine de caractère
      * @return boolean
      */
     public function emptyString($var)

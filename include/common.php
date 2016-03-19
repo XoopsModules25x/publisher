@@ -19,7 +19,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: common.php 10374 2012-12-12 23:39:48Z trabis $
  */
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 //include_once __DIR__ . '/config.php';
 
@@ -54,7 +54,7 @@ xoops_load('XoopsRequest');
 xoops_load('XoopsFilterInput');
 
 $debug     = false;
-$publisher =& PublisherPublisher::getInstance($debug);
+$publisher = PublisherPublisher::getInstance($debug);
 
 //This is needed or it will not work in blocks.
 global $publisherIsAdmin;

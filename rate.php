@@ -26,8 +26,8 @@ $rating = XoopsRequest::getInt('rating', 0, 'GET');
 $itemid = XoopsRequest::getInt('itemid', 0, 'GET');
 
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-$gpermHandler =& xoops_getModuleHandler('groupperm');
-$hModConfig   =& xoops_getHandler('config');
+$gpermHandler = xoops_getModuleHandler('groupperm');
+$hModConfig   = xoops_getHandler('config');
 $module_id    = $publisher->getModule()->getVar('mid');
 
 //Checking permissions
@@ -42,7 +42,7 @@ if ($rating > 5 || $rating < 1) {
 }
 
 $criteria   = new Criteria('itemid', $itemid);
-$ratingObjs =& $publisher->getHandler('rating')->getObjects($criteria);
+$ratingObjs = $publisher->getHandler('rating')->getObjects($criteria);
 
 $uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
 $count          = count($ratingObjs);
@@ -63,7 +63,7 @@ if ($voted) {
     //    exit();
 }
 
-$newRatingObj =& $publisher->getHandler('rating')->create();
+$newRatingObj = $publisher->getHandler('rating')->create();
 $newRatingObj->setVar('itemid', $itemid);
 $newRatingObj->setVar('ip', $ip);
 $newRatingObj->setVar('uid', $uid);

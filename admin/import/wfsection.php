@@ -100,10 +100,9 @@ if ($op === 'go') {
 
     $parentId = XoopsRequest::getInt('parent_category', 0, 'POST');
     //added to support 2.0.7
+    $orders = 'orders';
     if (XoopsRequest::getString('from_module_version', '', 'POST') === '2.07' || XoopsRequest::getString('from_module_version', '', 'POST') === '2.06') {
         $orders = 'weight';
-    } else {
-        $orders = 'orders';
     }
     //$sql = "SELECT * FROM ".$GLOBALS['xoopsDB']->prefix("wfs_category")." ORDER by orders";
     $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_category') . " ORDER by $orders";
@@ -112,7 +111,7 @@ if ($op === 'go') {
 
     $newCatArray = array();
     while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) !== false) {
-        $categoryObj =& $publisher->getHandler('category')->create();
+        $categoryObj = $publisher->getHandler('category')->create();
 
         $newCat = array();
 
@@ -130,7 +129,7 @@ if ($op === 'go') {
         $categoryObj->setVar('description', $arrCat['description']);
 
         // Category image
-        if (($arrCat['imgurl'] !== 'blank.gif') && ($arrCat['imgurl'])) {
+        if (($arrCat['imgurl'] !== 'blank.gif') && $arrCat['imgurl']) {
             if (copy($GLOBALS['xoops']->path('modules/wfsection/images/category/' . $arrCat['imgurl']), PUBLISHER_UPLOAD_PATH . '/images/category/' . $arrCat['imgurl'])) {
                 $categoryObj->setVar('image', $arrCat['imgurl']);
             }
@@ -154,7 +153,7 @@ if ($op === 'go') {
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
-            $itemObj =& $publisher->getHandler('item')->create();
+            $itemObj = $publisher->getHandler('item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
             $itemObj->setVar('title', $arrArticle['title']);
@@ -194,7 +193,7 @@ if ($op === 'go') {
                     $filename = $GLOBALS['xoops']->path('modules/wfsection/cache/uploaded/' . $arrFile['filerealname']);
                     if (file_exists($filename)) {
                         if (copy($filename, PUBLISHER_UPLOAD_PATH . '/' . $arrFile['filerealname'])) {
-                            $fileObj =& $publisher->getHandler('file')->create();
+                            $fileObj = $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['fileshowname']);
                             $fileObj->setVar('description', $arrFile['filedescript']);
                             $fileObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
@@ -239,13 +238,13 @@ if ($op === 'go') {
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br />';
 
-    $moduleHandler  =& xoops_getHandler('module');
+    $moduleHandler  = xoops_getHandler('module');
     $moduleObj      = $moduleHandler->getByDirname('wfsection');
     $news_module_id = $moduleObj->getVar('mid');
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $commentHandler =& xoops_getHandler('comment');
+    $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $news_module_id));
     $comments = $commentHandler->getObjects($criteria);

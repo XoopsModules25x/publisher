@@ -37,18 +37,18 @@ if ('start' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     publisherOpenCollapsableBar('fmimport', 'fmimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
-    $moduleHandler =& xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('fmcontent');
     $fm_module_id  = $moduleObj->getVar('mid');
 
-    $fmTopicHdlr  =& xoops_getModuleHandler('topic', 'fmcontent');
+    $fmTopicHdlr  = xoops_getModuleHandler('topic', 'fmcontent');
     $fmTopicCount = $fmTopicHdlr->getCount(new Criteria('topic_modid', $fm_module_id));
 
     if (empty($fmTopicCount)) {
         echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . _AM_PUBLISHER_IMPORT_NO_CATEGORY . '</span>';
     } else {
         include_once $GLOBALS['xoops']->path('www/class/xoopstree.php');
-        $fmContentHdlr  =& xoops_getModuleHandler('page', 'fmcontent');
+        $fmContentHdlr  = xoops_getModuleHandler('page', 'fmcontent');
         $fmContentCount = $fmContentHdlr->getCount(new Criteria('content_modid', $fm_module_id));
 
         if (empty($fmContentCount)) {
@@ -87,7 +87,7 @@ if ('start' === $op) {
 
             // Publisher parent category
             xoops_load('tree');
-            $categoryHdlr   =& $publisher->getHandler('category');
+            $categoryHdlr   = $publisher->getHandler('category');
             $catObjs        = $categoryHdlr->getAll();
             $myObjTree      = new XoopsObjectTree($catObjs, 'categoryid', 'parentid');
             $catSelBox      = $myObjTree->makeSelBox('parent_category', 'name', '-', 0, true);
@@ -122,11 +122,11 @@ if ('go' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     publisherOpenCollapsableBar('fmimportgo', 'fmimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
-    $moduleHandler =& xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('fmcontent');
     $fm_module_id  = $moduleObj->getVar('mid');
 
-    $gpermHandler =& xoops_getHandler('groupperm');
+    $gpermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
@@ -134,7 +134,7 @@ if ('go' === $op) {
     $parentId = XoopsRequest::getInt('parent_category', 0, 'POST');
 
     // get all FmContent Content items without a category (content_topic=0)
-    $fmContentHdlr =& xoops_getModuleHandler('page', 'fmcontent');
+    $fmContentHdlr = xoops_getModuleHandler('page', 'fmcontent');
 
     $criteria = new CriteriaCompo();
     $criteria->add(new Criteria('content_modid', $fm_module_id));
@@ -145,7 +145,7 @@ if ('go' === $op) {
         ++$cnt_imported_cat; //count category if there was content to import
 
         // create Publsher category to hold FmContent Content items with no Topic (content_topic=0)
-        $categoryObj =& $publisher->getHandler('category')->create();
+        $categoryObj = $publisher->getHandler('category')->create();
         $categoryObj->setVars(array(
                                   'parentid'    => $parentId,
                                   'name'        => _AM_PUBLISHER_IMPORT_FMCONTENT_NAME,
@@ -158,11 +158,11 @@ if ('go' === $op) {
                                   $GLOBALS['xoopsUser']->getVar('uid')));
         $categoryObj->store();
 
-        $fmTopicHdlr =& xoops_getModuleHandler('topic', 'fmcontent');
+        $fmTopicHdlr = xoops_getModuleHandler('topic', 'fmcontent');
 
         // insert articles for this category
         foreach ($fmContentObjs as $thisFmContentObj) {
-            $itemObj =& $publisher->getHandler('item')->create();
+            $itemObj = $publisher->getHandler('item')->create();
             $itemObj->setVars(array(
                                   'categoryid'       => $categoryObj->categoryid(),
                                   'title'            => $thisFmContentObj->getVar('content_title'),
@@ -176,7 +176,7 @@ if ('go' === $op) {
                                   'doimage'          => $thisFmContentObj->getVar('doimage'),
                                   'dobr'             => $thisFmContentObj->getVar('dobr'),
                                   'weight'           => $thisFmContentObj->getVar('content_order'),
-                                  'status'           => ($thisFmContentObj->getVar('content_status')) ? PublisherConstants::PUBLISHER_STATUS_PUBLISHED : PublisherConstants::PUBLISHER_STATUS_OFFLINE,
+                                  'status'           => $thisFmContentObj->getVar('content_status') ? PublisherConstants::PUBLISHER_STATUS_PUBLISHED : PublisherConstants::PUBLISHER_STATUS_OFFLINE,
                                   'counter'          => $thisFmContentObj->getVar('content_hits'),
                                   'rating'           => 0,
                                   'votes'            => 0,
@@ -223,7 +223,7 @@ if ('go' === $op) {
             'oldid'  => $thisFmTopicObj->getVar('topic_id'),
             'oldpid' => $thisFmTopicObj->getVar('topic_pid'));
 
-        $categoryObj =& $publisher->getHandler('category')->create();
+        $categoryObj = $publisher->getHandler('category')->create();
 
         $categoryObj->setVars(array(
                                   'parentid'    => $thisFmTopicObj->getVar('topic_pid'),
@@ -255,7 +255,7 @@ if ('go' === $op) {
 
         // insert articles for this category
         foreach ($fmContentObjs as $thisFmContentObj) {
-            $itemObj =& $publisher->getHandler('item')->create();
+            $itemObj = $publisher->getHandler('item')->create();
             $itemObj->setVars(array(
                                   'categoryid'       => $CatIds['newid'],
                                   'title'            => $thisFmContentObj->getVar('content_title'),
@@ -270,7 +270,7 @@ if ('go' === $op) {
                                   'doimage'          => $thisFmContentObj->getVar('doimage'),
                                   'dobr'             => $thisFmContentObj->getVar('dobr'),
                                   'weight'           => $thisFmContentObj->getVar('content_order'),
-                                  'status'           => ($thisFmContentObj->getVar('content_status')) ? PublisherConstants::PUBLISHER_STATUS_PUBLISHED : PublisherConstants::PUBLISHER_STATUS_OFFLINE,
+                                  'status'           => $thisFmContentObj->getVar('content_status') ? PublisherConstants::PUBLISHER_STATUS_PUBLISHED : PublisherConstants::PUBLISHER_STATUS_OFFLINE,
                                   'rating'           => 0,
                                   'votes'            => 0,
                                   'comments'         => $thisFmContentObj->getVar('content_comments'),
@@ -320,7 +320,7 @@ if ('go' === $op) {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $commentHandler =& xoops_getHandler('comment');
+    $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $fm_module_id));
     $comments = $commentHandler->getObjects($criteria);

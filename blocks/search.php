@@ -20,7 +20,7 @@
  * @version         $Id: search.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -32,8 +32,8 @@ include_once dirname(__DIR__) . '/include/common.php';
 function publisher_search_show($options)
 {
     $block      = array();
-    $publisher  =& PublisherPublisher::getInstance();
-    $categories =& $publisher->getHandler('category')->getCategoriesForSearch();
+    $publisher  = PublisherPublisher::getInstance();
+    $categories = $publisher->getHandler('category')->getCategoriesForSearch();
     if (count($categories) == 0) {
         return $block;
     }
@@ -55,7 +55,7 @@ function publisher_search_show($options)
     $term   = XoopsRequest::getString('term', XoopsRequest::getString('term', '', 'GET'));
 
     //mb TODO simplify next lines with category
-    $category = XoopsRequest::getArray('category', array(), 'POST') ?: (XoopsRequest::getArray('category', null, 'GET'));
+    $category = XoopsRequest::getArray('category', array(), 'POST') ?: XoopsRequest::getArray('category', null, 'GET');
     if (empty($category) || (is_array($category) && in_array('all', $category))) {
         $category = array();
     } else {
@@ -63,8 +63,8 @@ function publisher_search_show($options)
         $category = array_map('intval', $category);
     }
 
-    $andor  = (in_array(strtoupper($andor), array('OR', 'AND', 'EXACT'))) ? strtoupper($andor) : 'OR';
-    $sortby = (in_array(strtolower($sortby), array('itemid', 'datesub', 'title', 'categoryid'))) ? strtolower($sortby) : 'itemid';
+    $andor  = in_array(strtoupper($andor), array('OR', 'AND', 'EXACT')) ? strtoupper($andor) : 'OR';
+    $sortby = in_array(strtolower($sortby), array('itemid', 'datesub', 'title', 'categoryid')) ? strtolower($sortby) : 'itemid';
 
     /* type */
     $typeSelect = "<select name=\"andor\">";

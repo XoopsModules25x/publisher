@@ -20,7 +20,7 @@
  * @version         $Id: items_recent.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -31,17 +31,16 @@ include_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_items_recent_show($options)
 {
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
     $myts      = MyTextSanitizer::getInstance();
 
     $block = array();
 
     $selectedcatids = explode(',', $options[0]);
 
+    $allcats = false;
     if (in_array(0, $selectedcatids)) {
         $allcats = true;
-    } else {
-        $allcats = false;
     }
 
     $sort  = $options[1];
@@ -56,7 +55,7 @@ function publisher_items_recent_show($options)
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
     }
-    $itemsObj =& $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
+    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
 
     $totalItems = count($itemsObj);
 

@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  * @version         $Id: mimetype.php 10374 2012-12-12 23:39:48Z trabis $
  */
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -71,7 +71,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      * @return object {@link publisherBaseObject}
      * @access public
      */
-    public function &create()
+    public function create($isNew = true)
     {
         return new $this->className();
     }
@@ -84,9 +84,9 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      * @return mixed object if id exists, false if not
      * @access public
      */
-    public function &get($id)
+    public function get($id = null, $fields = null)
     {
-        $id = (int)($id);
+        $id = (int)$id;
         if ($id > 0) {
             $sql = $this->selectQuery(new Criteria($this->idfield, $id));
             if (!$result = $this->db->query($sql)) {
@@ -112,7 +112,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      * @return array array of objects
      * @access  public
      */
-    public function &getObjects($criteria = null, $idAsKey = false)
+    public function &getObjects(CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
     {
         $ret   = array();
         $limit = $start = 0;
@@ -142,12 +142,12 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param object $obj
+     * @param XoopsObject $obj
      * @param bool   $force
      *
      * @return bool|void
      */
-    public function insert(&$obj, $force = false)
+    public function insert(XoopsObject $obj, $force = false)// insert(&$obj, $force = false)
     {
         // Make sure object is of correct type
         if (strcasecmp($this->className, get_class($obj)) != 0) {
@@ -213,12 +213,12 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * count objects matching a criteria
      *
-     * @param object $criteria {@link CriteriaElement} to match
+     * @param CriteriaElement $criteria {@link CriteriaElement} to match
      *
      * @return int count of objects
      * @access public
      */
-    public function getCount($criteria = null)
+    public function getCount(CriteriaElement $criteria = null) //getCount($criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->dbtable);
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
@@ -235,13 +235,13 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * delete object based on id
      *
-     * @param object $obj   {@link XoopsObject} to delete
+     * @param XoopsObject $obj   {@link XoopsObject} to delete
      * @param bool   $force override XOOPS delete protection
      *
      * @return bool deletion successful?
      * @access public
      */
-    public function delete(&$obj, $force = false)
+    public function delete(XoopsObject $obj, $force = false) //delete(&$obj, $force = false)
     {
         if (strcasecmp($this->className, get_class($obj)) != 0) {
             return false;
@@ -267,7 +267,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      * @return bool FALSE if deletion failed
      * @access    public
      */
-    public function deleteAll($criteria = null)
+    public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
         $sql = 'DELETE FROM ' . $this->db->prefix($this->dbtable);
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
@@ -285,12 +285,12 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *
      * @param string $fieldname
      * @param string $fieldvalue
-     * @param object $criteria {@link CriteriaElement}
+     * @param object $criteria   {@link CriteriaElement}
      *
      * @return bool FALSE if update failed
      * @access    public
      */
-    public function updateAll($fieldname, $fieldvalue, $criteria = null)
+    public function updateAll($fieldname, $fieldvalue, CriteriaElement $criteria = null, $force = false) //updateAll($fieldname, $fieldvalue, $criteria = null)
     {
         $setClause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql       = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
@@ -342,7 +342,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      * @return object {@link pagesCategoryHandler}
      * @access public
      */
-    public function &getInstance(&$db)
+    public function getInstance($db)
     {
         static $instance;
         if (!isset($instance)) {
@@ -414,9 +414,9 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      * @return object {@link PublisherMimetype}
      * @access    public
      */
-    public function &get($id)
+    public function get($id = null, $fields = null)
     {
-        $id = (int)($id);
+        $id = (int)$id;
         if ($id > 0) {
             $sql = $this->selectQuery(new Criteria('mime_id', $id));
             if (!$result = $this->db->query($sql)) {
@@ -441,7 +441,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      * @return array array of {@link PublisherMimetype} objects
      * @access    public
      */
-    public function &getObjects($criteria = null)
+    public function &getObjects(CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
     {
         $ret   = array();
         $limit = $start = 0;
@@ -569,7 +569,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
             }
         } catch (Exception $e) {
             echo 'no need for join...';
-        };
+        }
 
         $sql = sprintf('SELECT * FROM %s', $this->db->prefix($this->dbtable));
 

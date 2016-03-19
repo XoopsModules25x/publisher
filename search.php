@@ -24,7 +24,7 @@ include_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
 
 //Checking general permissions
-$configHandler     =& xoops_getHandler('config');
+$configHandler     = xoops_getHandler('config');
 $xoopsConfigSearch = $configHandler->getConfigsByCat(XOOPS_CONF_SEARCH);
 if (empty($xoopsConfigSearch['enable_search'])) {
     redirect_header(PUBLISHER_URL . '/index.php', 2, _NOPERM);
@@ -32,7 +32,7 @@ if (empty($xoopsConfigSearch['enable_search'])) {
 }
 
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-$gpermHandler =& xoops_getModuleHandler('groupperm', PUBLISHER_DIRNAME);
+$gpermHandler = xoops_getModuleHandler('groupperm', PUBLISHER_DIRNAME);
 $module_id    = $publisher->getModule()->mid();
 
 //Checking permissions
@@ -66,10 +66,10 @@ if (empty($category) || (is_array($category) && in_array('all', $category))) {
     $category = array_map('intval', $category);
 }
 
-$andor  = (in_array(strtoupper($andor), array('OR', 'AND', 'EXACT'))) ? strtoupper($andor) : 'OR';
-$sortby = (in_array(strtolower($sortby), array('itemid', 'datesub', 'title', 'categoryid'))) ? strtolower($sortby) : 'itemid';
+$andor  = in_array(strtoupper($andor), array('OR', 'AND', 'EXACT')) ? strtoupper($andor) : 'OR';
+$sortby = in_array(strtolower($sortby), array('itemid', 'datesub', 'title', 'categoryid')) ? strtolower($sortby) : 'itemid';
 
-if ($term && (XoopsRequest::getString('submit', '', 'POST'))) {
+if ($term && XoopsRequest::getString('submit', '', 'POST')) {
     $next_search['category'] = implode(',', $category);
     $next_search['andor']    = $andor;
     $next_search['term']     = $term;
@@ -197,7 +197,7 @@ $typeSelect .= '>' . _SR_EXACT . '</option>';
 $typeSelect .= '</select>';
 
 /* category */
-$categories =& $publisher->getHandler('category')->getCategoriesForSearch();
+$categories = $publisher->getHandler('category')->getCategoriesForSearch();
 
 $categorySelect = "<select name=\"category[]\" size=\"5\" multiple=\"multiple\">";
 $categorySelect .= "<option value=\"all\"";

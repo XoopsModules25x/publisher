@@ -46,7 +46,7 @@ class PublisherFileForm extends XoopsThemeForm
      */
     public function __construct(&$target)
     {
-        $this->publisher    =& PublisherPublisher::getInstance();
+        $this->publisher    = PublisherPublisher::getInstance();
         $this->targetObject =& $target;
 
         parent::__construct(_AM_PUBLISHER_UPLOAD_FILE, 'form', xoops_getenv('PHP_SELF'));

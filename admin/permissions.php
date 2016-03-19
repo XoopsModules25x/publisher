@@ -93,6 +93,7 @@ $form_options = array(
     PublisherConstants::PUBLISHER_WEIGHT                => _CO_PUBLISHER_WEIGHT,
     PublisherConstants::PUBLISHER_ALLOWCOMMENTS         => _CO_PUBLISHER_ALLOWCOMMENTS,
     //PublisherConstants::PUBLISHER_PERMISSIONS_ITEM => _CO_PUBLISHER_PERMISSIONS_ITEM,
+    //PublisherConstants::PUBLISHER_PERMISSIONS_ITEM_DSC => _CO_PUBLISHER_PERMISSIONS_ITEM_DSC,
     // PublisherConstants::PUBLISHER_PARTIAL_VIEW => _CO_PUBLISHER_PARTIAL_VIEW,
     PublisherConstants::PUBLISHER_DOHTML                => _CO_PUBLISHER_DOHTML,
     PublisherConstants::PUBLISHER_DOSMILEY              => _CO_PUBLISHER_DOSMILEY,

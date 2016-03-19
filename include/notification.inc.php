@@ -20,7 +20,7 @@
  * @version         $Id: notification.inc.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once __DIR__ . '/seo_functions.php';
 

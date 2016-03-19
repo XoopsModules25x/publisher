@@ -29,7 +29,7 @@ $catstart = XoopsRequest::getInt('catstart', 0, 'GET');
 $start = XoopsRequest::getInt('start', 0, 'GET');
 
 // Number of categories at the top level
-$totalCategories =& $publisher->getHandler('category')->getCategoriesCount(0);
+$totalCategories = $publisher->getHandler('category')->getCategoriesCount(0);
 
 // if there ain't no category to display, let's get out of here
 if ($totalCategories == 0) {
@@ -41,10 +41,10 @@ $xoopsOption['template_main'] = 'publisher_display' . '_' . $publisher->getConfi
 include_once $GLOBALS['xoops']->path('header.php');
 include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
-$gpermHandler =& xoops_getHandler('groupperm');
+$gpermHandler = xoops_getHandler('groupperm');
 
 // Creating the top categories objects
-$categoriesObj =& $publisher->getHandler('category')->getCategories($publisher->getConfig('idxcat_cat_perpage'), $catstart);
+$categoriesObj = $publisher->getHandler('category')->getCategories($publisher->getConfig('idxcat_cat_perpage'), $catstart);
 
 // if no categories are found, exit
 $totalCategoriesOnPage = count($categoriesObj);
@@ -54,21 +54,21 @@ if ($totalCategoriesOnPage == 0) {
 }
 
 // Get subcats of the top categories
-$subcats =& $publisher->getHandler('category')->getSubCats($categoriesObj);
+$subcats = $publisher->getHandler('category')->getSubCats($categoriesObj);
 
 // Count of items within each top categories
-$totalItems =& $publisher->getHandler('category')->publishedItemsCount();
+$totalItems = $publisher->getHandler('category')->publishedItemsCount();
 
 // real total count of items
-$real_total_items =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
+$real_total_items = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
 
 if ($publisher->getConfig('idxcat_display_last_item') == 1) {
     // Get the last item in each category
-    $lastItemObj =& $publisher->getHandler('item')->getLastPublishedByCat(array_merge(array($categoriesObj), $subcats));
+    $lastItemObj = $publisher->getHandler('item')->getLastPublishedByCat(array_merge(array($categoriesObj), $subcats));
 }
 
 // Max size of the title in the last item column
-$lastitemsize = (int)($publisher->getConfig('idxcat_last_item_size'));
+$lastitemsize = (int)$publisher->getConfig('idxcat_last_item_size');
 
 // Hide sub categories in main page only - hacked by Mowaffak
 if ('nomain' === $publisher->getConfig('idxcat_show_subcats')) {
@@ -175,7 +175,7 @@ if ($publisher->getConfig('index_display_last_items')) {
     }
 
     // Creating the last ITEMs
-    $itemsObj   =& $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_index_perpage'), $start, -1, $sort, $order);
+    $itemsObj   = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_index_perpage'), $start, -1, $sort, $order);
     $itemsCount = count($itemsObj);
 
     //todo: make config for summary size

@@ -20,7 +20,7 @@
  * @version         $Id: footer.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');

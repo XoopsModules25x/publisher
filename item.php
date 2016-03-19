@@ -43,8 +43,6 @@ $xoopsOption['template_main'] = 'publisher_item.tpl';
 include_once $GLOBALS['xoops']->path('header.php');
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-//$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery-migrate-1.2.1.js');
-
 $xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.1.js');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.0.4.js');
 $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
@@ -161,7 +159,11 @@ if ($itemObj->pagescount() > 0) {
         $itemPageId = 0;
     }
     include_once $GLOBALS['xoops']->path('class/pagenav.php');
-    $pagenav = new XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemId());
+//    $pagenav = new XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemId());   
+
+    $pagenav = new XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemid()); //SMEDrieben changed ->itemId to ->itemid
+
+
     $xoopsTpl->assign('pagenav', $pagenav->renderNav());
 }
 
@@ -224,7 +226,7 @@ $xoopsTpl->assign('perm_author_items', $publisher->getConfig('perm_author_items'
 // tags support
 if (xoops_isActiveModule('tag')) {
     include_once $GLOBALS['xoops']->path('modules/tag/include/tagbar.php');
-    $xoopsTpl->assign('tagbar', tagbar($itemId, $catid = 0));
+    $xoopsTpl->assign('tagbar', tagBar($itemId, $catid = 0));
 }
 
 /**

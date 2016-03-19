@@ -17,7 +17,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  * @version         $Id: category.php 10661 2013-01-04 19:22:48Z trabis $
  */
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -42,7 +42,7 @@ class PublisherCategory extends XoopsObject
      */
     public function __construct()
     {
-        $this->publisher =& PublisherPublisher::getInstance();
+        $this->publisher = PublisherPublisher::getInstance();
         $this->initVar('categoryid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('parentid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('name', XOBJ_DTYPE_TXTBOX, null, true, 100);
@@ -249,7 +249,7 @@ class PublisherCategory extends XoopsObject
     public function store($sendNotifications = true, $force = true)
     {
         $ret = $this->publisher->getHandler('category')->insert($this, $force);
-        if ($sendNotifications && $ret && ($this->isNew())) {
+        if ($sendNotifications && $ret && $this->isNew()) {
             $this->sendNotifications();
         }
         $this->unsetNew();
@@ -266,7 +266,7 @@ class PublisherCategory extends XoopsObject
         $tags['MODULE_NAME']   = $this->publisher->getModule()->getVar('name');
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = $this->getCategoryUrl();
-        $notificationHandler   =& xoops_getHandler('notification');
+        $notificationHandler   = xoops_getHandler('notification');
         $notificationHandler->triggerEvent('global_item', 0, 'category_created', $tags);
     }
 
@@ -370,7 +370,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        $this->publisher =& PublisherPublisher::getInstance();
+        $this->publisher = PublisherPublisher::getInstance();
         parent::__construct($db, 'publisher_categories', 'PublisherCategory', 'categoryid', 'name');
     }
 
@@ -381,13 +381,13 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      *
      * @return mixed reference to the {@link PublisherCategory} object, FALSE if failed
      */
-    public function &get($id)
+    public function get($id = null, $fields = null)
     {
         static $cats;
         if (isset($cats[$id])) {
             return $cats[$id];
         }
-        $obj       =& parent::get($id);
+        $obj       = parent::get($id);
         $cats[$id] =& $obj;
 
         return $obj;
@@ -401,7 +401,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function insert(&$category, $force = false)
+    public function insert(XoopsObject $category, $force = false) //insert(&$category, $force = false)
     {
         // Auto create meta tags if empty
         if (!$category->meta_keywords() || !$category->meta_description()) {
@@ -425,12 +425,12 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     /**
      * delete a category from the database
      *
-     * @param object $category reference to the category to delete
+     * @param XoopsObject $category reference to the category to delete
      * @param bool   $force
      *
      * @return bool FALSE if failed.
      */
-    public function delete(&$category, $force = false)
+    public function delete(XoopsObject $category, $force = false) //delete(&$category, $force = false)
     {
         // Deleting this category ITEMs
         $criteria = new Criteria('categoryid', $category->categoryid());
@@ -457,15 +457,15 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve categories from the database
      *
-     * @param object $criteria {@link CriteriaElement} conditions to be met
+     * @param CriteriaElement $criteria {@link CriteriaElement} conditions to be met
      * @param bool   $idAsKey  use the categoryid as key for the array?
      *
      * @return array array of {@link XoopsItem} objects
      */
-    public function &getObjects($criteria = null, $idAsKey = false)
+    public function &getObjects(CriteriaElement $criteria = null, $idAsKey = false, $as_object = true) //&getObjects($criteria = null, $idAsKey = false)
     {
         $ret        = array();
-        $theObjects =& parent::getObjects($criteria, true);
+        $theObjects = parent::getObjects($criteria, true);
         foreach ($theObjects as $theObject) {
             if (!$idAsKey) {
                 $ret[] = $theObject;
@@ -688,13 +688,13 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     /**
      * delete categories matching a set of conditions
      *
-     * @param object $criteria {@link CriteriaElement}
+     * @param CriteriaElement $criteria {@link CriteriaElement}
      *
      * @return bool FALSE if deletion failed
      */
-    public function deleteAll($criteria = null)
+    public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
-        $categories =& $this->getObjects($criteria);
+        $categories = $this->getObjects($criteria);
         foreach ($categories as $category) {
             if (!$this->delete($category)) {
                 return false;

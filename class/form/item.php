@@ -87,7 +87,7 @@ class PublisherItemForm extends PublisherThemeTabForm
      */
     public function isGranted($item)
     {
-        $publisher =& PublisherPublisher::getInstance();
+        $publisher = PublisherPublisher::getInstance();
         $ret       = false;
         if (!$this->checkperm || $publisher->getHandler('permission')->isGranted('form_view', $item)) {
             $ret = true;
@@ -125,7 +125,7 @@ class PublisherItemForm extends PublisherThemeTabForm
      */
     public function createElements($obj)
     {
-        $publisher =& PublisherPublisher::getInstance();
+        $publisher = PublisherPublisher::getInstance();
 
         $allowedEditors = publisherGetEditors($publisher->getHandler('permission')->getGrantedItems('editors'));
 
@@ -179,7 +179,7 @@ class PublisherItemForm extends PublisherThemeTabForm
                 $editor = publisherGetCookieVar('publisher_editor');
                 if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
                     //                    $editor = @ $GLOBALS['xoopsUser']->getVar('publisher_editor'); // Need set through user profile
-                    $editor = (null !== ($GLOBALS['xoopsUser']->getVar('publisher_editor'))) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
+                    $editor = (null !== $GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
             $editor = (empty($editor) || !in_array($editor, $allowedEditors)) ? $publisher->getConfig('submit_editor') : $editor;
@@ -330,7 +330,7 @@ class PublisherItemForm extends PublisherThemeTabForm
                 $objimage_array[$imageObj->getVar('image_name')] = $imageObj->getVar('image_nicename');
             }
 
-            $imgcatHandler =& xoops_getHandler('imagecategory');
+            $imgcatHandler = xoops_getHandler('imagecategory');
             if (method_exists($imgcatHandler, 'getListByPermission')) {
                 $catlist = $imgcatHandler->getListByPermission($group, 'imgcat_read', 1);
             } else {
@@ -340,7 +340,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
             $imageObjs = array();
             if (!empty($catids)) {
-                $imageHandler =& xoops_getHandler('image');
+                $imageHandler = xoops_getHandler('image');
                 $criteria     = new CriteriaCompo(new Criteria('imgcat_id', '(' . implode(',', $catids) . ')', 'IN'));
                 $criteria->add(new Criteria('image_display', 1));
                 $criteria->setSort('image_nicename');
@@ -421,7 +421,7 @@ $publisher(document).ready(function () {
             $button   = new XoopsFormLabel('', "<div id='publisher_upload_button'>" . _CO_PUBLISHER_IMAGE_UPLOAD_NEW . '</div>');
             $nicename = new XoopsFormText('', 'image_nicename', 30, 30, _CO_PUBLISHER_IMAGE_NICENAME);
 
-            $imgcatHandler =& xoops_getHandler('imagecategory');
+            $imgcatHandler = xoops_getHandler('imagecategory');
             if (method_exists($imgcatHandler, 'getListByPermission')) {
                 $catlist = $imgcatHandler->getListByPermission($group, 'imgcat_read', 1);
             } else {
@@ -501,7 +501,7 @@ $publisher(document).ready(function () {
             unset($fileBox);
 
             if (!$obj->isNew()) {
-                $filesObj =& $publisher->getHandler('file')->getAllFiles($obj->itemid());
+                $filesObj = $publisher->getHandler('file')->getAllFiles($obj->itemid());
                 if (count($filesObj) > 0) {
                     $table = '';
                     $table .= "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
@@ -517,10 +517,9 @@ $publisher(document).ready(function () {
                     foreach ($filesObj as $fileObj) {
                         $modify = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _CO_PUBLISHER_EDITFILE . "' alt='" . _CO_PUBLISHER_EDITFILE . "' /></a>";
                         $delete = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _CO_PUBLISHER_DELETEFILE . "' alt='" . _CO_PUBLISHER_DELETEFILE . "'/></a>";
+                        $not_visible = '';
                         if ($fileObj->status() == 0) {
                             $not_visible = "<img src='" . PUBLISHER_URL . "/assets/images/no.gif'/>";
-                        } else {
-                            $not_visible = '';
                         }
                         $table .= '<tr>';
                         $table .= "<td class='head' align='center'>" . $fileObj->getVar('fileid') . '</td>';

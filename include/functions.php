@@ -19,7 +19,7 @@
  * @version         $Id: functions.php 10661 2013-01-04 19:22:48Z trabis $
  */
 
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once __DIR__ . '/common.php';
 
@@ -158,12 +158,12 @@ function publisherGetAllowedImagesTypes()
 }
 
 /**
- * @param  bool $withLink
+ * @param  bool   $withLink
  * @return string
  */
 function publisherModuleHome($withLink = true)
 {
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
 
     if (!$publisher->getConfig('format_breadcrumb_modname')) {
         return '';
@@ -221,15 +221,14 @@ function publisherCopyr($source, $dest)
 
 /**
  * .* @credits Thanks to the NewBB2 Development Team
- * @param  string $item
- * @param  bool   $getStatus
+ * @param  string          $item
+ * @param  bool            $getStatus
  * @return bool|int|string
  */
 function &publisherGetPathStatus($item, $getStatus = false)
 {
-    if ($item === 'root') {
-        $path = '';
-    } else {
+    $path = '';
+    if ('root' !== $item) {
         $path = $item;
     }
 
@@ -298,8 +297,8 @@ function publisherChmod($target, $mode = 0777)
 }
 
 /**
- * @param  bool $hasPath
- * @param  bool $item
+ * @param  bool   $hasPath
+ * @param  bool   $item
  * @return string
  */
 function publisherGetUploadDir($hasPath = true, $item = false)
@@ -338,7 +337,7 @@ function publisherGetImageDir($item = '', $hasPath = true)
 }
 
 /**
- * @param  array $errors
+ * @param  array  $errors
  * @return string
  */
 function publisherFormatErrors($errors = array())
@@ -358,7 +357,7 @@ function publisherFormatErrors($errors = array())
  */
 function publisherUserIsAdmin()
 {
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
 
     static $publisherIsAdmin;
 
@@ -394,8 +393,8 @@ function publisherUserIsAuthor($itemObj)
  */
 function publisherUserIsModerator($itemObj)
 {
-    $publisher         =& PublisherPublisher::getInstance();
-    $categoriesGranted =& $publisher->getHandler('permission')->getGrantedItems('category_moderation');
+    $publisher         = PublisherPublisher::getInstance();
+    $categoriesGranted = $publisher->getHandler('permission')->getGrantedItems('category_moderation');
 
     return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted));
 }
@@ -410,12 +409,12 @@ function publisherUserIsModerator($itemObj)
  */
 function publisherSaveCategoryPermissions($groups, $categoryId, $permName)
 {
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
 
     $result = true;
 
     $moduleId     = $publisher->getModule()->getVar('mid');
-    $gpermHandler =& xoops_getHandler('groupperm');
+    $gpermHandler = xoops_getHandler('groupperm');
     // First, if the permissions are already there, delete them
     $gpermHandler->deleteByModule($moduleId, $permName, $categoryId);
 
@@ -557,7 +556,7 @@ function publisherGetCurrentPage()
  */
 function publisherAddCategoryOption(PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
 {
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
 
     $spaces = '';
     for ($j = 0; $j < $level; ++$j) {
@@ -572,7 +571,7 @@ function publisherAddCategoryOption(PublisherCategory $categoryObj, $selectedid 
     }
     $ret .= '>' . $spaces . $categoryObj->name() . "</option>\n";
 
-    $subCategoriesObj =& $publisher->getHandler('category')->getCategories(0, 0, $categoryObj->categoryid());
+    $subCategoriesObj = $publisher->getHandler('category')->getCategories(0, 0, $categoryObj->categoryid());
     if (count($subCategoriesObj) > 0) {
         ++$level;
         foreach ($subCategoriesObj as $catID => $subCategoryObj) {
@@ -592,7 +591,7 @@ function publisherAddCategoryOption(PublisherCategory $categoryObj, $selectedid 
  */
 function publisherCreateCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[0]')
 {
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
 
     $selectedid = explode(',', $selectedid);
 
@@ -606,7 +605,7 @@ function publisherCreateCategorySelect($selectedid = 0, $parentcategory = 0, $al
     }
 
     // Creating category objects
-    $categoriesObj =& $publisher->getHandler('category')->getCategories(0, 0, $parentcategory);
+    $categoriesObj = $publisher->getHandler('category')->getCategories(0, 0, $parentcategory);
 
     if (count($categoriesObj) > 0) {
         foreach ($categoriesObj as $catID => $categoryObj) {
@@ -619,14 +618,14 @@ function publisherCreateCategorySelect($selectedid = 0, $parentcategory = 0, $al
 }
 
 /**
- * @param  int  $selectedid
- * @param  int  $parentcategory
- * @param  bool $allCatOption
+ * @param  int    $selectedid
+ * @param  int    $parentcategory
+ * @param  bool   $allCatOption
  * @return string
  */
 function publisherCreateCategoryOptions($selectedid = 0, $parentcategory = 0, $allCatOption = true)
 {
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
 
     $ret = '';
     if ($allCatOption) {
@@ -635,7 +634,7 @@ function publisherCreateCategoryOptions($selectedid = 0, $parentcategory = 0, $a
     }
 
     // Creating category objects
-    $categoriesObj =& $publisher->getHandler('category')->getCategories(0, 0, $parentcategory);
+    $categoriesObj = $publisher->getHandler('category')->getCategories(0, 0, $parentcategory);
     if (count($categoriesObj) > 0) {
         foreach ($categoriesObj as $catID => $categoryObj) {
             $ret .= publisherAddCategoryOption($categoryObj, $selectedid);
@@ -731,11 +730,11 @@ function publisherUploadFile($another = false, $withRedirect = true, &$itemObj)
     include_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
     //    global $publisherIsAdmin;
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
 
     $itemId  = XoopsRequest::getInt('itemid', 0, 'POST');
     $uid     = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
-    $session =& PublisherSession::getInstance();
+    $session = PublisherSession::getInstance();
     $session->set('publisher_file_filename', XoopsRequest::getString('item_file_name', '', 'POST'));
     $session->set('publisher_file_description', XoopsRequest::getString('item_file_description', '', 'POST'));
     $session->set('publisher_file_status', XoopsRequest::getInt('item_file_status', 1, 'POST'));
@@ -743,10 +742,10 @@ function publisherUploadFile($another = false, $withRedirect = true, &$itemObj)
     $session->set('publisher_file_itemid', $itemId);
 
     if (!is_object($itemObj)) {
-        $itemObj =& $publisher->getHandler('item')->get($itemId);
+        $itemObj = $publisher->getHandler('item')->get($itemId);
     }
 
-    $fileObj =& $publisher->getHandler('file')->create();
+    $fileObj = $publisher->getHandler('file')->create();
     $fileObj->setVar('name', XoopsRequest::getString('item_file_name', '', 'POST'));
     $fileObj->setVar('description', XoopsRequest::getString('item_file_description', '', 'POST'));
     $fileObj->setVar('status', XoopsRequest::getInt('item_file_status', 1, 'POST'));
@@ -755,7 +754,7 @@ function publisherUploadFile($another = false, $withRedirect = true, &$itemObj)
     $fileObj->setVar('datesub', time());
 
     // Get available mimetypes for file uploading
-    $allowedMimetypes =& $publisher->getHandler('mimetype')->getArrayByType();
+    $allowedMimetypes = $publisher->getHandler('mimetype')->getArrayByType();
     // TODO : display the available mimetypes to the user
     $errors = array();
     if ($publisher->getConfig('perm_upload') && is_uploaded_file($_FILES['item_upload_file']['tmp_name'])) {
@@ -886,17 +885,17 @@ function publisherCloseTags($string)
 }
 
 /**
- * @param  int $itemId
+ * @param  int    $itemId
  * @return string
  */
 function publisherRatingBar($itemId)
 {
-    $publisher       =& PublisherPublisher::getInstance();
+    $publisher       = PublisherPublisher::getInstance();
     $ratingUnitWidth = 30;
     $units           = 5;
 
     $criteria   = new Criteria('itemid', $itemId);
-    $ratingObjs =& $publisher->getHandler('rating')->getObjects($criteria);
+    $ratingObjs = $publisher->getHandler('rating')->getObjects($criteria);
     unset($criteria);
 
     $uid           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
@@ -922,7 +921,7 @@ function publisherRatingBar($itemId)
         $rating2     = number_format($currentRating / $count, 2);
     }
     $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-    $gpermHandler =& $publisher->getHandler('groupperm');
+    $gpermHandler = $publisher->getHandler('groupperm');
 
     if (!$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
         $staticRater = array();
@@ -975,7 +974,7 @@ function publisherGetEditors($allowedEditors = null)
     $ret    = array();
     $nohtml = false;
     xoops_load('XoopsEditorHandler');
-    $editorHandler =& XoopsEditorHandler::getInstance();
+    $editorHandler = XoopsEditorHandler::getInstance();
     $editors       = $editorHandler->getList($nohtml);
     foreach ($editors as $name => $title) {
         $key = publisherStringToInt($name);
@@ -1001,8 +1000,11 @@ function publisherGetEditors($allowedEditors = null)
  */
 function publisherStringToInt($string = '', $length = 5)
 {
-    for ($i = 0, $final = '', $string = substr(md5($string), $length); $i < $length; $final .= (int)($string[$i]), ++$i) ;
-
+    $final  = '';
+    $string = substr(md5($string), $length);
+    for ($i = 0; $i < $length; ++$i) {
+        $final .= (int)$string[$i];
+    }
     return (int)($final);
 }
 

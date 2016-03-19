@@ -21,8 +21,8 @@ define('_CO_PUBLISHER_ITEM_META_KEYWORDS_DSC', 'In order to help Search Engines,
 define('_CO_PUBLISHER_ITEM_SHORT_URL', 'Short URL');
 define('_CO_PUBLISHER_ITEM_SHORT_URL_DSC', 'When using the SEO features of this module, you can specify a Short URL for this article. This field is optional.');
 define('_CO_PUBLISHER_OFFLINE', 'Offline');
-define('_CO_PUBLISHER_PERMISSIONS_ITEM', 'Permissions');
-define('_CO_PUBLISHER_PERMISSIONS_ITEM_DSC', 'Groups that will have permissions to see this item.');
+//define('_CO_PUBLISHER_PERMISSIONS_ITEM', 'Permissions');
+//define('_CO_PUBLISHER_PERMISSIONS_ITEM_DSC', 'Groups that will have permissions to see this item.');
 define('_CO_PUBLISHER_PUBLISHED', 'Published');
 define('_CO_PUBLISHER_REJECTED', 'Rejected');
 define('_CO_PUBLISHER_STATUS', 'Status');

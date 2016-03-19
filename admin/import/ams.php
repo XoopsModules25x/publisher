@@ -61,7 +61,7 @@ if ($op === 'start') {
             //                redirect_header('admin.php?fct=images', 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
             //            }
 
-            $imageCategoryHandler =& xoops_getHandler('imagecategory');
+            $imageCategoryHandler = xoops_getHandler('imagecategory');
             $imagecategory        =& $imageCategoryHandler->create();
             //            $imagecategory->setVar('imgcat_name', $imgcat_name);
             $imagecategory->setVar('imgcat_name', PUBLISHER_DIRNAME); //$imgcat_name);
@@ -81,7 +81,7 @@ if ($op === 'start') {
             }
 
             $newid                    = $imagecategory->getVar('imgcat_id');
-            $imagecategorypermHandler =& xoops_getHandler('groupperm');
+            $imagecategorypermHandler = xoops_getHandler('groupperm');
             if (!isset($readgroup)) {
                 $readgroup = array();
             }
@@ -158,14 +158,14 @@ if ($op === 'start') {
 if ($op === 'go') {
     publisherCpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    include_once (dirname(dirname(__DIR__))) . '/include/common.php';
+    include_once dirname(dirname(__DIR__)) . '/include/common.php';
     publisherOpenCollapsableBar('amsimportgo', 'amsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
-    $moduleHandler =& xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('ams');
     $ams_module_id = $moduleObj->getVar('mid');
 
-    $gpermHandler =& xoops_getHandler('groupperm');
+    $gpermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
@@ -179,7 +179,7 @@ if ($op === 'go') {
     $newCatArray     = array();
     $newArticleArray = array();
 
-    $imageCategoryHandler =& xoops_getHandler('imagecategory');
+    $imageCategoryHandler = xoops_getHandler('imagecategory');
     //    $criteria = new criteriaCombo;
 
     //  get the total number of subcats for this category
@@ -213,7 +213,7 @@ if ($op === 'go') {
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
 
-        $categoryObj =& $publisher->getHandler('category')->create();
+        $categoryObj = $publisher->getHandler('category')->create();
 
         $categoryObj->setVar('parentid', $arrCat['topic_pid']);
         $categoryObj->setVar('image', $arrCat['topic_imgurl']);
@@ -231,7 +231,7 @@ if ($op === 'go') {
 
                 /*
 
-                  $imageHandler =& xoops_getHandler('image');
+                  $imageHandler = xoops_getHandler('image');
                   $image =& $imageHandler->create();
                   $image->setVar('image_name', $arrCat['topic_imgurl']);//'images/' . $uploader->getSavedFileName());
                   $image->setVar('image_nicename', substr($arrCat['topic_imgurl'],-13)); //$image_nicename);
@@ -288,7 +288,7 @@ if ($op === 'go') {
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
-            $itemObj =& $publisher->getHandler('item')->create();
+            $itemObj = $publisher->getHandler('item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
             $itemObj->setVar('title', $arrArticle['title']);
@@ -307,7 +307,7 @@ if ($op === 'go') {
             $itemObj->setVar('notifypub', $arrArticle['notifypub']);
             //-------- image
 
-            $imgHandler =& xoops_getHandler('image');
+            $imgHandler = xoops_getHandler('image');
 
             //            $criteria = new Criteria('image_name', $arrArticle['picture']);
             $imageId    = $imgHandler->getObjects($criteria);
@@ -349,7 +349,7 @@ if ($op === 'go') {
                     $filename = $GLOBALS['xoops']->path('uploads/AMS/attached/' . $arrFile['downloadname']);
                     if (file_exists($filename)) {
                         if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
-                            $fileObj =& $publisher->getHandler('file')->create();
+                            $fileObj = $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['filerealname']);
                             $fileObj->setVar('description', $arrFile['filerealname']);
                             $fileObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
@@ -410,7 +410,7 @@ if ($op === 'go') {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $commentHandler =& xoops_getHandler('comment');
+    $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $ams_module_id));
     $comments = $commentHandler->getObjects($criteria);

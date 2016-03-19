@@ -30,21 +30,17 @@ $op = XoopsRequest::getString('op');
  */
 function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
 {
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
     include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
     // if there is a parameter, and the id exists, retrieve data: we're editing a file
     if ($fileid != 0) {
         // Creating the File object
-        $fileObj =& $publisher->getHandler('file')->get($fileid);
+        $fileObj = $publisher->getHandler('file')->get($fileid);
 
         if ($fileObj->notLoaded()) {
             redirect_header('javascript:history.go(-1)', 1, _AM_PUBLISHER_NOFILESELECTED);
             //            exit();
-        }
-
-        if ($showmenu) {
-            //publisher_adminMenu(2, _AM_PUBLISHER_FILE . " > " . _AM_PUBLISHER_EDITING);
         }
 
         echo "<br />\n";
@@ -53,11 +49,8 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
         publisherOpenCollapsableBar('editfile', 'editfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
     } else {
         // there's no parameter, so we're adding an item
-        $fileObj =& $publisher->getHandler('file')->create();
+        $fileObj = $publisher->getHandler('file')->create();
         $fileObj->setVar('itemid', $itemid);
-        if ($showmenu) {
-            //publisher_adminMenu(2, _AM_PUBLISHER_FILE . " > " . _AM_PUBLISHER_FILE_ADD);
-        }
         echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_ADDING . '</span>';
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_PUBLISHER_FILE_ADDING_DSC . '</span>';
         publisherOpenCollapsableBar('addfile', 'addfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
@@ -106,9 +99,9 @@ switch ($op) {
 
         // Creating the file object
         if ($fileid != 0) {
-            $fileObj =& $publisher->getHandler('file')->get($fileid);
+            $fileObj = $publisher->getHandler('file')->get($fileid);
         } else {
-            $fileObj =& $publisher->getHandler('file')->create();
+            $fileObj = $publisher->getHandler('file')->create();
         }
 
         // Putting the values in the file object
@@ -130,7 +123,7 @@ switch ($op) {
         $fileid = XoopsRequest::getInt('fileid', 0, 'POST');
         $fileid = XoopsRequest::getInt('fileid', $fileid, 'GET');
 
-        $fileObj =& $publisher->getHandler('file')->get($fileid);
+        $fileObj = $publisher->getHandler('file')->get($fileid);
 
         $confirm = XoopsRequest::getInt('confirm', 0, 'POST');
         $title   = XoopsRequest::getString('title', '', 'POST');

@@ -16,7 +16,7 @@ if (!is_file(XOOPS_PATH . '/vendor/tcpdf/tcpdf.php')) {
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['xoopsModule']->getVar('dirname') . '/viewtopic.php?topic_id=' . $itemid, 3, 'TCPF for Xoops not installed in ./xoops_lib/vendor/');
 }
 // Creating the item object for the selected item
-$itemObj =& $publisher->getHandler('item')->get($itemid);
+$itemObj = $publisher->getHandler('item')->get($itemid);
 
 // if the selected item was not found, exit
 if (!$itemObj) {
@@ -24,7 +24,7 @@ if (!$itemObj) {
 }
 
 // Creating the category object that holds the selected item
-$categoryObj =& $publisher->getHandler('category')->get($itemObj->categoryid());
+$categoryObj = $publisher->getHandler('category')->get($itemObj->categoryid());
 
 // Check user permissions to access that category of the selected item
 if (!$itemObj->accessGranted()) {
@@ -78,17 +78,17 @@ $firstLine  = publisherConvertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (
 $secondLine = publisherConvertCharset($GLOBALS['xoopsConfig']['slogan']);
 
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
-$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine, array(0, 64, 255), array(0, 64, 128));
+$pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine, array(0, 64, 255), array(0, 64, 128));
 
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
 
 //set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+$pdf->setFooterMargin(PDF_MARGIN_FOOTER);
 //set auto page breaks
 $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 
-$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->setHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
 
 $pdf->setHeaderFont(array(PDF_FONT_NAME_SUB, '', PDF_FONT_SIZE_SUB));

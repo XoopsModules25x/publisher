@@ -60,7 +60,7 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
         }
 
         //delete .html entries from the tpl table
-        $sql = "DELETE FROM " . $xoopsDB->prefix("tplfile") . " WHERE `tpl_module` = '" .$module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
+        $sql = 'DELETE FROM ' . $xoopsDB->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
         $xoopsDB->queryF($sql);
 
         // Load class XoopsFile
@@ -101,7 +101,7 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
         }
     }
 
-    $gpermHandler =& xoops_getHandler('groupperm');
+    $gpermHandler = xoops_getHandler('groupperm');
 
     return $gpermHandler->deleteByModule($module->getVar('mid'), 'item_read');
 }

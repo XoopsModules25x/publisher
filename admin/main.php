@@ -31,8 +31,8 @@ $sortsel   = XoopsRequest::getString('sortsel', XoopsRequest::getString('sortsel
 $ordersel  = XoopsRequest::getString('ordersel', XoopsRequest::getString('ordersel', 'DESC', 'GET'), 'POST');
 
 $module_id    = $publisher->getModule()->mid();
-$gpermHandler =& xoops_getHandler('groupperm');
-$groups       = ($GLOBALS['xoopsUser']) ? ($GLOBALS['xoopsUser']->getGroups()) : XOOPS_GROUP_ANONYMOUS;
+$gpermHandler = xoops_getHandler('groupperm');
+$groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
 // Code for the page
 
@@ -42,22 +42,22 @@ publisherCpHeader();
 //publisher_adminMenu(0, _AM_PUBLISHER_INDEX);
 
 // Total ITEMs -- includes everything on the table
-$totalitems =& $publisher->getHandler('item')->getItemsCount();
+$totalitems = $publisher->getHandler('item')->getItemsCount();
 
 // Total categories
-$totalcategories =& $publisher->getHandler('category')->getCategoriesCount(-1);
+$totalcategories = $publisher->getHandler('category')->getCategoriesCount(-1);
 
 // Total submitted ITEMs
-$totalsubmitted =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_SUBMITTED));
+$totalsubmitted = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_SUBMITTED));
 
 // Total published ITEMs
-$totalpublished =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
+$totalpublished = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
 
 // Total offline ITEMs
-$totaloffline =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_OFFLINE));
+$totaloffline = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_OFFLINE));
 
 // Total rejected
-$totalrejected =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_REJECTED));
+$totalrejected = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_REJECTED));
 
 // Check Path Configuration
 if ((publisherGetPathStatus('root', true) < 0) || (publisherGetPathStatus('images', true) < 0) || (publisherGetPathStatus('images/category', true) < 0) || (publisherGetPathStatus('images/item', true) < 0) || (publisherGetPathStatus('content', true) < 0)) {
@@ -227,10 +227,10 @@ echo "
 // Get number of entries in the selected state
 $statusSelected = ($statussel == 0) ? -1 : $statussel;
 
-$numrows =& $publisher->getHandler('item')->getItemsCount(-1, $statusSelected);
+$numrows = $publisher->getHandler('item')->getItemsCount(-1, $statusSelected);
 
 // creating the Q&As objects
-$itemsObj =& $publisher->getHandler('item')->getItems($publisher->getConfig('idxcat_perpage'), $startentry, $statusSelected, -1, $sortsel, $ordersel);
+$itemsObj = $publisher->getHandler('item')->getItems($publisher->getConfig('idxcat_perpage'), $startentry, $statusSelected, -1, $sortsel, $ordersel);
 
 $totalItemsOnPage = count($itemsObj);
 

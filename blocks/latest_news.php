@@ -21,7 +21,7 @@
  * @version         $Id: latest_news.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -35,7 +35,7 @@ function publisher_latest_news_show($options)
     $block = array();
 
     xoops_loadLanguage('main', 'publisher');
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
 
     $start           = $options[0]; // You can show articles from specified range
     $limit           = $options[1];
@@ -73,7 +73,7 @@ function publisher_latest_news_show($options)
         $criteria->add(new Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
     }
 
-    $itemsObj =& $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'itemid');
+    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);
 

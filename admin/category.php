@@ -21,10 +21,10 @@
 
 include_once __DIR__ . '/admin_header.php';
 
-$op = XoopsRequest::getString('op', (XoopsRequest::getString('op', '', 'POST')), 'GET');
+$op = XoopsRequest::getString('op', XoopsRequest::getString('op', '', 'POST'), 'GET');
 
-$op = (XoopsRequest::getString('editor', '', 'POST')) ? 'mod' : $op;
-$op = (XoopsRequest::getString('addcategory', '', 'POST')) ? 'addcategory' : $op;
+$op = XoopsRequest::getString('editor', '', 'POST') ? 'mod' : $op;
+$op = XoopsRequest::getString('addcategory', '', 'POST') ? 'addcategory' : $op;
 
 // Where do we start ?
 $startcategory = XoopsRequest::getInt('startcategory', 0, 'GET');
@@ -32,7 +32,7 @@ $categoryid    = XoopsRequest::getInt('categoryid');
 
 switch ($op) {
     case 'del':
-        $categoryObj =& $publisher->getHandler('category')->get($categoryid);
+        $categoryObj = $publisher->getHandler('category')->get($categoryid);
         $confirm     = XoopsRequest::getInt('confirm', '', 'POST');
         $name        = XoopsRequest::getString('name', '', 'POST');
         if ($confirm) {
@@ -52,7 +52,7 @@ switch ($op) {
     case 'mod':
         //Added by fx2024
         $nb_subcats = XoopsRequest::getInt('nb_subcats', 0, 'POST');
-        $nb_subcats += (XoopsRequest::getInt('nb_sub_yet', 4, 'POST'));
+        $nb_subcats += XoopsRequest::getInt('nb_sub_yet', 4, 'POST');
         //end of fx2024 code
 
         publisherCpHeader();
@@ -65,9 +65,9 @@ switch ($op) {
         $parentid = XoopsRequest::getInt('parentid');
 
         if ($categoryid != 0) {
-            $categoryObj =& $publisher->getHandler('category')->get($categoryid);
+            $categoryObj = $publisher->getHandler('category')->get($categoryid);
         } else {
-            $categoryObj =& $publisher->getHandler('category')->create();
+            $categoryObj = $publisher->getHandler('category')->create();
         }
 
         // Uploading the image, if any
@@ -82,7 +82,7 @@ switch ($op) {
                 $max_imgwidth      = $publisher->getConfig('maximum_image_width');
                 $max_imgheight     = $publisher->getConfig('maximum_image_height');
                 $allowed_mimetypes = publisherGetAllowedImagesTypes();
-                if (!is_readable($temp['tmp_name']) || ($temp['tmp_name'] == '')) {
+                if (($temp['tmp_name'] == '') || !is_readable($temp['tmp_name'])) {
                     redirect_header('javascript:history.go(-1)', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
                     //                    exit();
                 }
@@ -99,7 +99,7 @@ switch ($op) {
         } else {
             $categoryObj->setVar('image', XoopsRequest::getString('image', '', 'POST'));
         }
-        $categoryObj->setVar('parentid', (XoopsRequest::getInt('parentid', 0, 'POST')));
+        $categoryObj->setVar('parentid', XoopsRequest::getInt('parentid', 0, 'POST'));
 
         $applyall = XoopsRequest::getInt('applyall', 0, 'POST');
         $categoryObj->setVar('weight', XoopsRequest::getInt('weight', 1, 'POST'));
@@ -143,7 +143,7 @@ switch ($op) {
         for ($i = 0; $i < $sizeof; ++$i) {
             $temp = XoopsRequest::getArray('scname', array(), 'POST');
             if ($temp[$i] != '') {
-                $categoryObj =& $publisher->getHandler('category')->create();
+                $categoryObj = $publisher->getHandler('category')->create();
                 $temp2       = XoopsRequest::getArray('scname', array(), 'POST');
                 $categoryObj->setVar('name', $temp2[$i]);
                 $categoryObj->setVar('parentid', $parentCat);
@@ -169,7 +169,7 @@ switch ($op) {
         $categoryid = 0;
         $nb_subcats = XoopsRequest::getInt('nb_subcats', 0, 'POST') + XoopsRequest::getInt('nb_sub_yet', 0, 'POST');
 
-        $categoryObj =& $publisher->getHandler('category')->create();
+        $categoryObj = $publisher->getHandler('category')->create();
         $categoryObj->setVar('name', XoopsRequest::getString('name', '', 'POST'));
         $categoryObj->setVar('description', XoopsRequest::getString('description', '', 'POST'));
         $categoryObj->setVar('weight', XoopsRequest::getInt('weight', 0, 'POST'));
@@ -199,7 +199,7 @@ switch ($op) {
         echo '</div></form>';
 
         // Creating the objects for top categories
-        $categoriesObj =& $publisher->getHandler('category')->getCategories($publisher->getConfig('idxcat_perpage'), $startcategory, 0);
+        $categoriesObj = $publisher->getHandler('category')->getCategories($publisher->getConfig('idxcat_perpage'), $startcategory, 0);
 
         publisherOpenCollapsableBar('createdcategories', 'createdcategoriesicon', _AM_PUBLISHER_CATEGORIES_TITLE, _AM_PUBLISHER_CATEGORIES_DSC);
 
@@ -210,7 +210,7 @@ switch ($op) {
         echo "<th width='60' class='bg3' width='65' align='center'><strong>" . _CO_PUBLISHER_WEIGHT . '</strong></td>';
         echo "<th width='60' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . '</strong></td>';
         echo '</tr>';
-        $totalCategories =& $publisher->getHandler('category')->getCategoriesCount(0);
+        $totalCategories = $publisher->getHandler('category')->getCategoriesCount(0);
         if (count($categoriesObj) > 0) {
             foreach ($categoriesObj as $key => $thiscat) {
                 PublisherUtilities::displayCategory($thiscat);

@@ -18,7 +18,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: formdatetime.php 10276 2012-11-27 13:58:28Z trabis $
  */
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -38,7 +38,7 @@ class PublisherFormDateTime extends XoopsFormElementTray
     public function __construct($caption, $name, $size = 15, $value = 0, $showtime = true, $formatTimestamp = true)
     {
         parent::__construct($caption, '&nbsp;');
-        $value = (int)($value);
+        $value = (int)$value;
         $value = ($value > 0) ? $value : time();
         if ($formatTimestamp) {
             $value = strtotime(formatTimestamp($value));

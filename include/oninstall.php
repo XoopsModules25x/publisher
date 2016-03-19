@@ -20,9 +20,8 @@
  * @return bool
  */
 
-
 /**
- * @param XoopsModule $xoopsModule
+ * @param  XoopsModule $xoopsModule
  * @return bool
  */
 function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
@@ -45,7 +44,6 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
 
     $moduleDirName =  $xoopsModule->getVar('dirname');
     include_once $GLOBALS['xoops']->path('modules/'.$moduleDirName.'/include/config.php');
-
 
     foreach (array_keys($uploadFolders) as $i) {
         PublisherUtilities::createFolder($uploadFolders[$i]);

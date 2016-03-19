@@ -34,23 +34,23 @@ function publisher_tag_iteminfo(&$items)
         // if catid is not used, just skip it
         foreach (array_keys($items[$catId]) as $item_id) {
             // In article, the item_id is "art_id"
-            $items_id[] = intval($item_id);
+            $items_id[] = (int)$item_id;
         }
     }
-    $item_handler = xoops_getmodulehandler("item", "publisher");
-    $criteria     = new Criteria("itemid", "(" . implode(", ", $items_id) . ")", "IN");
+    $item_handler = xoops_getModuleHandler('item', 'publisher');
+    $criteria     = new Criteria('itemid', '(' . implode(', ', $items_id) . ')', 'IN');
     $items_obj    = $item_handler->getObjects($criteria, 'itemid');
 
     foreach (array_keys($items) as $catId) {
         foreach (array_keys($items[$catId]) as $item_id) {
             $item_obj                = $items_obj[$item_id];
             $items[$catId][$item_id] = array(
-                "title"   => $item_obj->getVar("title"),
-                "uid"     => $item_obj->getVar("uid"),
-                "link"    => "item.php?itemid={$item_id}",
-                "time"    => $item_obj->getVar("datesub"),
-                "tags"    => tag_parse_tag($item_obj->getVar("item_tag", "n")), // optional
-                "content" => "",
+                'title'   => $item_obj->getVar('title'),
+                'uid'     => $item_obj->getVar('uid'),
+                'link'    => "item.php?itemid={$item_id}",
+                'time'    => $item_obj->getVar('datesub'),
+                'tags'    => tag_parse_tag($item_obj->getVar('item_tag', 'n')), // optional
+                'content' => ''
             );
         }
     }

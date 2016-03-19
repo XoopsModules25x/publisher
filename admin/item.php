@@ -22,8 +22,8 @@
 
 include_once __DIR__ . '/admin_header.php';
 
-$itemid = XoopsRequest::getInt('itemid', (XoopsRequest::getInt('itemid', 0, 'POST')), 'GET');
-$op     = ($itemid > 0 || (XoopsRequest::getString('editor', '', 'POST'))) ? 'mod' : '';
+$itemid = XoopsRequest::getInt('itemid', XoopsRequest::getInt('itemid', 0, 'POST'), 'GET');
+$op     = ($itemid > 0 || XoopsRequest::getString('editor', '', 'POST')) ? 'mod' : '';
 //$op     = XoopsRequest::getString('op', $op, 'GET');
 
 $op = XoopsRequest::getString('op', XoopsRequest::getString('op', $op, 'POST'), 'GET');
@@ -34,18 +34,18 @@ $op = XoopsRequest::getString('op', XoopsRequest::getString('op', $op, 'POST'), 
 //    $op = 'del';
 //}
 
-$op = (XoopsRequest::getString('additem', '', 'POST')) ? 'additem' : ((XoopsRequest::getString('del', '', 'POST')) ? 'del' : $op);
+$op = XoopsRequest::getString('additem', '', 'POST') ? 'additem' : (XoopsRequest::getString('del', '', 'POST') ? 'del' : $op);
 
 // Where shall we start ?
-$submittedstartitem = XoopsRequest::getInt('submittedstartitem', (XoopsRequest::getInt('submittedstartitem', 0, 'GET')), 'POST');
-$publishedstartitem = XoopsRequest::getInt('publishedstartitem', (XoopsRequest::getInt('publishedstartitem', 0, 'GET')), 'POST');
-$offlinestartitem   = XoopsRequest::getInt('offlinestartitem', (XoopsRequest::getInt('offlinestartitem', 0, 'GET')), 'POST');
-$rejectedstartitem  = XoopsRequest::getInt('rejectedstartitem', (XoopsRequest::getInt('submittedstartitem', 0, 'GET')), 'POST');
+$submittedstartitem = XoopsRequest::getInt('submittedstartitem', XoopsRequest::getInt('submittedstartitem', 0, 'GET'), 'POST');
+$publishedstartitem = XoopsRequest::getInt('publishedstartitem', XoopsRequest::getInt('publishedstartitem', 0, 'GET'), 'POST');
+$offlinestartitem   = XoopsRequest::getInt('offlinestartitem', XoopsRequest::getInt('offlinestartitem', 0, 'GET'), 'POST');
+$rejectedstartitem  = XoopsRequest::getInt('rejectedstartitem', XoopsRequest::getInt('submittedstartitem', 0, 'GET'), 'POST');
 
 switch ($op) {
     case 'clone':
         if ($itemid == 0) {
-            $totalcategories =& $publisher->getHandler('category')->getCategoriesCount(-1);
+            $totalcategories = $publisher->getHandler('category')->getCategoriesCount(-1);
             if ($totalcategories == 0) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
                 //                exit();
@@ -57,7 +57,7 @@ switch ($op) {
 
     case 'mod':
         if ($itemid == 0) {
-            $totalcategories =& $publisher->getHandler('category')->getCategoriesCount(-1);
+            $totalcategories = $publisher->getHandler('category')->getCategoriesCount(-1);
             if ($totalcategories == 0) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
                 //                exit();
@@ -72,9 +72,9 @@ switch ($op) {
         $redirect_msg = $error_msg = '';
         // Creating the item object
         if ($itemid != 0) {
-            $itemObj =& $publisher->getHandler('item')->get($itemid);
+            $itemObj = $publisher->getHandler('item')->get($itemid);
         } else {
-            $itemObj =& $publisher->getHandler('item')->create();
+            $itemObj = $publisher->getHandler('item')->create();
         }
 
         $itemObj->setVarsFromRequest();
@@ -84,10 +84,9 @@ switch ($op) {
 
         switch ($newStatus) {
             case PublisherConstants::PUBLISHER_STATUS_SUBMITTED:
-                if (($old_status == PublisherConstants::PUBLISHER_STATUS_NOTSET)) {
+                $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
+                if ($old_status == PublisherConstants::PUBLISHER_STATUS_NOTSET) {
                     $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
-                } else {
-                    $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
                 }
                 $redirect_msg = _AM_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
                 break;
@@ -103,19 +102,17 @@ switch ($op) {
                 break;
 
             case PublisherConstants::PUBLISHER_STATUS_OFFLINE:
+                $redirect_msg = _AM_PUBLISHER_OFFLINE_MOD_SUCCESS;
                 if ($old_status == PublisherConstants::PUBLISHER_STATUS_NOTSET) {
                     $redirect_msg = _AM_PUBLISHER_OFFLINE_CREATED_SUCCESS;
-                } else {
-                    $redirect_msg = _AM_PUBLISHER_OFFLINE_MOD_SUCCESS;
                 }
                 $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 break;
 
             case PublisherConstants::PUBLISHER_STATUS_REJECTED:
+                $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
                 if ($old_status == PublisherConstants::PUBLISHER_STATUS_NOTSET) {
                     $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
-                } else {
-                    $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
                 }
                 $redirect_msg = _AM_PUBLISHER_ITEM_REJECTED;
                 break;
@@ -147,7 +144,7 @@ switch ($op) {
         break;
 
     case 'del':
-        $itemObj =& $publisher->getHandler('item')->get($itemid);
+        $itemObj = $publisher->getHandler('item')->get($itemid);
         $confirm = XoopsRequest::getInt('confirm', '', 'POST');
 
         if ($confirm) {
@@ -183,9 +180,9 @@ switch ($op) {
         publisherOpenCollapsableBar('submiteditemstable', 'submiteditemsicon', _AM_PUBLISHER_SUBMISSIONSMNGMT, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of submitted ITEM
-        $totalitems =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_SUBMITTED));
+        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_SUBMITTED));
 
-        $itemsObj =& $publisher->getHandler('item')->getAllSubmitted($publisher->getConfig('idxcat_perpage'), $submittedstartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj = $publisher->getHandler('item')->getAllSubmitted($publisher->getConfig('idxcat_perpage'), $submittedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -232,9 +229,9 @@ switch ($op) {
         publisherOpenCollapsableBar('item_publisheditemstable', 'item_publisheditemsicon', _AM_PUBLISHER_PUBLISHEDITEMS, _AM_PUBLISHER_PUBLISHED_DSC);
 
         // Get the total number of published ITEM
-        $totalitems =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
+        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
 
-        $itemsObj =& $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $publishedstartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $publishedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -281,9 +278,9 @@ switch ($op) {
         // Display Offline articles
         publisherOpenCollapsableBar('offlineitemstable', 'offlineitemsicon', _AM_PUBLISHER_ITEMS . ' ' . _CO_PUBLISHER_OFFLINE, _AM_PUBLISHER_OFFLINE_EXP);
 
-        $totalitems =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_OFFLINE));
+        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_OFFLINE));
 
-        $itemsObj =& $publisher->getHandler('item')->getAllOffline($publisher->getConfig('idxcat_perpage'), $offlinestartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj = $publisher->getHandler('item')->getAllOffline($publisher->getConfig('idxcat_perpage'), $offlinestartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -331,8 +328,8 @@ switch ($op) {
         publisherOpenCollapsableBar('Rejecteditemstable', 'rejecteditemsicon', _AM_PUBLISHER_REJECTED_ITEM, _AM_PUBLISHER_REJECTED_ITEM_EXP, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of Rejected ITEM
-        $totalitems =& $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_REJECTED));
-        $itemsObj   =& $publisher->getHandler('item')->getAllRejected($publisher->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
+        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_REJECTED));
+        $itemsObj   = $publisher->getHandler('item')->getAllRejected($publisher->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -385,7 +382,7 @@ include_once __DIR__ . '/admin_footer.php';
  */
 function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 {
-    $publisher =& PublisherPublisher::getInstance();
+    $publisher = PublisherPublisher::getInstance();
     global $publisherCurrentPage;
 
     xoops_load('XoopsFormLoader');
@@ -397,7 +394,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     if ($itemid != 0) {
         // Creating the ITEM object
-        $itemObj =& $publisher->getHandler('item')->get($itemid);
+        $itemObj = $publisher->getHandler('item')->get($itemid);
 
         if (!$itemObj) {
             redirect_header('item.php', 1, _AM_PUBLISHER_NOITEMSELECTED);
@@ -470,10 +467,6 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
         $categoryObj = $itemObj->getCategory();
 
-        if ($showmenu) {
-            //publisher_adminMenu(2, $breadcrumbAction1 . " > " . $breadcrumbAction2);
-        }
-
         echo "<br />\n";
         publisherOpenCollapsableBar('edititemtable', 'edititemicon', $pageTitle, $pageInfo);
 
@@ -485,18 +478,14 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     } else {
         // there's no parameter, so we're adding an item
 
-        $itemObj =& $publisher->getHandler('item')->create();
+        $itemObj = $publisher->getHandler('item')->create();
         $itemObj->setVarsFromRequest();
 
-        $categoryObj       =& $publisher->getHandler('category')->create();
+        $categoryObj       = $publisher->getHandler('category')->create();
         $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;
         $breadcrumbAction2 = _AM_PUBLISHER_CREATINGNEW;
         $buttonCaption     = _AM_PUBLISHER_CREATE;
         $newStatus         = PublisherConstants::PUBLISHER_STATUS_PUBLISHED;
-
-        if ($showmenu) {
-            //publisher_adminMenu(2, $breadcrumbAction1 . " > " . $breadcrumbAction2);
-        }
 
         $categoryObj->setVar('categoryid', XoopsRequest::getInt('categoryid', 0, 'GET'));
 

@@ -25,7 +25,7 @@ include_once __DIR__ . '/header.php';
 $categoryid = XoopsRequest::getInt('categoryid', 0, 'GET');
 
 // Creating the category object for the selected category
-$categoryObj =& $publisher->getHandler('category')->get($categoryid);
+$categoryObj = $publisher->getHandler('category')->get($categoryid);
 
 // if the selected category was not found, exit
 if (!is_object($categoryObj) || $categoryObj->notLoaded()) {
@@ -44,7 +44,7 @@ $start = XoopsRequest::getInt('start', 0, 'GET');
 
 $item_page_id = XoopsRequest::getInt('page', -1, 'GET');
 
-$totalItems =& $publisher->getHandler('category')->publishedItemsCount();
+$totalItems = $publisher->getHandler('category')->publishedItemsCount();
 
 // if there is no Item under this categories or the sub-categories, exit
 // why?
@@ -102,12 +102,11 @@ switch ($publisher->getConfig('format_order_by')) {
         break;
 }
 
-$itemsObj =& $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_index_perpage'), $start, $categoryid, $sort, $order);
+$itemsObj = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_index_perpage'), $start, $categoryid, $sort, $order);
 
+$totalItemOnPage = 0;
 if ($itemsObj) {
     $totalItemOnPage = count($itemsObj);
-} else {
-    $totalItemOnPage = 0;
 }
 
 // Arrays that will hold the informations passed on to smarty variables
@@ -122,12 +121,12 @@ $category['categoryPath'] = $categoryObj->getCategoryPath($publisher->getConfig(
 
 if ($publisher->getConfig('idxcat_display_last_item') == 1) {
     // Get the last smartitem
-    $lastItemObj =& $publisher->getHandler('item')->getLastPublishedByCat(array(array($categoryObj)));
+    $lastItemObj = $publisher->getHandler('item')->getLastPublishedByCat(array(array($categoryObj)));
 }
-$lastitemsize = (int)($publisher->getConfig('idxcat_last_item_size'));
+$lastitemsize = (int)$publisher->getConfig('idxcat_last_item_size');
 
 // Creating the sub-categories objects that belong to the selected category
-$subcatsObj    =& $publisher->getHandler('category')->getCategories(0, 0, $categoryid);
+$subcatsObj    = $publisher->getHandler('category')->getCategories(0, 0, $categoryid);
 $total_subcats = count($subcatsObj);
 
 $total_items = 0;
@@ -190,7 +189,7 @@ if (count($itemsObj) > 0) {
             $userids[$thisitem->uid()] = 1;
         }
     }
-    $memberHandler =& xoops_getHandler('member');
+    $memberHandler = xoops_getHandler('member');
     //$users = $memberHandler->getUsers(new Criteria('uid', "(" . implode(',', array_keys($userids)) . ")", "IN"), true);
     */
     // Adding the items of the selected category

@@ -21,7 +21,7 @@
 
 include_once __DIR__ . '/admin_header.php';
 
-$module  =& $publisher->getModule();
+$module  = $publisher->getModule();
 $mod     = $module->mid();
 $modname = $module->name();
 
@@ -41,7 +41,7 @@ $op = XoopsRequest::getString('op', $op, 'GET');
 $configcat = XoopsRequest::getString('configcat', '', 'GET');
 
 if ($op === 'showmod') {
-    $configHandler =& xoops_getHandler('config');
+    $configHandler = xoops_getHandler('config');
 
     $config = $configHandler->getConfigs(new Criteria('conf_modid', $mod));
     $count  = count($config);
@@ -188,7 +188,7 @@ if ($op === 'save') {
         redirect_header($module->getInfo('adminindex'), 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
     }
     $count         = count($confIds);
-    $configHandler =& xoops_getHandler('config');
+    $configHandler = xoops_getHandler('config');
     if ($count > 0) {
         for ($i = 0; $i < $count; ++$i) {
             $config   = $configHandler->getConfig($confIds[$i]);

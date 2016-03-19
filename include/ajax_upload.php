@@ -46,14 +46,14 @@ if ($image_nicename == '' || $image_nicename == _CO_PUBLISHER_IMAGE_NICENAME) {
 
 $imgcat_id = XoopsRequest::getInt('imgcat_id', 0, 'POST');
 
-$imgcatHandler =& xoops_getHandler('imagecategory');
+$imgcatHandler = xoops_getHandler('imagecategory');
 $imgcat        = $imgcatHandler->get($imgcat_id);
 
 $error = false;
 if (!is_object($imgcat)) {
     $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
 } else {
-    $imgcatpermHandler =& xoops_getHandler('groupperm');
+    $imgcatpermHandler = xoops_getHandler('groupperm');
     if (is_object($GLOBALS['xoopsUser'])) {
         if (!$imgcatpermHandler->checkRight('imgcat_write', $imgcat_id, $GLOBALS['xoopsUser']->getGroups())) {
             $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
@@ -73,7 +73,7 @@ if ($error === false) {
         if (!$uploader->upload()) {
             $error = implode('<br />', $uploader->getErrors(false));
         } else {
-            $imageHandler =& xoops_getHandler('image');
+            $imageHandler = xoops_getHandler('image');
             $image        = $imageHandler->create();
             $image->setVar('image_name', 'images/' . $uploader->getSavedFileName());
             $image->setVar('image_nicename', $image_nicename);

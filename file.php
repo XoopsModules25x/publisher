@@ -30,7 +30,7 @@ if ($fileid == 0) {
     //    exit();
 }
 
-$fileObj =& $publisher->getHandler('file')->get($fileid);
+$fileObj = $publisher->getHandler('file')->get($fileid);
 
 // if the selected item was not found, exit
 if (!$fileObj) {
@@ -38,7 +38,7 @@ if (!$fileObj) {
     //    exit();
 }
 
-$itemObj =& $publisher->getHandler('item')->get($fileObj->getVar('itemid'));
+$itemObj = $publisher->getHandler('item')->get($fileObj->getVar('itemid'));
 
 // if the user does not have permission to modify this file, exit
 if (!(publisherUserIsAdmin() || publisherUserIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
@@ -63,7 +63,7 @@ switch ($op) {
 
         // Creating the file object
         if ($fileid != 0) {
-            $fileObj =& $publisher->getHandler('file')->get($fileid);
+            $fileObj = $publisher->getHandler('file')->get($fileid);
         } else {
             redirect_header('index.php', 1, _NOPERM);
             //            exit();
@@ -80,7 +80,7 @@ switch ($op) {
             $oldfile = $fileObj->getFilePath();
 
             // Get available mimetypes for file uploading
-            $allowed_mimetypes =& $publisher->getHandler('mimetype')->getArrayByType();
+            $allowed_mimetypes = $publisher->getHandler('mimetype')->getArrayByType();
             // TODO : display the available mimetypes to the user
             $errors = array();
 

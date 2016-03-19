@@ -84,14 +84,14 @@ if ($op === 'start') {
 if ($op === 'go') {
     publisherCpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    include_once (dirname(dirname(__DIR__))) . '/include/common.php';
+    include_once dirname(dirname(__DIR__)) . '/include/common.php';
     publisherOpenCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
-    $moduleHandler         =& xoops_getHandler('module');
+    $moduleHandler         = xoops_getHandler('module');
     $moduleObj             = $moduleHandler->getByDirname('cjaycontent');
     $cjaycontent_module_id = $moduleObj->getVar('mid');
 
-    $gpermHandler =& xoops_getHandler('groupperm');
+    $gpermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_articles = 0;
 
@@ -103,7 +103,7 @@ if ($op === 'go') {
     $resultArticles = $GLOBALS['xoopsDB']->query($sql);
     while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
         // insert article
-        $itemObj =& $publisher->getHandler('item')->create();
+        $itemObj = $publisher->getHandler('item')->create();
         $itemObj->setVar('itemid', $arrArticle['id']);
         //      $itemObj->setVar('categoryid', $categoryObj->categoryid());
         $itemObj->setVar('title', $arrArticle['title']);
@@ -158,7 +158,7 @@ if ($op === 'go') {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
-    $commentHandler =& xoops_getHandler('comment');
+    $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $cjaycontent_module_id));
     $comments = $commentHandler->getObjects($criteria);

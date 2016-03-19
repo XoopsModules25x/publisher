@@ -45,7 +45,7 @@ class PublisherUtilities
                 file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
             }
         } catch (Exception $e) {
-            echo 'Caught exception: ', $e->getMessage(), "\n", "<br/>";
+            echo 'Caught exception: ', $e->getMessage(), "\n", '<br/>';
         }
     }
 
@@ -56,7 +56,7 @@ class PublisherUtilities
      */
     public static function copyFile($file, $folder)
     {
-                return copy($file, $folder);
+        return copy($file, $folder);
 //        try {
 //            if (!is_dir($folder)) {
 //                throw new \RuntimeException(sprintf('Unable to copy file as: %s ', $folder));
@@ -68,7 +68,6 @@ class PublisherUtilities
 //        }
 //        return false;
     }
-
 
     /**
      * @param $src
@@ -172,12 +171,12 @@ class PublisherUtilities
      */
     public static function displayCategory(PublisherCategory $categoryObj, $level = 0)
     {
-        $publisher =& PublisherPublisher::getInstance();
+        $publisher = PublisherPublisher::getInstance();
 
         $description = $categoryObj->description();
         if (!XOOPS_USE_MULTIBYTES) {
             if (strlen($description) >= 100) {
-                $description = substr($description, 0, (100 - 1)) . '...';
+                $description = substr($description, 0, 100 - 1) . '...';
             }
         }
         $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITCOL . "' alt='" . _AM_PUBLISHER_EDITCOL . "' /></a>";
@@ -194,7 +193,7 @@ class PublisherUtilities
         echo "<td class='even' align='center'>" . $categoryObj->weight() . '</td>';
         echo "<td class='even' align='center'> $modify $delete </td>";
         echo '</tr>';
-        $subCategoriesObj =& $publisher->getHandler('category')->getCategories(0, 0, $categoryObj->categoryid());
+        $subCategoriesObj = $publisher->getHandler('category')->getCategories(0, 0, $categoryObj->categoryid());
         if (count($subCategoriesObj) > 0) {
             ++$level;
             foreach ($subCategoriesObj as $key => $thiscat) {
@@ -213,32 +212,26 @@ class PublisherUtilities
      */
     public static function editCategory($showmenu = false, $categoryId = 0, $nbSubCats = 4, $categoryObj = null)
     {
-        $publisher =& PublisherPublisher::getInstance();
+        $publisher = PublisherPublisher::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
         if ($categoryId != 0) {
             // Creating the category object for the selected category
-            $categoryObj =& $publisher->getHandler('category')->get($categoryId);
+            $categoryObj = $publisher->getHandler('category')->get($categoryId);
             if ($categoryObj->notLoaded()) {
                 redirect_header('category.php', 1, _AM_PUBLISHER_NOCOLTOEDIT);
                 //            exit();
             }
         } else {
             if (!$categoryObj) {
-                $categoryObj =& $publisher->getHandler('category')->create();
+                $categoryObj = $publisher->getHandler('category')->create();
             }
         }
 
         if ($categoryId != 0) {
-            if ($showmenu) {
-                //publisher_adminMenu(1, _AM_PUBLISHER_CATEGORIES . " > " . _AM_PUBLISHER_EDITING);
-            }
             echo "<br />\n";
             publisherOpenCollapsableBar('edittable', 'edittableicon', _AM_PUBLISHER_EDITCOL, _AM_PUBLISHER_CATEGORY_EDIT_INFO);
         } else {
-            if ($showmenu) {
-                //publisher_adminMenu(1, _AM_PUBLISHER_CATEGORIES . " > " . _AM_PUBLISHER_CREATINGNEW);
-            }
             publisherOpenCollapsableBar('createtable', 'createtableicon', _AM_PUBLISHER_CATEGORY_CREATE, _AM_PUBLISHER_CATEGORY_CREATE_INFO);
         }
 
@@ -257,10 +250,10 @@ class PublisherUtilities
 
             publisherOpenCollapsableBar('subcatstable', 'subcatsicon', _AM_PUBLISHER_SUBCAT_CAT, _AM_PUBLISHER_SUBCAT_CAT_DSC);
             // Get the total number of sub-categories
-            $categoriesObj =& $publisher->getHandler('category')->get($selCat);
-            $totalsubs     =& $publisher->getHandler('category')->getCategoriesCount($selCat);
+            $categoriesObj = $publisher->getHandler('category')->get($selCat);
+            $totalsubs     = $publisher->getHandler('category')->getCategoriesCount($selCat);
             // creating the categories objects that are published
-            $subcatsObj    =& $publisher->getHandler('category')->getCategories(0, 0, $categoriesObj->categoryid());
+            $subcatsObj    = $publisher->getHandler('category')->getCategories(0, 0, $categoriesObj->categoryid());
             $totalSCOnPage = count($subcatsObj);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
@@ -293,11 +286,11 @@ class PublisherUtilities
             publisherOpenCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = XoopsRequest::getInt('startitem');
             // Get the total number of published ITEMS
-            $totalitems =& $publisher->getHandler('item')->getItemsCount($selCat, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
+            $totalitems = $publisher->getHandler('item')->getItemsCount($selCat, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
             // creating the items objects that are published
-            $itemsObj         =& $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $startitem, $selCat);
+            $itemsObj         = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $startitem, $selCat);
             $totalitemsOnPage = count($itemsObj);
-            $allcats          =& $publisher->getHandler('category')->getObjects(null, true);
+            $allcats          = $publisher->getHandler('category')->getObjects(null, true);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
             echo "<td width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . '</strong></td>';

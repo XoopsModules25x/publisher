@@ -19,10 +19,10 @@
  * @version         $Id: menu.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 $dirname       = basename(dirname(__DIR__));
-$moduleHandler =& xoops_getHandler('module');
+$moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($dirname);
 $pathIcon32     = '../../' . $module->getInfo('sysIcons32');
 $pathModIcon32     = $module->getInfo('modIcons32');

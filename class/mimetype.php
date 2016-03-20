@@ -68,7 +68,8 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * create a new  object
      *
-     * @return object {@link publisherBaseObject}
+     * @param bool $isNew
+     * @return object <a href='psi_element://publisherBaseObject'>publisherBaseObject</a>
      * @access public
      */
     public function create($isNew = true)
@@ -81,6 +82,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *
      * @param int $id ID
      *
+     * @param null $fields
      * @return mixed object if id exists, false if not
      * @access public
      */
@@ -106,9 +108,11 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param object $criteria {@link CriteriaElement} conditions to be met
-     * @param bool   $idAsKey  Should the department ID be used as array key
+     * @param CriteriaElement|object $criteria {@link CriteriaElement}
+     *                                         conditions to be met
+     * @param bool $idAsKey                    Should the department ID be used as array key
      *
+     * @param bool $asObject
      * @return array array of objects
      * @access  public
      */
@@ -143,7 +147,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
 
     /**
      * @param XoopsObject $obj
-     * @param bool   $force
+     * @param bool $force
      *
      * @return bool|void
      */
@@ -235,8 +239,8 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * delete object based on id
      *
-     * @param XoopsObject $obj   {@link XoopsObject} to delete
-     * @param bool   $force override XOOPS delete protection
+     * @param XoopsObject $obj {@link XoopsObject} to delete
+     * @param bool $force      override XOOPS delete protection
      *
      * @return bool deletion successful?
      * @access public
@@ -262,8 +266,10 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * delete department matching a set of conditions
      *
-     * @param object $criteria {@link CriteriaElement}
+     * @param CriteriaElement|object $criteria {@link CriteriaElement}
      *
+     * @param bool $force
+     * @param bool $asObject
      * @return bool FALSE if deletion failed
      * @access    public
      */
@@ -285,8 +291,9 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *
      * @param string $fieldname
      * @param string $fieldvalue
-     * @param object $criteria   {@link CriteriaElement}
+     * @param CriteriaElement|object $criteria {@link CriteriaElement}
      *
+     * @param bool $force
      * @return bool FALSE if update failed
      * @access    public
      */
@@ -411,7 +418,8 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      *
      * @param int $id ID of mimetype
      *
-     * @return object {@link PublisherMimetype}
+     * @param null $fields
+     * @return object <a href='psi_element://PublisherMimetype'>PublisherMimetype</a>
      * @access    public
      */
     public function get($id = null, $fields = null)
@@ -436,9 +444,13 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param object $criteria {@link CriteriaElement} conditions to be met
+     * @param CriteriaElement|object $criteria {@link CriteriaElement}
+     *                                         conditions to be met
      *
-     * @return array array of {@link PublisherMimetype} objects
+     * @param bool $idAsKey
+     * @param bool $asObject
+     * @return array array of <a href='psi_element://PublisherMimetype'>PublisherMimetype</a> objects
+     *                                         objects
      * @access    public
      */
     public function &getObjects(CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
@@ -549,7 +561,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      * Create a "select" SQL query
      *
      * @param null|object $criteria {@link CriteriaElement} to match
-     * @param bool        $join
+     * @param bool $join
      *
      * @return string string SQL query
      * @access    private

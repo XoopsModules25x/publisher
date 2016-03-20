@@ -117,7 +117,7 @@ foreach ($elements as $element) {
 }
 //unset($element);
 
-$itemUploadFile = XoopsRequest::getString('item_upload_file', '', 'FILES');
+$itemUploadFile = XoopsRequest::getArray('item_upload_file', array(), 'FILES');
 
 //stripcslashes
 switch ($op) {
@@ -145,7 +145,7 @@ switch ($op) {
         $xoopsOption['template_main'] = 'publisher_submit.tpl';
         include_once $GLOBALS['xoops']->path('header.php');
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-                $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
+        $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
         include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
         $categoryObj = $publisher->getHandler('category')->get(XoopsRequest::getInt('categoryid', 0, 'POST'));

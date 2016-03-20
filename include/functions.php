@@ -73,8 +73,8 @@ function publisherGetOrderBy($sort)
 /**
  * @credits Thanks to Mithandir
  * @param  string $str
- * @param  int    $start
- * @param  int    $length
+ * @param  int $start
+ * @param  int $length
  * @param  string $trimMarker
  * @return string
  */
@@ -158,7 +158,7 @@ function publisherGetAllowedImagesTypes()
 }
 
 /**
- * @param  bool   $withLink
+ * @param  bool $withLink
  * @return string
  */
 function publisherModuleHome($withLink = true)
@@ -221,8 +221,8 @@ function publisherCopyr($source, $dest)
 
 /**
  * .* @credits Thanks to the NewBB2 Development Team
- * @param  string          $item
- * @param  bool            $getStatus
+ * @param  string $item
+ * @param  bool $getStatus
  * @return bool|int|string
  */
 function &publisherGetPathStatus($item, $getStatus = false)
@@ -288,7 +288,7 @@ function publisherMkdir($target)
 /**
  * @credits Thanks to the NewBB2 Development Team
  * @param  string $target
- * @param  int    $mode
+ * @param  int $mode
  * @return bool
  */
 function publisherChmod($target, $mode = 0777)
@@ -297,8 +297,8 @@ function publisherChmod($target, $mode = 0777)
 }
 
 /**
- * @param  bool   $hasPath
- * @param  bool   $item
+ * @param  bool $hasPath
+ * @param  bool $item
  * @return string
  */
 function publisherGetUploadDir($hasPath = true, $item = false)
@@ -322,7 +322,7 @@ function publisherGetUploadDir($hasPath = true, $item = false)
 
 /**
  * @param  string $item
- * @param  bool   $hasPath
+ * @param  bool $hasPath
  * @return string
  */
 function publisherGetImageDir($item = '', $hasPath = true)
@@ -337,7 +337,7 @@ function publisherGetImageDir($item = '', $hasPath = true)
 }
 
 /**
- * @param  array  $errors
+ * @param  array $errors
  * @return string
  */
 function publisherFormatErrors($errors = array())
@@ -402,9 +402,9 @@ function publisherUserIsModerator($itemObj)
 /**
  * Saves permissions for the selected category
  *
- * @param  array   $groups     : group with granted permission
+ * @param  array $groups       : group with granted permission
  * @param  integer $categoryId : categoryid on which we are setting permissions
- * @param  string  $permName   : name of the permission
+ * @param  string $permName    : name of the permission
  * @return boolean : TRUE if the no errors occured
  */
 function publisherSaveCategoryPermissions($groups, $categoryId, $permName)
@@ -433,7 +433,7 @@ function publisherSaveCategoryPermissions($groups, $categoryId, $permName)
  * @param  string $iconname
  * @param  string $tabletitle
  * @param  string $tabledsc
- * @param  bool   $open
+ * @param  bool $open
  * @return void
  */
 function publisherOpenCollapsableBar($tablename = '', $iconname = '', $tabletitle = '', $tabledsc = '', $open = true)
@@ -482,7 +482,7 @@ function publisherCloseCollapsableBar($name, $icon)
 /**
  * @param  string $name
  * @param  string $value
- * @param  int    $time
+ * @param  int $time
  * @return void
  */
 function publisherSetCookieVar($name, $value, $time = 0)
@@ -549,9 +549,9 @@ function publisherGetCurrentPage()
 
 /**
  * @param  null|PublisherCategory $categoryObj
- * @param  int                    $selectedid
- * @param  int                    $level
- * @param  string                 $ret
+ * @param  int $selectedid
+ * @param  int $level
+ * @param  string $ret
  * @return string
  */
 function publisherAddCategoryOption(PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
@@ -583,9 +583,9 @@ function publisherAddCategoryOption(PublisherCategory $categoryObj, $selectedid 
 }
 
 /**
- * @param  int    $selectedid
- * @param  int    $parentcategory
- * @param  bool   $allCatOption
+ * @param  int $selectedid
+ * @param  int $parentcategory
+ * @param  bool $allCatOption
  * @param  string $selectname
  * @return string
  */
@@ -618,9 +618,9 @@ function publisherCreateCategorySelect($selectedid = 0, $parentcategory = 0, $al
 }
 
 /**
- * @param  int    $selectedid
- * @param  int    $parentcategory
- * @param  bool   $allCatOption
+ * @param  int $selectedid
+ * @param  int $parentcategory
+ * @param  bool $allCatOption
  * @return string
  */
 function publisherCreateCategoryOptions($selectedid = 0, $parentcategory = 0, $allCatOption = true)
@@ -645,7 +645,7 @@ function publisherCreateCategoryOptions($selectedid = 0, $parentcategory = 0, $a
 }
 
 /**
- * @param  array  $errArray
+ * @param  array $errArray
  * @param  string $reseturl
  * @return void
  */
@@ -679,8 +679,8 @@ function publisherRenderErrors(&$errArray, $reseturl = '')
  * Generate publisher URL
  *
  * @param  string $page
- * @param  array  $vars
- * @param  bool   $encodeAmp
+ * @param  array $vars
+ * @param  bool $encodeAmp
  * @return string
  *
  * @credit : xHelp module, developped by 3Dev
@@ -720,8 +720,8 @@ function publisherTellAFriend($subject = '')
 }
 
 /**
- * @param  bool        $another
- * @param  bool        $withRedirect
+ * @param  bool $another
+ * @param  bool $withRedirect
  * @param              $itemObj
  * @return bool|string
  */
@@ -885,7 +885,7 @@ function publisherCloseTags($string)
 }
 
 /**
- * @param  int    $itemId
+ * @param  int $itemId
  * @return string
  */
 function publisherRatingBar($itemId)
@@ -995,7 +995,7 @@ function publisherGetEditors($allowedEditors = null)
 
 /**
  * @param  string $string
- * @param  int    $length
+ * @param  int $length
  * @return int
  */
 function publisherStringToInt($string = '', $length = 5)
@@ -1005,7 +1005,7 @@ function publisherStringToInt($string = '', $length = 5)
     for ($i = 0; $i < $length; ++$i) {
         $final .= (int)$string[$i];
     }
-    return (int)($final);
+    return (int)$final;
 }
 
 /**

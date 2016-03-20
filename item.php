@@ -159,10 +159,9 @@ if ($itemObj->pagescount() > 0) {
         $itemPageId = 0;
     }
     include_once $GLOBALS['xoops']->path('class/pagenav.php');
-//    $pagenav = new XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemId());   
+    //    $pagenav = new XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemId());   
 
     $pagenav = new XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemid()); //SMEDrieben changed ->itemId to ->itemid
-
 
     $xoopsTpl->assign('pagenav', $pagenav->renderNav());
 }

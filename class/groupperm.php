@@ -34,14 +34,16 @@ class PublisherGroupPermHandler extends XoopsGroupPermHandler
     /**
      * Check permission
      *
-     * @param string              $gpermName    Name of permission
-     * @param int                 $gpermItemId  ID of an item
-     * @param int          /array $gpermGroupId A group ID or an array of group IDs
-     * @param int                 $gpermModId   ID of a module
+     * @param string $gpermName Name of permission
+     * @param int $gpermItemId  ID of an item
+     * @param $gpermGroupId
+     * @param int $gpermModId   ID of a module
      *
+     * @param bool $trueifadmin
      * @return bool TRUE if permission is enabled
+     * @internal param $int /array $gpermGroupId A group ID or an array of group IDs
      */
-    public function checkRight($gpermName, $gpermItemId, $gpermGroupId, $gpermModId = 1)
+    public function checkRight($gpermName, $gpermItemId, $gpermGroupId, $gpermModId = 1, $trueifadmin = true) //checkRight($gpermName, $gpermItemId, $gpermGroupId, $gpermModId = 1)
     {
         $criteria = new CriteriaCompo(new Criteria('gperm_modid', $gpermModId));
         $criteria->add(new Criteria('gperm_name', $gpermName));

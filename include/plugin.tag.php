@@ -50,8 +50,7 @@ function publisher_tag_iteminfo(&$items)
                 'link'    => "item.php?itemid={$item_id}",
                 'time'    => $item_obj->getVar('datesub'),
                 'tags'    => tag_parse_tag($item_obj->getVar('item_tag', 'n')), // optional
-                'content' => ''
-            );
+                'content' => '');
         }
     }
     unset($items_obj);

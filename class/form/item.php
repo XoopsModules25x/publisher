@@ -163,7 +163,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         // TAGS
         if (xoops_isActiveModule('tag') && $this->isGranted(PublisherConstants::PUBLISHER_ITEM_TAG)) {
             include_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
-            $textTags = new XoopsFormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
+            $textTags = new TagFormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
             $this->addElement($textTags);
         }
 
@@ -285,9 +285,9 @@ class PublisherItemForm extends PublisherThemeTabForm
         // STATUS
         if ($this->isGranted(PublisherConstants::PUBLISHER_STATUS)) {
             $options      = array(
+                PublisherConstants::PUBLISHER_STATUS_SUBMITTED => _CO_PUBLISHER_SUBMITTED,
                 PublisherConstants::PUBLISHER_STATUS_PUBLISHED => _CO_PUBLISHER_PUBLISHED,
                 PublisherConstants::PUBLISHER_STATUS_OFFLINE   => _CO_PUBLISHER_OFFLINE,
-                PublisherConstants::PUBLISHER_STATUS_SUBMITTED => _CO_PUBLISHER_SUBMITTED,
                 PublisherConstants::PUBLISHER_STATUS_REJECTED  => _CO_PUBLISHER_REJECTED);
             $statusSelect = new XoopsFormSelect(_CO_PUBLISHER_STATUS, 'status', $obj->getVar('status'));
             $statusSelect->addOptionArray($options);
@@ -515,8 +515,8 @@ $publisher(document).ready(function () {
                     $table .= '</tr>';
 
                     foreach ($filesObj as $fileObj) {
-                        $modify = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _CO_PUBLISHER_EDITFILE . "' alt='" . _CO_PUBLISHER_EDITFILE . "' /></a>";
-                        $delete = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _CO_PUBLISHER_DELETEFILE . "' alt='" . _CO_PUBLISHER_DELETEFILE . "'/></a>";
+                        $modify      = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _CO_PUBLISHER_EDITFILE . "' alt='" . _CO_PUBLISHER_EDITFILE . "' /></a>";
+                        $delete      = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _CO_PUBLISHER_DELETEFILE . "' alt='" . _CO_PUBLISHER_DELETEFILE . "'/></a>";
                         $not_visible = '';
                         if ($fileObj->status() == 0) {
                             $not_visible = "<img src='" . PUBLISHER_URL . "/assets/images/no.gif'/>";

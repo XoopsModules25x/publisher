@@ -65,7 +65,7 @@ class PublisherFile extends XoopsObject
 
     /**
      * @param string $method
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */
@@ -78,8 +78,8 @@ class PublisherFile extends XoopsObject
 
     /**
      * @param string $postField
-     * @param array  $allowedMimetypes
-     * @param array  $errors
+     * @param array $allowedMimetypes
+     * @param array $errors
      *
      * @return bool
      */
@@ -110,8 +110,8 @@ class PublisherFile extends XoopsObject
 
     /**
      * @param string $postField
-     * @param array  $allowedMimetypes
-     * @param array  $errors
+     * @param array $allowedMimetypes
+     * @param array $errors
      *
      * @return bool
      */
@@ -153,8 +153,8 @@ class PublisherFile extends XoopsObject
 
     /**
      * @param null|array $allowedMimetypes
-     * @param bool       $force
-     * @param bool       $doupload
+     * @param bool $force
+     * @param bool $doupload
      *
      * @return bool
      */
@@ -162,7 +162,7 @@ class PublisherFile extends XoopsObject
     {
         if ($this->isNew()) {
             $errors = array();
-            $ret = true;
+            $ret    = true;
             if ($doupload) {
                 $ret = $this->storeUpload('item_upload_file', $allowedMimetypes, $errors);
             }
@@ -302,12 +302,12 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
     /**
      * delete a file from the database
      *
-     * @param object $file  reference to the file to delete
-     * @param bool   $force
+     * @param XoopsObject $file reference to the file to delete
+     * @param bool $force
      *
      * @return bool FALSE if failed.
      */
-    public function delete(&$file, $force = false)
+    public function delete(XoopsObject $file, $force = false) //delete(&$file, $force = false)
     {
         $ret = false;
         // Delete the actual file
@@ -330,7 +330,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
         if (strtolower(get_class($itemObj)) !== 'publisheritem') {
             return false;
         }
-        $files  =& $this->getAllFiles($itemObj->itemid());
+        $files  = $this->getAllFiles($itemObj->itemid());
         $result = true;
         foreach ($files as $file) {
             if (!$this->delete($file)) {
@@ -344,17 +344,17 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve all files
      *
-     * @param int    $itemid
-     * @param int    $status
-     * @param int    $limit
-     * @param int    $start
+     * @param int $itemid
+     * @param int $status
+     * @param int $limit
+     * @param int $start
      * @param string $sort
      * @param string $order
-     * @param array  $category
+     * @param array $category
      *
      * @return array array of {@link PublisherFile} objects
      */
-    public function &getAllFiles($itemid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = array())
+    public function getAllFiles($itemid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = array())
     {
         global $xoopsDB;
         $files = array();

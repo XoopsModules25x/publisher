@@ -84,7 +84,7 @@ class PublisherCategoryForm extends XoopsThemeForm
 
         // EDITOR
         $groups         = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $gpermHandler   =& $this->publisher->getHandler('groupperm');
+        $gpermHandler   = $this->publisher->getHandler('groupperm');
         $moduleId       = $this->publisher->getModule()->mid();
         $allowedEditors = publisherGetEditors($gpermHandler->getItemIds('editors', $groups, $moduleId));
         $nohtml         = false;

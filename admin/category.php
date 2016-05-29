@@ -16,7 +16,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: category.php 10661 2013-01-04 19:22:48Z trabis $
  */
 
 include_once __DIR__ . '/admin_header.php';
@@ -44,7 +43,8 @@ switch ($op) {
             //            exit();
         } else {
             xoops_cp_header();
-            xoops_confirm(array('op' => 'del', 'categoryid' => $categoryObj->categoryid(), 'confirm' => 1, 'name' => $categoryObj->name()), 'category.php', _AM_PUBLISHER_DELETECOL . " '" . $categoryObj->name() . "'. <br /> <br />" . _AM_PUBLISHER_DELETE_CAT_CONFIRM, _AM_PUBLISHER_DELETE);
+            xoops_confirm(array('op' => 'del', 'categoryid' => $categoryObj->categoryid(), 'confirm' => 1, 'name' => $categoryObj->name()), 'category.php',
+                          _AM_PUBLISHER_DELETECOL . " '" . $categoryObj->name() . "'. <br> <br>" . _AM_PUBLISHER_DELETE_CAT_CONFIRM, _AM_PUBLISHER_DELETE);
             xoops_cp_footer();
         }
         break;
@@ -192,7 +192,7 @@ switch ($op) {
         publisherCpHeader();
         //publisher_adminMenu(1, _AM_PUBLISHER_CATEGORIES);
 
-        echo "<br />\n";
+        echo "<br>\n";
         echo "<form><div style=\"margin-bottom: 12px;\">";
         echo "<input type='button' name='button' onclick=\"location='category.php?op=mod'\" value='" . _AM_PUBLISHER_CATEGORY_CREATE . "'>&nbsp;&nbsp;";
         //echo "<input type='button' name='button' onclick=\"location='item.php?op=mod'\" value='" . _AM_PUBLISHER_CREATEITEM . "'>&nbsp;&nbsp;";
@@ -226,7 +226,7 @@ switch ($op) {
         include_once $GLOBALS['xoops']->path('class/pagenav.php');
         $pagenav = new XoopsPageNav($totalCategories, $publisher->getConfig('idxcat_perpage'), $startcategory, 'startcategory');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
-        echo '<br />';
+        echo '<br>';
         publisherCloseCollapsableBar('createdcategories', 'createdcategoriesicon');
         echo '<br>';
         //editcat(false);

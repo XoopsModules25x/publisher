@@ -17,7 +17,6 @@
  * @package      Publisher
  * @since        1.0
  * @author       Mage, Mamba
- * @version      $Id: index.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include_once __DIR__ . '/admin_header.php';
@@ -33,7 +32,7 @@ foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
     //    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
 
-echo $indexAdmin->addNavigation('index.php');
+echo $indexAdmin->addNavigation(basename(__FILE__));
 echo $indexAdmin->renderIndex();
 
 include_once __DIR__ . '/admin_footer.php';

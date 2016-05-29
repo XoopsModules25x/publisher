@@ -17,7 +17,6 @@
  * @author          Bandit-X
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Xoops Modules Dev Team
- * @version         $Id: archive.php 10645 2013-01-03 19:31:21Z trabis $
  */
 ######################################################################
 # Original version:
@@ -34,7 +33,20 @@ xoops_loadLanguage('calendar');
 
 $lastyear    = 0;
 $lastmonth   = 0;
-$monthsArray = array(1 => _CAL_JANUARY, 2 => _CAL_FEBRUARY, 3 => _CAL_MARCH, 4 => _CAL_APRIL, 5 => _CAL_MAY, 6 => _CAL_JUNE, 7 => _CAL_JULY, 8 => _CAL_AUGUST, 9 => _CAL_SEPTEMBER, 10 => _CAL_OCTOBER, 11 => _CAL_NOVEMBER, 12 => _CAL_DECEMBER);
+$monthsArray = array(
+    1  => _CAL_JANUARY,
+    2  => _CAL_FEBRUARY,
+    3  => _CAL_MARCH,
+    4  => _CAL_APRIL,
+    5  => _CAL_MAY,
+    6  => _CAL_JUNE,
+    7  => _CAL_JULY,
+    8  => _CAL_AUGUST,
+    9  => _CAL_SEPTEMBER,
+    10 => _CAL_OCTOBER,
+    11 => _CAL_NOVEMBER,
+    12 => _CAL_DECEMBER
+);
 $fromyear    = XoopsRequest::getInt('year');
 $frommonth   = XoopsRequest::getInt('month');
 
@@ -179,11 +191,30 @@ if ($fromyear != 0 && $frommonth != 0) {
         foreach ($storyarray as $item) {
             $story               = array();
             $htmltitle           = '';
-            $story['title']      = "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . "</a>: <a href='" . $item->getItemUrl() . "'" . $htmltitle . '>' . $item->getTitle() . '</a>';
+            $story['title']      = "<a href='" .
+                                   XOOPS_URL .
+                                   '/modules/' .
+                                   PUBLISHER_DIRNAME .
+                                   '/category.php?categoryid=' .
+                                   $item->categoryid() .
+                                   "'>" .
+                                   $item->getCategoryName() .
+                                   "</a>: <a href='" .
+                                   $item->getItemUrl() .
+                                   "'" .
+                                   $htmltitle .
+                                   '>' .
+                                   $item->getTitle() .
+                                   '</a>';
             $story['counter']    = $item->counter();
             $story['date']       = $item->getDatesub();
             $story['print_link'] = XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/print.php?itemid=' . $item->itemid();
-            $story['mail_link']  = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  ' . $item->getItemUrl();
+            $story['mail_link']  = 'mailto:?subject=' .
+                                   sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) .
+                                   '&amp;body=' .
+                                   sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) .
+                                   ':  ' .
+                                   $item->getItemUrl();
 
             $xoopsTpl->append('stories', $story);
         }

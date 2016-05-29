@@ -16,7 +16,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: functions.php 10661 2013-01-04 19:22:48Z trabis $
  */
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
@@ -73,8 +72,8 @@ function publisherGetOrderBy($sort)
 /**
  * @credits Thanks to Mithandir
  * @param  string $str
- * @param  int $start
- * @param  int $length
+ * @param  int    $start
+ * @param  int    $length
  * @param  string $trimMarker
  * @return string
  */
@@ -125,7 +124,8 @@ function publisherHtml2text($document)
         "'&(cent|#162);'i",
         "'&(pound|#163);'i",
         "'&(copy|#169);'i",
-        "'&#(\d+);'e"); // evaluate as php
+        "'&#(\d+);'e"
+    ); // evaluate as php
 
     $replace = array(
         '',
@@ -141,7 +141,8 @@ function publisherHtml2text($document)
         chr(162),
         chr(163),
         chr(169),
-        "chr(\\1)");
+        "chr(\\1)"
+    );
 
     $text = preg_replace($search, $replace, $document);
 
@@ -222,7 +223,7 @@ function publisherCopyr($source, $dest)
 /**
  * .* @credits Thanks to the NewBB2 Development Team
  * @param  string $item
- * @param  bool $getStatus
+ * @param  bool   $getStatus
  * @return bool|int|string
  */
 function &publisherGetPathStatus($item, $getStatus = false)
@@ -288,7 +289,7 @@ function publisherMkdir($target)
 /**
  * @credits Thanks to the NewBB2 Development Team
  * @param  string $target
- * @param  int $mode
+ * @param  int    $mode
  * @return bool
  */
 function publisherChmod($target, $mode = 0777)
@@ -322,7 +323,7 @@ function publisherGetUploadDir($hasPath = true, $item = false)
 
 /**
  * @param  string $item
- * @param  bool $hasPath
+ * @param  bool   $hasPath
  * @return string
  */
 function publisherGetImageDir($item = '', $hasPath = true)
@@ -344,7 +345,7 @@ function publisherFormatErrors($errors = array())
 {
     $ret = '';
     foreach ($errors as $key => $value) {
-        $ret .= '<br /> - ' . $value;
+        $ret .= '<br> - ' . $value;
     }
 
     return $ret;
@@ -402,9 +403,9 @@ function publisherUserIsModerator($itemObj)
 /**
  * Saves permissions for the selected category
  *
- * @param  array $groups       : group with granted permission
+ * @param  array   $groups     : group with granted permission
  * @param  integer $categoryId : categoryid on which we are setting permissions
- * @param  string $permName    : name of the permission
+ * @param  string  $permName   : name of the permission
  * @return boolean : TRUE if the no errors occured
  */
 function publisherSaveCategoryPermissions($groups, $categoryId, $permName)
@@ -433,7 +434,7 @@ function publisherSaveCategoryPermissions($groups, $categoryId, $permName)
  * @param  string $iconname
  * @param  string $tabletitle
  * @param  string $tabledsc
- * @param  bool $open
+ * @param  bool   $open
  * @return void
  */
 function publisherOpenCollapsableBar($tablename = '', $iconname = '', $tabletitle = '', $tabledsc = '', $open = true)
@@ -482,7 +483,7 @@ function publisherCloseCollapsableBar($name, $icon)
 /**
  * @param  string $name
  * @param  string $value
- * @param  int $time
+ * @param  int    $time
  * @return void
  */
 function publisherSetCookieVar($name, $value, $time = 0)
@@ -549,9 +550,9 @@ function publisherGetCurrentPage()
 
 /**
  * @param  null|PublisherCategory $categoryObj
- * @param  int $selectedid
- * @param  int $level
- * @param  string $ret
+ * @param  int                    $selectedid
+ * @param  int                    $level
+ * @param  string                 $ret
  * @return string
  */
 function publisherAddCategoryOption(PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
@@ -583,9 +584,9 @@ function publisherAddCategoryOption(PublisherCategory $categoryObj, $selectedid 
 }
 
 /**
- * @param  int $selectedid
- * @param  int $parentcategory
- * @param  bool $allCatOption
+ * @param  int    $selectedid
+ * @param  int    $parentcategory
+ * @param  bool   $allCatOption
  * @param  string $selectname
  * @return string
  */
@@ -618,8 +619,8 @@ function publisherCreateCategorySelect($selectedid = 0, $parentcategory = 0, $al
 }
 
 /**
- * @param  int $selectedid
- * @param  int $parentcategory
+ * @param  int  $selectedid
+ * @param  int  $parentcategory
  * @param  bool $allCatOption
  * @return string
  */
@@ -645,14 +646,16 @@ function publisherCreateCategoryOptions($selectedid = 0, $parentcategory = 0, $a
 }
 
 /**
- * @param  array $errArray
+ * @param  array  $errArray
  * @param  string $reseturl
  * @return void
  */
 function publisherRenderErrors(&$errArray, $reseturl = '')
 {
     if (is_array($errArray) && count($errArray) > 0) {
-        echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' . PUBLISHER_URL . '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
+        echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' .
+             PUBLISHER_URL .
+             '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
 
         echo '<h4 style="text-align:left;margin:0; padding-top:0;">' . _AM_PUBLISHER_MSG_SUBMISSION_ERR;
 
@@ -671,7 +674,7 @@ function publisherRenderErrors(&$errArray, $reseturl = '')
                 echo '<li><a href="#' . $key . '" onclick="var e = xoopsGetElementById(\'' . $key . '\'); e.focus();">' . htmlspecialchars($error) . '</a></li>';
             }
         }
-        echo '</ul></div><br />';
+        echo '</ul></div><br>';
     }
 }
 
@@ -679,8 +682,8 @@ function publisherRenderErrors(&$errArray, $reseturl = '')
  * Generate publisher URL
  *
  * @param  string $page
- * @param  array $vars
- * @param  bool $encodeAmp
+ * @param  array  $vars
+ * @param  bool   $encodeAmp
  * @return string
  *
  * @credit : xHelp module, developped by 3Dev
@@ -720,8 +723,8 @@ function publisherTellAFriend($subject = '')
 }
 
 /**
- * @param  bool $another
- * @param  bool $withRedirect
+ * @param  bool        $another
+ * @param  bool        $withRedirect
  * @param              $itemObj
  * @return bool|string
  */
@@ -759,7 +762,7 @@ function publisherUploadFile($another = false, $withRedirect = true, &$itemObj)
     $errors = array();
     if ($publisher->getConfig('perm_upload') && is_uploaded_file($_FILES['item_upload_file']['tmp_name'])) {
         if (!$ret = $fileObj->checkUpload('item_upload_file', $allowedMimetypes, $errors)) {
-            $errorstxt = implode('<br />', $errors);
+            $errorstxt = implode('<br>', $errors);
 
             $message = sprintf(_CO_PUBLISHER_MESSAGE_FILE_ERROR, $errorstxt);
             if ($withRedirect) {
@@ -930,7 +933,7 @@ function publisherRatingBar($itemId)
         $staticRater[] .= '<div id="unit_ul' . $itemId . '" class="publisher_unit-rating" style="width:' . $ratingUnitWidth * $units . 'px;">';
         $staticRater[] .= '<div class="publisher_current-rating" style="width:' . $ratingWidth . 'px;">' . _MD_PUBLISHER_VOTE_RATING . ' ' . $rating2 . '/' . $units . '</div>';
         $staticRater[] .= '</div>';
-        $staticRater[] .= '<div class="publisher_static">' . _MD_PUBLISHER_VOTE_RATING . ': <strong> ' . $rating1 . '</strong>/' . $units . ' (' . $count . ' ' . $tense . ') <br /><em>' . _MD_PUBLISHER_VOTE_DISABLE . '</em></div>';
+        $staticRater[] .= '<div class="publisher_static">' . _MD_PUBLISHER_VOTE_RATING . ': <strong> ' . $rating1 . '</strong>/' . $units . ' (' . $count . ' ' . $tense . ') <br><em>' . _MD_PUBLISHER_VOTE_DISABLE . '</em></div>';
         $staticRater[] .= '</div>';
         $staticRater[] .= '</div>' . "\n\n";
 
@@ -995,7 +998,7 @@ function publisherGetEditors($allowedEditors = null)
 
 /**
  * @param  string $string
- * @param  int $length
+ * @param  int    $length
  * @return int
  */
 function publisherStringToInt($string = '', $length = 5)
@@ -1005,6 +1008,7 @@ function publisherStringToInt($string = '', $length = 5)
     for ($i = 0; $i < $length; ++$i) {
         $final .= (int)$string[$i];
     }
+
     return (int)$final;
 }
 

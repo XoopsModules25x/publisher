@@ -17,7 +17,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: latest_files.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
@@ -81,7 +80,8 @@ function publisher_latest_files_edit($options)
     $orderEle->addOptionArray(array(
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT));
+                                  'weight'  => _MB_PUBLISHER_WEIGHT
+                              ));
     $dispEle   = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $directEle = new XoopsFormRadioYN(_MB_PUBLISHER_DIRECTDOWNLOAD, 'options[3]', $options[3]);
 

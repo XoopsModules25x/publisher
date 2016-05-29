@@ -16,7 +16,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: file.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include_once __DIR__ . '/admin_header.php';
@@ -43,7 +42,7 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
             //            exit();
         }
 
-        echo "<br />\n";
+        echo "<br>\n";
         echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_EDITING . '</span>';
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_PUBLISHER_FILE_EDITING_DSC . '</span>';
         publisherOpenCollapsableBar('editfile', 'editfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
@@ -111,11 +110,11 @@ switch ($op) {
 
         // Storing the file
         if (!$fileObj->store()) {
-            redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid().'#tab_2', 3, _AM_PUBLISHER_FILE_EDITING_ERROR . publisherFormatErrors($fileObj->getErrors()));
+            redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 3, _AM_PUBLISHER_FILE_EDITING_ERROR . publisherFormatErrors($fileObj->getErrors()));
             //            exit;
         }
 
-        redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid().'#tab_2', 2, _AM_PUBLISHER_FILE_EDITING_SUCCESS);
+        redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 2, _AM_PUBLISHER_FILE_EDITING_SUCCESS);
         //        exit();
         break;
 
@@ -130,18 +129,18 @@ switch ($op) {
 
         if ($confirm) {
             if (!$publisher->getHandler('file')->delete($fileObj)) {
-                redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid().'#tab_2', 2, _AM_PUBLISHER_FILE_DELETE_ERROR);
+                redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 2, _AM_PUBLISHER_FILE_DELETE_ERROR);
                 //                exit;
             }
 
-            redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid().'#tab_2', 2, sprintf(_AM_PUBLISHER_FILEISDELETED, $fileObj->name()));
+            redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 2, sprintf(_AM_PUBLISHER_FILEISDELETED, $fileObj->name()));
             //            exit();
         } else {
             // no confirm: show deletion condition
             $fileid = XoopsRequest::getInt('fileid', 0, 'GET');
 
             publisherCpHeader();
-            xoops_confirm(array('op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()), 'file.php', _AM_PUBLISHER_DELETETHISFILE . ' <br />' . $fileObj->name() . ' <br /> <br />', _AM_PUBLISHER_DELETE);
+            xoops_confirm(array('op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()), 'file.php', _AM_PUBLISHER_DELETETHISFILE . ' <br>' . $fileObj->name() . ' <br> <br>', _AM_PUBLISHER_DELETE);
             xoops_cp_footer();
         }
 

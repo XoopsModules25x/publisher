@@ -17,7 +17,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: items_new.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
@@ -35,7 +34,7 @@ function publisher_items_new_show($options)
 
     $selectedcatids = explode(',', $options[0]);
 
-    $block = array();
+    $block   = array();
     $allcats = false;
     if (in_array(0, $selectedcatids)) {
         $allcats = true;
@@ -148,7 +147,8 @@ function publisher_items_new_edit($options)
                                   'weight'   => _MB_PUBLISHER_WEIGHT,
                                   'rating'   => _MI_PUBLISHER_ORDERBY_RATING,
                                   'votes'    => _MI_PUBLISHER_ORDERBY_VOTES,
-                                  'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS));
+                                  'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS
+                              ));
 
     $showEle  = new XoopsFormRadioYN(_MB_PUBLISHER_ORDER_SHOW, 'options[2]', $options[2]);
     $dispEle  = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[3]', 10, 255, $options[3]);
@@ -159,7 +159,8 @@ function publisher_items_new_edit($options)
                                   'none'     => _NONE,
                                   'article'  => _MB_PUBLISHER_IMAGE_ARTICLE,
                                   'category' => _MB_PUBLISHER_IMAGE_CATEGORY,
-                                  'avatar'   => _MB_PUBLISHER_IMAGE_AVATAR));
+                                  'avatar'   => _MB_PUBLISHER_IMAGE_AVATAR
+                              ));
 
     $form->addElement($catEle);
     $form->addElement($orderEle);

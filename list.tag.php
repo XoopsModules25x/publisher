@@ -16,7 +16,6 @@
  * @subpackage      tag
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: list.tag.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 // todo: Check this file

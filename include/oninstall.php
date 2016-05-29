@@ -10,10 +10,9 @@
  */
 
 /**
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (http://xoops.org)
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author          luciorota <lucio.rota@gmail.com>
- * @version         $Id: oninstall.php 11345 2013-04-03 22:35:51Z luciorota $
  *
  * @param $xoopsModule
  *
@@ -42,8 +41,8 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
     xoops_loadLanguage('admin', $xoopsModule->getVar('dirname'));
     xoops_loadLanguage('modinfo', $xoopsModule->getVar('dirname'));
 
-    $moduleDirName =  $xoopsModule->getVar('dirname');
-    include_once $GLOBALS['xoops']->path('modules/'.$moduleDirName.'/include/config.php');
+    $moduleDirName = $xoopsModule->getVar('dirname');
+    include_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
 
     foreach (array_keys($uploadFolders) as $i) {
         PublisherUtilities::createFolder($uploadFolders[$i]);
@@ -51,7 +50,7 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
 
     $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
     foreach (array_keys($copyFiles) as $i) {
-        $dest   = $copyFiles[$i] . '/blank.png';
+        $dest = $copyFiles[$i] . '/blank.png';
         PublisherUtilities::copyFile($file, $dest);
     }
 

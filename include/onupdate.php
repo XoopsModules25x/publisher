@@ -10,10 +10,9 @@
  */
 
 /**
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (http://xoops.org)
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: onupdate.php 10374 2012-12-12 23:39:48Z trabis $
  *
  * @param      $module
  * @param null $oldversion
@@ -53,7 +52,8 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
             '/class/request.php',
             '/class/registry.php',
             '/include/constants.php',
-            '/ajaxrating.txt');
+            '/ajaxrating.txt'
+        );
 
         foreach (array_keys($oldFiles) as $i) {
             unlink($GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . $oldFiles[$i]));
@@ -87,8 +87,8 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
         //       $folderHandler->delete($cssFile);
 
         //create upload directories, if needed
-        $moduleDirName =  $module->getVar('dirname');
-        include $GLOBALS['xoops']->path('modules/'.$moduleDirName.'/include/config.php');
+        $moduleDirName = $module->getVar('dirname');
+        include $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
 
         foreach (array_keys($uploadFolders) as $i) {
             PublisherUtilities::createFolder($uploadFolders[$i]);
@@ -96,7 +96,7 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
         //copy blank.png files, if needed
         $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
         foreach (array_keys($copyFiles) as $i) {
-            $dest   = $copyFiles[$i] . '/blank.png';
+            $dest = $copyFiles[$i] . '/blank.png';
             PublisherUtilities::copyFile($file, $dest);
         }
     }

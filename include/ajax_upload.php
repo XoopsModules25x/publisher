@@ -1,9 +1,9 @@
 <?php
-// $Id: ajax_upload.php 10374 2012-12-12 23:39:48Z trabis $
+// 
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                  Copyright (c) 2000-2016 XOOPS.org                        //
+//                         <http://xoops.org/>                               //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -71,7 +71,7 @@ if ($error === false) {
     $uploader->setPrefix('img');
     if ($uploader->fetchMedia('publisher_upload_file')) {
         if (!$uploader->upload()) {
-            $error = implode('<br />', $uploader->getErrors(false));
+            $error = implode('<br>', $uploader->getErrors(false));
         } else {
             $imageHandler = xoops_getHandler('image');
             $image        = $imageHandler->create();
@@ -96,7 +96,7 @@ if ($error === false) {
             }
         }
     } else {
-        $error = sprintf(_FAILFETCHIMG, 0) . '<br />' . implode('<br />', $uploader->getErrors(false));
+        $error = sprintf(_FAILFETCHIMG, 0) . '<br>' . implode('<br>', $uploader->getErrors(false));
     }
 }
 

@@ -16,7 +16,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: items_spot.php 10374 2012-12-12 23:39:48Z trabis $
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -30,16 +29,16 @@ include_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_spot_show($options)
 {
     //    global $xoTheme;
-    $publisher           = PublisherPublisher::getInstance();
+    $publisher         = PublisherPublisher::getInstance();
     $optDisplayLast    = $options[0];
     $optItemsCount     = $options[1];
-    $optCategoryId      = $options[2];
-    $selItems           = isset($options[3]) ? explode(',', $options[3]) : '';
+    $optCategoryId     = $options[2];
+    $selItems          = isset($options[3]) ? explode(',', $options[3]) : '';
     $optDisplayPoster  = $options[4];
     $optDisplayComment = $options[5];
     $optDisplayType    = $options[6];
-    $optTruncate        = (int)$options[7];
-    $optCatImage        = $options[8];
+    $optTruncate       = (int)$options[7];
+    $optCatImage       = $options[8];
     if ($optCategoryId == 0) {
         $optCategoryId = -1;
     }
@@ -144,7 +143,8 @@ function publisher_items_spot_edit($options)
     $typeEle = new XoopsFormSelect(_MB_PUBLISHER_DISPLAY_TYPE, 'options[6]', $options[6]);
     $typeEle->addOptionArray(array(
                                  'block'  => _MB_PUBLISHER_DISPLAY_TYPE_BLOCK,
-                                 'bullet' => _MB_PUBLISHER_DISPLAY_TYPE_BULLET));
+                                 'bullet' => _MB_PUBLISHER_DISPLAY_TYPE_BULLET
+                             ));
     $truncateEle = new XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[7]', 4, 255, $options[7]);
     $imageEle    = new XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_CATIMAGE, 'options[8]', $options[8]);
     $form->addElement($autoEle);

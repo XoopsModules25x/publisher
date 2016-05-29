@@ -16,7 +16,6 @@
  * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: formdatetime.php 10276 2012-11-27 13:58:28Z trabis $
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 

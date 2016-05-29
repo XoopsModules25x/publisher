@@ -15,7 +15,6 @@
  * @subpackage      Include
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: search.inc.php 10374 2012-12-12 23:39:48Z trabis $
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -41,7 +40,7 @@ function publisher_search($queryarray, $andor, $limit, $offset, $userid, $catego
     if ($queryarray == '' || count($queryarray) == 0) {
         $hightlightKey = '';
     } else {
-        $keywords       = implode('+', $queryarray);
+        $keywords      = implode('+', $queryarray);
         $hightlightKey = '&amp;keywords=' . $keywords;
     }
     $itemsObjs        = $publisher->getHandler('item')->getItemsFromSearch($queryarray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
@@ -60,10 +59,10 @@ function publisher_search($queryarray, $andor, $limit, $offset, $userid, $catego
         $item['time'] = $obj->getVar('datesub'); //must go has unix timestamp
         $item['uid']  = $obj->uid();
         //"Fulltext search/highlight
-        $text           = $obj->getBody();
+        $text          = $obj->getBody();
         $sanitizedText = '';
-        $textLower         = strtolower($text);
-        $queryarray     = is_array($queryarray) ? $queryarray : array($queryarray);
+        $textLower     = strtolower($text);
+        $queryarray    = is_array($queryarray) ? $queryarray : array($queryarray);
 
         if ($queryarray[0] != '' && count($queryarray) > 0) {
             foreach ($queryarray as $query) {

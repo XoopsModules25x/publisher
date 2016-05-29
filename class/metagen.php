@@ -15,7 +15,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: metagen.php 10374 2012-12-12 23:39:48Z trabis $
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -256,7 +255,7 @@ class PublisherMetagen
      * Return true if the string is length > 0
      *
      * @credit psylove
-     * @var    string  $string Chaine de caractère
+     * @var    string $string Chaine de caractère
      * @return boolean
      */
     public function emptyString($var)
@@ -280,8 +279,37 @@ class PublisherMetagen
         // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus
         $title = rawurlencode(strtolower($title));
         // Transformation des ponctuations
-        //                 Tab     Space      !        "        #        %        &        '        (        )        ,        /        :        ;        <        =        >        ?        @        [        \        ]        ^        {        |        }        ~       .
-        $pattern = array('/%09/', '/%20/', '/%21/', '/%22/', '/%23/', '/%25/', '/%26/', '/%27/', '/%28/', '/%29/', '/%2C/', '/%2F/', '/%3A/', '/%3B/', '/%3C/', '/%3D/', '/%3E/', '/%3F/', '/%40/', '/%5B/', '/%5C/', '/%5D/', '/%5E/', '/%7B/', '/%7C/', '/%7D/', '/%7E/', "/\./");
+                                                 
+        $pattern = array(
+            '/%09/', // Tab
+            '/%20/', // Space
+            '/%21/', // !
+            '/%22/', // "
+            '/%23/', // #
+            '/%25/', // %
+            '/%26/', // &
+            '/%27/', // '
+            '/%28/', // (
+            '/%29/', // )
+            '/%2C/', // ,
+            '/%2F/', // /
+            '/%3A/', // :
+            '/%3B/', // ;
+            '/%3C/', // <
+            '/%3D/', // =
+            '/%3E/', // >
+            '/%3F/', // ?
+            '/%40/', // @
+            '/%5B/', // [
+            '/%5C/', // \
+            '/%5D/', // ]
+            '/%5E/', // ^
+            '/%7B/', // {
+            '/%7C/', // |
+            '/%7D/', // }
+            '/%7E/', // ~
+            "/\./" // .
+        );
         $repPat  = array('-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-');
         $title   = preg_replace($pattern, $repPat, $title);
         // Transformation des caractères accentués
@@ -311,9 +339,9 @@ class PublisherMetagen
      */
     public function purifyText($text, $keyword = false)
     {
-        //        $text = str_replace(['&nbsp;', ' '], ['<br />', ' '], $text); //for php 5.4
+        //        $text = str_replace(['&nbsp;', ' '], ['<br>', ' '], $text); //for php 5.4
         $text = str_replace('&nbsp;', ' ', $text);
-        $text = str_replace('<br />', ' ', $text);
+        $text = str_replace('<br>', ' ', $text);
         $text = strip_tags($text);
         $text = html_entity_decode($text);
         $text = $this->myts->undoHtmlSpecialChars($text);

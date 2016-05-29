@@ -39,9 +39,9 @@ define('_MI_PUBLISHER_CLONEDSC', 'Select “Yes” to allow users with appropria
 define('_MI_PUBLISHER_COLLHEAD', 'Display the collapsible bar?');
 define('_MI_PUBLISHER_COLLHEADDSC', 'If you set this option to “Yes”, the categories summary will be displayed in a collapsible bar as well as the articles. If you set this option to “No”, the collapsible bar will not be displayed.');
 define('_MI_PUBLISHER_COMMENTS', 'Control comments at the article level?');
-define('_MI_PUBLISHER_COMMENTSDSC', 'if you set this option to “Yes”, you will see comments only on those items that have their comment checkbox marked. <br /><br />Select “No” to have comments managed at the global level (look below under the tag \'Comment rules\'.');
+define('_MI_PUBLISHER_COMMENTSDSC', 'if you set this option to “Yes”, you will see comments only on those items that have their comment checkbox marked. <br><br>Select “No” to have comments managed at the global level (look below under the tag \'Comment rules\'.');
 define('_MI_PUBLISHER_DATEFORMAT', 'Date format:');
-define('_MI_PUBLISHER_DATEFORMATDSC', "Select a display style. Example: 'd-M-Y H:i' translates to '30-Mar-2004 22:35'<br /><a href=\'http://jp.php.net/date\'>Refer to the PHP manual for more display options.</a>");
+define('_MI_PUBLISHER_DATEFORMATDSC', "Select a display style. Example: 'd-M-Y H:i' translates to '30-Mar-2004 22:35'<br><a href=\'http://jp.php.net/date\'>Refer to the PHP manual for more display options.</a>");
 define('_MI_PUBLISHER_DEMO_SITE', 'SmartFactory Demo Site');
 define('_MI_PUBLISHER_DEVELOPER_CONTRIBUTOR', 'Contributor(s)');
 define('_MI_PUBLISHER_DEVELOPER_CREDITS', 'Credits');
@@ -324,10 +324,10 @@ define('_MI_PUBLISHER_ORDERBY_COMMENTS', 'Comments DESC');
 define('_MI_PUBLISHER_ORDERBY_HITS', 'Hits DESC');
 
 // The name of this module
-define('_MI_PUBLISHER_NAME','Publisher');
+define('_MI_PUBLISHER_NAME', 'Publisher');
 define('_MI_PUBLISHER_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_PUBLISHER_HELP_HEADER', __DIR__.'/help/helpheader.html');
-define('_MI_PUBLISHER_BACK_2_ADMIN','Back to Administration of ');
+define('_MI_PUBLISHER_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_PUBLISHER_BACK_2_ADMIN', 'Back to Administration of ');
 
 //help
-define('_MI_PUBLISHER_HELP_OVERVIEW','Overview');
+define('_MI_PUBLISHER_HELP_OVERVIEW', 'Overview');

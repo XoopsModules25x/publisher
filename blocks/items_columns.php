@@ -17,7 +17,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Bandit-x
- * @version         $Id: items_columns.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
@@ -38,7 +37,7 @@ function publisher_items_columns_show($options)
 
     //Column Settings
     $optNumColumns  = isset($options[0]) ? (int)$options[0] : '2';
-    $selCategories   = isset($options[1]) ? explode(',', $options[1]) : array();
+    $selCategories  = isset($options[1]) ? explode(',', $options[1]) : array();
     $optCatItems    = (int)$options[2];
     $optCatTruncate = isset($options[3]) ? (int)$options[3] : '0';
 
@@ -155,7 +154,8 @@ function publisher_items_columns_edit($options)
                                 '2' => 2,
                                 '3' => 3,
                                 '4' => 4,
-                                '5' => 5));
+                                '5' => 5
+                            ));
     $catEle      = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisherCreateCategorySelect($options[1], 0, true, 'options[1]'));
     $cItemsEle   = new XoopsFormText(_MB_PUBLISHER_NUMBER_ITEMS_CAT, 'options[2]', 4, 255, $options[2]);
     $truncateEle = new XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[3]', 4, 255, $options[3]);
@@ -163,7 +163,8 @@ function publisher_items_columns_edit($options)
     $tempEle = new XoopsFormSelect(_MB_PUBLISHER_TEMPLATE, 'options[4]', $options[4]);
     $tempEle->addOptionArray(array(
                                  'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
-                                 'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED));
+                                 'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED
+                             ));
 
     $form->addElement($colEle);
     $form->addElement($catEle);

@@ -17,7 +17,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: item.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include_once __DIR__ . '/header.php';
@@ -63,7 +62,10 @@ if (!$itemObj->accessGranted()) {
 }
 
 // Update the read counter of the selected item
-if (!$GLOBALS['xoopsUser'] || ($GLOBALS['xoopsUser'] && !$GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid())) || ($GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid()) && $publisher->getConfig('item_admin_hits') == 1)) {
+if (!$GLOBALS['xoopsUser'] ||
+    ($GLOBALS['xoopsUser'] && !$GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid())) ||
+    ($GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid()) && $publisher->getConfig('item_admin_hits') == 1)
+) {
     $itemObj->updateCounter();
 }
 
@@ -134,7 +136,7 @@ if ('previous_next' === $publisher->getConfig('item_other_items_type')) {
 if ($publisher->getConfig('item_other_items_type') === 'all') {
     $itemsObj = $publisher->getHandler('item')->getAllPublished(0, 0, $categoryObj->categoryid(), $sort, $order, '', true, true);
     $items    = array();
-    foreach ($itemsObj as $theItemObj) {
+    foreach ($itemsObj[1] as $theItemObj) {
         $theItem              = array();
         $theItem['titlelink'] = $theItemObj->getItemLink();
         $theItem['datesub']   = $theItemObj->getDatesub();
@@ -159,7 +161,7 @@ if ($itemObj->pagescount() > 0) {
         $itemPageId = 0;
     }
     include_once $GLOBALS['xoops']->path('class/pagenav.php');
-    //    $pagenav = new XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemId());   
+    //    $pagenav = new XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemId());
 
     $pagenav = new XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemid()); //SMEDrieben changed ->itemId to ->itemid
 
@@ -210,7 +212,12 @@ $item['embeded_files'] = $embededFiles;
 unset($file, $embededFiles, $filesObj, $fileObj);
 
 // Language constants
-$xoopsTpl->assign('mail_link', 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ': ' . $itemObj->getItemUrl());
+$xoopsTpl->assign('mail_link', 'mailto:?subject=' .
+                               sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) .
+                               '&amp;body=' .
+                               sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) .
+                               ': ' .
+                               $itemObj->getItemUrl());
 $xoopsTpl->assign('itemid', $itemObj->itemId());
 $xoopsTpl->assign('sectionname', $publisher->getModule()->getVar('name'));
 $xoopsTpl->assign('module_dirname', $publisher->getModule()->getVar('dirname'));
@@ -241,7 +248,8 @@ if (($publisher->getConfig('com_rule') <> 0) && (($itemObj->cancomment() == 1) |
     $xoopsTpl->assign(array(
                           'editcomment_link'   => PUBLISHER_URL . '/comment_edit.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
                           'deletecomment_link' => PUBLISHER_URL . '/comment_delete.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
-                          'replycomment_link'  => PUBLISHER_URL . '/comment_reply.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra));
+                          'replycomment_link'  => PUBLISHER_URL . '/comment_reply.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra
+                      ));
     $xoopsTpl->_tpl_vars['commentsnav'] = str_replace("self.location.href='", "self.location.href='" . PUBLISHER_URL . '/', $xoopsTpl->_tpl_vars['commentsnav']);
 }
 

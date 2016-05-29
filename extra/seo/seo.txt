@@ -1,5 +1,5 @@
 /*
- * $Id: seo.txt,v 1.1 2007/08/25 14:37:47 marcan Exp $
+ * 
  * Module: Publisher
  * Author: Sudhaker Raj <http://xoops.biz>
  * Licence: GNU
@@ -17,7 +17,7 @@ If you are using path-info method, SEO-friendly URL (non-working example)
 If you are using htaccess method, SEO-friendly URL (non-working example)
   http://www.xuups.com/publisher.item.62/holiday-time.html
 
-It is found that latter is more liked by search engines. It can significantly boost search engine traffic on your site. 
+It is found that latter is more liked by search engines. It can significantly boost search engine traffic on your site.
 
 Just try it!!!
 
@@ -28,6 +28,6 @@ Core SEO functionality for this module can be enable in module preferences. You 
 
 if you choose htaccess then you must copy (or merge) extra/seo/sample.htaccess to <xoops_root>/.htaccess (for rewrite). If your web server does not support rewrite then path-info should be used.
 
-If you are using htaccess and want some different name, like 'articles' for publisher, change module name in preferences and make similar modification in <xoops_root>/.htaccess 
+If you are using htaccess and want some different name, like 'articles' for publisher, change module name in preferences and make similar modification in <xoops_root>/.htaccess
   http://www.xuups.com/articles.item.62/holiday-time.html
 

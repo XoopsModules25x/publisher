@@ -17,7 +17,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: notification.inc.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
@@ -43,7 +42,7 @@ function publisher_notify_iteminfo($category, $itemId)
         // Assume we have a valid category id
         $sql          = 'SELECT name, short_url FROM ' . $GLOBALS['xoopsDB']->prefix('publisher_categories') . ' WHERE categoryid  = ' . $itemId;
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
-        $resultArray = $GLOBALS['xoopsDB']->fetchArray($result);
+        $resultArray  = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $resultArray['name'];
         $item['url']  = PublisherSeo::generateUrl('category', $itemId, $resultArray['short_url']);
 
@@ -54,7 +53,7 @@ function publisher_notify_iteminfo($category, $itemId)
         // Assume we have a valid story id
         $sql          = 'SELECT title, short_url FROM ' . $GLOBALS['xoopsDB']->prefix('publisher_items') . ' WHERE itemid = ' . $itemId;
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
-        $resultArray = $GLOBALS['xoopsDB']->fetchArray($result);
+        $resultArray  = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $resultArray['title'];
         $item['url']  = PublisherSeo::generateUrl('item', $itemId, $resultArray['short_url']);
 

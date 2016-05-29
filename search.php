@@ -17,7 +17,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Taiwen Jiang <phppp@users.sourceforge.net>
- * @version         $Id: search.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include_once __DIR__ . '/header.php';
@@ -170,7 +169,7 @@ if ($term && XoopsRequest::getString('submit', '', 'POST')) {
     $search_info = _SR_KEYWORDS . ': ' . $myts->htmlSpecialChars($term);
     if ($uname_required) {
         if ($search_info) {
-            $search_info .= '<br />';
+            $search_info .= '<br>';
         }
         $search_info .= _CO_PUBLISHER_UID . ': ' . $myts->htmlSpecialChars($search_username);
     }

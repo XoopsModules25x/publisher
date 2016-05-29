@@ -16,7 +16,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: import.php 12825 2014-10-31 02:42:34Z zyspec $
  */
 
 include_once __DIR__ . '/admin_header.php';

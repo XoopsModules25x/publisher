@@ -17,7 +17,6 @@
  * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: category.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
@@ -126,7 +125,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"image\", \"" . 'uploads/' . PUBLISHER_DIRNAME . '/images/category/' . "\", \"\", \"" . XOOPS_URL . "\")'");
         $imageTray = new XoopsFormElementTray(_AM_PUBLISHER_IMAGE, '&nbsp;');
         $imageTray->addElement($imageSelect);
-        $imageTray->addElement(new XoopsFormLabel('', "<br /><br /><img src='" . publisherGetImageDir('category', false) . $this->targetObject->getImage() . "' name='image3' id='image3' alt='' />"));
+        $imageTray->addElement(new XoopsFormLabel('', "<br><br><img src='" . publisherGetImageDir('category', false) . $this->targetObject->getImage() . "' name='image3' id='image3' alt='' />"));
         $imageTray->setDescription(_AM_PUBLISHER_IMAGE_DSC);
         $this->addElement($imageTray);
 
@@ -215,7 +214,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $this->addElement($moderator);
 
         //SUBCATEGORY
-        $catTray = new XoopsFormElementTray(_AM_PUBLISHER_SCATEGORYNAME, '<br /><br />');
+        $catTray = new XoopsFormElementTray(_AM_PUBLISHER_SCATEGORYNAME, '<br><br>');
         for ($i = 0; $i < $this->subCatsCount; ++$i) {
             $subname = '';
             if ($i < (($scname = XoopsRequest::getArray('scname', array(), 'POST')) ? count($scname) : 0)) {

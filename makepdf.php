@@ -20,7 +20,8 @@ if ($itemid == 0) {
 
 //2.5.8
 if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-    redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['xoopsModule']->getVar('dirname') . '/viewtopic.php?topic_id=' . $itemid, 3, 'TCPF for XOOPS not installed in ./class/libraries/vendor/tecnickcom/tcpdf/');
+    redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['xoopsModule']->getVar('dirname') . '/viewtopic.php?topic_id=' . $itemid, 3,
+                    'TCPF for XOOPS not installed in ./class/libraries/vendor/tecnickcom/tcpdf/');
 }
 
 // Creating the item object for the selected item
@@ -47,11 +48,29 @@ $mainImage     = $itemObj->getMainImage();
 
 $content = '';
 if ($mainImage['image_path'] != '') {
-    $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"/><br />';
+    $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"/><br>';
 }
-$content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" style="text-decoration: none; color: black; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '">' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '</a>';
-$content .= '<br /><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">' . _CO_PUBLISHER_CATEGORY . ' : </span><a href="' . PUBLISHER_URL . '/category.php?categoryid=' . $itemObj->categoryid() . '" style="color: #CCCCCC; font-weight: bold; font-size: 80%;" title="' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '">' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '</a>';
-$content .= '<br /><span style="font-size: 80%; font-style: italic;">' . $sender_inform . '</span><br />';
+$content .= '<a href="' .
+            PUBLISHER_URL .
+            '/item.php?itemid=' .
+            $itemid .
+            '" style="text-decoration: none; color: black; font-size: 120%;" title="' .
+            $myts->undoHtmlSpecialChars($itemObj->getTitle()) .
+            '">' .
+            $myts->undoHtmlSpecialChars($itemObj->getTitle()) .
+            '</a>';
+$content .= '<br><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">' .
+            _CO_PUBLISHER_CATEGORY .
+            ' : </span><a href="' .
+            PUBLISHER_URL .
+            '/category.php?categoryid=' .
+            $itemObj->categoryid() .
+            '" style="color: #CCCCCC; font-weight: bold; font-size: 80%;" title="' .
+            $myts->undoHtmlSpecialChars($categoryObj->name()) .
+            '">' .
+            $myts->undoHtmlSpecialChars($categoryObj->name()) .
+            '</a>';
+$content .= '<br><span style="font-size: 80%; font-style: italic;">' . $sender_inform . '</span><br>';
 $content .= $itemObj->plainMaintext();
 
 // Configuration for TCPDF_for_XOOPS
@@ -68,7 +87,6 @@ $pdf_data = array(
 
 //2.5.8
 require_once(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php');
-
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
@@ -109,8 +127,8 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
 //$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
 //2.5.8
-$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
 $pdf->setFooterData($tc = array(0, 64, 0), $lc = array(0, 64, 128));
 

@@ -15,7 +15,6 @@
  * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: clone.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include_once __DIR__ . '/admin_header.php';
@@ -26,7 +25,7 @@ publisherOpenCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLI
 
 if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
-        redirect_header('clone.php', 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
+        redirect_header('clone.php', 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
         //        exit();
     }
 
@@ -47,7 +46,8 @@ if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
     $patterns = array(
         strtolower(PUBLISHER_DIRNAME)          => strtolower($clone),
         strtoupper(PUBLISHER_DIRNAME)          => strtoupper($clone),
-        ucfirst(strtolower(PUBLISHER_DIRNAME)) => ucfirst(strtolower($clone)));
+        ucfirst(strtolower(PUBLISHER_DIRNAME)) => ucfirst(strtolower($clone))
+    );
 
     $patKeys   = array_keys($patterns);
     $patValues = array_values($patterns);
@@ -56,7 +56,7 @@ if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
 
     $msg = '';
     if (is_dir($GLOBALS['xoops']->path('modules/' . strtolower($clone)))) {
-        $msg .= sprintf(_AM_PUBLISHER_CLONE_CONGRAT, "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin'>" . ucfirst(strtolower($clone)) . '</a>') . "<br />\n";
+        $msg .= sprintf(_AM_PUBLISHER_CLONE_CONGRAT, "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin'>" . ucfirst(strtolower($clone)) . '</a>') . "<br>\n";
         if (!$logocreated) {
             $msg .= _AM_PUBLISHER_CLONE_IMAGEFAIL;
         }
@@ -86,7 +86,7 @@ if (!function_exists('file_put_contents')) {
     function file_put_contents($filename, $data, $file_append = false)
     {
         if ($fp == fopen($filename, (!$file_append ? 'w+' : 'a+'))) {
-            fputs($fp, $data);
+            fwrite($fp, $data);
             fclose($fp);
         }
     }
@@ -154,7 +154,9 @@ class PublisherClone
             //            unset($func);
         }
 
-        if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo.png')) || !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))) {
+        if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo.png')) ||
+            !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))
+        ) {
             return false;
         }
 

@@ -16,7 +16,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Kazumi Ono (AKA onokazu)
- * @version         $Id: preferences.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include_once __DIR__ . '/admin_header.php';
@@ -55,7 +54,8 @@ if ($op === 'showmod') {
     if (!array_key_exists('others', $config_cats)) {
         $config_cats['others'] = array(
             'name'        => _MI_PUBLISHER_CONFCAT_OTHERS,
-            'description' => _MI_PUBLISHER_CONFCAT_OTHERS_DSC);
+            'description' => _MI_PUBLISHER_CONFCAT_OTHERS_DSC
+        );
     }
     $cat_others_used = false;
 
@@ -92,13 +92,19 @@ if ($op === 'showmod') {
             $cat_others_used = true;
         }
 
-        $title = (!defined($config[$i]->getVar('conf_desc')) || constant($config[$i]->getVar('conf_desc')) == '') ? constant($config[$i]->getVar('conf_title')) : constant($config[$i]->getVar('conf_title')) . '<br /><br /><span style="font-weight:normal;">' . constant($config[$i]->getVar('conf_desc')) . '</span>';
+        $title = (!defined($config[$i]->getVar('conf_desc')) ||
+                  constant($config[$i]->getVar('conf_desc')) == '') ? constant($config[$i]->getVar('conf_title')) : constant($config[$i]->getVar('conf_title')) .
+                                                                                                                    '<br><br><span style="font-weight:normal;">' .
+                                                                                                                    constant($config[$i]->getVar('conf_desc')) .
+                                                                                                                    '</span>';
         switch ($config[$i]->getVar('conf_formtype')) {
             case 'textarea':
                 $myts = MyTextSanitizer::getInstance();
                 if ($config[$i]->getVar('conf_valuetype') === 'array') {
                     // this is exceptional.. only when value type is arrayneed a smarter way for this
-                    $ele = ($config[$i]->getVar('conf_value') != '') ? new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), $myts->htmlspecialchars(implode('|', $config[$i]->getConfValueForOutput())), 5, 50) : new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), '', 5, 50);
+                    $ele = ($config[$i]->getVar('conf_value') != '') ? new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'),
+                                                                                             $myts->htmlspecialchars(implode('|', $config[$i]->getConfValueForOutput())), 5,
+                                                                                             50) : new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), '', 5, 50);
                 } else {
                     $ele = new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), $myts->htmlspecialchars($config[$i]->getConfValueForOutput()), 5, 50);
                 }
@@ -185,7 +191,7 @@ if ($op === 'showmod') {
 
 if ($op === 'save') {
     if (!$GLOBALS['xoopsSecurity']->check()) {
-        redirect_header($module->getInfo('adminindex'), 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
+        redirect_header($module->getInfo('adminindex'), 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
     }
     $count         = count($confIds);
     $configHandler = xoops_getHandler('config');

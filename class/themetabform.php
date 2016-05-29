@@ -17,7 +17,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          John Neill <catzwolf@xoosla.com>
- * @version         $Id: themetabform.php 10374 2012-12-12 23:39:48Z trabis $
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -29,7 +28,6 @@ include_once dirname(__DIR__) . '/include/common.php';
  * @package
  * @author    John
  * @copyright Copyright (c) 2009
- * @version   $Id: themetabform.php 10374 2012-12-12 23:39:48Z trabis $
  * @access    public
  */
 class PublisherThemeTabForm extends XoopsForm
@@ -97,7 +95,7 @@ class PublisherThemeTabForm extends XoopsForm
      * @param string $name
      * @param string $action
      * @param string $method
-     * @param bool $addtoken
+     * @param bool   $addtoken
      * @param string $summary
      */
     public function __construct($title, $name, $action, $method = 'post', $addtoken = false, $summary = '')
@@ -170,7 +168,8 @@ class PublisherThemeTabForm extends XoopsForm
             'extra'      => 'onsubmit="return xoopsFormValidate_' . $this->getName() . '();"' . $this->getExtra(),
             'javascript' => $js,
             'tabs'       => $this->formTabs,
-            'elements'   => $elements));
+            'elements'   => $elements
+        ));
     }
 
     /**
@@ -282,7 +281,7 @@ class PublisherThemeTabForm extends XoopsForm
      * Add an element to the form
      *
      * @param object $formElement reference to a {@link XoopsFormElement}
-     * @param bool $required      is this a "required" element?
+     * @param bool   $required    is this a "required" element?
      */
     public function addElement($formElement, $required = false)
     {
@@ -400,8 +399,8 @@ class PublisherThemeTabForm extends XoopsForm
     /**
      * Gets the "value" attribute of a form element
      *
-     * @param string $name the "name" attribute of a form element
-     * @param bool $encode To sanitizer the text?
+     * @param string $name   the "name" attribute of a form element
+     * @param bool   $encode To sanitizer the text?
      *
      * @return string the "value" attribute assigned to a form element, null if not set
      */

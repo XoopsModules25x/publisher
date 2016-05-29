@@ -17,7 +17,6 @@
  * @subpackage      Utils
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: publisher.php 10374 2012-12-12 23:39:48Z trabis $
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -46,11 +45,10 @@ class PublisherPublisher
      */
     public static function getInstance($debug = false)
     {
-        static $instance = false;
-        if (!$instance) {
-            $instance = new self($debug);
+        static $instance;
+        if (!isset($instance)) {
+            $instance = new static($debug);
         }
-
         return $instance;
     }
 

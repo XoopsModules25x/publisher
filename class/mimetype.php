@@ -17,7 +17,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: mimetype.php 10374 2012-12-12 23:39:48Z trabis $
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -32,7 +31,6 @@ include_once dirname(__DIR__) . '/include/common.php';
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Nazar Aziz <nazar@panthersoftware.com>
- * @version         $Id: mimetype.php 10374 2012-12-12 23:39:48Z trabis $
  */
 class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
 {
@@ -68,7 +66,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * create a new  object
      *
-     * @param bool $isNew
+     * @param  bool $isNew
      * @return object <a href='psi_element://publisherBaseObject'>publisherBaseObject</a>
      * @access public
      */
@@ -80,9 +78,9 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve an object from the database, based on. use in child classes
      *
-     * @param int $id ID
+     * @param int   $id ID
      *
-     * @param null $fields
+     * @param  null $fields
      * @return mixed object if id exists, false if not
      * @access public
      */
@@ -110,9 +108,9 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *
      * @param CriteriaElement|object $criteria {@link CriteriaElement}
      *                                         conditions to be met
-     * @param bool $idAsKey                    Should the department ID be used as array key
+     * @param bool                   $idAsKey  Should the department ID be used as array key
      *
-     * @param bool $asObject
+     * @param  bool                  $asObject
      * @return array array of objects
      * @access  public
      */
@@ -147,11 +145,11 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
 
     /**
      * @param XoopsObject $obj
-     * @param bool $force
+     * @param bool        $force
      *
      * @return bool|void
      */
-    public function insert(XoopsObject $obj, $force = false)// insert(&$obj, $force = false)
+    public function insert(XoopsObject $obj, $force = false)// insert($obj, $force = false)
     {
         // Make sure object is of correct type
         if (strcasecmp($this->className, get_class($obj)) != 0) {
@@ -239,13 +237,13 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * delete object based on id
      *
-     * @param XoopsObject $obj {@link XoopsObject} to delete
-     * @param bool $force      override XOOPS delete protection
+     * @param XoopsObject $obj   {@link XoopsObject} to delete
+     * @param bool        $force override XOOPS delete protection
      *
      * @return bool deletion successful?
      * @access public
      */
-    public function delete(XoopsObject $obj, $force = false) //delete(&$obj, $force = false)
+    public function delete(XoopsObject $obj, $force = false) //delete($obj, $force = false)
     {
         if (strcasecmp($this->className, get_class($obj)) != 0) {
             return false;
@@ -268,8 +266,8 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *
      * @param CriteriaElement|object $criteria {@link CriteriaElement}
      *
-     * @param bool $force
-     * @param bool $asObject
+     * @param  bool                  $force
+     * @param  bool                  $asObject
      * @return bool FALSE if deletion failed
      * @access    public
      */
@@ -289,11 +287,11 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * Assign a value to 1 field for tickets matching a set of conditions
      *
-     * @param string $fieldname
-     * @param string $fieldvalue
+     * @param string                 $fieldname
+     * @param string                 $fieldvalue
      * @param CriteriaElement|object $criteria {@link CriteriaElement}
      *
-     * @param bool $force
+     * @param  bool                  $force
      * @return bool FALSE if update failed
      * @access    public
      */
@@ -316,7 +314,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *
      * @return bool
      */
-    protected function insertQuery(&$obj)
+    protected function insertQuery($obj)
     {
         return false;
     }
@@ -326,7 +324,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *
      * @return bool
      */
-    protected function updateQuery(&$obj)
+    protected function updateQuery($obj)
     {
         return false;
     }
@@ -336,7 +334,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *
      * @return bool
      */
-    protected function deleteQuery(&$obj)
+    protected function deleteQuery($obj)
     {
         return false;
     }
@@ -416,9 +414,9 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
     /**
      * retrieve a mimetype object from the database
      *
-     * @param int $id ID of mimetype
+     * @param int   $id ID of mimetype
      *
-     * @param null $fields
+     * @param  null $fields
      * @return object <a href='psi_element://PublisherMimetype'>PublisherMimetype</a>
      * @access    public
      */
@@ -447,8 +445,8 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      * @param CriteriaElement|object $criteria {@link CriteriaElement}
      *                                         conditions to be met
      *
-     * @param bool $idAsKey
-     * @param bool $asObject
+     * @param  bool                  $idAsKey
+     * @param  bool                  $asObject
      * @return array array of <a href='psi_element://PublisherMimetype'>PublisherMimetype</a> objects
      *                                         objects
      * @access    public
@@ -462,7 +460,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
-        //echo "<br />$sql<br />";
+        //echo "<br>$sql<br>";
         $result = $this->db->query($sql, $limit, $start);
         // if no records from db, return empty array
         if (!$result) {
@@ -561,7 +559,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      * Create a "select" SQL query
      *
      * @param null|object $criteria {@link CriteriaElement} to match
-     * @param bool $join
+     * @param bool        $join
      *
      * @return string string SQL query
      * @access    private
@@ -600,14 +598,15 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      *
      * @return bool|string
      */
-    protected function insertQuery(&$obj)
+    protected function insertQuery($obj)
     {
         // Copy all object vars into local variables
         foreach ($obj->cleanVars as $k => $v) {
             ${$k} = $v;
         }
         $sql = sprintf('INSERT INTO %s (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
-            (%u, %s, %s, %s, %u, %u)', $this->db->prefix($this->dbtable), $obj->getVar('mime_id'), $this->db->quoteString($obj->getVar('mime_ext')), $this->db->quoteString($obj->getVar('mime_types')), $this->db->quoteString($obj->getVar('mime_name')), $obj->getVar('mime_admin'), $obj->getVar('mime_user'));
+            (%u, %s, %s, %s, %u, %u)', $this->db->prefix($this->dbtable), $obj->getVar('mime_id'), $this->db->quoteString($obj->getVar('mime_ext')), $this->db->quoteString($obj->getVar('mime_types')),
+                       $this->db->quoteString($obj->getVar('mime_name')), $obj->getVar('mime_admin'), $obj->getVar('mime_user'));
 
         return $sql;
     }
@@ -617,14 +616,15 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      *
      * @return bool|string
      */
-    protected function updateQuery(&$obj)
+    protected function updateQuery($obj)
     {
         // Copy all object vars into local variables
         foreach ($obj->cleanVars as $k => $v) {
             ${$k} = $v;
         }
         $sql = sprintf('UPDATE %s SET mime_ext = %s, mime_types = %s, mime_name = %s, mime_admin = %u, mime_user = %u WHERE
-            mime_id = %u', $this->db->prefix($this->dbtable), $this->db->quoteString($obj->getVar('mime_ext')), $this->db->quoteString($obj->getVar('mime_types')), $this->db->quoteString($obj->getVar('mime_name')), $obj->getVar('mime_admin'), $obj->getVar('mime_user'), $obj->getVar('mime_id'));
+            mime_id = %u', $this->db->prefix($this->dbtable), $this->db->quoteString($obj->getVar('mime_ext')), $this->db->quoteString($obj->getVar('mime_types')),
+                       $this->db->quoteString($obj->getVar('mime_name')), $obj->getVar('mime_admin'), $obj->getVar('mime_user'), $obj->getVar('mime_id'));
 
         return $sql;
     }
@@ -634,7 +634,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      *
      * @return bool|string
      */
-    protected function deleteQuery(&$obj)
+    protected function deleteQuery($obj)
     {
         $sql = sprintf('DELETE FROM %s WHERE mime_id = %u', $this->db->prefix($this->dbtable), $obj->getVar('mime_id'));
 

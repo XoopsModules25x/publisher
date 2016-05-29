@@ -1,8 +1,8 @@
 <?php
-// $Id: uploader.php 10374 2012-12-12 23:39:48Z trabis $
+// 
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
-// Copyright (c) 2000 XOOPS.org                           //
+// Copyright (c) 2000-2016 XOOPS.org                           //
 // <http://www.xoops.org/>                             //
 // ------------------------------------------------------------------------ //
 // This program is free software; you can redistribute it and/or modify     //
@@ -42,7 +42,7 @@
  * echo $uploader->getErrors();
  * } else {
  * echo '<h4>File uploaded successfully!</h4>'
- * echo 'Saved as: ' . $uploader->getSavedFileName() . '<br />';
+ * echo 'Saved as: ' . $uploader->getSavedFileName() . '<br>';
  * echo 'Full path: ' . $uploader->getSavedDestination();
  * }
  * } else {
@@ -64,7 +64,7 @@
  *               echo $uploader->getErrors();
  *            } else {
  *               echo '<h4>File uploaded successfully!</h4>'
- *               echo 'Saved as: ' . $uploader->getSavedFileName() . '<br />';
+ *               echo 'Saved as: ' . $uploader->getSavedFileName() . '<br>';
  *               echo 'Full path: ' . $uploader->getSavedDestination();
  *            }
  * } else {
@@ -162,7 +162,7 @@ class XoopsMediaUploader
             $this->mediaTmpName = $_FILES[$mediaName]['tmp_name'][$index];
             $this->mediaError   = !empty($_FILES[$mediaName]['error'][$index]) ? $_FILES[$mediaName]['errir'][$index] : 0;
         } else {
-            $mediaName         = @$_FILES[$mediaName];
+            $mediaName          = @$_FILES[$mediaName];
             $this->mediaName    = $mediaName['name'];
             $this->mediaName    = $mediaName['name'];
             $this->mediaType    = $mediaName['type'];
@@ -353,6 +353,7 @@ class XoopsMediaUploader
         if (!$this->copyFile($chmod)) {
             $this->setErrors('Failed uploading file: ' . $this->mediaName);
         }
+
         return !(count($this->errors) > 0);
     }
 
@@ -379,7 +380,7 @@ class XoopsMediaUploader
         $this->savedFileName    = preg_replace('!\s+!', '_', $this->savedFileName);
         $this->savedDestination = $this->uploadDir . $this->savedFileName;
         if (is_file($this->savedDestination) && !!is_dir($this->savedDestination)) {
-            $this->setErrors('File ' . $this->mediaName . ' already exists on the server. Please rename this file and try again.<br />');
+            $this->setErrors('File ' . $this->mediaName . ' already exists on the server. Please rename this file and try again.<br>');
 
             return false;
         }
@@ -401,6 +402,7 @@ class XoopsMediaUploader
         if ($this->noAdminSizeCheck) {
             return true;
         }
+
         return !($this->mediaSize > $this->maxFileSize);
     }
 
@@ -416,6 +418,7 @@ class XoopsMediaUploader
         if (!isset($this->maxWidth)) {
             return true;
         }
+
         return !($dimension > $this->maxWidth);
     }
 
@@ -431,6 +434,7 @@ class XoopsMediaUploader
         if (!isset($this->maxHeight)) {
             return true;
         }
+
         return !($dimension > $this->maxWidth);
     }
 
@@ -475,7 +479,7 @@ class XoopsMediaUploader
             if (count($this->errors) > 0) {
                 $ret = '<h4>Errors Returned While Uploading</h4>';
                 foreach ($this->errors as $error) {
-                    $ret .= $error . '<br />';
+                    $ret .= $error . '<br>';
                 }
             }
 

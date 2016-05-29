@@ -17,7 +17,6 @@
  * @package      Publisher
  * @since        1.0
  * @author       Mage, Mamba
- * @version      $Id: about.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include_once __DIR__ . '/admin_header.php';
@@ -26,7 +25,7 @@ xoops_cp_header();
 
 $aboutAdmin = new ModuleAdmin();
 
-echo $aboutAdmin->addNavigation('about.php');
+echo $aboutAdmin->addNavigation(basename(__FILE__));
 echo $aboutAdmin->renderAbout('6KJ7RW5DR3VTJ', false);
 
 //    if (version_compare(PHP_VERSION, '5.4.0') >= 0) {

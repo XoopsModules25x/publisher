@@ -502,7 +502,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     $dir = publisherGetUploadDir(true, 'content');
 
-    if (false !== strpos(decoct(fileperms($dir)), '755')) {
+    if (!is_writable($dir)) {
         echo "<span style='color:#ff0000;'><h4>" . _AM_PUBLISHER_PERMERROR . '</h4></span>';
     }
 

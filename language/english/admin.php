@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  * Module: Publisher
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
@@ -240,7 +240,7 @@ define('_AM_PUBLISHER_OFFLINEEDITING_INFO', 'You can edit this offline article. 
 define('_AM_PUBLISHER_PAGEWRAP', 'Page wrap');
 define('_AM_PUBLISHER_PAGEWRAPDSC', "A page-wrap is the ability to link an article with a content file. Doing this, the content of the article is directly taken from that file and you don't need to add the content manually. This is useful when you have already formatted HTML or PHP files.");
 define('_AM_PUBLISHER_PARENT_CATEGORY_EXP', "Parent category<span style='font-size: xx-small; font-weight: normal; display: block;'>Select a parent to make this a sub-category.</span>");
-define('_AM_PUBLISHER_PERMERROR', 'ERROR: cannot access file directory. Please CHMOD the uploads/publisher/content directory with value 755 (or 777 depending on your environment)');
+define('_AM_PUBLISHER_PERMERROR', 'ERROR: cannot access file directory. Please CHMOD the uploads/publisher/content directory with value 755 or 775 depending on your environment');
 define('_AM_PUBLISHER_PERMISSIONS', 'Permissions');
 define('_AM_PUBLISHER_PERMISSIONS_APPLY_ON_ITEMS', "Apply read permissions on articles<span style='font-size: xx-small; font-weight: normal; display: block;'>Apply the above Read Permissions on all<br>articles within that category, overriding their<br>current permissions.<br><strong>Please note that this is a one-time action only, and not a property</strong></span>");
 define('_AM_PUBLISHER_PERMISSIONS_CAT_READ', "Read permissions<span style='font-size: xx-small; font-weight: normal; display: block;'>Groups that will have permissions to see<br>this Category, as well as any articles<br>inside that category.</span>");

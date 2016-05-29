@@ -56,7 +56,11 @@ if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
 
     $msg = '';
     if (is_dir($GLOBALS['xoops']->path('modules/' . strtolower($clone)))) {
-        $msg .= sprintf(_AM_PUBLISHER_CLONE_CONGRAT, "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin'>" . ucfirst(strtolower($clone)) . '</a>') . "<br>\n";
+        $msg .= sprintf(
+            _AM_PUBLISHER_CLONE_CONGRAT,
+            "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin'>"
+            . ucfirst(strtolower($clone)) . '</a>'
+        ) . "<br>\n";
         if (!$logocreated) {
             $msg .= _AM_PUBLISHER_CLONE_IMAGEFAIL;
         }
@@ -66,7 +70,13 @@ if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
     echo $msg;
 } else {
     include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
-    $form  = new XoopsThemeForm(sprintf(_AM_PUBLISHER_CLONE_TITLE, $publisher->getModule()->getVar('name', 'E')), 'clone', 'clone.php', 'post', true);
+    $form  = new XoopsThemeForm(
+        sprintf(_AM_PUBLISHER_CLONE_TITLE, $publisher->getModule()->getVar('name', 'E')),
+        'clone',
+        'clone.php',
+        'post',
+        true
+    );
     $clone = new XoopsFormText(_AM_PUBLISHER_CLONE_NAME, 'clone', 20, 20, '');
     $clone->setDescription(_AM_PUBLISHER_CLONE_NAME_DSC);
     $form->addElement($clone, true);
@@ -98,7 +108,7 @@ if (!function_exists('file_put_contents')) {
  */
 class PublisherClone
 {
-    // recursive clonning script
+    // recursive cloning script
     /**
      * @param $path
      */
@@ -116,14 +126,15 @@ class PublisherClone
             // check all files in dir, and process it
             if ($handle = opendir($path)) {
                 while (($file = readdir($handle)) !== false) {
-                    if ($file !== '.' && $file !== '..' && $file !== '.svn') {
+                    if (substr($file, 0, 1) !== '.') {
                         self::cloneFileFolder("{$path}/{$file}");
                     }
                 }
                 closedir($handle);
             }
         } else {
-            if (preg_match('/(.jpg|.gif|.png|.zip)$/i', $path)) {
+            $noChangeExtensions = array('jpeg', 'jpg', 'gif', 'png', 'zip', 'ttf');
+            if (in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), $noChangeExtensions)) {
                 // image
                 copy($path, $newPath);
             } else {
@@ -145,7 +156,11 @@ class PublisherClone
         if (!extension_loaded('gd')) {
             return false;
         } else {
-            $requiredFunctions = array('imagecreatetruecolor', 'imagecolorallocate', 'imagefilledrectangle', 'imagejpeg', 'imagedestroy', 'imageftbbox');
+            $requiredFunctions = array(
+                'imagecreatefrompng', 'imagecolorallocate', 'imagefilledrectangle',
+                'imagepng', 'imagedestroy', 'imagefttext',
+                'imagealphablending', 'imagesavealpha',
+            );
             foreach ($requiredFunctions as $func) {
                 if (!function_exists($func)) {
                     return false;
@@ -154,13 +169,16 @@ class PublisherClone
             //            unset($func);
         }
 
-        if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo.png')) ||
+        if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo_module.png')) ||
             !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))
         ) {
             return false;
         }
 
         $imageModule = imagecreatefrompng($imageBase);
+        // save existing alpha channel
+        imagealphablending($imageModule, false);
+        imagesavealpha($imageModule, true);
 
         //Erase old text
         $greyColor = imagecolorallocate($imageModule, 237, 237, 237);
@@ -172,10 +190,11 @@ class PublisherClone
         imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, ucfirst($dirname), array());
 
         // Set transparency color
-        $white = imagecolorallocatealpha($imageModule, 255, 255, 255, 127);
-        imagefill($imageModule, 0, 0, $white);
-        imagecolortransparent($imageModule, $white);
-        imagepng($imageModule, $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo.png'));
+        //$white = imagecolorallocatealpha($imageModule, 255, 255, 255, 127);
+        //imagefill($imageModule, 0, 0, $white);
+        //imagecolortransparent($imageModule, $white);
+
+        imagepng($imageModule, $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo_module.png'));
         imagedestroy($imageModule);
 
         return true;

@@ -389,7 +389,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
             return $cats[$id];
         }
         $obj       = parent::get($id);
-        $cats[$id] =& $obj;
+        $cats[$id] = $obj;
 
         return $obj;
     }

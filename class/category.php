@@ -15,7 +15,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: category.php 10661 2013-01-04 19:22:48Z trabis $
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -66,7 +65,7 @@ class PublisherCategory extends XoopsObject
 
     /**
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return mixed
      */
@@ -377,11 +376,11 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve an item
      *
-     * @param int $id itemid of the user
+     * @param int   $id     itemid of the user
      *
-     * @param null $fields
+     * @param  null $fields
      * @return mixed reference to the <a href='psi_element://PublisherCategory'>PublisherCategory</a> object, FALSE if failed
-     *                object, FALSE if failed
+     *                      object, FALSE if failed
      */
     public function get($id = null, $fields = null)
     {
@@ -390,7 +389,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
             return $cats[$id];
         }
         $obj       = parent::get($id);
-        $cats[$id] =& $obj;
+        $cats[$id] = $obj;
 
         return $obj;
     }
@@ -398,9 +397,9 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     /**
      * insert a new category in the database
      *
-     * @param object|XoopsObject $category reference to the {@link PublisherCategory}
-     * @param bool $force
-     * @return bool FALSE if failed, TRUE if already present and unchanged or successful
+     * @param  object|XoopsObject $category reference to the {@link PublisherCategory}
+     * @param  bool               $force
+     * @return bool               FALSE if failed, TRUE if already present and unchanged or successful
      */
     public function insert(XoopsObject $category, $force = false) //insert(&$category, $force = false)
     {
@@ -427,7 +426,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      * delete a category from the database
      *
      * @param XoopsObject $category reference to the category to delete
-     * @param bool $force
+     * @param bool        $force
      *
      * @return bool FALSE if failed.
      */
@@ -459,9 +458,9 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      * retrieve categories from the database
      *
      * @param CriteriaElement $criteria {@link CriteriaElement} conditions to be met
-     * @param bool $idAsKey             use the categoryid as key for the array?
+     * @param bool            $idAsKey  use the categoryid as key for the array?
      *
-     * @param bool $as_object
+     * @param  bool           $as_object
      * @return array array of <a href='psi_element://XoopsItem'>XoopsItem</a> objects
      */
     public function &getObjects(CriteriaElement $criteria = null, $idAsKey = false, $as_object = true) //&getObjects($criteria = null, $idAsKey = false)
@@ -481,12 +480,12 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int $limit
-     * @param int $start
-     * @param int $parentid
+     * @param int    $limit
+     * @param int    $start
+     * @param int    $parentid
      * @param string $sort
      * @param string $order
-     * @param bool $idAsKey
+     * @param bool   $idAsKey
      *
      * @return array
      */
@@ -692,8 +691,8 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      *
      * @param CriteriaElement $criteria {@link CriteriaElement}
      *
-     * @param bool $force
-     * @param bool $asObject
+     * @param  bool           $force
+     * @param  bool           $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
@@ -719,7 +718,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int $catId
+     * @param int    $catId
      * @param string $status
      *
      * @return mixed

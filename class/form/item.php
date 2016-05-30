@@ -18,7 +18,6 @@
  * @subpackage      Forms
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: item.php 10645 2013-01-03 19:31:21Z trabis $
  */
 
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
@@ -41,7 +40,8 @@ class PublisherItemForm extends PublisherThemeTabForm
         _CO_PUBLISHER_TAB_MAIN   => 'mainTab',
         _CO_PUBLISHER_TAB_IMAGES => 'imagesTab',
         _CO_PUBLISHER_TAB_FILES  => 'filesTab',
-        _CO_PUBLISHER_TAB_OTHERS => 'othersTab');
+        _CO_PUBLISHER_TAB_OTHERS => 'othersTab'
+    );
 
     public $mainTab = array(
         PublisherConstants::PUBLISHER_SUBTITLE,
@@ -58,19 +58,23 @@ class PublisherItemForm extends PublisherThemeTabForm
         PublisherConstants::PUBLISHER_AUTHOR_ALIAS,
         PublisherConstants::PUBLISHER_NOTIFY,
         PublisherConstants::PUBLISHER_AVAILABLE_PAGE_WRAP,
-        PublisherConstants::PUBLISHER_UID);
+        PublisherConstants::PUBLISHER_UID
+    );
 
     public $imagesTab = array(
-        PublisherConstants::PUBLISHER_IMAGE_ITEM);
+        PublisherConstants::PUBLISHER_IMAGE_ITEM
+    );
 
     public $filesTab = array(
-        PublisherConstants::PUBLISHER_ITEM_UPLOAD_FILE);
+        PublisherConstants::PUBLISHER_ITEM_UPLOAD_FILE
+    );
 
     public $othersTab = array(
         PublisherConstants::PUBLISHER_ITEM_META_KEYWORDS,
         PublisherConstants::PUBLISHER_ITEM_META_DESCRIPTION,
         PublisherConstants::PUBLISHER_WEIGHT,
-        PublisherConstants::PUBLISHER_ALLOWCOMMENTS);
+        PublisherConstants::PUBLISHER_ALLOWCOMMENTS
+    );
 
     /**
      * @param $checkperm
@@ -215,7 +219,12 @@ class PublisherItemForm extends PublisherThemeTabForm
         $this->addElement($bodyText);
 
         // VARIOUS OPTIONS
-        if ($this->isGranted(PublisherConstants::PUBLISHER_DOHTML) || $this->isGranted(PublisherConstants::PUBLISHER_DOSMILEY) || $this->isGranted(PublisherConstants::PUBLISHER_DOXCODE) || $this->isGranted(PublisherConstants::PUBLISHER_DOIMAGE) || $this->isGranted(PublisherConstants::PUBLISHER_DOLINEBREAK)) {
+        if ($this->isGranted(PublisherConstants::PUBLISHER_DOHTML) ||
+            $this->isGranted(PublisherConstants::PUBLISHER_DOSMILEY) ||
+            $this->isGranted(PublisherConstants::PUBLISHER_DOXCODE) ||
+            $this->isGranted(PublisherConstants::PUBLISHER_DOIMAGE) ||
+            $this->isGranted(PublisherConstants::PUBLISHER_DOLINEBREAK)
+        ) {
             if ($this->isGranted(PublisherConstants::PUBLISHER_DOHTML)) {
                 $html_radio = new XoopsFormRadioYN(_CO_PUBLISHER_DOHTML, 'dohtml', $obj->dohtml(), _YES, _NO);
                 $this->addElement($html_radio);
@@ -288,7 +297,8 @@ class PublisherItemForm extends PublisherThemeTabForm
                 PublisherConstants::PUBLISHER_STATUS_SUBMITTED => _CO_PUBLISHER_SUBMITTED,
                 PublisherConstants::PUBLISHER_STATUS_PUBLISHED => _CO_PUBLISHER_PUBLISHED,
                 PublisherConstants::PUBLISHER_STATUS_OFFLINE   => _CO_PUBLISHER_OFFLINE,
-                PublisherConstants::PUBLISHER_STATUS_REJECTED  => _CO_PUBLISHER_REJECTED);
+                PublisherConstants::PUBLISHER_STATUS_REJECTED  => _CO_PUBLISHER_REJECTED
+            );
             $statusSelect = new XoopsFormSelect(_CO_PUBLISHER_STATUS, 'status', $obj->getVar('status'));
             $statusSelect->addOptionArray($options);
             $statusSelect->setDescription(_CO_PUBLISHER_STATUS_DSC);
@@ -363,7 +373,9 @@ class PublisherItemForm extends PublisherThemeTabForm
 
             $imageSelect2 = new XoopsFormSelect('', 'image_item', '', 5, true);
             $imageSelect2->addOptionArray($objimage_array);
-            $imageSelect2->setExtra("onchange='publisher_updateSelectOption(\"image_item\", \"image_featured\"), showImgSelected(\"image_display\", \"image_item\", \"uploads/\", \"\", \"" . XOOPS_URL . "\")'");
+            $imageSelect2->setExtra("onchange='publisher_updateSelectOption(\"image_item\", \"image_featured\"), showImgSelected(\"image_display\", \"image_item\", \"uploads/\", \"\", \"" .
+                                    XOOPS_URL .
+                                    "\")'");
 
             $buttonadd = new XoopsFormButton('', 'buttonadd', _CO_PUBLISHER_ADD);
             $buttonadd->setExtra("onclick='publisher_appendSelectOption(\"image_notused\", \"image_item\"), publisher_updateSelectOption(\"image_item\", \"image_featured\")'");
@@ -373,7 +385,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
             $opentable  = new XoopsFormLabel('', '<table><tr><td>');
             $addcol     = new XoopsFormLabel('', '</td><td>');
-            $addbreak   = new XoopsFormLabel('', '<br />');
+            $addbreak   = new XoopsFormLabel('', '<br>');
             $closetable = new XoopsFormLabel('', '</td></tr></table>');
 
             $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ajaxupload.3.9.js');

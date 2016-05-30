@@ -18,7 +18,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: permission.php 10661 2013-01-04 19:22:48Z trabis $
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 include_once dirname(__DIR__) . '/include/common.php';
@@ -148,7 +147,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      */
     public function saveItemPermissions($groups, $itemId, $permName)
     {
-        $result        = true;
+        $result       = true;
         $moduleId     = $this->publisher->getModule()->getVar('mid');
         $gpermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
@@ -168,14 +167,14 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      * Delete all permission for a specific item
      *  deletePermissions()
      *
-     * @param integer $itemId    : id of the item for which to delete the permissions
+     * @param integer $itemId : id of the item for which to delete the permissions
      * @param string  $gpermName
      *
      * @return boolean : TRUE if the no errors occured
      */
     public function deletePermissions($itemId, $gpermName)
     {
-        $result        = true;
+        $result       = true;
         $gpermHandler = xoops_getHandler('groupperm');
         $gpermHandler->deleteByModule($this->publisher->getModule()->getVar('mid'), $gpermName, $itemId);
 

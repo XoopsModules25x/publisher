@@ -17,7 +17,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: mimetypes.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include_once __DIR__ . '/admin_header.php';
@@ -40,7 +39,8 @@ $aSortBy   = array(
     'mime_name'  => _AM_PUBLISHER_MIME_NAME,
     'mime_ext'   => _AM_PUBLISHER_MIME_EXT,
     'mime_admin' => _AM_PUBLISHER_MIME_ADMIN,
-    'mime_user'  => _AM_PUBLISHER_MIME_USER);
+    'mime_user'  => _AM_PUBLISHER_MIME_USER
+);
 $aOrderBy  = array('ASC' => _AM_PUBLISHER_TEXT_ASCENDING, 'DESC' => _AM_PUBLISHER_TEXT_DESCENDING);
 $aLimitBy  = array('10' => 10, '15' => 15, '20' => 20, '25' => 25, '50' => 50, '100' => 100);
 $aSearchBy = array('mime_id' => _AM_PUBLISHER_MIME_ID, 'mime_name' => _AM_PUBLISHER_MIME_NAME, 'mime_ext' => _AM_PUBLISHER_MIME_EXT);
@@ -334,7 +334,7 @@ class PublisherMimetypesUtilities
             echo '</table></form>';
             // end of edit form
             publisherCloseCollapsableBar('mimeedittable', 'mimeediticon');
-//            xoops_cp_footer();
+            //            xoops_cp_footer();
             include_once __DIR__ . '/admin_footer.php';
         } else {
             $mimeAdmin = 0;
@@ -526,7 +526,7 @@ class PublisherMimetypesUtilities
 
         publisherCloseCollapsableBar('mimemanagetable', 'mimemanageicon');
 
-//        xoops_cp_footer();
+        //        xoops_cp_footer();
         include_once __DIR__ . '/admin_footer.php';
     }
 
@@ -703,7 +703,7 @@ class PublisherMimetypesUtilities
             echo "<div id='pagenav'>" . $nav->renderNav() . '</div>';
         }
         publisherCloseCollapsableBar('mimesearchtable', 'mimesearchicon');
-//        include_once __DIR__ . '/admin_footer.php';
+        //        include_once __DIR__ . '/admin_footer.php';
         xoops_cp_footer();
     }
 

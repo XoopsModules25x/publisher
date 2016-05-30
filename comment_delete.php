@@ -16,7 +16,6 @@
  * @subpackage      Comments
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: comment_delete.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include dirname(dirname(__DIR__)) . '/mainfile.php';

@@ -17,7 +17,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Harry Fuecks (PHP Anthology Volume II)
- * @version         $Id: session.php 10283 2012-11-28 13:39:36Z trabis $
  */
 //namespace Publisher;
 
@@ -31,7 +30,7 @@ include_once dirname(__DIR__) . '/include/common.php';
 class PublisherSession
 {
     /**
-     * Session constructor<br />
+     * Session constructor<br>
      * Starts the session with session_start()
      * <strong>Note:</strong> that if the session has already started,
      * session_start() does nothing
@@ -100,7 +99,7 @@ class PublisherSession
     /**
      * @return PublisherSession
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $_sess;
         if (!isset($_sess)) {

@@ -17,7 +17,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: backend.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include_once __DIR__ . '/header.php';
@@ -89,7 +88,8 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
                 'guid'        => $item->getItemUrl(),
                 //mb                'pubdate'     => XoopsLocal::formatTimestamp($item->getVar('datesub'), 'rss'),
                 'pubdate'     => formatTimestamp($item->getVar('datesub'), 'rss'),
-                'description' => htmlspecialchars($item->getBlockSummary(300, true), ENT_QUOTES)));
+                'description' => htmlspecialchars($item->getBlockSummary(300, true), ENT_QUOTES)
+            ));
         }
         //        unset($item);
     }

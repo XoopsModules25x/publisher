@@ -16,7 +16,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: file.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include_once __DIR__ . '/header.php';
@@ -84,7 +83,7 @@ switch ($op) {
             // TODO : display the available mimetypes to the user
             $errors = array();
 
-//            if ($publisher->getConfig('perm_upload') && is_uploaded_file(XoopsRequest::getArray('item_upload_file', array(), 'FILES')['tmp_name'])) {
+            //            if ($publisher->getConfig('perm_upload') && is_uploaded_file(XoopsRequest::getArray('item_upload_file', array(), 'FILES')['tmp_name'])) {
             $temp = XoopsRequest::getArray('item_upload_file', array(), 'FILES');
             if ($publisher->getConfig('perm_upload') && is_uploaded_file($temp['tmp_name'])) {
                 if ($fileObj->checkUpload('item_upload_file', $allowed_mimetypes, $errors)) {
@@ -123,7 +122,8 @@ switch ($op) {
             // no confirm: show deletion condition
 
             include_once $GLOBALS['xoops']->path('header.php');
-            xoops_confirm(array('op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()), 'file.php', _AM_PUBLISHER_DELETETHISFILE . ' <br />' . $fileObj->name() . ' <br /> <br />', _AM_PUBLISHER_DELETE);
+            xoops_confirm(array('op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()), 'file.php',
+                          _AM_PUBLISHER_DELETETHISFILE . ' <br>' . $fileObj->name() . ' <br> <br>', _AM_PUBLISHER_DELETE);
             include_once $GLOBALS['xoops']->path('footer.php');
         }
         exit();

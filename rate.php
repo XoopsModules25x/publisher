@@ -16,7 +16,6 @@
  * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: rate.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include_once __DIR__ . '/header.php';
@@ -79,4 +78,3 @@ $publisher->getHandler('item')->updateAll('votes', $count, $criteria, true);
 
 redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _MD_PUBLISHER_VOTE_THANKS);
 //exit();
-

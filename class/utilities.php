@@ -11,12 +11,11 @@
 /**
  * PublisherUtilities Class
  *
- * @copyright   The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright   XOOPS Project (http://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      XOOPS Development Team
  * @package     Publisher
  * @since       1.03
- * @version     $Id: breadcrumb.php 12277 2014-01-26 01:21:57Z beckmi $
  *
  */
 
@@ -57,16 +56,16 @@ class PublisherUtilities
     public static function copyFile($file, $folder)
     {
         return copy($file, $folder);
-//        try {
-//            if (!is_dir($folder)) {
-//                throw new \RuntimeException(sprintf('Unable to copy file as: %s ', $folder));
-//            } else {
-//                return copy($file, $folder);
-//            }
-//        } catch (Exception $e) {
-//            echo 'Caught exception: ', $e->getMessage(), "\n", "<br/>";
-//        }
-//        return false;
+        //        try {
+        //            if (!is_dir($folder)) {
+        //                throw new \RuntimeException(sprintf('Unable to copy file as: %s ', $folder));
+        //            } else {
+        //                return copy($file, $folder);
+        //            }
+        //        } catch (Exception $e) {
+        //            echo 'Caught exception: ', $e->getMessage(), "\n", "<br/>";
+        //        }
+        //        return false;
     }
 
     /**
@@ -229,7 +228,7 @@ class PublisherUtilities
         }
 
         if ($categoryId != 0) {
-            echo "<br />\n";
+            echo "<br>\n";
             publisherOpenCollapsableBar('edittable', 'edittableicon', _AM_PUBLISHER_EDITCOL, _AM_PUBLISHER_CATEGORY_EDIT_INFO);
         } else {
             publisherOpenCollapsableBar('createtable', 'createtableicon', _AM_PUBLISHER_CATEGORY_CREATE, _AM_PUBLISHER_CATEGORY_CREATE_INFO);
@@ -280,7 +279,7 @@ class PublisherUtilities
                 echo '</tr>';
             }
             echo "</table>\n";
-            echo "<br />\n";
+            echo "<br>\n";
             publisherCloseCollapsableBar('subcatstable', 'subcatsicon');
 
             publisherOpenCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
@@ -319,7 +318,7 @@ class PublisherUtilities
                 echo '</tr>';
             }
             echo "</table>\n";
-            echo "<br />\n";
+            echo "<br>\n";
             $parentid         = XoopsRequest::getInt('parentid', 0, 'GET');
             $pagenavExtraArgs = "op=mod&categoryid=$selCat&parentid=$parentid";
             xoops_load('XoopsPageNav');

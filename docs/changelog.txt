@@ -1,3 +1,19 @@
+<h5>1.03 Beta 3       (NOT RELEASED)</h5>
+- removed @version (mamba)
+- standardization on addNavigation(basename(__FILE__) (mamba)
+- standardize HTML $lt;br&gt; tags
+- replaced fputs with fwrite (mamba)
+- code cosmetics (mamba)
+- temp fix in /item.php (mamba)
+- replaced self:: with $this-> in /class/item.php (mamba)
+- removed references to objects (mamba)
+- standardized getInstance (mamba)
+- performance: (substr($color, 0, 1) !== '#') to (0 !== strpos($color, '#')) (mamba)
+- renamed logo.png to logo_module.png (mamba)
+- clean up clone (geekwright)
+- revert several template variable changes to work better with override templates
+- revert moduleUrl template variable to publisher_url to better support cloning
+
 <h5>1.03 Beta 2       (2016-03-20)</h5>
 - fixed: bugs on submit (mamba)
 - replaced XoopsFormTag with TagFormTag (mamba)

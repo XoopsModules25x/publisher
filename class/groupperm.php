@@ -17,7 +17,6 @@
  * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: groupperm.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
@@ -34,12 +33,12 @@ class PublisherGroupPermHandler extends XoopsGroupPermHandler
     /**
      * Check permission
      *
-     * @param string $gpermName Name of permission
-     * @param int $gpermItemId  ID of an item
-     * @param $gpermGroupId
-     * @param int $gpermModId   ID of a module
+     * @param string $gpermName   Name of permission
+     * @param int    $gpermItemId ID of an item
+     * @param        $gpermGroupId
+     * @param int    $gpermModId  ID of a module
      *
-     * @param bool $trueifadmin
+     * @param  bool  $trueifadmin
      * @return bool TRUE if permission is enabled
      * @internal param $int /array $gpermGroupId A group ID or an array of group IDs
      */
@@ -60,6 +59,7 @@ class PublisherGroupPermHandler extends XoopsGroupPermHandler
         } else {
             $criteria->add(new Criteria('gperm_groupid', $gpermGroupId));
         }
+
         return $this->getCount($criteria) > 0;
     }
 }

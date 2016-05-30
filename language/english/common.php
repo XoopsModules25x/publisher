@@ -1,11 +1,11 @@
 <?php
 /**
- * $Id: common.php 11267 2013-03-20 13:16:32Z cesag $
+ * 
  * Module: Publisher
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-define('_CO_PUBLISHER_MESSAGE_FILE_ERROR', 'Error: Unable to store uploaded file for the following reasons:<br />%s');
+define('_CO_PUBLISHER_MESSAGE_FILE_ERROR', 'Error: Unable to store uploaded file for the following reasons:<br>%s');
 define('_CO_PUBLISHER_MESSAGE_WRONG_MIMETYPE', 'Error: file type is not allowed. Please re-submit.');
 define('_CO_PUBLISHER_ALLOWCOMMENTS', 'Can article be commented?');
 define('_CO_PUBLISHER_AUTHOR_ALIAS', 'Author alias');
@@ -32,7 +32,7 @@ define('_CO_PUBLISHER_UID', 'Poster name');
 define('_CO_PUBLISHER_UID_DSC', 'Select the name of the poster');
 define('_CO_PUBLISHER_WEIGHT', 'Weight');
 define('_CO_PUBLISHER_ITEM_UPLOAD_FILE', 'File upload');
-define('_CO_PUBLISHER_ITEM_UPLOAD_FILE_DSC', 'Select a file from your computer to attach it to this article. You will be able to add more files once the article has been created. Simply edit the article and scroll at the bottom of the page to see the Add file button.<br /><br /> For example, you could add a Word document or an Excel document. You can even upload a Flash file and it will be directly embedded into your article! ');
+define('_CO_PUBLISHER_ITEM_UPLOAD_FILE_DSC', 'Select a file from your computer to attach it to this article. You will be able to add more files once the article has been created. Simply edit the article and scroll at the bottom of the page to see the Add file button.<br><br> For example, you could add a Word document or an Excel document. You can even upload a Flash file and it will be directly embedded into your article! ');
 //define('_CO_PUBLISHER_OPTIONS','Options');
 define('_CO_PUBLISHER_DISPLAY_SUMMARY', 'Display summary on the item page ?');
 define('_CO_PUBLISHER_DOHTML', 'Enable HTML tags');
@@ -57,7 +57,7 @@ define('_CO_PUBLISHER_CATEGORY_DSC', "Article's category.");
 define('_CO_PUBLISHER_IMAGE_ITEM', 'Article featured image');
 define('_CO_PUBLISHER_IMAGE_ITEM_DSC', 'Image representing the article');
 define('_CO_PUBLISHER_IMAGE_UPLOAD', 'Image upload');
-//define('_CO_PUBLISHER_IMAGE_UPLOAD_ITEM_DSC','Select an image on your computer. <br />This image will be uploaded to the site <br />and set as the article image.');
+//define('_CO_PUBLISHER_IMAGE_UPLOAD_ITEM_DSC','Select an image on your computer. <br>This image will be uploaded to the site <br>and set as the article image.');
 define('_CO_PUBLISHER_SUBCATEGORIES_INFO', 'Subcategories within <em>%s</em> :');
 define('_CO_PUBLISHER_SUMMARY', 'Block summary');
 define('_CO_PUBLISHER_SUMMARY_DSC', 'This summary is used for blocks, index and category pages. It does not display inside article.');

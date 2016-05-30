@@ -16,7 +16,6 @@
  * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: author_items.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include_once __DIR__ . '/header.php';
@@ -70,7 +69,8 @@ if ($count > 0) {
                 'count_items' => 0,
                 'count_hits'  => 0,
                 'title'       => $item->getCategoryName(),
-                'link'        => $item->getCategoryLink());
+                'link'        => $item->getCategoryLink()
+            );
         }
 
         $categories[$catid]['count_items']++;
@@ -80,7 +80,8 @@ if ($count > 0) {
             'hits'      => $item->counter(),
             'link'      => $item->getItemLink(),
             'published' => $item->getDatesub(),
-            'rating'    => $item->rating());
+            'rating'    => $item->rating()
+        );
     }
 }
 unset($item);

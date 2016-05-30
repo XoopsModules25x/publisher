@@ -16,7 +16,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id:main.php  335 2011-12-05 20:24:01Z lusopoemas@gmail.com $
  */
 
 include_once __DIR__ . '/admin_header.php';
@@ -60,19 +59,24 @@ $totaloffline = $publisher->getHandler('item')->getItemsCount(-1, array(Publishe
 $totalrejected = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_REJECTED));
 
 // Check Path Configuration
-if ((publisherGetPathStatus('root', true) < 0) || (publisherGetPathStatus('images', true) < 0) || (publisherGetPathStatus('images/category', true) < 0) || (publisherGetPathStatus('images/item', true) < 0) || (publisherGetPathStatus('content', true) < 0)) {
+if ((publisherGetPathStatus('root', true) < 0) ||
+    (publisherGetPathStatus('images', true) < 0) ||
+    (publisherGetPathStatus('images/category', true) < 0) ||
+    (publisherGetPathStatus('images/item', true) < 0) ||
+    (publisherGetPathStatus('content', true) < 0)
+) {
     PublisherUtilities::createDir();
 }
 
 publisherOpenCollapsableBar('inventorytable', 'inventoryicon', _AM_PUBLISHER_INVENTORY);
-echo '<br />';
+echo '<br>';
 echo "<table width='100%' class='outer' cellspacing='1' cellpadding='3' border='0' ><tr>";
 echo "<td class='head'>" . _AM_PUBLISHER_TOTALCAT . "</td><td align='center' class='even'>" . $totalcategories . '</td>';
 echo "<td class='head'>" . _AM_PUBLISHER_TOTALSUBMITTED . "</td><td align='center' class='even'>" . $totalsubmitted . '</td>';
 echo "<td class='head'>" . _AM_PUBLISHER_TOTALPUBLISHED . "</td><td align='center' class='even'>" . $totalpublished . '</td>';
 echo "<td class='head'>" . _AM_PUBLISHER_TOTAL_OFFLINE . "</td><td align='center' class='even'>" . $totaloffline . '</td>';
 echo '</tr></table>';
-echo '<br />';
+echo '<br>';
 
 echo "<form><div style=\"margin-bottom: 12px;\">";
 echo "<input type='button' name='button' onclick=\"location='category.php?op=mod'\" value='" . _AM_PUBLISHER_CATEGORY_CREATE . "'>&nbsp;&nbsp;";

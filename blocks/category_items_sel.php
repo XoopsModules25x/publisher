@@ -16,7 +16,6 @@
  * @subpackage      Blocks
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: category_items_sel.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
@@ -99,7 +98,8 @@ function publisher_category_items_sel_edit($options)
     $orderEle->addOptionArray(array(
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT));
+                                  'weight'  => _MB_PUBLISHER_WEIGHT
+                              ));
     $dispEle  = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $charsEle = new XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);
 

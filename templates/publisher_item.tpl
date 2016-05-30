@@ -84,7 +84,7 @@
                 <span style="float: left;">&nbsp;</span>
             <{/if}> <{if $perm_author_items && $item.uid != 0}>
                 <span style="float: left; margin-left: 5px;">
-          <a href="<{$moduleUrl}>/author_items.php?uid=<{$item.uid}>"><{$smarty.const._MD_PUBLISHER_ITEMS_SAME_AUTHOR}></a>
+          <a href="<{$publisher_url}>/author_items.php?uid=<{$item.uid}>"><{$smarty.const._MD_PUBLISHER_ITEMS_SAME_AUTHOR}></a>
         </span>
             <{/if}>
             <span style="float: right; text-align: right;"><{$item.adminlink}></span>
@@ -114,13 +114,13 @@
         <tr>
             <td class="odd" align="left">
                 <{if $file.mod}>
-                    <a href="<{$moduleUrl}>/file.php?op=mod&fileid=<{$file.fileid}>">
-                        <img src="<{$moduleUrl}>/assets/images/links/edit.gif" title="<{$smarty.const._CO_PUBLISHER_EDITFILE}>" alt="<{$smarty.const._CO_PUBLISHER_EDITFILE}>"/></a>
-                    <a href="<{$moduleUrl}>/file.php?op=del&fileid=<{$file.fileid}>">
-                        <img src="<{$moduleUrl}>/assets/images/links/delete.png" title="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>" alt="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>"/></a>
+                    <a href="<{$publisher_url}>/file.php?op=mod&fileid=<{$file.fileid}>">
+                        <img src="<{$publisher_url}>/assets/images/links/edit.gif" title="<{$smarty.const._CO_PUBLISHER_EDITFILE}>" alt="<{$smarty.const._CO_PUBLISHER_EDITFILE}>"/></a>
+                    <a href="<{$publisher_url}>/file.php?op=del&fileid=<{$file.fileid}>">
+                        <img src="<{$publisher_url}>/assets/images/links/delete.png" title="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>" alt="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>"/></a>
                 <{/if}>
-                <a href="<{$moduleUrl}>/visit.php?fileid=<{$file.fileid}>" target="_blank">
-                    <img src="<{$moduleUrl}>/assets/images/links/file.gif" title="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>" alt="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>"/>&nbsp;<strong><{$file.name}></strong>
+                <a href="<{$publisher_url}>/visit.php?fileid=<{$file.fileid}>" target="_blank">
+                    <img src="<{$publisher_url}>/assets/images/links/file.gif" title="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>" alt="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>"/>&nbsp;<strong><{$file.name}></strong>
                 </a>
 
                 <div><{$file.description}></div>

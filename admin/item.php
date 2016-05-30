@@ -17,7 +17,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: item.php 10661 2013-01-04 19:22:48Z trabis $
  */
 
 include_once __DIR__ . '/admin_header.php';
@@ -156,7 +155,7 @@ switch ($op) {
             //            exit();
         } else {
             xoops_cp_header();
-            xoops_confirm(array('op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()), 'item.php', _AM_PUBLISHER_DELETETHISITEM . " <br />'" . $itemObj->getTitle() . "'. <br /> <br />", _AM_PUBLISHER_DELETE);
+            xoops_confirm(array('op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()), 'item.php', _AM_PUBLISHER_DELETETHISITEM . " <br>'" . $itemObj->getTitle() . "'. <br> <br>", _AM_PUBLISHER_DELETE);
             xoops_cp_footer();
         }
         exit();
@@ -168,7 +167,7 @@ switch ($op) {
         //publisher_adminMenu(2, _AM_PUBLISHER_ITEMS);
         xoops_load('XoopsPageNav');
 
-        echo "<br />\n";
+        echo "<br>\n";
         echo "<form><div style=\"margin-bottom: 12px;\">";
         echo "<input type='button' name='button' onclick=\"location='item.php?op=mod'\" value='" . _AM_PUBLISHER_CREATEITEM . "'>&nbsp;&nbsp;";
         echo '</div></form>';
@@ -218,7 +217,7 @@ switch ($op) {
             echo '</tr>';
         }
         echo "</table>\n";
-        echo "<br />\n";
+        echo "<br>\n";
 
         $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $submittedstartitem, 'submittedstartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
@@ -268,7 +267,7 @@ switch ($op) {
             echo '</tr>';
         }
         echo "</table>\n";
-        echo "<br />\n";
+        echo "<br>\n";
 
         $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $publishedstartitem, 'publishedstartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
@@ -317,7 +316,7 @@ switch ($op) {
             echo '</tr>';
         }
         echo "</table>\n";
-        echo "<br />\n";
+        echo "<br>\n";
 
         $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $offlinestartitem, 'offlinestartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
@@ -365,7 +364,7 @@ switch ($op) {
             echo '</tr>';
         }
         echo "</table>\n";
-        echo "<br />\n";
+        echo "<br>\n";
 
         $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $rejectedstartitem, 'rejectedstartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
@@ -467,7 +466,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
         $categoryObj = $itemObj->getCategory();
 
-        echo "<br />\n";
+        echo "<br>\n";
         publisherOpenCollapsableBar('edititemtable', 'edititemicon', $pageTitle, $pageInfo);
 
         if ($clone) {
@@ -503,7 +502,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     $dir = publisherGetUploadDir(true, 'content');
 
-    if (false !== strpos(decoct(fileperms($dir)), '755')) {
+    if (!is_writable($dir)) {
         echo "<span style='color:#ff0000;'><h4>" . _AM_PUBLISHER_PERMERROR . '</h4></span>';
     }
 

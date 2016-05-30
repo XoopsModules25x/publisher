@@ -15,7 +15,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: file.php 10374 2012-12-12 23:39:48Z trabis $
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -65,7 +64,7 @@ class PublisherFile extends XoopsObject
 
     /**
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return mixed
      */
@@ -78,8 +77,8 @@ class PublisherFile extends XoopsObject
 
     /**
      * @param string $postField
-     * @param array $allowedMimetypes
-     * @param array $errors
+     * @param array  $allowedMimetypes
+     * @param array  $errors
      *
      * @return bool
      */
@@ -110,8 +109,8 @@ class PublisherFile extends XoopsObject
 
     /**
      * @param string $postField
-     * @param array $allowedMimetypes
-     * @param array $errors
+     * @param array  $allowedMimetypes
+     * @param array  $errors
      *
      * @return bool
      */
@@ -153,8 +152,8 @@ class PublisherFile extends XoopsObject
 
     /**
      * @param null|array $allowedMimetypes
-     * @param bool $force
-     * @param bool $doupload
+     * @param bool       $force
+     * @param bool       $doupload
      *
      * @return bool
      */
@@ -260,7 +259,7 @@ class PublisherFile extends XoopsObject
     {
         $ret    = $this->filename();
         $sepPos = strpos($ret, '_');
-        $ret    = substr($ret, $sepPos + 1, strlen($ret) - $sepPos);
+        $ret    = substr($ret, $sepPos + 1, -$sepPos);
 
         return $ret;
     }
@@ -303,7 +302,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
      * delete a file from the database
      *
      * @param XoopsObject $file reference to the file to delete
-     * @param bool $force
+     * @param bool        $force
      *
      * @return bool FALSE if failed.
      */
@@ -321,11 +320,11 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
     /**
      * delete files related to an item from the database
      *
-     * @param object $itemObj reference to the item which files to delete
+     * @param XoopsObject $itemObj reference to the item which files to delete
      *
      * @return bool
      */
-    public function deleteItemFiles(&$itemObj)
+    public function deleteItemFiles(XoopsObject $itemObj)
     {
         if (strtolower(get_class($itemObj)) !== 'publisheritem') {
             return false;
@@ -344,13 +343,13 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve all files
      *
-     * @param int $itemid
-     * @param int $status
-     * @param int $limit
-     * @param int $start
+     * @param int    $itemid
+     * @param int    $status
+     * @param int    $limit
+     * @param int    $start
      * @param string $sort
      * @param string $order
-     * @param array $category
+     * @param array  $category
      *
      * @return array array of {@link PublisherFile} objects
      */

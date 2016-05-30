@@ -16,7 +16,6 @@
  * @subpackage      Notification
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: notification_update.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 include_once dirname(dirname(__DIR__)) . '/mainfile.php';

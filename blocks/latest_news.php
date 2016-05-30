@@ -18,7 +18,6 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Bandit-x
  * @author          Mowaffak
- * @version         $Id: latest_news.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
@@ -377,7 +376,13 @@ function publisher_latest_news_edit($options)
     $form .= $tabletag1 . _MB_PUBLISHER_TEMPLATE . $tabletag2;
     $form .= "<select size='1' name='options[28]'>";
 
-    $templates = array('normal' => _MB_PUBLISHER_TEMPLATE_NORMAL, 'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED, 'ticker' => _MB_PUBLISHER_TEMPLATE_TICKER, 'slider1' => _MB_PUBLISHER_TEMPLATE_SLIDER1, 'slider2' => _MB_PUBLISHER_TEMPLATE_SLIDER2);
+    $templates = array(
+        'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
+        'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED,
+        'ticker'   => _MB_PUBLISHER_TEMPLATE_TICKER,
+        'slider1'  => _MB_PUBLISHER_TEMPLATE_SLIDER1,
+        'slider2'  => _MB_PUBLISHER_TEMPLATE_SLIDER2
+    );
     foreach ($templates as $key => $value) {
         $form .= "<option value='{$key}'";
         if ($options[28] == $key) {

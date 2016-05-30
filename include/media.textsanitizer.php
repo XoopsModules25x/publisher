@@ -17,7 +17,6 @@
  * @since             1.0
  * @author            trabis <lusopoemas@gmail.com>
  * @author            Taiwen Jiang (phppp or D.J.) <php_pp@hotmail.com>
- * @version           $Id: media.textsanitizer.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 define('MYTEXTSANITIZER_EXTENDED_MEDIA', 1);
@@ -37,13 +36,12 @@ class MyTextSanitizerExtension
     /**
      * @return MyTextSanitizerExtension
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance;
         if (!isset($instance)) {
-            $instance = new MyTextSanitizerExtension();
+            $instance = new static();
         }
-
         return $instance;
     }
 
@@ -166,7 +164,7 @@ class MyTextSanitizerExtension
         $rp .= "<param NAME=\"SRC\" VALUE=\"\\4\">";
         $rp .= "<embed autostart=\"0\" src=\"\\4\" type=\"audio/x-pn-realaudio-plugin\" HEIGHT='\\3' WIDTH='\\2' controls=\"ImageWindow\" console=\"cons\"> </embed>";
         $rp .= '</object>';
-        $rp .= "<br /><object CLASSID=clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA HEIGHT=32 ID=Player WIDTH='\\2' VIEWASTEXT>";
+        $rp .= "<br><object CLASSID=clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA HEIGHT=32 ID=Player WIDTH='\\2' VIEWASTEXT>";
         $rp .= "<param NAME=\"_ExtentX\" VALUE=\"18256\">";
         $rp .= "<param NAME=\"_ExtentY\" VALUE=\"794\">";
         $rp .= "<param NAME=\"AUTOSTART\" VALUE=\"0\">";

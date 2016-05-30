@@ -61,7 +61,6 @@
 })(jQuery);
 
 /**
- * @version        $Id:  $Revision
  * @package        jquery
  * @subpackage    lofslidernews
  * @copyright    Copyright (C) JAN 2010 LandOfCoder.com <@emai:landofcoder@gmail.com>. All rights reserved.

@@ -17,7 +17,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
- * @version         $Id: footer.php 10374 2012-12-12 23:39:48Z trabis $
  */
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
@@ -28,11 +27,16 @@ $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.0.4.js');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
 
-$xoopsTpl->assign('xoops_module_header', '<link rel="alternate" type="application/rss+xml" title="' . $publisher->getModule()->name() . '" href="' . PUBLISHER_URL . '/backend.php" />' . @$xoopsTpl->get_template_vars('xoops_module_header'));
+$xoopsTpl->assign('xoops_module_header', '<link rel="alternate" type="application/rss+xml" title="' .
+                                         $publisher->getModule()->name() .
+                                         '" href="' .
+                                         PUBLISHER_URL .
+                                         '/backend.php" />' .
+                                         @$xoopsTpl->get_template_vars('xoops_module_header'));
 
 $xoopsTpl->assign('publisher_adminpage', "<a href='" . PUBLISHER_URL . "/admin/index.php'>" . _MD_PUBLISHER_ADMIN_PAGE . '</a>');
 $xoopsTpl->assign('isAdmin', $publisherIsAdmin);
-$xoopsTpl->assign('moduleUrl', PUBLISHER_URL);
+$xoopsTpl->assign('publisher_url', PUBLISHER_URL);
 $xoopsTpl->assign('publisherImagesUrl', PUBLISHER_IMAGES_URL);
 
 $xoopsTpl->assign('displayType', $publisher->getConfig('idxcat_items_display_type'));

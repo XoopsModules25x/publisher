@@ -18,7 +18,6 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  * @author          Marius Scurtescu <mariuss@romanians.bc.ca>
  * @author          ZySpec <owners@zyspec.com>
- * @version         $Id: news.php 12629 2014-06-22 02:42:25Z beckmi $
  */
 
 include_once dirname(__DIR__) . '/admin_header.php';
@@ -81,7 +80,7 @@ if ('start' === $op) {
             echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $fmContentCount, count($cat_cbox_options)) . '</span>';
             $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
-            $cat_label = new XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br />', $cat_cbox_options));
+            $cat_label = new XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $cat_cbox_options));
             $cat_label->setDescription(_AM_PUBLISHER_IMPORT_CATEGORIES_DSC);
             $form->addElement($cat_label);
 
@@ -191,11 +190,11 @@ if ('go' === $op) {
             }
 
             if (!$itemObj->store()) {
-                echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $thisFmContentObj->getVar('title')) . '<br />\n';
+                echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $thisFmContentObj->getVar('title')) . '<br>\n';
                 continue;
             } else {
                 $newArticleArray[$thisFmContentObj->getVar('storyid')] = $itemObj->itemid();
-                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br />\n';
+                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br>\n';
                 ++$cnt_imported_articles;
             }
         }
@@ -207,7 +206,7 @@ if ('go' === $op) {
         publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         unset($fmContentObjs, $itemObj, $categoryObj, $thisFmContentObj);
-        echo "<br />\n";
+        echo "<br>\n";
     }
 
     // Process all "normal" Topics (categories) from FmContent
@@ -238,14 +237,14 @@ if ('go' === $op) {
             }
         }
         if (!$publisher->getHandler('category')->insert($categoryObj)) {
-            echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_ERROR, $thisFmTopicObj->getVar('topic_title')) . "<br />\n";
+            echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_ERROR, $thisFmTopicObj->getVar('topic_title')) . "<br>\n";
             continue;
         }
 
         $CatIds['newid'] = $categoryObj->categoryid();
         ++$cnt_imported_cat;
 
-        echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . "<br />\n";
+        echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . "<br>\n";
 
         // retrieve all articles (content) for this category
         $criteria = new CriteriaCompo();
@@ -283,11 +282,11 @@ if ('go' === $op) {
             }
 
             if (!$itemObj->store()) {
-                echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $thisFmContentObj->getVar('title')) . "<br />\n";
+                echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $thisFmContentObj->getVar('title')) . "<br>\n";
                 continue;
             } else {
                 $newArticleArray[$thisFmContentObj->getVar('storyid')] = $itemObj->itemid();
-                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . "<br />\n";
+                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . "<br>\n";
                 ++$cnt_imported_articles;
             }
         }
@@ -300,7 +299,7 @@ if ('go' === $op) {
 
         $newCatArray[$CatIds['oldid']] = $CatIds;
         unset($CatIds, $thisFmContentObj);
-        echo "<br />\n";
+        echo "<br>\n";
     }
     //    unset($thisFmTopicObj);
 
@@ -316,7 +315,7 @@ if ('go' === $op) {
     unset($oldid, $CatIds);
 
     // Looping through the comments to link them to the new articles and module
-    echo _AM_PUBLISHER_IMPORT_COMMENTS . "<br />\n";
+    echo _AM_PUBLISHER_IMPORT_COMMENTS . "<br>\n";
 
     $publisher_module_id = $publisher->getModule()->mid();
 
@@ -329,14 +328,14 @@ if ('go' === $op) {
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
         if (!$commentHandler->insert($comment)) {
-            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . "<br />\n";
+            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . "<br>\n";
         } else {
-            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . "<br />\n";
+            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . "<br>\n";
         }
     }
     //    unset($comment);
 
-    echo '<br /><br />' . _AM_PUBLISHER_IMPORT_DONE . "<br />\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat) . "<br />\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . "<br />\n" . "<br/>\n<a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . "</a><br />\n";
+    echo '<br><br>' . _AM_PUBLISHER_IMPORT_DONE . "<br>\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat) . "<br>\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . "<br>\n" . "<br/>\n<a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . "</a><br>\n";
 
     publisherCloseCollapsableBar('fmimportgo', 'fmimportgoicon');
     xoops_cp_footer();

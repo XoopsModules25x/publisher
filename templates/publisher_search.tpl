@@ -30,7 +30,7 @@
                     <tr>
                         <td class="head" align="right">
                             <strong><{$smarty.const._SR_TYPE}></strong></td>
-                        <td class="even"><{$typeSelect}></td>
+                        <td class="even"><{$type_select}></td>
                     </tr>
                     <tr>
                         <td class="head" align="right">
@@ -41,7 +41,7 @@
                     <tr>
                         <td class="head" align="right">
                             <strong><{$smarty.const._SR_SEARCHIN}></strong></td>
-                        <td class="even"><{$searchSelect}></td>
+                        <td class="even"><{$searchin_select}></td>
                     </tr>
                     <tr>
                         <td class="head" align="right">
@@ -55,7 +55,7 @@
                         <td class="head" align="right">
                             <strong><{$smarty.const._CO_PUBLISHER_SORTBY}></strong>&nbsp;
                         </td>
-                        <td class="even"><{$sortbySelect}></td>
+                        <td class="even"><{$sortby_select}></td>
                     </tr>
                     <{if $search_rule}>
                         <tr>

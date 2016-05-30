@@ -36,7 +36,7 @@ $xoopsTpl->assign('xoops_module_header', '<link rel="alternate" type="applicatio
 
 $xoopsTpl->assign('publisher_adminpage', "<a href='" . PUBLISHER_URL . "/admin/index.php'>" . _MD_PUBLISHER_ADMIN_PAGE . '</a>');
 $xoopsTpl->assign('isAdmin', $publisherIsAdmin);
-$xoopsTpl->assign('moduleUrl', PUBLISHER_URL);
+$xoopsTpl->assign('publisher_url', PUBLISHER_URL);
 $xoopsTpl->assign('publisherImagesUrl', PUBLISHER_IMAGES_URL);
 
 $xoopsTpl->assign('displayType', $publisher->getConfig('idxcat_items_display_type'));

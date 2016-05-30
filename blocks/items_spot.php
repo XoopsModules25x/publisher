@@ -105,7 +105,7 @@ function publisher_items_spot_show($options)
     $block['display_comment_link'] = $optDisplayComment;
     $block['display_type']         = $optDisplayType;
 
-    $block['moduleUrl'] = PUBLISHER_URL;
+    $block['publisher_url'] = PUBLISHER_URL;
     $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/assets/css/publisher.css');
 
     return $block;

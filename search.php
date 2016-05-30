@@ -21,7 +21,6 @@
 
 include_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
-
 //Checking general permissions
 $configHandler     = xoops_getHandler('config');
 $xoopsConfigSearch = $configHandler->getConfigsByCat(XOOPS_CONF_SEARCH);
@@ -41,7 +40,7 @@ if (!$publisher->getConfig('perm_search') || !$gpermHandler->checkRight('global'
 }
 
 $GLOBALS['xoopsConfig']['module_cache'][$module_id] = 0;
-$xoopsOption['template_main']                       = 'publisher_search.tpl';
+$xoopsOption['template_main'] = 'publisher_search.tpl';
 include $GLOBALS['xoops']->path('header.php');
 
 $module_info_search = $publisher->getModule()->getInfo('search');
@@ -68,14 +67,14 @@ if (empty($category) || (is_array($category) && in_array('all', $category))) {
 $andor  = in_array(strtoupper($andor), array('OR', 'AND', 'EXACT')) ? strtoupper($andor) : 'OR';
 $sortby = in_array(strtolower($sortby), array('itemid', 'datesub', 'title', 'categoryid')) ? strtolower($sortby) : 'itemid';
 
-if ($term && XoopsRequest::getString('submit', '', 'POST')) {
+if ($term && 'none' !== XoopsRequest::getString('submit', 'none', 'POST')) {
     $next_search['category'] = implode(',', $category);
     $next_search['andor']    = $andor;
     $next_search['term']     = $term;
     $query                   = trim($term);
 
     if ($andor !== 'EXACT') {
-        $ignored_queries = array(); // holds kewords that are shorter than allowed minmum length
+        $ignored_queries = array(); // holds kewords that are shorter than allowed minimum length
         $temp_queries    = preg_split("/[\s,]+/", $query);
         foreach ($temp_queries as $q) {
             $q = trim($q);
@@ -271,10 +270,10 @@ if ('categoryid' === $sortby) {
 $sortbySelect .= '>' . _CO_PUBLISHER_CATEGORY . '</option>';
 $sortbySelect .= '</select>';
 
-$xoopsTpl->assign('typeSelect', $typeSelect);
-$xoopsTpl->assign('searchSelect', $searchSelect);
-$xoopsTpl->assign('categorySelect', $categorySelect);
-$xoopsTpl->assign('sortbySelect', $sortbySelect);
+$xoopsTpl->assign('type_select', $typeSelect);
+$xoopsTpl->assign('searchin_select', $searchSelect);
+$xoopsTpl->assign('category_select', $categorySelect);
+$xoopsTpl->assign('sortby_select', $sortbySelect);
 $xoopsTpl->assign('search_term', $term);
 $xoopsTpl->assign('search_user', $username);
 

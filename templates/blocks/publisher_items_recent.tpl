@@ -18,5 +18,5 @@
 </table>
 
 <div style="text-align:right; padding: 5px;">
-    <a href="<{$moduleUrl}>"><{$block.lang_visitItem}></a>
+    <a href="<{$publisher_url}>"><{$block.lang_visitItem}></a>
 </div>

@@ -165,7 +165,7 @@ function publisher_search_show($options)
     $block['sortbySelect']   = $sortbySelect;
     $block['search_term']    = $term;
     $block['search_user']    = $username;
-    $block['moduleUrl']      = PUBLISHER_URL;
+    $block['publisher_url']  = PUBLISHER_URL;
 
     return $block;
 }

@@ -11,8 +11,10 @@
 - performance: (substr($color, 0, 1) !== '#') to (0 !== strpos($color, '#')) (mamba)
 - renamed logo.png to logo_module.png (mamba)
 - clean up clone (geekwright)
-- revert several template variable changes to work better with override templates
-- revert moduleUrl template variable to publisher_url to better support cloning
+- revert several template variable changes to work better with override templates (geekwright)
+- revert moduleUrl template variable to publisher_url to better support cloning (geekwright)
+- remove pass-by-ref for non-vars (zyspec)
+-
 
 <h5>1.03 Beta 2       (2016-03-20)</h5>
 - fixed: bugs on submit (mamba)

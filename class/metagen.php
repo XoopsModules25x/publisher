@@ -255,7 +255,7 @@ class PublisherMetagen
      * Return true if the string is length > 0
      *
      * @credit psylove
-     * @var    string $string Chaine de caractère
+     * @var    string  $string Chaine de caractère
      * @return boolean
      */
     public function emptyString($var)
@@ -279,7 +279,7 @@ class PublisherMetagen
         // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus
         $title = rawurlencode(strtolower($title));
         // Transformation des ponctuations
-                                                 
+
         $pattern = array(
             '/%09/', // Tab
             '/%20/', // Space
@@ -313,8 +313,24 @@ class PublisherMetagen
         $repPat  = array('-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-');
         $title   = preg_replace($pattern, $repPat, $title);
         // Transformation des caractères accentués
-        //                  °        è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
-        $pattern = array('/%B0/', '/%E8/', '/%E9/', '/%EA/', '/%EB/', '/%E7/', '/%E0/', '/%E2/', '/%E4/', '/%EE/', '/%EF/', '/%F9/', '/%FC/', '/%FB/', '/%F4/', '/%F6/');
+        $pattern = array(
+            '/%B0/', // °
+            '/%E8/', // è
+            '/%E9/', // é
+            '/%EA/', // ê
+            '/%EB/', // ë
+            '/%E7/', // ç
+            '/%E0/', // à
+            '/%E2/', // â
+            '/%E4/', // ä
+            '/%EE/', // î
+            '/%EF/', // ï
+            '/%F9/', // ù
+            '/%FC/', // ü
+            '/%FB/', // û
+            '/%F4/', // ô
+            '/%F6/', // ö
+        );
         $repPat  = array('-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o');
         $title   = preg_replace($pattern, $repPat, $title);
         $tableau = explode('-', $title); // Transforme la chaine de caractères en tableau

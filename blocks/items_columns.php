@@ -59,7 +59,7 @@ function publisher_items_columns_show($options)
             }
         }
     } else {
-        $selCategoriesObj =& $categoriesObj;
+        $selCategoriesObj = $categoriesObj;
     }
     unset($key, $value);
 

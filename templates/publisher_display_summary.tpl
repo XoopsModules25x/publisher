@@ -11,7 +11,7 @@
             <a href='javascript:' onclick="toggle('toptable'); toggleIcon('toptableicon')"><img id='toptableicon' src='<{$publisher_url}>/assets/images/links/close12.gif' alt=''/></a>&nbsp;<{$lang_category_summary}>
         </div>
         <div id='toptable'>
-        <span class="publisher_collaps_info"">
+        <span class='publisher_collaps_info'>
             <{$lang_category_summary}>
         </span>
         <!-- Content under the collapsable bar //-->
@@ -22,7 +22,7 @@
     <{if $collapsable_heading == 1}>
         </div>
     <{/if}>
-    <br/>
+    <br>
     <!-- End of if !$category || $category.subcats || ($category && $display_category_summary) //-->
 <{/if}>
 <{if $items}>
@@ -59,7 +59,7 @@
                 <td class="even" align="left">
                     <strong><{$item.titlelink}></strong>
                     <{if $show_subtitle && $item.subtitle}>
-                        <br/>
+                        <br>
                         <em><{$item.subtitle}></em>
                     <{/if}>
                 </td>

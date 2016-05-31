@@ -252,7 +252,7 @@ if ($op === 'go') {
         }
 
         if (!$publisher->getHandler('category')->insert($categoryObj)) {
-            echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_ERROR, $arrCat['topic_title']) . '<br/>';
+            echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_ERROR, $arrCat['topic_title']) . '<br>';
             continue;
         }
 
@@ -280,7 +280,7 @@ if ($op === 'go') {
         $newCat['newid'] = $categoryObj->categoryid();
         ++$cnt_imported_cat;
 
-        echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . '<br/>';
+        echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . '<br>';
 
         $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('nw_stories') . ' WHERE topicid=' . $arrCat['topic_id'];
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
@@ -328,14 +328,14 @@ if ($op === 'go') {
              if (file_exists($pagewrap_filename)) {
              if (copy($pagewrap_filename, $GLOBALS['xoops']->path('uploads/publisher/content/' . $arrArticle['htmlpage']))) {
              $itemObj->setVar('body', '[pagewrap=' . $arrArticle['htmlpage'] . ']');
-             echo sprintf('&nbsp;&nbsp;&nbsp;&nbsp;' . _AM_PUBLISHER_IMPORT_ARTICLE_WRAP, $arrArticle['htmlpage']) . '<br/>';
+             echo sprintf('&nbsp;&nbsp;&nbsp;&nbsp;' . _AM_PUBLISHER_IMPORT_ARTICLE_WRAP, $arrArticle['htmlpage']) . '<br>';
              }
              }
              }
              */
 
             if (!$itemObj->store()) {
-                echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $arrArticle['storyid'] . ' ' . $arrArticle['title']) . '<br/>';
+                echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $arrArticle['storyid'] . ' ' . $arrArticle['title']) . '<br>';
                 continue;
             } else {
                 //--------------------------------------------
@@ -385,7 +385,7 @@ if ($op === 'go') {
 
         $newCatArray[$newCat['oldid']] = $newCat;
         unset($newCat);
-        echo '<br/>';
+        echo '<br>';
     }
 
     // Looping through category to change the parentID to the new parentID
@@ -424,10 +424,10 @@ if ($op === 'go') {
     }
     //    unset($comment);
 
-    echo '<br/><br/>Done.<br/>';
-    echo sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat) . '<br/>';
-    echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br/>';
-    echo "<br/><a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br/>';
+    echo '<br><br>Done.<br>';
+    echo sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat) . '<br>';
+    echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br>';
+    echo "<br><a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br>';
 
     publisherCloseCollapsableBar('xnewsimportgo', 'xnewsimportgoicon');
     xoops_cp_footer();

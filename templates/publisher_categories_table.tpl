@@ -31,7 +31,7 @@
                     <strong><{$category.categorylink}></strong>
                 <{/if}>
 
-                <br/>
+                <br>
                 <span class="publisher_category_dsc"><{$category.description}></span>
             </td>
             <{if $displayarticlescount}>

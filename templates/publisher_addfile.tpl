@@ -2,7 +2,7 @@
 
 <div class="publisher_infotitle"><{$langIntroTitle}></div>
 <div class="publisher_infotext"><{$langIntroText}></div>
-<br/><{$form.javascript}>
+<br><{$form.javascript}>
 <form name="<{$form.name}>" action="<{$form.action}>" method="<{$form.method}>" <{$form.extra}>>
     <table class="outer" cellspacing="1">
         <tr>

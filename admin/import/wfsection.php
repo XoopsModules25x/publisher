@@ -135,7 +135,7 @@ if ($op === 'go') {
         }
 
         if (!$categoryObj->store(false)) {
-            echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_ERROR, $arrCat['title']) . '<br/>';
+            echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_ERROR, $arrCat['title']) . '<br>';
             continue;
         }
 
@@ -174,13 +174,13 @@ if ($op === 'go') {
                 if (file_exists($pagewrap_filename)) {
                     if (copy($pagewrap_filename, PUBLISHER_UPLOAD_PATH . '/content/' . $arrArticle['htmlpage'])) {
                         $itemObj->setVar('body', '[pagewrap=' . $arrArticle['htmlpage'] . ']');
-                        echo sprintf('&nbsp;&nbsp;&nbsp;&nbsp;' . _AM_PUBLISHER_IMPORT_ARTICLE_WRAP, $arrArticle['htmlpage']) . '<br/>';
+                        echo sprintf('&nbsp;&nbsp;&nbsp;&nbsp;' . _AM_PUBLISHER_IMPORT_ARTICLE_WRAP, $arrArticle['htmlpage']) . '<br>';
                     }
                 }
             }
 
             if (!$itemObj->store()) {
-                echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $arrArticle['title']) . '<br/>';
+                echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $arrArticle['title']) . '<br>';
                 continue;
             } else {
                 // Linkes files
@@ -217,7 +217,7 @@ if ($op === 'go') {
         }
         $newCatArray[$newCat['oldid']] = $newCat;
         unset($newCat);
-        echo '<br/>';
+        echo '<br>';
     }
     // Looping through cat to change the pid to the new pid
     foreach ($newCatArray as $oldid => $newCat) {
@@ -259,10 +259,10 @@ if ($op === 'go') {
     }
     //    unset($comment);
 
-    echo '<br/><br/>Done.<br/>';
-    echo sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat) . '<br/>';
-    echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br/>';
-    echo "<br/><a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br/>';
+    echo '<br><br>Done.<br>';
+    echo sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat) . '<br>';
+    echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br>';
+    echo "<br><a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br>';
 
     publisherCloseCollapsableBar('wfsectionimportgo', 'wfsectionimportgoicon');
     xoops_cp_footer();

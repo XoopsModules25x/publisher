@@ -74,7 +74,7 @@ if ($term && 'none' !== XoopsRequest::getString('submit', 'none', 'POST')) {
     $query                   = trim($term);
 
     if ($andor !== 'EXACT') {
-        $ignored_queries = array(); // holds kewords that are shorter than allowed minimum length
+        $ignored_queries = array(); // holds keywords that are shorter than allowed minimum length
         $temp_queries    = preg_split("/[\s,]+/", $query);
         foreach ($temp_queries as $q) {
             $q = trim($q);

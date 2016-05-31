@@ -5,10 +5,10 @@
 <span class="publisher_collaps_info"><{$category.description}><br><br></span><!-- if the option is set, add the last item column --><{if $category && $displaylastitem == 1 && $items}>
     <div id="publisher_bullet_lastitem">
         <strong><{$smarty.const._MD_PUBLISHER_LAST_SMARTITEM}> : <{$category.last_title_link}>
-    </div>    <{/if}><br/>
+    </div>    <{/if}><br>
 
 <!-- if we are on the index page OR inside a category that has subcats OR (inside a category with no subcats AND $display_category_summary is set to TRUE, let's display the summary table ! //--><{if $indexpage || $category.subcats || ($category && $display_category_summary)}>    <{include file='db:publisher_categories_table.tpl'}>
-<br/><!-- End of if !$category || $category.subcats || ($category && $display_category_summary) //--><{/if}>
+<br><!-- End of if !$category || $category.subcats || ($category && $display_category_summary) //--><{/if}>
 
 <{if $items}>    <{if $collapsable_heading == 1}>
     <div class="publisher_collaps_title">
@@ -38,7 +38,7 @@
                         <div class="publisher_list" align="left">
                             <li><{$item.titlelink}></li>
                             <{if $show_subtitle && $item.subtitle}>
-                                <br/>
+                                <br>
                                 <em><{$item.subtitle}></em>
                             <{/if}>
                         </div>

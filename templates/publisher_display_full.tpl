@@ -23,7 +23,7 @@
     <{if $collapsable_heading == 1}>
         </div>
     <{/if}>
-    <br/>
+    <br>
     <!-- End of if !$category || $category.subcats || ($category && $display_category_summary) //-->
 <{/if}>
 <{if $items}>

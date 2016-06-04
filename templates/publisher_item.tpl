@@ -93,7 +93,7 @@
         </div>
     </div>
 </div>
-<br/>
+<br>
 
 <{if $item.files}>
     <table border="0" width="90%" cellspacing="1" cellpadding="0" align="center" class="outer">
@@ -130,7 +130,7 @@
         </tr>
         <{/foreach}> <!-- END DYNAMIC BLOCK -->
     </table>
-    <br/>
+    <br>
 <{/if}>
 
 <{if $other_items == "previous_next"}><{if $previousItemLink || $nextItemLink}>

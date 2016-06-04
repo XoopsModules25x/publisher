@@ -522,7 +522,7 @@ class PublisherMimetypesUtilities
     </td>
     </tr>";
         echo '</table>';
-        echo "<div id='staff_nav'>" . $nav->renderNav() . '</div><br/>';
+        echo "<div id='staff_nav'>" . $nav->renderNav() . '</div><br>';
 
         publisherCloseCollapsableBar('mimemanagetable', 'mimemanageicon');
 

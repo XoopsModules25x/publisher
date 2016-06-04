@@ -66,7 +66,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * create a new  object
      *
-     * @param  bool $isNew
+     * @param  bool   $isNew
      * @return object <a href='psi_element://publisherBaseObject'>publisherBaseObject</a>
      * @access public
      */
@@ -78,9 +78,9 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve an object from the database, based on. use in child classes
      *
-     * @param int   $id ID
+     * @param int $id ID
      *
-     * @param  null $fields
+     * @param  null  $fields
      * @return mixed object if id exists, false if not
      * @access public
      */
@@ -110,7 +110,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *                                         conditions to be met
      * @param bool                   $idAsKey  Should the department ID be used as array key
      *
-     * @param  bool                  $asObject
+     * @param  bool  $asObject
      * @return array array of objects
      * @access  public
      */
@@ -266,8 +266,8 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *
      * @param CriteriaElement|object $criteria {@link CriteriaElement}
      *
-     * @param  bool                  $force
-     * @param  bool                  $asObject
+     * @param  bool $force
+     * @param  bool $asObject
      * @return bool FALSE if deletion failed
      * @access    public
      */
@@ -289,9 +289,9 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *
      * @param string                 $fieldname
      * @param string                 $fieldvalue
-     * @param CriteriaElement|object $criteria {@link CriteriaElement}
+     * @param CriteriaElement|object $criteria   {@link CriteriaElement}
      *
-     * @param  bool                  $force
+     * @param  bool $force
      * @return bool FALSE if update failed
      * @access    public
      */
@@ -350,7 +350,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     public function getInstance($db)
     {
         static $instance;
-        if (!isset($instance)) {
+        if (null === $instance) {
             $className = $this->className . 'Handler';
             $instance  = new $className($db);
         }
@@ -414,9 +414,9 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
     /**
      * retrieve a mimetype object from the database
      *
-     * @param int   $id ID of mimetype
+     * @param int $id ID of mimetype
      *
-     * @param  null $fields
+     * @param  null   $fields
      * @return object <a href='psi_element://PublisherMimetype'>PublisherMimetype</a>
      * @access    public
      */
@@ -445,10 +445,10 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      * @param CriteriaElement|object $criteria {@link CriteriaElement}
      *                                         conditions to be met
      *
-     * @param  bool                  $idAsKey
-     * @param  bool                  $asObject
+     * @param  bool  $idAsKey
+     * @param  bool  $asObject
      * @return array array of <a href='psi_element://PublisherMimetype'>PublisherMimetype</a> objects
-     *                                         objects
+     *                        objects
      * @access    public
      */
     public function &getObjects(CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
@@ -499,7 +499,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
         if ($mimeExt) {
             $crit->add(new Criteria('mime_ext', $mimeExt));
         }
-        $result =& $this->getObjects($crit);
+        $result = $this->getObjects($crit);
         // if no records from db, return empty array
         if (!$result) {
             return $ret;

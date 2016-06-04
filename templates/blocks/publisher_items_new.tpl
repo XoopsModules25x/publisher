@@ -7,7 +7,7 @@
     <{/if}>
     <td>
         <strong><{$newitems.link}></strong> <{if $block.show_order == '1'}> (<{$newitems.new}>) <{/if}>
-        <br/> <{$newitems.poster}>
+        <br> <{$newitems.poster}>
     </td>
     </tr><{/foreach}>
 </table>

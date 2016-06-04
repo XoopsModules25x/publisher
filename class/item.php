@@ -971,7 +971,7 @@ class PublisherItem extends XoopsObject
         $this->setVar('subtitle', XoopsRequest::getString('subtitle', '', 'POST'));
         $this->setVar('item_tag', XoopsRequest::getString('item_tag', '', 'POST'));
 
-        if ($imageFeatured = XoopsRequest::getString('image_featured', '', 'POST')) {
+        if (false !== ($imageFeatured = XoopsRequest::getString('image_featured', '', 'POST'))) {
             $imageItem = XoopsRequest::getArray('image_item', array(), 'POST');
             //            $imageFeatured = XoopsRequest::getString('image_featured', '', 'POST');
             //Todo: get a better image class for xoops!
@@ -996,7 +996,7 @@ class PublisherItem extends XoopsObject
             $this->setVar('images', '');
         }
 
-        if ($authorAlias = XoopsRequest::getString('author_alias', '', 'POST')) {
+        if (false !== ($authorAlias = XoopsRequest::getString('author_alias', '', 'POST'))) {
             $this->setVar('author_alias', $authorAlias);
             if ($this->getVar('author_alias') !== '') {
                 $this->setVar('uid', 0);
@@ -1004,7 +1004,7 @@ class PublisherItem extends XoopsObject
         }
 
         //mb TODO check on version
-        if ($datesub = XoopsRequest::getString('datesub', '', 'POST')) {
+        if (false !== ($datesub = XoopsRequest::getString('datesub', '', 'POST'))) {
             //            if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
             //                $this->setVar('datesub', strtotime(XoopsRequest::getArray('datesub', array(), 'POST')['date']) + XoopsRequest::getArray('datesub', array(), 'POST')['time']);
             //            } else {
@@ -1548,7 +1548,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $criteria->setStart($start);
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $ret =& $this->getObjects($criteria, $idKey, $notNullFields);
+        $ret = $this->getObjects($criteria, $idKey, $notNullFields);
 
         return $ret;
     }
@@ -1591,7 +1591,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
         //todo resource consuming, use get list instead?
-        $items =& $this->getObjects($criteria);
+        $items = $this->getObjects($criteria);
         foreach ($items as $item) {
             $this->delete($item);
         }
@@ -1736,7 +1736,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             $order = 'DESC';
         }
         $criteria->setOrder($order);
-        $ret =& $this->getObjects($criteria);
+        $ret = $this->getObjects($criteria);
 
         return $ret;
     }

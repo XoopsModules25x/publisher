@@ -46,7 +46,7 @@ class PublisherPublisher
     public static function getInstance($debug = false)
     {
         static $instance;
-        if (!isset($instance)) {
+        if (null === $instance) {
             $instance = new static($debug);
         }
         return $instance;

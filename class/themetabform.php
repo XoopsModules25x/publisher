@@ -288,14 +288,14 @@ class PublisherThemeTabForm extends XoopsForm
         if (is_string($formElement)) {
             $this->elements[] =& $formElement;
         } elseif (is_subclass_of($formElement, 'xoopsformelement')) {
-            $this->elements[] = &$formElement;
+            $this->elements[] =& $formElement;
             if ($required) {
                 if (method_exists($formElement, 'setRequired')) {
                     $formElement->setRequired(true);
                 } else {
                     $formElement->required = true;
                 }
-                $this->required[] = &$formElement;
+                $this->required[] =& $formElement;
             }
         }
     }
@@ -316,7 +316,7 @@ class PublisherThemeTabForm extends XoopsForm
             $count = count($this->elements);
             for ($i = 0; $i < $count; ++$i) {
                 if (is_object($this->elements[$i])) {
-                    $ret[] = &$this->elements[$i];
+                    $ret[] =& $this->elements[$i];
                 }
             }
 
@@ -350,7 +350,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function &getElementByName($name)
     {
-        $elements =& $this->getElements(true);
+        $elements = $this->getElements(true);
         $count    = count($elements);
         for ($i = 0; $i < $count; ++$i) {
             if ($name == $elements[$i]->getName(false)) {
@@ -370,7 +370,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function setElementValue($name, $value)
     {
-        $ele = &$this->getElementByName($name);
+        $ele = $this->getElementByName($name);
         if (is_object($ele) && method_exists($ele, 'setValue')) {
             $ele->setValue($value);
         }
@@ -385,7 +385,7 @@ class PublisherThemeTabForm extends XoopsForm
     {
         if (is_array($values) && !empty($values)) {
             // will not use getElementByName() for performance..
-            $elements = &$this->getElements(true);
+            $elements = $this->getElements(true);
             $count    = count($elements);
             for ($i = 0; $i < $count; ++$i) {
                 $name = $elements[$i]->getName(false);
@@ -406,7 +406,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function getElementValue($name, $encode = false)
     {
-        $ele = &$this->getElementByName($name);
+        $ele = $this->getElementByName($name);
         if (is_object($ele) && method_exists($ele, 'getValue')) {
             return $ele->getValue($encode);
         }
@@ -424,13 +424,13 @@ class PublisherThemeTabForm extends XoopsForm
     public function getElementValues($encode = false)
     {
         // will not use getElementByName() for performance..
-        $elements = &$this->getElements(true);
+        $elements = $this->getElements(true);
         $count    = count($elements);
         $values   = array();
         for ($i = 0; $i < $count; ++$i) {
             $name = $elements[$i]->getName(false);
             if ($name && method_exists($elements[$i], 'getValue')) {
-                $values[$name] = &$elements[$i]->getValue($encode);
+                $values[$name] = $elements[$i]->getValue($encode);
             }
         }
 
@@ -480,7 +480,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function setRequired(XoopsFormElement $formElement)
     {
-        $this->required[] = &$formElement;
+        $this->required[] =& $formElement;
     }
 
     /**
@@ -553,7 +553,7 @@ class PublisherThemeTabForm extends XoopsForm
         }
         $formname = $this->getName();
         $js .= "function xoopsFormValidate_{$formname}() { var myform = window.document.{$formname}; ";
-        $elements =& $this->getElements(true);
+        $elements = $this->getElements(true);
         foreach ($elements as $elt) {
             if (method_exists($elt, 'renderValidationJS')) {
                 $js .= $elt->renderValidationJS();

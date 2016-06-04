@@ -1,13 +1,13 @@
 <{include file="db:publisher_header.tpl" item=$item}>
 
 <{if $op == 'preview'}>
-    <br/>
+    <br>
     <{include file="db:publisher_singleitem.tpl" item=$item}>
 <{/if}>
 
 <div class="publisher_infotitle"><{$langIntroTitle}></div>
 <div class="publisher_infotext"><{$langIntroText}></div>
-<br/><{$form.javascript}>
+<br><{$form.javascript}>
 
 <div id="tabs">
     <ul>

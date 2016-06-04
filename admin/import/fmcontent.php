@@ -335,7 +335,7 @@ if ('go' === $op) {
     }
     //    unset($comment);
 
-    echo '<br><br>' . _AM_PUBLISHER_IMPORT_DONE . "<br>\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat) . "<br>\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . "<br>\n" . "<br/>\n<a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . "</a><br>\n";
+    echo '<br><br>' . _AM_PUBLISHER_IMPORT_DONE . "<br>\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat) . "<br>\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . "<br>\n" . "<br>\n<a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . "</a><br>\n";
 
     publisherCloseCollapsableBar('fmimportgo', 'fmimportgoicon');
     xoops_cp_footer();

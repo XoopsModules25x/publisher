@@ -57,7 +57,7 @@ if ($fromyear && $frommonth) {
 
 $dateformat = $publisher->getConfig('format_date');
 
-if ($dateformat == '') {
+if ($dateformat === '') {
     $dateformat = 'm';
 }
 

@@ -134,14 +134,14 @@ if ($op === 'go') {
          if (file_exists($pagewrap_filename)) {
          if (copy($pagewrap_filename, $GLOBALS['xoops']->path("uploads/publisher/content/" . $arrArticle['htmlpage']))) {
          $itemObj->setVar('body', "[pagewrap=" . $arrArticle['htmlpage'] . "]");
-         echo sprintf("&nbsp;&nbsp;&nbsp;&nbsp;" . _AM_PUBLISHER_IMPORT_ARTICLE_WRAP, $arrArticle['htmlpage']) . "<br/>";
+         echo sprintf("&nbsp;&nbsp;&nbsp;&nbsp;" . _AM_PUBLISHER_IMPORT_ARTICLE_WRAP, $arrArticle['htmlpage']) . "<br>";
          }
          }
          }
          */
 
         if (!$itemObj->store()) {
-            echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $arrArticle['title']) . '<br/>';
+            echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $arrArticle['title']) . '<br>';
             continue;
         } else {
             $newArticleArray[$arrArticle['id']] = $itemObj->itemid();
@@ -150,7 +150,7 @@ if ($op === 'go') {
         }
     }
 
-    echo '<br/>';
+    echo '<br>';
 
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
@@ -173,10 +173,10 @@ if ($op === 'go') {
     }
     //    unset($comment);
 
-    echo '<br/><br/>Done.<br/>';
+    echo '<br><br>Done.<br>';
 
-    echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br/>';
-    echo "<br/><a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br/>';
+    echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br>';
+    echo "<br><a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br>';
 
     publisherCloseCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon');
     xoops_cp_footer();

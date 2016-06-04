@@ -3,10 +3,10 @@
     <{if $results}>
         <{foreachq item=result from=$results}>
         <div class="item">
-            <strong><a href="<{$result.link}>"><{$result.title}></a></strong><br/>
+            <strong><a href="<{$result.link}>"><{$result.title}></a></strong><br>
             <{$result.author}> <{$result.datesub}>
             <{if $result.text}>
-                <br/>
+                <br>
                 <{$result.text}>
             <{/if}>
         </div>

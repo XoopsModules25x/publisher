@@ -301,7 +301,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
     /**
      * delete a file from the database
      *
-     * @param XoopsObject $file reference to the file to delete
+     * @param XoopsObject $file  reference to the file to delete
      * @param bool        $force
      *
      * @return bool FALSE if failed.
@@ -400,7 +400,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
             $criteria->setOrder($order);
             $criteria->setLimit($limit);
             $criteria->setStart($start);
-            $files =& $this->getByLink($criteria, array('o.*'), true);
+            $files = $this->getByLink($criteria, array('o.*'), true);
 
             //            return $files;
         }

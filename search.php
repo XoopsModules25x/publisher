@@ -274,7 +274,7 @@ $xoopsTpl->assign('type_select', $typeSelect);
 $xoopsTpl->assign('searchin_select', $searchSelect);
 $xoopsTpl->assign('category_select', $categorySelect);
 $xoopsTpl->assign('sortby_select', $sortbySelect);
-$xoopsTpl->assign('search_term', $term);
+$xoopsTpl->assign('search_term', htmlspecialchars($term, ENT_QUOTES));
 $xoopsTpl->assign('search_user', $username);
 
 $xoopsTpl->assign('modulename', $publisher->getModule()->name());

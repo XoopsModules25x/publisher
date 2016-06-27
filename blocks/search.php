@@ -163,7 +163,7 @@ function publisher_search_show($options)
     $block['searchSelect']   = $searchSelect;
     $block['categorySelect'] = $categorySelect;
     $block['sortbySelect']   = $sortbySelect;
-    $block['search_term']    = $term;
+    $block['search_term']    = htmlspecialchars($term, ENT_QUOTES);
     $block['search_user']    = $username;
     $block['publisher_url']  = PUBLISHER_URL;
 

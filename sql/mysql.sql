@@ -78,7 +78,6 @@ CREATE TABLE `publisher_items` (
 )
   ENGINE = MyISAM;
 
-
 #
 # Table structure for table `publisher_files`
 #
@@ -101,7 +100,6 @@ CREATE TABLE `publisher_files` (
   PRIMARY KEY (`fileid`)
 )
   ENGINE = MyISAM;
-
 
 # --------------------------------------------------------
 
@@ -174,11 +172,11 @@ INSERT INTO publisher_mimetypes VALUES (11, 'shar', 'application/x-shar', 'UNIX 
 INSERT INTO publisher_mimetypes VALUES (12, 'tar', 'application/tar application/x-tar applicaton/x-gtar multipart/x-tar application/x-compress application/x-compressed', 'Tape Archive File', 0, 0);
 INSERT INTO publisher_mimetypes VALUES (13, 'gtar', 'application/x-gtar', 'GNU tar Compressed File Archive', 0, 0);
 INSERT INTO publisher_mimetypes VALUES (14, 'ustar', 'application/x-ustar multipart/x-ustar', 'POSIX tar Compressed Archive', 0, 0);
-INSERT INTO publisher_mimetypes VALUES (15, 'zip', 'application/zip application/x-zip application/x-zip-compressed application/octet-stream application/x-compress application/x-compressed multipart/x-zip', 'Compressed Archive File', 0, 0);
+INSERT INTO publisher_mimetypes VALUES  (15, 'zip', 'application/zip application/x-zip application/x-zip-compressed application/octet-stream application/x-compress application/x-compressed multipart/x-zip', 'Compressed Archive File', 0, 0);
 INSERT INTO publisher_mimetypes VALUES (16, 'exe', 'application/exe application/x-exe application/dos-exe application/x-winexe application/msdos-windows application/x-msdos-program', 'Executable File', 0, 0);
 INSERT INTO publisher_mimetypes VALUES (17, 'wmz', 'application/x-ms-wmz', 'Windows Media Compressed Skin File', 0, 0);
 INSERT INTO publisher_mimetypes VALUES (18, 'wmd', 'application/x-ms-wmd', 'Windows Media Download File', 0, 0);
-INSERT INTO publisher_mimetypes VALUES (19, 'doc', 'application/msword application/doc appl/text application/vnd.msword application/vnd.ms-word application/winword application/word application/x-msw6 application/x-msword', 'Word Document', 1, 1);
+INSERT INTO publisher_mimetypes VALUES  (19, 'doc', 'application/msword application/doc appl/text application/vnd.msword application/vnd.ms-word application/winword application/word application/x-msw6 application/x-msword', 'Word Document', 1, 1);
 INSERT INTO publisher_mimetypes VALUES (20, 'pdf', 'application/pdf application/acrobat application/x-pdf applications/vnd.pdf text/pdf', 'Acrobat Portable Document Format', 1, 1);
 INSERT INTO publisher_mimetypes VALUES (21, 'eps', 'application/eps application/postscript application/x-eps image/eps image/x-eps', 'Encapsulated PostScript', 0, 0);
 INSERT INTO publisher_mimetypes VALUES (22, 'ps', 'application/postscript application/ps application/x-postscript application/x-ps text/postscript', 'PostScript', 0, 0);

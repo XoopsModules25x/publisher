@@ -62,9 +62,9 @@ if (!$itemObj->accessGranted()) {
 }
 
 // Update the read counter of the selected item
-if (!$GLOBALS['xoopsUser'] ||
-    ($GLOBALS['xoopsUser'] && !$GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid())) ||
-    ($GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid()) && $publisher->getConfig('item_admin_hits') == 1)
+if (!$GLOBALS['xoopsUser']
+    || ($GLOBALS['xoopsUser'] && !$GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid()))
+    || ($GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid()) && $publisher->getConfig('item_admin_hits') == 1)
 ) {
     $itemObj->updateCounter();
 }
@@ -212,12 +212,9 @@ $item['embeded_files'] = $embededFiles;
 unset($file, $embededFiles, $filesObj, $fileObj);
 
 // Language constants
-$xoopsTpl->assign('mail_link', 'mailto:?subject=' .
-                               sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) .
-                               '&amp;body=' .
-                               sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) .
-                               ': ' .
-                               $itemObj->getItemUrl());
+$xoopsTpl->assign('mail_link',
+                  'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename'])
+                  . ': ' . $itemObj->getItemUrl());
 $xoopsTpl->assign('itemid', $itemObj->itemId());
 $xoopsTpl->assign('sectionname', $publisher->getModule()->getVar('name'));
 $xoopsTpl->assign('module_dirname', $publisher->getModule()->getVar('dirname'));

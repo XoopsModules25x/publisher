@@ -32,6 +32,13 @@ foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
     //    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
 
+//copy blank.png files, if needed
+$file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
+foreach (array_keys($copyFiles) as $i) {
+    $dest = $copyFiles[$i] . '/blank.png';
+    PublisherUtilities::copyFile($file, $dest);
+}
+
 echo $indexAdmin->addNavigation(basename(__FILE__));
 echo $indexAdmin->renderIndex();
 

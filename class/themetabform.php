@@ -280,8 +280,8 @@ class PublisherThemeTabForm extends XoopsForm
     /**
      * Add an element to the form
      *
-     * @param object $formElement reference to a {@link XoopsFormElement}
-     * @param bool   $required    is this a "required" element?
+     * @param string|XoopsFormElement $formElement reference to a {@link XoopsFormElement}
+     * @param bool                    $required    is this a "required" element?
      */
     public function addElement($formElement, $required = false)
     {
@@ -346,11 +346,11 @@ class PublisherThemeTabForm extends XoopsForm
      *
      * @param string $name "name" attribute assigned to a {@link XoopsFormElement}
      *
-     * @return object reference to a {@link XoopsFormElement}, false if not found
+     * @return bool|XoopsFormElement reference to a {@link XoopsFormElement}, false if not found
      */
     public function &getElementByName($name)
     {
-        $elements = $this->getElements(true);
+        $elements =& $this->getElements(true);
         $count    = count($elements);
         for ($i = 0; $i < $count; ++$i) {
             if ($name == $elements[$i]->getName(false)) {
@@ -370,7 +370,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function setElementValue($name, $value)
     {
-        $ele = $this->getElementByName($name);
+        $ele =& $this->getElementByName($name);
         if (is_object($ele) && method_exists($ele, 'setValue')) {
             $ele->setValue($value);
         }
@@ -385,7 +385,7 @@ class PublisherThemeTabForm extends XoopsForm
     {
         if (is_array($values) && !empty($values)) {
             // will not use getElementByName() for performance..
-            $elements = $this->getElements(true);
+            $elements =& $this->getElements(true);
             $count    = count($elements);
             for ($i = 0; $i < $count; ++$i) {
                 $name = $elements[$i]->getName(false);
@@ -406,7 +406,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function getElementValue($name, $encode = false)
     {
-        $ele = $this->getElementByName($name);
+        $ele =& $this->getElementByName($name);
         if (is_object($ele) && method_exists($ele, 'getValue')) {
             return $ele->getValue($encode);
         }
@@ -424,7 +424,7 @@ class PublisherThemeTabForm extends XoopsForm
     public function getElementValues($encode = false)
     {
         // will not use getElementByName() for performance..
-        $elements = $this->getElements(true);
+        $elements =& $this->getElements(true);
         $count    = count($elements);
         $values   = array();
         for ($i = 0; $i < $count; ++$i) {
@@ -553,7 +553,7 @@ class PublisherThemeTabForm extends XoopsForm
         }
         $formname = $this->getName();
         $js .= "function xoopsFormValidate_{$formname}() { var myform = window.document.{$formname}; ";
-        $elements = $this->getElements(true);
+        $elements =& $this->getElements(true);
         foreach ($elements as $elt) {
             if (method_exists($elt, 'renderValidationJS')) {
                 $js .= $elt->renderValidationJS();

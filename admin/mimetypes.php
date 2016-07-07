@@ -499,11 +499,13 @@ class PublisherMimetypesUtilities
         <td>' . $mime->getVar('mime_name') . "</td>
         <td align='center'>" . $mime->getVar('mime_ext') . "</td>
         <td align='center'>
-        <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=updateMimeValue&amp;id=' . $mime->getVar('mime_id') . '&amp;mime_admin=' . $mime->getVar('mime_admin') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>
+        <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=updateMimeValue&amp;id=' . $mime->getVar('mime_id') . '&amp;mime_admin=' . $mime->getVar('mime_admin') . '&amp;limit=' . $limit
+                 . '&amp;start=' . $start . "'>
         " . ($mime->getVar('mime_admin') ? $imagearray['online'] : $imagearray['offline']) . "</a>
         </td>
         <td align='center'>
-        <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=updateMimeValue&amp;id=' . $mime->getVar('mime_id') . '&amp;mime_user=' . $mime->getVar('mime_user') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>
+        <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=updateMimeValue&amp;id=' . $mime->getVar('mime_id') . '&amp;mime_user=' . $mime->getVar('mime_user') . '&amp;limit=' . $limit
+                 . '&amp;start=' . $start . "'>
         " . ($mime->getVar('mime_user') ? $imagearray['online'] : $imagearray['offline']) . "</a>
         </td>
         <td align='center'>
@@ -596,7 +598,8 @@ class PublisherMimetypesUtilities
             $crit->setStart($start);
             $mimeCount = $publisher->getHandler('mimetype')->getCount($crit);
             $mimetypes = $publisher->getHandler('mimetype')->getObjects($crit);
-            $nav       = new XoopsPageNav($mimeCount, $limit, $start, 'start', "op=search&amp;limit=$limit&amp;order=$order&amp;sort=$sort&amp;mime_search=1&amp;search_by=$searchField&amp;search_text=$searchText");
+            $nav       = new XoopsPageNav($mimeCount, $limit, $start, 'start',
+                                          "op=search&amp;limit=$limit&amp;order=$order&amp;sort=$sort&amp;mime_search=1&amp;search_by=$searchField&amp;search_text=$searchText");
             // Display results
             echo '<script type="text/javascript" src="' . PUBLISHER_URL . '/include/functions.js"></script>';
 
@@ -671,11 +674,13 @@ class PublisherMimetypesUtilities
                 <td>' . $mime->getVar('mime_name') . "</td>
                 <td align='center'>" . $mime->getVar('mime_ext') . "</td>
                 <td align='center'>
-                <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=updateMimeValue&amp;id=' . $mime->getVar('mime_id') . '&amp;mime_admin=' . $mime->getVar('mime_admin') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>
+                <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=updateMimeValue&amp;id=' . $mime->getVar('mime_id') . '&amp;mime_admin=' . $mime->getVar('mime_admin') . '&amp;limit=' . $limit
+                         . '&amp;start=' . $start . "'>
                 " . ($mime->getVar('mime_admin') ? $imagearray['online'] : $imagearray['offline']) . "</a>
                 </td>
                 <td align='center'>
-                <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=updateMimeValue&amp;id=' . $mime->getVar('mime_id') . '&amp;mime_user=' . $mime->getVar('mime_user') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>
+                <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=updateMimeValue&amp;id=' . $mime->getVar('mime_id') . '&amp;mime_user=' . $mime->getVar('mime_user') . '&amp;limit=' . $limit
+                         . '&amp;start=' . $start . "'>
                 " . ($mime->getVar('mime_user') ? $imagearray['online'] : $imagearray['offline']) . "</a>
                 </td>
                 <td align='center'>

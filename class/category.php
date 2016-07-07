@@ -376,9 +376,9 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve an item
      *
-     * @param int $id itemid of the user
+     * @param int   $id     itemid of the user
      *
-     * @param  null  $fields
+     * @param  null $fields
      * @return mixed reference to the <a href='psi_element://PublisherCategory'>PublisherCategory</a> object, FALSE if failed
      *                      object, FALSE if failed
      */
@@ -397,9 +397,9 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     /**
      * insert a new category in the database
      *
-     * @param  object|XoopsObject $category reference to the {@link PublisherCategory}
-     * @param  bool               $force
-     * @return bool               FALSE if failed, TRUE if already present and unchanged or successful
+     * @param  XoopsObject $category reference to the {@link PublisherCategory}
+     * @param  bool        $force
+     * @return bool        FALSE if failed, TRUE if already present and unchanged or successful
      */
     public function insert(XoopsObject $category, $force = false) //insert(&$category, $force = false)
     {
@@ -437,7 +437,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
         $this->publisher->getHandler('item')->deleteAll($criteria);
         unset($criteria);
         // Deleting the sub categories
-        $subcats = $this->getCategories(0, 0, $category->categoryid());
+        $subcats =& $this->getCategories(0, 0, $category->categoryid());
         foreach ($subcats as $subcat) {
             $this->delete($subcat);
         }
@@ -460,13 +460,13 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      * @param CriteriaElement $criteria {@link CriteriaElement} conditions to be met
      * @param bool            $idAsKey  use the categoryid as key for the array?
      *
-     * @param  bool  $as_object
+     * @param  bool           $as_object
      * @return array array of <a href='psi_element://XoopsItem'>XoopsItem</a> objects
      */
     public function &getObjects(CriteriaElement $criteria = null, $idAsKey = false, $as_object = true) //&getObjects($criteria = null, $idAsKey = false)
     {
         $ret        = array();
-        $theObjects = parent::getObjects($criteria, true);
+        $theObjects =& parent::getObjects($criteria, true);
         foreach ($theObjects as $theObject) {
             if (!$idAsKey) {
                 $ret[] = $theObject;
@@ -511,7 +511,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
         }
         $criteria->setStart($start);
         $criteria->setLimit($limit);
-        $ret = $this->getObjects($criteria, $idAsKey);
+        $ret =& $this->getObjects($criteria, $idAsKey);
 
         return $ret;
     }
@@ -559,7 +559,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
                 $criteria->add(new Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
             }
         }
-        $categories = $this->getAll($criteria, array('categoryid', 'parentid', 'name'), false, false);
+        $categories =& $this->getAll($criteria, array('categoryid', 'parentid', 'name'), false, false);
         if (count($categories) == 0) {
             return $ret;
         }
@@ -601,7 +601,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
                 $criteria->add(new Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
             }
         }
-        $categories = $this->getAll($criteria, array('categoryid', 'parentid', 'name'), false, false);
+        $categories =& $this->getAll($criteria, array('categoryid', 'parentid', 'name'), false, false);
         if (count($categories) == 0) {
             return $ret;
         }
@@ -678,7 +678,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
         }
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
-        $subcats = $this->getObjects($criteria, true);
+        $subcats =& $this->getObjects($criteria, true);
         foreach ($subcats as $subcat) {
             $ret[$subcat->getVar('parentid')][$subcat->getVar('categoryid')] = $subcat;
         }
@@ -691,13 +691,13 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      *
      * @param CriteriaElement $criteria {@link CriteriaElement}
      *
-     * @param  bool $force
-     * @param  bool $asObject
+     * @param  bool           $force
+     * @param  bool           $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
-        $categories = $this->getObjects($criteria);
+        $categories =& $this->getObjects($criteria);
         foreach ($categories as $category) {
             if (!$this->delete($category)) {
                 return false;

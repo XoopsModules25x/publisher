@@ -259,7 +259,7 @@ class PublisherItem extends XoopsObject
         if ($this->publisher->getConfig('item_disp_blocks_summary')) {
             $summary = $this->getSummary($maxLength, $format, $stripTags);
             if ($summary) {
-                $ret = $this->getSummary() . $ret;
+                $ret = $this->getSummary() . '<br><br>' . $ret;
             }
         }
         if (!empty($stripTags)) {
@@ -438,28 +438,33 @@ class PublisherItem extends XoopsObject
             if (publisherUserIsAdmin() || publisherUserIsAuthor($this) || publisherUserIsModerator($this)) {
                 if ($this->publisher->getConfig('perm_edit') || publisherUserIsModerator($this) || publisherUserIsAdmin()) {
                     // Edit button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . _CO_PUBLISHER_EDIT . "' alt='" . _CO_PUBLISHER_EDIT . "'/></a>";
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='"
+                                   . _CO_PUBLISHER_EDIT . "' alt='" . _CO_PUBLISHER_EDIT . "'/></a>";
                     $adminLinks .= ' ';
                 }
                 if ($this->publisher->getConfig('perm_delete') || publisherUserIsModerator($this) || publisherUserIsAdmin()) {
                     // Delete button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . _CO_PUBLISHER_DELETE . "' alt='" . _CO_PUBLISHER_DELETE . "' /></a>";
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='"
+                                   . _CO_PUBLISHER_DELETE . "' alt='" . _CO_PUBLISHER_DELETE . "' /></a>";
                     $adminLinks .= ' ';
                 }
             }
             if ($this->publisher->getConfig('perm_clone') || publisherUserIsModerator($this) || publisherUserIsAdmin()) {
                 // Duplicate button
-                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif'" . " title='" . _CO_PUBLISHER_CLONE . "' alt='" . _CO_PUBLISHER_CLONE . "' /></a>";
+                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif'" . " title='"
+                               . _CO_PUBLISHER_CLONE . "' alt='" . _CO_PUBLISHER_CLONE . "' /></a>";
                 $adminLinks .= ' ';
             }
         }
         if ($this->publisher->getConfig('display_pdf')) {
             // PDF button
-            $adminLinks .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif' title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "' /></a>";
+            $adminLinks .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL
+                           . "/assets/images/links/pdf.gif' title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "' /></a>";
             $adminLinks .= ' ';
         }
         // Print button
-        $adminLinks .= "<a href='" . PublisherSeo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . _CO_PUBLISHER_PRINT . "' alt='" . _CO_PUBLISHER_PRINT . "' /></a>";
+        $adminLinks .= "<a href='" . PublisherSeo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL
+                       . "/assets/images/links/print.gif' title='" . _CO_PUBLISHER_PRINT . "' alt='" . _CO_PUBLISHER_PRINT . "' /></a>";
         $adminLinks .= ' ';
         // Email button
         if (xoops_isActiveModule('tellafriend')) {
@@ -850,7 +855,7 @@ class PublisherItem extends XoopsObject
      * @param string       $content
      * @param string|array $keywords
      *
-     * @return Text
+     * @return string Text
      */
     public function highlight($content, $keywords)
     {
@@ -1092,7 +1097,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     /**
      * @param bool $isNew
      *
-     * @return object
+     * @return XoopsObject
      */
     public function create($isNew = true)
     {
@@ -1199,7 +1204,6 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      */
     public function &getObjects(CriteriaElement $criteria = null, $idKey = 'none', $as_object = true, $notNullFields = '') //&getObjects($criteria = null, $idKey = 'none', $notNullFields = '')
     {
-        $ret   = array();
         $limit = $start = 0;
         $sql   = 'SELECT * FROM ' . $this->db->prefix('publisher_items');
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
@@ -1548,7 +1552,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $criteria->setStart($start);
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $ret = $this->getObjects($criteria, $idKey, $notNullFields);
+        $ret =& $this->getObjects($criteria, $idKey, $notNullFields);
 
         return $ret;
     }
@@ -1591,7 +1595,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
         //todo resource consuming, use get list instead?
-        $items = $this->getObjects($criteria);
+        $items =& $this->getObjects($criteria);
         foreach ($items as $item) {
             $this->delete($item);
         }
@@ -1638,15 +1642,15 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param array  $queryarray
-     * @param string $andor
-     * @param int    $limit
-     * @param int    $offset
-     * @param int    $userid
-     * @param array  $categories
-     * @param int    $sortby
-     * @param string $searchin
-     * @param string $extra
+     * @param array        $queryarray
+     * @param string       $andor
+     * @param int          $limit
+     * @param int          $offset
+     * @param int          $userid
+     * @param array        $categories
+     * @param int          $sortby
+     * @param string|array $searchin
+     * @param string       $extra
      *
      * @return array
      */
@@ -1736,7 +1740,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             $order = 'DESC';
         }
         $criteria->setOrder($order);
-        $ret = $this->getObjects($criteria);
+        $ret =& $this->getObjects($criteria);
 
         return $ret;
     }
@@ -1837,7 +1841,8 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         //        global $resultCatCounts;
         $ret       = array();
         $catsCount = array();
-        $sql       = 'SELECT c.parentid, i.categoryid, COUNT(*) AS count FROM ' . $this->db->prefix('publisher_items') . ' AS i INNER JOIN ' . $this->db->prefix('publisher_categories') . ' AS c ON i.categoryid=c.categoryid';
+        $sql       = 'SELECT c.parentid, i.categoryid, COUNT(*) AS count FROM ' . $this->db->prefix('publisher_items') . ' AS i INNER JOIN ' . $this->db->prefix('publisher_categories')
+                     . ' AS c ON i.categoryid=c.categoryid';
         if ((int)$catId > 0) {
             $sql .= ' WHERE i.categoryid = ' . (int)$catId;
             $sql .= ' AND i.status IN (' . implode(',', $status) . ')';

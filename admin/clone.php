@@ -56,11 +56,7 @@ if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
 
     $msg = '';
     if (is_dir($GLOBALS['xoops']->path('modules/' . strtolower($clone)))) {
-        $msg .= sprintf(
-            _AM_PUBLISHER_CLONE_CONGRAT,
-            "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin'>"
-            . ucfirst(strtolower($clone)) . '</a>'
-        ) . "<br>\n";
+        $msg .= sprintf(_AM_PUBLISHER_CLONE_CONGRAT, "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin'>" . ucfirst(strtolower($clone)) . '</a>') . "<br>\n";
         if (!$logocreated) {
             $msg .= _AM_PUBLISHER_CLONE_IMAGEFAIL;
         }
@@ -70,13 +66,7 @@ if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
     echo $msg;
 } else {
     include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
-    $form  = new XoopsThemeForm(
-        sprintf(_AM_PUBLISHER_CLONE_TITLE, $publisher->getModule()->getVar('name', 'E')),
-        'clone',
-        'clone.php',
-        'post',
-        true
-    );
+    $form  = new XoopsThemeForm(sprintf(_AM_PUBLISHER_CLONE_TITLE, $publisher->getModule()->getVar('name', 'E')), 'clone', 'clone.php', 'post', true);
     $clone = new XoopsFormText(_AM_PUBLISHER_CLONE_NAME, 'clone', 20, 20, '');
     $clone->setDescription(_AM_PUBLISHER_CLONE_NAME_DSC);
     $form->addElement($clone, true);
@@ -157,9 +147,14 @@ class PublisherClone
             return false;
         } else {
             $requiredFunctions = array(
-                'imagecreatefrompng', 'imagecolorallocate', 'imagefilledrectangle',
-                'imagepng', 'imagedestroy', 'imagefttext',
-                'imagealphablending', 'imagesavealpha',
+                'imagecreatefrompng',
+                'imagecolorallocate',
+                'imagefilledrectangle',
+                'imagepng',
+                'imagedestroy',
+                'imagefttext',
+                'imagealphablending',
+                'imagesavealpha'
             );
             foreach ($requiredFunctions as $func) {
                 if (!function_exists($func)) {
@@ -169,8 +164,8 @@ class PublisherClone
             //            unset($func);
         }
 
-        if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo_module.png')) ||
-            !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))
+        if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo_module.png'))
+            || !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))
         ) {
             return false;
         }

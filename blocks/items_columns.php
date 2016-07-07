@@ -28,7 +28,7 @@ include_once dirname(__DIR__) . '/include/common.php';
  *
  * @param    array $options Block Options
  *
- * @return array
+ * @return bool|array
  */
 function publisher_items_columns_show($options)
 {

@@ -54,7 +54,8 @@
 <div class="publisher_items_list">
     <{if $items}> <{if $collapsable_heading == 1}>
         <div class="publisher_collaps_title">
-            <a href='javascript:' onclick="toggle('bottomtable'); toggleIcon('bottomtableicon')"><img id='bottomtableicon' src='<{$publisher_url}>/assets/images/links/close12.gif' alt=''/></a>&nbsp;<{$lang_items_title}>
+            <a href='javascript:' onclick="toggle('bottomtable'); toggleIcon('bottomtableicon')"><img id='bottomtableicon' src='<{$publisher_url}>/assets/images/links/close12.gif'
+                                                                                                      alt=''/></a>&nbsp;<{$lang_items_title}>
         </div>
         <div id='bottomtable'>
         <span class="publisher_collaps_info"><{$smarty.const._MD_PUBLISHER_ITEMS_INFO}></span>
@@ -79,7 +80,8 @@
                 <table>
                     <tr>
                         <td style="text-align: right;" align="right">
-                            <a href="javascript:openWithSelfMain('<{$publisher_url}>/pop.php?itemid=<{$item.itemid}>', 'smartpopup', 700, 519);"><img src="<{$publisher_url}>/assets/images/links/print.gif" alt="" style="vertical-align: bottom;" align="right"></a>
+                            <a href="javascript:openWithSelfMain('<{$publisher_url}>/pop.php?itemid=<{$item.itemid}>', 'smartpopup', 700, 519);"><img
+                                        src="<{$publisher_url}>/assets/images/links/print.gif" alt="" style="vertical-align: bottom;" align="right"></a>
                         </td>
                     </tr>
                     <tr></tr>

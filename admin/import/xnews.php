@@ -47,9 +47,11 @@ if ('start' === $op) {
         list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
 
         if ($totalArticles == 0) {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles) . '</span>';
+            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles)
+                 . '</span>';
         } else {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat) . '</span>';
+            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat)
+                 . '</span>';
 
             $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
@@ -118,7 +120,8 @@ if ('start' === $op) {
             //---------- mb ------------------
 
             // Categories to be imported
-            $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('nw_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('nw_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
+            $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('nw_topics') . ' AS cat INNER JOIN '
+                   . $GLOBALS['xoopsDB']->prefix('nw_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
             $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = array();
@@ -224,7 +227,8 @@ if ($op === 'go') {
 
         // Category image: copying to Publisher category uploads
         if (($arrCat['topic_imgurl'] !== 'blank.gif') && ($arrCat['topic_imgurl'] !== '')) {
-            if (copy($GLOBALS['xoops']->path('uploads/xnews/topics/' . $arrCat['topic_imgurl']), $GLOBALS['xoops']->path('uploads/' . PUBLISHER_DIRNAME . '/images/category/' . $arrCat['topic_imgurl']))) {
+            if (copy($GLOBALS['xoops']->path('uploads/xnews/topics/' . $arrCat['topic_imgurl']),
+                     $GLOBALS['xoops']->path('uploads/' . PUBLISHER_DIRNAME . '/images/category/' . $arrCat['topic_imgurl']))) {
                 $categoryObj->setVar('image', $arrCat['topic_imgurl']);
 
                 //======== there is no need to add the category images to Image Manager, because they are handled directly from /images/category/ folder

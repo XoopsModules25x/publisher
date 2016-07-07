@@ -51,14 +51,17 @@ if ('start' === $op) {
         $fmContentCount = $fmContentHdlr->getCount(new Criteria('content_modid', $fm_module_id));
 
         if (empty($fmContentCount)) {
-            echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $fmContentCount) . '</span>';
+            echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $fmContentCount)
+                 . '</span>';
         } else {
             /*
                         echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $fmContentCount, $fmTopicCount) . "</span>";
                         $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
             */
             // Categories to be imported
-            $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.content_id) FROM ' . $GLOBALS['xoopsDB']->prefix('fmcontent_topic') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('fmcontent_content') . " AS art ON ((cat.topic_id=art.content_topic) AND (cat.topic_modid=art.content_modid)) WHERE cat.topic_modid={$fm_module_id} GROUP BY art.content_topic";
+            $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.content_id) FROM ' . $GLOBALS['xoopsDB']->prefix('fmcontent_topic') . ' AS cat INNER JOIN '
+                   . $GLOBALS['xoopsDB']->prefix('fmcontent_content')
+                   . " AS art ON ((cat.topic_id=art.content_topic) AND (cat.topic_modid=art.content_modid)) WHERE cat.topic_modid={$fm_module_id} GROUP BY art.content_topic";
 
             $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = array();
@@ -77,7 +80,8 @@ if ('start' === $op) {
             }
             natcasesort($cat_cbox_options); //put them in "alphabetical" order
 
-            echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $fmContentCount, count($cat_cbox_options)) . '</span>';
+            echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $fmContentCount,
+                                                                                                                 count($cat_cbox_options)) . '</span>';
             $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
             $cat_label = new XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $cat_cbox_options));
@@ -154,7 +158,8 @@ if ('go' === $op) {
                                   'weight'      => 1,
                                   'created'     => time(),
                                   'moderator',
-                                  $GLOBALS['xoopsUser']->getVar('uid')));
+                                  $GLOBALS['xoopsUser']->getVar('uid')
+                              ));
         $categoryObj->store();
 
         $fmTopicHdlr = xoops_getModuleHandler('topic', 'fmcontent');
@@ -181,12 +186,14 @@ if ('go' === $op) {
                                   'votes'            => 0,
                                   'comments'         => $thisFmContentObj->getVar('content_comments'),
                                   'meta_keywords'    => $thisFmContentObj->getVar('content_words'),
-                                  'meta_description' => $thisFmContentObj->getVar('content_desc')));
+                                  'meta_description' => $thisFmContentObj->getVar('content_desc')
+                              ));
             $contentImg = $thisFmContentObj->getVar('content_img');
             if (!empty($contentImg)) {
                 $itemObj->setVars(array(
                                       'images' => 1,
-                                      'image'  => $thisFmContentObj->getVar('content_img')));
+                                      'image'  => $thisFmContentObj->getVar('content_img')
+                                  ));
             }
 
             if (!$itemObj->store()) {
@@ -220,7 +227,8 @@ if ('go' === $op) {
     foreach ($fmTopicObjs as $thisFmTopicObj) {
         $CatIds = array(
             'oldid'  => $thisFmTopicObj->getVar('topic_id'),
-            'oldpid' => $thisFmTopicObj->getVar('topic_pid'));
+            'oldpid' => $thisFmTopicObj->getVar('topic_pid')
+        );
 
         $categoryObj = $publisher->getHandler('category')->create();
 
@@ -228,11 +236,13 @@ if ('go' === $op) {
                                   'parentid'    => $thisFmTopicObj->getVar('topic_pid'),
                                   'weight'      => $thisFmTopicObj->getVar('topic_weight'),
                                   'name'        => $thisFmTopicObj->getVar('topic_title'),
-                                  'description' => $thisFmTopicObj->getVar('topic_desc')));
+                                  'description' => $thisFmTopicObj->getVar('topic_desc')
+                              ));
 
         // Category image
         if (('blank.gif' !== $thisFmTopicObj->getVar('topic_img')) && ('' !== $thisFmTopicObj->getVar('topic_img'))) {
-            if (copy($GLOBALS['xoops']->path('www/uploads/fmcontent/img/' . $thisFmTopicObj->getVar('topic_img')), $GLOBALS['xoops']->path('www/uploads/publisher/images/category/' . $thisFmTopicObj->getVar('topic_img')))) {
+            if (copy($GLOBALS['xoops']->path('www/uploads/fmcontent/img/' . $thisFmTopicObj->getVar('topic_img')),
+                     $GLOBALS['xoops']->path('www/uploads/publisher/images/category/' . $thisFmTopicObj->getVar('topic_img')))) {
                 $categoryObj->setVar('image', $thisFmTopicObj->getVar('topic_img'));
             }
         }
@@ -274,7 +284,8 @@ if ('go' === $op) {
                                   'votes'            => 0,
                                   'comments'         => $thisFmContentObj->getVar('content_comments'),
                                   'meta_keywords'    => $thisFmContentObj->getVar('content_words'),
-                                  'meta_description' => $thisFmContentObj->getVar('content_desc')));
+                                  'meta_description' => $thisFmContentObj->getVar('content_desc')
+                              ));
             $contentImg = $thisFmContentObj->getVar('content_img');
             if (!empty($contentImg)) {
                 $itemObj->setVar('images', 1);
@@ -335,7 +346,9 @@ if ('go' === $op) {
     }
     //    unset($comment);
 
-    echo '<br><br>' . _AM_PUBLISHER_IMPORT_DONE . "<br>\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat) . "<br>\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . "<br>\n" . "<br>\n<a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . "</a><br>\n";
+    echo '<br><br>' . _AM_PUBLISHER_IMPORT_DONE . "<br>\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat) . "<br>\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES,
+                                                                                                                                                          $cnt_imported_articles) . "<br>\n"
+         . "<br>\n<a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . "</a><br>\n";
 
     publisherCloseCollapsableBar('fmimportgo', 'fmimportgoicon');
     xoops_cp_footer();

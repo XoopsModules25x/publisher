@@ -29,6 +29,7 @@ if ('delfileok' === XoopsRequest::getString('op', '', 'POST')) {
     redirect_header(XoopsRequest::getString('backto', '', 'POST'), 2, _AM_PUBLISHER_FDELETED);
 } else {
     xoops_cp_header();
-    xoops_confirm(array('backto' => XoopsRequest::getString('backto', '', 'POST'), 'address' => XoopsRequest::getString('address', '', 'POST'), 'op' => 'delfileok'), 'pw_delete_file.php', _AM_PUBLISHER_RUSUREDELF, _YES);
+    xoops_confirm(array('backto' => XoopsRequest::getString('backto', '', 'POST'), 'address' => XoopsRequest::getString('address', '', 'POST'), 'op' => 'delfileok'), 'pw_delete_file.php',
+                  _AM_PUBLISHER_RUSUREDELF, _YES);
     xoops_cp_footer();
 }

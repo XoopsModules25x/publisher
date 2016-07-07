@@ -301,7 +301,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
     /**
      * delete a file from the database
      *
-     * @param XoopsObject $file  reference to the file to delete
+     * @param XoopsObject $file reference to the file to delete
      * @param bool        $force
      *
      * @return bool FALSE if failed.
@@ -343,13 +343,13 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve all files
      *
-     * @param int    $itemid
-     * @param int    $status
-     * @param int    $limit
-     * @param int    $start
-     * @param string $sort
-     * @param string $order
-     * @param array  $category
+     * @param int       $itemid
+     * @param int|array $status
+     * @param int       $limit
+     * @param int       $start
+     * @param string    $sort
+     * @param string    $order
+     * @param array     $category
      *
      * @return array array of {@link PublisherFile} objects
      */
@@ -379,7 +379,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
             $hasCategoryCriteria = false;
             $criteriaCategory    = new CriteriaCompo();
             $category            = (array)$category;
-            if ($category[0] != 0 && count($category) > 0) {
+            if (isset($category[0]) && $category[0] != 0 && count($category) > 0) {
                 $hasCategoryCriteria = true;
                 foreach ($category as $cat) {
                     $criteriaCategory->add(new Criteria('l.categoryid', $cat), 'OR');
@@ -400,7 +400,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
             $criteria->setOrder($order);
             $criteria->setLimit($limit);
             $criteria->setStart($start);
-            $files = $this->getByLink($criteria, array('o.*'), true);
+            $files =& $this->getByLink($criteria, array('o.*'), true);
 
             //            return $files;
         }

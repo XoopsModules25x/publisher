@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  * Module: Publisher
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
@@ -32,7 +32,8 @@ define('_CO_PUBLISHER_UID', 'Poster name');
 define('_CO_PUBLISHER_UID_DSC', 'Select the name of the poster');
 define('_CO_PUBLISHER_WEIGHT', 'Weight');
 define('_CO_PUBLISHER_ITEM_UPLOAD_FILE', 'File upload');
-define('_CO_PUBLISHER_ITEM_UPLOAD_FILE_DSC', 'Select a file from your computer to attach it to this article. You will be able to add more files once the article has been created. Simply edit the article and scroll at the bottom of the page to see the Add file button.<br><br> For example, you could add a Word document or an Excel document. You can even upload a Flash file and it will be directly embedded into your article! ');
+define('_CO_PUBLISHER_ITEM_UPLOAD_FILE_DSC',
+       'Select a file from your computer to attach it to this article. You will be able to add more files once the article has been created. Simply edit the article and scroll at the bottom of the page to see the Add file button.<br><br> For example, you could add a Word document or an Excel document. You can even upload a Flash file and it will be directly embedded into your article! ');
 //define('_CO_PUBLISHER_OPTIONS','Options');
 define('_CO_PUBLISHER_DISPLAY_SUMMARY', 'Display summary on the item page ?');
 define('_CO_PUBLISHER_DOHTML', 'Enable HTML tags');

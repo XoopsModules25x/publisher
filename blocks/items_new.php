@@ -53,7 +53,7 @@ function publisher_items_new_show($options)
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
     }
-    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
+    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'none');
 
     $totalitems = count($itemsObj);
     if ($itemsObj && $totalitems > 1) {

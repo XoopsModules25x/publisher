@@ -49,13 +49,14 @@ class PublisherPublisher
         if (null === $instance) {
             $instance = new static($debug);
         }
+
         return $instance;
     }
 
     /**
      * @return null
      */
-    public function &getModule()
+    public function getModule()
     {
         if ($this->module === null) {
             $this->initModule();
@@ -111,7 +112,7 @@ class PublisherPublisher
      *
      * @return mixed
      */
-    public function &getHandler($name)
+    public function getHandler($name)
     {
         $nameHandler = $name . 'Handler';
         if (!isset($this->handler[$nameHandler])) {

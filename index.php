@@ -229,7 +229,8 @@ $publisherMetagen->createMetaTags();
 
 // RSS Link
 if ($publisher->getConfig('idxcat_show_rss_link') == 1) {
-    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . '/backend.php', _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . '/assets/images/rss.gif', _MD_PUBLISHER_RSSFEED);
+    $link =
+        sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . '/backend.php', _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . '/assets/images/rss.gif', _MD_PUBLISHER_RSSFEED);
     $xoopsTpl->assign('rssfeed_link', $link);
 }
 

@@ -42,6 +42,7 @@ class MyTextSanitizerExtension
         if (null === $instance) {
             $instance = new static();
         }
+
         return $instance;
     }
 
@@ -82,7 +83,8 @@ class MyTextSanitizerExtension
             }
         }
 
-        $rp = "<object width='{$width}' height='{$height}' classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0'>";
+        $rp =
+            "<object width='{$width}' height='{$height}' classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0'>";
         $rp .= "<param name='movie' value='{$url}'>";
         $rp .= "<param name='QUALITY' value='high'>";
         $rp .= "<PARAM NAME='bgcolor' VALUE='#FFFFFF'>";

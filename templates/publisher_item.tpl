@@ -9,12 +9,12 @@
     <{/if}>
     <div class="itemBody">
 
-            <{*<{if $item.posterAvatar != 'blank.gif'}>*}>
-            <{*<img class="publisher_item_image" src="<{$xoops_url}>/uploads/<{$item.posterAvatar}>"  align="right" alt="<{$item.posterName}>" title="<{$item.posterName}>" />*}>
-            <{*<{/if}>*}>
+        <{*<{if $item.posterAvatar != 'blank.gif'}>*}>
+        <{*<img class="publisher_item_image" src="<{$xoops_url}>/uploads/<{$item.posterAvatar}>"  align="right" alt="<{$item.posterName}>" title="<{$item.posterName}>" />*}>
+        <{*<{/if}>*}>
 
         <{if $pagenav}>
-        <div class="publisher_pagenav_top"><{$smarty.const._MD_PUBLISHER_PAGE}>: <{$pagenav}></div>
+            <div class="publisher_pagenav_top"><{$smarty.const._MD_PUBLISHER_PAGE}>: <{$pagenav}></div>
         <{/if}>
         <div class="itemText">
             <{if $item.image_path || $item.images}>
@@ -120,7 +120,8 @@
                         <img src="<{$publisher_url}>/assets/images/links/delete.png" title="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>" alt="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>"/></a>
                 <{/if}>
                 <a href="<{$publisher_url}>/visit.php?fileid=<{$file.fileid}>" target="_blank">
-                    <img src="<{$publisher_url}>/assets/images/links/file.gif" title="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>" alt="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>"/>&nbsp;<strong><{$file.name}></strong>
+                    <img src="<{$publisher_url}>/assets/images/links/file.gif" title="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>"
+                         alt="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>"/>&nbsp;<strong><{$file.name}></strong>
                 </a>
 
                 <div><{$file.description}></div>
@@ -143,13 +144,15 @@
         <td class="odd" width="50%" align="left">
             <{if $previousItemLink}>
                 <a href="<{$previousItemUrl}>">
-                    <img style="vertical-align: middle;" src="<{$publisherImagesUrl}>/links/previous.gif" title="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>" alt="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>"/>
+                    <img style="vertical-align: middle;" src="<{$publisherImagesUrl}>/links/previous.gif" title="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>"
+                         alt="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>"/>
                 </a>
                 <{$previousItemLink}> <{/if}>
         </td>
         <td class="odd" width="50%" align="right">
             <{if $nextItemLink}> <{$nextItemLink}>
-                <a href="<{$nextItemUrl}>"><img style="vertical-align: middle;" src="<{$publisherImagesUrl}>/links/next.gif" title="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>" alt="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>"/></a>
+                <a href="<{$nextItemUrl}>"><img style="vertical-align: middle;" src="<{$publisherImagesUrl}>/links/next.gif" title="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>"
+                                                alt="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>"/></a>
             <{/if}>
         </td>
     </tr>

@@ -73,10 +73,10 @@ switch ($op) {
         // Uploading the image, if any
         // Retreive the filename to be uploaded
         $temp = XoopsRequest::getArray('image_file', '', 'FILES');
-        if (false !== ($image_file = $temp['name'])) {
+        if ($image_file = $temp['name']) {
             //            $filename = XoopsRequest::getArray('xoops_upload_file', array(), 'POST')[0];
             $temp2 = XoopsRequest::getArray('xoops_upload_file', array(), 'POST');
-            if (false !== ($filename = $temp2[0])) {
+            if ($filename = $temp2[0]) {
                 // TODO : implement publisher mimetype management
                 $max_size          = $publisher->getConfig('maximum_filesize');
                 $max_imgwidth      = $publisher->getConfig('maximum_image_width');

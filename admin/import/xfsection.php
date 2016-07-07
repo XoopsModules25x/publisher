@@ -47,14 +47,18 @@ if ($op === 'start') {
         list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
 
         if ($totalArticles == 0) {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles) . '</span>';
+            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles)
+                 . '</span>';
         } else {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat) . '</span>';
+            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat)
+                 . '</span>';
 
             $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
             // Categories to be imported
-            $sql              = 'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_category') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('xfs_article') . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
+            $sql              =
+                'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_category') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('xfs_article')
+                . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
             $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_values  = array();
             $cat_cbox_options = array();

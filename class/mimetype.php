@@ -66,8 +66,8 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * create a new  object
      *
-     * @param  bool   $isNew
-     * @return object <a href='psi_element://publisherBaseObject'>publisherBaseObject</a>
+     * @param  bool $isNew
+     * @return XoopsObject
      * @access public
      */
     public function create($isNew = true)
@@ -78,9 +78,9 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve an object from the database, based on. use in child classes
      *
-     * @param int $id ID
+     * @param int   $id ID
      *
-     * @param  null  $fields
+     * @param  null $fields
      * @return mixed object if id exists, false if not
      * @access public
      */
@@ -106,11 +106,11 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param CriteriaElement|object $criteria {@link CriteriaElement}
-     *                                         conditions to be met
-     * @param bool                   $idAsKey  Should the department ID be used as array key
+     * @param CriteriaElement $criteria {@link CriteriaElement}
+     *                                  conditions to be met
+     * @param bool            $idAsKey  Should the department ID be used as array key
      *
-     * @param  bool  $asObject
+     * @param  bool           $asObject
      * @return array array of objects
      * @access  public
      */
@@ -193,7 +193,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param object $criteria {@link CriteriaElement} to match
+     * @param CriteriaElement $criteria {@link CriteriaElement} to match
      *
      * @return string SQL query
      * @access private
@@ -264,10 +264,10 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * delete department matching a set of conditions
      *
-     * @param CriteriaElement|object $criteria {@link CriteriaElement}
+     * @param CriteriaElement $criteria {@link CriteriaElement}
      *
-     * @param  bool $force
-     * @param  bool $asObject
+     * @param  bool           $force
+     * @param  bool           $asObject
      * @return bool FALSE if deletion failed
      * @access    public
      */
@@ -287,11 +287,11 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * Assign a value to 1 field for tickets matching a set of conditions
      *
-     * @param string                 $fieldname
-     * @param string                 $fieldvalue
-     * @param CriteriaElement|object $criteria   {@link CriteriaElement}
+     * @param string          $fieldname
+     * @param string          $fieldvalue
+     * @param CriteriaElement $criteria {@link CriteriaElement}
      *
-     * @param  bool $force
+     * @param  bool           $force
      * @return bool FALSE if update failed
      * @access    public
      */
@@ -342,12 +342,12 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * Singleton - prevent multiple instances of this class
      *
-     * @param object &$db {@link XoopsHandlerFactory}
+     * @param XoopsDatabase $db
      *
-     * @return object {@link pagesCategoryHandler}
+     * @return XoopsObject {@link pagesCategoryHandler}
      * @access public
      */
-    public function getInstance($db)
+    public function getInstance(XoopsDatabase $db)
     {
         static $instance;
         if (null === $instance) {
@@ -414,10 +414,10 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
     /**
      * retrieve a mimetype object from the database
      *
-     * @param int $id ID of mimetype
+     * @param int   $id ID of mimetype
      *
-     * @param  null   $fields
-     * @return object <a href='psi_element://PublisherMimetype'>PublisherMimetype</a>
+     * @param  null $fields
+     * @return bool|PublisherMimetype
      * @access    public
      */
     public function get($id = null, $fields = null)
@@ -442,13 +442,13 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param CriteriaElement|object $criteria {@link CriteriaElement}
-     *                                         conditions to be met
+     * @param CriteriaElement $criteria {@link CriteriaElement}
+     *                                  conditions to be met
      *
-     * @param  bool  $idAsKey
-     * @param  bool  $asObject
+     * @param  bool           $idAsKey
+     * @param  bool           $asObject
      * @return array array of <a href='psi_element://PublisherMimetype'>PublisherMimetype</a> objects
-     *                        objects
+     *                                  objects
      * @access    public
      */
     public function &getObjects(CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
@@ -499,7 +499,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
         if ($mimeExt) {
             $crit->add(new Criteria('mime_ext', $mimeExt));
         }
-        $result = $this->getObjects($crit);
+        $result =& $this->getObjects($crit);
         // if no records from db, return empty array
         if (!$result) {
             return $ret;
@@ -558,13 +558,13 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param null|object $criteria {@link CriteriaElement} to match
-     * @param bool        $join
+     * @param null|CriteriaElement $criteria {@link CriteriaElement} to match
+     * @param bool                 $join
      *
      * @return string string SQL query
      * @access    private
      */
-    private function selectQuery($criteria = null, $join = false)
+    private function selectQuery(CriteriaElement $criteria = null, $join = false)
     {
         //        if (!$join) {
         //            $sql = sprintf('SELECT * FROM %s', $this->db->prefix($this->dbtable));

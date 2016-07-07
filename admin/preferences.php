@@ -92,11 +92,10 @@ if ($op === 'showmod') {
             $cat_others_used = true;
         }
 
-        $title = (!defined($config[$i]->getVar('conf_desc')) ||
-                  constant($config[$i]->getVar('conf_desc')) == '') ? constant($config[$i]->getVar('conf_title')) : constant($config[$i]->getVar('conf_title')) .
-                                                                                                                    '<br><br><span style="font-weight:normal;">' .
-                                                                                                                    constant($config[$i]->getVar('conf_desc')) .
-                                                                                                                    '</span>';
+        $title = (!defined($config[$i]->getVar('conf_desc'))
+                  || constant($config[$i]->getVar('conf_desc')) == '') ? constant($config[$i]->getVar('conf_title')) : constant($config[$i]->getVar('conf_title'))
+                                                                                                                       . '<br><br><span style="font-weight:normal;">'
+                                                                                                                       . constant($config[$i]->getVar('conf_desc')) . '</span>';
         switch ($config[$i]->getVar('conf_formtype')) {
             case 'textarea':
                 $myts = MyTextSanitizer::getInstance();

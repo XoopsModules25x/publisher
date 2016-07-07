@@ -1,3 +1,13 @@
+<h5>1.03 RC 1       (2016-07-07)</h5>
+- fixed Undefined offset: 0 in file /modules/publisher/class/file.php (bleekk/mamba)
+- fixed Recent Articles List Block (bleekk/mamba)
+- fixed Recent Articles Details Block (mamba)
+- changed: if selected "Display block summary on articles page", both Summary & Body are displayed (bleekk/mamba)
+
+<h5>1.03 Beta 4       (NOT RELEASED)</h5>
+- fixed bug in Latest news block (mamba)
+- added copy blank.png in index.php (mamba)
+
 <h5>1.03 Beta 3       (NOT RELEASED)</h5>
 - removed @version (mamba)
 - standardization on addNavigation(basename(__FILE__) (mamba)
@@ -14,7 +24,6 @@
 - revert several template variable changes to work better with override templates (geekwright)
 - revert moduleUrl template variable to publisher_url to better support cloning (geekwright)
 - remove pass-by-ref for non-vars (zyspec)
--
 
 <h5>1.03 Beta 2       (2016-03-20)</h5>
 - fixed: bugs on submit (mamba)

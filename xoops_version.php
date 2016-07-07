@@ -30,8 +30,8 @@ $xoops_url     = parse_url(XOOPS_URL);
 $modversion = array(
     'name'                => _MI_PUBLISHER_MD_NAME,
     'version'             => '1.03',
-    'module_status'       => 'Beta 3',
-    'release_date'        => '2016/03/19',
+    'module_status'       => 'RC 1',
+    'release_date'        => '2016/07/06',
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
     'credits'             => 'w4z004, hsalazar, Mithrandir, fx2024, Ackbarr, Mariuss, Marco, Michiel, phppp, outch, Xvitry, Catzwolf, Shine, McDonald, trabis, Mowaffak, Bandit-x, Shiva',
@@ -219,7 +219,7 @@ $modversion['blocks'][] = array(
     'description' => _MI_PUBLISHER_LATEST_NEWS_DSC,
     'show_func'   => 'publisher_latest_news_show',
     'edit_func'   => 'publisher_latest_news_edit',
-    'options'     => '0|6|2|300|0|0|100|30|1|published|1|120|120|1|dcdcdc|RIGHT|1|1|1|1|1|1|1|1|1|1|1|1|1|extended|',
+    'options'     => '0|6|2|300|0|0|100|30|1|datesub|1|120|120|1|dcdcdc|RIGHT|1|1|1|1|1|1|1|1|1|1|1|1|1|extended|',
     'template'    => 'publisher_latest_news.tpl'
 );
 
@@ -232,7 +232,7 @@ $modversion['blocks'][] = array(
 );
 
 $modversion['blocks'][] = array(
-    'file'        => 'category_items_sel.ph',
+    'file'        => 'category_items_sel.php',
     'name'        => _MI_PUBLISHER_CATEGORY_ITEMS_SEL,
     'description' => _MI_PUBLISHER_CATEGORY_ITEMS_SEL_DSC,
     'show_func'   => 'publisher_category_items_sel_show',

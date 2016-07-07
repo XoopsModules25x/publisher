@@ -21,15 +21,15 @@
 include_once dirname(__DIR__) . '/include/common.php';
 
 /**
- * @param        $queryarray
- * @param        $andor
- * @param        $limit
- * @param        $offset
- * @param        $userid
- * @param array  $categories
- * @param int    $sortby
- * @param string $searchin
- * @param string $extra
+ * @param string|array $queryarray
+ * @param              $andor
+ * @param              $limit
+ * @param              $offset
+ * @param              $userid
+ * @param array        $categories
+ * @param int          $sortby
+ * @param string       $searchin
+ * @param string       $extra
  *
  * @return array
  */

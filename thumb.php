@@ -238,7 +238,8 @@ if (!isset($ALLOWED_SITES)) {
         'photobucket.com',
         'imgur.com',
         'imageshack.us',
-        'tinypic.com');
+        'tinypic.com'
+    );
 }
 // -------------------------------------------------------------
 // -------------- STOP EDITING CONFIGURATION HERE --------------
@@ -336,7 +337,8 @@ class Timthumb
         if (BLOCK_EXTERNAL_LEECHERS && array_key_exists('HTTP_REFERER', $_SERVER) && (!preg_match('/^https?:\/\/(?:www\.)?' . $this->myHost . '(?:$|\/)/i', $_SERVER['HTTP_REFERER']))) {
             // base64 encoded red image that says 'no hotlinkers'
             // nothing to worry about! :)
-            $imgData = base64_decode("R0lGODlhUAAMAIAAAP8AAP///yH5BAAHAP8ALAAAAABQAAwAAAJpjI+py+0Po5y0OgAMjjv01YUZ\nOGplhWXfNa6JCLnWkXplrcBmW+spbwvaVr/cDyg7IoFC2KbYVC2NQ5MQ4ZNao9Ynzjl9ScNYpneb\nDULB3RP6JuPuaGfuuV4fumf8PuvqFyhYtjdoeFgAADs=");
+            $imgData =
+                base64_decode("R0lGODlhUAAMAIAAAP8AAP///yH5BAAHAP8ALAAAAABQAAwAAAJpjI+py+0Po5y0OgAMjjv01YUZ\nOGplhWXfNa6JCLnWkXplrcBmW+spbwvaVr/cDyg7IoFC2KbYVC2NQ5MQ4ZNao9Ynzjl9ScNYpneb\nDULB3RP6JuPuaGfuuV4fumf8PuvqFyhYtjdoeFgAADs=");
             header('Content-Type: image/gif');
             header('Content-Length: ' . strlen($imgData));
             header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
@@ -393,7 +395,8 @@ class Timthumb
             $this->debug(1, "Local image path is {$this->localImage}");
             $this->localImageMTime = @filemtime($this->localImage);
             //We include the mtime of the local file in case in changes on disk.
-            $this->cachefile = $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
+            $this->cachefile =
+                $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
         }
         $this->debug(2, 'Cache file is: ' . $this->cachefile);
 
@@ -710,7 +713,8 @@ class Timthumb
                 8  => array(IMG_FILTER_GAUSSIAN_BLUR, 0),
                 9  => array(IMG_FILTER_SELECTIVE_BLUR, 0),
                 10 => array(IMG_FILTER_MEAN_REMOVAL, 0),
-                11 => array(IMG_FILTER_SMOOTH, 0));
+                11 => array(IMG_FILTER_SMOOTH, 0)
+            );
         }
 
         // get standard input properties
@@ -892,7 +896,8 @@ class Timthumb
             $sharpenMatrix = array(
                 array(-1, -1, -1),
                 array(-1, 16, -1),
-                array(-1, -1, -1));
+                array(-1, -1, -1)
+            );
 
             $divisor = 8;
             $offset  = 0;
@@ -1160,9 +1165,11 @@ class Timthumb
         // We're doing this because we're passing this URL to the shell and need to make very sure it's not going to execute arbitrary commands.
         if (WEBSHOT_XVFB_RUNNING) {
             putenv('DISPLAY=:100.0');
-            $command = "$cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
+            $command =
+                "$cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
         } else {
-            $command = "$xv --server-args=\"-screen 0, {$screenX}x{$screenY}x{$colDepth}\" $cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
+            $command =
+                "$xv --server-args=\"-screen 0, {$screenX}x{$screenY}x{$colDepth}\" $cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
         }
         $this->debug(3, "Executing command: $command");
         $out = `$command`;

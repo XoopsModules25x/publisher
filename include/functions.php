@@ -298,20 +298,18 @@ function publisherChmod($target, $mode = 0777)
 }
 
 /**
- * @param  bool $hasPath
- * @param  bool $item
+ * @param  bool   $hasPath
+ * @param  string $item
  * @return string
  */
-function publisherGetUploadDir($hasPath = true, $item = false)
+function publisherGetUploadDir($hasPath = true, $item = '')
 {
-    if ($item) {
+    if ('' !== $item) {
         if ($item === 'root') {
             $item = '';
         } else {
             $item .= '/';
         }
-    } else {
-        $item = '';
     }
 
     if ($hasPath) {
@@ -378,7 +376,7 @@ function publisherUserIsAdmin()
 /**
  * Check is current user is author of a given article
  *
- * @param  object $itemObj
+ * @param  XoopsObject $itemObj
  * @return bool
  */
 function publisherUserIsAuthor($itemObj)
@@ -389,7 +387,7 @@ function publisherUserIsAuthor($itemObj)
 /**
  * Check is current user is moderator of a given article
  *
- * @param  object $itemObj
+ * @param  XoopsObject $itemObj
  * @return bool
  */
 function publisherUserIsModerator($itemObj)
@@ -653,9 +651,8 @@ function publisherCreateCategoryOptions($selectedid = 0, $parentcategory = 0, $a
 function publisherRenderErrors(&$errArray, $reseturl = '')
 {
     if (is_array($errArray) && count($errArray) > 0) {
-        echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' .
-             PUBLISHER_URL .
-             '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
+        echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' . PUBLISHER_URL
+             . '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
 
         echo '<h4 style="text-align:left;margin:0; padding-top:0;">' . _AM_PUBLISHER_MSG_SUBMISSION_ERR;
 
@@ -933,7 +930,8 @@ function publisherRatingBar($itemId)
         $staticRater[] .= '<div id="unit_ul' . $itemId . '" class="publisher_unit-rating" style="width:' . $ratingUnitWidth * $units . 'px;">';
         $staticRater[] .= '<div class="publisher_current-rating" style="width:' . $ratingWidth . 'px;">' . _MD_PUBLISHER_VOTE_RATING . ' ' . $rating2 . '/' . $units . '</div>';
         $staticRater[] .= '</div>';
-        $staticRater[] .= '<div class="publisher_static">' . _MD_PUBLISHER_VOTE_RATING . ': <strong> ' . $rating1 . '</strong>/' . $units . ' (' . $count . ' ' . $tense . ') <br><em>' . _MD_PUBLISHER_VOTE_DISABLE . '</em></div>';
+        $staticRater[] .= '<div class="publisher_static">' . _MD_PUBLISHER_VOTE_RATING . ': <strong> ' . $rating1 . '</strong>/' . $units . ' (' . $count . ' ' . $tense . ') <br><em>'
+                          . _MD_PUBLISHER_VOTE_DISABLE . '</em></div>';
         $staticRater[] .= '</div>';
         $staticRater[] .= '</div>' . "\n\n";
 
@@ -947,7 +945,8 @@ function publisherRatingBar($itemId)
 
         for ($ncount = 1; $ncount <= $units; ++$ncount) { // loop from 1 to the number of units
             if (!$voted) { // if the user hasn't yet voted, draw the voting stars
-                $rater .= '<div><a href="' . PUBLISHER_URL . '/rate.php?itemid=' . $itemId . '&amp;rating=' . $ncount . '" title="' . $ncount . ' ' . _MD_PUBLISHER_VOTE_OUTOF . ' ' . $units . '" class="publisher_r' . $ncount . '-unit rater" rel="nofollow">' . $ncount . '</a></div>';
+                $rater .= '<div><a href="' . PUBLISHER_URL . '/rate.php?itemid=' . $itemId . '&amp;rating=' . $ncount . '" title="' . $ncount . ' ' . _MD_PUBLISHER_VOTE_OUTOF . ' ' . $units
+                          . '" class="publisher_r' . $ncount . '-unit rater" rel="nofollow">' . $ncount . '</a></div>';
             }
         }
 

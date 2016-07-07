@@ -64,7 +64,7 @@ function publisher_category_items_sel_show($options)
         $item['itemurl']                        = 'none';
         $block['categories'][$catID]['items'][] = $item;
 
-        foreach ($items as $itemObj) {
+        foreach ($items[''] as $itemObj) {
             $item['title']                          = $itemObj->getTitle(isset($options[3]) ? $options[3] : 0);
             $item['itemurl']                        = $itemObj->getItemUrl();
             $block['categories'][$catID]['items'][] = $item;

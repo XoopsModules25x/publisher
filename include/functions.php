@@ -154,7 +154,6 @@ function publisherHtml2text($document)
 
     return $text;
 
-    return $text;
     //<?php
 }
 

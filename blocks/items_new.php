@@ -56,7 +56,7 @@ function publisher_items_new_show($options)
     $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'none');
 
     $totalitems = count($itemsObj);
-    if ($itemsObj && $totalitems > 1) {
+    if ($itemsObj && $totalitems > 0) {
         for ($i = 0; $i < $totalitems; ++$i) {
             $item           = array();
             $item['link']   = $itemsObj[$i]->getItemLink(false, isset($options[4]) ? $options[4] : 65);

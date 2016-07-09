@@ -267,7 +267,7 @@ switch ($op) {
                 echo "<td class='even' align='left'>" . $itemsObj[$i]->getItemLink() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->counter() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->getDatesub() . '</td>';
-                echo "<td class='even' align='center'> $clone $modify $delete </td>";
+                echo "<td class='even' align='center'> $modify $delete $clone</td>";
                 echo '</tr>';
             }
         } else {
@@ -321,7 +321,7 @@ switch ($op) {
                 echo "<td class='even' align='left'>" . $itemsObj[$i]->getItemLink() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->counter() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->getDatesub() . '</td>';
-                echo "<td class='even' align='center'> $clone $modify $delete </td>";
+                echo "<td class='even' align='center'>  $modify $delete $clone</td>";
                 echo '</tr>';
             }
         } else {
@@ -374,7 +374,7 @@ switch ($op) {
                 echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . '</td>';
                 echo "<td class='even' align='left'>" . $itemsObj[$i]->getItemLink() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->getDatesub() . '</td>';
-                echo "<td class='even' align='center'> $clone $modify $delete </td>";
+                echo "<td class='even' align='center'> $modify $delete $clone</td>";
                 echo '</tr>';
             }
         } else {

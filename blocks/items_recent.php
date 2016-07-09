@@ -58,7 +58,7 @@ function publisher_items_recent_show($options)
 
     $totalItems = count($itemsObj);    
 
-    if ($itemsObj && $totalItems > 1) {
+    if ($itemsObj && $totalItems > 0) {
         for ($i = 0; $i < $totalItems; ++$i) {
             $newItems['itemid']       = $itemsObj[$i]->itemid();
             $newItems['title']        = $itemsObj[$i]->getTitle();

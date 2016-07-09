@@ -47,6 +47,7 @@ function publisher_search($queryarray, $andor, $limit, $offset, $userid, $catego
     $withCategoryPath = $publisher->getConfig('search_cat_path');
     //xoops_load("xoopslocal");
     $usersIds = array();
+    if (0 !== count($itemsObjs)){
     foreach ($itemsObjs as $obj) {
         $item['image'] = 'assets/images/item_icon.gif';
         $item['link']  = $obj->getItemUrl();
@@ -81,6 +82,7 @@ function publisher_search($queryarray, $andor, $limit, $offset, $userid, $catego
         $ret[]                 = $item;
         unset($item, $sanitizedText);
     }
+}
     xoops_load('XoopsUserUtility');
     $usersNames = XoopsUserUtility::getUnameFromIds($usersIds, $publisher->getConfig('format_realname'), true);
     foreach ($ret as $key => $item) {

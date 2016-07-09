@@ -123,8 +123,7 @@ function publisherHtml2text($document)
         "'&(iexcl|#161);'i",
         "'&(cent|#162);'i",
         "'&(pound|#163);'i",
-        "'&(copy|#169);'i",
-        "'&#(\d+);'e"
+        "'&(copy|#169);'i"
     ); // evaluate as php
 
     $replace = array(
@@ -141,10 +140,19 @@ function publisherHtml2text($document)
         chr(162),
         chr(163),
         chr(169),
-        "chr(\\1)"
     );
 
     $text = preg_replace($search, $replace, $document);
+
+    preg_replace_callback(
+        '/&#(\d+);/',
+        function ($matches) {
+            return chr($matches[1]);
+        },
+        $document
+    );
+
+    return $text;
 
     return $text;
     //<?php

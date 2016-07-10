@@ -52,7 +52,7 @@ $modversion = array(
     // images
     'iconsmall'           => 'assets/images/iconsmall.png',
     'iconbig'             => 'assets/images/iconbig.png',
-    'image'               => 'assets/images/logo_module.png',
+    'image'               => 'assets/images/logoModule.png',
     'release_file'        => XOOPS_URL . '/modules/' . $moduleDirName . '/docs/changelog.txt',
     // ------------------- Install/Update -------------------
     'onInstall'           => 'include/oninstall.php',
@@ -90,7 +90,7 @@ $logo_filename = $modversion['dirname'] . '_logo.png';
 if (file_exists($GLOBALS['xoops']->path('modules/' . $modversion['dirname'] . '/assets/images/' . $logo_filename))) {
     $modversion['image'] = 'assets/images/{$logo_filename}';
 } else {
-    $modversion['image'] = 'assets/images/logo_module.png';
+    $modversion['image'] = 'assets/images/logoModule.png';
 }
 */
 

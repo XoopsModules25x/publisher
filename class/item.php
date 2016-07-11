@@ -1009,7 +1009,8 @@ class PublisherItem extends XoopsObject
         }
 
         //mb TODO check on version
-        if (false !== ($datesub = XoopsRequest::getString('datesub', '', 'POST'))) {
+        //check if user set a new Publish date and convert it to GMT date
+        if (($datesub = XoopsRequest::getString('datesub', '', 'POST'))) {
             //            if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
             //                $this->setVar('datesub', strtotime(XoopsRequest::getArray('datesub', array(), 'POST')['date']) + XoopsRequest::getArray('datesub', array(), 'POST')['time']);
             //            } else {

@@ -82,6 +82,11 @@ $modversion = array(
     )
 );
 
+//help files
+$i                                     = 0;
+$modversion['helpsection'][$i]['name'] = _MI_PUBLISHER_HELP_OVERVIEW;
+$modversion['helpsection'][$i]['link'] = 'page=help';
+
 //include_once $GLOBALS['xoops']->path('modules/' . $modversion['dirname'] . '/include/constants.php');
 xoops_load('constants', $moduleDirName);
 /*

@@ -37,11 +37,14 @@ define('_MI_PUBLISHER_CATPERPAGEDSC', 'Maximum number of top categories per page
 define('_MI_PUBLISHER_CLONE', 'Allow article duplication?');
 define('_MI_PUBLISHER_CLONEDSC', 'Select “Yes” to allow users with appropriate permissions to duplicate an article.');
 define('_MI_PUBLISHER_COLLHEAD', 'Display the collapsible bar?');
-define('_MI_PUBLISHER_COLLHEADDSC', 'If you set this option to “Yes”, the categories summary will be displayed in a collapsible bar as well as the articles. If you set this option to “No”, the collapsible bar will not be displayed.');
+define('_MI_PUBLISHER_COLLHEADDSC',
+       'If you set this option to “Yes”, the categories summary will be displayed in a collapsible bar as well as the articles. If you set this option to “No”, the collapsible bar will not be displayed.');
 define('_MI_PUBLISHER_COMMENTS', 'Control comments at the article level?');
-define('_MI_PUBLISHER_COMMENTSDSC', 'if you set this option to “Yes”, you will see comments only on those items that have their comment checkbox marked. <br><br>Select “No” to have comments managed at the global level (look below under the tag \'Comment rules\'.');
+define('_MI_PUBLISHER_COMMENTSDSC',
+       'if you set this option to “Yes”, you will see comments only on those items that have their comment checkbox marked. <br><br>Select “No” to have comments managed at the global level (look below under the tag \'Comment rules\'.');
 define('_MI_PUBLISHER_DATEFORMAT', 'Date format:');
-define('_MI_PUBLISHER_DATEFORMATDSC', "Select a display style. Example: 'd-M-Y H:i' translates to '30-Mar-2004 22:35'<br><a href=\'http://jp.php.net/date\'>Refer to the PHP manual for more display options.</a>");
+define('_MI_PUBLISHER_DATEFORMATDSC',
+       "Select a display style. Example: 'd-M-Y H:i' translates to '30-Mar-2004 22:35'<br><a href=\'http://php.net/manual/en/function.date.php/'>Refer to the PHP manual for more display options.</a>");
 define('_MI_PUBLISHER_DEMO_SITE', 'SmartFactory Demo Site');
 define('_MI_PUBLISHER_DEVELOPER_CONTRIBUTOR', 'Contributor(s)');
 define('_MI_PUBLISHER_DEVELOPER_CREDITS', 'Credits');
@@ -61,7 +64,8 @@ define('_MI_PUBLISHER_DISPLAYTYPE_SUMMARY', 'Summary View');
 define('_MI_PUBLISHER_DISSBCATDSC', 'Display sub-categories description?');
 define('_MI_PUBLISHER_DISSBCATDSCDSC', 'Select “Yes” to display the description of sub-categories in the index and category page.');
 define('_MI_PUBLISHER_DISTYPE', 'Articles display type:');
-define('_MI_PUBLISHER_DISTYPEDSC', 'if “Summary View” is selected, only the Title, Date and Hits of each item will be displayed in a selected category. If “Full View” is selected, each article will be fully displayed in a selected category.');
+define('_MI_PUBLISHER_DISTYPEDSC',
+       'if “Summary View” is selected, only the Title, Date and Hits of each item will be displayed in a selected category. If “Full View” is selected, each article will be fully displayed in a selected category.');
 define('_MI_PUBLISHER_FOOTERPRINT', 'Print page footer');
 define('_MI_PUBLISHER_FOOTERPRINTDSC', 'Footer that will be printed for each article');
 define('_MI_PUBLISHER_GLOBAL_ITEM_CATEGORY_CREATED_NOTIFY', 'New category');
@@ -176,7 +180,8 @@ define('_MI_PUBLISHER_USEREALNAME', 'Use the Real Name of users');
 define('_MI_PUBLISHER_USEREALNAMEDSC', 'When displaying a username, use the real name of that user if he has a set his real name.');
 define('_MI_PUBLISHER_VERSION_HISTORY', 'Version History');
 define('_MI_PUBLISHER_WELCOME', 'Display the welcome title and message:');
-define('_MI_PUBLISHER_WELCOMEDSC', 'If this option is set to “Yes”, the module index page will display the title “Welcome in the Publisher of...”, followed by the welcome message defined below. If this option is set to “No”, none of these lines will be displayed.');
+define('_MI_PUBLISHER_WELCOMEDSC',
+       'If this option is set to “Yes”, the module index page will display the title “Welcome in the Publisher of...”, followed by the welcome message defined below. If this option is set to “No”, none of these lines will be displayed.');
 define('_MI_PUBLISHER_WHOWHEN', 'Display the poster and date?');
 define('_MI_PUBLISHER_WHOWHENDSC', 'Set to “Yes” to display the poster and date information in the individual article.');
 define('_MI_PUBLISHER_PV_TEXT', 'Partial view message');
@@ -185,7 +190,8 @@ define('_MI_PUBLISHER_PV_TEXT_DEF', 'To view the complete article, you must regi
 define('_MI_PUBLISHER_SEOMODNAME', 'URL Rewriting module name');
 define('_MI_PUBLISHER_SEOMODNAMEDSC', 'If URL Rewriting is enabled for the module, this is the name of the module that will be used. For example: http://yoursite.com/publisher/...');
 define('_MI_PUBLISHER_ARTCOUNT', 'Display articles count');
-define('_MI_PUBLISHER_ARTCOUNTDSC', 'Select “Yes” to display the article count within each category in the category summary table. Please note that the module currently only counts articles within each category and does not count within subcategories.');
+define('_MI_PUBLISHER_ARTCOUNTDSC',
+       'Select “Yes” to display the article count within each category in the category summary table. Please note that the module currently only counts articles within each category and does not count within subcategories.');
 define('_MI_PUBLISHER_LATESTFILES', 'Latest uploaded files');
 define('_MI_PUBLISHER_PATHSEARCH', 'Display category path in search results');
 define('_MI_PUBLISHER_PATHSEARCHDSC', '');

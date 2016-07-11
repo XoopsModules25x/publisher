@@ -11,13 +11,16 @@ define('_CO_PUBLISHER_ALLOWCOMMENTS', 'Can article be commented?');
 define('_CO_PUBLISHER_AUTHOR_ALIAS', 'Author alias');
 define('_CO_PUBLISHER_AUTHOR_ALIAS_DSC', 'Select the alias name of the poster, this will be used instead of “anonymous” and will set the owner ID of the article to 0');
 define('_CO_PUBLISHER_AVAILABLE_PAGE_WRAP', 'Available pages to wrap');
-define('_CO_PUBLISHER_AVAILABLE_PAGE_WRAP_DSC', 'Here are the pages available for wrapping in the body. Click on the page(s) you would like to wrap. Works with XOOPS editor only for the moment. Add manually if you are on another editor.');
+define('_CO_PUBLISHER_AVAILABLE_PAGE_WRAP_DSC',
+       'Here are the pages available for wrapping in the body. Click on the page(s) you would like to wrap. Works with XOOPS editor only for the moment. Add manually if you are on another editor.');
 define('_CO_PUBLISHER_DATESUB', 'Published date');
 define('_CO_PUBLISHER_DATESUB_DSC', 'Select the date of publication');
 define('_CO_PUBLISHER_ITEM_META_DESCRIPTION', 'Meta Description');
-define('_CO_PUBLISHER_ITEM_META_DESCRIPTION_DSC', 'In order to help Search Engines, you can customize the meta description you would like to use for this article. if you leave this field empty when creating a category, it will automatically be populated with the Summary field of this article.');
+define('_CO_PUBLISHER_ITEM_META_DESCRIPTION_DSC',
+       'In order to help Search Engines, you can customize the meta description you would like to use for this article. if you leave this field empty when creating a category, it will automatically be populated with the Summary field of this article.');
 define('_CO_PUBLISHER_ITEM_META_KEYWORDS', 'Meta Keywords');
-define('_CO_PUBLISHER_ITEM_META_KEYWORDS_DSC', 'In order to help Search Engines, you can customize the keywords you would like to use for this article. If you leave this field empty when creating an article, it will automatically be populated with words from the Summary field of this article.');
+define('_CO_PUBLISHER_ITEM_META_KEYWORDS_DSC',
+       'In order to help Search Engines, you can customize the keywords you would like to use for this article. If you leave this field empty when creating an article, it will automatically be populated with words from the Summary field of this article.');
 define('_CO_PUBLISHER_ITEM_SHORT_URL', 'Short URL');
 define('_CO_PUBLISHER_ITEM_SHORT_URL_DSC', 'When using the SEO features of this module, you can specify a Short URL for this article. This field is optional.');
 //define('_CO_PUBLISHER_PERMISSIONS_ITEM', 'Permissions');

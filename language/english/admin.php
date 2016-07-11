@@ -85,7 +85,8 @@ define('_AM_PUBLISHER_CREATINGNEW', 'Creating new');
 //define('_AM_PUBLISHER_DB_UPDATE_OK','Successfully updated to version %s');
 //define('_AM_PUBLISHER_DB_UPDATE_TO','Updating to version %s');
 define('_AM_PUBLISHER_DELETE', 'Delete');
-define('_AM_PUBLISHER_DELETE_CAT_CONFIRM', 'Please note that by deleting a category, all the sub-categories and the articles of this category will be deleted as well, along with any comments that may have been posted related to these articles. Are you sure you wish to delete this category?');
+define('_AM_PUBLISHER_DELETE_CAT_CONFIRM',
+       'Please note that by deleting a category, all the sub-categories and the articles of this category will be deleted as well, along with any comments that may have been posted related to these articles. Are you sure you wish to delete this category?');
 define('_AM_PUBLISHER_DELETE_CAT_ERROR', 'An error occurred while deleting this category.');
 define('_AM_PUBLISHER_DELETECOL', 'Delete category');
 define('_AM_PUBLISHER_DELETEITEM', 'Delete article');
@@ -153,7 +154,8 @@ define('_AM_PUBLISHER_IMPORT_ERROR', 'An error occurred while importing the arti
 define('_AM_PUBLISHER_IMPORT_FILE_NOT_FOUND', 'Import file not found at <strong>%s</strong>');
 define('_AM_PUBLISHER_IMPORT_FROM', 'Importing from %s');
 define('_AM_PUBLISHER_IMPORT_GOTOMODULE', "Go Publisher's index page");
-define('_AM_PUBLISHER_IMPORT_INFO', "You can import articles directly in Publisher. Simply select from which module you would like to import the articles and click on the 'Import' button.<br><strong>Run this operation only once, otherwise, the articles will be duplicated</strong>");
+define('_AM_PUBLISHER_IMPORT_INFO',
+       "You can import articles directly in Publisher. Simply select from which module you would like to import the articles and click on the 'Import' button.<br><strong>Run this operation only once, otherwise, the articles will be duplicated</strong>");
 define('_AM_PUBLISHER_IMPORT_MODULE_FOUND', '%s module was found. There are %s articles and %s categories that can be imported.');
 define('_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS', '%s module was found, but there are no article to import.');
 define('_AM_PUBLISHER_IMPORT_NOCATSELECTED', 'No category was selected to import.');
@@ -205,14 +207,17 @@ define('_AM_PUBLISHER_MIME_EXTF', "File Extension <span style='font-weight: bold
 define('_AM_PUBLISHER_MIME_FINDIT', 'Get Extension!');
 define('_AM_PUBLISHER_MIME_FINDMIMETYPE', 'Find new mime type?');
 define('_AM_PUBLISHER_MIME_ID', 'ID');
-define('_AM_PUBLISHER_MIME_INFOTEXT', '<ul><li>New mime types can be created, edit or deleted easily via this form.</li> <li>Look for a new mime types via an external website.</li> <li>View displayed mime types for Admin and User uploads.</li> <li>Change mime type upload status.</li></ul>');
+define('_AM_PUBLISHER_MIME_INFOTEXT',
+       '<ul><li>New mime types can be created, edit or deleted easily via this form.</li> <li>Look for a new mime types via an external website.</li> <li>View displayed mime types for Admin and User uploads.</li> <li>Change mime type upload status.</li></ul>');
 define('_AM_PUBLISHER_MIME_MANAGE_TITLE', 'Mime types Management');
 define('_AM_PUBLISHER_MIME_MODIFY', 'Modify');
 define('_AM_PUBLISHER_MIME_MODIFYF', 'Modify mime type');
 define('_AM_PUBLISHER_MIME_NAME', 'Application Type');
-define('_AM_PUBLISHER_MIME_NAMEF', "Application Type/Name <span style='font-weight: bold; color: red;'>*</span><div style='padding-top: 8px;'><span style='font-weight: normal;'>Enter application associated with this extension.</span></div>");
+define('_AM_PUBLISHER_MIME_NAMEF',
+       "Application Type/Name <span style='font-weight: bold; color: red;'>*</span><div style='padding-top: 8px;'><span style='font-weight: normal;'>Enter application associated with this extension.</span></div>");
 define('_AM_PUBLISHER_MIME_SEARCH', 'Mime types Search');
-define('_AM_PUBLISHER_MIME_TYPEF', "Mime types <span style='font-weight: bold; color: red;'>*</span><div style='padding-top: 8px;'><span style='font-weight: normal;'>Enter each mime type associated with the file extension. Each mime type must be separated with a space.</span></div>");
+define('_AM_PUBLISHER_MIME_TYPEF',
+       "Mime types <span style='font-weight: bold; color: red;'>*</span><div style='padding-top: 8px;'><span style='font-weight: normal;'>Enter each mime type associated with the file extension. Each mime type must be separated with a space.</span></div>");
 define('_AM_PUBLISHER_MIME_USER', 'User');
 define('_AM_PUBLISHER_MIME_USERF', 'Allowed User mime type');
 define('_AM_PUBLISHER_MIMETYPES', 'Mime types');
@@ -238,15 +243,18 @@ define('_AM_PUBLISHER_OFFLINE_CREATED_SUCCESS', 'The article has been successful
 define('_AM_PUBLISHER_OFFLINE_EXP', '<strong>Offline articles</strong>: Published articles that have been put offline, temporarily or not. Offline articles are not displayed in the user side.');
 define('_AM_PUBLISHER_OFFLINE_MOD_SUCCESS', 'The article has been successfully put offline.');
 define('_AM_PUBLISHER_OFFLINEEDITING', 'Editing an offline article');
-define('_AM_PUBLISHER_OFFLINEEDITING_INFO', 'You can edit this offline article. Modifications will be saved for this article. However, if you would like to display this article in the user side, you will need to set the status to <strong>Published</strong>.');
+define('_AM_PUBLISHER_OFFLINEEDITING_INFO',
+       'You can edit this offline article. Modifications will be saved for this article. However, if you would like to display this article in the user side, you will need to set the status to <strong>Published</strong>.');
 define('_AM_PUBLISHER_PAGEWRAP', 'Page wrap');
-define('_AM_PUBLISHER_PAGEWRAPDSC', "A page-wrap is the ability to link an article with a content file. Doing this, the content of the article is directly taken from that file and you don't need to add the content manually. This is useful when you have already formatted HTML or PHP files.");
+define('_AM_PUBLISHER_PAGEWRAPDSC',
+       "A page-wrap is the ability to link an article with a content file. Doing this, the content of the article is directly taken from that file and you don't need to add the content manually. This is useful when you have already formatted HTML or PHP files.");
 define('_AM_PUBLISHER_PARENT_CATEGORY_EXP', "Parent category<span style='font-size: xx-small; font-weight: normal; display: block;'>Select a parent to make this a sub-category.</span>");
 define('_AM_PUBLISHER_PERMERROR', 'ERROR: cannot access file directory. Please CHMOD the uploads/publisher/content directory with value 755 or 775 depending on your environment');
 define('_AM_PUBLISHER_PERMISSIONS', 'Permissions');
 define('_AM_PUBLISHER_PERMISSIONS_APPLY_ON_ITEMS',
        "Apply read permissions on articles<span style='font-size: xx-small; font-weight: normal; display: block;'>Apply the above Read Permissions on all<br>articles within that category, overriding their<br>current permissions.<br><strong>Please note that this is a one-time action only, and not a property</strong></span>");
-define('_AM_PUBLISHER_PERMISSIONS_CAT_READ', "Read permissions<span style='font-size: xx-small; font-weight: normal; display: block;'>Groups that will have permissions to see<br>this Category, as well as any articles<br>inside that category.</span>");
+define('_AM_PUBLISHER_PERMISSIONS_CAT_READ',
+       "Read permissions<span style='font-size: xx-small; font-weight: normal; display: block;'>Groups that will have permissions to see<br>this Category, as well as any articles<br>inside that category.</span>");
 define('_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT', 'Articles submission permissions');
 define('_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT_DSC', "Groups that will be allowed to submit articles within this category. Preference '[PERMISSIONS] User submissions' must be enabled.");
 define('_AM_PUBLISHER_PERMISSIONSVIEWMAN', 'Permissions to view categories');
@@ -259,7 +267,8 @@ define('_AM_PUBLISHER_PUBLISHEDEDITING_INFO', 'You can edit this article. Modifi
 define('_AM_PUBLISHER_PUBLISHEDITEMS', 'Published articles');
 define('_AM_PUBLISHER_REJECTED_EDIT', 'Edit this rejected article');
 define('_AM_PUBLISHER_REJECTED_ITEM', 'Rejected article');
-define('_AM_PUBLISHER_REJECTED_ITEM_EXP', '<strong>Rejected articles</strong>: articles that have been submitted by user, but rejected by a moderator. Rejected articles are not displayed in the user side.');
+define('_AM_PUBLISHER_REJECTED_ITEM_EXP',
+       '<strong>Rejected articles</strong>: articles that have been submitted by user, but rejected by a moderator. Rejected articles are not displayed in the user side.');
 define('_AM_PUBLISHER_RUSUREDELF', 'Are you sure you want to delete this file?');
 define('_AM_PUBLISHER_SCATEGORYNAME',
        "Create subcategories<br><br><span style='font-size: xx-small; font-weight: normal; display: block;'>Fill the text box with the names of sub categories to create.<br>Leave blank to not create subcategory. To create more, enter the how much more to create then press 'Add'</span>");
@@ -278,7 +287,8 @@ define('_AM_PUBLISHER_SUBMISSIONSMNGMT', 'Submitted articles');
 define('_AM_PUBLISHER_SUBMIT', 'Submit');
 define('_AM_PUBLISHER_SUBMITTED_APPROVE_SUCCESS', 'The submitted article has been published in the user side.');
 define('_AM_PUBLISHER_SUBMITTED_EXP', '<strong>Submitted articles</strong>: Articles that have been submitted by users. Once approved, they will be displayed in the user side.');
-define('_AM_PUBLISHER_SUBMITTED_INFO', "This article has been submitted by a member. You can make some modifications if you'd like. Upon approval, this article will be displayed in the user side of this site.");
+define('_AM_PUBLISHER_SUBMITTED_INFO',
+       "This article has been submitted by a member. You can make some modifications if you'd like. Upon approval, this article will be displayed in the user side of this site.");
 define('_AM_PUBLISHER_SUBMITTED_TITLE', 'Approving a submitted article');
 define('_AM_PUBLISHER_SUMMARY', 'Introduction');
 //define('_AM_PUBLISHER_SUMMARY_DSC','Article's introduction');
@@ -330,10 +340,12 @@ define('_AM_PUBLISHER_CLONE_IMAGEFAIL', 'Attention, we failed creating the new m
 define('_AM_PUBLISHER_CLONE_FAIL', "Sorry, we failed in creating the new clone. Maybe you need to temporally set write permissions (CHMOD 777) to 'modules' folder and try again.");
 define('_AM_PUBLISHER_COMMENTS', 'Comments');
 define('_AM_PUBLISHER_CATEGORY_MODERATOR', 'Moderator');
-define('_AM_PUBLISHER_CATEGORY_MODERATOR_DSC', "A moderator can access and submit in this category even if he does not have groups permissions.<br>To moderate a sub category the user must have permissions to submit in the parent category.<br>Set to 'anonymous' if you do not need a moderator.");
+define('_AM_PUBLISHER_CATEGORY_MODERATOR_DSC',
+       "A moderator can access and submit in this category even if he does not have groups permissions.<br>To moderate a sub category the user must have permissions to submit in the parent category.<br>Set to 'anonymous' if you do not need a moderator.");
 //03/05/2012
 define('_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR', 'Moderation permissions');
-define('_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR_DSC', "Groups that will be allowed to moderate articles within this category. Users on these groups will be able to edit/delete/clone articles. Don't forget to also set submit permissions on these groups!");
+define('_AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR_DSC',
+       "Groups that will be allowed to moderate articles within this category. Users on these groups will be able to edit/delete/clone articles. Don't forget to also set submit permissions on these groups!");
 //1.01 Beta 1
 define('_AM_PUBLISHER_ITEMCATEGORY_ID', 'ID');
 define('_AM_PUBLISHER_ITEM_VIEWS', 'Views');

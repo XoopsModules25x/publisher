@@ -1,10 +1,8 @@
-<h5>1.03 FINAL       (NOT RELEASED)</h5>
-- Fix preg_replace /e ( (cesagonchu/mamba)
-
 <h5>1.03 RC 2       (2016-07-09)</h5>
 - fixed New/Recent blocks not visible if only 1 article (cesagonchu/bleekk)
 - fixed Invalid argument supplied for foreach() in profile/userinfo.php?uid=1 if user has no articles (cesagonchu/mamba)
-- moded Clone icon to the right side (mamba)
+- moved Clone icon to the right side (mamba)
+- fixed link to PHP Date info (cesagonchu/mamba)
 
 <h5>1.03 RC 1       (2016-07-07)</h5>
 - fixed Undefined offset: 0 in file /modules/publisher/class/file.php (bleekk/mamba)

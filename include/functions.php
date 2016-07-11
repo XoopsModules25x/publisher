@@ -153,7 +153,6 @@ function publisherHtml2text($document)
     );
 
     return $text;
-
     //<?php
 }
 

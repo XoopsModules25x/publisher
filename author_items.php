@@ -1,0 +1,98 @@
+<?php
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
+ * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @package         Publisher
+ * @subpackage      Action
+ * @since           1.0
+ * @author          trabis <lusopoemas@gmail.com>
+ */
+
+include_once __DIR__ . '/header.php';
+
+$uid = XoopsRequest::getInt('uid', 0, 'GET');
+if (0 == $uid) {
+    redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
+    //   exit();
+}
+
+$memberHandler = xoops_getHandler('member');
+$thisuser      = $memberHandler->getUser($uid);
+if (!is_object($thisuser)) {
+    redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
+    //    exit();
+}
+
+if (!$publisher->getConfig('perm_author_items')) {
+    redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
+    //mb    exit();
+}
+
+$myts = MyTextSanitizer::getInstance();
+
+$xoopsOption['template_main'] = 'publisher_author_items.tpl';
+include_once $GLOBALS['xoops']->path('header.php');
+include_once PUBLISHER_ROOT_PATH . '/footer.php';
+
+$criteria = new CriteriaCompo(new Criteria('datesub', time(), '<='));
+$criteria->add(new Criteria('uid', $uid));
+
+$items = $publisher->getHandler('item')->getItems($limit = 0, $start = 0, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, 'datesub', 'DESC', '', true, $criteria);
+unset($criteria);
+$count = count($items);
+
+$xoopsTpl->assign('total_items', $count);
+$xoopsTpl->assign('rating', $publisher->getConfig('perm_rating'));
+
+xoops_load('XoopsUserUtility');
+$author_name = XoopsUserUtility::getUnameFromId($uid, $publisher->getConfig('format_realname'), true);
+$xoopsTpl->assign('author_name_with_link', $author_name);
+
+$xoopsTpl->assign('user_avatarurl', XOOPS_URL . '/uploads/' . $thisuser->getVar('user_avatar'));
+
+$categories = array();
+if ($count > 0) {
+    foreach ($items as $item) {
+        $catid = $item->categoryid();
+        if (!isset($categories[$catid])) {
+            $categories[$catid] = array(
+                'count_items' => 0,
+                'count_hits'  => 0,
+                'title'       => $item->getCategoryName(),
+                'link'        => $item->getCategoryLink()
+            );
+        }
+
+        $categories[$catid]['count_items']++;
+        $categories[$catid]['count_hits'] += $item->counter();
+        $categories[$catid]['items'][] = array(
+            'title'     => $item->getTitle(),
+            'hits'      => $item->counter(),
+            'link'      => $item->getItemLink(),
+            'published' => $item->getDatesub(),
+            'rating'    => $item->rating()
+        );
+    }
+}
+unset($item);
+$xoopsTpl->assign('categories', $categories);
+
+$title = _MD_PUBLISHER_ITEMS_SAME_AUTHOR . ' - ' . $author_name;
+
+/**
+ * Generating meta information for this page
+ */
+$publisherMetagen = new PublisherMetagen($title, '', $title);
+$publisherMetagen->createMetaTags();
+
+include_once $GLOBALS['xoops']->path('footer.php');

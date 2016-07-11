@@ -1,0 +1,6 @@
+Tests needed:
+
+- login as Admin
+- login as User
+- login as Anonymous
+

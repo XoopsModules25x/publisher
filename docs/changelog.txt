@@ -1,0 +1,164 @@
+<h5>1.03 FINAL       (2015-07-10)</h5>
+- Fix preg_replace /e ( (cesagonchu/mamba)
+- fixed link to PHP Date info (cesagonchu/mamba)
+
+<h5>1.03 RC 2       (2016-07-09)</h5>
+- fixed New/Recent blocks not visible if only 1 article (cesagonchu/bleekk)
+- fixed Invalid argument supplied for foreach() in profile/userinfo.php?uid=1 if user has no articles (cesagonchu/mamba)
+- moved Clone icon to the right side (mamba)
+
+<h5>1.03 RC 1       (2016-07-07)</h5>
+- fixed Undefined offset: 0 in file /modules/publisher/class/file.php (bleekk/mamba)
+- fixed Recent Articles List Block (bleekk/mamba)
+- fixed Recent Articles Details Block (mamba)
+- changed: if selected "Display block summary on articles page", both Summary & Body are displayed (bleekk/mamba)
+
+<h5>1.03 Beta 4       (NOT RELEASED)</h5>
+- fixed bug in Latest news block (mamba)
+- added copy blank.png in index.php (mamba)
+
+<h5>1.03 Beta 3       (NOT RELEASED)</h5>
+- removed @version (mamba)
+- standardization on addNavigation(basename(__FILE__) (mamba)
+- standardize HTML $lt;br&gt; tags
+- replaced fputs with fwrite (mamba)
+- code cosmetics (mamba)
+- temp fix in /item.php (mamba)
+- replaced self:: with $this-> in /class/item.php (mamba)
+- removed references to objects (mamba)
+- standardized getInstance (mamba)
+- performance: (substr($color, 0, 1) !== '#') to (0 !== strpos($color, '#')) (mamba)
+- renamed logo.png to logo_module.png (mamba)
+- clean up clone (geekwright)
+- revert several template variable changes to work better with override templates (geekwright)
+- revert moduleUrl template variable to publisher_url to better support cloning (geekwright)
+- remove pass-by-ref for non-vars (zyspec)
+
+<h5>1.03 Beta 2       (2016-03-20)</h5>
+- fixed: bugs on submit (mamba)
+- replaced XoopsFormTag with TagFormTag (mamba)
+- adjusted TCPDF location to /class/libraries/vendor/tecnickcom/tcpdf/ for Composer (mamba)
+
+<h5>1.03 Beta 1       (2016-03-19)</h5>
+- fixed: deleting item image (ggoffy)
+- fixed: calling getSummary & getBody (bleekk)
+- fixed: ->itemId (SMEDrieben/mamba)
+- clean-up publisherStringToInt (geekwright)
+- updates for PHP7, XOOPS 2.5.8 (mamba)
+
+<h5>1.02 Final       (2016-01-05)</h5>
+- fixed bug: wrong options in Latest News block (mamba)
+- added "All" checkbox in Category for group permissions (mamba)
+- fixes in clone.php (ggoffy)
+- fix error when uploading category image (ggoffy)
+- fix for creating upload folders for category images (ggoffy/mamba)
+- fix for RSS problem with date (dante7237/mamba)
+- fix for file deletes (mamba)
+- adding link to on-line Tutorial (mamba)
+
+<h5>1.02 RC4       (NOT RELEASED)</h5>
+- fix issues with Popeye images (mamba)
+- removed 500px hardcoded width for image preview in Admin, as it looks bad for small images (mamba)
+- fixed bug: wrong flag for status after modification in frontend (Dante7237/mamba)
+
+<h5>1.02 RC3       (2015-11-14)</h5>
+- added sort by Rating, Hits, # of Votes and Comments (brutalicuss/mamba)
+- added extra columns in Admin's Summary view (mamba)
+- remove non-existent XoopsFormCalendar in blocks (mamba)
+- replace XoopsLocal::formatTimestamp() with formatTimestamp() so we have User local time (mamba/geekwright)
+- replaced hard-coded GMT date in PublisherFormDateTime with formatTimestamp (mamba) (TODO: do the same for XoopsFormDateTime)
+- adjusted apostrophes to prevent the define translation errors (slider84)
+- bug #6: Array to string conversion (cesagonchu/mamba)
+- fixed bug: not able to delete category (Dante7237/mamba)
+- fixed bug: cloning of article (mamba)
+
+
+<h5>1.02 RC1       (2015-05-26)</h5>
+- updated to XOOPS 2.5.7 version of jQuery UI Tabs (noo-b/mamba)
+- replaced PublisherRequest with calls to XoopsRequest (mamba)
+- redesigned archives section to have months horizontally (mjoel/Mithrandir/mamba)
+- added count of articles in archive section (mamba)
+- moved TCPDF library to /xoops_lib (mamba)
+- updated makepdf.php file for the latest TCPDF (black_beard, mamba)
+- replaced $i++ with ++$i for consistency/performance (mamba)
+- started conversion to PSR-2 coding (mamba)
+- moved constants to class interface (mamba, based on zyspec's work)
+- updated TimThumbnail to 2.8.14 (mamba)
+- added few missing English translations (mamba)
+- replaced $_REQUEST with $_POST/$_GET and XoopsRequest in mimetypes.php (mamba)
+- indicated required fields when adding new MIME types (mamba)
+- centered mimetypes in the table (mamba)
+- updated popeye.js to 2.1 (mamba)
+- changed popeye mode to imagelist (mamba)
+- replacing intval() with (int) (mamba)
+
+
+TODO:
+- test with MySQL strict mode (STRICT_TRANS_TABLES)
+
+
+<h5>1.02 Beta 2       (2014-xx-xx)</h5>
+- added ID column in Admin's Category view (mamba)
+- fixed preg_replace /e in request.php (mamba)
+- added Views column in Admin's Articles view (mamba)
+- ensured that short_url is under 255 characters (mamba)
+- added import from C-Jay Content (mamba)
+- added import from xNews (bleekk, mamba)
+- moved all images, CSS, and JS files to /assets (mamba)
+- renamed .html Smarty templates to .tpl (mamba)
+- added Preference option for PDF icon (cifug/mamba)
+
+<h5>1.01 Final (2013-10-22)</h5>
+- fixed two templates (bleekk)
+
+<h5>1.0 Final (2013-07-18)</h5>
+- added missing URL for doc image in \blocks\items_spot.php
+
+<h5>1.0 RC (2011-12-04)</h5>
+- Converted to XOOPS 2.5.0 ModuleAdmin GUI
+
+<h5>1.0 Beta (2010-04-02)</h5>
+- Improved : Images sorted by Name in submit form (trabis)
+- Added : Class for handling block forms (trabis)
+- Fixed : Date to date block blank page (trabis)
+- Fixed : Extra '-' in page title (trabis/mboyden)
+
+<h5>1.0 Alpha (2009-08-24)</h5>
+- Imported : smartsection Version 2.14 Final (trabis)
+- Removed : dependecy from smartobject (trabis)
+- Removed : unused files (trabis)
+- Improved: renamed functions and clean code acording to XOOPS CODING STANDARDS (trabis)
+- Added : xoops 2.3 compatibility (trabis)
+- Added : missing index.html files in some folders (trabis)
+- Added : text truncate option in spotlight block (trabis/Mowaffak)
+- Changed : article submission for admins using submit.php (trabis/Mowaffak)
+- Fixed : cannot show keyword in Japanese and multibyte language (ohwada/trabis)
+- Fixed : keyword "abc" match "abccccc" (ohwada/trabis)
+- Fixed : many Notice when "Disable comments" (ohwada/trabis)
+- Fixed : missing argument when save file (ohwada/trabis)
+- Fixed : undefined variable in admin's category (ohwada/trabis)
+- Fixed : invalid argument when guest view (ohwada/trabis)
+- Fixed : wrong style in print template file (ohwada/trabis)
+- Fixed : parse error and Notice in print (ohwada/trabis)
+- Fixed : enable "Print" and "PDF" (ohwada/trabis)
+- Improved : Hide Read More link in spot block if no body and no truncate used (trabis/Mowaffak)
+- Fixed : preview function was not working correctly (trabis)
+- Improved : removed fpdf libray and added tcpdf library (trabis)
+- Added : ajax rating (trabis)
+- Added : Xoops 2.3 editors and access permissions (trabis)
+- Added : easy module cloning from admin area with auto logo generation (trabis/Xoops French Team)
+- Added : Second title (subtitle) for articles (Shiva)
+- Fixed : english errors in language files (AEIOU)
+- Added : module preferences separated by categories (trabis)
+- Added : advanced search system (trabis/phppp)
+- Added : Columns block (bandit-x/trabis)
+- Added : Multi image support for articles, using core image manager (trabis)
+- Improved : Added support for 'tellafriend' module from GIJOE instead of using mailto link (trabis/GIJOE)
+- Added : Tabbed interface for submit pages (trabis)
+- Added : Adding moderator per category (trabis)
+- Added : Author alias (trabis)
+- Added : Hide sub categories in main page only (Mowaffak)
+- Added : Latest news block (trabis/bandit-x/Mowaffak)
+- Added : Category selection block (trabis/Mowaffak)
+- Added : Image manager / easy uploading (trabis)
+- Fixed : Item name not available in comment notification (Phoenyx)

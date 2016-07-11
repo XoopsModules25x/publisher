@@ -1,4 +1,4 @@
-<h5>1.03 FINAL       (NOT RELEASED)</h5>
+<h5>1.03 FINAL       (2015-07-10)</h5>
 - Fix preg_replace /e ( (cesagonchu/mamba)
 - fixed link to PHP Date info (cesagonchu/mamba)
 

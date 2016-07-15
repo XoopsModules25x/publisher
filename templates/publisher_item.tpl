@@ -83,9 +83,7 @@
             <{else}>
                 <span style="float: left;">&nbsp;</span>
             <{/if}> <{if $perm_author_items && $item.uid != 0}>
-                <span style="float: left; margin-left: 5px;">
-          <a href="<{$publisher_url}>/author_items.php?uid=<{$item.uid}>"><{$smarty.const._MD_PUBLISHER_ITEMS_SAME_AUTHOR}></a>
-        </span>
+                <span style="float: left; margin-left: 5px;"><a href="<{$publisher_url}>/author_items.php?uid=<{$item.uid}>"><{$smarty.const._MD_PUBLISHER_ITEMS_SAME_AUTHOR}></a></span>
             <{/if}>
             <span style="float: right; text-align: right;"><{$item.adminlink}></span>
 

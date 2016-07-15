@@ -1,10 +1,10 @@
 <?php
 /**
- * File : makefile.pdf for publisher
+ * File : makepdf.php for publisher
  * For tcpdf_for_xoops 2.01 and higher
  * Created by montuy337513 / philodenelle - http://www.chg-web.org
  **/
-error_reporting(0);
+error_reporting(E_ALL);
 
 include_once __DIR__ . '/header.php';
 $itemid       = XoopsRequest::getInt('itemid', 0, 'GET');
@@ -19,10 +19,10 @@ if ($itemid == 0) {
 //}
 
 //2.5.8
-if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-    redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['xoopsModule']->getVar('dirname') . '/viewtopic.php?topic_id=' . $itemid, 3,
-                    'TCPF for XOOPS not installed in ./class/libraries/vendor/tecnickcom/tcpdf/');
-}
+require_once(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php');
+//if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
+//    redirect_header('javascript:history.go(-1)', 3, _MD_PUBLISHER_ERROR_NO_PDF);
+//}
 
 // Creating the item object for the selected item
 $itemObj = $publisher->getHandler('item')->get($itemid);
@@ -67,11 +67,6 @@ $pdf_data = array(
     'unit'             => 'mm',
     'rtl'              => false //true if right to left
 );
-//2.5.7
-//require_once(XOOPS_PATH . '/vendor/tcpdf/tcpdf.php');
-
-//2.5.8
-require_once(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php');
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 

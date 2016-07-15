@@ -322,7 +322,7 @@ define('_MI_PUBLISHER_ALLOWDELETEDSC', 'Allow users to delete their own articles
 
 //1.02 Beta 2
 define('_MI_PUBLISHER_DISPLAY_PDF', 'Display PDF Icon');
-define('_MI_PUBLISHER_DISPLAY_PDF_DSC', 'Select Yes to show PDF icon and allow users to create PDF files');
+define('_MI_PUBLISHER_DISPLAY_PDF_DSC', 'Select Yes to show PDF icon and allow users to create PDF files <br>Make sure you have the TCPDF library installed. Please read the "readme.txt" file in /docs folder for info how to get it.');
 
 //1.02 RC2
 define('_MI_PUBLISHER_ORDERBY_RATING', 'Rating DESC');

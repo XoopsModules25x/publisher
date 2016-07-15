@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  * Module: Publisher
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
@@ -88,3 +88,5 @@ define('_MD_PUBLISHER_NEXTIMG', 'Next Image');
 define('_MD_PUBLISHER_CLOSE', 'Close');
 define('_MD_PUBLISHER_ENLARGEIMG', 'Enlarge');
 define('_MD_PUBLISHER_OF', ' of ');
+//1.04
+define('_MD_PUBLISHER_ERROR_NO_PDF', 'TCPF for XOOPS not installed in /class/libraries/vendor/tecnickcom/tcpdf/ <br> Please read the /docs/readme.txt or click on the Help tab to learn how to get it!');

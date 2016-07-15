@@ -1228,7 +1228,7 @@ $modversion['config'][] = array(
     'description' => '_MI_PUBLISHER_DISPLAY_PDF_DSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => 1
+    'default'     => 0
 );
 
 $modversion['config'][] = array(

@@ -3,7 +3,7 @@
  * File : makepdf.php for publisher
  * For tcpdf_for_xoops 2.01 and higher
  * Created by montuy337513 / philodenelle - http://www.chg-web.org
- **/
+ */
 error_reporting(E_ALL);
 
 include_once __DIR__ . '/header.php';

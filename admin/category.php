@@ -118,7 +118,7 @@ switch ($op) {
         $categoryObj->setVar('short_url', XoopsRequest::getString('short_url', '', 'POST'));
         $categoryObj->setVar('moderator', XoopsRequest::getInt('moderator', 0, 'POST'));
         $categoryObj->setVar('description', XoopsRequest::getString('description', '', 'POST'));
-        $categoryObj->setVar('header', XoopsRequest::getString('header', '', 'POST'));
+        $categoryObj->setVar('header', XoopsRequest::getText('header', '', 'POST'));
 
         if ($categoryObj->isNew()) {
             $redirect_msg = _AM_PUBLISHER_CATCREATED;

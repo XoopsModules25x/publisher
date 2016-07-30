@@ -29,7 +29,7 @@ $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = array(
     'name'                => _MI_PUBLISHER_MD_NAME,
-    'version'             => '1.03',
+    'version'             => '1.04',
     'module_status'       => 'RC 1',
     'release_date'        => '2016/07/06',
     'description'         => _MI_PUBLISHER_MD_DESC,

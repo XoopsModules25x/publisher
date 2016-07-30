@@ -112,79 +112,79 @@ $ordertxtdesc = '';
 
 switch ($sortsel) {
     case 'title':
-        $sorttxttitle = "selected='selected'";
+        $sorttxttitle = "selected";
         break;
 
     case 'datesub':
-        $sorttxtcreated = "selected='selected'";
+        $sorttxtcreated = "selected";
         break;
 
     case 'weight':
-        $sorttxtweight = "selected='selected'";
+        $sorttxtweight = "selected";
         break;
 
     case 'counter':
-        $sorttxthits = "selected='selected'";
+        $sorttxthits = "selected";
         break;
 
     case 'rating':
-        $sorttxtrating = "selected='selected'";
+        $sorttxtrating = "selected";
         break;
 
     case 'votes':
-        $sorttxtvotes = "selected='selected'";
+        $sorttxtvotes = "selected";
         break;
 
     case 'comments':
-        $sorttxtcomments = "selected='selected'";
+        $sorttxtcomments = "selected";
         break;
 
     default:
-        $sorttxtitemid = "selected='selected'";
+        $sorttxtitemid = "selected";
         break;
 }
 
 switch ($ordersel) {
     case 'ASC':
-        $ordertxtasc = "selected='selected'";
+        $ordertxtasc = "selected";
         break;
 
     default:
-        $ordertxtdesc = "selected='selected'";
+        $ordertxtdesc = "selected";
         break;
 }
 
 switch ($statussel) {
     case PublisherConstants::PUBLISHER_STATUS_ALL:
-        $selectedtxt0        = "selected='selected'";
+        $selectedtxt0        = "selected";
         $caption             = _AM_PUBLISHER_ALL;
         $cond                = '';
         $status_explaination = _AM_PUBLISHER_ALL_EXP;
         break;
 
     case PublisherConstants::PUBLISHER_STATUS_SUBMITTED:
-        $selectedtxt1        = "selected='selected'";
+        $selectedtxt1        = "selected";
         $caption             = _CO_PUBLISHER_SUBMITTED;
         $cond                = ' WHERE status = ' . PublisherConstants::PUBLISHER_STATUS_SUBMITTED . ' ';
         $status_explaination = _AM_PUBLISHER_SUBMITTED_EXP;
         break;
 
     case PublisherConstants::PUBLISHER_STATUS_PUBLISHED:
-        $selectedtxt2        = "selected='selected'";
+        $selectedtxt2        = "selected";
         $caption             = _CO_PUBLISHER_PUBLISHED;
         $cond                = ' WHERE status = ' . PublisherConstants::PUBLISHER_STATUS_PUBLISHED . ' ';
         $status_explaination = _AM_PUBLISHER_PUBLISHED_EXP;
         break;
 
     case PublisherConstants::PUBLISHER_STATUS_OFFLINE:
-        $selectedtxt3        = "selected='selected'";
+        $selectedtxt3        = "selected";
         $caption             = _CO_PUBLISHER_OFFLINE;
         $cond                = ' WHERE status = ' . PublisherConstants::PUBLISHER_STATUS_OFFLINE . ' ';
         $status_explaination = _AM_PUBLISHER_OFFLINE_EXP;
         break;
 
     case PublisherConstants::PUBLISHER_STATUS_REJECTED:
-        $selectedtxt4        = "selected='selected'";
+        $selectedtxt4        = "selected";
         $caption             = _CO_PUBLISHER_REJECTED;
         $cond                = ' WHERE status = ' . PublisherConstants::PUBLISHER_STATUS_REJECTED . ' ';
         $status_explaination = _AM_PUBLISHER_REJECTED_ITEM_EXP;

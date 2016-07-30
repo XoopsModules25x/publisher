@@ -292,7 +292,7 @@ function publisher_latest_news_edit($options)
     foreach ($directions as $key => $value) {
         $form .= "<option value='{$key}'";
         if ($options[8] == $key) {
-            $form .= " selected='selected'";
+            $form .= " selected";
         }
         $form .= ">{$value}</option>";
     }
@@ -302,17 +302,17 @@ function publisher_latest_news_edit($options)
     $form .= "<select name='options[9]'>";
     $form .= "<option value='datesub'";
     if ($options[9] === 'datesub') {
-        $form .= " selected='selected'";
+        $form .= " selected";
     }
     $form .= '>' . _MB_PUBLISHER_DATE . '</option>';
     $form .= "<option value='counter'";
     if ($options[9] === 'counter') {
-        $form .= " selected='selected'";
+        $form .= " selected";
     }
     $form .= '>' . _MB_PUBLISHER_HITS . '</option>';
     $form .= "<option value='weight'";
     if ($options[9] === 'weight') {
-        $form .= " selected='selected'";
+        $form .= " selected";
     }
     $form .= '>' . _MB_PUBLISHER_WEIGHT . '</option>';
     $form .= '</select></td></tr>';
@@ -332,19 +332,19 @@ function publisher_latest_news_edit($options)
     $form .= "<select name='options[]'>";
     $form .= "<option value='LEFT'";
     if ($options[15] === 'LEFT') {
-        $form .= " selected='selected'";
+        $form .= " selected";
     }
     $form .= '>' . _LEFT . "</option>\n";
 
     $form .= "<option value='CENTER'";
     if ($options[15] === 'CENTER') {
-        $form .= " selected='selected'";
+        $form .= " selected";
     }
     $form .= '>' . _CENTER . "</option>\n";
 
     $form .= "<option value='RIGHT'";
     if ($options[15] === 'RIGHT') {
-        $form .= " selected='selected'";
+        $form .= " selected";
     }
     $form .= '>' . _RIGHT . '</option>';
     $form .= '</select></td></tr>';
@@ -389,7 +389,7 @@ function publisher_latest_news_edit($options)
     foreach ($templates as $key => $value) {
         $form .= "<option value='{$key}'";
         if ($options[28] == $key) {
-            $form .= " selected='selected'";
+            $form .= " selected";
         }
         $form .= ">{$value}</option>";
     }
@@ -416,12 +416,12 @@ function publisher_mk_chkbox($options, $number)
 {
     $chk = '';
     if ($options[$number] == 1) {
-        $chk = " checked='checked'";
+        $chk = " checked";
     }
     $chkbox = "<input type='radio' name='options[{$number}]' value='1'" . $chk . ' />&nbsp;' . _YES . '&nbsp;&nbsp;';
     $chk    = '';
     if ($options[$number] == 0) {
-        $chk = " checked='checked'";
+        $chk = " checked";
     }
     $chkbox .= "<input type='radio' name='options[{$number}]' value='0'" . $chk . ' />&nbsp;' . _NO . '</td></tr>';
 
@@ -438,17 +438,17 @@ function publisher_mk_select($options, $number)
 {
     $slc = '';
     if ($options[$number] == 2) {
-        $slc = " checked='checked'";
+        $slc = " checked";
     }
     $select = "<input type='radio' name='options[{$number}]' value='2'" . $slc . ' />&nbsp;' . _LEFT . '&nbsp;&nbsp;';
     $slc    = '';
     if ($options[$number] == 1) {
-        $slc = " checked='checked'";
+        $slc = " checked";
     }
     $select = "<input type='radio' name='options[{$number}]' value='1'" . $slc . ' />&nbsp;' . _CENTER . '&nbsp;&nbsp;';
     $slc    = '';
     if ($options[$number] == 0) {
-        $slc = " checked='checked'";
+        $slc = " checked";
     }
     $select .= "<input type='radio' name='options[{$number}]' value='0'" . $slc . ' />&nbsp;' . _RIGHT . '</td></tr>';
 

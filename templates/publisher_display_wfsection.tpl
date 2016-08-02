@@ -60,7 +60,7 @@
         <div id='bottomtable'>
         <span class="publisher_collaps_info"><{$smarty.const._MD_PUBLISHER_ITEMS_INFO}></span>
     <{/if}>
-        <div align="right"><{$category.navbar}></div>
+        <div align="right"><{$navbar}></div>
         <div class="item">
             <{foreach item=item from=$items}>
                 <table>
@@ -88,7 +88,7 @@
                 </table>
             <{/foreach}>
         </div>
-        <div align="right"><{$category.navbar}></div>
+        <div align="right"><{$navbar}></div>
         <{$press_room_footer}>
 
         <{if $collapsable_heading == 1}>

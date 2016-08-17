@@ -204,7 +204,7 @@ $modversion['blocks'][] = array(
     'description' => _MI_PUBLISHER_DATE_TO_DATE_DSC,
     'show_func'   => 'publisher_date_to_date_show',
     'edit_func'   => 'publisher_date_to_date_edit',
-    'options'     => "formatTimestamp(time(), 'm/j/Y') . " | " . formatTimestamp(time(), 'm/j/Y')",
+    'options'     => "01/01/2016|12/31/2016",
     'template'    => 'publisher_date_to_date.tpl'
 );
 

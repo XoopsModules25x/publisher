@@ -18,7 +18,8 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-include_once __DIR__ . '/admin_header.php';
+$dir = dirname($_SERVER['SCRIPT_FILENAME']);
+include_once $dir . '/admin_header.php';
 include_once $GLOBALS['xoops']->path('class/xoopslists.php');
 include_once $GLOBALS['xoops']->path('class/pagenav.php');
 
@@ -339,4 +340,4 @@ if ($publisher->getConfig('format_image_nav') == 1) {
 publisherCloseCollapsableBar('allitemstable', 'allitemsicon');
 // Close the collapsable div
 
-include_once __DIR__ . '/admin_footer.php';
+include_once $dir . '/admin_footer.php';

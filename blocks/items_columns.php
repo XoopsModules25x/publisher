@@ -16,7 +16,7 @@
  * @subpackage      Blocks
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @author          Bandit-x
+ * @author          Bandit-X
  */
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');

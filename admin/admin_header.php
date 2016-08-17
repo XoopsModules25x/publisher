@@ -18,14 +18,15 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-include_once $GLOBALS['xoops']->path('www/include/cp_functions.php');
-include_once $GLOBALS['xoops']->path('www/include/cp_header.php');
-include_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
+$dir = dirname($_SERVER['SCRIPT_FILENAME']);
+include_once dirname(dirname(dirname($dir))) . '/mainfile.php';
+include_once $GLOBALS['xoops']->path('include/cp_functions.php');
+include_once $GLOBALS['xoops']->path('include/cp_header.php');
+include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
 xoops_load('XoopsRequest');
 
-include_once dirname(__DIR__) . '/include/config.php';
+include_once dirname($dir) . '/include/config.php';
 
 //xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 xoops_loadLanguage('modinfo', PUBLISHER_DIRNAME);

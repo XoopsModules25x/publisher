@@ -18,9 +18,8 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-$dir = dirname($_SERVER['SCRIPT_FILENAME']);
-include_once dirname(dirname($dir)) . '/mainfile.php';
-include_once $dir. '/include/common.php';
+include_once dirname(dirname(__DIR__)) . '/mainfile.php';
+include_once __DIR__ . '/include/common.php';
 
 $myts = MyTextSanitizer::getInstance();
 

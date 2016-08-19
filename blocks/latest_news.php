@@ -16,7 +16,7 @@
  * @subpackage      Blocks
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @author          Bandit-x
+ * @author          Bandit-X
  * @author          Mowaffak
  */
 

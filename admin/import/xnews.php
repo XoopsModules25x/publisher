@@ -90,7 +90,7 @@ if ('start' === $op) {
                 $readgroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($readgroup as $rgroup) {
-                $imagecategoryperm =& $imagecategorypermHandler->create();
+                $imagecategoryperm = $imagecategorypermHandler->create();
                 $imagecategoryperm->setVar('gperm_groupid', $rgroup);
                 $imagecategoryperm->setVar('gperm_itemid', $newid);
                 $imagecategoryperm->setVar('gperm_name', 'imgcat_read');
@@ -107,7 +107,7 @@ if ('start' === $op) {
                 $writegroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($writegroup as $wgroup) {
-                $imagecategoryperm =& $imagecategorypermHandler->create();
+                $imagecategoryperm = $imagecategorypermHandler->create();
                 $imagecategoryperm->setVar('gperm_groupid', $wgroup);
                 $imagecategoryperm->setVar('gperm_itemid', $newid);
                 $imagecategoryperm->setVar('gperm_name', 'imgcat_write');
@@ -236,7 +236,7 @@ if ($op === 'go') {
                 /*
 
                   $imageHandler = xoops_getHandler('image');
-                  $image =& $imageHandler->create();
+                  $image = $imageHandler->create();
                   $image->setVar('image_name', $arrCat['topic_imgurl']);//'images/' . $uploader->getSavedFileName());
                   $image->setVar('image_nicename', substr($arrCat['topic_imgurl'],-13)); //$image_nicename);
                   $image->setVar('image_mimetype', 'image/'. substr($arrCat['topic_imgurl'],-3));//$uploader->getMediaType());

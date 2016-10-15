@@ -570,9 +570,9 @@ function publisherAddCategoryOption(PublisherCategory $categoryObj, $selectedid 
 
     $ret .= "<option value='" . $categoryObj->categoryid() . "'";
     if (is_array($selectedid) && in_array($categoryObj->categoryid(), $selectedid)) {
-        $ret .= " selected";
+        $ret .= ' selected';
     } elseif ($categoryObj->categoryid() == $selectedid) {
-        $ret .= " selected";
+        $ret .= ' selected';
     }
     $ret .= '>' . $spaces . $categoryObj->name() . "</option>\n";
 
@@ -604,7 +604,7 @@ function publisherCreateCategorySelect($selectedid = 0, $parentcategory = 0, $al
     if ($allCatOption) {
         $ret .= "<option value='0'";
         if (in_array(0, $selectedid)) {
-            $ret .= " selected";
+            $ret .= ' selected';
         }
         $ret .= '>' . _MB_PUBLISHER_ALLCAT . '</option>';
     }

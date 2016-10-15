@@ -208,7 +208,7 @@ class PublisherItem extends XoopsObject
         if (file_exists($page)) {
             // this page uses smarty template
             ob_start();
-            include($page);
+            include $page;
             $content = ob_get_contents();
             ob_end_clean();
             // Cleaning the content
@@ -457,16 +457,16 @@ class PublisherItem extends XoopsObject
         // PDF button
         if ($this->publisher->getConfig('display_pdf')) {
             if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-                if (is_object($GLOBALS['xoopsUser']) && publisherUserIsAdmin()) {
-                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
-                    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
-                    $adminLinks .= '<script type="text/javascript">
-                    (function($){
-                        $(document).ready(function(){
-                            $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
-                        })(jQuery);
-                        </script>';
-                }
+//                if (is_object($GLOBALS['xoopsUser']) && publisherUserIsAdmin()) {
+//                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
+//                    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
+//                    $adminLinks .= '<script type="text/javascript">
+//                    (function($){
+//                        $(document).ready(function(){
+//                            $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
+//                        })(jQuery);
+//                        </script>';
+//                }
             } else {
                 $adminLinks .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "' /></a>";
                 $adminLinks .= ' ';
@@ -1021,7 +1021,7 @@ class PublisherItem extends XoopsObject
         //mb TODO check on version
         //check if date is set and convert it to GMT date
         //        if (($datesub = XoopsRequest::getString('datesub', '', 'POST'))) {
-        if (('' !== XoopsRequest::getString('datesub', '', 'POST'))) {
+        if ('' !== XoopsRequest::getString('datesub', '', 'POST')) {
             //            if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
             //                $this->setVar('datesub', strtotime(XoopsRequest::getArray('datesub', array(), 'POST')['date']) + XoopsRequest::getArray('datesub', array(), 'POST')['time']);
             //            } else {

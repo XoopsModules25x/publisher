@@ -101,11 +101,11 @@ class PublisherSession
      */
     public static function getInstance()
     {
-        static $_sess;
-        if (!isset($_sess)) {
-            $_sess = new PublisherSession();
+        static $instance;
+        if (null === $instance) {
+            $instance = new static();
         }
 
-        return $_sess;
+        return $instance;
     }
 }

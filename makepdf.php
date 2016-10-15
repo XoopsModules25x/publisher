@@ -19,7 +19,7 @@ if ($itemid == 0) {
 //}
 
 //2.5.8
-require_once(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php');
+require_once XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php';
 //if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
 //    redirect_header('javascript:history.go(-1)', 3, _MD_PUBLISHER_ERROR_NO_PDF);
 //}
@@ -53,7 +53,7 @@ if ($mainImage['image_path'] != '') {
 $content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" style="text-decoration: none; color: black; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '">' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '</a>';
 $content .= '<br><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">' . _CO_PUBLISHER_CATEGORY . ' : </span><a href="' . PUBLISHER_URL . '/category.php?categoryid=' . $itemObj->categoryid() . '" style="color: #CCCCCC; font-weight: bold; font-size: 80%;" title="' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '">' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '</a>';
 $content .= '<br><span style="font-size: 80%; font-style: italic;">' . $sender_inform . '</span><br>';
-$content .= $itemObj->plainMaintext();
+$content .= $itemObj->getBody();
 
 // Configuration for TCPDF_for_XOOPS
 $pdf_data = array(

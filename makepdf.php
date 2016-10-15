@@ -54,6 +54,7 @@ $content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" sty
 $content .= '<br><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">' . _CO_PUBLISHER_CATEGORY . ' : </span><a href="' . PUBLISHER_URL . '/category.php?categoryid=' . $itemObj->categoryid() . '" style="color: #CCCCCC; font-weight: bold; font-size: 80%;" title="' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '">' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '</a>';
 $content .= '<br><span style="font-size: 80%; font-style: italic;">' . $sender_inform . '</span><br>';
 $content .= $itemObj->getBody();
+$content = str_replace('[pagebreak]','',$content);
 
 // Configuration for TCPDF_for_XOOPS
 $pdf_data = array(

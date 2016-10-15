@@ -23,6 +23,12 @@
 function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
 {
     global $xoopsDB;
+    //delete .html entries from the tpl table
+    $sql = 'DELETE FROM ' . $xoopsDB->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
+    $xoopsDB->queryF($sql);
+    $sql = 'DELETE FROM ' . $xoopsDB->prefix('newblocks') . " WHERE `dirname` = '" . $module->getVar('dirname', 'n') . "' AND `template` LIKE '%.html%'";
+    $xoopsDB->queryF($sql);
+
     if ($oldversion < 102) {
         // delete old html template files
         $templateDirectory = $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/templates/');
@@ -59,9 +65,6 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
             unlink($GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . $oldFiles[$i]));
         }
 
-        //delete .html entries from the tpl table
-        $sql = 'DELETE FROM ' . $xoopsDB->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
-        $xoopsDB->queryF($sql);
 
         // Load class XoopsFile
         xoops_load('XoopsFile');

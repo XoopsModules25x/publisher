@@ -1,7 +1,11 @@
-<h5>1.04 Beta 1       (NOT RELEASED)</h5>
+<h5>1.04 RC 1       (NOT RELEASED)</h5>
 - fix bug when date change by user is not allowed (cesagonchu/mamba)
-- fix case when TCPDF is not available (cesagonchu/mamba)
+- fix case when TCPDF is not available, incl. warning in Admin (cesagonchu/mamba)
 - fix for HTML in Category description (mage)
+- HTML5 syntax (geekwright/mamba)
+- TCPDF line breaks fix (smedrieben/geekwright)
+- removed JavaScript for PDF Icon (mamba)
+- onupdate remove all .html templates from DB (mamba)
 
 <h5>1.03 FINAL       (2015-07-10)</h5>
 - Fix preg_replace /e ( (cesagonchu/mamba)

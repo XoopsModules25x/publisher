@@ -1,4 +1,4 @@
-<div align="right"><{$catnavbar}></div>
+<div align="right"><{$navbar}></div>
 <table border="0" width="90%" cellspacing="1" cellpadding="0" align="center" class="outer">
     <tr>
         <td align="left" class="itemHead">
@@ -72,4 +72,4 @@
             </tr>
         <{/foreach}> <{/if}> <{/foreach}> <!-- End categories loop -->
 </table>
-<div align="right"><{$catnavbar}></div><!-- End sub categories loop -->
+<div align="right"><{$navbar}></div><!-- End sub categories loop -->

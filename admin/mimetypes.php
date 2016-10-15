@@ -142,15 +142,15 @@ class PublisherMimetypesUtilities
             echo "<tr valign='top'>
         <td class='head'>" . _AM_PUBLISHER_MIME_ADMINF . "</td>
         <td class='even'>";
-            echo "<input type='radio' name='mime_admin' value='1' " . ($mimeAdmin == 1 ? "checked" : '') . ' />' . _YES;
-            echo "<input type='radio' name='mime_admin' value='0' " . ($mimeAdmin == 0 ? "checked" : '') . ' />' . _NO . '
+            echo "<input type='radio' name='mime_admin' value='1' " . ($mimeAdmin == 1 ? 'checked' : '') . ' />' . _YES;
+            echo "<input type='radio' name='mime_admin' value='0' " . ($mimeAdmin == 0 ? 'checked' : '') . ' />' . _NO . '
         </td>
         </tr>';
             echo "<tr valign='top'>
         <td class='head'>" . _AM_PUBLISHER_MIME_USERF . "</td>
         <td class='even'>";
-            echo "<input type='radio' name='mime_user' value='1'" . ($mimeUser == 1 ? "checked" : '') . ' />' . _YES;
-            echo "<input type='radio' name='mime_user' value='0'" . ($mimeUser == 0 ? "checked" : '') . '/>' . _NO . '
+            echo "<input type='radio' name='mime_user' value='1'" . ($mimeUser == 1 ? 'checked' : '') . ' />' . _YES;
+            echo "<input type='radio' name='mime_user' value='0'" . ($mimeUser == 0 ? 'checked' : '') . '/>' . _NO . '
         </td>
         </tr>';
             echo "<tr valign='top'>
@@ -313,15 +313,15 @@ class PublisherMimetypesUtilities
             echo "<tr valign='top'>
         <td class='head'>" . _AM_PUBLISHER_MIME_ADMINF . "</td>
         <td class='even'>
-        <input type='radio' name='mime_admin' value='1' " . ($mimeAdmin == 1 ? "checked" : '') . ' />' . _YES . "
-        <input type='radio' name='mime_admin' value='0' " . ($mimeAdmin == 0 ? "checked" : '') . ' />' . _NO . '
+        <input type='radio' name='mime_admin' value='1' " . ($mimeAdmin == 1 ? 'checked' : '') . ' />' . _YES . "
+        <input type='radio' name='mime_admin' value='0' " . ($mimeAdmin == 0 ? 'checked' : '') . ' />' . _NO . '
         </td>
         </tr>';
             echo "<tr valign='top'>
         <td class='head'>" . _AM_PUBLISHER_MIME_USERF . "</td>
         <td class='even'>
-        <input type='radio' name='mime_user' value='1' " . ($mimeUser == 1 ? "checked" : '') . ' />' . _YES . "
-        <input type='radio' name='mime_user' value='0' " . ($mimeUser == 0 ? "checked" : '') . ' />' . _NO . '
+        <input type='radio' name='mime_user' value='1' " . ($mimeUser == 1 ? 'checked' : '') . ' />' . _YES . "
+        <input type='radio' name='mime_user' value='0' " . ($mimeUser == 0 ? 'checked' : '') . ' />' . _NO . '
         </td>
         </tr>';
             echo "<tr valign='top'>
@@ -440,7 +440,7 @@ class PublisherMimetypesUtilities
         echo "<td align='right'>" . _AM_PUBLISHER_TEXT_SEARCH_BY . '</td>';
         echo "<td align='left'><select name='search_by'>";
         foreach ($aSearchBy as $value => $text) {
-            ($sort == $value) ? $selected = "selected" : $selected = '';
+            ($sort == $value) ? $selected = 'selected' : $selected = '';
             echo "<option value='$value' $selected>$text</option>";
         }
         unset($value, $text);
@@ -456,7 +456,7 @@ class PublisherMimetypesUtilities
         echo "<tr><td align='right'>" . _AM_PUBLISHER_TEXT_SORT_BY . "
     <select name='sort'>";
         foreach ($aSortBy as $value => $text) {
-            ($sort == $value) ? $selected = "selected" : $selected = '';
+            ($sort == $value) ? $selected = 'selected' : $selected = '';
             echo "<option value='$value' $selected>$text</option>";
         }
         unset($value, $text);
@@ -465,7 +465,7 @@ class PublisherMimetypesUtilities
     ' . _AM_PUBLISHER_TEXT_ORDER_BY . "
     <select name='order'>";
         foreach ($aOrderBy as $value => $text) {
-            ($order == $value) ? $selected = "selected" : $selected = '';
+            ($order == $value) ? $selected = 'selected' : $selected = '';
             echo "<option value='$value' $selected>$text</option>";
         }
         unset($value, $text);
@@ -474,7 +474,7 @@ class PublisherMimetypesUtilities
     ' . _AM_PUBLISHER_TEXT_NUMBER_PER_PAGE . "
     <select name='limit'>";
         foreach ($aLimitBy as $value => $text) {
-            ($limit == $value) ? $selected = "selected" : $selected = '';
+            ($limit == $value) ? $selected = 'selected' : $selected = '';
             echo "<option value='$value' $selected>$text</option>";
         }
         unset($value, $text);
@@ -611,7 +611,7 @@ class PublisherMimetypesUtilities
             echo "<td align='right'>" . _AM_PUBLISHER_TEXT_SEARCH_BY . '</td>';
             echo "<td align='left'><select name='search_by'>";
             foreach ($aSearchBy as $value => $text) {
-                ($searchField == $value) ? $selected = "selected" : $selected = '';
+                ($searchField == $value) ? $selected = 'selected' : $selected = '';
                 echo "<option value='$value' $selected>$text</option>";
             }
             unset($value, $text);
@@ -627,7 +627,7 @@ class PublisherMimetypesUtilities
             echo "<tr><td align='right'>" . _AM_PUBLISHER_TEXT_SORT_BY . "
         <select name='sort'>";
             foreach ($aSortBy as $value => $text) {
-                ($sort == $value) ? $selected = "selected" : $selected = '';
+                ($sort == $value) ? $selected = 'selected' : $selected = '';
                 echo "<option value='$value' $selected>$text</option>";
             }
             unset($value, $text);
@@ -636,7 +636,7 @@ class PublisherMimetypesUtilities
         ' . _AM_PUBLISHER_TEXT_ORDER_BY . "
         <select name='order'>";
             foreach ($aOrderBy as $value => $text) {
-                ($order == $value) ? $selected = "selected" : $selected = '';
+                ($order == $value) ? $selected = 'selected' : $selected = '';
                 echo "<option value='$value' $selected>$text</option>";
             }
             unset($value, $text);
@@ -645,7 +645,7 @@ class PublisherMimetypesUtilities
         ' . _AM_PUBLISHER_TEXT_NUMBER_PER_PAGE . "
         <select name='limit'>";
             foreach ($aLimitBy as $value => $text) {
-                ($limit == $value) ? $selected = "selected" : $selected = '';
+                ($limit == $value) ? $selected = 'selected' : $selected = '';
                 echo "<option value='$value' $selected>$text</option>";
             }
             unset($value, $text);

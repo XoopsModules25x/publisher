@@ -13,16 +13,8 @@ if ($itemid == 0) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
-//2.5.7
-//if (!is_file(XOOPS_PATH . '/vendor/tcpdf/tcpdf.php')) {
-//    redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['xoopsModule']->getVar('dirname') . '/viewtopic.php?topic_id=' . $itemid, 3, 'TCPF for Xoops not installed in ./xoops_lib/vendor/');
-//}
-
 //2.5.8
 require_once XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php';
-//if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-//    redirect_header('javascript:history.go(-1)', 3, _MD_PUBLISHER_ERROR_NO_PDF);
-//}
 
 // Creating the item object for the selected item
 $itemObj = $publisher->getHandler('item')->get($itemid);
@@ -99,10 +91,6 @@ $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 
 $pdf->setHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
-
-//2.5.7
-//$pdf->setHeaderFont(array(PDF_FONT_NAME_SUB, '', PDF_FONT_SIZE_SUB));
-//$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
 //2.5.8
 $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));

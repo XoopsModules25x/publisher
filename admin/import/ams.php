@@ -78,7 +78,7 @@ if ($op === 'start') {
                 $imageCategoryHandler->insert($imagecategory);
                 // exit();
             } catch (Exception $e) {
-                echo 'Caught exception: couldn not insert Image Category' . $e->getMessage() . 'n';
+                echo 'Caught exception: could not insert Image Category' . $e->getMessage() . 'n';
             }
 
             $newid                    = $imagecategory->getVar('imgcat_id');

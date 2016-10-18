@@ -3,7 +3,7 @@
 - changed min_db to 5.5 (mamba)
 - changed "emptyString" function in metagen.php to static to allow a callback from a static "generateSeoTitle" (mamba)
 - replaced "preg_replace" with "str_replace" in metagen.php (mamba)
-- update import from News 1.71 (mamba)
+- updated import from News 1.71 (mamba)
 
 <h5>1.04 RC 1       (NOT RELEASED)</h5>
 - fix bug when date change by user is not allowed (cesagonchu/mamba)

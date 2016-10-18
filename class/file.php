@@ -355,7 +355,6 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
      */
     public function getAllFiles($itemid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = array())
     {
-        global $xoopsDB;
         $files = array();
 
         $this->table_link = $this->db->prefix('publisher_items');

@@ -311,7 +311,6 @@ class PublisherMetagen
             "/\./" // .
         );
         $repPat  = array('-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-');
-//        $title   = preg_replace($pattern, $repPat, $title);
         $title   = str_replace($pattern, $repPat, $title);
         // Transformation des caractères accentués
         $pattern = array(
@@ -333,7 +332,6 @@ class PublisherMetagen
             '/%F6/', // ö
         );
         $repPat  = array('-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o');
-//        $title   = preg_replace($pattern, $repPat, $title);
         $title   = str_replace($pattern, $repPat, $title);
         $tableau = explode('-', $title); // Transforms the string in table //Transforme la chaine de caractères en tableau
         $tableau = array_filter($tableau, array('PublisherMetagen', 'emptyString')); // Remove empty strings of the table //Supprime les chaines vides du tableau

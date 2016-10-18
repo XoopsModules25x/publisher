@@ -22,6 +22,9 @@ engines:
     config:
       file_extensions: "php,inc,lib"
       standard: "PSR1,PSR2"
+    checks:
+      Generic Files LineLength TooLong:
+        enabled: false
 ratings:
   paths:
   - "**.inc"

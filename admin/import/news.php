@@ -35,7 +35,7 @@ if ($op === 'start') {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     publisherOpenCollapsableBar('newsimport', 'newsimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
-    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('topics'));
+    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('news_topics'));
     list($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
 
     if ($totalCat == 0) {
@@ -43,7 +43,7 @@ if ($op === 'start') {
     } else {
         include_once $GLOBALS['xoops']->path('class/xoopstree.php');
 
-        $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('stories'));
+        $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('news_stories'));
         list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
 
         if ($totalArticles == 0) {
@@ -53,11 +53,11 @@ if ($op === 'start') {
             echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat)
                  . '</span>';
 
-            $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . '/import/$scriptname');
+            $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/{$scriptname}");
 
             // Categories to be imported
             $sql =
-                'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('stories')
+                'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('news_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('news_stories')
                 . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
             $result           = $GLOBALS['xoopsDB']->query($sql);
@@ -111,7 +111,7 @@ if ($op === 'go') {
 
     $parentId = XoopsRequest::getInt('parent_category', 0, 'POST');
 
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('topics');
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('news_topics');
 
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
@@ -147,9 +147,9 @@ if ($op === 'go') {
         $newCat['newid'] = $categoryObj->categoryid();
         ++$cnt_imported_cat;
 
-        echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . '<br\>';
+        echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . '<br>';
 
-        $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('stories') . ' WHERE topicid=' . $arrCat['topic_id'];
+        $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('news_stories') . ' WHERE topicid=' . $arrCat['topic_id'];
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
@@ -170,6 +170,9 @@ if ($op === 'go') {
             $itemObj->setVar('rating', $arrArticle['rating']);
             $itemObj->setVar('votes', $arrArticle['votes']);
             $itemObj->setVar('comments', $arrArticle['comments']);
+
+//            $itemObj->setVar('header', ''); //mb
+
             $itemObj->setVar('meta_keywords', $arrArticle['keywords']);
             $itemObj->setVar('meta_description', $arrArticle['description']);
 
@@ -235,7 +238,7 @@ if ($op === 'go') {
         echo '<br>';
     }
 
-    // Looping through cat to change the parentid to the new parentid
+    // Looping through category to change the parentid to the new parentid
     foreach ($newCatArray as $oldid => $newCat) {
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('categoryid', $newCat['newid']));

@@ -30,8 +30,8 @@ $xoops_url     = parse_url(XOOPS_URL);
 $modversion = array(
     'name'                => _MI_PUBLISHER_MD_NAME,
     'version'             => '1.04',
-    'module_status'       => 'RC 1',
-    'release_date'        => '2016/10/12',
+    'module_status'       => 'RC 2',
+    'release_date'        => '2016/10/17',
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
     'credits'             => 'w4z004, hsalazar, Mithrandir, fx2024, Ackbarr, Mariuss, Marco, Michiel, phppp, outch, Xvitry, Catzwolf, Shine, McDonald, trabis, Mowaffak, Bandit-x, Shiva',
@@ -61,7 +61,7 @@ $modversion = array(
     'min_php'             => '5.5',
     'min_xoops'           => '2.5.8',
     'min_admin'           => '1.1',
-    'min_db'              => array('mysql' => '5.0.7', 'mysqli' => '5.0.7'),
+    'min_db'              => array('mysql' => '5.5'),
     // ------------------- Admin Menu -------------------
     'hasAdmin'            => 1,
     'system_menu'         => 1,

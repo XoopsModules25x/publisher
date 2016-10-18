@@ -255,10 +255,10 @@ class PublisherMetagen
      * Return true if the string is length > 0
      *
      * @credit psylove
-     * @var    string  $string Chaine de caractère
+     * @var    string $string Chaine de caractère
      * @return boolean
      */
-    public function emptyString($var)
+    public static function emptyString($var)
     {
         return (strlen($var) > 0);
     }
@@ -311,7 +311,8 @@ class PublisherMetagen
             "/\./" // .
         );
         $repPat  = array('-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-');
-        $title   = preg_replace($pattern, $repPat, $title);
+//        $title   = preg_replace($pattern, $repPat, $title);
+        $title   = str_replace($pattern, $repPat, $title);
         // Transformation des caractères accentués
         $pattern = array(
             '/%B0/', // °
@@ -332,10 +333,11 @@ class PublisherMetagen
             '/%F6/', // ö
         );
         $repPat  = array('-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o');
-        $title   = preg_replace($pattern, $repPat, $title);
-        $tableau = explode('-', $title); // Transforme la chaine de caractères en tableau
-        $tableau = array_filter($tableau, array('PublisherMetagen', 'emptyString')); // Supprime les chaines vides du tableau
-        $title   = implode('-', $tableau); // Transforme un tableau en chaine de caractères séparé par un tiret
+//        $title   = preg_replace($pattern, $repPat, $title);
+        $title   = str_replace($pattern, $repPat, $title);
+        $tableau = explode('-', $title); // Transforms the string in table //Transforme la chaine de caractères en tableau
+        $tableau = array_filter($tableau, array('PublisherMetagen', 'emptyString')); // Remove empty strings of the table //Supprime les chaines vides du tableau
+        $title   = implode('-', $tableau); // Transforms a character string in table separated by a hyphen //Transforme un tableau en chaine de caractères séparé par un tiret
         if (count($title) > 0) {
             if ($withExt) {
                 $title .= '.html';

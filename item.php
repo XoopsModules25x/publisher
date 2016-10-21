@@ -260,3 +260,9 @@ if ($publisher->getConfig('perm_rating')) {
 
 $xoopsTpl->assign('item', $item);
 include_once $GLOBALS['xoops']->path('footer.php');
+?>
+<script type="text/javascript">
+             $(document).ready(function() {
+                 $("img").addClass("img-responsive");
+             });
+</script>

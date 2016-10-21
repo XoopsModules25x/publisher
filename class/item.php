@@ -285,11 +285,9 @@ class PublisherItem extends XoopsObject
      */
     public function getDatesub($dateFormat = '', $format = 'S')
     {
-        if (empty($dateformat)) {
+        if (empty($dateFormat)) {
             $dateFormat = $this->publisher->getConfig('format_date');
         }
-        //mb        xoops_load('XoopsLocal');
-        //mb        return XoopsLocal::formatTimestamp($this->getVar('datesub', $format), $dateFormat);
         return formatTimestamp($this->getVar('datesub', $format), $dateFormat);
     }
 

@@ -1,3 +1,8 @@
+<h5>1.04 FINAL       (2015-10-19)</h5>
+- using XoopsLocal::number_format for rating in author_items.php (mamba)
+- added _SHORTDATESTRING to use for date formatting in author_items.php (mamba)
+- added "img-responsive" to all images in index.php and item.php for Bootstrap (mamba) (it's a temporary fix)
+
 <h5>1.04 RC 2       (NOT RELEASED)</h5>
 - change TEXT fields to allow NULL, needed for import in "strict" mode (mamba)
 - changed min_db to 5.5 (mamba)

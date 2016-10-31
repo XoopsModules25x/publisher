@@ -57,9 +57,8 @@ $xoopsTpl->assign('permRating', $publisher->getConfig('perm_rating'));
 xoops_load('XoopsUserUtility');
 $author_name = XoopsUserUtility::getUnameFromId($uid, $publisher->getConfig('format_realname'), true);
 $xoopsTpl->assign('author_name_with_link', $author_name);
-
 $xoopsTpl->assign('user_avatarurl', XOOPS_URL . '/uploads/' . $thisuser->getVar('user_avatar'));
-
+$xoopsLocal = new XoopsLocal();
 $categories = array();
 if ($count > 0) {
     foreach ($items as $item) {
@@ -80,7 +79,7 @@ if ($count > 0) {
             'hits'      => $item->counter(),
             'link'      => $item->getItemLink(),
             'published' => $item->getDatesub(_SHORTDATESTRING),
-            'rating'    => XoopsLocal::number_format((float)$item->rating())
+            'rating'    => $xoopsLocal->number_format((float)$item->rating())
         );
     }
 }

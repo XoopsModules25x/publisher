@@ -1,3 +1,8 @@
+<h5>1.05 Beta 1       (NOT RELEASED)</h5>
+- changed static call to XoopsLocal::number_format to dynamic (mamba)
+- added bold to column headers in publisher_author_items.tpl (mamba)
+- fixed cloning of module image (masel/mamba)
+
 <h5>1.04 FINAL       (2015-10-21)</h5>
 - added XoopsLocal::number_format for rating in author_items.php (mamba)
 - added _SHORTDATESTRING to use for date formatting in author_items.php (mamba)

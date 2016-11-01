@@ -53,9 +53,9 @@ if (!isset($totalItems[$categoryid]) || $totalItems[$categoryid] == 0) {
 }
 
 // Added by skalpa: custom template support
-$xoopsOption['template_main'] = $categoryObj->template();
+$GLOBALS['xoopsOption']['template_main'] = $categoryObj->template();
 if (empty($xoopsOption['template_main'])) {
-    $xoopsOption['template_main'] = 'publisher_display' . '_' . $publisher->getConfig('idxcat_items_display_type') . '.tpl';
+    $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $publisher->getConfig('idxcat_items_display_type') . '.tpl';
 }
 
 include_once $GLOBALS['xoops']->path('header.php');

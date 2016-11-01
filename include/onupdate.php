@@ -29,7 +29,7 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
     $sql = 'DELETE FROM ' . $xoopsDB->prefix('newblocks') . " WHERE `dirname` = '" . $module->getVar('dirname', 'n') . "' AND `template` LIKE '%.html%'";
     $xoopsDB->queryF($sql);
 
-    if ($oldversion < 102) {
+    if ($oldversion < 105) {
         // delete old html template files
         $templateDirectory = $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/templates/');
         $templateList      = array_diff(scandir($templateDirectory), array('..', '.'));

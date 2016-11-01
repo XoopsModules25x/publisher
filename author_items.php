@@ -40,7 +40,7 @@ if (!$publisher->getConfig('perm_author_items')) {
 
 $myts = MyTextSanitizer::getInstance();
 
-$xoopsOption['template_main'] = 'publisher_author_items.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'publisher_author_items.tpl';
 include_once $GLOBALS['xoops']->path('header.php');
 include_once PUBLISHER_ROOT_PATH . '/footer.php';
 

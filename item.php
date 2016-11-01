@@ -38,7 +38,7 @@ if (!$itemObj) {
     //    exit();
 }
 
-$xoopsOption['template_main'] = 'publisher_item.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl';
 include_once $GLOBALS['xoops']->path('header.php');
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');

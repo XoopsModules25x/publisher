@@ -143,7 +143,7 @@ switch ($op) {
         // Putting the values about the ITEM in the ITEM object
         $itemObj->setVarsFromRequest();
 
-        $xoopsOption['template_main'] = 'publisher_submit.tpl';
+        $GLOBALS['xoopsOption']['template_main'] = 'publisher_submit.tpl';
         include_once $GLOBALS['xoops']->path('header.php');
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
         $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
@@ -234,7 +234,7 @@ switch ($op) {
 
     case 'add':
     default:
-        $xoopsOption['template_main'] = 'publisher_submit.tpl';
+        $GLOBALS['xoopsOption']['template_main'] = 'publisher_submit.tpl';
         include_once $GLOBALS['xoops']->path('header.php');
         $GLOBALS['xoTheme']->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
         $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/publisher.js');

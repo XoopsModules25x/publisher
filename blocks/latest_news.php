@@ -42,7 +42,7 @@ function publisher_latest_news_show($options)
     $letters         = $options[3];
     $selectedStories = $options[4];
     $sort            = $options[9];
-    $order           = publisherGetOrderBy($sort);
+    $order           = PublisherUtilities::getOrderBy($sort);
     $imgWidth        = $options[11];
     $imgHeight       = $options[12];
     $border          = $options[13];
@@ -213,7 +213,7 @@ function publisher_latest_news_show($options)
         if ($options[26] == 1 && xoops_isActiveModule('tellafriend')) {
             $subject  = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
             $subject  = $itemObj->convertForJapanese($subject);
-            $maillink = publisherTellAFriend($subject);
+            $maillink = PublisherUtilities::tellAFriend($subject);
 
             $item['email'] =
                 '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '" /></a>&nbsp;';
@@ -398,7 +398,7 @@ function publisher_latest_news_edit($options)
     //Select Which Categories To Show
     $form .= $tabletag3 . _MB_PUBLISHER_TOPICSCONFIG . $tabletag4; // Topics Options
     $form .= $tabletag1 . _MB_PUBLISHER_TOPICSDISPLAY . $tabletag2;
-    $form .= publisherCreateCategorySelect($options[29], 0, true, 'options[29]');
+    $form .= PublisherUtilities::createCategorySelect($options[29], 0, true, 'options[29]');
     $form .= '</td></tr>';
 
     $form .= '</table>';

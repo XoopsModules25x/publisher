@@ -19,9 +19,9 @@
 
 include_once __DIR__ . '/admin_header.php';
 
-publisherCpHeader();
+PublisherUtilities::cpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_CLONE);
-publisherOpenCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
+PublisherUtilities::openCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
 
 if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -76,7 +76,7 @@ if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
 }
 
 // End of collapsable bar
-publisherCloseCollapsableBar('clone', 'cloneicon');
+PublisherUtilities::closeCollapsableBar('clone', 'cloneicon');
 
 include_once __DIR__ . '/admin_footer.php';
 

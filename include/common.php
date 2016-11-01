@@ -33,7 +33,7 @@ define('PUBLISHER_AUTHOR_LOGOIMG', PUBLISHER_URL . '/assets/images/logo.png');
 define('PUBLISHER_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
 define('PUBLISHER_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
 
-include_once PUBLISHER_ROOT_PATH . '/include/functions.php';
+//include_once PUBLISHER_ROOT_PATH . '/include/functions.php';
 //include_once PUBLISHER_ROOT_PATH . '/include/constants.php';
 include_once PUBLISHER_ROOT_PATH . '/include/seo_functions.php';
 include_once PUBLISHER_ROOT_PATH . '/class/metagen.php';
@@ -61,7 +61,7 @@ global $publisherIsAdmin;
 // Load only if module is installed
 if (is_object($publisher->getModule())) {
     // Find if the user is admin of the module
-    $publisherIsAdmin = publisherUserIsAdmin();
+    $publisherIsAdmin = PublisherUtilities::userIsAdmin();
     // get current page
-    $publisherCurrentPage = publisherGetCurrentPage();
+    $publisherCurrentPage = PublisherUtilities::getCurrentPage();
 }

@@ -60,7 +60,7 @@ $pdf_data = array(
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
-$doc_title  = publisherConvertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
+$doc_title  = PublisherUtilities::convertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
 $docSubject = $myts->undoHtmlSpecialChars($categoryObj->name());
 
 $docKeywords = $myts->undoHtmlSpecialChars($itemObj->meta_keywords());
@@ -75,8 +75,8 @@ $pdf->SetSubject($docSubject);
 //$pdf->SetKeywords(XOOPS_URL . ', '.' by TCPDF_for_XOOPS (chg-web.org), '.$doc_title);
 $pdf->SetKeywords($docKeywords);
 
-$firstLine  = publisherConvertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
-$secondLine = publisherConvertCharset($GLOBALS['xoopsConfig']['slogan']);
+$firstLine  = PublisherUtilities::convertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
+$secondLine = PublisherUtilities::convertCharset($GLOBALS['xoopsConfig']['slogan']);
 
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
 $pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine, array(0, 64, 255), array(0, 64, 128));

@@ -101,9 +101,9 @@ if ($error === false) {
     }
 }
 
-$arr = array('success', $image->getVar('image_name'), publisherConvertCharset($image->getVar('image_nicename')));
+$arr = array('success', $image->getVar('image_name'), PublisherUtilities::convertCharset($image->getVar('image_nicename')));
 if ($error) {
-    $arr = array('error', publisherConvertCharset($error));
+    $arr = array('error', PublisherUtilities::convertCharset($error));
 }
 
 echo json_encode($arr);

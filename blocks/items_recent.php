@@ -43,7 +43,7 @@ function publisher_items_recent_show($options)
     }
 
     $sort  = $options[1];
-    $order = publisherGetOrderBy($sort);
+    $order = PublisherUtilities::getOrderBy($sort);
     $limit = $options[2];
     $start = 0;
 
@@ -56,7 +56,7 @@ function publisher_items_recent_show($options)
     }
     $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'none');
 
-    $totalItems = count($itemsObj);    
+    $totalItems = count($itemsObj);
 
     if ($itemsObj && $totalItems > 0) {
         for ($i = 0; $i < $totalItems; ++$i) {
@@ -95,7 +95,7 @@ function publisher_items_recent_edit($options)
 
     $form = new PublisherBlockForm();
 
-    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisherCreateCategorySelect($options[0], 0, true, 'options[0]'));
+    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, PublisherUtilities::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray(array(
                                   'datesub' => _MB_PUBLISHER_DATE,

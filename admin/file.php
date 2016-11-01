@@ -45,14 +45,14 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
         echo "<br>\n";
         echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_EDITING . '</span>';
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_PUBLISHER_FILE_EDITING_DSC . '</span>';
-        publisherOpenCollapsableBar('editfile', 'editfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
+        PublisherUtilities::openCollapsableBar('editfile', 'editfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
     } else {
         // there's no parameter, so we're adding an item
         $fileObj = $publisher->getHandler('file')->create();
         $fileObj->setVar('itemid', $itemid);
         echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_ADDING . '</span>';
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_PUBLISHER_FILE_ADDING_DSC . '</span>';
-        publisherOpenCollapsableBar('addfile', 'addfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
+        PublisherUtilities::openCollapsableBar('addfile', 'addfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
     }
 
     // FILES UPLOAD FORM
@@ -60,9 +60,9 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
     $uploadForm->display();
 
     if ($fileid != 0) {
-        publisherCloseCollapsableBar('editfile', 'editfileicon');
+        PublisherUtilities::closeCollapsableBar('editfile', 'editfileicon');
     } else {
-        publisherCloseCollapsableBar('addfile', 'addfileicon');
+        PublisherUtilities::closeCollapsableBar('addfile', 'addfileicon');
     }
 }
 
@@ -70,12 +70,12 @@ $false = false;
 /* -- Available operations -- */
 switch ($op) {
     case 'uploadfile':
-        publisherUploadFile(false, true, $false);
+        PublisherUtilities::uploadFile(false, true, $false);
         exit;
         break;
 
     case 'uploadanother':
-        publisherUploadFile(true, true, $false);
+        PublisherUtilities::uploadFile(true, true, $false);
         exit;
         break;
 
@@ -87,7 +87,7 @@ switch ($op) {
             //            exit();
         }
 
-        publisherCpHeader();
+        PublisherUtilities::cpHeader();
         include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
         publisher_editFile(true, $fileid, $itemid);
@@ -110,7 +110,7 @@ switch ($op) {
 
         // Storing the file
         if (!$fileObj->store()) {
-            redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 3, _AM_PUBLISHER_FILE_EDITING_ERROR . publisherFormatErrors($fileObj->getErrors()));
+            redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 3, _AM_PUBLISHER_FILE_EDITING_ERROR . PublisherUtilities::formatErrors($fileObj->getErrors()));
             //            exit;
         }
 
@@ -139,7 +139,7 @@ switch ($op) {
             // no confirm: show deletion condition
             $fileid = XoopsRequest::getInt('fileid', 0, 'GET');
 
-            publisherCpHeader();
+            PublisherUtilities::cpHeader();
             xoops_confirm(array('op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()), 'file.php',
                           _AM_PUBLISHER_DELETETHISFILE . ' <br>' . $fileObj->name() . ' <br> <br>', _AM_PUBLISHER_DELETE);
             xoops_cp_footer();
@@ -150,7 +150,7 @@ switch ($op) {
 
     case 'default':
     default:
-        publisherCpHeader();
+        PublisherUtilities::cpHeader();
         //publisher_adminMenu(2, _AM_PUBLISHER_ITEMS);
         break;
 }

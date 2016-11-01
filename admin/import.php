@@ -33,10 +33,10 @@ switch ($op) {
     default:
         $importfile = 'none';
 
-        publisherCpHeader();
+        PublisherUtilities::cpHeader();
         //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
 
-        publisherOpenCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
+        PublisherUtilities::openCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
 
         xoops_load('XoopsFormLoader');
 
@@ -171,7 +171,7 @@ switch ($op) {
 
         // End of collapsable bar
 
-        publisherCloseCollapsableBar('import', 'importicon');
+        PublisherUtilities::closeCollapsableBar('import', 'importicon');
 
         break;
 }

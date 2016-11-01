@@ -176,7 +176,7 @@ $filesObj     = $itemObj->getFiles();
 
 // check if user has permission to modify files
 $hasFilePermissions = true;
-if (!(publisherUserIsAdmin() || publisherUserIsModerator($itemObj))) {
+if (!(PublisherUtilities::userIsAdmin() || PublisherUtilities::userIsModerator($itemObj))) {
     $hasFilePermissions = false;
 }
 if (null !== $filesObj) {
@@ -218,7 +218,7 @@ $xoopsTpl->assign('mail_link',
 $xoopsTpl->assign('itemid', $itemObj->itemId());
 $xoopsTpl->assign('sectionname', $publisher->getModule()->getVar('name'));
 $xoopsTpl->assign('module_dirname', $publisher->getModule()->getVar('dirname'));
-$xoopsTpl->assign('module_home', publisherModuleHome($publisher->getConfig('format_linked_path')));
+$xoopsTpl->assign('module_home', PublisherUtilities::moduleHome($publisher->getConfig('format_linked_path')));
 $xoopsTpl->assign('categoryPath', $item['categoryPath'] . ' > ' . $item['title']);
 $xoopsTpl->assign('commentatarticlelevel', $publisher->getConfig('perm_com_art_level'));
 $xoopsTpl->assign('com_rule', $publisher->getConfig('com_rule'));
@@ -253,7 +253,7 @@ if (($publisher->getConfig('com_rule') <> 0) && (($itemObj->cancomment() == 1) |
 // Include support for AJAX rating
 if ($publisher->getConfig('perm_rating')) {
     $xoopsTpl->assign('rating_enabled', true);
-    $item['ratingbar'] = publisherRatingBar($itemId);
+    $item['ratingbar'] = PublisherUtilities::ratingBar($itemId);
     $xoTheme->addScript(PUBLISHER_URL . '/assets/js/behavior.js');
     $xoTheme->addScript(PUBLISHER_URL . '/assets/js/rating.js');
 }

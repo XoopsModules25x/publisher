@@ -95,10 +95,10 @@ class PublisherMimetypesUtilities
         global $limit, $start;
         $error = array();
         if (!XoopsRequest::getString('add_mime', '', 'POST')) {
-            publisherCpHeader();
+            PublisherUtilities::cpHeader();
             //publisher_adminMenu(4, _AM_PUBLISHER_MIMETYPES);
 
-            publisherOpenCollapsableBar('mimemaddtable', 'mimeaddicon', _AM_PUBLISHER_MIME_ADD_TITLE);
+            PublisherUtilities::openCollapsableBar('mimemaddtable', 'mimeaddicon', _AM_PUBLISHER_MIME_ADD_TITLE);
 
             $session    = PublisherSession::getInstance();
             $mimeType   = $session->get('publisher_addMime');
@@ -106,7 +106,7 @@ class PublisherMimetypesUtilities
 
             //Display any form errors
             if (!$mimeErrors === false) {
-                publisherRenderErrors($mimeErrors, publisherMakeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'clearAddSession')));
+                PublisherUtilities::renderErrors($mimeErrors, PublisherUtilities::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'clearAddSession')));
             }
 
             if ($mimeType === false) {
@@ -174,7 +174,7 @@ class PublisherMimetypesUtilities
 
             echo '</table></form>';
 
-            publisherCloseCollapsableBar('mimeaddtable', 'mimeaddicon');
+            PublisherUtilities::closeCollapsableBar('mimeaddtable', 'mimeaddicon');
 
             xoops_cp_footer();
         } else {
@@ -211,7 +211,7 @@ class PublisherMimetypesUtilities
                 $mime['mime_user']  = $mimeUser;
                 $session->set('publisher_addMime', $mime);
                 $session->set('publisher_addMimeErr', $error);
-                header('Location: ' . publisherMakeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'add'), false));
+                header('Location: ' . PublisherUtilities::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'add'), false));
             }
 
             $mimeType = $publisher->getHandler('mimetype')->create();
@@ -268,14 +268,14 @@ class PublisherMimetypesUtilities
             $mimeErrors = $session->get('publisher_editMimeErr_' . $mimeId);
 
             // Display header
-            publisherCpHeader();
+            PublisherUtilities::cpHeader();
             //publisher_adminMenu(4, _AM_PUBLISHER_MIMETYPES . " > " . _AM_PUBLISHER_BUTTON_EDIT);
 
-            publisherOpenCollapsableBar('mimemedittable', 'mimeediticon', _AM_PUBLISHER_MIME_EDIT_TITLE);
+            PublisherUtilities::openCollapsableBar('mimemedittable', 'mimeediticon', _AM_PUBLISHER_MIME_EDIT_TITLE);
 
             //Display any form errors
             if (!$mimeErrors === false) {
-                publisherRenderErrors($mimeErrors, publisherMakeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'clearEditSession', 'id' => $mimeId)));
+                PublisherUtilities::renderErrors($mimeErrors, PublisherUtilities::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'clearEditSession', 'id' => $mimeId)));
             }
 
             if ($mimeType === false) {
@@ -333,7 +333,7 @@ class PublisherMimetypesUtilities
         </tr>";
             echo '</table></form>';
             // end of edit form
-            publisherCloseCollapsableBar('mimeedittable', 'mimeediticon');
+            PublisherUtilities::closeCollapsableBar('mimeedittable', 'mimeediticon');
             //            xoops_cp_footer();
             include_once __DIR__ . '/admin_footer.php';
         } else {
@@ -372,7 +372,7 @@ class PublisherMimetypesUtilities
                 $mime['mime_user']  = $mimeUser;
                 $session->set('publisher_editMime_' . $mimeId, $mime);
                 $session->set('publisher_editMimeErr_' . $mimeId, $error);
-                header('Location: ' . publisherMakeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'edit', 'id' => $mimeId), false));
+                header('Location: ' . PublisherUtilities::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'edit', 'id' => $mimeId), false));
             }
 
             $mimeTypeObj->setVar('mime_ext', XoopsRequest::getString('mime_ext', '', 'POST'));
@@ -417,9 +417,9 @@ class PublisherMimetypesUtilities
             //        exit();
         }
 
-        publisherCpHeader();
+        PublisherUtilities::cpHeader();
         ////publisher_adminMenu(4, _AM_PUBLISHER_MIMETYPES);
-        publisherOpenCollapsableBar('mimemanagetable', 'mimemanageicon', _AM_PUBLISHER_MIME_MANAGE_TITLE, _AM_PUBLISHER_MIME_INFOTEXT);
+        PublisherUtilities::openCollapsableBar('mimemanagetable', 'mimemanageicon', _AM_PUBLISHER_MIME_MANAGE_TITLE, _AM_PUBLISHER_MIME_INFOTEXT);
         $crit  = new CriteriaCompo();
         $order = XoopsRequest::getString('order', 'ASC', 'POST');
         $sort  = XoopsRequest::getString('sort', 'mime_ext', 'POST');
@@ -526,7 +526,7 @@ class PublisherMimetypesUtilities
         echo '</table>';
         echo "<div id='staff_nav'>" . $nav->renderNav() . '</div><br>';
 
-        publisherCloseCollapsableBar('mimemanagetable', 'mimemanageicon');
+        PublisherUtilities::closeCollapsableBar('mimemanagetable', 'mimemanageicon');
 
         //        xoops_cp_footer();
         include_once __DIR__ . '/admin_footer.php';
@@ -557,10 +557,10 @@ class PublisherMimetypesUtilities
         $order = XoopsRequest::getString('order', 'ASC', 'POST');
         $sort  = XoopsRequest::getString('sort', 'mime_name', 'POST');
 
-        publisherCpHeader();
+        PublisherUtilities::cpHeader();
         //publisher_adminMenu(4, _AM_PUBLISHER_MIMETYPES . " > " . _AM_PUBLISHER_BUTTON_SEARCH);
 
-        publisherOpenCollapsableBar('mimemsearchtable', 'mimesearchicon', _AM_PUBLISHER_MIME_SEARCH);
+        PublisherUtilities::openCollapsableBar('mimemsearchtable', 'mimesearchicon', _AM_PUBLISHER_MIME_SEARCH);
 
         if (!XoopsRequest::getString('mime_search', '', 'POST')) {
             echo "<form action='mimetypes.php?op=search' method='post'>";
@@ -707,7 +707,7 @@ class PublisherMimetypesUtilities
             echo '</table>';
             echo "<div id='pagenav'>" . $nav->renderNav() . '</div>';
         }
-        publisherCloseCollapsableBar('mimesearchtable', 'mimesearchicon');
+        PublisherUtilities::closeCollapsableBar('mimesearchtable', 'mimesearchicon');
         //        include_once __DIR__ . '/admin_footer.php';
         xoops_cp_footer();
     }
@@ -771,7 +771,7 @@ class PublisherMimetypesUtilities
     public static function clearAddSession()
     {
         self::clearAddSessionVars();
-        header('Location: ' . publisherMakeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'add'), false));
+        header('Location: ' . PublisherUtilities::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'add'), false));
     }
 
     /**
@@ -789,6 +789,6 @@ class PublisherMimetypesUtilities
     {
         $mimeid = XoopsRequest::getInt('id', '', 'GET');
         self::clearEditSessionVars($mimeid);
-        header('Location: ' . publisherMakeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'edit', 'id' => $mimeid), false));
+        header('Location: ' . PublisherUtilities::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', array('op' => 'edit', 'id' => $mimeid), false));
     }
 }

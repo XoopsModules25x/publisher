@@ -171,7 +171,7 @@ if ($op === 'showmod') {
         unset($ele, $hidden);
     }
 
-    publisherCpHeader();
+    PublisherUtilities::cpHeader();
     //publisher_adminMenu(5, _PREFERENCES);
     foreach ($config_cats as $formCat => $info) {
         if ($formCat === 'others' && !$cat_others_used) {
@@ -179,9 +179,9 @@ if ($op === 'showmod') {
         }
         $$formCat->addElement(new XoopsFormHidden('op', 'save'));
         $$formCat->addElement(new XoopsFormButton('', 'button', _GO, 'submit'));
-        publisherOpenCollapsableBar($formCat . '_table', $formCat . '_icon', $info['name'], $info['description']);
+        PublisherUtilities::openCollapsableBar($formCat . '_table', $formCat . '_icon', $info['name'], $info['description']);
         $$formCat->display();
-        publisherCloseCollapsableBar($formCat . '_table', $formCat . '_icon');
+        PublisherUtilities::closeCollapsableBar($formCat . '_table', $formCat . '_icon');
     }
     unset($formCat, $info);
     xoops_cp_footer();

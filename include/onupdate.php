@@ -58,6 +58,7 @@ function xoops_module_update_publisher(XoopsModule $module, $oldversion = null)
             '/class/request.php',
             '/class/registry.php',
             '/include/constants.php',
+            '/include/functions.php',
             '/ajaxrating.txt'
         );
 

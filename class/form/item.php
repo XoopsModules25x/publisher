@@ -131,7 +131,7 @@ class PublisherItemForm extends PublisherThemeTabForm
     {
         $publisher = PublisherPublisher::getInstance();
 
-        $allowedEditors = publisherGetEditors($publisher->getHandler('permission')->getGrantedItems('editors'));
+        $allowedEditors = PublisherUtilities::getEditors($publisher->getHandler('permission')->getGrantedItems('editors'));
 
         if (!is_object($GLOBALS['xoopsUser'])) {
             $group = array(XOOPS_GROUP_ANONYMOUS);
@@ -178,9 +178,9 @@ class PublisherItemForm extends PublisherThemeTabForm
         } elseif (count($allowedEditors) > 0) {
             $editor = XoopsRequest::getString('editor', '', 'POST');
             if (!empty($editor)) {
-                publisherSetCookieVar('publisher_editor', $editor);
+                PublisherUtilities::setCookieVar('publisher_editor', $editor);
             } else {
-                $editor = publisherGetCookieVar('publisher_editor');
+                $editor = PublisherUtilities::getCookieVar('publisher_editor');
                 if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
                     //                    $editor = @ $GLOBALS['xoopsUser']->getVar('publisher_editor'); // Need set through user profile
                     $editor = (null !== $GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
@@ -249,7 +249,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // Available pages to wrap
         if ($this->isGranted(PublisherConstants::PUBLISHER_AVAILABLE_PAGE_WRAP)) {
-            $wrapPages              = XoopsLists::getHtmlListAsArray(publisherGetUploadDir(true, 'content'));
+            $wrapPages              = XoopsLists::getHtmlListAsArray(PublisherUtilities::getUploadDir(true, 'content'));
             $availableWrapPagesText = array();
             foreach ($wrapPages as $page) {
                 $availableWrapPagesText[] = "<span onclick='publisherPageWrap(\"body\", \"[pagewrap=$page] \");' onmouseover='style.cursor=\"pointer\"'>$page</span>";

@@ -31,9 +31,9 @@ $op = ('go' === XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 if ($op === 'start') {
     xoops_load('XoopsFormLoader');
 
-    publisherCpHeader();
+    PublisherUtilities::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    publisherOpenCollapsableBar('newsimport', 'newsimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
+    PublisherUtilities::openCollapsableBar('newsimport', 'newsimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('news_topics'));
     list($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
@@ -91,14 +91,14 @@ if ($op === 'start') {
         }
     }
 
-    publisherCloseCollapsableBar('newsimport', 'newsimporticon');
+    PublisherUtilities::closeCollapsableBar('newsimport', 'newsimporticon');
     xoops_cp_footer();
 }
 
 if ($op === 'go') {
-    publisherCpHeader();
+    PublisherUtilities::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    publisherOpenCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
+    PublisherUtilities::openCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
     $moduleHandler  = xoops_getHandler('module');
     $moduleObj      = $moduleHandler->getByDirname('news');
@@ -229,9 +229,9 @@ if ($op === 'go') {
 
         // Saving category permissions
         $groupsIds = $gpermHandler->getGroupIds('news_view', $arrCat['topic_id'], $news_module_id);
-        publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
+        PublisherUtilities::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
         $groupsIds = $gpermHandler->getGroupIds('news_submit', $arrCat['topic_id'], $news_module_id);
-        publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
+        PublisherUtilities::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         $newCatArray[$newCat['oldid']] = $newCat;
         unset($newCat);
@@ -279,6 +279,6 @@ if ($op === 'go') {
     echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br>';
     echo "<br><a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br>';
 
-    publisherCloseCollapsableBar('newsimportgo', 'newsimportgoicon');
+    PublisherUtilities::closeCollapsableBar('newsimportgo', 'newsimportgoicon');
     xoops_cp_footer();
 }

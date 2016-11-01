@@ -429,7 +429,7 @@ class PublisherMetagen
             chr(161),
             chr(162),
             chr(163),
-            chr(169),
+            chr(169)
         );
 
         $text = preg_replace($search, $replace, $document);

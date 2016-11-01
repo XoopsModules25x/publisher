@@ -55,7 +55,7 @@ switch ($op) {
         $nb_subcats += XoopsRequest::getInt('nb_sub_yet', 4, 'POST');
         //end of fx2024 code
 
-        publisherCpHeader();
+        PublisherUtilities::cpHeader();
         PublisherUtilities::editCategory(true, $categoryid, $nb_subcats);
         break;
 
@@ -81,14 +81,14 @@ switch ($op) {
                 $max_size          = $publisher->getConfig('maximum_filesize');
                 $max_imgwidth      = $publisher->getConfig('maximum_image_width');
                 $max_imgheight     = $publisher->getConfig('maximum_image_height');
-                $allowed_mimetypes = publisherGetAllowedImagesTypes();
+                $allowed_mimetypes = PublisherUtilities::getAllowedImagesTypes();
                 if (($temp['tmp_name'] == '') || !is_readable($temp['tmp_name'])) {
                     redirect_header('javascript:history.go(-1)', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
                     //                    exit();
                 }
 
                 xoops_load('XoopsMediaUploader');
-                $uploader = new XoopsMediaUploader(publisherGetImageDir('category'), $allowed_mimetypes, $max_size, $max_imgwidth, $max_imgheight);
+                $uploader = new XoopsMediaUploader(PublisherUtilities::getImageDir('category'), $allowed_mimetypes, $max_size, $max_imgwidth, $max_imgheight);
                 if ($uploader->fetchMedia($filename) && $uploader->upload()) {
                     $categoryObj->setVar('image', $uploader->getSavedFileName());
                 } else {
@@ -129,17 +129,17 @@ switch ($op) {
         }
 
         if (!$categoryObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, _AM_PUBLISHER_CATEGORY_SAVE_ERROR . publisherFormatErrors($categoryObj->getErrors()));
+            redirect_header('javascript:history.go(-1)', 3, _AM_PUBLISHER_CATEGORY_SAVE_ERROR . PublisherUtilities::formatErrors($categoryObj->getErrors()));
             //            exit;
         }
         // TODO : put this function in the category class
-        publisherSaveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
-        publisherSaveCategoryPermissions($grpsubmit, $categoryObj->categoryid(), 'item_submit');
-        publisherSaveCategoryPermissions($grpmoderation, $categoryObj->categoryid(), 'category_moderation');
+        PublisherUtilities::saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
+        PublisherUtilities::saveCategoryPermissions($grpsubmit, $categoryObj->categoryid(), 'item_submit');
+        PublisherUtilities::saveCategoryPermissions($grpmoderation, $categoryObj->categoryid(), 'category_moderation');
 
         //Added by fx2024
         $parentCat = $categoryObj->categoryid();
-        $sizeof    = count(XoopsRequest::getString('scname', '', 'POST'));
+        $sizeof    = count(XoopsRequest::getArray('scname', array(), 'POST'));
         for ($i = 0; $i < $sizeof; ++$i) {
             $temp = XoopsRequest::getArray('scname', array(), 'POST');
             if ($temp[$i] != '') {
@@ -149,13 +149,13 @@ switch ($op) {
                 $categoryObj->setVar('parentid', $parentCat);
 
                 if (!$categoryObj->store()) {
-                    redirect_header('javascript:history.go(-1)', 3, _AM_PUBLISHER_SUBCATEGORY_SAVE_ERROR . publisherFormatErrors($categoryObj->getErrors()));
-                    //                    exit;
+                    redirect_header('javascript:history.go(-1)', 3, _AM_PUBLISHER_SUBCATEGORY_SAVE_ERROR . PublisherUtilities::formatErrors($categoryObj->getErrors()));
+//                                        exit;
                 }
                 // TODO : put this function in the category class
-                publisherSaveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
-                publisherSaveCategoryPermissions($grpsubmit, $categoryObj->categoryid(), 'item_submit');
-                publisherSaveCategoryPermissions($grpmoderation, $categoryObj->categoryid(), 'category_moderation');
+                PublisherUtilities::saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
+                PublisherUtilities::saveCategoryPermissions($grpsubmit, $categoryObj->categoryid(), 'item_submit');
+                PublisherUtilities::saveCategoryPermissions($grpmoderation, $categoryObj->categoryid(), 'category_moderation');
             }
         }
         //end of fx2024 code
@@ -177,7 +177,7 @@ switch ($op) {
             $categoryObj->setVar('parentid', $parentCat);
         }
 
-        publisherCpHeader();
+        PublisherUtilities::cpHeader();
         PublisherUtilities::editCategory(true, $categoryid, $nb_subcats, $categoryObj);
         exit();
         break;
@@ -189,7 +189,7 @@ switch ($op) {
         break;
     case 'default':
     default:
-        publisherCpHeader();
+        PublisherUtilities::cpHeader();
         //publisher_adminMenu(1, _AM_PUBLISHER_CATEGORIES);
 
         echo "<br>\n";
@@ -201,7 +201,7 @@ switch ($op) {
         // Creating the objects for top categories
         $categoriesObj = $publisher->getHandler('category')->getCategories($publisher->getConfig('idxcat_perpage'), $startcategory, 0);
 
-        publisherOpenCollapsableBar('createdcategories', 'createdcategoriesicon', _AM_PUBLISHER_CATEGORIES_TITLE, _AM_PUBLISHER_CATEGORIES_DSC);
+        PublisherUtilities::openCollapsableBar('createdcategories', 'createdcategoriesicon', _AM_PUBLISHER_CATEGORIES_TITLE, _AM_PUBLISHER_CATEGORIES_DSC);
 
         echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
         echo '<tr>';
@@ -227,7 +227,7 @@ switch ($op) {
         $pagenav = new XoopsPageNav($totalCategories, $publisher->getConfig('idxcat_perpage'), $startcategory, 'startcategory');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
         echo '<br>';
-        publisherCloseCollapsableBar('createdcategories', 'createdcategoriesicon');
+        PublisherUtilities::closeCollapsableBar('createdcategories', 'createdcategoriesicon');
         echo '<br>';
         //editcat(false);
         break;

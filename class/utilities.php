@@ -28,6 +28,31 @@ include_once dirname(__DIR__) . '/include/common.php';
  */
 class PublisherUtilities
 {
+     /**
+     * Check Xoops Version against a provided version
+     *
+     * @param int $x
+     * @param int $y
+     * @param int $z
+     * @param string $signal
+     * @return bool
+     */
+    public static function checkXoopsVersion($x, $y, $z, $signal = '==')
+    {
+         $xv = explode('-', str_replace('XOOPS ', '', XOOPS_VERSION));
+
+         list($a, $b, $c) = explode('.', $xv[0]);
+         $xv = $a*10000 + $b*100 + $c;
+         $mv = $x*10000 + $y*100 + $z;
+         if ($signal == '>') return $xv > $mv;
+         if ($signal == '>=') return $xv >= $mv;
+         if ($signal == '<') return $xv < $mv;
+         if ($signal == '<=') return $xv <= $mv;
+         if ($signal == '==') return $xv == $mv;
+
+         return false;
+     }
+
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
      *

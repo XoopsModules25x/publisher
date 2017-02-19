@@ -1,4 +1,5 @@
 <h5>1.04 RC 2       (NOT RELEASED)</h5>
+- fixed makeSelBox deprecated warning on xoops 2.5.9 (trabis)
 - change TEXT fields to allow NULL, needed for import in "strict" mode (mamba)
 - changed min_db to 5.5 (mamba)
 - changed "emptyString" function in metagen.php to static to allow a callback from a static "generateSeoTitle" (mamba)

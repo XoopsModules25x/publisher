@@ -18,14 +18,14 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
-publisherCpHeader();
+PublisherUtility::cpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_ITEMS . " > " . _AM_PUBLISHER_PAGEWRAP);
 
-publisherOpenCollapsableBar('pagewraptable', 'pagewrapicon', _AM_PUBLISHER_PAGEWRAP, _AM_PUBLISHER_PAGEWRAPDSC);
+PublisherUtility::openCollapsableBar('pagewraptable', 'pagewrapicon', _AM_PUBLISHER_PAGEWRAP, _AM_PUBLISHER_PAGEWRAPDSC);
 
-$dir = publisherGetUploadDir(true, 'content');
+$dir = PublisherUtility::getUploadDir(true, 'content');
 
 if (false !== strpos(decoct(fileperms($dir)), '777')) {
     echo "<span style='color:#ff0000;'><h4>" . _AM_PUBLISHER_PERMERROR . '</h4></span>';
@@ -37,14 +37,15 @@ echo "<table cellspacing='1' width='100%' class='outer'>";
 echo "<tr><th colspan='2'>" . _AM_PUBLISHER_UPLOAD_FILE . '</th></tr>';
 echo "<tr valign='top' align='left'><td class='head'>" . _AM_PUBLISHER_SEARCH . "</td><td class='even'><input type='file' name='fileupload' id='fileupload' size='30' /></td></tr>";
 echo "<tr valign='top' align='left'><td class='head'><input type='hidden' name='MAX_FILE_SIZE' id='op' value='500000' /></td><td class='even'><input type='submit' name='submit' value='"
-     . _AM_PUBLISHER_UPLOAD . "' /></td></tr>";
+     . _AM_PUBLISHER_UPLOAD
+     . "' /></td></tr>";
 echo '</table>';
 echo '</form>';
 
 // Delete File
 $form = new XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
 
-$pWrapSelect = new XoopsFormSelect(publisherGetUploadDir(true, 'content'), 'address');
+$pWrapSelect = new XoopsFormSelect(PublisherUtility::getUploadDir(true, 'content'), 'address');
 $folder      = dir($dir);
 while ($file == $folder->read()) {
     if ($file !== '.' && $file !== '..') {
@@ -60,6 +61,6 @@ $submit = new XoopsFormButton('', 'submit', _AM_PUBLISHER_BUTTON_DELETE, 'submit
 $form->addElement($submit);
 $form->display();
 
-publisherCloseCollapsableBar('pagewraptable', 'pagewrapicon');
+PublisherUtility::closeCollapsableBar('pagewraptable', 'pagewrapicon');
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

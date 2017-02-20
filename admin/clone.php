@@ -17,11 +17,11 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
-publisherCpHeader();
+PublisherUtility::cpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_CLONE);
-publisherOpenCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
+PublisherUtility::openCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
 
 if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -76,9 +76,9 @@ if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
 }
 
 // End of collapsable bar
-publisherCloseCollapsableBar('clone', 'cloneicon');
+PublisherUtility::closeCollapsableBar('clone', 'cloneicon');
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';
 
 // work around for PHP < 5.0.x
 /*
@@ -164,7 +164,7 @@ class PublisherClone
             //            unset($func);
         }
 
-        if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo_module.png'))
+        if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logoModule.png'))
             || !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))
         ) {
             return false;
@@ -189,7 +189,7 @@ class PublisherClone
         //imagefill($imageModule, 0, 0, $white);
         //imagecolortransparent($imageModule, $white);
 
-        imagepng($imageModule, $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logo_module.png'));
+        imagepng($imageModule, $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logoModule.png'));
         imagedestroy($imageModule);
 
         return true;

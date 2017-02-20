@@ -19,31 +19,33 @@
  * @author       Mage, Mamba
  */
 
-include_once __DIR__ . '/admin_header.php';
-include_once dirname(__DIR__) . '/class/utilities.php';
+require_once __DIR__ . '/admin_header.php';
+include_once dirname(__DIR__) . '/class/utility.php';
 
 xoops_cp_header();
 xoops_loadLanguage('main', PUBLISHER_DIRNAME);
-$indexAdmin = new ModuleAdmin();
+$adminObject  = \Xmf\Module\Admin::getInstance();
 
+/*
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    PublisherUtilities::createFolder($uploadFolders[$i]);
-    $indexAdmin->addConfigBoxLine($uploadFolders[$i], 'folder');
-    //    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+    PublisherUtility::createFolder($uploadFolders[$i]);
+    $adminObject->addConfigBoxLine($uploadFolders[$i], 'folder');
+    //    $adminObject->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
 
 //copy blank.png files, if needed
 $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
 foreach (array_keys($copyFiles) as $i) {
     $dest = $copyFiles[$i] . '/blank.png';
-    PublisherUtilities::copyFile($file, $dest);
+    PublisherUtility::copyFile($file, $dest);
 }
+*/
 
 if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-    $indexAdmin->addConfigBoxLine('<span style="color:red"><img src="'.XOOPS_URL.'/Frameworks/moduleclasses/icons/16/0.png" alt="!" />' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
+    $adminObject->addConfigBoxLine('<span style="color:red;"><img src="' . XOOPS_URL . '/Frameworks/moduleclasses/icons/16/0.png" alt="!" />' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
 }
 
-echo $indexAdmin->addNavigation(basename(__FILE__));
-echo $indexAdmin->renderIndex();
+$adminObject->displayNavigation(basename(__FILE__));
+$adminObject->displayIndex();
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

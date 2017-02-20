@@ -42,11 +42,29 @@ $content = '';
 if ($mainImage['image_path'] != '') {
     $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"/><br>';
 }
-$content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" style="text-decoration: none; color: black; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '">' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '</a>';
-$content .= '<br><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">' . _CO_PUBLISHER_CATEGORY . ' : </span><a href="' . PUBLISHER_URL . '/category.php?categoryid=' . $itemObj->categoryid() . '" style="color: #CCCCCC; font-weight: bold; font-size: 80%;" title="' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '">' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '</a>';
+$content .= '<a href="'
+            . PUBLISHER_URL
+            . '/item.php?itemid='
+            . $itemid
+            . '" style="text-decoration: none; color: black; font-size: 120%;" title="'
+            . $myts->undoHtmlSpecialChars($itemObj->getTitle())
+            . '">'
+            . $myts->undoHtmlSpecialChars($itemObj->getTitle())
+            . '</a>';
+$content .= '<br><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">'
+            . _CO_PUBLISHER_CATEGORY
+            . ' : </span><a href="'
+            . PUBLISHER_URL
+            . '/category.php?categoryid='
+            . $itemObj->categoryid()
+            . '" style="color: #CCCCCC; font-weight: bold; font-size: 80%;" title="'
+            . $myts->undoHtmlSpecialChars($categoryObj->name())
+            . '">'
+            . $myts->undoHtmlSpecialChars($categoryObj->name())
+            . '</a>';
 $content .= '<br><span style="font-size: 80%; font-style: italic;">' . $sender_inform . '</span><br>';
 $content .= $itemObj->getBody();
-$content = str_replace('[pagebreak]','',$content);
+$content = str_replace('[pagebreak]', '', $content);
 
 // Configuration for TCPDF_for_XOOPS
 $pdf_data = array(
@@ -60,7 +78,7 @@ $pdf_data = array(
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
-$doc_title  = publisherConvertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
+$doc_title  = PublisherUtility::convertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
 $docSubject = $myts->undoHtmlSpecialChars($categoryObj->name());
 
 $docKeywords = $myts->undoHtmlSpecialChars($itemObj->meta_keywords());
@@ -75,8 +93,8 @@ $pdf->SetSubject($docSubject);
 //$pdf->SetKeywords(XOOPS_URL . ', '.' by TCPDF_for_XOOPS (chg-web.org), '.$doc_title);
 $pdf->SetKeywords($docKeywords);
 
-$firstLine  = publisherConvertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
-$secondLine = publisherConvertCharset($GLOBALS['xoopsConfig']['slogan']);
+$firstLine  = PublisherUtility::convertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
+$secondLine = PublisherUtility::convertCharset($GLOBALS['xoopsConfig']['slogan']);
 
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
 $pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine, array(0, 64, 255), array(0, 64, 128));

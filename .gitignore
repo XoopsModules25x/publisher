@@ -2,6 +2,6 @@
 *~
 \#*
 *.bak
-.idea/
 
+.idea/
 tests/_output/*

@@ -38,7 +38,7 @@ if (!$itemObj) {
     //    exit();
 }
 
-$xoopsOption['template_main'] = 'publisher_item.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl';
 include_once $GLOBALS['xoops']->path('header.php');
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -176,7 +176,7 @@ $filesObj     = $itemObj->getFiles();
 
 // check if user has permission to modify files
 $hasFilePermissions = true;
-if (!(publisherUserIsAdmin() || publisherUserIsModerator($itemObj))) {
+if (!(PublisherUtility::userIsAdmin() || PublisherUtility::userIsModerator($itemObj))) {
     $hasFilePermissions = false;
 }
 if (null !== $filesObj) {
@@ -212,13 +212,16 @@ $item['embeded_files'] = $embededFiles;
 unset($file, $embededFiles, $filesObj, $fileObj);
 
 // Language constants
-$xoopsTpl->assign('mail_link',
-                  'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename'])
-                  . ': ' . $itemObj->getItemUrl());
+$xoopsTpl->assign('mail_link', 'mailto:?subject='
+                               . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename'])
+                               . '&amp;body='
+                               . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename'])
+                               . ': '
+                               . $itemObj->getItemUrl());
 $xoopsTpl->assign('itemid', $itemObj->itemId());
 $xoopsTpl->assign('sectionname', $publisher->getModule()->getVar('name'));
 $xoopsTpl->assign('module_dirname', $publisher->getModule()->getVar('dirname'));
-$xoopsTpl->assign('module_home', publisherModuleHome($publisher->getConfig('format_linked_path')));
+$xoopsTpl->assign('module_home', PublisherUtility::moduleHome($publisher->getConfig('format_linked_path')));
 $xoopsTpl->assign('categoryPath', '<li>'.$item['categoryPath'] . '</li><li> ' . $item['title'].'</li>');
 $xoopsTpl->assign('commentatarticlelevel', $publisher->getConfig('perm_com_art_level'));
 $xoopsTpl->assign('com_rule', $publisher->getConfig('com_rule'));
@@ -253,7 +256,7 @@ if (($publisher->getConfig('com_rule') <> 0) && (($itemObj->cancomment() == 1) |
 // Include support for AJAX rating
 if ($publisher->getConfig('perm_rating')) {
     $xoopsTpl->assign('rating_enabled', true);
-    $item['ratingbar'] = publisherRatingBar($itemId);
+    $item['ratingbar'] = PublisherUtility::ratingBar($itemId);
     $xoTheme->addScript(PUBLISHER_URL . '/assets/js/behavior.js');
     $xoTheme->addScript(PUBLISHER_URL . '/assets/js/rating.js');
 }
@@ -262,7 +265,7 @@ $xoopsTpl->assign('item', $item);
 include_once $GLOBALS['xoops']->path('footer.php');
 ?>
 <script type="text/javascript">
-             $(document).ready(function() {
-                 $("img").addClass("img-responsive");
-             });
+    $(document).ready(function () {
+        $("img").addClass("img-responsive");
+    });
 </script>

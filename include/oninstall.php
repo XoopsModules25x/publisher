@@ -25,7 +25,26 @@
  */
 function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
 {
-    // NOP
+    $moduleDirName = basename(dirname(__DIR__));
+    $classUtility = ucfirst($moduleDirName) . 'Utility';
+    if (!class_exists($classUtility)) {
+        xoops_load('utility', $moduleDirName);
+    }
+    //check for minimum XOOPS version
+    if (!$classUtility::checkVerXoops($xoopsModule)) {
+        return false;
+    }
+
+    // check for minimum PHP version
+    if (!$classUtility::checkVerPhp($xoopsModule)) {
+        return false;
+    }
+
+    $mod_tables =& $xoopsModule->getInfo('tables');
+    foreach ($mod_tables as $table) {
+        $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
+    }
+
     return true;
 }
 
@@ -45,13 +64,13 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
     include_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
 
     foreach (array_keys($uploadFolders) as $i) {
-        PublisherUtilities::createFolder($uploadFolders[$i]);
+        PublisherUtility::createFolder($uploadFolders[$i]);
     }
 
     $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
     foreach (array_keys($copyFiles) as $i) {
         $dest = $copyFiles[$i] . '/blank.png';
-        PublisherUtilities::copyFile($file, $dest);
+        PublisherUtility::copyFile($file, $dest);
     }
 
     return true;
@@ -63,7 +82,7 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
         $msg = '';
         // Create content directory
         $dir = $GLOBALS['xoops']->path('uploads/' . $xoopsModule->getVar('dirname') . '/content');
-        if (!publisherMkdir($dir)) {
+        if (!PublisherUtility::mkdir($dir)) {
             $msg .= sprintf(_AM_PUBLISHER_DIRNOTCREATED, $dir);
         }
         if (empty($msg)) {

@@ -19,12 +19,12 @@
             </th>
         </tr>
         <tr>
-            <td><{$smarty.const._CO_PUBLISHER_DATESUB}></td>
-            <td>&nbsp;<{$smarty.const._CO_PUBLISHER_TITLE}></td>
-            <td align='right'><{$smarty.const._MD_PUBLISHER_HITS}></td>
+            <td class="bold"><{$smarty.const._CO_PUBLISHER_DATESUB}></td>
+            <td class="bold">&nbsp;<{$smarty.const._CO_PUBLISHER_TITLE}></td>
+            <td class="bold" align='right'><{$smarty.const._MD_PUBLISHER_HITS}></td>
 
             <{if $permRating}>
-                <td align='right'>&nbsp;&nbsp;&nbsp;<{$smarty.const._MD_PUBLISHER_VOTE_RATING}></td>
+                <td class="bold" align='right'>&nbsp;&nbsp;&nbsp;<{$smarty.const._MD_PUBLISHER_VOTE_RATING}></td>
             <{/if}>
         </tr>
         <{foreach item=item from=$category.items}>

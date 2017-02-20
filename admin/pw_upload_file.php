@@ -18,7 +18,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 $errors = array();
 
@@ -47,11 +47,11 @@ function publisher_pagewrap_upload(&$errors)
     $maxImageWidth  = $publisher->getConfig('maximum_image_width');
     $maxImageHeight = $publisher->getConfig('maximum_image_height');
 
-    if (!is_dir(publisherGetUploadDir(true, 'content'))) {
-        mkdir(publisherGetUploadDir(true, 'content'), 0757);
+    if (!is_dir(PublisherUtility::getUploadDir(true, 'content'))) {
+        mkdir(PublisherUtility::getUploadDir(true, 'content'), 0757);
     }
     $allowedMimeTypes = array('text/html', 'text/plain', 'application/xhtml+xml');
-    $uploader         = new XoopsMediaUploader(publisherGetUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
+    $uploader         = new XoopsMediaUploader(PublisherUtility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
     if ($uploader->fetchMedia($postField)) {
         $uploader->setTargetFileName($uploader->getMediaName());
         if ($uploader->upload()) {

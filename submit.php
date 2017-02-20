@@ -38,11 +38,11 @@ $itemId = XoopsRequest::getInt('itemid', XoopsRequest::getInt('itemid', 0, 'POST
 if ($itemId != 0) {
     // We are editing or deleting an article
     $itemObj = $publisher->getHandler('item')->get($itemId);
-    if (!(publisherUserIsAdmin() || publisherUserIsAuthor($itemObj) || publisherUserIsModerator($itemObj))) {
+    if (!(PublisherUtility::userIsAdmin() || PublisherUtility::userIsAuthor($itemObj) || PublisherUtility::userIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
         //        exit();
     }
-    if (!publisherUserIsAdmin() || !publisherUserIsModerator($itemObj)) {
+    if (!PublisherUtility::userIsAdmin() || !PublisherUtility::userIsModerator($itemObj)) {
         if ('del' === XoopsRequest::getString('op', '', 'GET') && !$publisher->getConfig('perm_delete')) {
             redirect_header('index.php', 1, _NOPERM);
             //            exit();
@@ -56,7 +56,7 @@ if ($itemId != 0) {
 } else {
     // we are submitting a new article
     // if the user is not admin AND we don't allow user submission, exit
-    if (!(publisherUserIsAdmin() || ($publisher->getConfig('perm_submit') == 1 && (is_object($GLOBALS['xoopsUser']) || ($publisher->getConfig('perm_anon_submit') == 1))))) {
+    if (!(PublisherUtility::userIsAdmin() || ($publisher->getConfig('perm_submit') == 1 && (is_object($GLOBALS['xoopsUser']) || ($publisher->getConfig('perm_anon_submit') == 1))))) {
         redirect_header('index.php', 1, _NOPERM);
         //        exit();
     }
@@ -82,7 +82,7 @@ if (XoopsRequest::getString('additem', '', 'POST')) {
 
 $op = XoopsRequest::getString('op', XoopsRequest::getString('op', $op, 'POST'), 'GET');
 
-$allowedEditors = publisherGetEditors($gpermHandler->getItemIds('editors', $groups, $moduleId));
+$allowedEditors = PublisherUtility::getEditors($gpermHandler->getItemIds('editors', $groups, $moduleId));
 $formView       = $gpermHandler->getItemIds('form_view', $groups, $moduleId);
 
 // This code makes sure permissions are not manipulated
@@ -126,7 +126,7 @@ switch ($op) {
 
         if ($confirm) {
             if (!$publisher->getHandler('item')->delete($itemObj)) {
-                redirect_header('index.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . publisherFormatErrors($itemObj->getErrors()));
+                redirect_header('index.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . PublisherUtility::formatErrors($itemObj->getErrors()));
                 //                exit();
             }
             redirect_header('index.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
@@ -143,7 +143,7 @@ switch ($op) {
         // Putting the values about the ITEM in the ITEM object
         $itemObj->setVarsFromRequest();
 
-        $xoopsOption['template_main'] = 'publisher_submit.tpl';
+        $GLOBALS['xoopsOption']['template_main'] = 'publisher_submit.tpl';
         include_once $GLOBALS['xoops']->path('header.php');
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
         $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
@@ -159,7 +159,7 @@ switch ($op) {
         $xoopsTpl->assign('item', $item);
 
         $xoopsTpl->assign('op', 'preview');
-        $xoopsTpl->assign('module_home', publisherModuleHome());
+        $xoopsTpl->assign('module_home', PublisherUtility::moduleHome());
 
         if ($itemId) {
             $xoopsTpl->assign('categoryPath', _MD_PUBLISHER_EDIT_ARTICLE);
@@ -194,7 +194,7 @@ switch ($op) {
 
         // attach file if any
         if ($itemUploadFile && $itemUploadFile['name'] != '') {
-            $fileUploadResult = publisherUploadFile(false, true, $itemObj);
+            $fileUploadResult = PublisherUtility::uploadFile(false, true, $itemObj);
             if ($fileUploadResult !== true) {
                 redirect_header('javascript:history.go(-1)', 3, $fileUploadResult);
                 exit;
@@ -234,7 +234,7 @@ switch ($op) {
 
     case 'add':
     default:
-        $xoopsOption['template_main'] = 'publisher_submit.tpl';
+        $GLOBALS['xoopsOption']['template_main'] = 'publisher_submit.tpl';
         include_once $GLOBALS['xoops']->path('header.php');
         $GLOBALS['xoTheme']->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
         $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
@@ -242,7 +242,7 @@ switch ($op) {
 
         //mb        $itemObj->setVarsFromRequest();
 
-        $xoopsTpl->assign('module_home', publisherModuleHome());
+        $xoopsTpl->assign('module_home', PublisherUtility::moduleHome());
         if ('clone' === XoopsRequest::getString('op', '', 'GET')) {
             $xoopsTpl->assign('categoryPath', _CO_PUBLISHER_CLONE);
             $xoopsTpl->assign('langIntroTitle', _CO_PUBLISHER_CLONE);

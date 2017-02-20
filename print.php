@@ -59,7 +59,7 @@ if ($mainImage['image_path'] != '') {
     $item['image'] = '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"/>';
 }
 $xoopsTpl->assign('item', $item);
-$xoopsTpl->assign('printtitle', $GLOBALS['xoopsConfig']['sitename'] . ' - ' . publisherHtml2text($categoryObj->getCategoryPath()) . ' > ' . $myts->displayTarea($itemObj->getTitle()));
+$xoopsTpl->assign('printtitle', $GLOBALS['xoopsConfig']['sitename'] . ' - ' . PublisherUtility::html2text($categoryObj->getCategoryPath()) . ' > ' . $myts->displayTarea($itemObj->getTitle()));
 $xoopsTpl->assign('printlogourl', $publisher->getConfig('print_logourl'));
 $xoopsTpl->assign('printheader', $myts->displayTarea($publisher->getConfig('print_header'), 1));
 $xoopsTpl->assign('lang_category', _CO_PUBLISHER_CATEGORY);

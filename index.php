@@ -36,7 +36,7 @@ if ($totalCategories == 0) {
     //    exit;
 }
 
-$xoopsOption['template_main'] = 'publisher_display' . '_' . $publisher->getConfig('idxcat_items_display_type') . '.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $publisher->getConfig('idxcat_items_display_type') . '.tpl';
 include_once $GLOBALS['xoops']->path('header.php');
 include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
@@ -194,7 +194,7 @@ $xoopsTpl->assign('title_and_welcome', $publisher->getConfig('index_title_and_we
 $xoopsTpl->assign('lang_mainintro', $myts->displayTarea($publisher->getConfig('index_welcome_msg'), 1));
 $xoopsTpl->assign('sectionname', $publisher->getModule()->getVar('name'));
 $xoopsTpl->assign('whereInSection', $publisher->getModule()->getVar('name'));
-$xoopsTpl->assign('module_home', publisherModuleHome(false));
+$xoopsTpl->assign('module_home', PublisherUtility::moduleHome(false));
 $xoopsTpl->assign('indexfooter', $myts->displayTarea($publisher->getConfig('index_footer'), 1));
 
 $xoopsTpl->assign('lang_category_summary', _MD_PUBLISHER_INDEX_CATEGORIES_SUMMARY);
@@ -229,15 +229,15 @@ $publisherMetagen->createMetaTags();
 
 // RSS Link
 if ($publisher->getConfig('idxcat_show_rss_link') == 1) {
-    $link =
-        sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . '/backend.php', _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . '/assets/images/rss.gif', _MD_PUBLISHER_RSSFEED);
+    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . '/backend.php', _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . '/assets/images/rss.gif',
+                    _MD_PUBLISHER_RSSFEED);
     $xoopsTpl->assign('rssfeed_link', $link);
 }
 
 include_once $GLOBALS['xoops']->path('footer.php');
 ?>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("img").addClass("img-responsive");
     });
 </script>

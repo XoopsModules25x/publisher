@@ -22,8 +22,8 @@ function publisher_appendSelectOption(fromMenuId, toMenuId) {
     newOption.selected = true;
     toMenuDom.options[toMenuDom.options.length] = newOption;
     fromMenuDom.remove(fromMenuDom.selectedIndex);
-	
-	var MenuDom = xoopsGetElementById('image_item');
+
+    var MenuDom = xoopsGetElementById('image_item');
     if (MenuDom != null) {
         for (var i = 0; i < MenuDom.options.length; i++) {
             MenuDom.options[i].selected = true;
@@ -46,3 +46,42 @@ function publisher_updateSelectOption(fromMenuId, toMenuId) {
         }
     }
 }
+
+// ----------------------- NEW --------------------
+
+/*
+function call_php_function(php_function, anyattribut) {
+    $.post("functions.php", ("call_function": php_function), ("attribute_name": anyattribut), function(data) {
+        // Data is what you get from the echo in the PHP-Script below
+        alert(data); // Outputs "hello"
+    }
+}
+
+
+function call_php_function(directory) {
+
+}
+
+function myAjax() {
+    $.ajax({
+        type: "POST",
+        url: 'your_url/ajax.php',
+        data:{action:'call_this'},
+        success:function(html) {
+            alert(html);
+        }
+
+    });
+}
+
+ (function($){
+ $(document).ready(function(){
+ $.jGrowl("<br>Incorrect Login!<br>using xoops authentication method", {  life:3000 , position: "center", speed: "slow" });
+ });
+ })(jQuery);
+
+
+
+
+
+*/

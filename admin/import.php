@@ -18,7 +18,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 $op = XoopsRequest::getString('op', XoopsRequest::getString('op', 'none', 'GET'), 'POST');
 
@@ -33,10 +33,10 @@ switch ($op) {
     default:
         $importfile = 'none';
 
-        publisherCpHeader();
+        PublisherUtility::cpHeader();
         //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
 
-        publisherOpenCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
+        PublisherUtility::openCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
 
         xoops_load('XoopsFormLoader');
 
@@ -171,10 +171,10 @@ switch ($op) {
 
         // End of collapsable bar
 
-        publisherCloseCollapsableBar('import', 'importicon');
+        PublisherUtility::closeCollapsableBar('import', 'importicon');
 
         break;
 }
 
 //xoops_cp_footer();
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

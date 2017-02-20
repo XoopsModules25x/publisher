@@ -32,9 +32,9 @@ $op = ('go' === XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 if ('start' === $op) {
     xoops_load('XoopsFormLoader');
 
-    publisherCpHeader();
+    PublisherUtility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    publisherOpenCollapsableBar('fmimport', 'fmimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
+    PublisherUtility::openCollapsableBar('fmimport', 'fmimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('fmcontent');
@@ -51,7 +51,8 @@ if ('start' === $op) {
         $fmContentCount = $fmContentHdlr->getCount(new Criteria('content_modid', $fm_module_id));
 
         if (empty($fmContentCount)) {
-            echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $fmContentCount)
+            echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>"
+                 . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $fmContentCount)
                  . '</span>';
         } else {
             /*
@@ -59,7 +60,9 @@ if ('start' === $op) {
                         $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
             */
             // Categories to be imported
-            $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.content_id) FROM ' . $GLOBALS['xoopsDB']->prefix('fmcontent_topic') . ' AS cat INNER JOIN '
+            $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.content_id) FROM '
+                   . $GLOBALS['xoopsDB']->prefix('fmcontent_topic')
+                   . ' AS cat INNER JOIN '
                    . $GLOBALS['xoopsDB']->prefix('fmcontent_content')
                    . " AS art ON ((cat.topic_id=art.content_topic) AND (cat.topic_modid=art.content_modid)) WHERE cat.topic_modid={$fm_module_id} GROUP BY art.content_topic";
 
@@ -93,7 +96,12 @@ if ('start' === $op) {
             $categoryHdlr   = $publisher->getHandler('category');
             $catObjs        = $categoryHdlr->getAll();
             $myObjTree      = new XoopsObjectTree($catObjs, 'categoryid', 'parentid');
-            $catSelBox      = $myObjTree->makeSelBox('parent_category', 'name', '-', 0, true);
+            if (PublisherUtility::checkXoopsVersion('2', '5', '9', '>=')) {
+                $catSelBox = $myObjTree->makeSelectElement('parentid', 'name', '-', 0, true, 0, '', '');
+                $this->addElement($catSelect);
+            } else {
+                $catSelBox = $myObjTree->makeSelBox('parent_category', 'name', '-', 0, true);
+            }
             $parent_cat_sel = new XoopsFormLabel(_AM_PUBLISHER_IMPORT_PARENT_CATEGORY, $catSelBox);
             $parent_cat_sel->setDescription(_AM_PUBLISHER_IMPORT_PARENT_CATEGORY_DSC);
             $form->addElement($parent_cat_sel);
@@ -116,14 +124,14 @@ if ('start' === $op) {
         }
     }
 
-    publisherCloseCollapsableBar('fmimport', 'fmimporticon');
+    PublisherUtility::closeCollapsableBar('fmimport', 'fmimporticon');
     xoops_cp_footer();
 }
 
 if ('go' === $op) {
-    publisherCpHeader();
+    PublisherUtility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    publisherOpenCollapsableBar('fmimportgo', 'fmimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
+    PublisherUtility::openCollapsableBar('fmimportgo', 'fmimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
     $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('fmcontent');
@@ -208,9 +216,9 @@ if ('go' === $op) {
 
         // Saving category permissions
         $groupsIds = $gpermHandler->getGroupIds('fmcontent_view', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
-        publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
+        PublisherUtility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
         $groupsIds = $gpermHandler->getGroupIds('fmcontent_submit', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
-        publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
+        PublisherUtility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         unset($fmContentObjs, $itemObj, $categoryObj, $thisFmContentObj);
         echo "<br>\n";
@@ -304,9 +312,9 @@ if ('go' === $op) {
 
         // Saving category permissions
         $groupsIds = $gpermHandler->getGroupIds('fmcontent_view', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
-        publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
+        PublisherUtility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
         $groupsIds = $gpermHandler->getGroupIds('fmcontent_submit', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
-        publisherSaveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
+        PublisherUtility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         $newCatArray[$CatIds['oldid']] = $CatIds;
         unset($CatIds, $thisFmContentObj);
@@ -346,10 +354,21 @@ if ('go' === $op) {
     }
     //    unset($comment);
 
-    echo '<br><br>' . _AM_PUBLISHER_IMPORT_DONE . "<br>\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat) . "<br>\n" . '' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES,
-                                                                                                                                                          $cnt_imported_articles) . "<br>\n"
-         . "<br>\n<a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . "</a><br>\n";
+    echo '<br><br>'
+         . _AM_PUBLISHER_IMPORT_DONE
+         . "<br>\n"
+         . ''
+         . sprintf(_AM_PUBLISHER_IMPORTED_CATEGORIES, $cnt_imported_cat)
+         . "<br>\n"
+         . ''
+         . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles)
+         . "<br>\n"
+         . "<br>\n<a href='"
+         . PUBLISHER_URL
+         . "/'>"
+         . _AM_PUBLISHER_IMPORT_GOTOMODULE
+         . "</a><br>\n";
 
-    publisherCloseCollapsableBar('fmimportgo', 'fmimportgoicon');
+    PublisherUtility::closeCollapsableBar('fmimportgo', 'fmimportgoicon');
     xoops_cp_footer();
 }

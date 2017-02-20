@@ -18,7 +18,7 @@
  * @author          Kazumi Ono (AKA onokazu)
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 $module  = $publisher->getModule();
 $mod     = $module->mid();
@@ -95,7 +95,8 @@ if ($op === 'showmod') {
         $title = (!defined($config[$i]->getVar('conf_desc'))
                   || constant($config[$i]->getVar('conf_desc')) == '') ? constant($config[$i]->getVar('conf_title')) : constant($config[$i]->getVar('conf_title'))
                                                                                                                        . '<br><br><span style="font-weight:normal;">'
-                                                                                                                       . constant($config[$i]->getVar('conf_desc')) . '</span>';
+                                                                                                                       . constant($config[$i]->getVar('conf_desc'))
+                                                                                                                       . '</span>';
         switch ($config[$i]->getVar('conf_formtype')) {
             case 'textarea':
                 $myts = MyTextSanitizer::getInstance();
@@ -171,7 +172,7 @@ if ($op === 'showmod') {
         unset($ele, $hidden);
     }
 
-    publisherCpHeader();
+    PublisherUtility::cpHeader();
     //publisher_adminMenu(5, _PREFERENCES);
     foreach ($config_cats as $formCat => $info) {
         if ($formCat === 'others' && !$cat_others_used) {
@@ -179,9 +180,9 @@ if ($op === 'showmod') {
         }
         $$formCat->addElement(new XoopsFormHidden('op', 'save'));
         $$formCat->addElement(new XoopsFormButton('', 'button', _GO, 'submit'));
-        publisherOpenCollapsableBar($formCat . '_table', $formCat . '_icon', $info['name'], $info['description']);
+        PublisherUtility::openCollapsableBar($formCat . '_table', $formCat . '_icon', $info['name'], $info['description']);
         $$formCat->display();
-        publisherCloseCollapsableBar($formCat . '_table', $formCat . '_icon');
+        PublisherUtility::closeCollapsableBar($formCat . '_table', $formCat . '_icon');
     }
     unset($formCat, $info);
     xoops_cp_footer();

@@ -18,10 +18,10 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 if ('delfileok' === XoopsRequest::getString('op', '', 'POST')) {
-    $dir      = PublisherUtilities::getUploadDir(true, 'content');
+    $dir      = PublisherUtility::getUploadDir(true, 'content');
     $filename = XoopsRequest::getString('address', '', 'POST');
     if (file_exists($dir . '/' . $filename)) {
         unlink($dir . '/' . $filename);

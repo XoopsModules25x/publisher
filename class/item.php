@@ -122,7 +122,7 @@ class PublisherItem extends XoopsObject
         if ($maxLength != 0) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
-                    $ret = PublisherUtilities::substr($ret, 0, $maxLength);
+                    $ret = PublisherUtility::substr($ret, 0, $maxLength);
                 }
             }
         }
@@ -142,7 +142,7 @@ class PublisherItem extends XoopsObject
         if ($maxLength != 0) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
-                    $ret = PublisherUtilities::substr($ret, 0, $maxLength);
+                    $ret = PublisherUtility::substr($ret, 0, $maxLength);
                 }
             }
         }
@@ -166,8 +166,8 @@ class PublisherItem extends XoopsObject
         if ($maxLength != 0) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
-                    //$ret = PublisherUtilities::substr($ret , 0, $maxLength);
-                    $ret = PublisherUtilities::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
+                    //$ret = PublisherUtility::substr($ret , 0, $maxLength);
+                    $ret = PublisherUtility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
             }
         }
@@ -204,7 +204,7 @@ class PublisherItem extends XoopsObject
     public function wrapPage($fileName)
     {
         $content = '';
-        $page    = PublisherUtilities::getUploadDir(true, 'content') . $fileName;
+        $page    = PublisherUtility::getUploadDir(true, 'content') . $fileName;
         if (file_exists($page)) {
             // this page uses smarty template
             ob_start();
@@ -268,8 +268,8 @@ class PublisherItem extends XoopsObject
         if ($maxLength != 0) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
-                    //$ret = PublisherUtilities::substr($ret , 0, $maxLength);
-                    $ret = PublisherUtilities::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
+                    //$ret = PublisherUtility::substr($ret , 0, $maxLength);
+                    $ret = PublisherUtility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
             }
         }
@@ -288,6 +288,7 @@ class PublisherItem extends XoopsObject
         if (empty($dateFormat)) {
             $dateFormat = $this->publisher->getConfig('format_date');
         }
+
         return formatTimestamp($this->getVar('datesub', $format), $dateFormat);
     }
 
@@ -415,7 +416,7 @@ class PublisherItem extends XoopsObject
      */
     public function getCategoryImagePath()
     {
-        return PublisherUtilities::getImageDir('category', false) . $this->getCategory()->getImage();
+        return PublisherUtility::getImageDir('category', false) . $this->getCategory()->getImage();
     }
 
     /**
@@ -432,22 +433,58 @@ class PublisherItem extends XoopsObject
     public function getAdminLinks()
     {
         $adminLinks = '';
-        if (is_object($GLOBALS['xoopsUser']) && (PublisherUtilities::userIsAdmin() || PublisherUtilities::userIsAuthor($this) || $this->publisher->getHandler('permission')->isGranted('item_submit', $this->categoryid()))) {
-            if (PublisherUtilities::userIsAdmin() || PublisherUtilities::userIsAuthor($this) || PublisherUtilities::userIsModerator($this)) {
-                if ($this->publisher->getConfig('perm_edit') || PublisherUtilities::userIsModerator($this) || PublisherUtilities::userIsAdmin()) {
+        if (is_object($GLOBALS['xoopsUser'])
+            && (PublisherUtility::userIsAdmin() || PublisherUtility::userIsAuthor($this)
+                || $this->publisher->getHandler('permission')->isGranted('item_submit', $this->categoryid()))
+        ) {
+            if (PublisherUtility::userIsAdmin() || PublisherUtility::userIsAuthor($this) || PublisherUtility::userIsModerator($this)) {
+                if ($this->publisher->getConfig('perm_edit') || PublisherUtility::userIsModerator($this) || PublisherUtility::userIsAdmin()) {
                     // Edit button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . _CO_PUBLISHER_EDIT . "' alt='" . _CO_PUBLISHER_EDIT . "'/></a>";
+                    $adminLinks .= "<a href='"
+                                   . PUBLISHER_URL
+                                   . '/submit.php?itemid='
+                                   . $this->itemid()
+                                   . "'><img src='"
+                                   . PUBLISHER_URL
+                                   . "/assets/images/links/edit.gif'"
+                                   . " title='"
+                                   . _CO_PUBLISHER_EDIT
+                                   . "' alt='"
+                                   . _CO_PUBLISHER_EDIT
+                                   . "'/></a>";
                     $adminLinks .= ' ';
                 }
-                if ($this->publisher->getConfig('perm_delete') || PublisherUtilities::userIsModerator($this) || PublisherUtilities::userIsAdmin()) {
+                if ($this->publisher->getConfig('perm_delete') || PublisherUtility::userIsModerator($this) || PublisherUtility::userIsAdmin()) {
                     // Delete button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . _CO_PUBLISHER_DELETE . "' alt='" . _CO_PUBLISHER_DELETE . "' /></a>";
+                    $adminLinks .= "<a href='"
+                                   . PUBLISHER_URL
+                                   . '/submit.php?op=del&amp;itemid='
+                                   . $this->itemid()
+                                   . "'><img src='"
+                                   . PUBLISHER_URL
+                                   . "/assets/images/links/delete.png'"
+                                   . " title='"
+                                   . _CO_PUBLISHER_DELETE
+                                   . "' alt='"
+                                   . _CO_PUBLISHER_DELETE
+                                   . "' /></a>";
                     $adminLinks .= ' ';
                 }
             }
-            if ($this->publisher->getConfig('perm_clone') || PublisherUtilities::userIsModerator($this) || PublisherUtilities::userIsAdmin()) {
+            if ($this->publisher->getConfig('perm_clone') || PublisherUtility::userIsModerator($this) || PublisherUtility::userIsAdmin()) {
                 // Duplicate button
-                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif'" . " title='" . _CO_PUBLISHER_CLONE . "' alt='" . _CO_PUBLISHER_CLONE . "' /></a>";
+                $adminLinks .= "<a href='"
+                               . PUBLISHER_URL
+                               . '/submit.php?op=clone&amp;itemid='
+                               . $this->itemid()
+                               . "'><img src='"
+                               . PUBLISHER_URL
+                               . "/assets/images/links/clone.gif'"
+                               . " title='"
+                               . _CO_PUBLISHER_CLONE
+                               . "' alt='"
+                               . _CO_PUBLISHER_CLONE
+                               . "' /></a>";
                 $adminLinks .= ' ';
             }
         }
@@ -455,30 +492,49 @@ class PublisherItem extends XoopsObject
         // PDF button
         if ($this->publisher->getConfig('display_pdf')) {
             if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-//                if (is_object($GLOBALS['xoopsUser']) && PublisherUtilities::userIsAdmin()) {
-//                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
-//                    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
-//                    $adminLinks .= '<script type="text/javascript">
-//                    (function($){
-//                        $(document).ready(function(){
-//                            $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
-//                        })(jQuery);
-//                        </script>';
-//                }
+                //                if (is_object($GLOBALS['xoopsUser']) && PublisherUtility::userIsAdmin()) {
+                //                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
+                //                    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
+                //                    $adminLinks .= '<script type="text/javascript">
+                //                    (function($){
+                //                        $(document).ready(function(){
+                //                            $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
+                //                        })(jQuery);
+                //                        </script>';
+                //                }
             } else {
-                $adminLinks .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "' /></a>";
+                $adminLinks .= "<a href='"
+                               . PUBLISHER_URL
+                               . '/makepdf.php?itemid='
+                               . $this->itemid()
+                               . "' rel='nofollow' target='_blank'><img src='"
+                               . PUBLISHER_URL
+                               . "/assets/images/links/pdf.gif'"
+                               . " title='"
+                               . _CO_PUBLISHER_PDF
+                               . "' alt='"
+                               . _CO_PUBLISHER_PDF
+                               . "' /></a>";
                 $adminLinks .= ' ';
             }
         }
 
         // Print button
-        $adminLinks .= "<a href='" . PublisherSeo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . _CO_PUBLISHER_PRINT . "' alt='" . _CO_PUBLISHER_PRINT . "' /></a>";
+        $adminLinks .= "<a href='"
+                       . PublisherSeo::generateUrl('print', $this->itemid(), $this->short_url())
+                       . "' rel='nofollow' target='_blank'><img src='"
+                       . PUBLISHER_URL
+                       . "/assets/images/links/print.gif' title='"
+                       . _CO_PUBLISHER_PRINT
+                       . "' alt='"
+                       . _CO_PUBLISHER_PRINT
+                       . "' /></a>";
         $adminLinks .= ' ';
         // Email button
         if (xoops_isActiveModule('tellafriend')) {
-            $subject  = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
-            $subject  = $this->convertForJapanese($subject);
-            $maillink = PublisherUtilities::tellAFriend($subject);
+            $subject    = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
+            $subject    = $this->convertForJapanese($subject);
+            $maillink   = PublisherUtility::tellAFriend($subject);
             $adminLinks .= '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '" /></a>';
             $adminLinks .= ' ';
         }
@@ -952,7 +1008,7 @@ class PublisherItem extends XoopsObject
      */
     public function accessGranted()
     {
-        if (PublisherUtilities::userIsAdmin()) {
+        if (PublisherUtility::userIsAdmin()) {
             return true;
         }
         if ($this->status() != PublisherConstants::PUBLISHER_STATUS_PUBLISHED) {
@@ -1799,12 +1855,12 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             unset($item);
         }
         */
-        $sql = 'SELECT mi.categoryid, mi.itemid, mi.title, mi.short_url, mi.uid, mi.datesub';
-        $sql .= ' FROM (SELECT categoryid, MAX(datesub) AS date FROM ' . $this->db->prefix('publisher_items');
-        $sql .= ' WHERE status IN (' . implode(',', $status) . ')';
-        $sql .= ' AND categoryid IN (' . implode(',', $catIds) . ')';
-        $sql .= ' GROUP BY categoryid)mo';
-        $sql .= ' JOIN ' . $this->db->prefix('publisher_items') . ' mi ON mi.datesub = mo.date';
+        $sql    = 'SELECT mi.categoryid, mi.itemid, mi.title, mi.short_url, mi.uid, mi.datesub';
+        $sql    .= ' FROM (SELECT categoryid, MAX(datesub) AS date FROM ' . $this->db->prefix('publisher_items');
+        $sql    .= ' WHERE status IN (' . implode(',', $status) . ')';
+        $sql    .= ' AND categoryid IN (' . implode(',', $catIds) . ')';
+        $sql    .= ' GROUP BY categoryid)mo';
+        $sql    .= ' JOIN ' . $this->db->prefix('publisher_items') . ' mi ON mi.datesub = mo.date';
         $result = $this->db->query($sql);
         while (($row = $this->db->fetchArray($result)) !== false) {
             $item = new PublisherItem();
@@ -1828,10 +1884,10 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $newspaces = $spaces . '--';
         $thecount  = 0;
         foreach ($catsCount[$parentid] as $subCatId => $count) {
-            $thecount += $count;
+            $thecount                         += $count;
             $this->resultCatCounts[$subCatId] = $count;
             if (isset($catsCount[$subCatId])) {
-                $thecount += $this->countArticlesByCat($subCatId, $catsCount, $newspaces);
+                $thecount                         += $this->countArticlesByCat($subCatId, $catsCount, $newspaces);
                 $this->resultCatCounts[$subCatId] = $thecount;
             }
         }
@@ -1851,14 +1907,18 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         //        global $resultCatCounts;
         $ret       = array();
         $catsCount = array();
-        $sql       = 'SELECT c.parentid, i.categoryid, COUNT(*) AS count FROM ' . $this->db->prefix('publisher_items') . ' AS i INNER JOIN ' . $this->db->prefix('publisher_categories') . ' AS c ON i.categoryid=c.categoryid';
+        $sql       = 'SELECT c.parentid, i.categoryid, COUNT(*) AS count FROM '
+                     . $this->db->prefix('publisher_items')
+                     . ' AS i INNER JOIN '
+                     . $this->db->prefix('publisher_categories')
+                     . ' AS c ON i.categoryid=c.categoryid';
         if ((int)$catId > 0) {
             $sql .= ' WHERE i.categoryid = ' . (int)$catId;
             $sql .= ' AND i.status IN (' . implode(',', $status) . ')';
         } else {
             $sql .= ' WHERE i.status IN (' . implode(',', $status) . ')';
         }
-        $sql .= ' GROUP BY i.categoryid ORDER BY c.parentid ASC, i.categoryid ASC';
+        $sql    .= ' GROUP BY i.categoryid ORDER BY c.parentid ASC, i.categoryid ASC';
         $result = $this->db->query($sql);
         if (!$result) {
             return $ret;

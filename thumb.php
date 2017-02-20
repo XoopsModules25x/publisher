@@ -252,25 +252,25 @@ Timthumb::start();
  */
 class Timthumb
 {
-    protected        $src                      = '';
-    protected        $is404                    = false;
-    protected        $docRoot                  = '';
-    protected        $lastURLError             = false;
-    protected        $localImage               = '';
-    protected        $localImageMTime          = 0.0;
-    protected        $url                      = false;
-    protected        $myHost                   = '';
-    protected        $isURL                    = false;
-    protected        $cachefile                = '';
-    protected        $errors                   = array();
-    protected        $toDeletes                = array();
-    protected        $cacheDirectory           = '';
-    protected        $startTime                = 0.0;
-    protected        $lastBenchTime            = 0.0;
-    protected        $cropTop                  = false;
-    protected        $salt                     = '';
-    protected        $fileCacheVersion         = 1; //Generally if timthumb.php is modifed (upgraded) then the salt changes and all cache files are recreated. This is a backup mechanism to force regen.
-    protected        $filePrependSecurityBlock = "<?php exit('Execution denied!'); //"; //Designed to have three letter mime type, space, question mark and greater than symbol appended. 6 bytes total.
+    protected $src                      = '';
+    protected $is404                    = false;
+    protected $docRoot                  = '';
+    protected $lastURLError             = false;
+    protected $localImage               = '';
+    protected $localImageMTime          = 0.0;
+    protected $url                      = false;
+    protected $myHost                   = '';
+    protected $isURL                    = false;
+    protected $cachefile                = '';
+    protected $errors                   = array();
+    protected $toDeletes                = array();
+    protected $cacheDirectory           = '';
+    protected $startTime                = 0.0;
+    protected $lastBenchTime            = 0.0;
+    protected $cropTop                  = false;
+    protected $salt                     = '';
+    protected $fileCacheVersion         = 1; //Generally if timthumb.php is modifed (upgraded) then the salt changes and all cache files are recreated. This is a backup mechanism to force regen.
+    protected $filePrependSecurityBlock = "<?php exit('Execution denied!'); //"; //Designed to have three letter mime type, space, question mark and greater than symbol appended. 6 bytes total.
     protected static $curlDataWritten          = 0;
     protected static $curlFH                   = false;
 
@@ -337,8 +337,7 @@ class Timthumb
         if (BLOCK_EXTERNAL_LEECHERS && array_key_exists('HTTP_REFERER', $_SERVER) && (!preg_match('/^https?:\/\/(?:www\.)?' . $this->myHost . '(?:$|\/)/i', $_SERVER['HTTP_REFERER']))) {
             // base64 encoded red image that says 'no hotlinkers'
             // nothing to worry about! :)
-            $imgData =
-                base64_decode("R0lGODlhUAAMAIAAAP8AAP///yH5BAAHAP8ALAAAAABQAAwAAAJpjI+py+0Po5y0OgAMjjv01YUZ\nOGplhWXfNa6JCLnWkXplrcBmW+spbwvaVr/cDyg7IoFC2KbYVC2NQ5MQ4ZNao9Ynzjl9ScNYpneb\nDULB3RP6JuPuaGfuuV4fumf8PuvqFyhYtjdoeFgAADs=");
+            $imgData = base64_decode("R0lGODlhUAAMAIAAAP8AAP///yH5BAAHAP8ALAAAAABQAAwAAAJpjI+py+0Po5y0OgAMjjv01YUZ\nOGplhWXfNa6JCLnWkXplrcBmW+spbwvaVr/cDyg7IoFC2KbYVC2NQ5MQ4ZNao9Ynzjl9ScNYpneb\nDULB3RP6JuPuaGfuuV4fumf8PuvqFyhYtjdoeFgAADs=");
             header('Content-Type: image/gif');
             header('Content-Length: ' . strlen($imgData));
             header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
@@ -394,8 +393,12 @@ class Timthumb
             $this->debug(1, "Local image path is {$this->localImage}");
             $this->localImageMTime = @filemtime($this->localImage);
             //We include the mtime of the local file in case in changes on disk.
-            $this->cachefile =
-                $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
+            $this->cachefile = $this->cacheDirectory
+                               . '/'
+                               . FILE_CACHE_PREFIX
+                               . $cachePrefix
+                               . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion)
+                               . FILE_CACHE_SUFFIX;
         }
         $this->debug(2, 'Cache file is: ' . $this->cachefile);
 
@@ -428,7 +431,7 @@ class Timthumb
                     $this->debug(3, 'webshot param is set, so we\'re going to take a webshot.');
                     $this->serveWebshot();
                 } else {
-                    $this->error('You added the webshot parameter but webshots are disabled on this server. You need to set WEBSHOT_ENABLED == true to enable webshots.');
+                    $this->error('You added the webshot parameter but webshots are disabled on this server. You need to set WEBSHOT_ENABLED === true to enable webshots.');
                 }
             } else {
                 $this->debug(3, 'webshot is NOT set so we\'re going to try to fetch a regular image.');
@@ -1164,11 +1167,9 @@ class Timthumb
         // We're doing this because we're passing this URL to the shell and need to make very sure it's not going to execute arbitrary commands.
         if (WEBSHOT_XVFB_RUNNING) {
             putenv('DISPLAY=:100.0');
-            $command =
-                "$cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
+            $command = "$cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
         } else {
-            $command =
-                "$xv --server-args=\"-screen 0, {$screenX}x{$screenY}x{$colDepth}\" $cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
+            $command = "$xv --server-args=\"-screen 0, {$screenX}x{$screenY}x{$colDepth}\" $cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
         }
         $this->debug(3, "Executing command: $command");
         $out = `$command`;
@@ -1509,7 +1510,7 @@ class Timthumb
             curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.122 Safari/534.30');
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HEADER, 0);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true); //was false before
             curl_setopt($curl, CURLOPT_WRITEFUNCTION, 'timthumb::curlWrite');
             @curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
             @curl_setopt($curl, CURLOPT_MAXREDIRS, 10);

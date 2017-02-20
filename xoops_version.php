@@ -19,8 +19,6 @@
  */
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
-//mb xoops_load('XoopsLocal');
-xoops_load('XoopsRequest');
 
 $moduleDirName = basename(__DIR__);
 xoops_load('xoopseditorhandler');
@@ -30,7 +28,7 @@ $xoops_url     = parse_url(XOOPS_URL);
 $modversion = array(
     'version'             => '1.05',
     'module_status'       => 'Beta 1',
-    'release_date'        => '2016/10/31',
+    'release_date'        => '2017/02/19',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -43,12 +41,12 @@ $modversion = array(
     'official'            => 1,
     // ------------------- Folders & Files -------------------
     'dirname'             => $moduleDirName,
-    'dirmoduleadmin'      => 'Frameworks/moduleclasses',
-    'sysIcons16'          => 'Frameworks/moduleclasses/icons/16',
-    'sysIcons32'          => 'Frameworks/moduleclasses/icons/32',
+    //    'dirmoduleadmin'      => 'Frameworks/moduleclasses',
+    //    'sysIcons16'          => 'Frameworks/moduleclasses/icons/16',
+    //    'sysIcons32'          => 'Frameworks/moduleclasses/icons/32',
     // Local path icons
-    'modIcons16'          => 'assets/images/icons/16',
-    'modIcons32'          => 'assets/images/icons/32',
+    'modicons16'          => 'assets/images/icons/16',
+    'modicons32'          => 'assets/images/icons/32',
     // images
     'iconsmall'           => 'assets/images/iconsmall.png',
     'iconbig'             => 'assets/images/iconbig.png',
@@ -86,6 +84,14 @@ $modversion = array(
 $i                                     = 0;
 $modversion['helpsection'][$i]['name'] = _MI_PUBLISHER_HELP_OVERVIEW;
 $modversion['helpsection'][$i]['link'] = 'page=help';
+
+// ------------------- Help files ------------------- //
+$modversion['helpsection'] = array(
+    array('name' => _MI_PUBLISHER_HELP_OVERVIEW, 'link' => 'page=help'),
+    array('name' => _MI_PUBLISHER_DISCLAIMER, 'link' => 'page=disclaimer'),
+    array('name' => _MI_PUBLISHER_LICENSE, 'link' => 'page=license'),
+    array('name' => _MI_PUBLISHER_SUPPORT, 'link' => 'page=support'),
+);
 
 //include_once $GLOBALS['xoops']->path('modules/' . $modversion['dirname'] . '/include/constants.php');
 xoops_load('constants', $moduleDirName);

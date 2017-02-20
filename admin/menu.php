@@ -20,15 +20,25 @@
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-$dirname       = basename(dirname(__DIR__));
-$moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($dirname);
-$pathIcon32    = '../../' . $module->getInfo('sysIcons32');
-$pathModIcon32 = $module->getInfo('modIcons32');
+
+
+if (!isset($moduleDirName)) {
+    $moduleDirName = basename(dirname(__DIR__));
+}
+
+if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
+} else {
+    $moduleHelper = Xmf\Module\Helper::getHelper('system');
+}
+$adminObject = \Xmf\Module\Admin::getInstance();
+
+$pathIcon32    = \Xmf\Module\Admin::menuIconPath('');
+$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
+
+$moduleHelper->loadLanguage('modinfo');
+$moduleHelper->loadLanguage('admin');
 
 include_once dirname(__DIR__) . '/include/config.php';
-
-xoops_loadLanguage('admin', $dirname);
 
 $adminmenu = array(
     array(
@@ -87,24 +97,24 @@ $adminmenu = array(
 
     //Import
     array(
-        'title' => _AM_PUBLISHER_IMPORT,
+        'title' => _MI_PUBLISHER_IMPORT,
         'link'  => 'admin/import.php',
         'icon'  => $pathIcon32 . '/download.png'
     ),
 
     //Clone
     array(
-        'title' => _AM_PUBLISHER_CLONE,
+        'title' => _MI_PUBLISHER_CLONE,
         'link'  => 'admin/clone.php',
         'icon'  => $pathModIcon32 . '/editcopy.png'
     ),
 
     //About
     array(
-        'title' => _AM_PUBLISHER_ABOUT,
+        'title' => _MI_PUBLISHER_ABOUT,
         'link'  => 'admin/about.php',
         'icon'  => $pathIcon32 . '/about.png'
     )
 );
 
-$GLOBALS['xoTheme']->addStylesheet('modules/' . $dirname . '/assets/css/style.css');
+$GLOBALS['xoTheme']->addStylesheet('modules/' . $moduleDirName . '/assets/css/style.css');

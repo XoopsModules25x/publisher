@@ -40,7 +40,7 @@ if (!$fileObj) {
 $itemObj = $publisher->getHandler('item')->get($fileObj->getVar('itemid'));
 
 // if the user does not have permission to modify this file, exit
-if (!(PublisherUtilities::userIsAdmin() || PublisherUtilities::userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
+if (!(PublisherUtility::userIsAdmin() || PublisherUtility::userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
     redirect_header('index.php', 1, _NOPERM);
     //    exit();
 }
@@ -95,7 +95,7 @@ switch ($op) {
         }
 
         if (!$publisher->getHandler('file')->insert($fileObj)) {
-            redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . PublisherUtilities::formatErrors($fileObj->getErrors()));
+            redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . PublisherUtility::formatErrors($fileObj->getErrors()));
             //            exit;
         }
 

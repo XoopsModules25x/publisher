@@ -31,9 +31,9 @@ $op = ('go' === XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
 if ($op === 'start') {
     xoops_load('XoopsFormLoader');
 
-    PublisherUtilities::cpHeader();
+    PublisherUtility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    PublisherUtilities::openCollapsableBar('xfsectionimport', 'xfsectionimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
+    PublisherUtility::openCollapsableBar('xfsectionimport', 'xfsectionimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_category'));
     list($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
@@ -47,18 +47,22 @@ if ($op === 'start') {
         list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
 
         if ($totalArticles == 0) {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles)
+            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">"
+                 . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles)
                  . '</span>';
         } else {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat)
+            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">"
+                 . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat)
                  . '</span>';
 
             $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
             // Categories to be imported
-            $sql              =
-                'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_category') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('xfs_article')
-                . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
+            $sql              = 'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM '
+                                . $GLOBALS['xoopsDB']->prefix('xfs_category')
+                                . ' AS cat INNER JOIN '
+                                . $GLOBALS['xoopsDB']->prefix('xfs_article')
+                                . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
             $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_values  = array();
             $cat_cbox_options = array();
@@ -89,21 +93,21 @@ if ($op === 'start') {
         }
     }
 
-    PublisherUtilities::closeCollapsableBar('xfsectionimport', 'xfsectionimporticon');
+    PublisherUtility::closeCollapsableBar('xfsectionimport', 'xfsectionimporticon');
     xoops_cp_footer();
 }
 
 if ($op === 'go') {
-    PublisherUtilities::cpHeader();
+    PublisherUtility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    PublisherUtilities::openCollapsableBar('xfsectionimportgo', 'xfsectionimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
+    PublisherUtility::openCollapsableBar('xfsectionimportgo', 'xfsectionimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
 
     $parentId = XoopsRequest::getInt('parent_category', 0, 'POST');
 
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_category') . ' ORDER by orders';
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_category') . ' ORDER BY orders';
 
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
@@ -138,8 +142,8 @@ if ($op === 'go') {
 
         $newCat['newid'] = $categoryObj->categoryid();
         // Saving category permissions
-        PublisherUtilities::saveCategoryPermissions($categoryObj->getGroupsRead(), $categoryObj->categoryid(), 'category_read');
-        PublisherUtilities::saveCategoryPermissions($categoryObj->getGroupsSubmit(), $categoryObj->categoryid(), 'item_submit');
+        PublisherUtility::saveCategoryPermissions($categoryObj->getGroupsRead(), $categoryObj->categoryid(), 'category_read');
+        PublisherUtility::saveCategoryPermissions($categoryObj->getGroupsSubmit(), $categoryObj->categoryid(), 'item_submit');
 
         ++$cnt_imported_cat;
 
@@ -267,6 +271,6 @@ if ($op === 'go') {
     echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br>';
     echo "<br><a href='" . PUBLISHER_URL . "'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br>';
 
-    PublisherUtilities::closeCollapsableBar('xfsectionimportgo', 'xfsectionimportgoicon');
+    PublisherUtility::closeCollapsableBar('xfsectionimportgo', 'xfsectionimportgoicon');
     xoops_cp_footer();
 }

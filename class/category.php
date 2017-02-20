@@ -291,7 +291,7 @@ class PublisherCategory extends XoopsObject
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
         if ($this->getImage() !== 'blank.png') {
-            $category['image_path'] = PublisherUtilities::getImageDir('category', false) . $this->getImage();
+            $category['image_path'] = PublisherUtility::getImageDir('category', false) . $this->getImage();
         } else {
             $category['image_path'] = '';
         }
@@ -316,7 +316,7 @@ class PublisherCategory extends XoopsObject
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
         if ($this->getImage() !== 'blank.png') {
-            $category['image_path'] = PublisherUtilities::getImageDir('category', false) . $this->getImage();
+            $category['image_path'] = PublisherUtility::getImageDir('category', false) . $this->getImage();
         } else {
             $category['image_path'] = '';
         }

@@ -1,17 +1,34 @@
 <h5>1.05 Beta 1       (NOT RELEASED)</h5>
+- PSR-2 code cosmetics (mamba)
+- addNavigation(basename(__FILE__))  (mamba)
+- dirname(__FILE__) to __DIR__ (mamba)
+- XOOPS 2.5.8, PHP 7 (mamba)
+- replaced < b /> with < b > (mamba)
+- Unnecessary double quotes (mamba)
+- reference mismatch (mamba)
+- Hardening to type safe (mamba)
+- update Help (mamba)
+- changed _handler to Handler (mamba)
+- removed '/' from void HTML elements (&lt;br&gt;, &lt;img&gt;, etc) (mamba)
+- HTML 5: removed 'selected' and 'checked' (mamba)
+- short array syntax (mamba)
+- added install checks for PHP 5.5 and XOOPS 2.5.9 (mamba)
+- added auto-creation of upload folders (mamba)
+
 - changed static call to XoopsLocal::number_format to dynamic (mamba)
 - added bold to column headers in publisher_author_items.tpl (mamba)
 - fixed cloning of module image (masel/mamba)
-- moved functions to PublisherUtilities (mamba)
+- moved functions to Utility class (mamba)
+- changed to use XoopsFormSelectUser (geekwright/mamba)
+- started conversion to XMF (mamba)
 
 
-<h5>1.04 FINAL       (2016-10-21)</h5>
+<h5>1.04 FINAL       (2015-10-21)</h5>
 - added XoopsLocal::number_format for rating in author_items.php (mamba)
 - added _SHORTDATESTRING to use for date formatting in author_items.php (mamba)
 - added "img-responsive" to all images in index.php and item.php (mamba) (temporary fix for Bootstrap)
 - cosmetics in publisher_author_items.tpl (mamba)
-- Breadcrump (Bleekk)
-- fixed makeSelBox deprecated warning on xoops 2.5.9 (trabis)
+
 <h5>1.04 RC 2       (NOT RELEASED)</h5>
 - change TEXT fields to allow NULL, needed for import in "strict" mode (mamba)
 - changed min_db to 5.5 (mamba)

@@ -119,6 +119,7 @@ class PublisherThemeTabForm extends XoopsForm
     }
 
     //function render() {}
+
     /**
      * @param XoopsTpl $tpl
      */
@@ -552,7 +553,7 @@ class PublisherThemeTabForm extends XoopsForm
             $js .= "\n<!-- Start Form Validation JavaScript //-->\n<script type='text/javascript'>\n<!--//\n";
         }
         $formname = $this->getName();
-        $js .= "function xoopsFormValidate_{$formname}() { var myform = window.document.{$formname}; ";
+        $js       .= "function xoopsFormValidate_{$formname}() { var myform = window.document.{$formname}; ";
         $elements =& $this->getElements(true);
         foreach ($elements as $elt) {
             if (method_exists($elt, 'renderValidationJS')) {

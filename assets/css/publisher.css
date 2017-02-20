@@ -51,11 +51,12 @@
 
 .pub_article_t_top h2 a.titlelink {
     display: block;
+    font-size: 22px;
     padding: 0;
     margin: 0;
     vertical-align: baseline;
     outline: none;
-    color: #333333;
+    color: #020202;
 }
 
 /* END INFO AS COLUMN ARTICLE */
@@ -910,3 +911,10 @@ ul.lof-navigator li {
 .publisher_tree ul li ul, .publisher_tree ul li ul li ul {
     padding-left: 6px;
 }
+
+
+.post_summary{
+display: block;
+}
+.btn{border-radius: 4px;}
+

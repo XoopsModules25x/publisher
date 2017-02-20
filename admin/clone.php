@@ -17,11 +17,11 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
-PublisherUtilities::cpHeader();
+PublisherUtility::cpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_CLONE);
-PublisherUtilities::openCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
+PublisherUtility::openCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
 
 if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -76,9 +76,9 @@ if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
 }
 
 // End of collapsable bar
-PublisherUtilities::closeCollapsableBar('clone', 'cloneicon');
+PublisherUtility::closeCollapsableBar('clone', 'cloneicon');
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';
 
 // work around for PHP < 5.0.x
 /*

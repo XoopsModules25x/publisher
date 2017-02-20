@@ -48,8 +48,7 @@ $mod_copyright = "<a href='http://xoops.org' title='XOOPS Project' target='_blan
 xoops_loadLanguage('common', PUBLISHER_DIRNAME);
 
 xoops_load('constants', PUBLISHER_DIRNAME);
-xoops_load('utilities', PUBLISHER_DIRNAME);
-xoops_load('XoopsRequest');
+xoops_load('utility', PUBLISHER_DIRNAME);
 xoops_load('XoopsFilterInput');
 
 $debug     = false;
@@ -61,7 +60,7 @@ global $publisherIsAdmin;
 // Load only if module is installed
 if (is_object($publisher->getModule())) {
     // Find if the user is admin of the module
-    $publisherIsAdmin = PublisherUtilities::userIsAdmin();
+    $publisherIsAdmin = PublisherUtility::userIsAdmin();
     // get current page
-    $publisherCurrentPage = PublisherUtilities::getCurrentPage();
+    $publisherCurrentPage = PublisherUtility::getCurrentPage();
 }

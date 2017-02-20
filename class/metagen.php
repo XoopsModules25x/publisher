@@ -434,13 +434,9 @@ class PublisherMetagen
 
         $text = preg_replace($search, $replace, $document);
 
-        preg_replace_callback(
-            '/&#(\d+);/',
-            function ($matches) {
-                return chr($matches[1]);
-            },
-            $document
-        );
+        preg_replace_callback('/&#(\d+);/', function ($matches) {
+            return chr($matches[1]);
+        }, $document);
 
         return $text;
     }

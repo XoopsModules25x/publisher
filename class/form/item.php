@@ -131,7 +131,7 @@ class PublisherItemForm extends PublisherThemeTabForm
     {
         $publisher = PublisherPublisher::getInstance();
 
-        $allowedEditors = PublisherUtilities::getEditors($publisher->getHandler('permission')->getGrantedItems('editors'));
+        $allowedEditors = PublisherUtility::getEditors($publisher->getHandler('permission')->getGrantedItems('editors'));
 
         if (!is_object($GLOBALS['xoopsUser'])) {
             $group = array(XOOPS_GROUP_ANONYMOUS);
@@ -178,9 +178,9 @@ class PublisherItemForm extends PublisherThemeTabForm
         } elseif (count($allowedEditors) > 0) {
             $editor = XoopsRequest::getString('editor', '', 'POST');
             if (!empty($editor)) {
-                PublisherUtilities::setCookieVar('publisher_editor', $editor);
+                PublisherUtility::setCookieVar('publisher_editor', $editor);
             } else {
-                $editor = PublisherUtilities::getCookieVar('publisher_editor');
+                $editor = PublisherUtility::getCookieVar('publisher_editor');
                 if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
                     //                    $editor = @ $GLOBALS['xoopsUser']->getVar('publisher_editor'); // Need set through user profile
                     $editor = (null !== $GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
@@ -249,7 +249,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // Available pages to wrap
         if ($this->isGranted(PublisherConstants::PUBLISHER_AVAILABLE_PAGE_WRAP)) {
-            $wrapPages              = XoopsLists::getHtmlListAsArray(PublisherUtilities::getUploadDir(true, 'content'));
+            $wrapPages              = XoopsLists::getHtmlListAsArray(PublisherUtility::getUploadDir(true, 'content'));
             $availableWrapPagesText = array();
             foreach ($wrapPages as $page) {
                 $availableWrapPagesText[] = "<span onclick='publisherPageWrap(\"body\", \"[pagewrap=$page] \");' onmouseover='style.cursor=\"pointer\"'>$page</span>";
@@ -259,11 +259,16 @@ class PublisherItemForm extends PublisherThemeTabForm
             $this->addElement($availableWrapPages);
         }
 
+        if ($this->isGranted(PublisherConstants::PUBLISHER_UID)) {
+            $this->addElement(new XoopsFormSelectUser(_CO_PUBLISHER_UID, 'uid', false, $obj->uid(), 1, false), false);
+        }
+
         // Uid
         /*  We need to retreive the users manually because for some reason, on the frxoops.org server,
          the method users::getobjects encounters a memory error
          */
         // Trabis : well, maybe is because you are getting 6000 objects into memory , no??? LOL
+        /*
         if ($this->isGranted(PublisherConstants::PUBLISHER_UID)) {
             $uidSelect = new XoopsFormSelect(_CO_PUBLISHER_UID, 'uid', $obj->uid(), 1, false);
             $uidSelect->setDescription(_CO_PUBLISHER_UID_DSC);
@@ -277,11 +282,15 @@ class PublisherItemForm extends PublisherThemeTabForm
             $uidSelect->addOptionArray($usersArray);
             $this->addElement($uidSelect);
         }
+        */
+
         /* else {
         $hidden = new XoopsFormHidden('uid', $obj->uid());
         $this->addElement($hidden);
         unset($hidden);
         }*/
+
+
 
         // Author ALias
         if ($this->isGranted(PublisherConstants::PUBLISHER_AUTHOR_ALIAS)) {
@@ -373,7 +382,8 @@ class PublisherItemForm extends PublisherThemeTabForm
 
             $imageSelect2 = new XoopsFormSelect('', 'image_item', '', 5, true);
             $imageSelect2->addOptionArray($objimage_array);
-            $imageSelect2->setExtra("onchange='publisher_updateSelectOption(\"image_item\", \"image_featured\"), showImgSelected(\"image_display\", \"image_item\", \"uploads/\", \"\", \"" . XOOPS_URL
+            $imageSelect2->setExtra("onchange='publisher_updateSelectOption(\"image_item\", \"image_featured\"), showImgSelected(\"image_display\", \"image_item\", \"uploads/\", \"\", \""
+                                    . XOOPS_URL
                                     . "\")'");
 
             $buttonadd = new XoopsFormButton('', 'buttonadd', _CO_PUBLISHER_ADD);
@@ -389,7 +399,8 @@ class PublisherItemForm extends PublisherThemeTabForm
 
             $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ajaxupload.3.9.js');
             $js_data  = new XoopsFormLabel('', '
-<script type= "text/javascript">/*<![CDATA[*/
+
+<script type= "text/javascript">
 $publisher(document).ready(function () {
     var button = $publisher("#publisher_upload_button"), interval;
     new AjaxUpload(button,{
@@ -405,7 +416,7 @@ $publisher(document).ready(function () {
             });
             // If you want to allow uploading only 1 file at time,
             // you can disable upload button
-            this.disable();
+            //this.disable();
             interval = window.setInterval(function () {
             }, 200);
         },
@@ -426,7 +437,8 @@ $publisher(document).ready(function () {
         }
     });
 });
-/*]]>*/</script>
+</script>
+
 ');
             $messages = new XoopsFormLabel('', "<div id='publisher_upload_message'></div>");
             $button   = new XoopsFormLabel('', "<div id='publisher_upload_button'>" . _CO_PUBLISHER_IMAGE_UPLOAD_NEW . '</div>');
@@ -526,12 +538,24 @@ $publisher(document).ready(function () {
                     $table .= '</tr>';
 
                     foreach ($filesObj as $fileObj) {
-                        $modify      =
-                            "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _CO_PUBLISHER_EDITFILE . "' alt='"
-                            . _CO_PUBLISHER_EDITFILE . "' /></a>";
-                        $delete      =
-                            "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _CO_PUBLISHER_DELETEFILE . "' alt='"
-                            . _CO_PUBLISHER_DELETEFILE . "'/></a>";
+                        $modify      = "<a href='file.php?op=mod&fileid="
+                                       . $fileObj->fileid()
+                                       . "'><img src='"
+                                       . PUBLISHER_URL
+                                       . "/assets/images/links/edit.gif' title='"
+                                       . _CO_PUBLISHER_EDITFILE
+                                       . "' alt='"
+                                       . _CO_PUBLISHER_EDITFILE
+                                       . "' /></a>";
+                        $delete      = "<a href='file.php?op=del&fileid="
+                                       . $fileObj->fileid()
+                                       . "'><img src='"
+                                       . PUBLISHER_URL
+                                       . "/assets/images/links/delete.png' title='"
+                                       . _CO_PUBLISHER_DELETEFILE
+                                       . "' alt='"
+                                       . _CO_PUBLISHER_DELETEFILE
+                                       . "'/></a>";
                         $not_visible = '';
                         if ($fileObj->status() == 0) {
                             $not_visible = "<img src='" . PUBLISHER_URL . "/assets/images/no.gif'/>";

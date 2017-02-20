@@ -97,7 +97,7 @@ class PublisherFile extends XoopsObject
         $maxfilewidth  = $this->publisher->getConfig('maximum_image_width');
         $maxfileheight = $this->publisher->getConfig('maximum_image_height');
         xoops_load('XoopsMediaUploader');
-        $uploader = new XoopsMediaUploader(PublisherUtilities::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        $uploader = new XoopsMediaUploader(PublisherUtility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
             return true;
         } else {
@@ -123,11 +123,11 @@ class PublisherFile extends XoopsObject
         $maxfilesize   = $this->publisher->getConfig('maximum_filesize');
         $maxfilewidth  = $this->publisher->getConfig('maximum_image_width');
         $maxfileheight = $this->publisher->getConfig('maximum_image_height');
-        if (!is_dir(PublisherUtilities::getUploadDir())) {
-            mkdir(PublisherUtilities::getUploadDir(), 0757);
+        if (!is_dir(PublisherUtility::getUploadDir())) {
+            mkdir(PublisherUtility::getUploadDir(), 0757);
         }
         xoops_load('XoopsMediaUploader');
-        $uploader = new XoopsMediaUploader(PublisherUtilities::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        $uploader = new XoopsMediaUploader(PublisherUtility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
             $uploader->setTargetFileName($itemid . '_' . $uploader->getMediaName());
             if ($uploader->upload()) {
@@ -203,7 +203,7 @@ class PublisherFile extends XoopsObject
      */
     public function getFileUrl()
     {
-        return PublisherUtilities::getUploadDir(false) . $this->filename();
+        return PublisherUtility::getUploadDir(false) . $this->filename();
     }
 
     /**
@@ -211,7 +211,7 @@ class PublisherFile extends XoopsObject
      */
     public function getFilePath()
     {
-        return PublisherUtilities::getUploadDir() . $this->filename();
+        return PublisherUtility::getUploadDir() . $this->filename();
     }
 
     /**

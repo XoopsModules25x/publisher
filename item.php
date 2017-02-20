@@ -219,7 +219,7 @@ $xoopsTpl->assign('itemid', $itemObj->itemId());
 $xoopsTpl->assign('sectionname', $publisher->getModule()->getVar('name'));
 $xoopsTpl->assign('module_dirname', $publisher->getModule()->getVar('dirname'));
 $xoopsTpl->assign('module_home', publisherModuleHome($publisher->getConfig('format_linked_path')));
-$xoopsTpl->assign('categoryPath', $item['categoryPath'] . ' > ' . $item['title']);
+$xoopsTpl->assign('categoryPath', '<li>'.$item['categoryPath'] . '</li><li> ' . $item['title'].'</li>');
 $xoopsTpl->assign('commentatarticlelevel', $publisher->getConfig('perm_com_art_level'));
 $xoopsTpl->assign('com_rule', $publisher->getConfig('com_rule'));
 $xoopsTpl->assign('other_items', $publisher->getConfig('item_other_items_type'));

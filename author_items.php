@@ -52,7 +52,7 @@ unset($criteria);
 $count = count($items);
 
 $xoopsTpl->assign('total_items', $count);
-$xoopsTpl->assign('rating', $publisher->getConfig('perm_rating'));
+$xoopsTpl->assign('permRating', $publisher->getConfig('perm_rating'));
 
 xoops_load('XoopsUserUtility');
 $author_name = XoopsUserUtility::getUnameFromId($uid, $publisher->getConfig('format_realname'), true);
@@ -79,8 +79,8 @@ if ($count > 0) {
             'title'     => $item->getTitle(),
             'hits'      => $item->counter(),
             'link'      => $item->getItemLink(),
-            'published' => $item->getDatesub(),
-            'rating'    => $item->rating()
+            'published' => $item->getDatesub(_SHORTDATESTRING),
+            'rating'    => XoopsLocal::number_format((float)$item->rating())
         );
     }
 }

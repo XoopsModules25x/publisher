@@ -10,7 +10,7 @@
 
     <{foreach item=category from=$categories}>
         <tr>
-            <{if $rating}>
+            <{if $permRating}>
             <th colspan='4'>
                 <{else}>
             <th colspan='3'>
@@ -20,33 +20,33 @@
         </tr>
         <tr>
             <td><{$smarty.const._CO_PUBLISHER_DATESUB}></td>
-            <td><{$smarty.const._CO_PUBLISHER_TITLE}></td>
+            <td>&nbsp;<{$smarty.const._CO_PUBLISHER_TITLE}></td>
             <td align='right'><{$smarty.const._MD_PUBLISHER_HITS}></td>
 
-            <{if $rating}>
-                <td align='right'><{$smarty.const._MD_PUBLISHER_VOTE_RATING}></td>
+            <{if $permRating}>
+                <td align='right'>&nbsp;&nbsp;&nbsp;<{$smarty.const._MD_PUBLISHER_VOTE_RATING}></td>
             <{/if}>
         </tr>
         <{foreach item=item from=$category.items}>
             <tr>
                 <td><{$item.published}></td>
-                <td><{$item.link}></td>
-                <td align='right'><{$item.hits}></td>
+                <td>&nbsp;&nbsp;<{$item.link}></td>
+                <td align='right'><{$item.hits}>  </td>
 
-                <{if $rating}>
-                    <td align='right'><{$item.rating}></td>
+                <{if $permRating}>
+                    <td align='right'>&nbsp;&nbsp;<{$item.rating}></td>
                 <{/if}>
             </tr>
         <{/foreach}>
         <tr>
             <td colspan='2' align='left'><{$smarty.const._MD_PUBLISHER_TOTAL_ITEMS}><{$category.count_items}></td>
             <td align='right'><{$smarty.const._MD_PUBLISHER_TOTAL_HITS}><{$category.count_hits}></td>
-            <{if $rating}>
+            <{if $permRating}>
                 <td>&nbsp;</td>
             <{/if}>
         </tr>
         <tr>
-            <{if $rating}>
+            <{if $permRating}>
             <td colspan='4'>
                 <{else}>
             <td colspan='3'>

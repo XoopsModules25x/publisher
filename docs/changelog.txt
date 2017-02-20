@@ -1,10 +1,17 @@
+<h5>1.04 FINAL       (2017-102-19)</h5>
+- added XoopsLocal::number_format for rating in author_items.php (mamba)
+- added _SHORTDATESTRING to use for date formatting in author_items.php (mamba)
+- added "img-responsive" to all images in index.php and item.php (mamba) (temporary fix for Bootstrap)
+- cosmetics in publisher_author_items.tpl (mamba)
+
 <h5>1.04 RC 2       (NOT RELEASED)</h5>
 - fixed makeSelBox deprecated warning on xoops 2.5.9 (trabis)
+- fixed Breadcrump (Bleek)
 - change TEXT fields to allow NULL, needed for import in "strict" mode (mamba)
 - changed min_db to 5.5 (mamba)
 - changed "emptyString" function in metagen.php to static to allow a callback from a static "generateSeoTitle" (mamba)
 - replaced "preg_replace" with "str_replace" in metagen.php (mamba)
-- update import from News 1.71 (mamba)
+- updated import from News 1.71 (mamba)
 
 <h5>1.04 RC 1       (NOT RELEASED)</h5>
 - fix bug when date change by user is not allowed (cesagonchu/mamba)

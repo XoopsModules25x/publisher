@@ -18,13 +18,15 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 require_once __DIR__ . '/admin_header.php';
 
-$op = XoopsRequest::getString('op', XoopsRequest::getString('op', 'none', 'GET'), 'POST');
+$op = Request::getString('op', Request::getString('op', 'none', 'GET'), 'POST');
 
 switch ($op) {
     case 'importExecute':
-        $importfile      = XoopsRequest::getString('importfile', 'nonselected', 'POST');
+        $importfile      = Request::getString('importfile', 'nonselected', 'POST');
         $importfile_path = $GLOBALS['xoops']->path('modules/' . $publisher->getModule()->dirname() . '/admin/import/' . $importfile . '.php');
         include_once $importfile_path;
         break;

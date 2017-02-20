@@ -19,6 +19,8 @@
  *
  */
 
+use \Xmf\Request;
+
 include_once dirname(__DIR__) . '/include/common.php';
 
 //namespace Publisher;
@@ -368,7 +370,7 @@ class PublisherUtility
             static::closeCollapsableBar('subcatstable', 'subcatsicon');
 
             static::openCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
-            $startitem = XoopsRequest::getInt('startitem');
+            $startitem = Request::getInt('startitem');
             // Get the total number of published ITEMS
             $totalitems = $publisher->getHandler('item')->getItemsCount($selCat, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
             // creating the items objects that are published
@@ -424,7 +426,7 @@ class PublisherUtility
             }
             echo "</table>\n";
             echo "<br>\n";
-            $parentid         = XoopsRequest::getInt('parentid', 0, 'GET');
+            $parentid         = Request::getInt('parentid', 0, 'GET');
             $pagenavExtraArgs = "op=mod&categoryid=$selCat&parentid=$parentid";
             xoops_load('XoopsPageNav');
             $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $startitem, 'startitem', $pagenavExtraArgs);
@@ -922,7 +924,7 @@ class PublisherUtility
         //    } else {
         //        return $default;
         //    }
-        return XoopsRequest::getString('name', $default, 'COOKIE');
+        return Request::getString('name', $default, 'COOKIE');
     }
 
     /**
@@ -934,9 +936,9 @@ class PublisherUtility
         //    $phpself     = $_SERVER['PHP_SELF'];
         //    $httphost    = $_SERVER['HTTP_HOST'];
         //    $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
-        $phpself     = XoopsRequest::getString('PHP_SELF', '', 'SERVER');
-        $httphost    = XoopsRequest::getString('HTTP_HOST', '', 'SERVER');
-        $querystring = XoopsRequest::getString('QUERY_STRING', '', 'SERVER');
+        $phpself     = Request::getString('PHP_SELF', '', 'SERVER');
+        $httphost    = Request::getString('HTTP_HOST', '', 'SERVER');
+        $querystring = Request::getString('QUERY_STRING', '', 'SERVER');
 
         if ($querystring != '') {
             $querystring = '?' . $querystring;
@@ -1133,7 +1135,7 @@ class PublisherUtility
             $subject = rawurldecode($subject);
         }
 
-        $targetUri = XOOPS_URL . XoopsRequest::getString('REQUEST_URI', '', 'SERVER');
+        $targetUri = XOOPS_URL . Request::getString('REQUEST_URI', '', 'SERVER');
 
         return XOOPS_URL . '/modules/tellafriend/index.php?target_uri=' . rawurlencode($targetUri) . '&amp;subject=' . rawurlencode($subject);
     }
@@ -1151,12 +1153,12 @@ class PublisherUtility
         //    global $publisherIsAdmin;
         $publisher = PublisherPublisher::getInstance();
 
-        $itemId  = XoopsRequest::getInt('itemid', 0, 'POST');
+        $itemId  = Request::getInt('itemid', 0, 'POST');
         $uid     = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
         $session = PublisherSession::getInstance();
-        $session->set('publisher_file_filename', XoopsRequest::getString('item_file_name', '', 'POST'));
-        $session->set('publisher_file_description', XoopsRequest::getString('item_file_description', '', 'POST'));
-        $session->set('publisher_file_status', XoopsRequest::getInt('item_file_status', 1, 'POST'));
+        $session->set('publisher_file_filename', Request::getString('item_file_name', '', 'POST'));
+        $session->set('publisher_file_description', Request::getString('item_file_description', '', 'POST'));
+        $session->set('publisher_file_status', Request::getInt('item_file_status', 1, 'POST'));
         $session->set('publisher_file_uid', $uid);
         $session->set('publisher_file_itemid', $itemId);
 
@@ -1165,9 +1167,9 @@ class PublisherUtility
         }
 
         $fileObj = $publisher->getHandler('file')->create();
-        $fileObj->setVar('name', XoopsRequest::getString('item_file_name', '', 'POST'));
-        $fileObj->setVar('description', XoopsRequest::getString('item_file_description', '', 'POST'));
-        $fileObj->setVar('status', XoopsRequest::getInt('item_file_status', 1, 'POST'));
+        $fileObj->setVar('name', Request::getString('item_file_name', '', 'POST'));
+        $fileObj->setVar('description', Request::getString('item_file_description', '', 'POST'));
+        $fileObj->setVar('status', Request::getInt('item_file_status', 1, 'POST'));
         $fileObj->setVar('uid', $uid);
         $fileObj->setVar('itemid', $itemObj->getVar('itemid'));
         $fileObj->setVar('datesub', time());

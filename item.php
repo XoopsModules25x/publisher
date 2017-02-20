@@ -19,10 +19,12 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 include_once __DIR__ . '/header.php';
 
-$itemId     = XoopsRequest::getInt('itemid', 0, 'GET');
-$itemPageId = XoopsRequest::getInt('page', -1, 'GET');
+$itemId     = Request::getInt('itemid', 0, 'GET');
+$itemPageId = Request::getInt('page', -1, 'GET');
 
 if ($itemId == 0) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);

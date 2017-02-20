@@ -23,6 +23,8 @@
 # [11-may-2001] Kenneth Lee - http://www.nexgear.com/
 ######################################################################
 
+use \Xmf\Request;
+
 include_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_archive.tpl';
 
@@ -47,8 +49,8 @@ $monthsArray = array(
     11 => _CAL_NOVEMBER,
     12 => _CAL_DECEMBER
 );
-$fromyear    = XoopsRequest::getInt('year');
-$frommonth   = XoopsRequest::getInt('month');
+$fromyear    = Request::getInt('year');
+$frommonth   = Request::getInt('month');
 
 $pgtitle = '';
 if ($fromyear && $frommonth) {

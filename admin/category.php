@@ -18,22 +18,24 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 require_once __DIR__ . '/admin_header.php';
 
-$op = XoopsRequest::getString('op', XoopsRequest::getString('op', '', 'POST'), 'GET');
+$op = Request::getString('op', Request::getString('op', '', 'POST'), 'GET');
 
-$op = XoopsRequest::getString('editor', '', 'POST') ? 'mod' : $op;
-$op = XoopsRequest::getString('addcategory', '', 'POST') ? 'addcategory' : $op;
+$op = Request::getString('editor', '', 'POST') ? 'mod' : $op;
+$op = Request::getString('addcategory', '', 'POST') ? 'addcategory' : $op;
 
 // Where do we start ?
-$startcategory = XoopsRequest::getInt('startcategory', 0, 'GET');
-$categoryid    = XoopsRequest::getInt('categoryid');
+$startcategory = Request::getInt('startcategory', 0, 'GET');
+$categoryid    = Request::getInt('categoryid');
 
 switch ($op) {
     case 'del':
         $categoryObj = $publisher->getHandler('category')->get($categoryid);
-        $confirm     = XoopsRequest::getInt('confirm', '', 'POST');
-        $name        = XoopsRequest::getString('name', '', 'POST');
+        $confirm     = Request::getInt('confirm', '', 'POST');
+        $name        = Request::getString('name', '', 'POST');
         if ($confirm) {
             if (!$publisher->getHandler('category')->delete($categoryObj)) {
                 redirect_header('category.php', 1, _AM_PUBLISHER_DELETE_CAT_ERROR);
@@ -51,8 +53,8 @@ switch ($op) {
 
     case 'mod':
         //Added by fx2024
-        $nb_subcats = XoopsRequest::getInt('nb_subcats', 0, 'POST');
-        $nb_subcats += XoopsRequest::getInt('nb_sub_yet', 4, 'POST');
+        $nb_subcats = Request::getInt('nb_subcats', 0, 'POST');
+        $nb_subcats += Request::getInt('nb_sub_yet', 4, 'POST');
         //end of fx2024 code
 
         PublisherUtility::cpHeader();
@@ -62,7 +64,7 @@ switch ($op) {
     case 'addcategory':
         global $modify;
 
-        $parentid = XoopsRequest::getInt('parentid');
+        $parentid = Request::getInt('parentid');
 
         if ($categoryid != 0) {
             $categoryObj = $publisher->getHandler('category')->get($categoryid);
@@ -72,10 +74,10 @@ switch ($op) {
 
         // Uploading the image, if any
         // Retreive the filename to be uploaded
-        $temp = XoopsRequest::getArray('image_file', '', 'FILES');
+        $temp = Request::getArray('image_file', '', 'FILES');
         if ($image_file = $temp['name']) {
-            //            $filename = XoopsRequest::getArray('xoops_upload_file', array(), 'POST')[0];
-            $temp2 = XoopsRequest::getArray('xoops_upload_file', array(), 'POST');
+            //            $filename = Request::getArray('xoops_upload_file', array(), 'POST')[0];
+            $temp2 = Request::getArray('xoops_upload_file', array(), 'POST');
             if ($filename = $temp2[0]) {
                 // TODO : implement publisher mimetype management
                 $max_size          = $publisher->getConfig('maximum_filesize');
@@ -97,28 +99,28 @@ switch ($op) {
                 }
             }
         } else {
-            $categoryObj->setVar('image', XoopsRequest::getString('image', '', 'POST'));
+            $categoryObj->setVar('image', Request::getString('image', '', 'POST'));
         }
-        $categoryObj->setVar('parentid', XoopsRequest::getInt('parentid', 0, 'POST'));
+        $categoryObj->setVar('parentid', Request::getInt('parentid', 0, 'POST'));
 
-        $applyall = XoopsRequest::getInt('applyall', 0, 'POST');
-        $categoryObj->setVar('weight', XoopsRequest::getInt('weight', 1, 'POST'));
+        $applyall = Request::getInt('applyall', 0, 'POST');
+        $categoryObj->setVar('weight', Request::getInt('weight', 1, 'POST'));
 
         // Groups and permissions
-        $grpread       = XoopsRequest::getArray('groupsRead', array(), 'POST');
-        $grpsubmit     = XoopsRequest::getArray('groupsSubmit', array(), 'POST');
-        $grpmoderation = XoopsRequest::getArray('groupsModeration', array(), 'POST');
+        $grpread       = Request::getArray('groupsRead', array(), 'POST');
+        $grpsubmit     = Request::getArray('groupsSubmit', array(), 'POST');
+        $grpmoderation = Request::getArray('groupsModeration', array(), 'POST');
 
-        $categoryObj->setVar('name', XoopsRequest::getString('name', '', 'POST'));
+        $categoryObj->setVar('name', Request::getString('name', '', 'POST'));
 
         //Added by skalpa: custom template support
-        $categoryObj->setVar('template', XoopsRequest::getString('template', '', 'POST'));
-        $categoryObj->setVar('meta_description', XoopsRequest::getString('meta_description', '', 'POST'));
-        $categoryObj->setVar('meta_keywords', XoopsRequest::getString('meta_keywords', '', 'POST'));
-        $categoryObj->setVar('short_url', XoopsRequest::getString('short_url', '', 'POST'));
-        $categoryObj->setVar('moderator', XoopsRequest::getInt('moderator', 0, 'POST'));
-        $categoryObj->setVar('description', XoopsRequest::getString('description', '', 'POST'));
-        $categoryObj->setVar('header', XoopsRequest::getText('header', '', 'POST'));
+        $categoryObj->setVar('template', Request::getString('template', '', 'POST'));
+        $categoryObj->setVar('meta_description', Request::getString('meta_description', '', 'POST'));
+        $categoryObj->setVar('meta_keywords', Request::getString('meta_keywords', '', 'POST'));
+        $categoryObj->setVar('short_url', Request::getString('short_url', '', 'POST'));
+        $categoryObj->setVar('moderator', Request::getInt('moderator', 0, 'POST'));
+        $categoryObj->setVar('description', Request::getString('description', '', 'POST'));
+        $categoryObj->setVar('header', Request::getText('header', '', 'POST'));
 
         if ($categoryObj->isNew()) {
             $redirect_msg = _AM_PUBLISHER_CATCREATED;
@@ -139,12 +141,12 @@ switch ($op) {
 
         //Added by fx2024
         $parentCat = $categoryObj->categoryid();
-        $sizeof    = count(XoopsRequest::getArray('scname', array(), 'POST'));
+        $sizeof    = count(Request::getArray('scname', array(), 'POST'));
         for ($i = 0; $i < $sizeof; ++$i) {
-            $temp = XoopsRequest::getArray('scname', array(), 'POST');
+            $temp = Request::getArray('scname', array(), 'POST');
             if ($temp[$i] != '') {
                 $categoryObj = $publisher->getHandler('category')->create();
-                $temp2       = XoopsRequest::getArray('scname', array(), 'POST');
+                $temp2       = Request::getArray('scname', array(), 'POST');
                 $categoryObj->setVar('name', $temp2[$i]);
                 $categoryObj->setVar('parentid', $parentCat);
 
@@ -167,12 +169,12 @@ switch ($op) {
 
     case 'addsubcats':
         $categoryid = 0;
-        $nb_subcats = XoopsRequest::getInt('nb_subcats', 0, 'POST') + XoopsRequest::getInt('nb_sub_yet', 0, 'POST');
+        $nb_subcats = Request::getInt('nb_subcats', 0, 'POST') + Request::getInt('nb_sub_yet', 0, 'POST');
 
         $categoryObj = $publisher->getHandler('category')->create();
-        $categoryObj->setVar('name', XoopsRequest::getString('name', '', 'POST'));
-        $categoryObj->setVar('description', XoopsRequest::getString('description', '', 'POST'));
-        $categoryObj->setVar('weight', XoopsRequest::getInt('weight', 0, 'POST'));
+        $categoryObj->setVar('name', Request::getString('name', '', 'POST'));
+        $categoryObj->setVar('description', Request::getString('description', '', 'POST'));
+        $categoryObj->setVar('weight', Request::getInt('weight', 0, 'POST'));
         if (isset($parentCat)) {
             $categoryObj->setVar('parentid', $parentCat);
         }

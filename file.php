@@ -18,11 +18,13 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 include_once __DIR__ . '/header.php';
 xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
-$op     = XoopsRequest::getString('op', XoopsRequest::getString('op', '', 'GET'), 'POST');
-$fileid = XoopsRequest::getInt('fileid', XoopsRequest::getInt('fileid', 0, 'GET'), 'POST');
+$op     = Request::getString('op', Request::getString('op', '', 'GET'), 'POST');
+$fileid = Request::getInt('fileid', Request::getInt('fileid', 0, 'GET'), 'POST');
 
 if ($fileid == 0) {
     redirect_header('index.php', 2, _MD_PUBLISHER_NOITEMSELECTED);
@@ -58,7 +60,7 @@ switch ($op) {
         break;
 
     case 'modify':
-        $fileid = XoopsRequest::getInt('fileid', 0, 'POST');
+        $fileid = Request::getInt('fileid', 0, 'POST');
 
         // Creating the file object
         if ($fileid != 0) {
@@ -69,13 +71,13 @@ switch ($op) {
         }
 
         // Putting the values in the file object
-        $fileObj->setVar('name', XoopsRequest::getString('name'));
-        $fileObj->setVar('description', XoopsRequest::getString('description'));
-        $fileObj->setVar('status', XoopsRequest::getInt('file_status', 0, 'GET'));
+        $fileObj->setVar('name', Request::getString('name'));
+        $fileObj->setVar('description', Request::getString('description'));
+        $fileObj->setVar('status', Request::getInt('file_status', 0, 'GET'));
 
         // attach file if any
 
-        if (XoopsRequest::getString('item_upload_file', '', 'FILES') != '') {
+        if (Request::getString('item_upload_file', '', 'FILES') != '') {
             $oldfile = $fileObj->getFilePath();
 
             // Get available mimetypes for file uploading
@@ -83,8 +85,8 @@ switch ($op) {
             // TODO : display the available mimetypes to the user
             $errors = array();
 
-            //            if ($publisher->getConfig('perm_upload') && is_uploaded_file(XoopsRequest::getArray('item_upload_file', array(), 'FILES')['tmp_name'])) {
-            $temp = XoopsRequest::getArray('item_upload_file', array(), 'FILES');
+            //            if ($publisher->getConfig('perm_upload') && is_uploaded_file(Request::getArray('item_upload_file', array(), 'FILES')['tmp_name'])) {
+            $temp = Request::getArray('item_upload_file', array(), 'FILES');
             if ($publisher->getConfig('perm_upload') && is_uploaded_file($temp['tmp_name'])) {
                 if ($fileObj->checkUpload('item_upload_file', $allowed_mimetypes, $errors)) {
                     if ($fileObj->storeUpload('item_upload_file', $allowed_mimetypes, $errors)) {
@@ -108,7 +110,7 @@ switch ($op) {
         break;
 
     case 'del':
-        $confirm = XoopsRequest::getInt('confirm', '', 'POST');
+        $confirm = Request::getInt('confirm', '', 'POST');
 
         if ($confirm) {
             if (!$publisher->getHandler('file')->delete($fileObj)) {

@@ -20,14 +20,16 @@
  * @author          ZySpec <owners@zyspec.com>
  */
 
+use \Xmf\Request;
+
 include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
-$importFromModuleName = 'FmContent ' . XoopsRequest::getString('fmcontent_version', '', 'POST');
+$importFromModuleName = 'FmContent ' . Request::getString('fmcontent_version', '', 'POST');
 
 $scriptname = 'fmcontent.php';
 
-$op = ('go' === XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
+$op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 
 if ('start' === $op) {
     xoops_load('XoopsFormLoader');
@@ -118,7 +120,7 @@ if ('start' === $op) {
             $form->addElement(new XoopsFormHidden('op', 'go'));
             $form->addElement(new XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
 
-            $form->addElement(new XoopsFormHidden('from_module_version', XoopsRequest::getString('news_version', '', 'POST')));
+            $form->addElement(new XoopsFormHidden('from_module_version', Request::getString('news_version', '', 'POST')));
 
             $form->display();
         }
@@ -142,7 +144,7 @@ if ('go' === $op) {
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
 
-    $parentId = XoopsRequest::getInt('parent_category', 0, 'POST');
+    $parentId = Request::getInt('parent_category', 0, 'POST');
 
     // get all FmContent Content items without a category (content_topic=0)
     $fmContentHdlr = xoops_getModuleHandler('page', 'fmcontent');

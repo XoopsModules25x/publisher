@@ -18,6 +18,8 @@
  * @author          Kazumi Ono (AKA onokazu)
  */
 
+use \Xmf\Request;
+
 require_once __DIR__ . '/admin_header.php';
 
 $module  = $publisher->getModule();
@@ -35,9 +37,9 @@ if (isset($_POST)) {
 }
 unset($k, $v);
 
-$op = XoopsRequest::getString('op', $op, 'GET');
+$op = Request::getString('op', $op, 'GET');
 
-$configcat = XoopsRequest::getString('configcat', '', 'GET');
+$configcat = Request::getString('configcat', '', 'GET');
 
 if ($op === 'showmod') {
     $configHandler = xoops_getHandler('config');

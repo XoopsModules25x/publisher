@@ -19,27 +19,30 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
+
 require_once __DIR__ . '/admin_header.php';
 
-$itemid = XoopsRequest::getInt('itemid', XoopsRequest::getInt('itemid', 0, 'POST'), 'GET');
-$op     = ($itemid > 0 || XoopsRequest::getString('editor', '', 'POST')) ? 'mod' : '';
-//$op     = XoopsRequest::getString('op', $op, 'GET');
+$itemid = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
+$op     = ($itemid > 0 || Request::getString('editor', '', 'POST')) ? 'mod' : '';
+//$op     = Request::getString('op', $op, 'GET');
 
-$op = XoopsRequest::getString('op', XoopsRequest::getString('op', $op, 'POST'), 'GET');
+$op = Request::getString('op', Request::getString('op', $op, 'POST'), 'GET');
 
-//if (!empty(XoopsRequest::getString('additem', '', 'POST'))) {
+//if (!empty(Request::getString('additem', '', 'POST'))) {
 //    $op = 'additem';
-//} elseif (!empty(XoopsRequest::getString('del', '', 'POST'))) {
+//} elseif (!empty(Request::getString('del', '', 'POST'))) {
 //    $op = 'del';
 //}
 
-$op = XoopsRequest::getString('additem', '', 'POST') ? 'additem' : (XoopsRequest::getString('del', '', 'POST') ? 'del' : $op);
+$op = Request::getString('additem', '', 'POST') ? 'additem' : (Request::getString('del', '', 'POST') ? 'del' : $op);
 
 // Where shall we start ?
-$submittedstartitem = XoopsRequest::getInt('submittedstartitem', XoopsRequest::getInt('submittedstartitem', 0, 'GET'), 'POST');
-$publishedstartitem = XoopsRequest::getInt('publishedstartitem', XoopsRequest::getInt('publishedstartitem', 0, 'GET'), 'POST');
-$offlinestartitem   = XoopsRequest::getInt('offlinestartitem', XoopsRequest::getInt('offlinestartitem', 0, 'GET'), 'POST');
-$rejectedstartitem  = XoopsRequest::getInt('rejectedstartitem', XoopsRequest::getInt('submittedstartitem', 0, 'GET'), 'POST');
+$submittedstartitem = Request::getInt('submittedstartitem', Request::getInt('submittedstartitem', 0, 'GET'), 'POST');
+$publishedstartitem = Request::getInt('publishedstartitem', Request::getInt('publishedstartitem', 0, 'GET'), 'POST');
+$offlinestartitem   = Request::getInt('offlinestartitem', Request::getInt('offlinestartitem', 0, 'GET'), 'POST');
+$rejectedstartitem  = Request::getInt('rejectedstartitem', Request::getInt('submittedstartitem', 0, 'GET'), 'POST');
 
 switch ($op) {
     case 'clone':
@@ -79,7 +82,7 @@ switch ($op) {
         $itemObj->setVarsFromRequest();
 
         $old_status = $itemObj->status();
-        $newStatus  = XoopsRequest::getInt('status', PublisherConstants::PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
+        $newStatus  = Request::getInt('status', PublisherConstants::PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
 
         switch ($newStatus) {
             case PublisherConstants::PUBLISHER_STATUS_SUBMITTED:
@@ -125,7 +128,7 @@ switch ($op) {
         }
 
         // attach file if any
-        if (($item_upload_file = XoopsRequest::getArray('item_upload_file', '', 'FILES')) && $item_upload_file['name'] !== '') {
+        if (($item_upload_file = Request::getArray('item_upload_file', '', 'FILES')) && $item_upload_file['name'] !== '') {
             $file_upload_result = PublisherUtility::uploadFile(false, false, $itemObj);
             if ($file_upload_result !== true) {
                 redirect_header('javascript:history.go(-1)', 3, $file_upload_result);
@@ -144,7 +147,7 @@ switch ($op) {
 
     case 'del':
         $itemObj = $publisher->getHandler('item')->get($itemid);
-        $confirm = XoopsRequest::getInt('confirm', '', 'POST');
+        $confirm = Request::getInt('confirm', '', 'POST');
 
         if ($confirm) {
             if (!$publisher->getHandler('item')->delete($itemObj)) {
@@ -584,7 +587,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
         $buttonCaption     = _AM_PUBLISHER_CREATE;
         $newStatus         = PublisherConstants::PUBLISHER_STATUS_PUBLISHED;
 
-        $categoryObj->setVar('categoryid', XoopsRequest::getInt('categoryid', 0, 'GET'));
+        $categoryObj->setVar('categoryid', Request::getInt('categoryid', 0, 'GET'));
 
         PublisherUtility::openCollapsableBar('createitemtable', 'createitemicon', _AM_PUBLISHER_ITEM_CREATING, _AM_PUBLISHER_ITEM_CREATING_DSC);
     }

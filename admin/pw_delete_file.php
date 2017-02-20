@@ -18,18 +18,20 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 require_once __DIR__ . '/admin_header.php';
 
-if ('delfileok' === XoopsRequest::getString('op', '', 'POST')) {
+if ('delfileok' === Request::getString('op', '', 'POST')) {
     $dir      = PublisherUtility::getUploadDir(true, 'content');
-    $filename = XoopsRequest::getString('address', '', 'POST');
+    $filename = Request::getString('address', '', 'POST');
     if (file_exists($dir . '/' . $filename)) {
         unlink($dir . '/' . $filename);
     }
-    redirect_header(XoopsRequest::getString('backto', '', 'POST'), 2, _AM_PUBLISHER_FDELETED);
+    redirect_header(Request::getString('backto', '', 'POST'), 2, _AM_PUBLISHER_FDELETED);
 } else {
     xoops_cp_header();
-    xoops_confirm(array('backto' => XoopsRequest::getString('backto', '', 'POST'), 'address' => XoopsRequest::getString('address', '', 'POST'), 'op' => 'delfileok'), 'pw_delete_file.php',
+    xoops_confirm(array('backto' => Request::getString('backto', '', 'POST'), 'address' => Request::getString('address', '', 'POST'), 'op' => 'delfileok'), 'pw_delete_file.php',
                   _AM_PUBLISHER_RUSUREDELF, _YES);
     xoops_cp_footer();
 }

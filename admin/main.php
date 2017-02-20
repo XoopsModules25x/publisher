@@ -18,17 +18,19 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 require_once __DIR__ . '/admin_header.php';
 include_once $GLOBALS['xoops']->path('class/xoopslists.php');
 include_once $GLOBALS['xoops']->path('class/pagenav.php');
 include_once __DIR__ . '/../class/utility.php';
 
-$itemid = XoopsRequest::getInt('itemid', 0, 'POST');
+$itemid = Request::getInt('itemid', 0, 'POST');
 
-$pick      = XoopsRequest::getInt('pick', XoopsRequest::getInt('pick', 0, 'GET'), 'POST');
-$statussel = XoopsRequest::getInt('statussel', XoopsRequest::getInt('statussel', 0, 'GET'), 'POST');
-$sortsel   = XoopsRequest::getString('sortsel', XoopsRequest::getString('sortsel', 'itemid', 'GET'), 'POST');
-$ordersel  = XoopsRequest::getString('ordersel', XoopsRequest::getString('ordersel', 'DESC', 'GET'), 'POST');
+$pick      = Request::getInt('pick', Request::getInt('pick', 0, 'GET'), 'POST');
+$statussel = Request::getInt('statussel', Request::getInt('statussel', 0, 'GET'), 'POST');
+$sortsel   = Request::getString('sortsel', Request::getString('sortsel', 'itemid', 'GET'), 'POST');
+$ordersel  = Request::getString('ordersel', Request::getString('ordersel', 'DESC', 'GET'), 'POST');
 
 $module_id    = $publisher->getModule()->mid();
 $gpermHandler = xoops_getHandler('groupperm');
@@ -36,7 +38,7 @@ $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOO
 
 // Code for the page
 
-$startentry = XoopsRequest::getInt('startentry', 0, 'GET');
+$startentry = Request::getInt('startentry', 0, 'GET');
 
 PublisherUtility::cpHeader();
 //publisher_adminMenu(0, _AM_PUBLISHER_INDEX);
@@ -193,7 +195,7 @@ switch ($statussel) {
 }
 
 /* -- Code to show selected terms -- */
-echo "<form name='pick' id='pick' action='" . XoopsRequest::getString('PHP_SELF', '', 'SERVER') . "' method='POST' style='margin: 0;'>";
+echo "<form name='pick' id='pick' action='" . Request::getString('PHP_SELF', '', 'SERVER') . "' method='POST' style='margin: 0;'>";
 
 echo "
     <table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-left: 1px solid silver; border-top: 1px solid silver; border-right: 1px solid silver;'>

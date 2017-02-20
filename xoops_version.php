@@ -18,6 +18,8 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 $moduleDirName = basename(__DIR__);
@@ -387,7 +389,7 @@ $modversion['configcat']['group_header'] = array(
 ################### SEO ####################
 
 //$isModuleAction = (!empty($_POST['fct']) && 'modulesadmin' == $_POST['fct']) ? true : false;
-$isModuleAction = ('modulesadmin' === XoopsRequest::getString('fct', '', 'POST'));
+$isModuleAction = ('modulesadmin' === Request::getString('fct', '', 'POST'));
 //if ($isModuleAction && (in_array(php_sapi_name(), array('apache', 'apache2handler', 'cgi-fcgi')))) {
 //    _MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'
 //}

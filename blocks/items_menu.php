@@ -19,6 +19,8 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
@@ -50,7 +52,7 @@ function publisher_items_menu_show($options)
 
     if ($block['inModule']) {
         // Are we in a category and if yes, in which one ?
-        $categoryid = XoopsRequest::getInt('categoryid', 0, 'GET');
+        $categoryid = Request::getInt('categoryid', 0, 'GET');
 
         if ($categoryid != 0) {
             // if we are in a category, then the $categoryObj is already defined in publisher/category.php

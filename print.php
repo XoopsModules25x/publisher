@@ -19,10 +19,12 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 include_once __DIR__ . '/header.php';
 require_once $GLOBALS['xoops']->path('class/template.php');
 
-$itemid = XoopsRequest::getInt('itemid', 0, 'GET');
+$itemid = Request::getInt('itemid', 0, 'GET');
 
 if ($itemid == 0) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);

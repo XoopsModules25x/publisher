@@ -17,20 +17,22 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
+use \Xmf\Request;
+
 require_once __DIR__ . '/admin_header.php';
 
 PublisherUtility::cpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_CLONE);
 PublisherUtility::openCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
 
-if ('submit' === XoopsRequest::getString('op', '', 'POST')) {
+if ('submit' === Request::getString('op', '', 'POST')) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header('clone.php', 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
         //        exit();
     }
 
     //    $clone = $_POST['clone'];
-    $clone = XoopsRequest::getString('clone', '', 'POST');
+    $clone = Request::getString('clone', '', 'POST');
 
     //check if name is valid
     if (empty($clone) || preg_match('/[^a-zA-Z0-9\_\-]/', $clone)) {

@@ -19,9 +19,11 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 include_once __DIR__ . '/header.php';
 
-$categoryid = XoopsRequest::getInt('categoryid', 0, 'GET');
+$categoryid = Request::getInt('categoryid', 0, 'GET');
 
 // Creating the category object for the selected category
 $categoryObj = $publisher->getHandler('category')->get($categoryid);
@@ -39,9 +41,9 @@ if (!$categoryObj->checkPermission()) {
 }
 
 // At which record shall we start
-$start = XoopsRequest::getInt('start', 0, 'GET');
+$start = Request::getInt('start', 0, 'GET');
 
-$item_page_id = XoopsRequest::getInt('page', -1, 'GET');
+$item_page_id = Request::getInt('page', -1, 'GET');
 
 $totalItems = $publisher->getHandler('category')->publishedItemsCount();
 

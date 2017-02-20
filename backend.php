@@ -19,6 +19,8 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 include_once __DIR__ . '/header.php';
 //xoops_load('XoopsLocal'); //mb
 
@@ -30,7 +32,7 @@ if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
 
-$categoryid = XoopsRequest::getInt('categoryid', -1, 'GET');
+$categoryid = Request::getInt('categoryid', -1, 'GET');
 
 if ($categoryid != -1) {
     $categoryObj = $publisher->getHandler('category')->get($categoryid);

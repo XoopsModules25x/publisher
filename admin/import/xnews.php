@@ -19,14 +19,16 @@
  * @author          Marius Scurtescu <mariuss@romanians.bc.ca>
  */
 
+use \Xmf\Request;
+
 include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
-$importFromModuleName = 'xNews ' . XoopsRequest::getString('xnews_version', '', 'POST');
+$importFromModuleName = 'xNews ' . Request::getString('xnews_version', '', 'POST');
 
 $scriptname = 'xnews.php';
 
-$op = ('go' === XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
+$op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 
 if ('start' === $op) {
     xoops_load('XoopsFormLoader');
@@ -153,7 +155,7 @@ if ('start' === $op) {
             $form->addElement(new XoopsFormHidden('op', 'go'));
             $form->addElement(new XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
 
-            $form->addElement(new XoopsFormHidden('from_module_version', XoopsRequest::getString('xnews_version', '', 'POST')));
+            $form->addElement(new XoopsFormHidden('from_module_version', Request::getString('xnews_version', '', 'POST')));
 
             $form->display();
         }
@@ -178,7 +180,7 @@ if ($op === 'go') {
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
 
-    $parentId = XoopsRequest::getInt('parent_category', 0, 'POST');
+    $parentId = Request::getInt('parent_category', 0, 'POST');
 
     $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('nw_topics');
 

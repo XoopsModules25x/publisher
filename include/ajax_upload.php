@@ -17,6 +17,8 @@
  * @author         XOOPS Development Team
  */
 
+use \Xmf\Request;
+
 error_reporting(0);
 include dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 include_once __DIR__ . '/common.php';
@@ -31,12 +33,12 @@ if (!is_object($GLOBALS['xoopsUser'])) {
 }
 
 $filename       = basename($_FILES['publisher_upload_file']['name']);
-$image_nicename = XoopsRequest::getString('image_nicename', '', 'POST');
+$image_nicename = Request::getString('image_nicename', '', 'POST');
 if ($image_nicename == '' || $image_nicename == _CO_PUBLISHER_IMAGE_NICENAME) {
     $image_nicename = $filename;
 }
 
-$imgcat_id = XoopsRequest::getInt('imgcat_id', 0, 'POST');
+$imgcat_id = Request::getInt('imgcat_id', 0, 'POST');
 
 $imgcatHandler = xoops_getHandler('imagecategory');
 $imgcat        = $imgcatHandler->get($imgcat_id);

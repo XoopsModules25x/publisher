@@ -19,14 +19,16 @@
  * @author          Marius Scurtescu <mariuss@romanians.bc.ca>
  */
 
+use \Xmf\Request;
+
 include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
-$importFromModuleName = 'cjaycontent ' . XoopsRequest::getString('cjaycontent_version', '', 'POST');
+$importFromModuleName = 'cjaycontent ' . Request::getString('cjaycontent_version', '', 'POST');
 
 $scriptname = 'cjaycontent.php';
 
-$op = ('go' === XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
+$op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 
 /**
  * @param $src
@@ -74,7 +76,7 @@ if ($op === 'start') {
         $form->addElement(new XoopsFormHidden('op', 'go'));
         $form->addElement(new XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
 
-        $form->addElement(new XoopsFormHidden('from_module_version', XoopsRequest::getString('cjaycontent_version', '', 'POST')));
+        $form->addElement(new XoopsFormHidden('from_module_version', Request::getString('cjaycontent_version', '', 'POST')));
 
         $form->display();
     }

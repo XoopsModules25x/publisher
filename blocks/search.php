@@ -19,6 +19,8 @@
  * @author          phppp
  */
 
+use \Xmf\Request;
+
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 include_once dirname(__DIR__) . '/include/common.php';
@@ -39,22 +41,22 @@ function publisher_search_show($options)
 
     xoops_loadLanguage('search');
 
-    $andor    = XoopsRequest::getString('andor', XoopsRequest::getString('andor', '', 'GET'), 'POST');
-    $username = XoopsRequest::getString('uname', XoopsRequest::getString('uname', null, 'GET'), 'POST');
+    $andor    = Request::getString('andor', Request::getString('andor', '', 'GET'), 'POST');
+    $username = Request::getString('uname', Request::getString('uname', null, 'GET'), 'POST');
     //  $searchin = isset($_POST["searchin"]) ? $_POST["searchin"] : (isset($_GET["searchin"]) ? explode("|", $_GET["searchin"]) : array());
-    //  $searchin = XoopsRequest::getArray('searchin', (explode("|", XoopsRequest::getString('searchin', array(), 'GET'))), 'POST');
+    //  $searchin = Request::getArray('searchin', (explode("|", Request::getString('searchin', array(), 'GET'))), 'POST');
 
-    $searchin = XoopsRequest::getArray('searchin', '', 'POST');
+    $searchin = Request::getArray('searchin', '', 'POST');
     if (!isset($searchin)) {
-        $searchin = XoopsRequest::getString('searchin', array(), 'GET');
+        $searchin = Request::getString('searchin', array(), 'GET');
         $searchin = isset($searchin) ? explode('|', $searchin) : array();
     }
 
-    $sortby = XoopsRequest::getString('sortby', XoopsRequest::getString('sortby', null, 'GET'), 'POST');
-    $term   = XoopsRequest::getString('term', XoopsRequest::getString('term', '', 'GET'));
+    $sortby = Request::getString('sortby', Request::getString('sortby', null, 'GET'), 'POST');
+    $term   = Request::getString('term', Request::getString('term', '', 'GET'));
 
     //mb TODO simplify next lines with category
-    $category = XoopsRequest::getArray('category', array(), 'POST') ?: XoopsRequest::getArray('category', null, 'GET');
+    $category = Request::getArray('category', array(), 'POST') ?: Request::getArray('category', null, 'GET');
     if (empty($category) || (is_array($category) && in_array('all', $category))) {
         $category = array();
     } else {

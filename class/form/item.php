@@ -20,6 +20,8 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
+use \Xmf\Request;
+
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
 include_once dirname(dirname(__DIR__)) . '/include/common.php';
@@ -176,7 +178,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         if (count($allowedEditors) === 1) {
             $editor = $allowedEditors[0];
         } elseif (count($allowedEditors) > 0) {
-            $editor = XoopsRequest::getString('editor', '', 'POST');
+            $editor = Request::getString('editor', '', 'POST');
             if (!empty($editor)) {
                 PublisherUtility::setCookieVar('publisher_editor', $editor);
             } else {

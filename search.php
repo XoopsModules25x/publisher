@@ -19,6 +19,8 @@
  * @author          Taiwen Jiang <phppp@users.sourceforge.net>
  */
 
+use \Xmf\Request;
+
 include_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
 //Checking general permissions
@@ -49,13 +51,13 @@ include_once PUBLISHER_ROOT_PATH . '/' . $module_info_search['file'];
 $limit    = 10; //$publisher->getConfig('idxcat_perpage');
 $uid      = 0;
 $queries  = array();
-$andor    = XoopsRequest::getString('andor', '', 'POST');
-$start    = XoopsRequest::getInt('start', 0, 'POST');
-$category = XoopsRequest::getArray('category', array(), 'POST');
-$username = XoopsRequest::getString('uname', '', 'POST');
-$searchin = XoopsRequest::getArray('searchin', array(), 'POST');
-$sortby   = XoopsRequest::getString('sortby', '', 'POST');
-$term     = XoopsRequest::getString('term', '', 'POST');
+$andor    = Request::getString('andor', '', 'POST');
+$start    = Request::getInt('start', 0, 'POST');
+$category = Request::getArray('category', array(), 'POST');
+$username = Request::getString('uname', '', 'POST');
+$searchin = Request::getArray('searchin', array(), 'POST');
+$sortby   = Request::getString('sortby', '', 'POST');
+$term     = Request::getString('term', '', 'POST');
 
 if (empty($category) || (is_array($category) && in_array('all', $category))) {
     $category = array();
@@ -67,7 +69,7 @@ if (empty($category) || (is_array($category) && in_array('all', $category))) {
 $andor  = in_array(strtoupper($andor), array('OR', 'AND', 'EXACT')) ? strtoupper($andor) : 'OR';
 $sortby = in_array(strtolower($sortby), array('itemid', 'datesub', 'title', 'categoryid')) ? strtolower($sortby) : 'itemid';
 
-if ($term && 'none' !== XoopsRequest::getString('submit', 'none', 'POST')) {
+if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     $next_search['category'] = implode(',', $category);
     $next_search['andor']    = $andor;
     $next_search['term']     = $term;

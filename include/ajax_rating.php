@@ -17,6 +17,8 @@
 //  URL: http://www.xuups.com
 //  E-Mail: lusopoemas@gmail.com
 
+use \Xmf\Request;
+
 include_once dirname(__DIR__) . '/header.php';
 
 error_reporting(0);
@@ -26,8 +28,8 @@ header('Cache-Control: no-cache');
 header('Pragma: nocache');
 
 //getting the values
-$rating = XoopsRequest::getInt('rating', 0, 'GET');
-$itemid = XoopsRequest::getInt('itemid', 0, 'GET');
+$rating = Request::getInt('rating', 0, 'GET');
+$itemid = Request::getInt('itemid', 0, 'GET');
 
 xoops_loadLanguage('main', PUBLISHER_DIRNAME);
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;

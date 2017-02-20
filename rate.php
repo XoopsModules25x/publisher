@@ -18,11 +18,13 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
+use \Xmf\Request;
+
 include_once __DIR__ . '/header.php';
 
 //getting the values
-$rating = XoopsRequest::getInt('rating', 0, 'GET');
-$itemid = XoopsRequest::getInt('itemid', 0, 'GET');
+$rating = Request::getInt('rating', 0, 'GET');
+$itemid = Request::getInt('itemid', 0, 'GET');
 
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $gpermHandler = xoops_getModuleHandler('groupperm');

@@ -18,10 +18,12 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
+use \Xmf\Request;
+
 include_once dirname(dirname(__DIR__)) . '/mainfile.php';
 include_once __DIR__ . '/include/common.php';
 
-$com_itemid = XoopsRequest::getInt('com_itemid', 0, 'GET');
+$com_itemid = Request::getInt('com_itemid', 0, 'GET');
 if ($com_itemid > 0) {
     $itemObj       = $publisher->getHandler('item')->get($com_itemid);
     $com_replytext = _POSTEDBY . '&nbsp;<strong>' . $itemObj->getLinkedPosterName() . '</strong>&nbsp;' . _DATE . '&nbsp;<strong>' . $itemObj->dateSub() . '</strong><br><br>' . $itemObj->summary();

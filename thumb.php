@@ -21,6 +21,8 @@
  * everytime you download a new version
 */
 
+use \Xmf\Request;
+
 include_once __DIR__ . '/header.php';
 
 define('VERSION', '2.8.14');                                                                        // Version of this script
@@ -300,7 +302,7 @@ class Timthumb
         global $ALLOWED_SITES;
         $this->startTime = microtime(true);
         date_default_timezone_set('UTC');
-        $this->debug(1, 'Starting new request from ' . $this->getIP() . ' to ' . XoopsRequest::getString('REQUEST_URI', '', 'SERVER'));
+        $this->debug(1, 'Starting new request from ' . $this->getIP() . ' to ' . Request::getString('REQUEST_URI', '', 'SERVER'));
         $this->calcDocRoot();
         //On windows systems I'm assuming fileinode returns an empty string or a number that doesn't change. Check this.
         $this->salt = @filemtime(__FILE__) . '-' . @fileinode(__FILE__);
@@ -1339,7 +1341,7 @@ class Timthumb
     protected function param($property, $default = '')
     {
         if (isset($_GET[$property])) {
-            return XoopsRequest::getString($property, '', 'GET');
+            return Request::getString($property, '', 'GET');
         } else {
             return $default;
         }

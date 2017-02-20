@@ -4,11 +4,14 @@
  * For tcpdf_for_xoops 2.01 and higher
  * Created by montuy337513 / philodenelle - http://www.chg-web.org
  */
+
+use \Xmf\Request;
+
 error_reporting(E_ALL);
 
 include_once __DIR__ . '/header.php';
-$itemid       = XoopsRequest::getInt('itemid', 0, 'GET');
-$item_page_id = XoopsRequest::getInt('page', -1, 'GET');
+$itemid       = Request::getInt('itemid', 0, 'GET');
+$item_page_id = Request::getInt('page', -1, 'GET');
 if ($itemid == 0) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }

@@ -17,6 +17,8 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 //namespace Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
@@ -809,9 +811,9 @@ class PublisherItem extends XoopsObject
         }
         // Highlighting searched words
         $highlight = true;
-        if ($highlight && XoopsRequest::getString('keywords', '', 'GET')) {
+        if ($highlight && Request::getString('keywords', '', 'GET')) {
             $myts     = MyTextSanitizer::getInstance();
-            $keywords = $myts->htmlSpecialChars(trim(urldecode(XoopsRequest::getString('keywords', '', 'GET'))));
+            $keywords = $myts->htmlSpecialChars(trim(urldecode(Request::getString('keywords', '', 'GET'))));
             $fields   = array('title', 'maintext', 'summary');
             foreach ($fields as $field) {
                 if (isset($item[$field])) {
@@ -959,7 +961,7 @@ class PublisherItem extends XoopsObject
             return $str;
         }
         // presume OS Browser
-        $agent   = XoopsRequest::getString('HTTP_USER_AGENT', '', 'SERVER');
+        $agent   = Request::getString('HTTP_USER_AGENT', '', 'SERVER');
         $os      = '';
         $browser = '';
         //        if (preg_match("/Win/i", $agent)) {
@@ -1028,21 +1030,21 @@ class PublisherItem extends XoopsObject
     public function setVarsFromRequest()
     {
         //Required fields
-        //        if (!empty($categoryid = XoopsRequest::getInt('categoryid', 0, 'POST'))) {
+        //        if (!empty($categoryid = Request::getInt('categoryid', 0, 'POST'))) {
         //            $this->setVar('categoryid', $categoryid);}
 
-        $this->setVar('categoryid', XoopsRequest::getInt('categoryid', 0, 'POST'));
-        $this->setVar('title', XoopsRequest::getString('title', '', 'POST'));
-        $this->setVar('body', XoopsRequest::getText('body', '', 'POST'));
+        $this->setVar('categoryid', Request::getInt('categoryid', 0, 'POST'));
+        $this->setVar('title', Request::getString('title', '', 'POST'));
+        $this->setVar('body', Request::getText('body', '', 'POST'));
 
         //Not required fields
-        $this->setVar('summary', XoopsRequest::getText('summary', '', 'POST'));
-        $this->setVar('subtitle', XoopsRequest::getString('subtitle', '', 'POST'));
-        $this->setVar('item_tag', XoopsRequest::getString('item_tag', '', 'POST'));
+        $this->setVar('summary', Request::getText('summary', '', 'POST'));
+        $this->setVar('subtitle', Request::getString('subtitle', '', 'POST'));
+        $this->setVar('item_tag', Request::getString('item_tag', '', 'POST'));
 
-        if (false !== ($imageFeatured = XoopsRequest::getString('image_featured', '', 'POST'))) {
-            $imageItem = XoopsRequest::getArray('image_item', array(), 'POST');
-            //            $imageFeatured = XoopsRequest::getString('image_featured', '', 'POST');
+        if (false !== ($imageFeatured = Request::getString('image_featured', '', 'POST'))) {
+            $imageItem = Request::getArray('image_item', array(), 'POST');
+            //            $imageFeatured = Request::getString('image_featured', '', 'POST');
             //Todo: get a better image class for xoops!
             //Image hack
             $imageItemIds = array();
@@ -1065,7 +1067,7 @@ class PublisherItem extends XoopsObject
             $this->setVar('images', '');
         }
 
-        if (false !== ($authorAlias = XoopsRequest::getString('author_alias', '', 'POST'))) {
+        if (false !== ($authorAlias = Request::getString('author_alias', '', 'POST'))) {
             $this->setVar('author_alias', $authorAlias);
             if ($this->getVar('author_alias') !== '') {
                 $this->setVar('uid', 0);
@@ -1074,13 +1076,13 @@ class PublisherItem extends XoopsObject
 
         //mb TODO check on version
         //check if date is set and convert it to GMT date
-        //        if (($datesub = XoopsRequest::getString('datesub', '', 'POST'))) {
-        if ('' !== XoopsRequest::getString('datesub', '', 'POST')) {
+        //        if (($datesub = Request::getString('datesub', '', 'POST'))) {
+        if ('' !== Request::getString('datesub', '', 'POST')) {
             //            if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
-            //                $this->setVar('datesub', strtotime(XoopsRequest::getArray('datesub', array(), 'POST')['date']) + XoopsRequest::getArray('datesub', array(), 'POST')['time']);
+            //                $this->setVar('datesub', strtotime(Request::getArray('datesub', array(), 'POST')['date']) + Request::getArray('datesub', array(), 'POST')['time']);
             //            } else {
-            $resDate = XoopsRequest::getArray('datesub', array(), 'POST');
-            $resTime = XoopsRequest::getArray('datesub', array(), 'POST');
+            $resDate = Request::getArray('datesub', array(), 'POST');
+            $resTime = Request::getArray('datesub', array(), 'POST');
             //            $this->setVar('datesub', strtotime($resDate['date']) + $resTime['time']);
             $localTimestamp = strtotime($resDate['date']) + $resTime['time'];
 
@@ -1104,10 +1106,10 @@ class PublisherItem extends XoopsObject
             $this->setVar('datesub', time());
         }
 
-        $this->setVar('short_url', XoopsRequest::getString('item_short_url', '', 'POST'));
-        $this->setVar('meta_keywords', XoopsRequest::getString('item_meta_keywords', '', 'POST'));
-        $this->setVar('meta_description', XoopsRequest::getString('item_meta_description', '', 'POST'));
-        $this->setVar('weight', XoopsRequest::getInt('weight', 0, 'POST'));
+        $this->setVar('short_url', Request::getString('item_short_url', '', 'POST'));
+        $this->setVar('meta_keywords', Request::getString('item_meta_keywords', '', 'POST'));
+        $this->setVar('meta_description', Request::getString('item_meta_description', '', 'POST'));
+        $this->setVar('weight', Request::getInt('weight', 0, 'POST'));
 
         if ($this->isNew()) {
             $this->setVar('uid', is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0);
@@ -1119,17 +1121,17 @@ class PublisherItem extends XoopsObject
             $this->setVar('doimage', $this->publisher->getConfig('submit_doimage'));
             $this->setVar('dobr', $this->publisher->getConfig('submit_dobr'));
         } else {
-            $this->setVar('uid', XoopsRequest::getInt('uid', 0, 'POST'));
-            $this->setVar('cancomment', XoopsRequest::getInt('allowcomments', 1, 'POST'));
-            $this->setVar('status', XoopsRequest::getInt('status', 1, 'POST'));
-            $this->setVar('dohtml', XoopsRequest::getInt('dohtml', 1, 'POST'));
-            $this->setVar('dosmiley', XoopsRequest::getInt('dosmiley', 1, 'POST'));
-            $this->setVar('doxcode', XoopsRequest::getInt('doxcode', 1, 'POST'));
-            $this->setVar('doimage', XoopsRequest::getInt('doimage', 1, 'POST'));
-            $this->setVar('dobr', XoopsRequest::getInt('dolinebreak', 1, 'POST'));
+            $this->setVar('uid', Request::getInt('uid', 0, 'POST'));
+            $this->setVar('cancomment', Request::getInt('allowcomments', 1, 'POST'));
+            $this->setVar('status', Request::getInt('status', 1, 'POST'));
+            $this->setVar('dohtml', Request::getInt('dohtml', 1, 'POST'));
+            $this->setVar('dosmiley', Request::getInt('dosmiley', 1, 'POST'));
+            $this->setVar('doxcode', Request::getInt('doxcode', 1, 'POST'));
+            $this->setVar('doimage', Request::getInt('doimage', 1, 'POST'));
+            $this->setVar('dobr', Request::getInt('dolinebreak', 1, 'POST'));
         }
 
-        $this->setVar('notifypub', XoopsRequest::getString('notify', '', 'POST'));
+        $this->setVar('notifypub', Request::getString('notify', '', 'POST'));
     }
 }
 

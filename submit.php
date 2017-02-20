@@ -19,6 +19,8 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 include_once __DIR__ . '/header.php';
 xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
@@ -34,7 +36,7 @@ $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOO
 $gpermHandler = xoops_getModuleHandler('groupperm');
 $moduleId     = $publisher->getModule()->getVar('mid');
 
-$itemId = XoopsRequest::getInt('itemid', XoopsRequest::getInt('itemid', 0, 'POST'), 'GET');
+$itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
 if ($itemId != 0) {
     // We are editing or deleting an article
     $itemObj = $publisher->getHandler('item')->get($itemId);
@@ -43,7 +45,7 @@ if ($itemId != 0) {
         //        exit();
     }
     if (!PublisherUtility::userIsAdmin() || !PublisherUtility::userIsModerator($itemObj)) {
-        if ('del' === XoopsRequest::getString('op', '', 'GET') && !$publisher->getConfig('perm_delete')) {
+        if ('del' === Request::getString('op', '', 'GET') && !$publisher->getConfig('perm_delete')) {
             redirect_header('index.php', 1, _NOPERM);
             //            exit();
         } elseif (!$publisher->getConfig('perm_edit')) {
@@ -64,7 +66,7 @@ if ($itemId != 0) {
     $categoryObj = $publisher->getHandler('category')->create();
 }
 
-if ('clone' === XoopsRequest::getString('op', '', 'GET')) {
+if ('clone' === Request::getString('op', '', 'GET')) {
     $formtitle = _MD_PUBLISHER_SUB_CLONE;
     $itemObj->setNew();
     $itemObj->setVar('itemid', 0);
@@ -74,13 +76,13 @@ if ('clone' === XoopsRequest::getString('op', '', 'GET')) {
 
 //$op = '';
 $op = 'add';
-if (XoopsRequest::getString('additem', '', 'POST')) {
+if (Request::getString('additem', '', 'POST')) {
     $op = 'post';
-} elseif (XoopsRequest::getString('preview', '', 'POST')) {
+} elseif (Request::getString('preview', '', 'POST')) {
     $op = 'preview';
 }
 
-$op = XoopsRequest::getString('op', XoopsRequest::getString('op', $op, 'POST'), 'GET');
+$op = Request::getString('op', Request::getString('op', $op, 'POST'), 'GET');
 
 $allowedEditors = PublisherUtility::getEditors($gpermHandler->getItemIds('editors', $groups, $moduleId));
 $formView       = $gpermHandler->getItemIds('form_view', $groups, $moduleId);
@@ -110,19 +112,19 @@ $elements = array(
     'author_alias'
 );
 foreach ($elements as $element) {
-    if (XoopsRequest::getString('element', '', 'POST') && !in_array(constant('PublisherConstants::PUBLISHER_' . strtoupper($element)), $formView)) {
+    if (Request::getString('element', '', 'POST') && !in_array(constant('PublisherConstants::PUBLISHER_' . strtoupper($element)), $formView)) {
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
         //        exit();
     }
 }
 //unset($element);
 
-$itemUploadFile = XoopsRequest::getArray('item_upload_file', array(), 'FILES');
+$itemUploadFile = Request::getArray('item_upload_file', array(), 'FILES');
 
 //stripcslashes
 switch ($op) {
     case 'del':
-        $confirm = XoopsRequest::getInt('confirm', '', 'POST');
+        $confirm = Request::getInt('confirm', '', 'POST');
 
         if ($confirm) {
             if (!$publisher->getHandler('item')->delete($itemObj)) {
@@ -149,7 +151,7 @@ switch ($op) {
         $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
         include_once PUBLISHER_ROOT_PATH . '/footer.php';
 
-        $categoryObj = $publisher->getHandler('category')->get(XoopsRequest::getInt('categoryid', 0, 'POST'));
+        $categoryObj = $publisher->getHandler('category')->get(Request::getInt('categoryid', 0, 'POST'));
 
         $item                 = $itemObj->toArraySimple();
         $item['summary']      = $itemObj->body();
@@ -243,7 +245,7 @@ switch ($op) {
         //mb        $itemObj->setVarsFromRequest();
 
         $xoopsTpl->assign('module_home', PublisherUtility::moduleHome());
-        if ('clone' === XoopsRequest::getString('op', '', 'GET')) {
+        if ('clone' === Request::getString('op', '', 'GET')) {
             $xoopsTpl->assign('categoryPath', _CO_PUBLISHER_CLONE);
             $xoopsTpl->assign('langIntroTitle', _CO_PUBLISHER_CLONE);
         } elseif ($itemId) {

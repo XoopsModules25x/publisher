@@ -18,9 +18,11 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use \Xmf\Request;
+
 require_once __DIR__ . '/admin_header.php';
 
-$op = XoopsRequest::getString('op');
+$op = Request::getString('op');
 
 /**
  * @param bool $showmenu
@@ -80,8 +82,8 @@ switch ($op) {
         break;
 
     case 'mod':
-        $fileid = XoopsRequest::getInt('fileid', 0, 'GET');
-        $itemid = XoopsRequest::getInt('itemid', 0, 'GET');
+        $fileid = Request::getInt('fileid', 0, 'GET');
+        $itemid = Request::getInt('itemid', 0, 'GET');
         if (($fileid == 0) && ($itemid == 0)) {
             redirect_header('javascript:history.go(-1)', 3, _AM_PUBLISHER_NOITEMSELECTED);
             //            exit();
@@ -94,7 +96,7 @@ switch ($op) {
         break;
 
     case 'modify':
-        $fileid = XoopsRequest::getInt('fileid', 0, 'POST');
+        $fileid = Request::getInt('fileid', 0, 'POST');
 
         // Creating the file object
         if ($fileid != 0) {
@@ -104,9 +106,9 @@ switch ($op) {
         }
 
         // Putting the values in the file object
-        $fileObj->setVar('name', XoopsRequest::getString('name', '', 'POST'));
-        $fileObj->setVar('description', XoopsRequest::getString('description', '', 'POST'));
-        $fileObj->setVar('status', XoopsRequest::getInt('status', 0, 'POST'));
+        $fileObj->setVar('name', Request::getString('name', '', 'POST'));
+        $fileObj->setVar('description', Request::getString('description', '', 'POST'));
+        $fileObj->setVar('status', Request::getInt('status', 0, 'POST'));
 
         // Storing the file
         if (!$fileObj->store()) {
@@ -119,13 +121,13 @@ switch ($op) {
         break;
 
     case 'del':
-        $fileid = XoopsRequest::getInt('fileid', 0, 'POST');
-        $fileid = XoopsRequest::getInt('fileid', $fileid, 'GET');
+        $fileid = Request::getInt('fileid', 0, 'POST');
+        $fileid = Request::getInt('fileid', $fileid, 'GET');
 
         $fileObj = $publisher->getHandler('file')->get($fileid);
 
-        $confirm = XoopsRequest::getInt('confirm', 0, 'POST');
-        $title   = XoopsRequest::getString('title', '', 'POST');
+        $confirm = Request::getInt('confirm', 0, 'POST');
+        $title   = Request::getString('title', '', 'POST');
 
         if ($confirm) {
             if (!$publisher->getHandler('file')->delete($fileObj)) {
@@ -137,7 +139,7 @@ switch ($op) {
             //            exit();
         } else {
             // no confirm: show deletion condition
-            $fileid = XoopsRequest::getInt('fileid', 0, 'GET');
+            $fileid = Request::getInt('fileid', 0, 'GET');
 
             PublisherUtility::cpHeader();
             xoops_confirm(array('op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()), 'file.php',

@@ -19,6 +19,8 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
+use \Xmf\Request;
+
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
 include_once dirname(dirname(__DIR__)) . '/include/common.php';
@@ -94,7 +96,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $allowedEditors = PublisherUtility::getEditors($gpermHandler->getItemIds('editors', $groups, $moduleId));
         $nohtml         = false;
         if (count($allowedEditors) > 0) {
-            $editor = XoopsRequest::getString('editor', '', 'POST');
+            $editor = Request::getString('editor', '', 'POST');
             if (!empty($editor)) {
                 PublisherUtility::setCookieVar('publisher_editor', $editor);
             } else {
@@ -224,9 +226,9 @@ class PublisherCategoryForm extends XoopsThemeForm
         $catTray = new XoopsFormElementTray(_AM_PUBLISHER_SCATEGORYNAME, '<br><br>');
         for ($i = 0; $i < $this->subCatsCount; ++$i) {
             $subname = '';
-            if ($i < (($scname = XoopsRequest::getArray('scname', array(), 'POST')) ? count($scname) : 0)) {
-                $temp    = XoopsRequest::getArray('scname', array(), 'POST');
-                $subname = ($scname = XoopsRequest::getArray('scname', '', 'POST')) ? $temp[$i] : '';
+            if ($i < (($scname = Request::getArray('scname', array(), 'POST')) ? count($scname) : 0)) {
+                $temp    = Request::getArray('scname', array(), 'POST');
+                $subname = ($scname = Request::getArray('scname', '', 'POST')) ? $temp[$i] : '';
             }
             $catTray->addElement(new XoopsFormText('', 'scname[' . $i . ']', 50, 255, $subname));
         }

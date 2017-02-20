@@ -19,14 +19,16 @@
  * @author          Marius Scurtescu <mariuss@romanians.bc.ca>
  */
 
+use \Xmf\Request;
+
 include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
-$importFromModuleName = 'WF-Section ' . XoopsRequest::getString('wfs_version', '', 'POST');
+$importFromModuleName = 'WF-Section ' . Request::getString('wfs_version', '', 'POST');
 
 $scriptname = 'wfsection.php';
 
-$op = ('go' === XoopsRequest::getString('op', '', 'POST')) ? 'go' : 'start';
+$op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 
 if ($op === 'start') {
     xoops_load('XoopsFormLoader');
@@ -87,7 +89,7 @@ if ($op === 'start') {
             $form->addElement(new XoopsFormHidden('op', 'go'));
             $form->addElement(new XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
 
-            $form->addElement(new XoopsFormHidden('from_module_version', XoopsRequest::getString('wfs_version', '', 'POST')));
+            $form->addElement(new XoopsFormHidden('from_module_version', Request::getString('wfs_version', '', 'POST')));
 
             $form->display();
         }
@@ -105,10 +107,10 @@ if ($op === 'go') {
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
 
-    $parentId = XoopsRequest::getInt('parent_category', 0, 'POST');
+    $parentId = Request::getInt('parent_category', 0, 'POST');
     //added to support 2.0.7
     $orders = 'orders';
-    if (XoopsRequest::getString('from_module_version', '', 'POST') === '2.07' || XoopsRequest::getString('from_module_version', '', 'POST') === '2.06') {
+    if (Request::getString('from_module_version', '', 'POST') === '2.07' || Request::getString('from_module_version', '', 'POST') === '2.06') {
         $orders = 'weight';
     }
     //$sql = "SELECT * FROM ".$GLOBALS['xoopsDB']->prefix("wfs_category")." ORDER by orders";

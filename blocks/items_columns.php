@@ -82,7 +82,7 @@ function publisher_items_columns_show($options)
         if ($scount > 0 && is_array($categoryItemsObj)) {
             reset($categoryItemsObj);
             //First Item
-            list($itemid, $thisitem) = each($categoryItemsObj);
+            $thisitem = array_values($categoryItemsObj)[0];
 
             $mainItem['item_title']      = $thisitem->getTitle();
             $mainItem['item_cleantitle'] = strip_tags($thisitem->getTitle());
@@ -105,7 +105,8 @@ function publisher_items_columns_show($options)
 
             //The Rest
             if ($scount > 1) {
-                while ((list($itemid, $thisitem) = each($categoryItemsObj)) !== false) {
+//                while ((list($itemid, $thisitem) = each($categoryItemsObj)) !== false) {
+                foreach ($categoryItemsObj as $itemid => $thisitem) { //TODO do I need to start with 2nd element?
                     $subItem['title']      = $thisitem->getTitle();
                     $subItem['cleantitle'] = strip_tags($thisitem->getTitle());
                     $subItem['link']       = $thisitem->getItemLink();

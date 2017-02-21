@@ -1,0 +1,45 @@
+-
+   categoryid: 1
+   parentid: 0
+   name: Example Category 1
+   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+   image: ''
+   total: 0
+   weight: 1
+   created: 1033141070
+   template: ''
+   header:
+   meta_keywords: XOOPS,Publisher
+   meta_description: This is a Meta Description
+   short_url: example_category_1
+   moderator: 0
+-
+   categoryid: 2
+   parentid: 0
+   name: Example Category 2
+   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+   image: ''
+   total: 0
+   weight: 1
+   created: 1033141070
+   template: ''
+   header:
+   meta_keywords: XOOPS,Publisher
+   meta_description: This is a Meta Description
+   short_url: example_category_2
+   moderator: 0
+-
+   categoryid: 3
+   parentid: 2
+   name: Example category 3
+   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+   image: ''
+   total: 0
+   weight: 1
+   created: 1033141070
+   template: ''
+   header:
+   meta_keywords: XOOPS,Publisher
+   meta_description: This is a Meta Description
+   short_url: example_category_3
+   moderator: 0

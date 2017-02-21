@@ -65,7 +65,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
         $limit = $start = 0;
         $sql   = 'SELECT gperm_groupid FROM ' . $db->prefix('group_permission');
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
-            $sql .= ' ' . $criteria->renderWhere();
+            $sql   .= ' ' . $criteria->renderWhere();
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
@@ -104,9 +104,9 @@ class PublisherPermissionHandler extends XoopsObjectHandler
             $criteria2->add(new Criteria('gperm_groupid', $gid), 'OR');
         }
         $criteria->add($criteria2);
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
-        $sql = 'SELECT gperm_itemid FROM ' . $db->prefix('group_permission');
-        $sql .= ' ' . $criteria->renderWhere();
+        $db     = XoopsDatabaseFactory::getDatabaseConnection();
+        $sql    = 'SELECT gperm_itemid FROM ' . $db->prefix('group_permission');
+        $sql    .= ' ' . $criteria->renderWhere();
         $result = $db->query($sql, 0, 0);
         while (($myrow = $db->fetchArray($result)) !== false) {
             $ret[$myrow['gperm_itemid']] = $myrow['gperm_itemid'];
@@ -149,6 +149,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
     {
         $result       = true;
         $moduleId     = $this->publisher->getModule()->getVar('mid');
+        /* @var  $gpermHandler XoopsGroupPermHandler */
         $gpermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $gpermHandler->deleteByModule($moduleId, $permName, $itemId);

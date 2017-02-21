@@ -104,7 +104,7 @@ $adminmenu = array(
 
     //Clone
     array(
-        'title' => _MI_PUBLISHER_CLONE,
+        'title' => _MI_PUBLISHER_MENU_CLONE,
         'link'  => 'admin/clone.php',
         'icon'  => $pathModIcon32 . '/editcopy.png'
     ),

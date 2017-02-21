@@ -98,7 +98,7 @@ function publisher_latest_news_show($options)
 
         $item = $itemObj->getMainImage($item); //returns an array
 
-        $lsHeight = '';
+        $lsHeight = $imgPosition = $lsMargin = '';
         if ($options[12] != 0) {
             $lsHeight = 'height="' . $imgHeight . '" ';
         } // set height = 0 in block option for auto height
@@ -130,8 +130,7 @@ function publisher_latest_news_show($options)
 
         if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->isAdmin(-1)) {
             $item['admin'] = "<a href='"
-                             . PUBLISHER_URL
-                             . '/submit.php?itemid='
+                             . PUBLISHER_URL . '/submit.php?itemid='
                              . $itemObj->itemid()
                              . "'><img src='"
                              . PUBLISHER_URL

@@ -136,7 +136,7 @@ class PublisherCategory extends XoopsObject
      */
     public function getCategoryPath($withAllLink = true)
     {
-        if (!$this->categoryPath) {
+        if (empty($this->categoryPath)) {
             if ($withAllLink) {
                 $ret = $this->getCategoryLink();
             } else {
@@ -265,6 +265,7 @@ class PublisherCategory extends XoopsObject
         $tags['MODULE_NAME']   = $this->publisher->getModule()->getVar('name');
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = $this->getCategoryUrl();
+        /* @var  $notificationHandler XoopsNotificationHandler */
         $notificationHandler   = xoops_getHandler('notification');
         $notificationHandler->triggerEvent('global_item', 0, 'category_created', $tags);
     }

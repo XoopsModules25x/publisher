@@ -65,7 +65,6 @@ switch ($op) {
         global $modify;
 
         $parentid = Request::getInt('parentid');
-
         if ($categoryid != 0) {
             $categoryObj = $publisher->getHandler('category')->get($categoryid);
         } else {

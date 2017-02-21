@@ -47,6 +47,7 @@ $error = false;
 if (!is_object($imgcat)) {
     $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
 } else {
+    /* @var  $imgcatpermHandler XoopsGroupPermHandler */
     $imgcatpermHandler = xoops_getHandler('groupperm');
     if (is_object($GLOBALS['xoopsUser'])) {
         if (!$imgcatpermHandler->checkRight('imgcat_write', $imgcat_id, $GLOBALS['xoopsUser']->getGroups())) {
@@ -96,7 +97,7 @@ if ($error === false) {
 }
 
 $arr = array('success', $image->getVar('image_name'), PublisherUtility::convertCharset($image->getVar('image_nicename')));
-if ($error) {
+if (false !== $error) {
     $arr = array('error', PublisherUtility::convertCharset($error));
 }
 

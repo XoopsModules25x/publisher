@@ -551,6 +551,7 @@ class PublisherItem extends XoopsObject
     {
         $notificationHandler   = xoops_getHandler('notification');
         $tags                  = array();
+
         $tags['MODULE_NAME']   = $this->publisher->getModule()->getVar('name');
         $tags['ITEM_NAME']     = $this->getTitle();
         $tags['ITEM_NAME']     = $this->subtitle();
@@ -702,7 +703,7 @@ class PublisherItem extends XoopsObject
      */
     public function buildMainText($itemPageId = -1, $body = null)
     {
-        if (!$body) {
+        if (null === $body) {
             $body = $this->body();
         }
         $bodyParts = explode('[pagebreak]', $body);
@@ -1710,7 +1711,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * @param array        $queryarray
+     * @param array        $queryArray
      * @param string       $andor
      * @param int          $limit
      * @param int          $offset
@@ -1722,10 +1723,11 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function getItemsFromSearch($queryarray = array(), $andor = 'AND', $limit = 0, $offset = 0, $userid = 0, $categories = array(), $sortby = 0, $searchin = '', $extra = '')
+    public function getItemsFromSearch($queryArray = array(), $andor = 'AND', $limit = 0, $offset = 0, $userid = 0, $categories = array(), $sortby = 0, $searchin = '', $extra = '')
     {
         //        global $publisherIsAdmin;
         $ret          = array();
+        /* @var  $gpermHandler XoopsGroupPermHandler */
         $gpermHandler = xoops_getHandler('groupperm');
         $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $searchin     = empty($searchin) ? array('title', 'body', 'summary') : (is_array($searchin) ? $searchin : array($searchin));
@@ -1740,26 +1742,26 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             $criteriaUser = new CriteriaCompo();
             $criteriaUser->add(new Criteria('uid', $userid), 'OR');
         }
-        $count = count($queryarray);
-        if (is_array($queryarray) && $count > 0) {
+        $count = count($queryArray);
+        if (is_array($queryArray) && $count > 0) {
             $criteriaKeywords = new CriteriaCompo();
-            $elementCount     = count($queryarray);
+            $elementCount     = count($queryArray);
             for ($i = 0; $i < $elementCount; ++$i) {
                 $criteriaKeyword = new CriteriaCompo();
                 if (in_array('title', $searchin)) {
-                    $criteriaKeyword->add(new Criteria('title', '%' . $queryarray[$i] . '%', 'LIKE'), 'OR');
+                    $criteriaKeyword->add(new Criteria('title', '%' . $queryArray[$i] . '%', 'LIKE'), 'OR');
                 }
                 if (in_array('subtitle', $searchin)) {
-                    $criteriaKeyword->add(new Criteria('subtitle', '%' . $queryarray[$i] . '%', 'LIKE'), 'OR');
+                    $criteriaKeyword->add(new Criteria('subtitle', '%' . $queryArray[$i] . '%', 'LIKE'), 'OR');
                 }
                 if (in_array('body', $searchin)) {
-                    $criteriaKeyword->add(new Criteria('body', '%' . $queryarray[$i] . '%', 'LIKE'), 'OR');
+                    $criteriaKeyword->add(new Criteria('body', '%' . $queryArray[$i] . '%', 'LIKE'), 'OR');
                 }
                 if (in_array('summary', $searchin)) {
-                    $criteriaKeyword->add(new Criteria('summary', '%' . $queryarray[$i] . '%', 'LIKE'), 'OR');
+                    $criteriaKeyword->add(new Criteria('summary', '%' . $queryArray[$i] . '%', 'LIKE'), 'OR');
                 }
                 if (in_array('meta_keywords', $searchin)) {
-                    $criteriaKeyword->add(new Criteria('meta_keywords', '%' . $queryarray[$i] . '%', 'LIKE'), 'OR');
+                    $criteriaKeyword->add(new Criteria('meta_keywords', '%' . $queryArray[$i] . '%', 'LIKE'), 'OR');
                 }
                 $criteriaKeywords->add($criteriaKeyword, $andor);
                 unset($criteriaKeyword);

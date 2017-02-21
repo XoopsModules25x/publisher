@@ -322,7 +322,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * @param $obj
      *
-     * @return bool
+     * @return bool|string
      */
     protected function updateQuery($obj)
     {

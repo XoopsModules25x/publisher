@@ -25,7 +25,9 @@
  */
 function xoops_module_pre_update_publisher(XoopsModule $module)
 {
-    $moduleDirName = basename(dirname(__DIR__));
+    if (!isset($moduleDirName)) {
+        $moduleDirName = basename(dirname(__DIR__));
+    }
     $className     = ucfirst($moduleDirName) . 'Utility';
     if (!class_exists($className)) {
         xoops_load('utility', $moduleDirName);
@@ -55,6 +57,9 @@ function xoops_module_pre_update_publisher(XoopsModule $module)
 function xoops_module_update_publisher(XoopsModule $module, $previousVersion = null)
 {
     global $xoopsDB;
+    if (!isset($moduleDirName)) {
+        $moduleDirName = basename(dirname(__DIR__));
+    }
     //delete .html entries from the tpl table
     $sql = 'DELETE FROM ' . $xoopsDB->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
     $xoopsDB->queryF($sql);
@@ -141,7 +146,7 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
         $sql = 'DELETE FROM ' . $xoopsDB->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
         $xoopsDB->queryF($sql);
     }
-
+    /* @var  $gpermHandler XoopsGroupPermHandler */
     $gpermHandler = xoops_getHandler('groupperm');
 
     return $gpermHandler->deleteByModule($module->getVar('mid'), 'item_read');

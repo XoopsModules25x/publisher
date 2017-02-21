@@ -31,7 +31,7 @@ function publisher_category_items_sel_show($options)
 {
     $publisher = PublisherPublisher::getInstance();
 
-    $block = array();
+    $block = $item = array();
 
     $categories = $publisher->getHandler('category')->getCategories(0, 0, -1);
 

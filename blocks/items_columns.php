@@ -74,9 +74,9 @@ function publisher_items_columns_show($options)
     }
 
     $k       = 0;
-    $columns = array();
+    $columns = $mainItem = $subItem = array();
 
-    foreach ($selCategoriesObj as $categoryId => $mainitemCatObj) {
+    foreach ($selCategoriesObj as $categoryId => $mainItemCatObj) {
         $categoryItemsObj = $publisher->getHandler('item')->getAllPublished($optCatItems, 0, $categoryId);
         $scount           = count($categoryItemsObj);
         if ($scount > 0 && is_array($categoryItemsObj)) {
@@ -84,39 +84,39 @@ function publisher_items_columns_show($options)
             //First Item
             list($itemid, $thisitem) = each($categoryItemsObj);
 
-            $mainitem['item_title']      = $thisitem->getTitle();
-            $mainitem['item_cleantitle'] = strip_tags($thisitem->getTitle());
-            $mainitem['item_link']       = $thisitem->itemid();
-            $mainitem['itemurl']         = $thisitem->getItemUrl();
+            $mainItem['item_title']      = $thisitem->getTitle();
+            $mainItem['item_cleantitle'] = strip_tags($thisitem->getTitle());
+            $mainItem['item_link']       = $thisitem->itemid();
+            $mainItem['itemurl']         = $thisitem->getItemUrl();
             $mainImage                   = $thisitem->getMainImage();
 
             // check to see if GD function exist
-            $mainitem['item_image'] = $mainImage['image_path'];
+            $mainItem['item_image'] = $mainImage['image_path'];
             if (!empty($mainImage['image_path']) && function_exists('imagecreatetruecolor')) {
-                $mainitem['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=100';
+                $mainItem['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=100';
             }
 
-            $mainitem['item_summary'] = $thisitem->getBlockSummary($optCatTruncate);
+            $mainItem['item_summary'] = $thisitem->getBlockSummary($optCatTruncate);
 
-            $mainitem['item_cat_name']        = $mainitemCatObj->name();
-            $mainitem['item_cat_description'] = $mainitemCatObj->description() !== '' ? $mainitemCatObj->description() : $mainitemCatObj->name();
-            $mainitem['item_cat_link']        = $mainitemCatObj->getCategoryLink();
-            $mainitem['categoryurl']          = $mainitemCatObj->getCategoryUrl();
+            $mainItem['item_cat_name']        = $mainItemCatObj->name();
+            $mainItem['item_cat_description'] = $mainItemCatObj->description() !== '' ? $mainItemCatObj->description() : $mainItemCatObj->name();
+            $mainItem['item_cat_link']        = $mainItemCatObj->getCategoryLink();
+            $mainItem['categoryurl']          = $mainItemCatObj->getCategoryUrl();
 
             //The Rest
             if ($scount > 1) {
                 while ((list($itemid, $thisitem) = each($categoryItemsObj)) !== false) {
-                    $subitem['title']      = $thisitem->getTitle();
-                    $subitem['cleantitle'] = strip_tags($thisitem->getTitle());
-                    $subitem['link']       = $thisitem->getItemLink();
-                    $subitem['itemurl']    = $thisitem->getItemUrl();
-                    $subitem['summary']    = $thisitem->getBlockSummary($optCatTruncate);
-                    $mainitem['subitem'][] = $subitem;
-                    unset($subitem);
+                    $subItem['title']      = $thisitem->getTitle();
+                    $subItem['cleantitle'] = strip_tags($thisitem->getTitle());
+                    $subItem['link']       = $thisitem->getItemLink();
+                    $subItem['itemurl']    = $thisitem->getItemUrl();
+                    $subItem['summary']    = $thisitem->getBlockSummary($optCatTruncate);
+                    $mainItem['subitem'][] = $subItem;
+                    unset($subItem);
                 }
             }
-            $columns[$k][] = $mainitem;
-            unset($thisitem, $mainitem);
+            $columns[$k][] = $mainItem;
+            unset($thisitem, $mainItem);
             ++$k;
 
             if ($k == $optNumColumns) {
@@ -124,7 +124,7 @@ function publisher_items_columns_show($options)
             }
         }
     }
-    unset($categoryId, $mainitemCatObj);
+    unset($categoryId, $mainItemCatObj);
 
     $block['template']    = $options[4];
     $block['columns']     = $columns;

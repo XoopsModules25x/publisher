@@ -25,7 +25,9 @@
  */
 function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
 {
-    $moduleDirName = basename(dirname(__DIR__));
+    if (!isset($moduleDirName)) {
+        $moduleDirName = basename(dirname(__DIR__));
+    }
     $classUtility = ucfirst($moduleDirName) . 'Utility';
     if (!class_exists($classUtility)) {
         xoops_load('utility', $moduleDirName);
@@ -40,8 +42,8 @@ function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
         return false;
     }
 
-    $mod_tables =& $xoopsModule->getInfo('tables');
-    foreach ($mod_tables as $table) {
+    $modTables =& $xoopsModule->getInfo('tables');
+    foreach ($modTables as $table) {
         $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
     }
 
@@ -56,11 +58,14 @@ function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
 function xoops_module_install_publisher(XoopsModule $xoopsModule)
 {
     include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+    if (!isset($moduleDirName)) {
+        $moduleDirName = basename(dirname(__DIR__));
+    }
 
-    xoops_loadLanguage('admin', $xoopsModule->getVar('dirname'));
-    xoops_loadLanguage('modinfo', $xoopsModule->getVar('dirname'));
+    xoops_loadLanguage('admin', $moduleDirName);
+    xoops_loadLanguage('modinfo', $moduleDirName);
 
-    $moduleDirName = $xoopsModule->getVar('dirname');
+//    $moduleDirName = $xoopsModule->getVar('dirname');
     include_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
 
     foreach (array_keys($uploadFolders) as $i) {
@@ -68,27 +73,10 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
     }
 
     $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
-    foreach (array_keys($copyFiles) as $i) {
-        $dest = $copyFiles[$i] . '/blank.png';
+    foreach (array_keys($blankFiles) as $i) {
+        $dest = $blankFiles[$i] . '/blank.png';
         PublisherUtility::copyFile($file, $dest);
     }
 
     return true;
-
-    /*
-        include_once $GLOBALS['xoops']->path('modules/' . $xoopsModule->getVar('dirname') . '/include/functions.php');
-
-        $ret = true;
-        $msg = '';
-        // Create content directory
-        $dir = $GLOBALS['xoops']->path('uploads/' . $xoopsModule->getVar('dirname') . '/content');
-        if (!PublisherUtility::mkdir($dir)) {
-            $msg .= sprintf(_AM_PUBLISHER_DIRNOTCREATED, $dir);
-        }
-        if (empty($msg)) {
-            return $ret;
-        } else {
-            return $msg;
-        }
-    */
 }

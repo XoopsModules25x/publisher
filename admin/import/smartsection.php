@@ -105,11 +105,11 @@ if ($op === 'go') {
     PublisherUtility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     PublisherUtility::openCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-
+    /* @var  $moduleHandler XoopsModuleHandler */
     $moduleHandler          = xoops_getHandler('module');
     $moduleObj              = $moduleHandler->getByDirname('smartsection');
     $smartsection_module_id = $moduleObj->getVar('mid');
-
+    /* @var  $gpermHandler XoopsGroupPermHandler */
     $gpermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
@@ -129,7 +129,7 @@ if ($op === 'go') {
         $newCat           = array();
         $newCat['oldid']  = $arrCat['categoryid'];
         $newCat['oldpid'] = $arrCat['parentid'];
-
+        /* @var  $categoryObj PublisherCategory */
         $categoryObj = $publisher->getHandler('category')->create();
 
         $categoryObj->setVars($arrCat);

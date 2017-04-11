@@ -1,5 +1,13 @@
 <{include file='db:publisher_header.tpl'}>
 
+<script src="<{xoAppUrl browse.php?Frameworks/jquery/jquery.js}>"></script>
+<script src="<{$publisher_url}>/assets/js/jquery.popeye-2.1.js"></script>
+<script src="<{$publisher_url}>/assets/js/publisher.js"></script>
+
+<link rel="stylesheet" type="text/css" href="<{$publisher_url}>/assets/css/jquery.popeye.css">
+<link rel="stylesheet" type="text/css" href="<{$publisher_url}>/assets/css/jquery.popeye.style.css">
+<link rel="stylesheet" type="text/css" href="<{$publisher_url}>/assets/css/publisher.css">
+
 <div class="item">
     <h2><{$item.title}></h2>
     <{if $show_subtitle && $item.subtitle}>
@@ -18,7 +26,7 @@
         <{/if}>
         <div class="itemText">
             <{if $item.image_path || $item.images}>
-                <div class="ppy" id="ppy1">
+                <div class="ppy" id="ppy3">
                     <ul class="ppy-imglist">
                         <{if $item.image_path}>
                             <li>
@@ -191,7 +199,7 @@
             caption: 'permanent'
         };
 
-        $publisher('#ppy1').popeye(options);
+        $publisher('#ppy3').popeye(options);
     });
     //]]>-->
 </script>

@@ -43,14 +43,13 @@ if (!$itemObj) {
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl';
 include_once $GLOBALS['xoops']->path('header.php');
 
-$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.1.js');
-//$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.0.4.js');
-$xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
+//$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+//$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.1.js');
+//$xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
 
-$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
-$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
-$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
+//$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
+//$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
+//$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 
 include_once PUBLISHER_ROOT_PATH . '/footer.php';
 

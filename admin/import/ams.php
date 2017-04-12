@@ -169,11 +169,12 @@ if ($op === 'go') {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     include_once dirname(dirname(__DIR__)) . '/include/common.php';
     PublisherUtility::openCollapsableBar('amsimportgo', 'amsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-
+    /* @var  $moduleHandler XoopsModuleHandler */
     $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('ams');
     $ams_module_id = $moduleObj->getVar('mid');
 
+    /* @var  $gpermHandler XoopsGroupPermHandler */
     $gpermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
@@ -221,7 +222,7 @@ if ($op === 'go') {
         $newCat           = array();
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
-
+        /* @var  $categoryObj PublisherCategory */
         $categoryObj = $publisher->getHandler('category')->create();
 
         $categoryObj->setVar('parentid', $arrCat['topic_pid']);

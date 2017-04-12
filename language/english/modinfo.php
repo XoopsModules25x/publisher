@@ -347,3 +347,4 @@ define('_MI_PUBLISHER_SUPPORT', 'Support');
 
 define('_MI_PUBLISHER_IMPORT', 'Import');
 define('_MI_PUBLISHER_ABOUT', 'About');
+define('_MI_PUBLISHER_MENU_CLONE', 'Clone Module');

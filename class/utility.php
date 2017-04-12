@@ -271,6 +271,7 @@ class PublisherUtility
         $publisher = PublisherPublisher::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
+        /* @var  $categoryObj PublisherCategory */
         if ($categoryId != 0) {
             // Creating the category object for the selected category
             $categoryObj = $publisher->getHandler('category')->get($categoryId);
@@ -833,6 +834,7 @@ class PublisherUtility
         $result = true;
 
         $moduleId     = $publisher->getModule()->getVar('mid');
+        /* @var  $gpermHandler XoopsGroupPermHandler */
         $gpermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $gpermHandler->deleteByModule($moduleId, $permName, $categoryId);
@@ -968,7 +970,7 @@ class PublisherUtility
 
     /**
      * @param  null|PublisherCategory $categoryObj
-     * @param  int                    $selectedid
+     * @param  int|array              $selectedid
      * @param  int                    $level
      * @param  string                 $ret
      * @return string
@@ -1342,6 +1344,7 @@ class PublisherUtility
             $rating2     = number_format($currentRating / $count, 2);
         }
         $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        /* @var $gpermHandler XoopsGroupPermHandler  */
         $gpermHandler = $publisher->getHandler('groupperm');
 
         if (!$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {

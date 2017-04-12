@@ -170,11 +170,11 @@ if ($op === 'go') {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     include_once dirname(dirname(__DIR__)) . '/include/common.php';
     PublisherUtility::openCollapsableBar('xnewsimportgo', 'xnewsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-
+    /* @var  $moduleHandler XoopsModuleHandler */
     $moduleHandler   = xoops_getHandler('module');
     $moduleObj       = $moduleHandler->getByDirname('xnews');
     $xnews_module_id = $moduleObj->getVar('mid');
-
+    /* @var  $gpermHandler XoopsGroupPermHandler */
     $gpermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
@@ -188,7 +188,7 @@ if ($op === 'go') {
 
     $newCatArray     = array();
     $newArticleArray = array();
-
+    /* @var  $imageCategoryHandler XoopsImagecategoryHandler */
     $imageCategoryHandler = xoops_getHandler('imagecategory');
     //    $criteria = new criteriaCombo;
 
@@ -223,6 +223,7 @@ if ($op === 'go') {
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
 
+        /* @var  $categoryObj PublisherCategory */
         $categoryObj = $publisher->getHandler('category')->create();
 
         $categoryObj->setVar('parentid', $arrCat['topic_pid']);
@@ -297,6 +298,7 @@ if ($op === 'go') {
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
+            /* @var  $itemObj PublisherItem */
             $itemObj = $publisher->getHandler('item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
@@ -358,6 +360,7 @@ if ($op === 'go') {
                     $filename = $GLOBALS['xoops']->path('uploads/xnews/attached/' . $arrFile['downloadname']);
                     if (file_exists($filename)) {
                         if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
+                            /* @var  $fileObj PublisherFile */
                             $fileObj = $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['filerealname']);
                             $fileObj->setVar('description', $arrFile['filerealname']);
@@ -419,10 +422,12 @@ if ($op === 'go') {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
+    /* @var  $commentHandler XoopsCommentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $xnews_module_id));
     $comments = $commentHandler->getObjects($criteria);
+    /* @var  $comment XoopsComment */
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);

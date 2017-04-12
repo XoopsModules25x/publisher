@@ -54,7 +54,7 @@ class PublisherPublisher
     }
 
     /**
-     * @return null
+     * @return null|PublisherPublisher
      */
     public function getModule()
     {
@@ -75,7 +75,7 @@ class PublisherPublisher
         if ($this->config === null) {
             $this->initConfig();
         }
-        if (!$name) {
+        if (null === $name) {
             $this->addLog('Getting all config');
 
             return $this->config;
@@ -128,8 +128,9 @@ class PublisherPublisher
         if (isset($GLOBALS['xoopsModule']) && is_object($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirname') == $this->dirname) {
             $this->module = $GLOBALS['xoopsModule'];
         } else {
-            $hModule      = xoops_getHandler('module');
-            $this->module = $hModule->getByDirname($this->dirname);
+            /* @var  $moduleHandler XoopsModuleHandler */
+            $moduleHandler      = xoops_getHandler('module');
+            $this->module = $moduleHandler->getByDirname($this->dirname);
         }
         $this->addLog('INIT MODULE');
     }
@@ -137,8 +138,9 @@ class PublisherPublisher
     public function initConfig()
     {
         $this->addLog('INIT CONFIG');
-        $hModConfig   = xoops_getHandler('config');
-        $this->config = $hModConfig->getConfigsByCat(0, $this->getModule()->getVar('mid'));
+        /* @var $configHandler XoopsConfigHandler  */
+        $configHandler   = xoops_getHandler('config');
+        $this->config = $configHandler->getConfigsByCat(0, $this->getModule()->getVar('mid'));
     }
 
     /**

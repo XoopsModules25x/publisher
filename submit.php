@@ -39,6 +39,7 @@ $moduleId     = $publisher->getModule()->getVar('mid');
 $itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
 if ($itemId != 0) {
     // We are editing or deleting an article
+    /* @var  $itemObj PublisherItem */
     $itemObj = $publisher->getHandler('item')->get($itemId);
     if (!(PublisherUtility::userIsAdmin() || PublisherUtility::userIsAuthor($itemObj) || PublisherUtility::userIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
@@ -53,7 +54,7 @@ if ($itemId != 0) {
             //            exit();
         }
     }
-
+    /* @var  $categoryObj PublisherCategory */
     $categoryObj = $itemObj->getCategory();
 } else {
     // we are submitting a new article
@@ -62,7 +63,9 @@ if ($itemId != 0) {
         redirect_header('index.php', 1, _NOPERM);
         //        exit();
     }
+    /* @var  $itemObj PublisherItem */
     $itemObj     = $publisher->getHandler('item')->create();
+    /* @var  $categoryObj PublisherCategory */
     $categoryObj = $publisher->getHandler('category')->create();
 }
 

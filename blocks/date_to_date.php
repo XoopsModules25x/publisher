@@ -33,11 +33,11 @@ function publisher_date_to_date_show($options)
     $myts      = MyTextSanitizer::getInstance();
     $publisher = PublisherPublisher::getInstance();
 
-    $block = array();
+    $block = $newItems = array();
 
     $criteria = new CriteriaCompo();
     $criteria->add(new Criteria('datesub', strtotime($options[0]), '>'));
-    $criteria->add(new Criteria('datesub', strtotime($options[1]), '<'));
+    $criteria->add(new Criteria('datesub', isset($options[1]) ? strtotime($options[1]): '', '<'));
     $criteria->setSort('datesub');
     $criteria->setOrder('DESC');
 
@@ -62,8 +62,8 @@ function publisher_date_to_date_show($options)
         $block['lang_category']         = _MB_PUBLISHER_CATEGORY;
         $block['lang_poster']           = _MB_PUBLISHER_POSTEDBY;
         $block['lang_date']             = _MB_PUBLISHER_DATE;
-        $modulename                     = $myts->displayTarea($publisher->getModule()->getVar('name'));
-        $block['lang_visitItem']        = _MB_PUBLISHER_VISITITEM . ' ' . $modulename;
+        $moduleName                     = $myts->displayTarea($publisher->getModule()->getVar('name'));
+        $block['lang_visitItem']        = _MB_PUBLISHER_VISITITEM . ' ' . $moduleName;
         $block['lang_articles_from_to'] = sprintf(_MB_PUBLISHER_ARTICLES_FROM_TO, $options[0], $options[1]);
     }
 

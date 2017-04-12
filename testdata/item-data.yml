@@ -1,0 +1,145 @@
+-
+ itemid: 1
+ categoryid: 1
+ title: 'Article 1'
+ subtitle: 'Subtitle Teaser 1'
+ summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. '
+ body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+ uid: 1
+ author_alias:
+ datesub: 1486997400
+ status: 2
+ image: 0
+ images: ''
+ counter: 3
+ rating: 5.8500
+ votes: 10
+ weight: 1
+ dohtml: 1
+ dosmiley: 1
+ doxcode: 1
+ doimage: 1
+ dobr: 1
+ cancomment: 1
+ comments: 0
+ notifypub: 0
+ meta_keywords: XOOPS,Publisher
+ meta_description: This is a Meta Description
+ short_url: example_category_1
+ item_tag: ItemTag1
+-
+ itemid: 2
+ categoryid: 2
+ title: 'Article 2'
+ subtitle: 'Subtitle Teaser 2'
+ summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. '
+ body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+ uid: 1
+ author_alias:
+ datesub: 1486997400
+ status: 2
+ image: 0
+ images: ''
+ counter: 3
+ rating: 4.8500
+ votes: 10
+ weight: 1
+ dohtml: 1
+ dosmiley: 1
+ doxcode: 1
+ doimage: 1
+ dobr: 1
+ cancomment: 1
+ comments: 0
+ notifypub: 0
+ meta_keywords: XOOPS,Publisher
+ meta_description: This is a Meta Description
+ short_url: example_category_1
+ item_tag: ItemTag2
+-
+ itemid: 3
+ categoryid: 3
+ title: 'Article 3'
+ subtitle: 'Subtitle Teaser 3'
+ summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. '
+ body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+ uid: 1
+ author_alias:
+ datesub: 1486997400
+ status: 2
+ image: 0
+ images: ''
+ counter: 3
+ rating: 3.8500
+ votes: 10
+ weight: 1
+ dohtml: 1
+ dosmiley: 1
+ doxcode: 1
+ doimage: 1
+ dobr: 1
+ cancomment: 1
+ comments: 0
+ notifypub: 0
+ meta_keywords: XOOPS,Publisher
+ meta_description: This is a Meta Description
+ short_url: example_category_1
+ item_tag: ItemTag3
+-
+ itemid: 4
+ categoryid: 1
+ title: 'Article 4'
+ subtitle: 'Subtitle Teaser 4'
+ summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. '
+ body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+ uid: 1
+ author_alias:
+ datesub: 1486997400
+ status: 2
+ image: 0
+ images: ''
+ counter: 3
+ rating: 2.8500
+ votes: 10
+ weight: 1
+ dohtml: 1
+ dosmiley: 1
+ doxcode: 1
+ doimage: 1
+ dobr: 1
+ cancomment: 1
+ comments: 0
+ notifypub: 0
+ meta_keywords: XOOPS,Publisher
+ meta_description: This is a Meta Description
+ short_url: example_category_1
+ item_tag: ItemTag4
+-
+ itemid: 5
+ categoryid: 2
+ title: 'Article 5'
+ subtitle: 'Subtitle Teaser 5'
+ summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. '
+ body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+ uid: 1
+ author_alias:
+ datesub: 1486997400
+ status: 2
+ image: 0
+ images: ''
+ counter: 3
+ rating: 1.8500
+ votes: 10
+ weight: 1
+ dohtml: 1
+ dosmiley: 1
+ doxcode: 1
+ doimage: 1
+ dobr: 1
+ cancomment: 1
+ comments: 0
+ notifypub: 0
+ meta_keywords: XOOPS,Publisher
+ meta_description: This is a Meta Description
+ short_url: example_category_5
+ item_tag: ItemTag5

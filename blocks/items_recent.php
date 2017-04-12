@@ -33,7 +33,7 @@ function publisher_items_recent_show($options)
     $publisher = PublisherPublisher::getInstance();
     $myts      = MyTextSanitizer::getInstance();
 
-    $block = array();
+    $block = $newItems = array();
 
     $selectedcatids = explode(',', $options[0]);
 
@@ -76,8 +76,8 @@ function publisher_items_recent_show($options)
         $block['lang_category']  = _MB_PUBLISHER_CATEGORY;
         $block['lang_poster']    = _MB_PUBLISHER_POSTEDBY;
         $block['lang_date']      = _MB_PUBLISHER_DATE;
-        $modulename              = $myts->displayTarea($publisher->getModule()->getVar('name'));
-        $block['lang_visitItem'] = _MB_PUBLISHER_VISITITEM . ' ' . $modulename;
+        $moduleName              = $myts->displayTarea($publisher->getModule()->getVar('name'));
+        $block['lang_visitItem'] = _MB_PUBLISHER_VISITITEM . ' ' . $moduleName;
     }
 
     return $block;

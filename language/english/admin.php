@@ -380,3 +380,4 @@ define('_AM_PUBLISHER_ERROR_TAG_REMOVAL', 'Could not remove tags from Tag Module
 
 //1.05 Beta 1
 define('_AM_PUBLISHER_AUTHOR', 'Author');
+define('_AM_PUBLISHER_SAMPLEDATA_SUCCESS', 'Sample Date uploaded successfully');

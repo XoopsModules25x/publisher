@@ -66,16 +66,20 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
     xoops_loadLanguage('modinfo', $moduleDirName);
 
 //    $moduleDirName = $xoopsModule->getVar('dirname');
-    include_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
-
-    foreach (array_keys($uploadFolders) as $i) {
-        PublisherUtility::createFolder($uploadFolders[$i]);
+    $configurator = include_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
+    
+    if (count($configurator['uploadFolders']) > 0) {
+        foreach (array_keys($configurator['uploadFolders']) as $i) {
+            PublisherUtility::createFolder($configurator['uploadFolders'][$i]);
+        }
     }
-
-    $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
-    foreach (array_keys($blankFiles) as $i) {
-        $dest = $blankFiles[$i] . '/blank.png';
-        PublisherUtility::copyFile($file, $dest);
+    
+    if (count($configurator['blankFiles']) > 0) {
+        $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
+        foreach (array_keys($configurator['blankFiles']) as $i) {
+            $dest = $configurator['blankFiles'][$i] . '/blank.png';
+            PublisherUtility::copyFile($file, $dest);
+        }
     }
 
     return true;

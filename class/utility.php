@@ -550,7 +550,7 @@ class PublisherUtility
             '',
             '',
             "\\1",
-            "\"",
+            '"',
             '&',
             '<',
             '>',
@@ -870,7 +870,7 @@ class PublisherUtility
         echo "<img id='" . $iconname . "' src='" . PUBLISHER_URL . '/assets/images/links/' . $image . "' alt='' /></a>&nbsp;" . $tabletitle . '</h3>';
         echo "<div id='" . $tablename . "' style='display: " . $display . ";'>";
         if ($tabledsc != '') {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . $tabledsc . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $tabledsc . '</span>';
         }
     }
 

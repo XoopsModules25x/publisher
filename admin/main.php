@@ -82,7 +82,7 @@ echo "<td class='head'>" . _AM_PUBLISHER_TOTAL_OFFLINE . "</td><td align='center
 echo '</tr></table>';
 echo '<br>';
 
-echo "<form><div style=\"margin-bottom: 12px;\">";
+echo '<form><div style="margin-bottom: 12px;">';
 echo "<input type='button' name='button' onclick=\"location='category.php?op=mod'\" value='" . _AM_PUBLISHER_CATEGORY_CREATE . "'>&nbsp;&nbsp;";
 echo "<input type='button' name='button' onclick=\"location='item.php?op=mod'\" value='" . _AM_PUBLISHER_CREATEITEM . "'>&nbsp;&nbsp;";
 echo '</div></form>';

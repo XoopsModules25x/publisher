@@ -23,7 +23,7 @@ use \Xmf\Request;
 require_once __DIR__ . '/admin_header.php';
 include_once $GLOBALS['xoops']->path('class/xoopslists.php');
 include_once $GLOBALS['xoops']->path('class/pagenav.php');
-include_once __DIR__ . '/../class/utility.php';
+require_once __DIR__ . '/../class/utility.php';
 
 $itemid = Request::getInt('itemid', 0, 'POST');
 

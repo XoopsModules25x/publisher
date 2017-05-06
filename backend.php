@@ -21,7 +21,7 @@
 
 use \Xmf\Request;
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 //xoops_load('XoopsLocal'); //mb
 
 error_reporting(0);

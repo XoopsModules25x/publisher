@@ -22,4 +22,4 @@
 $doNotStartPrint = true;
 $noTitle         = true;
 $smartPopup      = true;
-include_once __DIR__ . '/print.php';
+require_once __DIR__ . '/print.php';

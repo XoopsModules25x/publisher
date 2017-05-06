@@ -21,7 +21,7 @@ use \Xmf\Request;
 
 error_reporting(0);
 include dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-include_once __DIR__ . '/common.php';
+require_once __DIR__ . '/common.php';
 
 $GLOBALS['xoopsLogger']->activated = false;
 xoops_loadLanguage('common', basename(dirname(__DIR__)));

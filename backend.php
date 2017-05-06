@@ -40,7 +40,7 @@ if ($categoryid != -1) {
 
 header('Content-Type:text/xml; charset=' . _CHARSET);
 $tpl = new XoopsTpl();
-$tpl->xoops_setCaching(2);
+$tpl->caching = 2;
 $tpl->xoops_setCacheTime(0);
 $myts = MyTextSanitizer::getInstance();
 if (!$tpl->is_cached('db:publisher_rss.tpl')) {

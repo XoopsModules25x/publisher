@@ -46,11 +46,21 @@ class PublisherUtility
         list($a, $b, $c) = explode('.', $xv[0]);
         $xv = $a*10000 + $b*100 + $c;
         $mv = $x*10000 + $y*100 + $z;
-        if ($signal === '>') return $xv > $mv;
-        if ($signal === '>=') return $xv >= $mv;
-        if ($signal === '<') return $xv < $mv;
-        if ($signal === '<=') return $xv <= $mv;
-        if ($signal === '==') return $xv == $mv;
+        if ($signal === '>') {
+            return $xv > $mv;
+        }
+        if ($signal === '>=') {
+            return $xv >= $mv;
+        }
+        if ($signal === '<') {
+            return $xv < $mv;
+        }
+        if ($signal === '<=') {
+            return $xv <= $mv;
+        }
+        if ($signal === '==') {
+            return $xv == $mv;
+        }
 
         return false;
     }
@@ -1427,7 +1437,7 @@ class PublisherUtility
         $nohtml = false;
         xoops_load('XoopsEditorHandler');
         $editorHandler = XoopsEditorHandler::getInstance();
-        $editors       = $editorHandler->getList($nohtml);
+        $editors       = array_flip($editorHandler->getList());//$editorHandler->getList($nohtml);
         foreach ($editors as $name => $title) {
             $key = static::stringToInt($name);
             if (is_array($allowedEditors)) {

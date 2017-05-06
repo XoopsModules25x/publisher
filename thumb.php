@@ -23,7 +23,7 @@
 
 use \Xmf\Request;
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 define('VERSION', '2.8.14');                                                                        // Version of this script
 //Load a config file if it exists. Otherwise, use the values below

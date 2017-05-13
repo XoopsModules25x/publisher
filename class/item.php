@@ -930,7 +930,7 @@ class PublisherItem extends XoopsObject
         if (0 !== strpos($color, '#')) {
             $color = '#' . $color;
         }
-        include_once __DIR__ . '/highlighter.php';
+        require_once __DIR__ . '/highlighter.php';
         $highlighter = new PublisherHighlighter();
         $highlighter->setReplacementString('<span style="font-weight: bolder; background-color: ' . $color . ';">\1</span>');
 

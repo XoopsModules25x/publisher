@@ -100,7 +100,7 @@ if ('start' === $op) {
             $myObjTree      = new XoopsObjectTree($catObjs, 'categoryid', 'parentid');
             if (PublisherUtility::checkXoopsVersion('2', '5', '9', '>=')) {
                 $catSelBox = $myObjTree->makeSelectElement('parentid', 'name', '-', 0, true, 0, '', '');
-                $this->addElement($catSelect);
+                $this->addElement($catSelBox);
             } else {
                 $catSelBox = $myObjTree->makeSelBox('parent_category', 'name', '-', 0, true);
             }

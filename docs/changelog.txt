@@ -21,6 +21,13 @@
 - moved functions to Utility class (mamba)
 - changed to use XoopsFormSelectUser (geekwright/mamba)
 - started conversion to XMF (mamba)
+- move jquery and popeye to template due to conflicts when overriding in theme (geekwright)
+- switch to a color neutral skin for popeye (geekwright)
+- Eliminate line feed at EOF  (geekwright)
+- different bugs (bleekk)
+- changed min_db to 5.5 (mamba)
+- changed 'include_once' to 'require_once' (mamba)
+
 
 
 <h5>1.04 FINAL       (2015-10-21)</h5>

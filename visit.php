@@ -21,7 +21,7 @@
 
 use \Xmf\Request;
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 $fileid = Request::getInt('fileid', 0, 'GET');
 
@@ -48,5 +48,5 @@ if (!preg_match("/^ed2k*:\/\//i", $fileObj->getFileUrl())) {
     header('Location: ' . $fileObj->getFileUrl());
 }
 
-echo "<html><head><meta http-equiv=\"Refresh\" content=\"0; URL=" . $myts->oopsHtmlSpecialChars($fileObj->getFileUrl()) . "\"/></head><body></body></html>";
+echo '<html><head><meta http-equiv="Refresh" content="0; URL=' . $myts->oopsHtmlSpecialChars($fileObj->getFileUrl()) . '"/></head><body></body></html>';
 exit();

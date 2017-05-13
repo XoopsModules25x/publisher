@@ -20,7 +20,7 @@
 /**
  * !
  * Example
- * include_once __DIR__ . '/uploader.php';
+ * require_once __DIR__ . '/uploader.php';
  * $allowed_mimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png');
  * $maxfilesize = 50000;
  * $maxfilewidth = 120;
@@ -42,7 +42,7 @@
  * Upload Media files
  * Example of usage:
  * <code>
- * include_once __DIR__ . '/uploader.php';
+ * require_once __DIR__ . '/uploader.php';
  * $allowed_mimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png');
  * $maxfilesize = 50000;
  * $maxfilewidth = 120;

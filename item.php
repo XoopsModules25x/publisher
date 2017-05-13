@@ -21,7 +21,7 @@
 
 use \Xmf\Request;
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 $itemId     = Request::getInt('itemid', 0, 'GET');
 $itemPageId = Request::getInt('page', -1, 'GET');
@@ -46,7 +46,7 @@ include_once $GLOBALS['xoops']->path('header.php');
 //$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.1.js');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
-
+//
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');

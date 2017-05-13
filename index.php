@@ -21,7 +21,7 @@
 
 use \Xmf\Request;
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 // At which record shall we start for the Categories
 $catstart = Request::getInt('catstart', 0, 'GET');

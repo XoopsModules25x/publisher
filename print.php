@@ -21,7 +21,7 @@
 
 use \Xmf\Request;
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 require_once $GLOBALS['xoops']->path('class/template.php');
 
 $itemid = Request::getInt('itemid', 0, 'GET');

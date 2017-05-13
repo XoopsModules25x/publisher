@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 xoops_load('XoopsPagenav');
@@ -606,15 +606,15 @@ class PublisherMimetypesUtility
             //        exit();
         }
 
-        $order = Request::getString('order', 'ASC', 'POST');
-        $sort  = Request::getString('sort', 'mime_name', 'POST');
+        $order = Request::getString('order', 'ASC');
+        $sort  = Request::getString('sort', 'mime_name');
 
         PublisherUtility::cpHeader();
         //publisher_adminMenu(4, _AM_PUBLISHER_MIMETYPES . " > " . _AM_PUBLISHER_BUTTON_SEARCH);
 
         PublisherUtility::openCollapsableBar('mimemsearchtable', 'mimesearchicon', _AM_PUBLISHER_MIME_SEARCH);
 
-        if (!Request::getString('mime_search', '', 'POST')) {
+        if (!Request::getString('mime_search', '')) {
             echo "<form action='mimetypes.php?op=search' method='post'>";
             echo "<table width='100%' cellspacing='1' class='outer'>";
             echo "<tr><th colspan='2'>" . _AM_PUBLISHER_TEXT_SEARCH_MIME . '</th></tr>';
@@ -640,8 +640,8 @@ class PublisherMimetypesUtility
         </tr>";
             echo '</table></form>';
         } else {
-            $searchField = Request::getString('search_by', '', 'POST');
-            $searchText  = Request::getString('search_text', '', 'POST');
+            $searchField = Request::getString('search_by', '');
+            $searchText  = Request::getString('search_text', '');
 
             $crit = new Criteria($searchField, "%$searchText%", 'LIKE');
             $crit->setSort($sort);

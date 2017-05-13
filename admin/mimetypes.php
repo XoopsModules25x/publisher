@@ -651,7 +651,8 @@ class PublisherMimetypesUtility
             $mimeCount = $publisher->getHandler('mimetype')->getCount($crit);
             $mimetypes = $publisher->getHandler('mimetype')->getObjects($crit);
             $nav       = new XoopsPageNav($mimeCount, $limit, $start, 'start',
-                                          "op=search&amp;limit=$limit&amp;order=$order&amp;sort=$sort&amp;mime_search=1&amp;search_by=$searchField&amp;search_text=$searchText");
+                "op=search&amp;limit=$limit&amp;order=$order&amp;sort=$sort&amp;mime_search=1&amp;search_by=$searchField&amp;search_text="
+                . htmlentities($searchText, ENT_QUOTES));
             // Display results
             echo '<script type="text/javascript" src="' . PUBLISHER_URL . '/include/functions.js"></script>';
 
@@ -669,7 +670,7 @@ class PublisherMimetypesUtility
             unset($value, $text);
             echo '</select></td>';
             echo "<td align='right'>" . _AM_PUBLISHER_TEXT_SEARCH_TEXT . '</td>';
-            echo "<td align='left'><input type='text' name='search_text' id='search_text' value='$searchText' /></td>";
+            echo "<td align='left'><input type='text' name='search_text' id='search_text' value='" .htmlentities($searchText, ENT_QUOTES). "' /></td>";
             echo "<td><input type='submit' name='mime_search' id='mime_search' value='" . _AM_PUBLISHER_BUTTON_SEARCH . "' /></td>";
             echo '</tr></table></form></td></tr>';
 
@@ -705,7 +706,7 @@ class PublisherMimetypesUtility
         <input type='submit' name='mime_sort' id='mime_sort' value='" . _AM_PUBLISHER_BUTTON_SUBMIT . "' />
         <input type='hidden' name='mime_search' id='mime_search' value='1' />
         <input type='hidden' name='search_by' id='search_by' value='$searchField' />
-        <input type='hidden' name='search_text' id='search_text' value='$searchText' />
+        <input type='hidden' name='search_text' id='search_text' value='" .htmlentities($searchText, ENT_QUOTES) . "' />
         </td>
         </tr>";
             echo '</table>';

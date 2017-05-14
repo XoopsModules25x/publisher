@@ -21,7 +21,7 @@
  * everytime you download a new version
 */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 require_once __DIR__ . '/header.php';
 

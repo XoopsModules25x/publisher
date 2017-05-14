@@ -20,7 +20,7 @@
  * @author          ZySpec <owners@zyspec.com>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();

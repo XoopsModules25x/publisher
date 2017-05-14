@@ -18,7 +18,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -29,8 +29,8 @@ $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = array(
     'version'             => '1.05',
-    'module_status'       => 'Beta 1',
-    'release_date'        => '2017/05/05',
+    'module_status'       => 'RC 1',
+    'release_date'        => '2017/05/14',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',

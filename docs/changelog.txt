@@ -1,3 +1,12 @@
+<h5>1.05 RC 1       (NOT RELEASED)</h5>
+- fixed Pagination issues (geekwright)
+- check nonce and file path (geekwright)
+- escape search string (geekwright)
+- min XOOPS version: 2.5.9 (geekwright)
+- added ModuleConfigurator class (mamba)
+- updated disclaimer.html (mamba)
+- cosmetics (mamba)
+
 <h5>1.05 Beta 1       (NOT RELEASED)</h5>
 - PSR-2 code cosmetics (mamba)
 - addNavigation(basename(__FILE__))  (mamba)
@@ -14,7 +23,6 @@
 - short array syntax (mamba)
 - added install checks for PHP 5.5 and XOOPS 2.5.9 (mamba)
 - added auto-creation of upload folders (mamba)
-
 - changed static call to XoopsLocal::number_format to dynamic (mamba)
 - added bold to column headers in publisher_author_items.tpl (mamba)
 - fixed cloning of module image (masel/mamba)
@@ -23,7 +31,7 @@
 - started conversion to XMF (mamba)
 - move jquery and popeye to template due to conflicts when overriding in theme (geekwright)
 - switch to a color neutral skin for popeye (geekwright)
-- Eliminate line feed at EOF  (geekwright)
+- eliminate line feed at EOF  (geekwright)
 - different bugs (bleekk)
 - changed min_db to 5.5 (mamba)
 - changed 'include_once' to 'require_once' (mamba)

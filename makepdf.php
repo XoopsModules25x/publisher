@@ -5,7 +5,7 @@
  * Created by montuy337513 / philodenelle - http://www.chg-web.org
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 error_reporting(E_ALL);
 

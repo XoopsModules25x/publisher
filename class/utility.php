@@ -19,7 +19,7 @@
  *
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 include_once dirname(__DIR__) . '/include/common.php';
 

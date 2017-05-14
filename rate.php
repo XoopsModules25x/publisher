@@ -18,7 +18,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 require_once __DIR__ . '/header.php';
 

@@ -19,7 +19,7 @@
  * @author          Sudhaker Raj <http://xoops.biz>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 

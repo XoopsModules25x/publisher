@@ -18,7 +18,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 include_once dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';

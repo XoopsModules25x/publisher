@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 xoops_load('XoopsPagenav');
@@ -606,15 +606,15 @@ class PublisherMimetypesUtility
             //        exit();
         }
 
-        $order = Request::getString('order', 'ASC', 'POST');
-        $sort  = Request::getString('sort', 'mime_name', 'POST');
+        $order = Request::getString('order', 'ASC');
+        $sort  = Request::getString('sort', 'mime_name');
 
         PublisherUtility::cpHeader();
         //publisher_adminMenu(4, _AM_PUBLISHER_MIMETYPES . " > " . _AM_PUBLISHER_BUTTON_SEARCH);
 
         PublisherUtility::openCollapsableBar('mimemsearchtable', 'mimesearchicon', _AM_PUBLISHER_MIME_SEARCH);
 
-        if (!Request::getString('mime_search', '', 'POST')) {
+        if (!Request::getString('mime_search', '')) {
             echo "<form action='mimetypes.php?op=search' method='post'>";
             echo "<table width='100%' cellspacing='1' class='outer'>";
             echo "<tr><th colspan='2'>" . _AM_PUBLISHER_TEXT_SEARCH_MIME . '</th></tr>';
@@ -640,8 +640,8 @@ class PublisherMimetypesUtility
         </tr>";
             echo '</table></form>';
         } else {
-            $searchField = Request::getString('search_by', '', 'POST');
-            $searchText  = Request::getString('search_text', '', 'POST');
+            $searchField = Request::getString('search_by', '');
+            $searchText  = Request::getString('search_text', '');
 
             $crit = new Criteria($searchField, "%$searchText%", 'LIKE');
             $crit->setSort($sort);
@@ -651,7 +651,8 @@ class PublisherMimetypesUtility
             $mimeCount = $publisher->getHandler('mimetype')->getCount($crit);
             $mimetypes = $publisher->getHandler('mimetype')->getObjects($crit);
             $nav       = new XoopsPageNav($mimeCount, $limit, $start, 'start',
-                                          "op=search&amp;limit=$limit&amp;order=$order&amp;sort=$sort&amp;mime_search=1&amp;search_by=$searchField&amp;search_text=$searchText");
+                "op=search&amp;limit=$limit&amp;order=$order&amp;sort=$sort&amp;mime_search=1&amp;search_by=$searchField&amp;search_text="
+                . htmlentities($searchText, ENT_QUOTES));
             // Display results
             echo '<script type="text/javascript" src="' . PUBLISHER_URL . '/include/functions.js"></script>';
 
@@ -669,7 +670,7 @@ class PublisherMimetypesUtility
             unset($value, $text);
             echo '</select></td>';
             echo "<td align='right'>" . _AM_PUBLISHER_TEXT_SEARCH_TEXT . '</td>';
-            echo "<td align='left'><input type='text' name='search_text' id='search_text' value='$searchText' /></td>";
+            echo "<td align='left'><input type='text' name='search_text' id='search_text' value='" .htmlentities($searchText, ENT_QUOTES). "' /></td>";
             echo "<td><input type='submit' name='mime_search' id='mime_search' value='" . _AM_PUBLISHER_BUTTON_SEARCH . "' /></td>";
             echo '</tr></table></form></td></tr>';
 
@@ -705,7 +706,7 @@ class PublisherMimetypesUtility
         <input type='submit' name='mime_sort' id='mime_sort' value='" . _AM_PUBLISHER_BUTTON_SUBMIT . "' />
         <input type='hidden' name='mime_search' id='mime_search' value='1' />
         <input type='hidden' name='search_by' id='search_by' value='$searchField' />
-        <input type='hidden' name='search_text' id='search_text' value='$searchText' />
+        <input type='hidden' name='search_text' id='search_text' value='" .htmlentities($searchText, ENT_QUOTES) . "' />
         </td>
         </tr>";
             echo '</table>';

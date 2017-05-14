@@ -18,13 +18,29 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use \Xmf\Request;
+use Xmf\Assert;
+use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 
 if ('delfileok' === Request::getString('op', '', 'POST')) {
-    $dir      = PublisherUtility::getUploadDir(true, 'content');
+    if (!$GLOBALS['xoopsSecurity']->check()) {
+        redirect_header(XOOPS_URL . '/modules/publisher/admin/item.php', 3, _AM_PUBLISHER_FILE_DELETE_ERROR);
+        exit;
+    }
+
+    $dir = PublisherUtility::getUploadDir(true, 'content');
+    $check_path = realpath($dir);
+
     $filename = Request::getString('address', '', 'POST');
+    $path_file = realpath($dir . '/' . $filename);
+    try {
+        Assert::startsWith($path_file, $check_path, _AM_PUBLISHER_FILE_DELETE_ERROR);
+    } catch(\InvalidArgumentException $e) {
+        // handle the exception
+        redirect_header(XOOPS_URL . '/modules/publisher/admin/item.php', 2, $e->getMessage());
+        exit;
+    }
     if (file_exists($dir . '/' . $filename)) {
         unlink($dir . '/' . $filename);
     }

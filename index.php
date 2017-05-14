@@ -238,8 +238,9 @@ if ($publisher->getConfig('idxcat_show_rss_link') == 1) {
 
 include_once $GLOBALS['xoops']->path('footer.php');
 ?>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("img").addClass("img-responsive");
-    });
-</script>
+
+<!--<script type="text/javascript">-->
+<!--    $(document).ready(function () {-->
+<!--        $("img").addClass("img-responsive");-->
+<!--    });-->
+<!--</script>-->

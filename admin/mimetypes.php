@@ -57,7 +57,7 @@ switch ($op) {
         break;
 
     case 'delete':
-        delete();
+        PublisherMimetypesUtility::delete();
         break;
 
     case 'edit':

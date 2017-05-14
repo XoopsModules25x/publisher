@@ -299,6 +299,8 @@ if ($op === 'go') {
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
+
+            /** @var XoopsPersistableObjectHandler $itemObj */
             $itemObj = $publisher->getHandler('item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
@@ -360,6 +362,7 @@ if ($op === 'go') {
                     $filename = $GLOBALS['xoops']->path('uploads/AMS/attached/' . $arrFile['downloadname']);
                     if (file_exists($filename)) {
                         if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
+                            /** @var PublisherFile $fileObj */
                             $fileObj = $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['filerealname']);
                             $fileObj->setVar('description', $arrFile['filerealname']);
@@ -421,10 +424,12 @@ if ($op === 'go') {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
+    /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $ams_module_id));
     $comments = $commentHandler->getObjects($criteria);
+    /** @var XoopsComment $comment */
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);

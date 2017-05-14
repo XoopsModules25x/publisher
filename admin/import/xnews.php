@@ -298,7 +298,8 @@ if ($op === 'go') {
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
-            /* @var  $itemObj PublisherItem */
+
+            /** @var PublisherItem $itemObj */
             $itemObj = $publisher->getHandler('item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());

@@ -274,6 +274,7 @@ if ('go' === $op) {
         $fmContentObjs = $fmContentHdlr->getAll($criteria);
 
         // insert articles for this category
+        /** @var PublisherItem $itemObj */
         foreach ($fmContentObjs as $thisFmContentObj) {
             $itemObj = $publisher->getHandler('item')->create();
             $itemObj->setVars(array(
@@ -340,10 +341,11 @@ if ('go' === $op) {
     echo _AM_PUBLISHER_IMPORT_COMMENTS . "<br>\n";
 
     $publisher_module_id = $publisher->getModule()->mid();
-
+    /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $fm_module_id));
+    /** @var XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);

@@ -442,6 +442,7 @@ class PublisherThemeTabForm extends XoopsForm
      * set the extra attributes for the <form> tag
      *
      * @param string $extra extra attributes for the <form> tag
+     * @return string|void
      */
     public function setExtra($extra)
     {

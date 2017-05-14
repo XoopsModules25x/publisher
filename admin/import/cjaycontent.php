@@ -108,6 +108,7 @@ if ($op === 'go') {
     $resultArticles = $GLOBALS['xoopsDB']->query($sql);
     while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
         // insert article
+        /** @var PublisherItem $itemObj */
         $itemObj = $publisher->getHandler('item')->create();
         $itemObj->setVar('itemid', $arrArticle['id']);
         //      $itemObj->setVar('categoryid', $categoryObj->categoryid());
@@ -162,10 +163,11 @@ if ($op === 'go') {
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
 
     $publisher_module_id = $publisher->getModule()->mid();
-
+    /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $cjaycontent_module_id));
+    /** @var XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);

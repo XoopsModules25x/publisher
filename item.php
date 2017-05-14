@@ -137,7 +137,7 @@ if ('previous_next' === $publisher->getConfig('item_other_items_type')) {
 if ($publisher->getConfig('item_other_items_type') === 'all') {
     $itemsObj = $publisher->getHandler('item')->getAllPublished(0, 0, $categoryObj->categoryid(), $sort, $order, '', true, true);
     $items    = array();
-    foreach ($itemsObj[1] as $theItemObj) {
+    foreach ($itemsObj[''] as $theItemObj) {
         $theItem              = array();
         $theItem['titlelink'] = $theItemObj->getItemLink();
         $theItem['datesub']   = $theItemObj->getDatesub();
@@ -265,8 +265,8 @@ if ($publisher->getConfig('perm_rating')) {
 $xoopsTpl->assign('item', $item);
 include_once $GLOBALS['xoops']->path('footer.php');
 ?>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("img").addClass("img-responsive");
-    });
-</script>
+<!--<script type="text/javascript">-->
+<!--    $(document).ready(function () {-->
+<!--        $("img").addClass("img-responsive");-->
+<!--    });-->
+<!--</script>-->

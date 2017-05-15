@@ -5,11 +5,11 @@
  * Created by montuy337513 / philodenelle - http://www.chg-web.org
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 error_reporting(E_ALL);
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 $itemid       = Request::getInt('itemid', 0, 'GET');
 $item_page_id = Request::getInt('page', -1, 'GET');
 if ($itemid == 0) {

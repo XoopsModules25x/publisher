@@ -21,9 +21,9 @@
  * everytime you download a new version
 */
 
-use \Xmf\Request;
+use Xmf\Request;
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 define('VERSION', '2.8.14');                                                                        // Version of this script
 //Load a config file if it exists. Otherwise, use the values below
@@ -373,7 +373,7 @@ class Timthumb
                     }
                 }
                 if (!$allowed) {
-                    return $this->error("You may not fetch images from that site. To enable this site in timthumb, you can either add it to \$ALLOWED_SITES and set ALLOW_EXTERNAL=true. Or you can set ALLOW_ALL_EXTERNAL_SITES=true, depending on your security needs.");
+                    return $this->error('You may not fetch images from that site. To enable this site in timthumb, you can either add it to $ALLOWED_SITES and set ALLOW_EXTERNAL=true. Or you can set ALLOW_ALL_EXTERNAL_SITES=true, depending on your security needs.');
                 }
             }
         }

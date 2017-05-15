@@ -18,7 +18,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -46,14 +46,14 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
 
         echo "<br>\n";
         echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_EDITING . '</span>';
-        echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_PUBLISHER_FILE_EDITING_DSC . '</span>';
+        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_FILE_EDITING_DSC . '</span>';
         PublisherUtility::openCollapsableBar('editfile', 'editfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
     } else {
         // there's no parameter, so we're adding an item
         $fileObj = $publisher->getHandler('file')->create();
         $fileObj->setVar('itemid', $itemid);
         echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_ADDING . '</span>';
-        echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_PUBLISHER_FILE_ADDING_DSC . '</span>';
+        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_FILE_ADDING_DSC . '</span>';
         PublisherUtility::openCollapsableBar('addfile', 'addfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
     }
 

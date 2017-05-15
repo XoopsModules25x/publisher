@@ -19,9 +19,9 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 // At which record shall we start for the Categories
 $catstart = Request::getInt('catstart', 0, 'GET');
@@ -238,8 +238,9 @@ if ($publisher->getConfig('idxcat_show_rss_link') == 1) {
 
 include_once $GLOBALS['xoops']->path('footer.php');
 ?>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("img").addClass("img-responsive");
-    });
-</script>
+
+<!--<script type="text/javascript">-->
+<!--    $(document).ready(function () {-->
+<!--        $("img").addClass("img-responsive");-->
+<!--    });-->
+<!--</script>-->

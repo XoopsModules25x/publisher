@@ -18,7 +18,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -194,7 +194,7 @@ switch ($op) {
         //publisher_adminMenu(1, _AM_PUBLISHER_CATEGORIES);
 
         echo "<br>\n";
-        echo "<form><div style=\"margin-bottom: 12px;\">";
+        echo '<form><div style="margin-bottom: 12px;">';
         echo "<input type='button' name='button' onclick=\"location='category.php?op=mod'\" value='" . _AM_PUBLISHER_CATEGORY_CREATE . "'>&nbsp;&nbsp;";
         //echo "<input type='button' name='button' onclick=\"location='item.php?op=mod'\" value='" . _AM_PUBLISHER_CREATEITEM . "'>&nbsp;&nbsp;";
         echo '</div></form>';

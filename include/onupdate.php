@@ -57,9 +57,28 @@ function xoops_module_pre_update_publisher(XoopsModule $module)
 function xoops_module_update_publisher(XoopsModule $module, $previousVersion = null)
 {
     global $xoopsDB;
+    require_once  __DIR__ . '/../../../mainfile.php';
+    require_once  __DIR__ . '/../include/config.php';
+
     if (!isset($moduleDirName)) {
         $moduleDirName = basename(dirname(__DIR__));
     }
+
+    if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
+    } else {
+        $moduleHelper = Xmf\Module\Helper::getHelper('system');
+    }
+
+    // Load language files
+    $moduleHelper->loadLanguage('admin');
+    $moduleHelper->loadLanguage('modinfo');
+
+    $configurator = new ModuleConfigurator();
+    $classUtility    = ucfirst($moduleDirName) . 'Utility';
+    if (!class_exists($classUtility)) {
+        xoops_load('utility', $moduleDirName);
+    }
+
     //delete .html entries from the tpl table
     $sql = 'DELETE FROM ' . $xoopsDB->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
     $xoopsDB->queryF($sql);
@@ -78,15 +97,14 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
         $sql = '    ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' MODIFY `meta_description` TEXT NULL';
         $xoopsDB->queryF($sql);
 
-        $configurator = include __DIR__ . '/config.php';
         $classUtility = ucfirst($moduleDirName) . 'Utility';
         if (!class_exists($classUtility)) {
             xoops_load('utility', $moduleDirName);
         }
 
         //delete old HTML templates
-        if (count($configurator['templateFolders']) > 0) {
-            foreach ($configurator['templateFolders'] as $folder) {
+        if (count($configurator->templateFolders) > 0) {
+            foreach ($configurator->templateFolders as $folder) {
                 $templateFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $folder);
                 if (is_dir($templateFolder)) {
                     $templateList = array_diff(scandir($templateFolder), array('..', '.'));
@@ -103,10 +121,10 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
         }
 
         //  ---  DELETE OLD FILES ---------------
-        if (count($configurator['oldFiles']) > 0) {
+        if (count($configurator->oldFiles) > 0) {
             //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-            foreach (array_keys($configurator['oldFiles']) as $i) {
-                $tempFile = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator['oldFiles'][$i]);
+            foreach (array_keys($configurator->oldFiles) as $i) {
+                $tempFile = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator->oldFiles[$i]);
                 if (is_file($tempFile)) {
                     unlink($tempFile);
                 }
@@ -115,10 +133,10 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
 
         //  ---  DELETE OLD FOLDERS ---------------
         xoops_load('XoopsFile');
-        if (count($configurator['oldFolders']) > 0) {
+        if (count($configurator->oldFolders) > 0) {
             //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-            foreach (array_keys($configurator['oldFolders']) as $i) {
-                $tempFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator['oldFolders'][$i]);
+            foreach (array_keys($configurator->oldFolders) as $i) {
+                $tempFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator->oldFolders[$i]);
                 /** @var XoopsObjectHandler $folderHandler */
                 $folderHandler = XoopsFile::getHandler('folder', $tempFolder);
                 $folderHandler->delete($tempFolder);
@@ -126,18 +144,18 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
         }
 
         //  ---  CREATE FOLDERS ---------------
-        if (count($configurator['uploadFolders']) > 0) {
+        if (count($configurator->uploadFolders) > 0) {
             //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-            foreach (array_keys($configurator['uploadFolders']) as $i) {
-                $classUtility::createFolder($configurator['uploadFolders'][$i]);
+            foreach (array_keys($configurator->uploadFolders) as $i) {
+                $classUtility::createFolder($configurator->uploadFolders[$i]);
             }
         }
 
         //  ---  COPY blank.png FILES ---------------
-        if (count($configurator['copyFiles']) > 0) {
+        if (count($configurator->blankFiles) > 0) {
             $file = __DIR__ . '/../assets/images/blank.png';
-            foreach (array_keys($configurator['copyFiles']) as $i) {
-                $dest = $configurator['copyFiles'][$i] . '/blank.png';
+            foreach (array_keys($configurator->blankFiles) as $i) {
+                $dest = $configurator->blankFiles[$i] . '/blank.png';
                 $classUtility::copyFile($file, $dest);
             }
         }

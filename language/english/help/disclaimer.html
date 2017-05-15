@@ -6,7 +6,7 @@
         <p><b>Software downloaded from the XOOPS web site is provided 'as is' without warranty
             of any kind, either express or implied, including, but not limited to, the implied
             warranties of fitness for a purpose, or the warranty of non-infringement. Without
-            limiting the foregoing, WF-Projects team makes no warranty that:</b></p>
+            limiting the foregoing, XOOPS Projects team makes no warranty that:</b></p>
         <br>
         <ol>
             <li>the software will meet your requirements</li>
@@ -35,11 +35,11 @@
         <p><br><b>In no event shall XOOPS team be liable to you or any third parties for
             any special, punitive, incidental, indirect or consequential damages of any kind,
             or any damages whatsoever, including, without limitation, those resulting from loss
-            of use, data or profits, whether or not WF-Sections has been advised of the possibility
+            of use, data or profits, whether or not XOOPS Project has been advised of the possibility
             of such damages, and on any theory of liability, arising out of or in connection
             with the use of this software.</b></p>
         <br><b>
-        <p>The use of the software downloaded through XOOPS site is done at your own discretion
+        <p>The use of the software downloaded through any XOOPS site is done at your own discretion
             and risk and with agreement that you will be solely responsible for any damage to
             your computer system or loss of data that results from such activities. No advice
             or information, whether oral or written, obtained by you from XOOPS or from XOOPS

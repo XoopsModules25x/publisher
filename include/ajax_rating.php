@@ -17,7 +17,7 @@
 //  URL: http://www.xuups.com
 //  E-Mail: lusopoemas@gmail.com
 
-use \Xmf\Request;
+use Xmf\Request;
 
 include_once dirname(__DIR__) . '/header.php';
 

@@ -18,10 +18,10 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 include_once dirname(dirname(__DIR__)) . '/mainfile.php';
-include_once __DIR__ . '/include/common.php';
+require_once __DIR__ . '/include/common.php';
 
 $com_itemid = Request::getInt('com_itemid', 0, 'GET');
 if ($com_itemid > 0) {

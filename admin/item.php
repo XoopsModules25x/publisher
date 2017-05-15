@@ -19,8 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use \Xmf\Request;
-
+use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -172,7 +171,7 @@ switch ($op) {
         xoops_load('XoopsPageNav');
 
         echo "<br>\n";
-        echo "<form><div style=\"margin-bottom: 12px;\">";
+        echo '<form><div style="margin-bottom: 12px;">';
         echo "<input type='button' name='button' onclick=\"location='item.php?op=mod'\" value='" . _AM_PUBLISHER_CREATEITEM . "'>&nbsp;&nbsp;";
         echo '</div></form>';
 
@@ -571,7 +570,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
         PublisherUtility::openCollapsableBar('edititemtable', 'edititemicon', $pageTitle, $pageInfo);
 
         if ($clone) {
-            echo "<form><div style=\"margin-bottom: 10px;\">";
+            echo '<form><div style="margin-bottom: 10px;">';
             echo "<input type='button' name='button' onclick=\"location='item.php?op=clone&itemid=" . $itemObj->itemid() . "'\" value='" . _AM_PUBLISHER_CLONE_ITEM . "'>&nbsp;&nbsp;";
             echo '</div></form>';
         }

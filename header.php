@@ -19,7 +19,7 @@
  */
 
 include_once dirname(dirname(__DIR__)) . '/mainfile.php';
-include_once __DIR__ . '/include/common.php';
+require_once __DIR__ . '/include/common.php';
 
 $myts = MyTextSanitizer::getInstance();
 

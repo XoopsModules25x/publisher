@@ -19,9 +19,9 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
 // Get the total number of categories

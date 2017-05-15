@@ -18,12 +18,12 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 include_once $GLOBALS['xoops']->path('class/xoopslists.php');
 include_once $GLOBALS['xoops']->path('class/pagenav.php');
-include_once __DIR__ . '/../class/utility.php';
+require_once __DIR__ . '/../class/utility.php';
 
 $itemid = Request::getInt('itemid', 0, 'POST');
 
@@ -82,7 +82,7 @@ echo "<td class='head'>" . _AM_PUBLISHER_TOTAL_OFFLINE . "</td><td align='center
 echo '</tr></table>';
 echo '<br>';
 
-echo "<form><div style=\"margin-bottom: 12px;\">";
+echo '<form><div style="margin-bottom: 12px;">';
 echo "<input type='button' name='button' onclick=\"location='category.php?op=mod'\" value='" . _AM_PUBLISHER_CATEGORY_CREATE . "'>&nbsp;&nbsp;";
 echo "<input type='button' name='button' onclick=\"location='item.php?op=mod'\" value='" . _AM_PUBLISHER_CREATEITEM . "'>&nbsp;&nbsp;";
 echo '</div></form>';

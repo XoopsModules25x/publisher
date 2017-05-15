@@ -21,7 +21,7 @@
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-include_once __DIR__ . '/seo_functions.php';
+require_once __DIR__ . '/seo_functions.php';
 
 /**
  * @param $category

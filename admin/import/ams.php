@@ -19,7 +19,7 @@
  * @author          Marius Scurtescu <mariuss@romanians.bc.ca>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 include_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
@@ -41,7 +41,7 @@ if ($op === 'start') {
     list($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
 
     if ($totalCat == 0) {
-        echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_PUBLISHER_IMPORT_NO_CATEGORY . '</span>';
+        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_IMPORT_NO_CATEGORY . '</span>';
     } else {
         include_once $GLOBALS['xoops']->path('class/xoopstree.php');
 
@@ -49,11 +49,11 @@ if ($op === 'start') {
         list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
 
         if ($totalArticles == 0) {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">"
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">'
                  . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles)
                  . '</span>';
         } else {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">"
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">'
                  . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat)
                  . '</span>';
 
@@ -299,6 +299,8 @@ if ($op === 'go') {
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
             // insert article
+
+            /** @var XoopsPersistableObjectHandler $itemObj */
             $itemObj = $publisher->getHandler('item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
@@ -360,6 +362,7 @@ if ($op === 'go') {
                     $filename = $GLOBALS['xoops']->path('uploads/AMS/attached/' . $arrFile['downloadname']);
                     if (file_exists($filename)) {
                         if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
+                            /** @var PublisherFile $fileObj */
                             $fileObj = $publisher->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['filerealname']);
                             $fileObj->setVar('description', $arrFile['filerealname']);
@@ -421,10 +424,12 @@ if ($op === 'go') {
 
     $publisher_module_id = $publisher->getModule()->mid();
 
+    /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
     $criteria->add(new Criteria('com_modid', $ams_module_id));
     $comments = $commentHandler->getObjects($criteria);
+    /** @var XoopsComment $comment */
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);

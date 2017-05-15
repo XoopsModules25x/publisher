@@ -20,7 +20,7 @@
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-//include_once __DIR__ . '/config.php';
+//require_once __DIR__ . '/config.php';
 
 define('PUBLISHER_DIRNAME', basename(dirname(__DIR__)));
 define('PUBLISHER_URL', XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME);

@@ -19,9 +19,9 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 $itemId     = Request::getInt('itemid', 0, 'GET');
 $itemPageId = Request::getInt('page', -1, 'GET');
@@ -46,7 +46,7 @@ include_once $GLOBALS['xoops']->path('header.php');
 //$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.1.js');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
-
+//
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
@@ -137,7 +137,7 @@ if ('previous_next' === $publisher->getConfig('item_other_items_type')) {
 if ($publisher->getConfig('item_other_items_type') === 'all') {
     $itemsObj = $publisher->getHandler('item')->getAllPublished(0, 0, $categoryObj->categoryid(), $sort, $order, '', true, true);
     $items    = array();
-    foreach ($itemsObj[1] as $theItemObj) {
+    foreach ($itemsObj[''] as $theItemObj) {
         $theItem              = array();
         $theItem['titlelink'] = $theItemObj->getItemLink();
         $theItem['datesub']   = $theItemObj->getDatesub();
@@ -265,8 +265,8 @@ if ($publisher->getConfig('perm_rating')) {
 $xoopsTpl->assign('item', $item);
 include_once $GLOBALS['xoops']->path('footer.php');
 ?>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("img").addClass("img-responsive");
-    });
-</script>
+<!--<script type="text/javascript">-->
+<!--    $(document).ready(function () {-->
+<!--        $("img").addClass("img-responsive");-->
+<!--    });-->
+<!--</script>-->

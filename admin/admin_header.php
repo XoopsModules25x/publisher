@@ -18,13 +18,13 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-include_once __DIR__ . '/../../../include/cp_header.php';
+require_once __DIR__ . '/../../../include/cp_header.php';
 //include_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
 //require_once __DIR__ . '/../include/common.php';
 
-require __DIR__ . '/../class/utility.php';
-include_once __DIR__ . '/../include/config.php';
+require_once __DIR__  . '/../class/utility.php';
+require_once __DIR__ . '/../include/config.php';
 
 if (!isset($moduleDirName)) {
     $moduleDirName = basename(dirname(__DIR__));

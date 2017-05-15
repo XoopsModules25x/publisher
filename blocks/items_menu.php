@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 

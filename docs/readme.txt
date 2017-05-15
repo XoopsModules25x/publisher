@@ -66,5 +66,5 @@ Your PDF should now work.
 
 Enjoy your XOOPS Publisher module!
 
-Youn XOOPS Development Team
+Your XOOPS Development Team
 

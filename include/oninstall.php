@@ -57,30 +57,57 @@ function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
  */
 function xoops_module_install_publisher(XoopsModule $xoopsModule)
 {
-    include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+    require_once  __DIR__ . '/../../../mainfile.php';
+    require_once  __DIR__ . '/../include/config.php';
+
     if (!isset($moduleDirName)) {
         $moduleDirName = basename(dirname(__DIR__));
     }
 
-    xoops_loadLanguage('admin', $moduleDirName);
-    xoops_loadLanguage('modinfo', $moduleDirName);
+    if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
+    } else {
+        $moduleHelper = Xmf\Module\Helper::getHelper('system');
+    }
+
+    // Load language files
+    $moduleHelper->loadLanguage('admin');
+    $moduleHelper->loadLanguage('modinfo');
+
+    $configurator = new ModuleConfigurator();
+    $classUtility    = ucfirst($moduleDirName) . 'Utility';
+    if (!class_exists($classUtility)) {
+        xoops_load('utility', $moduleDirName);
+    }
 
 //    $moduleDirName = $xoopsModule->getVar('dirname');
-    $configurator = include_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
-    
-    if (count($configurator['uploadFolders']) > 0) {
-        foreach (array_keys($configurator['uploadFolders']) as $i) {
-            PublisherUtility::createFolder($configurator['uploadFolders'][$i]);
-        }
-    }
-    
-    if (count($configurator['blankFiles']) > 0) {
-        $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
-        foreach (array_keys($configurator['blankFiles']) as $i) {
-            $dest = $configurator['blankFiles'][$i] . '/blank.png';
-            PublisherUtility::copyFile($file, $dest);
+//    include_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
+
+    //  ---  CREATE FOLDERS ---------------
+    if (count($configurator->uploadFolders) > 0) {
+        //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+        foreach (array_keys($configurator->uploadFolders) as $i) {
+            $classUtility::createFolder($configurator->uploadFolders[$i]);
         }
     }
 
+    //  ---  COPY blank.png FILES ---------------
+    if (count($configurator->blankFiles) > 0) {
+        $file = __DIR__ . '/../assets/images/blank.png';
+        foreach (array_keys($configurator->blankFiles) as $i) {
+            $dest = $configurator->blankFiles[$i] . '/blank.png';
+            $classUtility::copyFile($file, $dest);
+        }
+    }
+/*
+    foreach (array_keys($uploadFolders) as $i) {
+        PublisherUtility::createFolder($uploadFolders[$i]);
+    }
+
+    $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
+    foreach (array_keys($blankFiles) as $i) {
+        $dest = $blankFiles[$i] . '/blank.png';
+        PublisherUtility::copyFile($file, $dest);
+    }
+*/
     return true;
 }

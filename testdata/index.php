@@ -15,7 +15,7 @@
  * @author          Michael Beck (aka Mamba)
  */
 
-include_once __DIR__ . '/../../../mainfile.php';
+require_once __DIR__ . '/../../../mainfile.php';
 
 if (!isset($moduleDirName)) {
     $moduleDirName = basename(dirname(__DIR__));
@@ -43,5 +43,5 @@ function loadSampleData()
     \Xmf\Database\TableLoad::loadTableFromArray('publisher_categories', $cat);
     \Xmf\Database\TableLoad::loadTableFromArray('publisher_items', $items);
 
-    redirect_header( '../admin/item.php', 1, _AM_PUBLISHER_SAMPLEDATA_SUCCESS);
+    redirect_header('../admin/item.php', 1, _AM_PUBLISHER_SAMPLEDATA_SUCCESS);
 }

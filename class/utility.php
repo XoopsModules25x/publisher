@@ -19,7 +19,7 @@
  *
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 include_once dirname(__DIR__) . '/include/common.php';
 
@@ -46,11 +46,21 @@ class PublisherUtility
         list($a, $b, $c) = explode('.', $xv[0]);
         $xv = $a*10000 + $b*100 + $c;
         $mv = $x*10000 + $y*100 + $z;
-        if ($signal === '>') return $xv > $mv;
-        if ($signal === '>=') return $xv >= $mv;
-        if ($signal === '<') return $xv < $mv;
-        if ($signal === '<=') return $xv <= $mv;
-        if ($signal === '==') return $xv == $mv;
+        if ($signal === '>') {
+            return $xv > $mv;
+        }
+        if ($signal === '>=') {
+            return $xv >= $mv;
+        }
+        if ($signal === '<') {
+            return $xv < $mv;
+        }
+        if ($signal === '<=') {
+            return $xv <= $mv;
+        }
+        if ($signal === '==') {
+            return $xv == $mv;
+        }
 
         return false;
     }
@@ -194,7 +204,7 @@ class PublisherUtility
     }
 
     /**
-     * @param     $categoryObj
+     * @param PublisherCategory $categoryObj
      * @param int $level
      */
     public static function displayCategory(PublisherCategory $categoryObj, $level = 0)
@@ -550,7 +560,7 @@ class PublisherUtility
             '',
             '',
             "\\1",
-            "\"",
+            '"',
             '&',
             '<',
             '>',
@@ -870,7 +880,7 @@ class PublisherUtility
         echo "<img id='" . $iconname . "' src='" . PUBLISHER_URL . '/assets/images/links/' . $image . "' alt='' /></a>&nbsp;" . $tabletitle . '</h3>';
         echo "<div id='" . $tablename . "' style='display: " . $display . ";'>";
         if ($tabledsc != '') {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . $tabledsc . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $tabledsc . '</span>';
         }
     }
 
@@ -1427,7 +1437,7 @@ class PublisherUtility
         $nohtml = false;
         xoops_load('XoopsEditorHandler');
         $editorHandler = XoopsEditorHandler::getInstance();
-        $editors       = $editorHandler->getList($nohtml);
+        $editors       = array_flip($editorHandler->getList());//$editorHandler->getList($nohtml);
         foreach ($editors as $name => $title) {
             $key = static::stringToInt($name);
             if (is_array($allowedEditors)) {
@@ -1538,7 +1548,7 @@ class PublisherUtility
         xoops_loadLanguage('admin', $module->dirname());
         // check for minimum PHP version
         $success = true;
-        $verNum  = phpversion();
+        $verNum  = PHP_VERSION;
         $reqVer  =& $module->getInfo('min_php');
         if (false !== $reqVer && '' !== $reqVer) {
             if (version_compare($verNum, $reqVer, '<')) {

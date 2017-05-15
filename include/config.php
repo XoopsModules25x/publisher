@@ -42,6 +42,7 @@ if (!defined($capsDirName . '_DIRNAME')) {
 defined($capsDirName . '_UPLOAD_PATH') or define($capsDirName . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . constant($capsDirName . '_DIRNAME')); // WITHOUT Trailing slash
 
 //Configurator
+/*
 return array(
     'name'           => 'Module Configurator',
     'uploadFolders'  => array(
@@ -79,3 +80,61 @@ return array(
         '/tcpdf',
     ),
 );
+*/
+
+/**
+ * Class ModuleConfigurator
+ */
+class ModuleConfigurator
+{
+    public $uploadFolders   = [];
+    public $blankFiles  = [];
+    public $templateFolders = [];
+    public $oldFiles        = [];
+    public $oldFolders      = [];
+    public $name;
+
+    /**
+     * ModuleConfigurator constructor.
+     */
+    public function __construct()
+    {
+        $moduleDirName        = basename(dirname(__DIR__));
+        $capsDirName          = strtoupper($moduleDirName);
+        $this->name           = 'Module Configurator';
+        $this->uploadFolders  = [
+            constant($capsDirName . '_UPLOAD_PATH'),
+            constant($capsDirName . '_UPLOAD_PATH') . '/content',
+            constant($capsDirName . '_UPLOAD_PATH') . '/images',
+            constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
+            constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
+        ];
+        $this->blankFiles = [
+            constant($capsDirName . '_UPLOAD_PATH'),
+            constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
+            constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
+        ];
+
+        $this->templateFolders = [
+            '/templates/',
+            '/templates/blocks/',
+            '/templates/admin/'
+
+        ];
+        $this->oldFiles        = [
+            '/class/request.php',
+            '/class/registry.php',
+            '/class/utilities.php',
+            '/class/util.php',
+            '/include/constants.php',
+            '/include/functions.php',
+            '/ajaxrating.txt'
+        ];
+        $this->oldFolders      = [
+            '/images',
+            '/css',
+            '/js',
+            '/tcpdf',
+        ];
+    }
+}

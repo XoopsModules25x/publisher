@@ -18,7 +18,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -29,8 +29,8 @@ $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = array(
     'version'             => '1.05',
-    'module_status'       => 'Beta 1',
-    'release_date'        => '2017/02/19',
+    'module_status'       => 'RC 1',
+    'release_date'        => '2017/05/14',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -59,9 +59,9 @@ $modversion = array(
     'onUpdate'            => 'include/onupdate.php',
     // ------------------- Min Requirements -------------------
     'min_php'             => '5.5',
-    'min_xoops'           => '2.5.8',
+    'min_xoops'           => '2.5.9',
     'min_admin'           => '1.1',
-    'min_db'              => array('mysql' => '5.1'),
+    'min_db'              => array('mysql' => '5.5'),
     // ------------------- Admin Menu -------------------
     'hasAdmin'            => 1,
     'system_menu'         => 1,
@@ -83,9 +83,9 @@ $modversion = array(
 );
 
 //help files
-$i                                     = 0;
-$modversion['helpsection'][$i]['name'] = _MI_PUBLISHER_HELP_OVERVIEW;
-$modversion['helpsection'][$i]['link'] = 'page=help';
+//$i                                     = 0;
+//$modversion['helpsection'][$i]['name'] = _MI_PUBLISHER_HELP_OVERVIEW;
+//$modversion['helpsection'][$i]['link'] = 'page=help';
 
 // ------------------- Help files ------------------- //
 $modversion['helpsection'] = array(
@@ -970,6 +970,18 @@ $modversion['config'][] = array(
     'default'     => 'dhtmltextarea',
     'category'    => 'submit'
 );
+
+//$modversion['config'][] = array(
+//    'name'        => 'submit_editor',
+//    'title'       => '_MI_PUBLISHER_EDITOR',
+//    'description' => '_MI_PUBLISHER_EDITOR_DSC',
+//    'formtype'    => 'select',
+//    'valuetype'   => 'text',
+//    'options'     => XoopsLists::getEditorList(),
+//    'default'     => 'dhtmltextarea',
+//    'category'    => 'submit'
+//);
+
 
 $modversion['config'][] = array(
     'name'        => 'submit_editor_rows',

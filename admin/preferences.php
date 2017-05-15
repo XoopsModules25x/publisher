@@ -18,7 +18,7 @@
  * @author          Kazumi Ono (AKA onokazu)
  */
 
-use \Xmf\Request;
+use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 

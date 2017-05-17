@@ -24,15 +24,6 @@ use Xmf\Request;
 require_once __DIR__ . '/admin_header.php';
 xoops_load('XoopsPagenav');
 
-//$start = $limit = 0;
-//if (isset($_GET['limit'])) {
-//    $limit = Request::getInt('limit', 0, 'GET');
-//} elseif (isset($_POST['limit'])) {
-//    $limit = Request::getInt('limit', 0, 'POST');
-//} else {
-//    $limit = 15;
-//}
-
 $start = Request::getInt('start', 0, 'GET');
 $limit = Request::getInt('limit', Request::getInt('limit', 15, 'GET'), 'POST');
 
@@ -50,6 +41,11 @@ $aSearchBy = array('mime_id' => _AM_PUBLISHER_MIME_ID, 'mime_name' => _AM_PUBLIS
 $error = array();
 
 $op = Request::getString('op', 'default', 'GET');
+
+// all post requests should have a valid token
+if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
+    redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage", 3, _CO_PUBLISHER_BAD_TOKEN);
+}
 
 switch ($op) {
     case 'add':
@@ -70,6 +66,10 @@ switch ($op) {
 
     case 'updateMimeValue':
         PublisherMimetypesUtility::updateMimeValue();
+        break;
+
+    case 'confirmUpdateMimeValue':
+        PublisherMimetypesUtility::confirmUpdateMimeValue();
         break;
 
     case 'clearAddSession':
@@ -127,6 +127,7 @@ class PublisherMimetypesUtility
 
             // Display add form
             echo "<form action='mimetypes.php?op=add' method='post'>";
+            echo $GLOBALS['xoopsSecurity']->getTokenHTML();
             echo "<table width='100%' cellspacing='1' class='outer'>";
             echo "<tr><th colspan='2'>" . _AM_PUBLISHER_MIME_CREATEF . '</th></tr>';
             echo "<tr valign='top'>
@@ -296,6 +297,7 @@ class PublisherMimetypesUtility
 
             // Display edit form
             echo "<form action='mimetypes.php?op=edit&amp;id=" . $mimeId . "' method='post'>";
+            echo $GLOBALS['xoopsSecurity']->getTokenHTML();
             echo "<input type='hidden' name='limit' value='" . $limit . "' />";
             echo "<input type='hidden' name='start' value='" . $start . "' />";
             echo "<table width='100%' cellspacing='1' class='outer'>";
@@ -437,6 +439,7 @@ class PublisherMimetypesUtility
         echo "<table width='100%' cellspacing='1' class='outer'>";
         echo "<tr><td colspan='6' align='right'>";
         echo "<form action='" . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=search' style='margin:0; padding:0;' method='post'>";
+        echo $GLOBALS['xoopsSecurity']->getTokenHTML();
         echo '<table>';
         echo '<tr>';
         echo "<td align='right'>" . _AM_PUBLISHER_TEXT_SEARCH_BY . '</td>';
@@ -454,6 +457,7 @@ class PublisherMimetypesUtility
 
         echo "<tr><td colspan='6'>";
         echo "<form action='" . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage' style='margin:0; padding:0;' method='post'>";
+        echo $GLOBALS['xoopsSecurity']->getTokenHTML();
         echo "<table width='100%'>";
         echo "<tr><td align='right'>" . _AM_PUBLISHER_TEXT_SORT_BY . "
     <select name='sort'>";
@@ -614,8 +618,9 @@ class PublisherMimetypesUtility
 
         PublisherUtility::openCollapsableBar('mimemsearchtable', 'mimesearchicon', _AM_PUBLISHER_MIME_SEARCH);
 
-        if (!Request::getString('mime_search', '')) {
+        if (!Request::hasVar('mime_search')) {
             echo "<form action='mimetypes.php?op=search' method='post'>";
+            echo $GLOBALS['xoopsSecurity']->getTokenHTML();
             echo "<table width='100%' cellspacing='1' class='outer'>";
             echo "<tr><th colspan='2'>" . _AM_PUBLISHER_TEXT_SEARCH_MIME . '</th></tr>';
             echo "<tr><td class='head' width='20%'>" . _AM_PUBLISHER_TEXT_SEARCH_BY . "</td>
@@ -641,9 +646,10 @@ class PublisherMimetypesUtility
             echo '</table></form>';
         } else {
             $searchField = Request::getString('search_by', '');
+            $searchField = isset($aSearchBy[$searchField]) ? $searchField : 'mime_ext' ;
             $searchText  = Request::getString('search_text', '');
 
-            $crit = new Criteria($searchField, "%$searchText%", 'LIKE');
+            $crit = new Criteria($searchField, '%' . $GLOBALS['xoopsDB']->escape($searchText) . '%', 'LIKE');
             $crit->setSort($sort);
             $crit->setOrder($order);
             $crit->setLimit($limit);
@@ -659,6 +665,7 @@ class PublisherMimetypesUtility
             echo "<table width='100%' cellspacing='1' class='outer'>";
             echo "<tr><td colspan='6' align='right'>";
             echo "<form action='" . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=search' style='margin:0; padding:0;' method='post'>";
+            echo $GLOBALS['xoopsSecurity']->getTokenHTML();
             echo '<table>';
             echo '<tr>';
             echo "<td align='right'>" . _AM_PUBLISHER_TEXT_SEARCH_BY . '</td>';
@@ -676,6 +683,7 @@ class PublisherMimetypesUtility
 
             echo "<tr><td colspan='6'>";
             echo "<form action='" . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=search' style='margin:0; padding:0;' method='post'>";
+            echo $GLOBALS['xoopsSecurity']->getTokenHTML();
             echo "<table width='100%'>";
             echo "<tr><td align='right'>" . _AM_PUBLISHER_TEXT_SORT_BY . "
         <select name='sort'>";
@@ -815,29 +823,53 @@ class PublisherMimetypesUtility
         xoops_cp_footer();
     }
 
+    /**
+     * confirm update to mime access, resubmit as POST, including TOKEN
+     */
     public static function updateMimeValue()
     {
-        $mimeId    = 0;
+        // op=updateMimeValue&id=65&mime_admin=0&limit=15&start=0
+        PublisherUtility::cpHeader();
+        $hiddens = array(
+            'id'    => Request::getInt('id', 0, 'GET'),
+            'start' =>  Request::getInt('start', 0, 'GET'),
+            'limit' =>  Request::getInt('limit', 15, 'GET'),
+        );
+
+        $publisher = PublisherPublisher::getInstance();
+        $mimeTypeObj = $publisher->getHandler('mimetype')->get($hiddens['id']);
+        if (Request::hasVar('mime_admin')) {
+            $hiddens['mime_admin'] = Request::getInt('mime_admin', 0, 'GET');
+            $msg = sprintf(_AM_PUBLISHER_MIME_ACCESS_CONFIRM_ADMIN, $mimeTypeObj->getVar('mime_name'));
+        } else {
+            $hiddens['mime_user'] = Request::getInt('mime_user', 0, 'GET');
+            $msg = sprintf(_AM_PUBLISHER_MIME_ACCESS_CONFIRM_USER, $mimeTypeObj->getVar('mime_name'));
+        }
+
+        $action = PUBLISHER_ADMIN_URL . '/mimetypes.php?op=confirmUpdateMimeValue';
+        $submit = _AM_PUBLISHER_MIME_ACCESS_CONFIRM;
+
+        xoops_confirm($hiddens, $action, $msg, $submit, true);
+        xoops_cp_footer();
+    }
+
+    public static function confirmUpdateMimeValue()
+    {
         $publisher = PublisherPublisher::getInstance();
 
-        $limit = Request::getInt('limit', 0, 'GET');
-        $start = Request::getInt('start', 0, 'GET');
-
-        if (!Request::getString('id', '', 'GET')) {
+        $limit = Request::getInt('limit', 0, 'POST');
+        $start = Request::getInt('start', 0, 'POST');
+        $mimeId = Request::getInt('id', 0, 'POST');
+        if (0 === $mimeId) {
             redirect_header(PUBLISHER_ADMIN_URL . '/mimetypes.php', 3, _AM_PUBLISHER_MESSAGE_NO_ID);
-        } else {
-            $mimeId = Request::getInt('id', 0, 'GET');
         }
 
         $mimeTypeObj = $publisher->getHandler('mimetype')->get($mimeId);
 
-        if ('' !== ($mimeAdmin = Request::getString('mime_admin', '', 'GET'))) {
-            //            $mimeAdmin = Request::getInt('mime_admin', 0, 'GET');
+        if (-1 !== ($mimeAdmin = Request::getInt('mime_admin', -1, 'POST'))) {
             $mimeAdmin = self::changeMimeValue($mimeAdmin);
             $mimeTypeObj->setVar('mime_admin', $mimeAdmin);
-        }
-        if ('' !== ($mimeUser = Request::getString('mime_user', '', 'GET'))) {
-            //            $mimeUser = Request::getInt('mime_user', 0, 'GET');
+        } elseif (-1 !== ($mimeUser = Request::getInt('mime_user', -1, 'POST'))) {
             $mimeUser = self::changeMimeValue($mimeUser);
             $mimeTypeObj->setVar('mime_user', $mimeUser);
         }

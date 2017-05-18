@@ -994,7 +994,7 @@ class PublisherItem extends XoopsObject
     public function getForm($title = 'default', $checkperm = true)
     {
         include_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/item.php');
-        $form = new PublisherItemForm($title, 'form', xoops_getenv('PHP_SELF'));
+        $form = new PublisherItemForm($title, 'form', xoops_getenv('PHP_SELF'), 'post', true);
         $form->setCheckPermissions($checkperm);
         $form->createElements($this);
 
@@ -1043,7 +1043,7 @@ class PublisherItem extends XoopsObject
         $this->setVar('subtitle', Request::getString('subtitle', '', 'POST'));
         $this->setVar('item_tag', Request::getString('item_tag', '', 'POST'));
 
-        if (false !== ($imageFeatured = Request::getString('image_featured', '', 'POST'))) {
+        if ('' !== ($imageFeatured = Request::getString('image_featured', '', 'POST'))) {
             $imageItem = Request::getArray('image_item', array(), 'POST');
             //            $imageFeatured = Request::getString('image_featured', '', 'POST');
             //Todo: get a better image class for xoops!
@@ -1078,14 +1078,14 @@ class PublisherItem extends XoopsObject
         //mb TODO check on version
         //check if date is set and convert it to GMT date
         //        if (($datesub = Request::getString('datesub', '', 'POST'))) {
-        if ('' !== Request::getString('datesub', '', 'POST')) {
+        if (Request::hasVar('datesub', 'POST')) {
             //            if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
             //                $this->setVar('datesub', strtotime(Request::getArray('datesub', array(), 'POST')['date']) + Request::getArray('datesub', array(), 'POST')['time']);
             //            } else {
             $resDate = Request::getArray('datesub', array(), 'POST');
-            $resTime = Request::getArray('datesub', array(), 'POST');
+            //$resTime = Request::getArray('datesub', array(), 'POST');
             //            $this->setVar('datesub', strtotime($resDate['date']) + $resTime['time']);
-            $localTimestamp = strtotime($resDate['date']) + $resTime['time'];
+            $localTimestamp = strtotime($resDate['date']) + $resDate['time'];
 
             // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime
             $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');

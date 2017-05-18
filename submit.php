@@ -85,6 +85,14 @@ if (Request::getString('additem', '', 'POST')) {
     $op = 'preview';
 }
 
+$tokenError = false;
+if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
+    if ($op !== 'preview') {
+        $op = 'preview';
+        $tokenError = true;
+    }
+}
+
 $op = Request::getString('op', Request::getString('op', $op, 'POST'), 'GET');
 
 $allowedEditors = PublisherUtility::getEditors($gpermHandler->getItemIds('editors', $groups, $moduleId));
@@ -115,7 +123,7 @@ $elements = array(
     'author_alias'
 );
 foreach ($elements as $element) {
-    if (Request::getString('element', '', 'POST') && !in_array(constant('PublisherConstants::PUBLISHER_' . strtoupper($element)), $formView)) {
+    if (Request::hasVar('element','POST') && !in_array(constant('PublisherConstants::PUBLISHER_' . strtoupper($element)), $formView)) {
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
         //        exit();
     }
@@ -174,6 +182,9 @@ switch ($op) {
             $xoopsTpl->assign('categoryPath', _MD_PUBLISHER_SUB_SNEWNAME);
             $xoopsTpl->assign('langIntroTitle', sprintf(_MD_PUBLISHER_SUB_SNEWNAME, ucwords($publisher->getModule()->name())));
             $xoopsTpl->assign('langIntroText', $publisher->getConfig('submit_intro_msg'));
+        }
+        if ($tokenError) {
+            $xoopsTpl->assign('langIntroText', _CO_PUBLISHER_BAD_TOKEN);
         }
 
         $sform = $itemObj->getForm($formtitle, true);

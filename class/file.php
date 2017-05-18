@@ -259,7 +259,7 @@ class PublisherFile extends XoopsObject
     {
         $ret    = $this->filename();
         $sepPos = strpos($ret, '_');
-        $ret    = substr($ret, $sepPos + 1, -$sepPos);
+        $ret    = substr($ret, $sepPos + 1);
 
         return $ret;
     }

@@ -23,17 +23,16 @@ use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 
+// all post requests should have a valid token
+if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
+    redirect_header('item.php', 2, _CO_PUBLISHER_BAD_TOKEN);
+}
+
 $itemid = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
 $op     = ($itemid > 0 || Request::getString('editor', '', 'POST')) ? 'mod' : '';
 //$op     = Request::getString('op', $op, 'GET');
 
 $op = Request::getString('op', Request::getString('op', $op, 'POST'), 'GET');
-
-//if (!empty(Request::getString('additem', '', 'POST'))) {
-//    $op = 'additem';
-//} elseif (!empty(Request::getString('del', '', 'POST'))) {
-//    $op = 'del';
-//}
 
 $op = Request::getString('additem', '', 'POST') ? 'additem' : (Request::getString('del', '', 'POST') ? 'del' : $op);
 
@@ -146,7 +145,7 @@ switch ($op) {
 
     case 'del':
         $itemObj = $publisher->getHandler('item')->get($itemid);
-        $confirm = Request::getInt('confirm', '', 'POST');
+        $confirm = Request::getInt('confirm', 0, 'POST');
 
         if ($confirm) {
             if (!$publisher->getHandler('item')->delete($itemObj)) {

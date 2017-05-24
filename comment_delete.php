@@ -19,4 +19,4 @@
  */
 
 include dirname(dirname(__DIR__)) . '/mainfile.php';
-include_once $GLOBALS['xoops']->path('include/comment_delete.php');
+require_once $GLOBALS['xoops']->path('include/comment_delete.php');

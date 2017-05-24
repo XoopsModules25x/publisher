@@ -32,7 +32,7 @@ $op = Request::getString('op');
 function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
 {
     $publisher = PublisherPublisher::getInstance();
-    include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
+    require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
     // if there is a parameter, and the id exists, retrieve data: we're editing a file
     if ($fileid != 0) {
@@ -90,7 +90,7 @@ switch ($op) {
         }
 
         PublisherUtility::cpHeader();
-        include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
+        require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
         publisher_editFile(true, $fileid, $itemid);
         break;

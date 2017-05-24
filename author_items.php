@@ -43,8 +43,8 @@ if (!$publisher->getConfig('perm_author_items')) {
 $myts = MyTextSanitizer::getInstance();
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_author_items.tpl';
-include_once $GLOBALS['xoops']->path('header.php');
-include_once PUBLISHER_ROOT_PATH . '/footer.php';
+require_once $GLOBALS['xoops']->path('header.php');
+require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
 $criteria = new CriteriaCompo(new Criteria('datesub', time(), '<='));
 $criteria->add(new Criteria('uid', $uid));
@@ -98,4 +98,4 @@ $title = _MD_PUBLISHER_ITEMS_SAME_AUTHOR . ' - ' . $author_name;
 $publisherMetagen = new PublisherMetagen($title, '', $title);
 $publisherMetagen->createMetaTags();
 
-include_once $GLOBALS['xoops']->path('footer.php');
+require_once $GLOBALS['xoops']->path('footer.php');

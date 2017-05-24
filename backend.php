@@ -27,7 +27,7 @@ require_once __DIR__ . '/header.php';
 error_reporting(0);
 $GLOBALS['xoopsLogger']->activated = false;
 
-include_once $GLOBALS['xoops']->path('class/template.php');
+require_once $GLOBALS['xoops']->path('class/template.php');
 if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }

@@ -22,7 +22,7 @@
 
 use Xmf\Request;
 
-include_once dirname(__DIR__) . '/admin_header.php';
+require_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'FmContent ' . Request::getString('fmcontent_version', '', 'POST');
@@ -48,7 +48,7 @@ if ('start' === $op) {
     if (empty($fmTopicCount)) {
         echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . _AM_PUBLISHER_IMPORT_NO_CATEGORY . '</span>';
     } else {
-        include_once $GLOBALS['xoops']->path('www/class/xoopstree.php');
+        require_once $GLOBALS['xoops']->path('www/class/xoopstree.php');
         $fmContentHdlr  = xoops_getModuleHandler('page', 'fmcontent');
         $fmContentCount = $fmContentHdlr->getCount(new Criteria('content_modid', $fm_module_id));
 

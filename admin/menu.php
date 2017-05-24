@@ -38,7 +38,7 @@ $pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
 $moduleHelper->loadLanguage('modinfo');
 $moduleHelper->loadLanguage('admin');
 
-include_once dirname(__DIR__) . '/include/config.php';
+require_once dirname(__DIR__) . '/include/config.php';
 
 $adminmenu = array(
     array(

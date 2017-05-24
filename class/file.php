@@ -18,7 +18,7 @@
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-include_once dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 // File status
 //define("_PUBLISHER_STATUS_FILE_NOTSET", -1);
@@ -245,7 +245,7 @@ class PublisherFile extends XoopsObject
     public function displayFlash()
     {
         if (!defined('MYTEXTSANITIZER_EXTENDED_MEDIA')) {
-            include_once PUBLISHER_ROOT_PATH . '/include/media.textsanitizer.php';
+            require_once PUBLISHER_ROOT_PATH . '/include/media.textsanitizer.php';
         }
         $mediaTs = MyTextSanitizerExtension::getInstance();
 
@@ -269,7 +269,7 @@ class PublisherFile extends XoopsObject
      */
     public function getForm()
     {
-        include_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/file.php');
+        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/file.php');
         $form = new PublisherFileForm($this);
 
         return $form;

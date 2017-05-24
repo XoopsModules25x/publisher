@@ -60,8 +60,8 @@ if (empty($GLOBALS['xoopsOption']['template_main'])) {
     $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $publisher->getConfig('idxcat_items_display_type') . '.tpl';
 }
 
-include_once $GLOBALS['xoops']->path('header.php');
-include_once PUBLISHER_ROOT_PATH . '/footer.php';
+require_once $GLOBALS['xoops']->path('header.php');
+require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
 $module_id = $publisher->getModule()->getVar('mid');
 
@@ -228,7 +228,7 @@ $xoopsTpl->assign('categoryPath', '<li>'.$category['categoryPath'].'</li>');
 $xoopsTpl->assign('selected_category', $categoryid);
 
 // The Navigation Bar
-include_once $GLOBALS['xoops']->path('class/pagenav.php');
+require_once $GLOBALS['xoops']->path('class/pagenav.php');
 $pagenav = new XoopsPageNav($thiscategory_itemcount, $publisher->getConfig('idxcat_index_perpage'), $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
 if ($publisher->getConfig('format_image_nav') == 1) {
     $navbar = '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>';
@@ -251,4 +251,4 @@ if ($publisher->getConfig('idxcat_show_rss_link') == 1) {
     $xoopsTpl->assign('rssfeed_link', $link);
 }
 
-include_once $GLOBALS['xoops']->path('footer.php');
+require_once $GLOBALS['xoops']->path('footer.php');

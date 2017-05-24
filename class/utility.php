@@ -21,7 +21,7 @@
 
 use Xmf\Request;
 
-include_once dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 //namespace Publisher;
 
@@ -1160,7 +1160,7 @@ class PublisherUtility
      */
     public static function uploadFile($another = false, $withRedirect = true, &$itemObj)
     {
-        include_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
+        require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
         //    global $publisherIsAdmin;
         $publisher = PublisherPublisher::getInstance();

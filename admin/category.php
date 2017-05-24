@@ -224,7 +224,7 @@ switch ($op) {
             $categoryid = '0';
         }
         echo "</table>\n";
-        include_once $GLOBALS['xoops']->path('class/pagenav.php');
+        require_once $GLOBALS['xoops']->path('class/pagenav.php');
         $pagenav = new XoopsPageNav($totalCategories, $publisher->getConfig('idxcat_perpage'), $startcategory, 'startcategory');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
         echo '<br>';

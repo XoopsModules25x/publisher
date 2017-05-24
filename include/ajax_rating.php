@@ -19,7 +19,7 @@
 
 use Xmf\Request;
 
-include_once dirname(__DIR__) . '/header.php';
+require_once dirname(__DIR__) . '/header.php';
 
 error_reporting(0);
 $xoopsLogger->activated = false;

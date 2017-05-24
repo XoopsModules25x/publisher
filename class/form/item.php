@@ -24,13 +24,13 @@ use Xmf\Request;
 
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
-include_once dirname(dirname(__DIR__)) . '/include/common.php';
+require_once dirname(dirname(__DIR__)) . '/include/common.php';
 
 xoops_load('XoopsFormLoader');
 xoops_load('XoopsLists');
-include_once $GLOBALS['xoops']->path('class/tree.php');
-include_once PUBLISHER_ROOT_PATH . '/class/formdatetime.php';
-include_once PUBLISHER_ROOT_PATH . '/class/themetabform.php';
+require_once $GLOBALS['xoops']->path('class/tree.php');
+require_once PUBLISHER_ROOT_PATH . '/class/formdatetime.php';
+require_once PUBLISHER_ROOT_PATH . '/class/themetabform.php';
 
 /**
  * Class PublisherItemForm
@@ -168,7 +168,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // TAGS
         if (xoops_isActiveModule('tag') && $this->isGranted(PublisherConstants::PUBLISHER_ITEM_TAG)) {
-            include_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
+            require_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
             $textTags = new TagFormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
             $this->addElement($textTags);
         }

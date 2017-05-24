@@ -21,7 +21,7 @@
 
 use Xmf\Request;
 
-include_once dirname(__DIR__) . '/admin_header.php';
+require_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'WF-Section ' . Request::getString('wfs_version', '', 'POST');
@@ -43,7 +43,7 @@ if ($op === 'start') {
     if ($totalCat == 0) {
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_IMPORT_NOCATSELECTED . '</span>';
     } else {
-        include_once $GLOBALS['xoops']->path('class/xoopstree.php');
+        require_once $GLOBALS['xoops']->path('class/xoopstree.php');
 
         $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_article'));
         list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);

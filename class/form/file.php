@@ -21,7 +21,7 @@
 
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
-include_once dirname(dirname(__DIR__)) . '/include/common.php';
+require_once dirname(dirname(__DIR__)) . '/include/common.php';
 
 xoops_load('XoopsFormLoader');
 //todo: move to admin?

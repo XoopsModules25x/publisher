@@ -19,7 +19,7 @@
  */
 
 require_once __DIR__ . '/../../../include/cp_header.php';
-//include_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
+//require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
 //require_once __DIR__ . '/../include/common.php';
 
@@ -55,6 +55,6 @@ $imagearray = array(
 $myts = MyTextSanitizer::getInstance();
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
-    include_once $GLOBALS['xoops']->path('class/template.php');
+    require_once $GLOBALS['xoops']->path('class/template.php');
     $xoopsTpl = new XoopsTpl();
 }

@@ -39,8 +39,8 @@ if ($totalCategories == 0) {
 }
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $publisher->getConfig('idxcat_items_display_type') . '.tpl';
-include_once $GLOBALS['xoops']->path('header.php');
-include_once PUBLISHER_ROOT_PATH . '/footer.php';
+require_once $GLOBALS['xoops']->path('header.php');
+require_once PUBLISHER_ROOT_PATH . '/footer.php';
 /* @var  $gpermHandler XoopsGroupPermHandler */
 $gpermHandler = xoops_getHandler('groupperm');
 
@@ -204,7 +204,7 @@ $xoopsTpl->assign('lang_category_summary_info', _MD_PUBLISHER_INDEX_CATEGORIES_S
 $xoopsTpl->assign('lang_items_title', _MD_PUBLISHER_INDEX_ITEMS);
 $xoopsTpl->assign('indexpage', true);
 
-include_once $GLOBALS['xoops']->path('class/pagenav.php');
+require_once $GLOBALS['xoops']->path('class/pagenav.php');
 // Category Navigation Bar
 $pagenav = new XoopsPageNav($totalCategories, $publisher->getConfig('idxcat_cat_perpage'), $catstart, 'catstart', '');
 if ($publisher->getConfig('format_image_nav') == 1) {
@@ -236,7 +236,7 @@ if ($publisher->getConfig('idxcat_show_rss_link') == 1) {
     $xoopsTpl->assign('rssfeed_link', $link);
 }
 
-include_once $GLOBALS['xoops']->path('footer.php');
+require_once $GLOBALS['xoops']->path('footer.php');
 ?>
 
 <!--<script type="text/javascript">-->

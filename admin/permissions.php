@@ -19,7 +19,7 @@
  */
 
 require_once __DIR__ . '/admin_header.php';
-include_once $GLOBALS['xoops']->path('class/xoopsform/grouppermform.php');
+require_once $GLOBALS['xoops']->path('class/xoopsform/grouppermform.php');
 $myts = MyTextSanitizer::getInstance();
 
 PublisherUtility::cpHeader();

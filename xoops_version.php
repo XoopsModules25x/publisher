@@ -95,7 +95,7 @@ $modversion['helpsection'] = array(
     array('name' => _MI_PUBLISHER_SUPPORT, 'link' => 'page=support'),
 );
 
-//include_once $GLOBALS['xoops']->path('modules/' . $modversion['dirname'] . '/include/constants.php');
+//require_once $GLOBALS['xoops']->path('modules/' . $modversion['dirname'] . '/include/constants.php');
 xoops_load('constants', $moduleDirName);
 /*
 $logo_filename = $modversion['dirname'] . '_logo.png';

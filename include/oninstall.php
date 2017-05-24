@@ -80,7 +80,7 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
     }
 
 //    $moduleDirName = $xoopsModule->getVar('dirname');
-//    include_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
+//    require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
 
     //  ---  CREATE FOLDERS ---------------
     if (count($configurator->uploadFolders) > 0) {

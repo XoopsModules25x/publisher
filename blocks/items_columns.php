@@ -21,7 +21,7 @@
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-include_once dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /***
  * Function To Show Publisher Items From Categories In Their Own Columns
@@ -105,7 +105,7 @@ function publisher_items_columns_show($options)
 
             //The Rest
             if ($scount > 1) {
-//                while ((list($itemid, $thisitem) = each($categoryItemsObj)) !== false) {
+                //                while ((list($itemid, $thisitem) = each($categoryItemsObj)) !== false) {
                 foreach ($categoryItemsObj as $itemid => $thisitem) { //TODO do I need to start with 2nd element?
                     $subItem['title']      = $thisitem->getTitle();
                     $subItem['cleantitle'] = strip_tags($thisitem->getTitle());
@@ -145,7 +145,7 @@ function publisher_items_columns_show($options)
  */
 function publisher_items_columns_edit($options)
 {
-    include_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
+    require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
     $form   = new PublisherBlockForm();

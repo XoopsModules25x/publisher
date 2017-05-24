@@ -41,7 +41,7 @@ if (!$itemObj) {
 }
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl';
-include_once $GLOBALS['xoops']->path('header.php');
+require_once $GLOBALS['xoops']->path('header.php');
 
 //$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.1.js');
@@ -51,7 +51,7 @@ include_once $GLOBALS['xoops']->path('header.php');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 
-include_once PUBLISHER_ROOT_PATH . '/footer.php';
+require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
 // Creating the category object that holds the selected item
 $categoryObj = $publisher->getHandler('category')->get($itemObj->categoryid());
@@ -161,7 +161,7 @@ if ($itemObj->pagescount() > 0) {
     if ($itemPageId == -1) {
         $itemPageId = 0;
     }
-    include_once $GLOBALS['xoops']->path('class/pagenav.php');
+    require_once $GLOBALS['xoops']->path('class/pagenav.php');
     //    $pagenav = new XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemId());
 
     $pagenav = new XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemid()); //SMEDrieben changed ->itemId to ->itemid
@@ -232,7 +232,7 @@ $xoopsTpl->assign('perm_author_items', $publisher->getConfig('perm_author_items'
 
 // tags support
 if (xoops_isActiveModule('tag')) {
-    include_once $GLOBALS['xoops']->path('modules/tag/include/tagbar.php');
+    require_once $GLOBALS['xoops']->path('modules/tag/include/tagbar.php');
     $xoopsTpl->assign('tagbar', tagBar($itemId, $catid = 0));
 }
 
@@ -244,7 +244,7 @@ $publisherMetagen->createMetaTags();
 
 // Include the comments if the selected ITEM supports comments
 if (($publisher->getConfig('com_rule') <> 0) && (($itemObj->cancomment() == 1) || !$publisher->getConfig('perm_com_art_level'))) {
-    include_once $GLOBALS['xoops']->path('include/comment_view.php');
+    require_once $GLOBALS['xoops']->path('include/comment_view.php');
     // Problem with url_rewrite and posting comments :
     $xoopsTpl->assign(array(
                           'editcomment_link'   => PUBLISHER_URL . '/comment_edit.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
@@ -263,7 +263,7 @@ if ($publisher->getConfig('perm_rating')) {
 }
 
 $xoopsTpl->assign('item', $item);
-include_once $GLOBALS['xoops']->path('footer.php');
+require_once $GLOBALS['xoops']->path('footer.php');
 ?>
 <!--<script type="text/javascript">-->
 <!--    $(document).ready(function () {-->

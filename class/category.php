@@ -18,7 +18,7 @@
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-include_once dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class PublisherCategory
@@ -342,7 +342,7 @@ class PublisherCategory extends XoopsObject
      */
     public function getForm($subCatsCount = 4)
     {
-        include_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/category.php');
+        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/category.php');
         $form = new PublisherCategoryForm($this, $subCatsCount);
 
         return $form;
@@ -467,7 +467,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     public function &getObjects(CriteriaElement $criteria = null, $idAsKey = false, $as_object = true) //&getObjects($criteria = null, $idAsKey = false)
     {
         $ret        = array();
-        $theObjects =& parent::getObjects($criteria, true);
+        $theObjects = parent::getObjects($criteria, true);
         foreach ($theObjects as $theObject) {
             if (!$idAsKey) {
                 $ret[] = $theObject;
@@ -512,7 +512,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
         }
         $criteria->setStart($start);
         $criteria->setLimit($limit);
-        $ret =& $this->getObjects($criteria, $idAsKey);
+        $ret = $this->getObjects($criteria, $idAsKey);
 
         return $ret;
     }
@@ -679,7 +679,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
         }
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
-        $subcats =& $this->getObjects($criteria, true);
+        $subcats = $this->getObjects($criteria, true);
         foreach ($subcats as $subcat) {
             $ret[$subcat->getVar('parentid')][$subcat->getVar('categoryid')] = $subcat;
         }
@@ -698,7 +698,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      */
     public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
-        $categories =& $this->getObjects($criteria);
+        $categories = $this->getObjects($criteria);
         foreach ($categories as $category) {
             if (!$this->delete($category)) {
                 return false;

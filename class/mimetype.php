@@ -20,7 +20,7 @@
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-include_once dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * PublisherBaseObjectHandler class
@@ -499,7 +499,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
         if ($mimeExt) {
             $crit->add(new Criteria('mime_ext', $mimeExt));
         }
-        $result =& $this->getObjects($crit);
+        $result = $this->getObjects($crit);
         // if no records from db, return empty array
         if (!$result) {
             return $ret;

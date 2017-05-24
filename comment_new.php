@@ -20,7 +20,7 @@
 
 use Xmf\Request;
 
-include_once dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
 $com_itemid = Request::getInt('com_itemid', 0, 'GET');
@@ -32,5 +32,5 @@ if ($com_itemid > 0) {
         $com_replytext .= '<br><br>' . $bodytext . '';
     }
     $com_replytitle = $itemObj->getTitle();
-    include_once $GLOBALS['xoops']->path('include/comment_new.php');
+    require_once $GLOBALS['xoops']->path('include/comment_new.php');
 }

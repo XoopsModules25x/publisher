@@ -28,7 +28,7 @@ switch ($op) {
     case 'importExecute':
         $importfile      = Request::getString('importfile', 'nonselected', 'POST');
         $importfile_path = $GLOBALS['xoops']->path('modules/' . $publisher->getModule()->dirname() . '/admin/import/' . $importfile . '.php');
-        include_once $importfile_path;
+        require_once $importfile_path;
         break;
 
     case 'default':

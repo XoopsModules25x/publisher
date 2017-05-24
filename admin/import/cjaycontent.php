@@ -21,7 +21,7 @@
 
 use Xmf\Request;
 
-include_once dirname(__DIR__) . '/admin_header.php';
+require_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'cjaycontent ' . Request::getString('cjaycontent_version', '', 'POST');
@@ -89,7 +89,7 @@ if ($op === 'start') {
 if ($op === 'go') {
     PublisherUtility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    include_once dirname(dirname(__DIR__)) . '/include/common.php';
+    require_once dirname(dirname(__DIR__)) . '/include/common.php';
     PublisherUtility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /* @var  $moduleHandler XoopsModuleHandler */
     $moduleHandler         = xoops_getHandler('module');

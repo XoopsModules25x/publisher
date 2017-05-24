@@ -46,7 +46,7 @@ $GLOBALS['xoopsOption']['template_main']                       = 'publisher_sear
 include $GLOBALS['xoops']->path('header.php');
 
 $module_info_search = $publisher->getModule()->getInfo('search');
-include_once PUBLISHER_ROOT_PATH . '/' . $module_info_search['file'];
+require_once PUBLISHER_ROOT_PATH . '/' . $module_info_search['file'];
 
 $limit    = 10; //$publisher->getConfig('idxcat_perpage');
 $uid      = 0;

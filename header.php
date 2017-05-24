@@ -18,11 +18,11 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-include_once dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
 $myts = MyTextSanitizer::getInstance();
 
 if ('none' !== $publisher->getConfig('seo_url_rewrite')) {
-    include_once PUBLISHER_ROOT_PATH . '/include/seo.inc.php';
+    require_once PUBLISHER_ROOT_PATH . '/include/seo.inc.php';
 }

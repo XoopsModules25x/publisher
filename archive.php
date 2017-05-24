@@ -28,8 +28,8 @@ use Xmf\Request;
 require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_archive.tpl';
 
-include_once $GLOBALS['xoops']->path('header.php');
-include_once PUBLISHER_ROOT_PATH . '/footer.php';
+require_once $GLOBALS['xoops']->path('header.php');
+require_once PUBLISHER_ROOT_PATH . '/footer.php';
 xoops_loadLanguage('calendar');
 //mb xoops_load('XoopsLocal');
 
@@ -231,4 +231,4 @@ if ($fromyear != 0 && $frommonth != 0) {
 
 $xoopsTpl->assign('lang_newsarchives', _MD_PUBLISHER_ARCHIVES);
 
-include_once $GLOBALS['xoops']->path('footer.php');
+require_once $GLOBALS['xoops']->path('footer.php');

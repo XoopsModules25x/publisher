@@ -38,8 +38,6 @@
 - changed min_db to 5.5 (mamba)
 - changed 'include_once' to 'require_once' (mamba)
 
-
-
 <h5>1.04 FINAL       (2015-10-21)</h5>
 - added XoopsLocal::number_format for rating in author_items.php (mamba)
 - added _SHORTDATESTRING to use for date formatting in author_items.php (mamba)

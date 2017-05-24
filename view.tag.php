@@ -20,4 +20,4 @@
 
 //todo: check this file
 require_once __DIR__ . '/header.php';
-include_once $GLOBALS['xoops']->path('modules/tag/view.tag.php');
+require_once $GLOBALS['xoops']->path('modules/tag/view.tag.php');

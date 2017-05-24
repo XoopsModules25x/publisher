@@ -20,7 +20,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
-include_once dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class PublisherPermissionHandler

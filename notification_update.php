@@ -18,5 +18,5 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-include_once dirname(dirname(__DIR__)) . '/mainfile.php';
-include_once $GLOBALS['xoops']->path('include/notification_update.php');
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once $GLOBALS['xoops']->path('include/notification_update.php');

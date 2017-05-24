@@ -21,7 +21,7 @@
 
 use Xmf\Request;
 
-include_once dirname(__DIR__) . '/admin_header.php';
+require_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'AMS ' . Request::getString('ams_version', '', 'POST');
@@ -43,7 +43,7 @@ if ($op === 'start') {
     if ($totalCat == 0) {
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_IMPORT_NO_CATEGORY . '</span>';
     } else {
-        include_once $GLOBALS['xoops']->path('class/xoopstree.php');
+        require_once $GLOBALS['xoops']->path('class/xoopstree.php');
 
         $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('nw_stories'));
         list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
@@ -167,7 +167,7 @@ if ($op === 'start') {
 if ($op === 'go') {
     PublisherUtility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    include_once dirname(dirname(__DIR__)) . '/include/common.php';
+    require_once dirname(dirname(__DIR__)) . '/include/common.php';
     PublisherUtility::openCollapsableBar('amsimportgo', 'amsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /* @var  $moduleHandler XoopsModuleHandler */
     $moduleHandler = xoops_getHandler('module');

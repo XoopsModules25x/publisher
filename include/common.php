@@ -33,13 +33,13 @@ define('PUBLISHER_AUTHOR_LOGOIMG', PUBLISHER_URL . '/assets/images/logo.png');
 define('PUBLISHER_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
 define('PUBLISHER_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
 
-//include_once PUBLISHER_ROOT_PATH . '/include/functions.php';
-//include_once PUBLISHER_ROOT_PATH . '/include/constants.php';
-include_once PUBLISHER_ROOT_PATH . '/include/seo_functions.php';
-include_once PUBLISHER_ROOT_PATH . '/class/metagen.php';
-include_once PUBLISHER_ROOT_PATH . '/class/session.php';
-include_once PUBLISHER_ROOT_PATH . '/class/publisher.php';
-//include_once PUBLISHER_ROOT_PATH . '/class/request.php';
+//require_once PUBLISHER_ROOT_PATH . '/include/functions.php';
+//require_once PUBLISHER_ROOT_PATH . '/include/constants.php';
+require_once PUBLISHER_ROOT_PATH . '/include/seo_functions.php';
+require_once PUBLISHER_ROOT_PATH . '/class/metagen.php';
+require_once PUBLISHER_ROOT_PATH . '/class/session.php';
+require_once PUBLISHER_ROOT_PATH . '/class/publisher.php';
+//require_once PUBLISHER_ROOT_PATH . '/class/request.php';
 
 // module information
 $mod_copyright = "<a href='http://xoops.org' title='XOOPS Project' target='_blank'>

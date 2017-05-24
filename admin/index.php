@@ -20,7 +20,7 @@
  */
 
 require_once __DIR__ . '/admin_header.php';
-include_once dirname(__DIR__) . '/class/utility.php';
+require_once dirname(__DIR__) . '/class/utility.php';
 
 xoops_cp_header();
 xoops_loadLanguage('main', PUBLISHER_DIRNAME);

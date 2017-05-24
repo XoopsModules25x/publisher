@@ -39,7 +39,7 @@ if (!defined($capsDirName . '_DIRNAME')) {
 //$img_dir = $GLOBALS['xoopsModuleConfig']['uploaddir'];
 
 //define($capsDirName . '_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . constant($capsDirName . '_DIRNAME')); // WITHOUT Trailing slash
-defined($capsDirName . '_UPLOAD_PATH') or define($capsDirName . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . constant($capsDirName . '_DIRNAME')); // WITHOUT Trailing slash
+defined($capsDirName . '_UPLOAD_PATH') || define($capsDirName . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . constant($capsDirName . '_DIRNAME')); // WITHOUT Trailing slash
 
 //Configurator
 /*

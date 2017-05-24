@@ -22,7 +22,7 @@ use Xmf\Request;
 //namespace Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
-include_once dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class PublisherItem
@@ -993,7 +993,7 @@ class PublisherItem extends XoopsObject
      */
     public function getForm($title = 'default', $checkperm = true)
     {
-        include_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/item.php');
+        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/item.php');
         $form = new PublisherItemForm($title, 'form', xoops_getenv('PHP_SELF'), 'post', true);
         $form->setCheckPermissions($checkperm);
         $form->createElements($this);
@@ -1043,7 +1043,7 @@ class PublisherItem extends XoopsObject
         $this->setVar('subtitle', Request::getString('subtitle', '', 'POST'));
         $this->setVar('item_tag', Request::getString('item_tag', '', 'POST'));
 
-        if ('' !== ($imageFeatured = Request::getString('image_featured', '', 'POST'))) {
+        if (false !== ($imageFeatured = Request::getString('image_featured', '', 'POST'))) {
             $imageItem = Request::getArray('image_item', array(), 'POST');
             //            $imageFeatured = Request::getString('image_featured', '', 'POST');
             //Todo: get a better image class for xoops!
@@ -1078,14 +1078,14 @@ class PublisherItem extends XoopsObject
         //mb TODO check on version
         //check if date is set and convert it to GMT date
         //        if (($datesub = Request::getString('datesub', '', 'POST'))) {
-        if (Request::hasVar('datesub', 'POST')) {
+        if ('' !== Request::getString('datesub', '', 'POST')) {
             //            if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
             //                $this->setVar('datesub', strtotime(Request::getArray('datesub', array(), 'POST')['date']) + Request::getArray('datesub', array(), 'POST')['time']);
             //            } else {
             $resDate = Request::getArray('datesub', array(), 'POST');
-            //$resTime = Request::getArray('datesub', array(), 'POST');
+            $resTime = Request::getArray('datesub', array(), 'POST');
             //            $this->setVar('datesub', strtotime($resDate['date']) + $resTime['time']);
-            $localTimestamp = strtotime($resDate['date']) + $resDate['time'];
+            $localTimestamp = strtotime($resDate['date']) + $resTime['time'];
 
             // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime
             $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
@@ -1621,7 +1621,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $criteria->setStart($start);
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $ret =& $this->getObjects($criteria, $idKey, $notNullFields);
+        $ret = $this->getObjects($criteria, $idKey, $notNullFields);
 
         return $ret;
     }
@@ -1664,7 +1664,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
         //todo resource consuming, use get list instead?
-        $items =& $this->getObjects($criteria);
+        $items = $this->getObjects($criteria);
         foreach ($items as $item) {
             $this->delete($item);
         }
@@ -1810,7 +1810,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             $order = 'DESC';
         }
         $criteria->setOrder($order);
-        $ret =& $this->getObjects($criteria);
+        $ret = $this->getObjects($criteria);
 
         return $ret;
     }

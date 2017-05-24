@@ -51,8 +51,8 @@ if (!(PublisherUtility::userIsAdmin() || PublisherUtility::userIsModerator($item
 switch ($op) {
     case 'default':
     case 'mod':
-        include_once $GLOBALS['xoops']->path('header.php');
-        include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
+        require_once $GLOBALS['xoops']->path('header.php');
+        require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
         // FILES UPLOAD FORM
         $uploadForm = $fileObj->getForm();
@@ -123,12 +123,12 @@ switch ($op) {
         } else {
             // no confirm: show deletion condition
 
-            include_once $GLOBALS['xoops']->path('header.php');
+            require_once $GLOBALS['xoops']->path('header.php');
             xoops_confirm(array('op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()), 'file.php',
                           _AM_PUBLISHER_DELETETHISFILE . ' <br>' . $fileObj->name() . ' <br> <br>', _AM_PUBLISHER_DELETE);
-            include_once $GLOBALS['xoops']->path('footer.php');
+            require_once $GLOBALS['xoops']->path('footer.php');
         }
         exit();
         break;
 }
-include_once $GLOBALS['xoops']->path('footer.php');
+require_once $GLOBALS['xoops']->path('footer.php');

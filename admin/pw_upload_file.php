@@ -39,7 +39,7 @@ if (publisher_pagewrap_upload($errors)) {
  */
 function publisher_pagewrap_upload(&$errors)
 {
-    //    include_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
+    //    require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
     xoops_load('XoopsMediaUploader');
 
     $publisher = PublisherPublisher::getInstance();

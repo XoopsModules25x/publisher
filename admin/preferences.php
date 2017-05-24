@@ -135,19 +135,19 @@ if ($op === 'showmod') {
                 $ele = new XoopsFormRadioYN($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput(), _YES, _NO);
                 break;
             case 'group':
-                include_once $GLOBALS['xoops']->path('class/xoopslists.php');
+                require_once $GLOBALS['xoops']->path('class/xoopslists.php');
                 $ele = new XoopsFormSelectGroup($title, $config[$i]->getVar('conf_name'), false, $config[$i]->getConfValueForOutput(), 1, false);
                 break;
             case 'group_multi':
-                include_once $GLOBALS['xoops']->path('class/xoopslists.php');
+                require_once $GLOBALS['xoops']->path('class/xoopslists.php');
                 $ele = new XoopsFormSelectGroup($title, $config[$i]->getVar('conf_name'), false, $config[$i]->getConfValueForOutput(), 5, true);
                 break;
             case 'user':
-                include_once $GLOBALS['xoops']->path('class/xoopslists.php');
+                require_once $GLOBALS['xoops']->path('class/xoopslists.php');
                 $ele = new XoopsFormSelectUser($title, $config[$i]->getVar('conf_name'), false, $config[$i]->getConfValueForOutput(), 1, false);
                 break;
             case 'user_multi':
-                include_once $GLOBALS['xoops']->path('class/xoopslists.php');
+                require_once $GLOBALS['xoops']->path('class/xoopslists.php');
                 $ele = new XoopsFormSelectUser($title, $config[$i]->getVar('conf_name'), false, $config[$i]->getConfValueForOutput(), 5, true);
                 break;
             case 'password':

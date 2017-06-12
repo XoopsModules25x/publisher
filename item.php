@@ -61,6 +61,7 @@ if (!$itemObj->accessGranted()) {
     redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     //    exit;
 }
+$com_replytitle = $itemObj->getTitle();
 
 // Update the read counter of the selected item
 if (!$GLOBALS['xoopsUser']

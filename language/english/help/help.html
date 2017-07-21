@@ -69,7 +69,7 @@
     <p class="even">Translations are on <a href="https://www.transifex.com/xoops/" target="_blank">Transifex</a> and in our <a href="https://github.com/XoopsLanguages/" target="_blank">XOOPS Languages Repository on GitHub</a>.</p>
 
     <h4 class="odd">SUPPORT</h4>
-    <p class="even">If you have questions about this module and need help, you can visit our <a href="http://xoops.org/modules/newbb/viewforum.php?forum=28/" target="_blank">Support Forums on XOOPS Website</a></p>
+    <p class="even">If you have questions about this module and need help, you can visit our <a href="https://xoops.org/modules/newbb/viewforum.php?forum=28/" target="_blank">Support Forums on XOOPS Website</a></p>
 
     <h4 class="odd">DEVELOPMENT</h4>
     <p class="even">This module is Open Source and we would love your help in making it better! You can fork this module on <a href="https://github.com/XoopsModulesArchive/publisher" target="_blank">GitHub</a><br><br>

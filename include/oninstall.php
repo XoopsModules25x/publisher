@@ -10,7 +10,7 @@
  */
 
 /**
- * @copyright       XOOPS Project (http://xoops.org)
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author          luciorota <lucio.rota@gmail.com>
  *
@@ -25,9 +25,9 @@
  */
 function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
 {
-    if (!isset($moduleDirName)) {
+
         $moduleDirName = basename(dirname(__DIR__));
-    }
+
     $classUtility = ucfirst($moduleDirName) . 'Utility';
     if (!class_exists($classUtility)) {
         xoops_load('utility', $moduleDirName);
@@ -60,9 +60,9 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
     require_once  __DIR__ . '/../../../mainfile.php';
     require_once  __DIR__ . '/../include/config.php';
 
-    if (!isset($moduleDirName)) {
+
         $moduleDirName = basename(dirname(__DIR__));
-    }
+
 
     if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
     } else {
@@ -73,7 +73,7 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
     $moduleHelper->loadLanguage('admin');
     $moduleHelper->loadLanguage('modinfo');
 
-    $configurator = new ModuleConfigurator();
+        $configurator = new PublisherConfigurator();
     $classUtility    = ucfirst($moduleDirName) . 'Utility';
     if (!class_exists($classUtility)) {
         xoops_load('utility', $moduleDirName);

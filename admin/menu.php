@@ -21,10 +21,7 @@
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 
-
-if (!isset($moduleDirName)) {
-    $moduleDirName = basename(dirname(__DIR__));
-}
+$moduleDirName = basename(dirname(__DIR__));
 
 if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
 } else {

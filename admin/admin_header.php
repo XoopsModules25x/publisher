@@ -26,9 +26,7 @@ require_once __DIR__ . '/../../../include/cp_header.php';
 require_once __DIR__  . '/../class/utility.php';
 require_once __DIR__ . '/../include/config.php';
 
-if (!isset($moduleDirName)) {
-    $moduleDirName = basename(dirname(__DIR__));
-}
+$moduleDirName = basename(dirname(__DIR__));
 
 if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
 } else {

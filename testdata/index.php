@@ -17,10 +17,6 @@
 
 require_once __DIR__ . '/../../../mainfile.php';
 
-if (!isset($moduleDirName)) {
-    $moduleDirName = basename(dirname(__DIR__));
-}
-
 $op = \Xmf\Request::getCmd('op', '');
 
 switch ($op) {
@@ -33,6 +29,7 @@ switch ($op) {
 
 function loadSampleData()
 {
+    $moduleDirName = basename(dirname(__DIR__));
     xoops_loadLanguage('admin', $moduleDirName);
     $items = \Xmf\Yaml::readWrapped('item-data.yml');
     $cat = \Xmf\Yaml::readWrapped('cat-data.yml');

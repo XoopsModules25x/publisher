@@ -170,7 +170,7 @@ if ($fromyear != 0 && $frommonth != 0) {
     $count = 0;
 
     $itemHandler               = $publisher->getHandler('item');
-    $itemHandler->table_link   = $GLOBALS['xoopsDB']->prefix('publisher_categories');
+    $itemHandler->table_link   = $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories');
     $itemHandler->field_link   = 'categoryid';
     $itemHandler->field_object = 'categoryid';
     // Categories for which user has access

@@ -489,10 +489,10 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
         $ret = array();
         if ($GLOBALS['xoopsUser'] && !$GLOBALS['publisherIsAdmin']) {
             // For user uploading
-            $crit = new CriteriaCompo(new Criteria('mime_user', 1)); //$sql = sprintf("SELECT * FROM %s WHERE mime_user=1", $GLOBALS['xoopsDB']->prefix('publisher_mimetypes'));
+            $crit = new CriteriaCompo(new Criteria('mime_user', 1)); //$sql = sprintf("SELECT * FROM %s WHERE mime_user=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
         } elseif ($GLOBALS['xoopsUser'] && $GLOBALS['publisherIsAdmin']) {
             // For admin uploading
-            $crit = new CriteriaCompo(new Criteria('mime_admin', 1)); //$sql = sprintf("SELECT * FROM %s WHERE mime_admin=1", $GLOBALS['xoopsDB']->prefix('publisher_mimetypes'));
+            $crit = new CriteriaCompo(new Criteria('mime_admin', 1)); //$sql = sprintf("SELECT * FROM %s WHERE mime_admin=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
         } else {
             return $ret;
         }

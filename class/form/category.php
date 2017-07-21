@@ -59,7 +59,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $memberHandler    = xoops_getHandler('member');
         $this->userGroups = $memberHandler->getGroupList();
 
-        parent::__construct(_AM_PUBLISHER_CATEGORY, 'form', xoops_getenv('PHP_SELF'));
+        parent::__construct(_AM_PUBLISHER_CATEGORY, 'form', xoops_getenv('PHP_SELF'), 'post', true);
         $this->setExtra('enctype="multipart/form-data"');
 
         $this->createElements();

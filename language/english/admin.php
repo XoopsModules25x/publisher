@@ -382,7 +382,7 @@ define('_AM_PUBLISHER_ERROR_TAG_REMOVAL', 'Could not remove tags from Tag Module
 define('_AM_PUBLISHER_AUTHOR', 'Author');
 define('_AM_PUBLISHER_SAMPLEDATA_SUCCESS', 'Sample Date uploaded successfully');
 
-//added 16/05/2017
+//added 2017-05-16
 define('_AM_PUBLISHER_MIME_ACCESS_CONFIRM', 'Confirm');
 define('_AM_PUBLISHER_MIME_ACCESS_CONFIRM_ADMIN', 'Confirm change to admin access for %s');
 define('_AM_PUBLISHER_MIME_ACCESS_CONFIRM_USER', 'Confirm change to user access for %s');

@@ -20,9 +20,9 @@
  */
 
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once __DIR__ . '/../class/configurator.php';
 
 $moduleDirName = basename(dirname(__DIR__));
-
 $capsDirName = strtoupper($moduleDirName);
 
 if (!defined($capsDirName . '_DIRNAME')) {
@@ -82,10 +82,12 @@ return array(
 );
 */
 
+//TODO remove it, as the class is now in /class/ folder
+
 /**
- * Class ModuleConfigurator
+ * Class PublisherConfigurator
  */
-class ModuleConfigurator
+class PublisherConfigurator
 {
     public $uploadFolders   = [];
     public $blankFiles  = [];
@@ -95,7 +97,7 @@ class ModuleConfigurator
     public $name;
 
     /**
-     * ModuleConfigurator constructor.
+     * PublisherConfigurator constructor.
      */
     public function __construct()
     {

@@ -193,7 +193,7 @@ class PublisherUtility
                   . _AM_PUBLISHER_EDITCOL
                   . "' alt='"
                   . _AM_PUBLISHER_EDITCOL
-                  . "' /></a>";
+                  . "'></a>";
         $delete = "<a href='category.php?op=del&amp;categoryid="
                   . $categoryObj->categoryid()
                   . "'><img src='"
@@ -202,7 +202,7 @@ class PublisherUtility
                   . _AM_PUBLISHER_DELETECOL
                   . "' alt='"
                   . _AM_PUBLISHER_DELETECOL
-                  . "' /></a>";
+                  . "'></a>";
 
         $spaces = '';
         for ($j = 0; $j < $level; ++$j) {
@@ -219,7 +219,7 @@ class PublisherUtility
              . $categoryObj->categoryid()
              . "'><img src='"
              . PUBLISHER_URL
-             . "/assets/images/links/subcat.gif' alt='' />&nbsp;"
+             . "/assets/images/links/subcat.gif' alt=''>&nbsp;"
              . $categoryObj->name()
              . '</a></td>';
         echo "<td class='even' align='center'>" . $categoryObj->weight() . '</td>';
@@ -307,7 +307,7 @@ class PublisherUtility
                               . _AM_PUBLISHER_MODIFY
                               . "' alt='"
                               . _AM_PUBLISHER_MODIFY
-                              . "' /></a>";
+                              . "'></a>";
                     $delete = "<a href='category.php?op=del&amp;categoryid="
                               . $subcat->categoryid()
                               . "'><img src='"
@@ -318,7 +318,7 @@ class PublisherUtility
                               . _AM_PUBLISHER_DELETE
                               . "' alt='"
                               . _AM_PUBLISHER_DELETE
-                              . "' /></a>";
+                              . "'></a>";
                     echo '<tr>';
                     echo "<td class='head' align='left'>" . $subcat->categoryid() . '</td>';
                     echo "<td class='even' align='left'><a href='"
@@ -375,7 +375,7 @@ class PublisherUtility
                                    . _AM_PUBLISHER_EDITITEM
                                    . "' alt='"
                                    . _AM_PUBLISHER_EDITITEM
-                                   . "' /></a>";
+                                   . "'></a>";
                     $delete      = "<a href='item.php?op=del&amp;itemid="
                                    . $itemsObj[$i]->itemid()
                                    . "'><img src='"
@@ -427,8 +427,8 @@ class PublisherUtility
         xoops_cp_header();
 
         //cannot use xoTheme, some conflit with admin gui
-        echo '<link type="text/css" href="' . XOOPS_URL . '/modules/system/css/ui/' . xoops_getModuleOption('jquery_theme', 'system') . '/ui.all.css" rel="stylesheet" />
-    <link type="text/css" href="' . PUBLISHER_URL . '/assets/css/publisher.css" rel="stylesheet" />
+        echo '<link type="text/css" href="' . XOOPS_URL . '/modules/system/css/ui/' . xoops_getModuleOption('jquery_theme', 'system') . '/ui.all.css" rel="stylesheet">
+    <link type="text/css" href="' . PUBLISHER_URL . '/assets/css/publisher.css" rel="stylesheet">
     <script type="text/javascript" src="' . PUBLISHER_URL . '/assets/js/funcs.js"></script>
     <script type="text/javascript" src="' . PUBLISHER_URL . '/assets/js/cookies.js"></script>
     <script type="text/javascript" src="' . XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js"></script>
@@ -843,7 +843,7 @@ class PublisherUtility
         }
 
         echo "<h3 style=\"color: #2F5376; font-weight: bold; font-size: 14px; margin: 6px 0 0 0; \"><a href='javascript:;' onclick=\"toggle('" . $tablename . "'); toggleIcon('" . $iconname . "')\">";
-        echo "<img id='" . $iconname . "' src='" . PUBLISHER_URL . '/assets/images/links/' . $image . "' alt='' /></a>&nbsp;" . $tabletitle . '</h3>';
+        echo "<img id='" . $iconname . "' src='" . PUBLISHER_URL . '/assets/images/links/' . $image . "' alt=''></a>&nbsp;" . $tabletitle . '</h3>';
         echo "<div id='" . $tablename . "' style='display: " . $display . ";'>";
         if ($tabledsc != '') {
             echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $tabledsc . '</span>';

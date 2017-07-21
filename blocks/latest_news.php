@@ -139,7 +139,7 @@ function publisher_latest_news_show($options)
                              . _CO_PUBLISHER_EDIT
                              . "' alt='"
                              . _CO_PUBLISHER_EDIT
-                             . "' /></a>&nbsp;";
+                             . "'></a>&nbsp;";
             $item['admin'] .= "<a href='"
                               . PUBLISHER_URL
                               . '/admin/item.php?op=del&amp;itemid='
@@ -151,7 +151,7 @@ function publisher_latest_news_show($options)
                               . _CO_PUBLISHER_DELETE
                               . "' alt='"
                               . _CO_PUBLISHER_DELETE
-                              . "' /></a>";
+                              . "'></a>";
         } else {
             $item['admin'] = '';
         }
@@ -223,7 +223,7 @@ function publisher_latest_news_show($options)
                              . _CO_PUBLISHER_PRINT
                              . '" alt="'
                              . _CO_PUBLISHER_PRINT
-                             . '" /></a>&nbsp;';
+                             . '"></a>&nbsp;';
         }
 
         $item['pdf'] = '';
@@ -239,7 +239,7 @@ function publisher_latest_news_show($options)
                                . _CO_PUBLISHER_PDF
                                . "' alt='"
                                . _CO_PUBLISHER_PDF
-                               . "' /></a>&nbsp;";
+                               . "'></a>&nbsp;";
             }
         }
         $item['email'] = '';
@@ -256,7 +256,7 @@ function publisher_latest_news_show($options)
                              . _CO_PUBLISHER_MAIL
                              . '" alt="'
                              . _CO_PUBLISHER_MAIL
-                             . '" /></a>&nbsp;';
+                             . '"></a>&nbsp;';
         }
 
         $block['morelink'] = '';
@@ -458,12 +458,12 @@ function publisher_mk_chkbox($options, $number)
     if ($options[$number] == 1) {
         $chk = ' checked';
     }
-    $chkbox = "<input type='radio' name='options[{$number}]' value='1'" . $chk . ' />&nbsp;' . _YES . '&nbsp;&nbsp;';
+    $chkbox = "<input type='radio' name='options[{$number}]' value='1'" . $chk . '>&nbsp;' . _YES . '&nbsp;&nbsp;';
     $chk    = '';
     if ($options[$number] == 0) {
         $chk = ' checked';
     }
-    $chkbox .= "<input type='radio' name='options[{$number}]' value='0'" . $chk . ' />&nbsp;' . _NO . '</td></tr>';
+    $chkbox .= "<input type='radio' name='options[{$number}]' value='0'" . $chk . '>&nbsp;' . _NO . '</td></tr>';
 
     return $chkbox;
 }
@@ -480,17 +480,17 @@ function publisher_mk_select($options, $number)
     if ($options[$number] == 2) {
         $slc = ' checked';
     }
-    $select = "<input type='radio' name='options[{$number}]' value='2'" . $slc . ' />&nbsp;' . _LEFT . '&nbsp;&nbsp;';
+    $select = "<input type='radio' name='options[{$number}]' value='2'" . $slc . '>&nbsp;' . _LEFT . '&nbsp;&nbsp;';
     $slc    = '';
     if ($options[$number] == 1) {
         $slc = ' checked';
     }
-    $select = "<input type='radio' name='options[{$number}]' value='1'" . $slc . ' />&nbsp;' . _CENTER . '&nbsp;&nbsp;';
+    $select = "<input type='radio' name='options[{$number}]' value='1'" . $slc . '>&nbsp;' . _CENTER . '&nbsp;&nbsp;';
     $slc    = '';
     if ($options[$number] == 0) {
         $slc = ' checked';
     }
-    $select .= "<input type='radio' name='options[{$number}]' value='0'" . $slc . ' />&nbsp;' . _RIGHT . '</td></tr>';
+    $select .= "<input type='radio' name='options[{$number}]' value='0'" . $slc . '>&nbsp;' . _RIGHT . '</td></tr>';
 
     return $select;
 }

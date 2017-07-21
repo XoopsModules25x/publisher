@@ -469,7 +469,7 @@ class PublisherItem extends XoopsObject
                                    . _CO_PUBLISHER_DELETE
                                    . "' alt='"
                                    . _CO_PUBLISHER_DELETE
-                                   . "' /></a>";
+                                   . "'></a>";
                     $adminLinks .= ' ';
                 }
             }
@@ -486,7 +486,7 @@ class PublisherItem extends XoopsObject
                                . _CO_PUBLISHER_CLONE
                                . "' alt='"
                                . _CO_PUBLISHER_CLONE
-                               . "' /></a>";
+                               . "'></a>";
                 $adminLinks .= ' ';
             }
         }
@@ -516,7 +516,7 @@ class PublisherItem extends XoopsObject
                                . _CO_PUBLISHER_PDF
                                . "' alt='"
                                . _CO_PUBLISHER_PDF
-                               . "' /></a>";
+                               . "'></a>";
                 $adminLinks .= ' ';
             }
         }
@@ -530,14 +530,14 @@ class PublisherItem extends XoopsObject
                        . _CO_PUBLISHER_PRINT
                        . "' alt='"
                        . _CO_PUBLISHER_PRINT
-                       . "' /></a>";
+                       . "'></a>";
         $adminLinks .= ' ';
         // Email button
         if (xoops_isActiveModule('tellafriend')) {
             $subject    = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
             $subject    = $this->convertForJapanese($subject);
             $maillink   = PublisherUtility::tellAFriend($subject);
-            $adminLinks .= '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '" /></a>';
+            $adminLinks .= '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '"></a>';
             $adminLinks .= ' ';
         }
 

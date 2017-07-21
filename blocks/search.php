@@ -110,32 +110,32 @@ function publisher_search_show($options)
     if (is_array($searchin) && in_array('title', $searchin)) {
         $searchSelect .= ' checked';
     }
-    $searchSelect .= ' />' . _CO_PUBLISHER_TITLE . '&nbsp;&nbsp;';
+    $searchSelect .= '>' . _CO_PUBLISHER_TITLE . '&nbsp;&nbsp;';
     $searchSelect .= '<input type="checkbox" name="searchin[]" value="subtitle"';
     if (is_array($searchin) && in_array('subtitle', $searchin)) {
         $searchSelect .= ' checked';
     }
-    $searchSelect .= ' />' . _CO_PUBLISHER_SUBTITLE . '&nbsp;&nbsp;';
+    $searchSelect .= '>' . _CO_PUBLISHER_SUBTITLE . '&nbsp;&nbsp;';
     $searchSelect .= '<input type="checkbox" name="searchin[]" value="summary"';
     if (is_array($searchin) && in_array('summary', $searchin)) {
         $searchSelect .= ' checked';
     }
-    $searchSelect .= ' />' . _CO_PUBLISHER_SUMMARY . '&nbsp;&nbsp;';
+    $searchSelect .= '>' . _CO_PUBLISHER_SUMMARY . '&nbsp;&nbsp;';
     $searchSelect .= '<input type="checkbox" name="searchin[]" value="text"';
     if (is_array($searchin) && in_array('body', $searchin)) {
         $searchSelect .= ' checked';
     }
-    $searchSelect .= ' />' . _CO_PUBLISHER_BODY . '&nbsp;&nbsp;';
+    $searchSelect .= '>' . _CO_PUBLISHER_BODY . '&nbsp;&nbsp;';
     $searchSelect .= '<input type="checkbox" name="searchin[]" value="keywords"';
     if (is_array($searchin) && in_array('meta_keywords', $searchin)) {
         $searchSelect .= ' checked';
     }
-    $searchSelect .= ' />' . _CO_PUBLISHER_ITEM_META_KEYWORDS . '&nbsp;&nbsp;';
+    $searchSelect .= '>' . _CO_PUBLISHER_ITEM_META_KEYWORDS . '&nbsp;&nbsp;';
     $searchSelect .= '<input type="checkbox" name="searchin[]" value="all"';
     if (empty($searchin) || (is_array($searchin) && in_array('all', $searchin))) {
         $searchSelect .= ' checked';
     }
-    $searchSelect .= ' />' . _ALL . '&nbsp;&nbsp;';
+    $searchSelect .= '>' . _ALL . '&nbsp;&nbsp;';
 
     /* sortby */
     $sortbySelect = '<select name="sortby">';

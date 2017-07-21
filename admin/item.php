@@ -208,7 +208,7 @@ switch ($op) {
                            . _AM_PUBLISHER_SUBMISSION_MODERATE
                            . "' alt='"
                            . _AM_PUBLISHER_SUBMISSION_MODERATE
-                           . "' /></a>&nbsp;";
+                           . "'></a>&nbsp;";
                 $clone   = '';
                 $delete  = "<a href='item.php?op=del&itemid="
                            . $itemsObj[$i]->itemid()
@@ -218,7 +218,7 @@ switch ($op) {
                            . _AM_PUBLISHER_DELETEITEM
                            . "' alt='"
                            . _AM_PUBLISHER_DELETEITEM
-                           . "' /></a>";
+                           . "'></a>";
                 $modify  = '';
 
                 echo '<tr>';
@@ -276,7 +276,7 @@ switch ($op) {
                           . _AM_PUBLISHER_EDITITEM
                           . "' alt='"
                           . _AM_PUBLISHER_EDITITEM
-                          . "' /></a>";
+                          . "'></a>";
                 $delete = "<a href='item.php?op=del&itemid="
                           . $itemsObj[$i]->itemid()
                           . "'><img src='"
@@ -294,7 +294,7 @@ switch ($op) {
                           . _AM_PUBLISHER_CLONE_ITEM
                           . "' alt='"
                           . _AM_PUBLISHER_CLONE_ITEM
-                          . "' /></a>";
+                          . "'></a>";
 
                 echo '<tr>';
                 echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
@@ -352,7 +352,7 @@ switch ($op) {
                           . _AM_PUBLISHER_EDITITEM
                           . "' alt='"
                           . _AM_PUBLISHER_EDITITEM
-                          . "' /></a>";
+                          . "'></a>";
                 $delete = "<a href='item.php?op=del&itemid="
                           . $itemsObj[$i]->itemid()
                           . "'><img src='"
@@ -370,7 +370,7 @@ switch ($op) {
                           . _AM_PUBLISHER_CLONE_ITEM
                           . "' alt='"
                           . _AM_PUBLISHER_CLONE_ITEM
-                          . "' /></a>";
+                          . "'></a>";
 
                 echo '<tr>';
                 echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
@@ -427,7 +427,7 @@ switch ($op) {
                           . _AM_PUBLISHER_EDITITEM
                           . "' alt='"
                           . _AM_PUBLISHER_EDITITEM
-                          . "' /></a>";
+                          . "'></a>";
                 $delete = "<a href='item.php?op=del&itemid="
                           . $itemsObj[$i]->itemid()
                           . "'><img src='"
@@ -445,7 +445,7 @@ switch ($op) {
                           . _AM_PUBLISHER_CLONE_ITEM
                           . "' alt='"
                           . _AM_PUBLISHER_CLONE_ITEM
-                          . "' /></a>";
+                          . "'></a>";
 
                 echo '<tr>';
                 echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
@@ -609,10 +609,10 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     echo "<form name='form_name2' id='form_name2' action='pw_upload_file.php' method='post' enctype='multipart/form-data'>";
     echo "<table cellspacing='1' width='100%' class='outer'>";
     echo "<tr><th colspan='2'>" . _AM_PUBLISHER_UPLOAD_FILE . '</th></tr>';
-    echo "<tr valign='top' align='left'><td class='head'>" . _AM_PUBLISHER_SEARCH_PW . "</td><td class='even'><input type='file' name='fileupload' id='fileupload' size='30' /></td></tr>";
-    echo "<tr valign='top' align='left'><td class='head'><input type='hidden' name='MAX_FILE_SIZE' id='op' value='500000' /></td><td class='even'><input type='submit' name='submit' value='"
+    echo "<tr valign='top' align='left'><td class='head'>" . _AM_PUBLISHER_SEARCH_PW . "</td><td class='even'><input type='file' name='fileupload' id='fileupload' size='30'></td></tr>";
+    echo "<tr valign='top' align='left'><td class='head'><input type='hidden' name='MAX_FILE_SIZE' id='op' value='500000'></td><td class='even'><input type='submit' name='submit' value='"
          . _AM_PUBLISHER_UPLOAD
-         . "' /></td></tr>";
+         . "'></td></tr>";
     echo "<input type='hidden' name='backto' value='$publisherCurrentPage'/>";
     echo '</table>';
     echo '</form>';

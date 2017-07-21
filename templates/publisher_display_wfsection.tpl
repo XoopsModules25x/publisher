@@ -1,7 +1,7 @@
 <{include file='db:publisher_header.tpl'}>
 
 <!--<{if $collapsable_heading == 1}>
-    <div class="publisher_collaps_title"><a href='javascript:;' onclick="toggle('toptable'); toggleIcon('toptableicon')"><img id='toptableicon' src='<{$publisher_url}>/assets/images/links/close12.gif' alt='' /></a>&nbsp;<{$lang_category_summary}></div>
+    <div class="publisher_collaps_title"><a href='javascript:;' onclick="toggle('toptable'); toggleIcon('toptableicon')"><img id='toptableicon' src='<{$publisher_url}>/assets/images/links/close12.gif' alt=''></a>&nbsp;<{$lang_category_summary}></div>
     <div id='toptable'>
     <span class="publisher_collaps_info""><{$lang_category_summary}></span>
 <{/if}> -->

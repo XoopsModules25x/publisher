@@ -18,7 +18,7 @@
     <div class="itemBody">
 
         <{*<{if $item.posterAvatar != 'blank.gif'}>*}>
-        <{*<img class="publisher_item_image" src="<{$xoops_url}>/uploads/<{$item.posterAvatar}>"  align="right" alt="<{$item.posterName}>" title="<{$item.posterName}>" />*}>
+        <{*<img class="publisher_item_image" src="<{$xoops_url}>/uploads/<{$item.posterAvatar}>"  align="right" alt="<{$item.posterName}>" title="<{$item.posterName}>">*}>
         <{*<{/if}>*}>
 
         <{if $pagenav}>

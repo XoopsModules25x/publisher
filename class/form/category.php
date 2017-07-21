@@ -135,7 +135,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $imageTray = new XoopsFormElementTray(_AM_PUBLISHER_IMAGE, '&nbsp;');
         $imageTray->addElement($imageSelect);
         $imageTray->addElement(new XoopsFormLabel('',
-                                                  "<br><br><img src='" . PublisherUtility::getImageDir('category', false) . $this->targetObject->getImage() . "' name='image3' id='image3' alt='' />"));
+                                                  "<br><br><img src='" . PublisherUtility::getImageDir('category', false) . $this->targetObject->getImage() . "' name='image3' id='image3' alt=''>"));
         $imageTray->setDescription(_AM_PUBLISHER_IMAGE_DSC);
         $this->addElement($imageTray);
 

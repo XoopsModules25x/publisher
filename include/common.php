@@ -43,7 +43,7 @@ require_once PUBLISHER_ROOT_PATH . '/class/publisher.php';
 
 // module information
 $mod_copyright = "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . PUBLISHER_AUTHOR_LOGOIMG . "' alt='XOOPS Project' /></a>";
+                     <img src='" . PUBLISHER_AUTHOR_LOGOIMG . "' alt='XOOPS Project'></a>";
 
 xoops_loadLanguage('common', PUBLISHER_DIRNAME);
 

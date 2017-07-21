@@ -263,7 +263,7 @@ if ($numrows > 0) {
                              . _AM_PUBLISHER_SUBMISSION_MODERATE
                              . "' alt='"
                              . _AM_PUBLISHER_SUBMISSION_MODERATE
-                             . "' /></a>&nbsp;";
+                             . "'></a>&nbsp;";
                 $clone     = '';
                 $delete    = "<a href='item.php?op=del&itemid="
                              . $itemsObj[$i]->itemid()
@@ -275,7 +275,7 @@ if ($numrows > 0) {
                              . _AM_PUBLISHER_DELETEITEM
                              . "' alt='"
                              . _AM_PUBLISHER_DELETEITEM
-                             . "' /></a>";
+                             . "'></a>";
                 $modify    = '';
                 break;
 
@@ -293,7 +293,7 @@ if ($numrows > 0) {
                           . _AM_PUBLISHER_ITEM_EDIT
                           . "' alt='"
                           . _AM_PUBLISHER_ITEM_EDIT
-                          . "' /></a>&nbsp;";
+                          . "'></a>&nbsp;";
                 $delete = "<a href='item.php?op=del&itemid="
                           . $itemsObj[$i]->itemid()
                           . "'><img src='"
@@ -304,7 +304,7 @@ if ($numrows > 0) {
                           . _AM_PUBLISHER_DELETEITEM
                           . "' alt='"
                           . _AM_PUBLISHER_DELETEITEM
-                          . "' /></a>&nbsp;";
+                          . "'></a>&nbsp;";
                 $clone  = "<a href='item.php?op=clone&itemid="
                           . $itemsObj[$i]->itemid()
                           . "'><img src='"
@@ -315,7 +315,7 @@ if ($numrows > 0) {
                           . _AM_PUBLISHER_CLONE_ITEM
                           . "' alt='"
                           . _AM_PUBLISHER_CLONE_ITEM
-                          . "' /></a>&nbsp;";
+                          . "'></a>&nbsp;";
                 break;
 
             case PublisherConstants::PUBLISHER_STATUS_OFFLINE:
@@ -331,7 +331,7 @@ if ($numrows > 0) {
                              . _AM_PUBLISHER_ITEM_EDIT
                              . "' alt='"
                              . _AM_PUBLISHER_ITEM_EDIT
-                             . "' /></a>&nbsp;";
+                             . "'></a>&nbsp;";
                 $delete    = "<a href='item.php?op=del&itemid="
                              . $itemsObj[$i]->itemid()
                              . "'><img src='"
@@ -342,7 +342,7 @@ if ($numrows > 0) {
                              . _AM_PUBLISHER_DELETEITEM
                              . "' alt='"
                              . _AM_PUBLISHER_DELETEITEM
-                             . "' /></a>&nbsp;";
+                             . "'></a>&nbsp;";
                 $clone     = /** @lang text */
                     "<a href='item.php?op=clone&itemid="
                     . $itemsObj[$i]->itemid()
@@ -354,7 +354,7 @@ if ($numrows > 0) {
                     . _AM_PUBLISHER_CLONE_ITEM
                     . "' alt='"
                     . _AM_PUBLISHER_CLONE_ITEM
-                    . "' /></a>&nbsp;";
+                    . "'></a>&nbsp;";
                 break;
 
             case PublisherConstants::PUBLISHER_STATUS_REJECTED:
@@ -370,7 +370,7 @@ if ($numrows > 0) {
                              . _AM_PUBLISHER_REJECTED_EDIT
                              . "' alt='"
                              . _AM_PUBLISHER_REJECTED_EDIT
-                             . "' /></a>&nbsp;";
+                             . "'></a>&nbsp;";
                 $delete    = "<a href='item.php?op=del&itemid="
                              . $itemsObj[$i]->itemid()
                              . "'><img src='"
@@ -381,7 +381,7 @@ if ($numrows > 0) {
                              . _AM_PUBLISHER_DELETEITEM
                              . "' alt='"
                              . _AM_PUBLISHER_DELETEITEM
-                             . "' /></a>&nbsp;";
+                             . "'></a>&nbsp;";
                 $clone     = "<a href='item.php?op=clone&itemid="
                              . $itemsObj[$i]->itemid()
                              . "'><img src='"
@@ -392,7 +392,7 @@ if ($numrows > 0) {
                              . _AM_PUBLISHER_CLONE_ITEM
                              . "' alt='"
                              . _AM_PUBLISHER_CLONE_ITEM
-                             . "' /></a>&nbsp;";
+                             . "'></a>&nbsp;";
                 break;
 
             case 'default':
@@ -410,7 +410,7 @@ if ($numrows > 0) {
                              . _AM_PUBLISHER_REJECTED_EDIT
                              . "' alt='"
                              . _AM_PUBLISHER_REJECTED_EDIT
-                             . "' /></a>&nbsp;";
+                             . "'></a>&nbsp;";
                 $delete    = "<a href='item.php?op=del&itemid="
                              . $itemsObj[$i]->itemid()
                              . "'><img src='"
@@ -421,7 +421,7 @@ if ($numrows > 0) {
                              . _AM_PUBLISHER_DELETEITEM
                              . "' alt='"
                              . _AM_PUBLISHER_DELETEITEM
-                             . "' /></a>";
+                             . "'></a>";
                 break;
         }
 

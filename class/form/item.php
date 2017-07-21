@@ -493,7 +493,7 @@ $publisher(document).ready(function () {
             $imageSelect3->setDescription(_CO_PUBLISHER_IMAGE_ITEM_DSC);
             $this->addElement($imageSelect3);
 
-            $image_preview = new XoopsFormLabel(_CO_PUBLISHER_IMAGE_PREVIEW, "<img src='" . XOOPS_URL . '/uploads/' . $imageforpath . "' name='image_display' id='image_display' alt='' />");
+            $image_preview = new XoopsFormLabel(_CO_PUBLISHER_IMAGE_PREVIEW, "<img src='" . XOOPS_URL . '/uploads/' . $imageforpath . "' name='image_display' id='image_display' alt=''>");
             $this->addElement($image_preview);
         }
 
@@ -548,7 +548,7 @@ $publisher(document).ready(function () {
                                        . _CO_PUBLISHER_EDITFILE
                                        . "' alt='"
                                        . _CO_PUBLISHER_EDITFILE
-                                       . "' /></a>";
+                                       . "'></a>";
                         $delete      = "<a href='file.php?op=del&fileid="
                                        . $fileObj->fileid()
                                        . "'><img src='"

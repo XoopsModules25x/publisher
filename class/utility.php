@@ -11,7 +11,7 @@
 /**
  * PublisherUtil Class
  *
- * @copyright   XOOPS Project (http://xoops.org)
+ * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      XOOPS Development Team
  * @package     Publisher
@@ -30,40 +30,6 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 class PublisherUtility
 {
-    /**
-     * Check Xoops Version against a provided version
-     *
-     * @param int $x
-     * @param int $y
-     * @param int $z
-     * @param string $signal
-     * @return bool
-     */
-    public static function checkXoopsVersion($x, $y, $z, $signal = '==')
-    {
-        $xv = explode('-', str_replace('XOOPS ', '', XOOPS_VERSION));
-
-        list($a, $b, $c) = explode('.', $xv[0]);
-        $xv = $a*10000 + $b*100 + $c;
-        $mv = $x*10000 + $y*100 + $z;
-        if ($signal === '>') {
-            return $xv > $mv;
-        }
-        if ($signal === '>=') {
-            return $xv >= $mv;
-        }
-        if ($signal === '<') {
-            return $xv < $mv;
-        }
-        if ($signal === '<=') {
-            return $xv <= $mv;
-        }
-        if ($signal === '==') {
-            return $xv == $mv;
-        }
-
-        return false;
-    }
 
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
@@ -1499,17 +1465,24 @@ class PublisherUtility
      * @static
      * @param XoopsModule $module
      *
+     * @param null|string        $requiredVer
      * @return bool true if meets requirements, false if not
      */
-    public static function checkVerXoops(XoopsModule $module)
+    public static function checkVerXoops(XoopsModule $module = null, $requiredVer = null)
     {
-        xoops_loadLanguage('admin', $module->dirname());
+        $moduleDirName = basename(dirname(__DIR__));
+        if (null === $module) {
+            $module        = XoopsModule::getByDirname($moduleDirName);
+        }
+        xoops_loadLanguage('admin', $moduleDirName);
         //check for minimum XOOPS version
-        $currentVer  = substr(XOOPS_VERSION, 6); // get the numeric part of string
-        $currArray   = explode('.', $currentVer);
-        $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
-        $reqArray    = explode('.', $requiredVer);
-        $success     = true;
+        $currentVer = substr(XOOPS_VERSION, 6); // get the numeric part of string
+        $currArray  = explode('.', $currentVer);
+        if (null === $requiredVer) {
+            $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
+        }
+        $reqArray = explode('.', $requiredVer);
+        $success  = true;
         foreach ($reqArray as $k => $v) {
             if (isset($currArray[$k])) {
                 if ($currArray[$k] > $v) {
@@ -1549,7 +1522,7 @@ class PublisherUtility
         // check for minimum PHP version
         $success = true;
         $verNum  = PHP_VERSION;
-        $reqVer  =& $module->getInfo('min_php');
+        $reqVer  = $module->getInfo('min_php');
         if (false !== $reqVer && '' !== $reqVer) {
             if (version_compare($verNum, $reqVer, '<')) {
                 $module->setErrors(sprintf(_AM_PUBLISHER_ERROR_BAD_PHP, $reqVer, $verNum));

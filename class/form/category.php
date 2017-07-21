@@ -74,8 +74,9 @@ class PublisherCategoryForm extends XoopsThemeForm
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
         $myTree    = new XoopsObjectTree($this->publisher->getHandler('category')->getObjects($criteria), 'categoryid', 'parentid');
-
-        if (PublisherUtility::checkXoopsVersion('2', '5', '9', '>=')) {
+        $moduleDirName = basename(dirname(__DIR__));
+        $module        = XoopsModule::getByDirname($moduleDirName);
+        if (PublisherUtility::checkVerXoops($module, '2.5.9')) {
             $catSelect = $myTree->makeSelectElement('parentid', 'name', '--', $this->targetObject->parentid(), true, 0, '', _AM_PUBLISHER_PARENT_CATEGORY_EXP);
             $this->addElement($catSelect);
         } else {

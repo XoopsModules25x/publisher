@@ -108,5 +108,5 @@ define('_CO_PUBLISHER_FILES_LINKED', 'Files linked to this article');
 //Added 30/05/2012
 define('_CO_PUBLISHER_EDITFILE', 'Edit file');
 define('_CO_PUBLISHER_DELETEFILE', 'Delete file');
-// added 15/05/2017
+//added 2017-05-16
 define('_CO_PUBLISHER_BAD_TOKEN', 'Invalid token, please try again');

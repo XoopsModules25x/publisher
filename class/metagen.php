@@ -402,7 +402,7 @@ class PublisherMetagen
         // Credits : newbb2
         $search = array(
             "'<script[^>]*?>.*?</script>'si", // Strip out javascript
-            "'<img.*?/>'si", // Strip out img tags
+            "'<img.*?>'si", // Strip out img tags
             "'<[\/\!]*?[^<>]*?>'si", // Strip out HTML tags
             "'([\r\n])[\s]+'", // Strip out white space
             "'&(quot|#34);'i", // Replace HTML entities

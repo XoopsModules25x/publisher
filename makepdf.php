@@ -43,17 +43,9 @@ $mainImage     = $itemObj->getMainImage();
 
 $content = '';
 if ($mainImage['image_path'] != '') {
-    $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"/><br>';
+    $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"><br>';
 }
-$content .= '<a href="'
-            . PUBLISHER_URL
-            . '/item.php?itemid='
-            . $itemid
-            . '" style="text-decoration: none; color: black; font-size: 120%;" title="'
-            . $myts->undoHtmlSpecialChars($itemObj->getTitle())
-            . '">'
-            . $myts->undoHtmlSpecialChars($itemObj->getTitle())
-            . '</a>';
+$content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" style="text-decoration: none; color: black; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '">' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '</a>';
 $content .= '<br><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">'
             . _CO_PUBLISHER_CATEGORY
             . ' : </span><a href="'

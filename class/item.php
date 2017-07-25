@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -437,56 +438,22 @@ class PublisherItem extends XoopsObject
         $adminLinks = '';
         if (is_object($GLOBALS['xoopsUser'])
             && (PublisherUtility::userIsAdmin() || PublisherUtility::userIsAuthor($this)
-                || $this->publisher->getHandler('permission')->isGranted('item_submit', $this->categoryid()))
-        ) {
+                || $this->publisher->getHandler('permission')->isGranted('item_submit', $this->categoryid()))) {
             if (PublisherUtility::userIsAdmin() || PublisherUtility::userIsAuthor($this) || PublisherUtility::userIsModerator($this)) {
                 if ($this->publisher->getConfig('perm_edit') || PublisherUtility::userIsModerator($this) || PublisherUtility::userIsAdmin()) {
                     // Edit button
-                    $adminLinks .= "<a href='"
-                                   . PUBLISHER_URL
-                                   . '/submit.php?itemid='
-                                   . $this->itemid()
-                                   . "'><img src='"
-                                   . PUBLISHER_URL
-                                   . "/assets/images/links/edit.gif'"
-                                   . " title='"
-                                   . _CO_PUBLISHER_EDIT
-                                   . "' alt='"
-                                   . _CO_PUBLISHER_EDIT
-                                   . "'/></a>";
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . _CO_PUBLISHER_EDIT . "' alt='" . _CO_PUBLISHER_EDIT . "'></a>";
                     $adminLinks .= ' ';
                 }
                 if ($this->publisher->getConfig('perm_delete') || PublisherUtility::userIsModerator($this) || PublisherUtility::userIsAdmin()) {
                     // Delete button
-                    $adminLinks .= "<a href='"
-                                   . PUBLISHER_URL
-                                   . '/submit.php?op=del&amp;itemid='
-                                   . $this->itemid()
-                                   . "'><img src='"
-                                   . PUBLISHER_URL
-                                   . "/assets/images/links/delete.png'"
-                                   . " title='"
-                                   . _CO_PUBLISHER_DELETE
-                                   . "' alt='"
-                                   . _CO_PUBLISHER_DELETE
-                                   . "'></a>";
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . _CO_PUBLISHER_DELETE . "' alt='" . _CO_PUBLISHER_DELETE . "'></a>";
                     $adminLinks .= ' ';
                 }
             }
             if ($this->publisher->getConfig('perm_clone') || PublisherUtility::userIsModerator($this) || PublisherUtility::userIsAdmin()) {
                 // Duplicate button
-                $adminLinks .= "<a href='"
-                               . PUBLISHER_URL
-                               . '/submit.php?op=clone&amp;itemid='
-                               . $this->itemid()
-                               . "'><img src='"
-                               . PUBLISHER_URL
-                               . "/assets/images/links/clone.gif'"
-                               . " title='"
-                               . _CO_PUBLISHER_CLONE
-                               . "' alt='"
-                               . _CO_PUBLISHER_CLONE
-                               . "'></a>";
+                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif'" . " title='" . _CO_PUBLISHER_CLONE . "' alt='" . _CO_PUBLISHER_CLONE . "'></a>";
                 $adminLinks .= ' ';
             }
         }
@@ -505,32 +472,13 @@ class PublisherItem extends XoopsObject
                 //                        </script>';
                 //                }
             } else {
-                $adminLinks .= "<a href='"
-                               . PUBLISHER_URL
-                               . '/makepdf.php?itemid='
-                               . $this->itemid()
-                               . "' rel='nofollow' target='_blank'><img src='"
-                               . PUBLISHER_URL
-                               . "/assets/images/links/pdf.gif'"
-                               . " title='"
-                               . _CO_PUBLISHER_PDF
-                               . "' alt='"
-                               . _CO_PUBLISHER_PDF
-                               . "'></a>";
+                $adminLinks .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "'></a>";
                 $adminLinks .= ' ';
             }
         }
 
         // Print button
-        $adminLinks .= "<a href='"
-                       . PublisherSeo::generateUrl('print', $this->itemid(), $this->short_url())
-                       . "' rel='nofollow' target='_blank'><img src='"
-                       . PUBLISHER_URL
-                       . "/assets/images/links/print.gif' title='"
-                       . _CO_PUBLISHER_PRINT
-                       . "' alt='"
-                       . _CO_PUBLISHER_PRINT
-                       . "'></a>";
+        $adminLinks .= "<a href='" . PublisherSeo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . _CO_PUBLISHER_PRINT . "' alt='" . _CO_PUBLISHER_PRINT . "'></a>";
         $adminLinks .= ' ';
         // Email button
         if (xoops_isActiveModule('tellafriend')) {
@@ -549,8 +497,8 @@ class PublisherItem extends XoopsObject
      */
     public function sendNotifications($notifications = array())
     {
-        $notificationHandler   = xoops_getHandler('notification');
-        $tags                  = array();
+        $notificationHandler = xoops_getHandler('notification');
+        $tags                = array();
 
         $tags['MODULE_NAME']   = $this->publisher->getModule()->getVar('name');
         $tags['ITEM_NAME']     = $this->getTitle();
@@ -1729,7 +1677,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     public function getItemsFromSearch($queryArray = array(), $andor = 'AND', $limit = 0, $offset = 0, $userid = 0, $categories = array(), $sortby = 0, $searchin = '', $extra = '')
     {
         //        global $publisherIsAdmin;
-        $ret          = array();
+        $ret = array();
         /* @var  $gpermHandler XoopsGroupPermHandler */
         $gpermHandler = xoops_getHandler('groupperm');
         $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
@@ -1916,11 +1864,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         global $xoopsModule;
         $ret       = array();
         $catsCount = array();
-        $sql       = 'SELECT c.parentid, i.categoryid, COUNT(*) AS count FROM '
-                     . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items')
-                     . ' AS i INNER JOIN '
-                     . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_categories')
-                     . ' AS c ON i.categoryid=c.categoryid';
+        $sql       = 'SELECT c.parentid, i.categoryid, COUNT(*) AS count FROM ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items') . ' AS i INNER JOIN ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_categories') . ' AS c ON i.categoryid=c.categoryid';
         if ((int)$catId > 0) {
             $sql .= ' WHERE i.categoryid = ' . (int)$catId;
             $sql .= ' AND i.status IN (' . implode(',', $status) . ')';

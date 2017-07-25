@@ -225,8 +225,7 @@ class PublisherItemForm extends PublisherThemeTabForm
             || $this->isGranted(PublisherConstants::PUBLISHER_DOSMILEY)
             || $this->isGranted(PublisherConstants::PUBLISHER_DOXCODE)
             || $this->isGranted(PublisherConstants::PUBLISHER_DOIMAGE)
-            || $this->isGranted(PublisherConstants::PUBLISHER_DOLINEBREAK)
-        ) {
+            || $this->isGranted(PublisherConstants::PUBLISHER_DOLINEBREAK)) {
             if ($this->isGranted(PublisherConstants::PUBLISHER_DOHTML)) {
                 $html_radio = new XoopsFormRadioYN(_CO_PUBLISHER_DOHTML, 'dohtml', $obj->dohtml(), _YES, _NO);
                 $this->addElement($html_radio);
@@ -291,8 +290,6 @@ class PublisherItemForm extends PublisherThemeTabForm
         $this->addElement($hidden);
         unset($hidden);
         }*/
-
-
 
         // Author ALias
         if ($this->isGranted(PublisherConstants::PUBLISHER_AUTHOR_ALIAS)) {
@@ -384,9 +381,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
             $imageSelect2 = new XoopsFormSelect('', 'image_item', '', 5, true);
             $imageSelect2->addOptionArray($objimage_array);
-            $imageSelect2->setExtra("onchange='publisher_updateSelectOption(\"image_item\", \"image_featured\"), showImgSelected(\"image_display\", \"image_item\", \"uploads/\", \"\", \""
-                                    . XOOPS_URL
-                                    . "\")'");
+            $imageSelect2->setExtra("onchange='publisher_updateSelectOption(\"image_item\", \"image_featured\"), showImgSelected(\"image_display\", \"image_item\", \"uploads/\", \"\", \"" . XOOPS_URL . "\")'");
 
             $buttonadd = new XoopsFormButton('', 'buttonadd', _CO_PUBLISHER_ADD);
             $buttonadd->setExtra("onclick='publisher_appendSelectOption(\"image_notused\", \"image_item\"), publisher_updateSelectOption(\"image_item\", \"image_featured\")'");
@@ -412,7 +407,7 @@ $publisher(document).ready(function () {
         onSubmit : function (file, ext) {
             // change button text, when user selects file
             $publisher("#publisher_upload_message").html(" ");
-            button.html("<img src=\'' . PUBLISHER_URL . '/assets/images/loadingbar.gif\'/>"); this.setData({
+            button.html("<img src=\'' . PUBLISHER_URL . '/assets/images/loadingbar.gif\'>"); this.setData({
                 "image_nicename": $publisher("#image_nicename").val(),
                 "imgcat_id" : $publisher("#imgcat_id").val()
             });
@@ -540,27 +535,11 @@ $publisher(document).ready(function () {
                     $table .= '</tr>';
 
                     foreach ($filesObj as $fileObj) {
-                        $modify      = "<a href='file.php?op=mod&fileid="
-                                       . $fileObj->fileid()
-                                       . "'><img src='"
-                                       . PUBLISHER_URL
-                                       . "/assets/images/links/edit.gif' title='"
-                                       . _CO_PUBLISHER_EDITFILE
-                                       . "' alt='"
-                                       . _CO_PUBLISHER_EDITFILE
-                                       . "'></a>";
-                        $delete      = "<a href='file.php?op=del&fileid="
-                                       . $fileObj->fileid()
-                                       . "'><img src='"
-                                       . PUBLISHER_URL
-                                       . "/assets/images/links/delete.png' title='"
-                                       . _CO_PUBLISHER_DELETEFILE
-                                       . "' alt='"
-                                       . _CO_PUBLISHER_DELETEFILE
-                                       . "'/></a>";
+                        $modify      = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _CO_PUBLISHER_EDITFILE . "' alt='" . _CO_PUBLISHER_EDITFILE . "'></a>";
+                        $delete      = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _CO_PUBLISHER_DELETEFILE . "' alt='" . _CO_PUBLISHER_DELETEFILE . "'></a>";
                         $not_visible = '';
                         if ($fileObj->status() == 0) {
-                            $not_visible = "<img src='" . PUBLISHER_URL . "/assets/images/no.gif'/>";
+                            $not_visible = "<img src='" . PUBLISHER_URL . "/assets/images/no.gif'>";
                         }
                         $table .= '<tr>';
                         $table .= "<td class='head' align='center'>" . $fileObj->getVar('fileid') . '</td>';

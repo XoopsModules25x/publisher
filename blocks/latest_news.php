@@ -122,36 +122,15 @@ function publisher_latest_news_show($options)
         if ($options[10] == 1 && $item['image_path'] != '') {
             $startdiv = '<div style="' . $imgPosition . '"><a href="' . $item['itemurl'] . '">';
             $style    = 'style="margin' . $lsMargin . ': 10px; padding: 2px; border: ' . $border . 'px solid #' . $bordercolor . '"';
-            $enddiv   = 'width="' . $imgWidth . '" ' . $lsHeight . '/></a></div>';
+            $enddiv   = 'width="' . $imgWidth . '" ' . $lsHeight . '></a></div>';
             $image    = $startdiv . '<img ' . $style . ' src="' . $item['item_image'] . '" alt="' . $item['image_name'] . '" ' . $enddiv;
 
             $item['image'] = $image;
         }
 
         if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->isAdmin(-1)) {
-            $item['admin'] = "<a href='"
-                             . PUBLISHER_URL . '/submit.php?itemid='
-                             . $itemObj->itemid()
-                             . "'><img src='"
-                             . PUBLISHER_URL
-                             . "/assets/images/links/edit.gif'"
-                             . " title='"
-                             . _CO_PUBLISHER_EDIT
-                             . "' alt='"
-                             . _CO_PUBLISHER_EDIT
-                             . "'></a>&nbsp;";
-            $item['admin'] .= "<a href='"
-                              . PUBLISHER_URL
-                              . '/admin/item.php?op=del&amp;itemid='
-                              . $itemObj->itemid()
-                              . "'><img src='"
-                              . PUBLISHER_URL
-                              . "/assets/images/links/delete.png'"
-                              . " title='"
-                              . _CO_PUBLISHER_DELETE
-                              . "' alt='"
-                              . _CO_PUBLISHER_DELETE
-                              . "'></a>";
+            $item['admin'] = "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $itemObj->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . _CO_PUBLISHER_EDIT . "' alt='" . _CO_PUBLISHER_EDIT . "'></a>&nbsp;";
+            $item['admin'] .= "<a href='" . PUBLISHER_URL . '/admin/item.php?op=del&amp;itemid=' . $itemObj->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . _CO_PUBLISHER_DELETE . "' alt='" . _CO_PUBLISHER_DELETE . "'></a>";
         } else {
             $item['admin'] = '';
         }
@@ -215,31 +194,13 @@ function publisher_latest_news_show($options)
 
         $item['print'] = '';
         if ($options[24] == 1) {
-            $item['print'] = '<a href="'
-                             . PublisherSeo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url())
-                             . '" rel="nofollow"><img src="'
-                             . PUBLISHER_URL
-                             . '/assets/images/links/print.gif" title="'
-                             . _CO_PUBLISHER_PRINT
-                             . '" alt="'
-                             . _CO_PUBLISHER_PRINT
-                             . '"></a>&nbsp;';
+            $item['print'] = '<a href="' . PublisherSeo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '"></a>&nbsp;';
         }
 
         $item['pdf'] = '';
         if ($publisher->getConfig('display_pdf')) {
             if ($options[25] == 1) {
-                $item['pdf'] = "<a href='"
-                               . PUBLISHER_URL
-                               . '/makepdf.php?itemid='
-                               . $itemObj->itemid()
-                               . "' rel='nofollow'><img src='"
-                               . PUBLISHER_URL
-                               . "/assets/images/links/pdf.gif' title='"
-                               . _CO_PUBLISHER_PDF
-                               . "' alt='"
-                               . _CO_PUBLISHER_PDF
-                               . "'></a>&nbsp;";
+                $item['pdf'] = "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $itemObj->itemid() . "' rel='nofollow'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif' title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "'></a>&nbsp;";
             }
         }
         $item['email'] = '';
@@ -248,15 +209,7 @@ function publisher_latest_news_show($options)
             $subject  = $itemObj->convertForJapanese($subject);
             $maillink = PublisherUtility::tellAFriend($subject);
 
-            $item['email'] = '<a href="'
-                             . $maillink
-                             . '"><img src="'
-                             . PUBLISHER_URL
-                             . '/assets/images/links/friend.gif" title="'
-                             . _CO_PUBLISHER_MAIL
-                             . '" alt="'
-                             . _CO_PUBLISHER_MAIL
-                             . '"></a>&nbsp;';
+            $item['email'] = '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '"></a>&nbsp;';
         }
 
         $block['morelink'] = '';

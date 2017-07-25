@@ -45,8 +45,7 @@ switch ($op) {
             //            exit();
         } else {
             xoops_cp_header();
-            xoops_confirm(array('op' => 'del', 'categoryid' => $categoryObj->categoryid(), 'confirm' => 1, 'name' => $categoryObj->name()), 'category.php',
-                          _AM_PUBLISHER_DELETECOL . " '" . $categoryObj->name() . "'. <br> <br>" . _AM_PUBLISHER_DELETE_CAT_CONFIRM, _AM_PUBLISHER_DELETE);
+            xoops_confirm(array('op' => 'del', 'categoryid' => $categoryObj->categoryid(), 'confirm' => 1, 'name' => $categoryObj->name()), 'category.php', _AM_PUBLISHER_DELETECOL . " '" . $categoryObj->name() . "'. <br> <br>" . _AM_PUBLISHER_DELETE_CAT_CONFIRM, _AM_PUBLISHER_DELETE);
             xoops_cp_footer();
         }
         break;

@@ -182,8 +182,7 @@ if ($publisher->getConfig('index_display_last_items')) {
     //todo: make config for summary size
     if ($itemsCount > 0) {
         foreach ($itemsObj as $itemObj) {
-            $xoopsTpl->append('items',
-                              $itemObj->toArraySimple($publisher->getConfig('idxcat_items_display_type'), $publisher->getConfig('item_title_size'), 300, true)); //if no summary truncate body to 300
+            $xoopsTpl->append('items', $itemObj->toArraySimple($publisher->getConfig('idxcat_items_display_type'), $publisher->getConfig('item_title_size'), 300, true)); //if no summary truncate body to 300
         }
         $xoopsTpl->assign('show_subtitle', $publisher->getConfig('index_disp_subtitle'));
         unset($allcategories, $itemObj);
@@ -231,8 +230,7 @@ $publisherMetagen->createMetaTags();
 
 // RSS Link
 if ($publisher->getConfig('idxcat_show_rss_link') == 1) {
-    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . '/backend.php', _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . '/assets/images/rss.gif',
-                    _MD_PUBLISHER_RSSFEED);
+    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . '/backend.php', _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . '/assets/images/rss.gif', _MD_PUBLISHER_RSSFEED);
     $xoopsTpl->assign('rssfeed_link', $link);
 }
 

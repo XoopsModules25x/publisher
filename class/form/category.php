@@ -73,7 +73,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $criteria = new Criteria(null);
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
-        $myTree    = new XoopsObjectTree($this->publisher->getHandler('category')->getObjects($criteria), 'categoryid', 'parentid');
+        $myTree        = new XoopsObjectTree($this->publisher->getHandler('category')->getObjects($criteria), 'categoryid', 'parentid');
         $moduleDirName = basename(dirname(__DIR__));
         $module        = XoopsModule::getByDirname($moduleDirName);
         if (PublisherUtility::checkVerXoops($module, '2.5.9')) {
@@ -134,8 +134,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"image\", \"" . 'uploads/' . PUBLISHER_DIRNAME . '/images/category/' . '", "", "' . XOOPS_URL . "\")'");
         $imageTray = new XoopsFormElementTray(_AM_PUBLISHER_IMAGE, '&nbsp;');
         $imageTray->addElement($imageSelect);
-        $imageTray->addElement(new XoopsFormLabel('',
-                                                  "<br><br><img src='" . PublisherUtility::getImageDir('category', false) . $this->targetObject->getImage() . "' name='image3' id='image3' alt=''>"));
+        $imageTray->addElement(new XoopsFormLabel('', "<br><br><img src='" . PublisherUtility::getImageDir('category', false) . $this->targetObject->getImage() . "' name='image3' id='image3' alt=''>"));
         $imageTray->setDescription(_AM_PUBLISHER_IMAGE_DSC);
         $this->addElement($imageTray);
 

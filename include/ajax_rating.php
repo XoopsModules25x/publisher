@@ -32,12 +32,12 @@ $rating = Request::getInt('rating', 0, 'GET');
 $itemid = Request::getInt('itemid', 0, 'GET');
 
 xoops_loadLanguage('main', PUBLISHER_DIRNAME);
-$groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var $gpermHandler XoopsGroupPermHandler  */
+$groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+/* @var $gpermHandler XoopsGroupPermHandler */
 $gpermHandler = $publisher->getHandler('groupperm');
-/* @var $configHandler XoopsConfigHandler  */
-$configHandler   = xoops_getHandler('config');
-$module_id    = $publisher->getModule()->getVar('mid');
+/* @var $configHandler XoopsConfigHandler */
+$configHandler = xoops_getHandler('config');
+$module_id     = $publisher->getModule()->getVar('mid');
 
 //Checking permissions
 //if (!$publisher->getConfig('perm_rating') || !$gpermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
@@ -127,11 +127,7 @@ $tense = $count == 1 ? _MD_PUBLISHER_VOTE_VOTE : _MD_PUBLISHER_VOTE_VOTES; //plu
 $new_back = array();
 
 $new_back[] .= '<div class="publisher_unit-rating" style="width:' . $units * $rating_unitwidth . 'px;">';
-$new_back[] .= '<div class="publisher_current-rating" style="width:'
-               . ($count !== 0 ? number_format($current_rating / $count, 2) * $rating_unitwidth : 0)
-               . 'px;">'
-               . _MD_PUBLISHER_VOTE_RATING
-               . '</div>';
+$new_back[] .= '<div class="publisher_current-rating" style="width:' . ($count !== 0 ? number_format($current_rating / $count, 2) * $rating_unitwidth : 0) . 'px;">' . _MD_PUBLISHER_VOTE_RATING . '</div>';
 $new_back[] .= '<div class="publisher_r1-unit">1</div>';
 $new_back[] .= '<div class="publisher_r2-unit">2</div>';
 $new_back[] .= '<div class="publisher_r3-unit">3</div>';
@@ -143,17 +139,7 @@ $new_back[] .= '<div class="publisher_r8-unit">8</div>';
 $new_back[] .= '<div class="publisher_r9-unit">9</div>';
 $new_back[] .= '<div class="publisher_r10-unit">10</div>';
 $new_back[] .= '</div>';
-$new_back[] .= '<div class="publisher_voted">'
-               . _MD_PUBLISHER_VOTE_RATING
-               . ' <strong>'
-               . ($count !== 0 ? number_format($current_rating / $count, 2) : 0)
-               . '</strong>/'
-               . $units
-               . ' ('
-               . $count
-               . ' '
-               . $tense
-               . ')</div>';
+$new_back[] .= '<div class="publisher_voted">' . _MD_PUBLISHER_VOTE_RATING . ' <strong>' . ($count !== 0 ? number_format($current_rating / $count, 2) : 0) . '</strong>/' . $units . ' (' . $count . ' ' . $tense . ')</div>';
 $new_back[] .= '<div class="publisher_thanks">' . _MD_PUBLISHER_VOTE_THANKS . '</div>';
 
 $allnewback = implode("\n", $new_back);

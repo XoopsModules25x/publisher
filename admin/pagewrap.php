@@ -36,9 +36,7 @@ echo "<form name='form_name2' id='form_name2' action='pw_upload_file.php' method
 echo "<table cellspacing='1' width='100%' class='outer'>";
 echo "<tr><th colspan='2'>" . _AM_PUBLISHER_UPLOAD_FILE . '</th></tr>';
 echo "<tr valign='top' align='left'><td class='head'>" . _AM_PUBLISHER_SEARCH . "</td><td class='even'><input type='file' name='fileupload' id='fileupload' size='30'></td></tr>";
-echo "<tr valign='top' align='left'><td class='head'><input type='hidden' name='MAX_FILE_SIZE' id='op' value='500000'></td><td class='even'><input type='submit' name='submit' value='"
-     . _AM_PUBLISHER_UPLOAD
-     . "'></td></tr>";
+echo "<tr valign='top' align='left'><td class='head'><input type='hidden' name='MAX_FILE_SIZE' id='op' value='500000'></td><td class='even'><input type='submit' name='submit' value='" . _AM_PUBLISHER_UPLOAD . "'></td></tr>";
 echo '</table>';
 echo '</form>';
 

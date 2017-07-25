@@ -395,12 +395,7 @@ class Timthumb
             $this->debug(1, "Local image path is {$this->localImage}");
             $this->localImageMTime = @filemtime($this->localImage);
             //We include the mtime of the local file in case in changes on disk.
-            $this->cachefile = $this->cacheDirectory
-                               . '/'
-                               . FILE_CACHE_PREFIX
-                               . $cachePrefix
-                               . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion)
-                               . FILE_CACHE_SUFFIX;
+            $this->cachefile = $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
         }
         $this->debug(2, 'Cache file is: ' . $this->cachefile);
 

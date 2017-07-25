@@ -58,7 +58,7 @@ $item['categoryname'] = $myts->displayTarea($categoryObj->name());
 
 $mainImage = $itemObj->getMainImage();
 if ($mainImage['image_path'] != '') {
-    $item['image'] = '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"/>';
+    $item['image'] = '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '">';
 }
 $xoopsTpl->assign('item', $item);
 $xoopsTpl->assign('printtitle', $GLOBALS['xoopsConfig']['sitename'] . ' - ' . PublisherUtility::html2text($categoryObj->getCategoryPath()) . ' > ' . $myts->displayTarea($itemObj->getTitle()));

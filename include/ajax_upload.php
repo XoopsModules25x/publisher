@@ -62,8 +62,7 @@ if (!is_object($imgcat)) {
 
 if ($error === false) {
     xoops_load('XoopsMediaUploader');
-    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'), $imgcat->getVar('imgcat_maxsize'),
-                                       $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
+    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'), $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
     $uploader->setPrefix('img');
     if ($uploader->fetchMedia('publisher_upload_file')) {
         if (!$uploader->upload()) {

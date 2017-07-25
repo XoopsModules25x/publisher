@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  * Module: Publisher
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
@@ -42,7 +42,7 @@ define('_MB_PUBLISHER_SHOWITEMS', 'Show Items');
 //--/bd
 define('_MB_PUBLISHER_FILES', 'files');
 define('_MB_PUBLISHER_DIRECTDOWNLOAD', 'Direct link to download the file instead of a link to the article?');
-define('_MB_PUBLISHER_FROM', 'Select articles <br>from ');
+define('_MB_PUBLISHER_FROM', 'SELECT articles <br>FROM ');
 define('_MB_PUBLISHER_UNTIL', '&nbsp;&nbsp;to');
 define('_MB_PUBLISHER_DATE_FORMAT', 'Date format must be mm/dd/yyy');
 define('_MB_PUBLISHER_ARTICLES_FROM_TO', 'Articles published between %s and %s');

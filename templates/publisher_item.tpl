@@ -31,14 +31,14 @@
                         <{if $item.image_path}>
                             <li>
                                 <a href="<{$item.image_path}>">
-                                    <img src="<{$item.image_thumb}>" alt="<{$item.image_name}>"/>
+                                    <img src="<{$item.image_thumb}>" alt="<{$item.image_name}>">
                                 </a>
                             </li>
                         <{/if}>
                         <{foreach item=image from=$item.images}>
                             <li>
                                 <a href="<{$image.path}>">
-                                    <img src="<{$image.thumb}>" alt="<{$image.name}>"/>
+                                    <img src="<{$image.thumb}>" alt="<{$image.name}>">
                                 </a>
                             </li>
                         <{/foreach}>
@@ -121,13 +121,13 @@
             <td class="odd" align="left">
                 <{if $file.mod}>
                     <a href="<{$publisher_url}>/file.php?op=mod&fileid=<{$file.fileid}>">
-                        <img src="<{$publisher_url}>/assets/images/links/edit.gif" title="<{$smarty.const._CO_PUBLISHER_EDITFILE}>" alt="<{$smarty.const._CO_PUBLISHER_EDITFILE}>"/></a>
+                        <img src="<{$publisher_url}>/assets/images/links/edit.gif" title="<{$smarty.const._CO_PUBLISHER_EDITFILE}>" alt="<{$smarty.const._CO_PUBLISHER_EDITFILE}>"></a>
                     <a href="<{$publisher_url}>/file.php?op=del&fileid=<{$file.fileid}>">
-                        <img src="<{$publisher_url}>/assets/images/links/delete.png" title="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>" alt="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>"/></a>
+                        <img src="<{$publisher_url}>/assets/images/links/delete.png" title="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>" alt="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>"></a>
                 <{/if}>
                 <a href="<{$publisher_url}>/visit.php?fileid=<{$file.fileid}>" target="_blank">
                     <img src="<{$publisher_url}>/assets/images/links/file.gif" title="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>"
-                         alt="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>"/>&nbsp;<strong><{$file.name}></strong>
+                         alt="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>">&nbsp;<strong><{$file.name}></strong>
                 </a>
 
                 <div><{$file.description}></div>
@@ -151,14 +151,14 @@
             <{if $previousItemLink}>
                 <a href="<{$previousItemUrl}>">
                     <img style="vertical-align: middle;" src="<{$publisherImagesUrl}>/links/previous.gif" title="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>"
-                         alt="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>"/>
+                         alt="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>">
                 </a>
                 <{$previousItemLink}> <{/if}>
         </td>
         <td class="odd" width="50%" align="right">
             <{if $nextItemLink}> <{$nextItemLink}>
                 <a href="<{$nextItemUrl}>"><img style="vertical-align: middle;" src="<{$publisherImagesUrl}>/links/next.gif" title="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>"
-                                                alt="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>"/></a>
+                                                alt="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>"></a>
             <{/if}>
         </td>
     </tr>

@@ -154,7 +154,7 @@
         <ul class="pub_slideshow1">
         <{foreach item=item from=$block.columns[i]}>
             <li>
-                <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" width="100%" height="<{$block.imgheight}>" title="<{$item.alt}>" alt="<{$item.text}>"/></a>
+                <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" width="100%" height="<{$block.imgheight}>" title="<{$item.alt}>" alt="<{$item.text}>"></a>
             </li>
         <{/foreach}>
         </ul><{/section}>
@@ -187,7 +187,7 @@
                 <ul class="lof-main-wapper">
                     <{foreach item=item from=$block.columns[i]}>
                         <li>
-                            <img src="<{$item.item_image}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>"/>
+                            <img src="<{$item.item_image}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>">
                         </li>
                     <{/foreach}>
                 </ul>
@@ -198,7 +198,7 @@
                     <{foreach item=item from=$block.columns[i]}>
                         <li>
                             <div>
-                                <img src="<{$item.item_image}>" alt="" width="60" height="60"/>
+                                <img src="<{$item.item_image}>" alt="" width="60" height="60">
 
                                 <h3><a href="<{$item.itemurl}>"> <{$item.alt}> </a></h3>
                             </div>

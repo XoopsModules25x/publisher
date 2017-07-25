@@ -53,9 +53,7 @@ if ('start' === $op) {
         $fmContentCount = $fmContentHdlr->getCount(new Criteria('content_modid', $fm_module_id));
 
         if (empty($fmContentCount)) {
-            echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>"
-                 . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $fmContentCount)
-                 . '</span>';
+            echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $fmContentCount) . '</span>';
         } else {
             /*
                         echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $fmContentCount, $fmTopicCount) . "</span>";
@@ -85,8 +83,7 @@ if ('start' === $op) {
             }
             natcasesort($cat_cbox_options); //put them in "alphabetical" order
 
-            echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $fmContentCount,
-                                                                                                                 count($cat_cbox_options)) . '</span>';
+            echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $fmContentCount, count($cat_cbox_options)) . '</span>';
             $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
             $cat_label = new XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $cat_cbox_options));
@@ -95,9 +92,9 @@ if ('start' === $op) {
 
             // Publisher parent category
             xoops_load('tree');
-            $categoryHdlr   = $publisher->getHandler('category');
-            $catObjs        = $categoryHdlr->getAll();
-            $myObjTree      = new XoopsObjectTree($catObjs, 'categoryid', 'parentid');
+            $categoryHdlr  = $publisher->getHandler('category');
+            $catObjs       = $categoryHdlr->getAll();
+            $myObjTree     = new XoopsObjectTree($catObjs, 'categoryid', 'parentid');
             $moduleDirName = basename(dirname(__DIR__));
             $module        = XoopsModule::getByDirname($moduleDirName);
             if (PublisherUtility::checkVerXoops($module, '2.5.9')) {
@@ -254,8 +251,7 @@ if ('go' === $op) {
 
         // Category image
         if (('blank.gif' !== $thisFmTopicObj->getVar('topic_img')) && ('' !== $thisFmTopicObj->getVar('topic_img'))) {
-            if (copy($GLOBALS['xoops']->path('www/uploads/fmcontent/img/' . $thisFmTopicObj->getVar('topic_img')),
-                     $GLOBALS['xoops']->path('www/uploads/publisher/images/category/' . $thisFmTopicObj->getVar('topic_img')))) {
+            if (copy($GLOBALS['xoops']->path('www/uploads/fmcontent/img/' . $thisFmTopicObj->getVar('topic_img')), $GLOBALS['xoops']->path('www/uploads/publisher/images/category/' . $thisFmTopicObj->getVar('topic_img')))) {
                 $categoryObj->setVar('image', $thisFmTopicObj->getVar('topic_img'));
             }
         }

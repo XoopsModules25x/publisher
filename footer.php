@@ -27,12 +27,7 @@ $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.0.4.js');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
 
-$xoopsTpl->assign('xoops_module_header', '<link rel="alternate" type="application/rss+xml" title="'
-                                         . $publisher->getModule()->name()
-                                         . '" href="'
-                                         . PUBLISHER_URL
-                                         . '/backend.php">'
-                                         . @$xoopsTpl->get_template_vars('xoops_module_header'));
+$xoopsTpl->assign('xoops_module_header', '<link rel="alternate" type="application/rss+xml" title="' . $publisher->getModule()->name() . '" href="' . PUBLISHER_URL . '/backend.php">' . @$xoopsTpl->get_template_vars('xoops_module_header'));
 
 $xoopsTpl->assign('publisher_adminpage', "<a href='" . PUBLISHER_URL . "/admin/index.php'>" . _MD_PUBLISHER_ADMIN_PAGE . '</a>');
 $xoopsTpl->assign('isAdmin', $publisherIsAdmin);

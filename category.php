@@ -224,7 +224,7 @@ $xoopsTpl->assign('lang_category_summary', sprintf(_MD_PUBLISHER_CATEGORY_SUMMAR
 $xoopsTpl->assign('lang_category_summary_info', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY_INFO, $categoryObj->name()));
 $xoopsTpl->assign('lang_items_title', sprintf(_MD_PUBLISHER_ITEMS_TITLE, $categoryObj->name()));
 $xoopsTpl->assign('module_home', PublisherUtility::moduleHome($publisher->getConfig('format_linked_path')));
-$xoopsTpl->assign('categoryPath', '<li>'.$category['categoryPath'].'</li>');
+$xoopsTpl->assign('categoryPath', '<li>' . $category['categoryPath'] . '</li>');
 $xoopsTpl->assign('selected_category', $categoryid);
 
 // The Navigation Bar
@@ -240,14 +240,12 @@ $xoopsTpl->assign('navbar', $navbar);
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new PublisherMetagen($categoryObj->getVar('name'), $categoryObj->getVar('meta_keywords', 'n'), $categoryObj->getVar('meta_description', 'n'),
-                                         $categoryObj->getCategoryPathForMetaTitle());
+$publisherMetagen = new PublisherMetagen($categoryObj->getVar('name'), $categoryObj->getVar('meta_keywords', 'n'), $categoryObj->getVar('meta_description', 'n'), $categoryObj->getCategoryPathForMetaTitle());
 $publisherMetagen->createMetaTags();
 
 // RSS Link
 if ($publisher->getConfig('idxcat_show_rss_link') == 1) {
-    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . '/backend.php?categoryid=' . $categoryid, _MD_PUBLISHER_RSSFEED,
-                    PUBLISHER_URL . '/assets/images/rss.gif', _MD_PUBLISHER_RSSFEED);
+    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . '/backend.php?categoryid=' . $categoryid, _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . '/assets/images/rss.gif', _MD_PUBLISHER_RSSFEED);
     $xoopsTpl->assign('rssfeed_link', $link);
 }
 

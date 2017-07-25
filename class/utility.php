@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * PublisherUtil Class
  *
@@ -49,7 +50,7 @@ class PublisherUtility
                 }
             }
         } catch (Exception $e) {
-            echo 'Caught exception: ', $e->getMessage(), "\n", '<br/>';
+            echo 'Caught exception: ', $e->getMessage(), "\n", '<br>';
         }
     }
 
@@ -171,7 +172,7 @@ class PublisherUtility
 
     /**
      * @param PublisherCategory $categoryObj
-     * @param int $level
+     * @param int               $level
      */
     public static function displayCategory(PublisherCategory $categoryObj, $level = 0)
     {
@@ -183,26 +184,8 @@ class PublisherUtility
                 $description = substr($description, 0, 100 - 1) . '...';
             }
         }
-        $modify = "<a href='category.php?op=mod&amp;categoryid="
-                  . $categoryObj->categoryid()
-                  . '&amp;parentid='
-                  . $categoryObj->parentid()
-                  . "'><img src='"
-                  . PUBLISHER_URL
-                  . "/assets/images/links/edit.gif' title='"
-                  . _AM_PUBLISHER_EDITCOL
-                  . "' alt='"
-                  . _AM_PUBLISHER_EDITCOL
-                  . "'></a>";
-        $delete = "<a href='category.php?op=del&amp;categoryid="
-                  . $categoryObj->categoryid()
-                  . "'><img src='"
-                  . PUBLISHER_URL
-                  . "/assets/images/links/delete.png' title='"
-                  . _AM_PUBLISHER_DELETECOL
-                  . "' alt='"
-                  . _AM_PUBLISHER_DELETECOL
-                  . "'></a>";
+        $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITCOL . "' alt='" . _AM_PUBLISHER_EDITCOL . "'></a>";
+        $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETECOL . "' alt='" . _AM_PUBLISHER_DELETECOL . "'></a>";
 
         $spaces = '';
         for ($j = 0; $j < $level; ++$j) {
@@ -211,17 +194,7 @@ class PublisherUtility
 
         echo '<tr>';
         echo "<td class='even' align='center'>" . $categoryObj->categoryid() . '</td>';
-        echo "<td class='even' align='left'>"
-             . $spaces
-             . "<a href='"
-             . PUBLISHER_URL
-             . '/category.php?categoryid='
-             . $categoryObj->categoryid()
-             . "'><img src='"
-             . PUBLISHER_URL
-             . "/assets/images/links/subcat.gif' alt=''>&nbsp;"
-             . $categoryObj->name()
-             . '</a></td>';
+        echo "<td class='even' align='left'>" . $spaces . "<a href='" . PUBLISHER_URL . '/category.php?categoryid=' . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/subcat.gif' alt=''>&nbsp;" . $categoryObj->name() . '</a></td>';
         echo "<td class='even' align='center'>" . $categoryObj->weight() . '</td>';
         echo "<td class='even' align='center'> $modify $delete </td>";
         echo '</tr>';
@@ -297,41 +270,11 @@ class PublisherUtility
             echo '</tr>';
             if ($totalsubs > 0) {
                 foreach ($subcatsObj as $subcat) {
-                    $modify = "<a href='category.php?op=mod&amp;categoryid="
-                              . $subcat->categoryid()
-                              . "'><img src='"
-                              . XOOPS_URL
-                              . '/modules/'
-                              . $publisher->getModule()->dirname()
-                              . "/assets/images/links/edit.gif' title='"
-                              . _AM_PUBLISHER_MODIFY
-                              . "' alt='"
-                              . _AM_PUBLISHER_MODIFY
-                              . "'></a>";
-                    $delete = "<a href='category.php?op=del&amp;categoryid="
-                              . $subcat->categoryid()
-                              . "'><img src='"
-                              . XOOPS_URL
-                              . '/modules/'
-                              . $publisher->getModule()->dirname()
-                              . "/assets/images/links/delete.png' title='"
-                              . _AM_PUBLISHER_DELETE
-                              . "' alt='"
-                              . _AM_PUBLISHER_DELETE
-                              . "'></a>";
+                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_MODIFY . "' alt='" . _AM_PUBLISHER_MODIFY . "'></a>";
+                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETE . "' alt='" . _AM_PUBLISHER_DELETE . "'></a>";
                     echo '<tr>';
                     echo "<td class='head' align='left'>" . $subcat->categoryid() . '</td>';
-                    echo "<td class='even' align='left'><a href='"
-                         . XOOPS_URL
-                         . '/modules/'
-                         . $publisher->getModule()->dirname()
-                         . '/category.php?categoryid='
-                         . $subcat->categoryid()
-                         . '&amp;parentid='
-                         . $subcat->parentid()
-                         . "'>"
-                         . $subcat->name()
-                         . '</a></td>';
+                    echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . '/category.php?categoryid=' . $subcat->categoryid() . '&amp;parentid=' . $subcat->parentid() . "'>" . $subcat->name() . '</a></td>';
                     echo "<td class='even' align='left'>" . $subcat->description() . '</td>';
                     echo "<td class='even' align='right'> {$modify} {$delete} </td>";
                     echo '</tr>';
@@ -365,17 +308,7 @@ class PublisherUtility
             if ($totalitems > 0) {
                 for ($i = 0; $i < $totalitemsOnPage; ++$i) {
                     $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
-                    $modify      = "<a href='item.php?op=mod&amp;itemid="
-                                   . $itemsObj[$i]->itemid()
-                                   . "'><img src='"
-                                   . XOOPS_URL
-                                   . '/modules/'
-                                   . $publisher->getModule()->dirname()
-                                   . "/assets/images/links/edit.gif' title='"
-                                   . _AM_PUBLISHER_EDITITEM
-                                   . "' alt='"
-                                   . _AM_PUBLISHER_EDITITEM
-                                   . "'></a>";
+                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "'></a>";
                     $delete      = "<a href='item.php?op=del&amp;itemid="
                                    . $itemsObj[$i]->itemid()
                                    . "'><img src='"
@@ -386,7 +319,7 @@ class PublisherUtility
                                    . _AM_PUBLISHER_DELETEITEM
                                    . "' alt='"
                                    . _AM_PUBLISHER_DELETEITEM
-                                   . "'/></a>";
+                                   . "'></a>";
                     echo '<tr>';
                     echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
                     echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';
@@ -507,7 +440,7 @@ class PublisherUtility
         // Credits : newbb2
         $search = array(
             "'<script[^>]*?>.*?</script>'si", // Strip out javascript
-            "'<img.*?/>'si", // Strip out img tags
+            "'<img.*?>'si", // Strip out img tags
             "'<[\/\!]*?[^<>]*?>'si", // Strip out HTML tags
             "'([\r\n])[\s]+'", // Strip out white space
             "'&(quot|#34);'i", // Replace HTML entities
@@ -809,7 +742,7 @@ class PublisherUtility
 
         $result = true;
 
-        $moduleId     = $publisher->getModule()->getVar('mid');
+        $moduleId = $publisher->getModule()->getVar('mid');
         /* @var  $gpermHandler XoopsGroupPermHandler */
         $gpermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
@@ -1049,9 +982,7 @@ class PublisherUtility
     public static function renderErrors(&$errArray, $reseturl = '')
     {
         if (is_array($errArray) && count($errArray) > 0) {
-            echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url('
-                 . PUBLISHER_URL
-                 . '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
+            echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' . PUBLISHER_URL . '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
 
             echo '<h4 style="text-align:left;margin:0; padding-top:0;">' . _AM_PUBLISHER_MSG_SUBMISSION_ERR;
 
@@ -1319,8 +1250,8 @@ class PublisherUtility
             $rating1     = number_format($currentRating / $count, 1);
             $rating2     = number_format($currentRating / $count, 2);
         }
-        $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        /* @var $gpermHandler XoopsGroupPermHandler  */
+        $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        /* @var $gpermHandler XoopsGroupPermHandler */
         $gpermHandler = $publisher->getHandler('groupperm');
 
         if (!$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
@@ -1330,19 +1261,7 @@ class PublisherUtility
             $staticRater[] .= '<div id="unit_ul' . $itemId . '" class="publisher_unit-rating" style="width:' . $ratingUnitWidth * $units . 'px;">';
             $staticRater[] .= '<div class="publisher_current-rating" style="width:' . $ratingWidth . 'px;">' . _MD_PUBLISHER_VOTE_RATING . ' ' . $rating2 . '/' . $units . '</div>';
             $staticRater[] .= '</div>';
-            $staticRater[] .= '<div class="publisher_static">'
-                              . _MD_PUBLISHER_VOTE_RATING
-                              . ': <strong> '
-                              . $rating1
-                              . '</strong>/'
-                              . $units
-                              . ' ('
-                              . $count
-                              . ' '
-                              . $tense
-                              . ') <br><em>'
-                              . _MD_PUBLISHER_VOTE_DISABLE
-                              . '</em></div>';
+            $staticRater[] .= '<div class="publisher_static">' . _MD_PUBLISHER_VOTE_RATING . ': <strong> ' . $rating1 . '</strong>/' . $units . ' (' . $count . ' ' . $tense . ') <br><em>' . _MD_PUBLISHER_VOTE_DISABLE . '</em></div>';
             $staticRater[] .= '</div>';
             $staticRater[] .= '</div>' . "\n\n";
 
@@ -1356,23 +1275,7 @@ class PublisherUtility
 
             for ($ncount = 1; $ncount <= $units; ++$ncount) { // loop from 1 to the number of units
                 if (!$voted) { // if the user hasn't yet voted, draw the voting stars
-                    $rater .= '<div><a href="'
-                              . PUBLISHER_URL
-                              . '/rate.php?itemid='
-                              . $itemId
-                              . '&amp;rating='
-                              . $ncount
-                              . '" title="'
-                              . $ncount
-                              . ' '
-                              . _MD_PUBLISHER_VOTE_OUTOF
-                              . ' '
-                              . $units
-                              . '" class="publisher_r'
-                              . $ncount
-                              . '-unit rater" rel="nofollow">'
-                              . $ncount
-                              . '</a></div>';
+                    $rater .= '<div><a href="' . PUBLISHER_URL . '/rate.php?itemid=' . $itemId . '&amp;rating=' . $ncount . '" title="' . $ncount . ' ' . _MD_PUBLISHER_VOTE_OUTOF . ' ' . $units . '" class="publisher_r' . $ncount . '-unit rater" rel="nofollow">' . $ncount . '</a></div>';
                 }
             }
 
@@ -1465,14 +1368,14 @@ class PublisherUtility
      * @static
      * @param XoopsModule $module
      *
-     * @param null|string        $requiredVer
+     * @param null|string $requiredVer
      * @return bool true if meets requirements, false if not
      */
     public static function checkVerXoops(XoopsModule $module = null, $requiredVer = null)
     {
         $moduleDirName = basename(dirname(__DIR__));
         if (null === $module) {
-            $module        = XoopsModule::getByDirname($moduleDirName);
+            $module = XoopsModule::getByDirname($moduleDirName);
         }
         xoops_loadLanguage('admin', $moduleDirName);
         //check for minimum XOOPS version

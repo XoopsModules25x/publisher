@@ -193,30 +193,11 @@ if ($fromyear != 0 && $frommonth != 0) {
         foreach ($storyarray as $item) {
             $story               = array();
             $htmltitle           = '';
-            $story['title']      = "<a href='"
-                                   . XOOPS_URL
-                                   . '/modules/'
-                                   . PUBLISHER_DIRNAME
-                                   . '/category.php?categoryid='
-                                   . $item->categoryid()
-                                   . "'>"
-                                   . $item->getCategoryName()
-                                   . "</a>: <a href='"
-                                   . $item->getItemUrl()
-                                   . "'"
-                                   . $htmltitle
-                                   . '>'
-                                   . $item->getTitle()
-                                   . '</a>';
+            $story['title']      = "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . "</a>: <a href='" . $item->getItemUrl() . "'" . $htmltitle . '>' . $item->getTitle() . '</a>';
             $story['counter']    = $item->counter();
             $story['date']       = $item->getDatesub();
             $story['print_link'] = XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/print.php?itemid=' . $item->itemid();
-            $story['mail_link']  = 'mailto:?subject='
-                                   . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename'])
-                                   . '&amp;body='
-                                   . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename'])
-                                   . ':  '
-                                   . $item->getItemUrl();
+            $story['mail_link']  = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  ' . $item->getItemUrl();
 
             $xoopsTpl->append('stories', $story);
         }

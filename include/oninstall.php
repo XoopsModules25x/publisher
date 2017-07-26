@@ -25,8 +25,7 @@
  */
 function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
 {
-
-        $moduleDirName = basename(dirname(__DIR__));
+    $moduleDirName = basename(dirname(__DIR__));
 
     $classUtility = ucfirst($moduleDirName) . 'Utility';
     if (!class_exists($classUtility)) {
@@ -57,12 +56,10 @@ function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
  */
 function xoops_module_install_publisher(XoopsModule $xoopsModule)
 {
-    require_once  __DIR__ . '/../../../mainfile.php';
-    require_once  __DIR__ . '/../include/config.php';
+    require_once __DIR__ . '/../../../mainfile.php';
+    require_once __DIR__ . '/../include/config.php';
 
-
-        $moduleDirName = basename(dirname(__DIR__));
-
+    $moduleDirName = basename(dirname(__DIR__));
 
     if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
     } else {
@@ -73,14 +70,14 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
     $moduleHelper->loadLanguage('admin');
     $moduleHelper->loadLanguage('modinfo');
 
-        $configurator = new PublisherConfigurator();
-    $classUtility    = ucfirst($moduleDirName) . 'Utility';
+    $configurator = new PublisherConfigurator();
+    $classUtility = ucfirst($moduleDirName) . 'Utility';
     if (!class_exists($classUtility)) {
         xoops_load('utility', $moduleDirName);
     }
 
-//    $moduleDirName = $xoopsModule->getVar('dirname');
-//    require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
+    //    $moduleDirName = $xoopsModule->getVar('dirname');
+    //    require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
 
     //  ---  CREATE FOLDERS ---------------
     if (count($configurator->uploadFolders) > 0) {
@@ -98,16 +95,18 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
             $classUtility::copyFile($file, $dest);
         }
     }
-/*
-    foreach (array_keys($uploadFolders) as $i) {
-        PublisherUtility::createFolder($uploadFolders[$i]);
-    }
 
-    $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
-    foreach (array_keys($blankFiles) as $i) {
-        $dest = $blankFiles[$i] . '/blank.png';
-        PublisherUtility::copyFile($file, $dest);
-    }
-*/
+    /*
+        foreach (array_keys($uploadFolders) as $i) {
+            PublisherUtility::createFolder($uploadFolders[$i]);
+        }
+
+        $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
+        foreach (array_keys($blankFiles) as $i) {
+            $dest = $blankFiles[$i] . '/blank.png';
+            PublisherUtility::copyFile($file, $dest);
+        }
+    */
+
     return true;
 }

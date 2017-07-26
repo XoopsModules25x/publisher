@@ -37,7 +37,7 @@ function publisher_date_to_date_show($options)
 
     $criteria = new CriteriaCompo();
     $criteria->add(new Criteria('datesub', strtotime($options[0]), '>'));
-    $criteria->add(new Criteria('datesub', isset($options[1]) ? strtotime($options[1]): '', '<'));
+    $criteria->add(new Criteria('datesub', isset($options[1]) ? strtotime($options[1]) : '', '<'));
     $criteria->setSort('datesub');
     $criteria->setOrder('DESC');
 

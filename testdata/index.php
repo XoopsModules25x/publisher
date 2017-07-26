@@ -32,7 +32,7 @@ function loadSampleData()
     $moduleDirName = basename(dirname(__DIR__));
     xoops_loadLanguage('admin', $moduleDirName);
     $items = \Xmf\Yaml::readWrapped('item-data.yml');
-    $cat = \Xmf\Yaml::readWrapped('cat-data.yml');
+    $cat   = \Xmf\Yaml::readWrapped('cat-data.yml');
 
     \Xmf\Database\TableLoad::truncateTable('publisher_items');
     \Xmf\Database\TableLoad::truncateTable('publisher_categories');

@@ -12,7 +12,7 @@
 /**
  * Publisher
  *
- * @copyright    The XOOPS Project (http://www.xoops.org)
+ * @copyright    The XOOPS Project (https://xoops.org)
  * @license      GNU GPL (http://www.gnu.org/licenses/gpl-2.0.html/)
  * @package      Publisher
  * @since        1.0

@@ -117,7 +117,7 @@ class PublisherHighlighter
         }
         // Case sensitivity
         if (!$this->caseSens) {
-            $pattern .= 'i';
+            $pattern   .= 'i';
             $slPattern .= 'i';
         }
         $needle = (array)$needle;

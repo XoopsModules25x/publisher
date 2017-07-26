@@ -147,8 +147,8 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      */
     public function saveItemPermissions($groups, $itemId, $permName)
     {
-        $result       = true;
-        $moduleId     = $this->publisher->getModule()->getVar('mid');
+        $result   = true;
+        $moduleId = $this->publisher->getModule()->getVar('mid');
         /* @var  $gpermHandler XoopsGroupPermHandler */
         $gpermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them

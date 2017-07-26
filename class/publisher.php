@@ -129,8 +129,8 @@ class PublisherPublisher
             $this->module = $GLOBALS['xoopsModule'];
         } else {
             /* @var  $moduleHandler XoopsModuleHandler */
-            $moduleHandler      = xoops_getHandler('module');
-            $this->module = $moduleHandler->getByDirname($this->dirname);
+            $moduleHandler = xoops_getHandler('module');
+            $this->module  = $moduleHandler->getByDirname($this->dirname);
         }
         $this->addLog('INIT MODULE');
     }
@@ -138,9 +138,9 @@ class PublisherPublisher
     public function initConfig()
     {
         $this->addLog('INIT CONFIG');
-        /* @var $configHandler XoopsConfigHandler  */
-        $configHandler   = xoops_getHandler('config');
-        $this->config = $configHandler->getConfigsByCat(0, $this->getModule()->getVar('mid'));
+        /* @var $configHandler XoopsConfigHandler */
+        $configHandler = xoops_getHandler('config');
+        $this->config  = $configHandler->getConfigsByCat(0, $this->getModule()->getVar('mid'));
     }
 
     /**

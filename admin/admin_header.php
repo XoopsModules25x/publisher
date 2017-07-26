@@ -23,7 +23,7 @@ require_once __DIR__ . '/../../../include/cp_header.php';
 
 //require_once __DIR__ . '/../include/common.php';
 
-require_once __DIR__  . '/../class/utility.php';
+require_once __DIR__ . '/../class/utility.php';
 require_once __DIR__ . '/../include/config.php';
 
 $moduleDirName = basename(dirname(__DIR__));
@@ -34,8 +34,8 @@ if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
 }
 $adminObject = \Xmf\Module\Admin::getInstance();
 
-$pathIcon16      = \Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32      = \Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32    = \Xmf\Module\Admin::iconUrl('', 32);
 $pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
 
 // Load language files

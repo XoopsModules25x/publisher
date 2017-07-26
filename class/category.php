@@ -266,7 +266,7 @@ class PublisherCategory extends XoopsObject
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = $this->getCategoryUrl();
         /* @var  $notificationHandler XoopsNotificationHandler */
-        $notificationHandler   = xoops_getHandler('notification');
+        $notificationHandler = xoops_getHandler('notification');
         $notificationHandler->triggerEvent('global_item', 0, 'category_created', $tags);
     }
 

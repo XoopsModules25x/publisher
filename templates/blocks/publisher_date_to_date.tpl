@@ -3,7 +3,7 @@
     <div>
         <ul>
             <{foreach item=item from=$block.items}>
-            <li><{$item.itemlink}></li>
+                <li><{$item.itemlink}></li>
             <{/foreach}>
         </ul>
     </div>

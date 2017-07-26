@@ -39,7 +39,7 @@ if ($categoryid != -1) {
 }
 
 header('Content-Type:text/xml; charset=' . _CHARSET);
-$tpl = new XoopsTpl();
+$tpl          = new XoopsTpl();
 $tpl->caching = 2;
 $tpl->xoops_setCacheTime(0);
 $myts = MyTextSanitizer::getInstance();

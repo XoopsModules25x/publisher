@@ -12,7 +12,7 @@
 /**
  * Publisher
  *
- * @copyright    The XOOPS Project (http://www.xoops.org)
+ * @copyright    The XOOPS Project (https://xoops.org)
  * @license      GNU GPL (http://www.gnu.org/licenses/gpl-2.0.html/)
  * @package      Publisher
  * @since        1.0
@@ -24,7 +24,7 @@ require_once dirname(__DIR__) . '/class/utility.php';
 
 xoops_cp_header();
 xoops_loadLanguage('main', PUBLISHER_DIRNAME);
-$adminObject  = \Xmf\Module\Admin::getInstance();
+$adminObject = \Xmf\Module\Admin::getInstance();
 
 /*
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {

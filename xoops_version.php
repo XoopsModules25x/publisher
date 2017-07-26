@@ -982,7 +982,6 @@ $modversion['config'][] = array(
 //    'category'    => 'submit'
 //);
 
-
 $modversion['config'][] = array(
     'name'        => 'submit_editor_rows',
     'title'       => '_MI_PUBLISHER_EDITOR_ROWS',

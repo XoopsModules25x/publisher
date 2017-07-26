@@ -36,7 +36,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_search($queryArray, $andor, $limit, $offset, $userid, $categories = array(), $sortby = 0, $searchin = '', $extra = '')
 {
     $publisher = PublisherPublisher::getInstance();
-    $ret = $item = array();
+    $ret       = $item = array();
     if ($queryArray == '' || count($queryArray) == 0) {
         $hightlightKey = '';
     } else {

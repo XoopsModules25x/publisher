@@ -64,7 +64,7 @@ if ($itemId != 0) {
         //        exit();
     }
     /* @var  $itemObj PublisherItem */
-    $itemObj = $publisher->getHandler('item')->create();
+    $itemObj     = $publisher->getHandler('item')->create();
     /* @var  $categoryObj PublisherCategory */
     $categoryObj = $publisher->getHandler('category')->create();
 }
@@ -88,7 +88,7 @@ if (Request::getString('additem', '', 'POST')) {
 $tokenError = false;
 if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
     if ($op !== 'preview') {
-        $op         = 'preview';
+        $op = 'preview';
         $tokenError = true;
     }
 }
@@ -123,7 +123,7 @@ $elements = array(
     'author_alias'
 );
 foreach ($elements as $element) {
-    if (Request::hasVar($element, 'POST') && !in_array(constant('PublisherConstants::PUBLISHER_' . strtoupper($element)), $formView)) {
+    if (Request::hasVar($element,'POST') && !in_array(constant('PublisherConstants::PUBLISHER_' . strtoupper($element)), $formView)) {
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
         //        exit();
     }
@@ -146,7 +146,8 @@ switch ($op) {
             //            exit();
         } else {
             require_once $GLOBALS['xoops']->path('header.php');
-            xoops_confirm(array('op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()), 'submit.php', _AM_PUBLISHER_DELETETHISITEM . " <br>'" . $itemObj->getTitle() . "'. <br> <br>", _AM_PUBLISHER_DELETE);
+            xoops_confirm(array('op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()), 'submit.php',
+                          _AM_PUBLISHER_DELETETHISITEM . " <br>'" . $itemObj->getTitle() . "'. <br> <br>", _AM_PUBLISHER_DELETE);
             require_once $GLOBALS['xoops']->path('footer.php');
         }
         exit();

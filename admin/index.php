@@ -46,6 +46,12 @@ if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.p
 }
 
 $adminObject->displayNavigation(basename(__FILE__));
+//------------- Test Data ----------------------------
+xoops_loadLanguage('admin/modulesadmin', 'system');
+require_once __DIR__ . '/../testdata/index.php';
+$adminObject->addItemButton(_AM_SYSTEM_MODULES_INSTALL_TESTDATA, '__DIR__ . /../../testdata/index.php?op=load', 'add');
+$adminObject->displayButton('left', '');
+//------------- End Test Data ----------------------------
 $adminObject->displayIndex();
 
 require_once __DIR__ . '/admin_footer.php';

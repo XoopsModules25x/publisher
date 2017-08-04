@@ -59,29 +59,29 @@
             // cache object
             var $self = $(this),
 
-            // images
+                // images
                 img = $self.find('.ppy-imglist > li > a > img'),
                 a = $self.find('.ppy-imglist > li > a'),
                 tot = img.length,
 
-            // single image mode
-                singleImageMode = (tot === 1) ,
+                // single image mode
+                singleImageMode = (tot === 1),
 
-            // flag for moueover check
+                // flag for moueover check
                 ismouseover = false,
 
-            // start in compact mode
+                // start in compact mode
                 enlarged = false,
 
-            // counter vars
+                // counter vars
                 cur = 0,                // array index of currently displayed image
 
-            // extra classes
+                // extra classes
                 eclass = 'ppy-expanded',       //class to be applied to enlarged popeye-box
                 lclass = 'ppy-loading',        //class to be applied to stage while loading image
                 sclass = 'ppy-single-image',   //class to be applied to popeye-box if there's only one image to display
 
-            // html nodes
+                // html nodes
                 ppyPlaceholder = $('<div class="ppy-placeholder"></div>'),
                 ppyStageWrap = $('<div class="ppy-stagewrap"></div>'),
                 ppyCaptionWrap = $('<div class="ppy-captionwrap"></div>'),
@@ -100,7 +100,7 @@
                 ppyCurrent = $self.find('.ppy-current'),
                 ppyTotal = $self.find('.ppy-total'),
 
-            // css objects
+                // css objects
                 cssSelf = {
                     position: 'absolute',
                     width: 'auto',

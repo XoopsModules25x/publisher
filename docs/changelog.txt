@@ -8,6 +8,8 @@
 - cosmetics (mamba)
 - commented out "img-responsive" to all images in index.php and item.php (mamba) (it was a temporary fix for Bootstrap)
 - fixed issue #61: Other articles in this category not working (liomj/mamba)
+- fixed 'element' to $element  (geekwright)
+- update Help, .html to .tpl (mamba)
 
 <h5>1.05 Beta 1       (NOT RELEASED)</h5>
 - PSR-2 code cosmetics (mamba)

@@ -377,7 +377,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve an item
      *
-     * @param int   $id     itemid of the user
+     * @param int|null   $id     itemid of the user
      *
      * @param  null $fields
      * @return mixed reference to the <a href='psi_element://PublisherCategory'>PublisherCategory</a> object, FALSE if failed

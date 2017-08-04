@@ -42,8 +42,7 @@ if (!defined($capsDirName . '_DIRNAME')) {
 defined($capsDirName . '_UPLOAD_PATH') || define($capsDirName . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . constant($capsDirName . '_DIRNAME')); // WITHOUT Trailing slash
 
 //Configurator
-/*
-return array(
+return (object)[
     'name'           => 'Module Configurator',
     'uploadFolders'  => array(
         constant($capsDirName . '_UPLOAD_PATH'),
@@ -79,5 +78,5 @@ return array(
         '/js',
         '/tcpdf',
     ),
-);
-*/
+];
+

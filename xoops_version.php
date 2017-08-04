@@ -1319,6 +1319,18 @@ $modversion['config'][] = array(
     'category'    => 'item'
 );
 
+/**
+ * Make Sample button visible?
+ */
+$modversion['config'][] = [
+    'name'        => 'showsamplebutton',
+    'title'       => '_MI_PUBLISHER_SHOW_SAMPLE_BUTTON',
+    'description' => '_MI_PUBLISHER_SHOW_SAMPLE_BUTTON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
 // Comments
 $modversion['hasComments']          = 1;
 $modversion['comments']['itemName'] = 'itemid';

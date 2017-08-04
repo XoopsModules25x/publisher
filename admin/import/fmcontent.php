@@ -97,7 +97,7 @@ if ('start' === $op) {
             $myObjTree     = new XoopsObjectTree($catObjs, 'categoryid', 'parentid');
             $moduleDirName = basename(dirname(__DIR__));
             $module        = XoopsModule::getByDirname($moduleDirName);
-            if (PublisherUtility::checkVerXoops($module, '2.5.9')) {
+            if (PublisherUtility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
                 $catSelBox = $myObjTree->makeSelectElement('parentid', 'name', '-', 0, true, 0, '', '');
                 $form->addElement($catSelBox);
             } else {

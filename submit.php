@@ -123,7 +123,7 @@ $elements = array(
     'author_alias'
 );
 foreach ($elements as $element) {
-    if (Request::hasVar('element', 'POST') && !in_array(constant('PublisherConstants::PUBLISHER_' . strtoupper($element)), $formView)) {
+    if (Request::hasVar($element, 'POST') && !in_array(constant('PublisherConstants::PUBLISHER_' . strtoupper($element)), $formView)) {
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
         //        exit();
     }

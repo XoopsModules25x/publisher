@@ -50,24 +50,24 @@ require_once PUBLISHER_ROOT_PATH . '/' . $module_info_search['file'];
 
 $limit    = 10; //$publisher->getConfig('idxcat_perpage');
 $uid      = 0;
-$queries  = array();
+$queries  = [];
 $andor    = Request::getString('andor', '', 'POST');
 $start    = Request::getInt('start', 0, 'POST');
-$category = Request::getArray('category', array(), 'POST');
+$category = Request::getArray('category', [], 'POST');
 $username = Request::getString('uname', '', 'POST');
-$searchin = Request::getArray('searchin', array(), 'POST');
+$searchin = Request::getArray('searchin', [], 'POST');
 $sortby   = Request::getString('sortby', '', 'POST');
 $term     = Request::getString('term', '', 'POST');
 
 if (empty($category) || (is_array($category) && in_array('all', $category))) {
-    $category = array();
+    $category = [];
 } else {
     $category = !is_array($category) ? explode(',', $category) : $category;
     $category = array_map('intval', $category);
 }
 
-$andor  = in_array(strtoupper($andor), array('OR', 'AND', 'EXACT')) ? strtoupper($andor) : 'OR';
-$sortby = in_array(strtolower($sortby), array('itemid', 'datesub', 'title', 'categoryid')) ? strtolower($sortby) : 'itemid';
+$andor  = in_array(strtoupper($andor), ['OR', 'AND', 'EXACT']) ? strtoupper($andor) : 'OR';
+$sortby = in_array(strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid']) ? strtolower($sortby) : 'itemid';
 
 if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     $next_search['category'] = implode(',', $category);
@@ -76,7 +76,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     $query                   = trim($term);
 
     if ($andor !== 'EXACT') {
-        $ignored_queries = array(); // holds keywords that are shorter than allowed minimum length
+        $ignored_queries = []; // holds keywords that are shorter than allowed minimum length
         $temp_queries    = preg_split("/[\s,]+/", $query);
         foreach ($temp_queries as $q) {
             $q = trim($q);
@@ -96,7 +96,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
             redirect_header(PUBLISHER_URL . '/search.php', 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch['keyword_min']));
             //            exit();
         }
-        $queries = array($myts->addSlashes($query));
+        $queries = [$myts->addSlashes($query)];
     }
 
     $uname_required       = false;
@@ -109,7 +109,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
             redirect_header(PUBLISHER_URL . '/search.php', 1, _CO_PUBLISHER_ERROR);
             //            exit();
         }
-        $uid = array();
+        $uid = [];
         while (($row = $GLOBALS['xoopsDB']->fetchArray($result)) !== false) {
             $uid[] = $row['uid'];
         }
@@ -127,19 +127,19 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     }
 
     if ($uname_required && (!$uid || count($uid) < 1)) {
-        $results = array();
+        $results = [];
     } else {
         $results = $module_info_search['func']($queries, $andor, $limit, $start, $uid, $category, $sortby, $searchin, $extra);
     }
 
     if (count($results) < 1) {
-        $results[] = array('text' => _SR_NOMATCH);
+        $results[] = ['text' => _SR_NOMATCH];
     }
 
     $xoopsTpl->assign('results', $results);
 
     if (count($next_search) > 0) {
-        $items = array();
+        $items = [];
         foreach ($next_search as $para => $val) {
             if (!empty($val)) {
                 $items[] = "{$para}={$val}";

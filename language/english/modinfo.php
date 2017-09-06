@@ -246,8 +246,10 @@ define('_MI_PUBLISHER_SINGLEITEM_BLOCK_DSC', 'Display a single item in a block')
 define('_MI_PUBLISHER_PRINT_DSC', 'Print page template');
 define('_MI_PUBLISHER_RSS_DSC', 'Display publisher RSS feed');
 define('_MI_PUBLISHER_ADDFILE_DSC', 'Form to add a file to an article');
-define('_MI_PUBLISHER_WARNING_ALPHA',
-       'This module comes as is, without any guarantees whatsoever. This module is ALPHA, meaning it is still under active development. This release is meant for <strong>testing purposes only</strong> and we <strong>strongly</strong> recommend that you do not use it on a live website or in a production environment.');
+define(
+    '_MI_PUBLISHER_WARNING_ALPHA',
+       'This module comes as is, without any guarantees whatsoever. This module is ALPHA, meaning it is still under active development. This release is meant for <strong>testing purposes only</strong> and we <strong>strongly</strong> recommend that you do not use it on a live website or in a production environment.'
+);
 define('_MI_PUBLISHER_PEOPLE_DEVELOPERS', 'Developers');
 define('_MI_PUBLISHER_PEOPLE_TESTERS', 'Testers');
 define('_MI_PUBLISHER_PEOPLE_DOCUMENTERS', 'Documenters');

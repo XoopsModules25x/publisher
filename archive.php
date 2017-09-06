@@ -35,7 +35,7 @@ xoops_loadLanguage('calendar');
 
 $lastyear    = 0;
 $lastmonth   = 0;
-$monthsArray = array(
+$monthsArray = [
     1  => _CAL_JANUARY,
     2  => _CAL_FEBRUARY,
     3  => _CAL_MARCH,
@@ -48,7 +48,7 @@ $monthsArray = array(
     10 => _CAL_OCTOBER,
     11 => _CAL_NOVEMBER,
     12 => _CAL_DECEMBER
-);
+];
 $fromyear    = Request::getInt('year');
 $frommonth   = Request::getInt('month');
 
@@ -82,15 +82,15 @@ $criteria->add(new Criteria('datesub', time(), '<='), 'AND');
 $criteria->setSort('datesub');
 $criteria->setOrder('DESC');
 //Get all articles dates as an array to save memory
-$items      = $publisher->getHandler('item')->getAll($criteria, array('datesub'), false);
+$items      = $publisher->getHandler('item')->getAll($criteria, ['datesub'], false);
 $itemsCount = count($items);
 
 if (!($itemsCount > 0)) {
     redirect_header(XOOPS_URL, 2, _MD_PUBLISHER_NO_TOP_PERMISSIONS);
     //mb    exit;
 } else {
-    $years  = array();
-    $months = array();
+    $years  = [];
+    $months = [];
     $i      = 0;
     foreach ($items as $item) {
         //mb        $time = XoopsLocal::formatTimestamp($item['datesub'], 'mysql', $useroffset);
@@ -119,7 +119,7 @@ if (!($itemsCount > 0)) {
 
                 $years[$i]['articlesYearCount'] = $articlesThisYear;
 
-                $months            = array();
+                $months            = [];
                 $lastmonth         = 0;
                 $lastyear          = $thisYear;
                 $articlesThisYear  = 0;
@@ -191,7 +191,7 @@ if ($fromyear != 0 && $frommonth != 0) {
     $count = count($storyarray);
     if (is_array($storyarray) && $count > 0) {
         foreach ($storyarray as $item) {
-            $story               = array();
+            $story               = [];
             $htmltitle           = '';
             $story['title']      = "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . "</a>: <a href='" . $item->getItemUrl() . "'" . $htmltitle . '>' . $item->getTitle() . '</a>';
             $story['counter']    = $item->counter();

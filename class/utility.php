@@ -292,7 +292,7 @@ class PublisherUtility
             static::openCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = Request::getInt('startitem');
             // Get the total number of published ITEMS
-            $totalitems = $publisher->getHandler('item')->getItemsCount($selCat, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
+            $totalitems = $publisher->getHandler('item')->getItemsCount($selCat, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
             $itemsObj         = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $startitem, $selCat);
             $totalitemsOnPage = count($itemsObj);
@@ -438,7 +438,7 @@ class PublisherUtility
         // and white space. It will also convert some
         // common HTML entities to their text equivalent.
         // Credits : newbb2
-        $search = array(
+        $search = [
             "'<script[^>]*?>.*?</script>'si", // Strip out javascript
             "'<img.*?>'si", // Strip out img tags
             "'<[\/\!]*?[^<>]*?>'si", // Strip out HTML tags
@@ -452,9 +452,9 @@ class PublisherUtility
             "'&(cent|#162);'i",
             "'&(pound|#163);'i",
             "'&(copy|#169);'i"
-        ); // evaluate as php
+        ]; // evaluate as php
 
-        $replace = array(
+        $replace = [
             '',
             '',
             '',
@@ -468,7 +468,7 @@ class PublisherUtility
             chr(162),
             chr(163),
             chr(169)
-        );
+        ];
 
         $text = preg_replace($search, $replace, $document);
 
@@ -485,7 +485,7 @@ class PublisherUtility
      */
     public static function getAllowedImagesTypes()
     {
-        return array('jpg/jpeg', 'image/bmp', 'image/gif', 'image/jpeg', 'image/jpg', 'image/x-png', 'image/png', 'image/pjpeg');
+        return ['jpg/jpeg', 'image/bmp', 'image/gif', 'image/jpeg', 'image/jpg', 'image/x-png', 'image/png', 'image/pjpeg'];
     }
 
     /**
@@ -669,7 +669,7 @@ class PublisherUtility
      * @param  array $errors
      * @return string
      */
-    public static function formatErrors($errors = array())
+    public static function formatErrors($errors = [])
     {
         $ret = '';
         foreach ($errors as $key => $value) {
@@ -857,7 +857,7 @@ class PublisherUtility
 
         $currenturl = $http . $httphost . $phpself . $querystring;
 
-        $urls                = array();
+        $urls                = [];
         $urls['http']        = $http;
         $urls['httphost']    = $httphost;
         $urls['phpself']     = $phpself;
@@ -1015,7 +1015,7 @@ class PublisherUtility
      *
      * @credit : xHelp module, developped by 3Dev
      */
-    public static function makeUri($page, $vars = array(), $encodeAmp = true)
+    public static function makeUri($page, $vars = [], $encodeAmp = true)
     {
         $joinStr = '';
 
@@ -1086,7 +1086,7 @@ class PublisherUtility
         // Get available mimetypes for file uploading
         $allowedMimetypes = $publisher->getHandler('mimetype')->getArrayByType();
         // TODO : display the available mimetypes to the user
-        $errors = array();
+        $errors = [];
         if ($publisher->getConfig('perm_upload') && is_uploaded_file($_FILES['item_upload_file']['tmp_name'])) {
             if (!$ret = $fileObj->checkUpload('item_upload_file', $allowedMimetypes, $errors)) {
                 $errorstxt = implode('<br>', $errors);
@@ -1189,7 +1189,7 @@ class PublisherUtility
             $startTags = $startTags[1];
             // match closed tags
             if (preg_match_all('/<\/([a-z]+)>/', $string, $endTags)) {
-                $completeTags = array();
+                $completeTags = [];
                 $endTags      = $endTags[1];
 
                 foreach ($startTags as $key => $val) {
@@ -1255,7 +1255,7 @@ class PublisherUtility
         $gpermHandler = $publisher->getHandler('groupperm');
 
         if (!$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
-            $staticRater   = array();
+            $staticRater   = [];
             $staticRater[] .= "\n" . '<div class="publisher_ratingblock">';
             $staticRater[] .= '<div id="unit_long' . $itemId . '">';
             $staticRater[] .= '<div id="unit_ul' . $itemId . '" class="publisher_unit-rating" style="width:' . $ratingUnitWidth * $units . 'px;">';
@@ -1302,7 +1302,7 @@ class PublisherUtility
      */
     public static function getEditors($allowedEditors = null)
     {
-        $ret    = array();
+        $ret    = [];
         $nohtml = false;
         xoops_load('XoopsEditorHandler');
         $editorHandler = XoopsEditorHandler::getInstance();
@@ -1404,7 +1404,7 @@ class PublisherUtility
             }
         }
 
-        if (!$success) {
+        if (false === $success) {
             $module->setErrors(sprintf(_AM_PUBLISHER_ERROR_BAD_XOOPS, $requiredVer, $currentVer));
         }
 

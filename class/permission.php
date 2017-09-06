@@ -19,7 +19,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 require_once dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -55,7 +55,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
         if (isset($items[$gpermName][$id])) {
             return $items[$gpermName][$id];
         }
-        $groups   = array();
+        $groups   = [];
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('gperm_modid', $this->publisher->getModule()->getVar('mid')));
         $criteria->add(new Criteria('gperm_name', $gpermName));
@@ -92,13 +92,13 @@ class PublisherPermissionHandler extends XoopsObjectHandler
             return $items[$gpermName];
         }
 
-        $ret = array();
+        $ret = [];
         //Instead of calling groupperm handler and get objects, we will save some memory and do it our way
         $criteria = new CriteriaCompo(new Criteria('gperm_name', $gpermName));
         $criteria->add(new Criteria('gperm_modid', $this->publisher->getModule()->getVar('mid')));
 
         //Get user's groups
-        $groups    = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(XOOPS_GROUP_ANONYMOUS);
+        $groups    = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
         $criteria2 = new CriteriaCompo();
         foreach ($groups as $gid) {
             $criteria2->add(new Criteria('gperm_groupid', $gid), 'OR');

@@ -18,7 +18,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          John Neill <catzwolf@xoosla.com>
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -32,7 +32,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 class PublisherThemeTabForm extends XoopsForm
 {
-    public $formTabs = array();
+    public $formTabs = [];
 
     /**
      * "action" attribute for the html form
@@ -74,21 +74,21 @@ class PublisherThemeTabForm extends XoopsForm
      *
      * @var array
      */
-    public $elements = array();
+    public $elements = [];
 
     /**
      * extra information for the <form> tag
      *
      * @var array
      */
-    public $extra = array();
+    public $extra = [];
 
     /**
      * required elements
      *
      * @var array
      */
-    public $required = array();
+    public $required = [];
 
     /**
      * @param string $title
@@ -127,7 +127,7 @@ class PublisherThemeTabForm extends XoopsForm
     {
         $i        = -1;
         $tab      = -1;
-        $elements = array();
+        $elements = [];
         if (count($this->getRequired()) > 0) {
             $this->elements[] = "<tr class='foot'><td colspan='2'>* = " . _REQUIRED . '</td></tr>';
         }
@@ -160,7 +160,7 @@ class PublisherThemeTabForm extends XoopsForm
             $elements[$n]['tab'] = $tab;
         }
         $js = $this->renderValidationJS();
-        $tpl->assign($this->getName(), array(
+        $tpl->assign($this->getName(), [
             'title'      => $this->getTitle(),
             'id'         => 'tab_' . preg_replace('/[^a-z0-9]+/i', '', $this->getTitle()),
             'name'       => $this->getName(),
@@ -170,7 +170,7 @@ class PublisherThemeTabForm extends XoopsForm
             'javascript' => $js,
             'tabs'       => $this->formTabs,
             'elements'   => $elements
-        ));
+        ]);
     }
 
     /**
@@ -313,7 +313,7 @@ class PublisherThemeTabForm extends XoopsForm
         if (!$recurse) {
             return $this->elements;
         } else {
-            $ret   = array();
+            $ret   = [];
             $count = count($this->elements);
             for ($i = 0; $i < $count; ++$i) {
                 if (is_object($this->elements[$i])) {
@@ -332,7 +332,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function getElementNames()
     {
-        $ret      = array();
+        $ret      = [];
         $elements = &$this->getElements(true);
         $count    = count($elements);
         for ($i = 0; $i < $count; ++$i) {
@@ -427,7 +427,7 @@ class PublisherThemeTabForm extends XoopsForm
         // will not use getElementByName() for performance..
         $elements =& $this->getElements(true);
         $count    = count($elements);
-        $values   = array();
+        $values   = [];
         for ($i = 0; $i < $count; ++$i) {
             $name = $elements[$i]->getName(false);
             if ($name && method_exists($elements[$i], 'getValue')) {

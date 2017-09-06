@@ -17,7 +17,7 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -45,7 +45,7 @@ class PublisherFormDateTime extends XoopsFormElementTray
         $datetime = getdate($value);
 
         $this->addElement(new XoopsFormTextDateSelect('', $name . '[date]', $size, $value, $showtime));
-        $timearray = array();
+        $timearray = [];
         for ($i = 0; $i < 24; ++$i) {
             for ($j = 0; $j < 60; $j += 10) {
                 $key             = ($i * 3600) + ($j * 60);

@@ -16,7 +16,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -93,7 +93,7 @@ class PublisherMetagen
     {
         $this->title         = $this->html2text($title);
         $this->originalTitle = $this->title;
-        $titleTag            = array();
+        $titleTag            = [];
         $titleTag['module']  = $this->publisher->getModule()->getVar('name');
         if (isset($this->title) && ($this->title != '') && (strtoupper($this->title) != strtoupper($titleTag['module']))) {
             $titleTag['title'] = $this->title;
@@ -183,7 +183,7 @@ class PublisherMetagen
      */
     public function findMetaKeywords($text, $minChar)
     {
-        $keywords         = array();
+        $keywords         = [];
         $text             = $this->purifyText($text);
         $text             = $this->html2text($text);
         $originalKeywords = explode(' ', $text);
@@ -280,7 +280,7 @@ class PublisherMetagen
         $title = rawurlencode(strtolower($title));
         // Transformation des ponctuations
 
-        $pattern = array(
+        $pattern = [
             '/%09/', // Tab
             '/%20/', // Space
             '/%21/', // !
@@ -309,11 +309,11 @@ class PublisherMetagen
             '/%7D/', // }
             '/%7E/', // ~
             "/\./" // .
-        );
-        $repPat  = array('-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-');
+        ];
+        $repPat  = ['-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-'];
         $title   = str_replace($pattern, $repPat, $title);
         // Transformation des caractères accentués
-        $pattern = array(
+        $pattern = [
             '/%B0/', // °
             '/%E8/', // è
             '/%E9/', // é
@@ -330,11 +330,11 @@ class PublisherMetagen
             '/%FB/', // û
             '/%F4/', // ô
             '/%F6/', // ö
-        );
-        $repPat  = array('-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o');
+        ];
+        $repPat  = ['-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o'];
         $title   = str_replace($pattern, $repPat, $title);
         $tableau = explode('-', $title); // Transforms the string in table //Transforme la chaine de caractères en tableau
-        $tableau = array_filter($tableau, array('PublisherMetagen', 'emptyString')); // Remove empty strings of the table //Supprime les chaines vides du tableau
+        $tableau = array_filter($tableau, ['PublisherMetagen', 'emptyString']); // Remove empty strings of the table //Supprime les chaines vides du tableau
         $title   = implode('-', $tableau); // Transforms a character string in table separated by a hyphen //Transforme un tableau en chaine de caractères séparé par un tiret
         if (count($title) > 0) {
             if ($withExt) {
@@ -400,7 +400,7 @@ class PublisherMetagen
         // and white space. It will also convert some
         // common HTML entities to their text equivalent.
         // Credits : newbb2
-        $search = array(
+        $search = [
             "'<script[^>]*?>.*?</script>'si", // Strip out javascript
             "'<img.*?>'si", // Strip out img tags
             "'<[\/\!]*?[^<>]*?>'si", // Strip out HTML tags
@@ -414,9 +414,9 @@ class PublisherMetagen
             "'&(cent|#162);'i",
             "'&(pound|#163);'i",
             "'&(copy|#169);'i"
-        ); // evaluate as php
+        ]; // evaluate as php
 
-        $replace = array(
+        $replace = [
             '',
             '',
             '',
@@ -430,7 +430,7 @@ class PublisherMetagen
             chr(162),
             chr(163),
             chr(169)
-        );
+        ];
 
         $text = preg_replace($search, $replace, $document);
 

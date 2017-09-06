@@ -43,7 +43,7 @@ class PublisherCategoryForm extends XoopsThemeForm
 
     public $subCatsCount = 4;
 
-    public $userGroups = array();
+    public $userGroups = [];
 
     /**
      * @param     $target
@@ -113,7 +113,7 @@ class PublisherCategoryForm extends XoopsThemeForm
             $editor = $this->publisher->getConfig('submit_editor');
         }
 
-        $editorConfigs           = array();
+        $editorConfigs           = [];
         $editorConfigs['rows']   = $this->publisher->getConfig('submit_editor_rows') == '' ? 35 : $this->publisher->getConfig('submit_editor_rows');
         $editorConfigs['cols']   = $this->publisher->getConfig('submit_editor_cols') == '' ? 60 : $this->publisher->getConfig('submit_editor_cols');
         $editorConfigs['width']  = $this->publisher->getConfig('submit_editor_width') == '' ? '100%' : $this->publisher->getConfig('submit_editor_width');
@@ -226,8 +226,8 @@ class PublisherCategoryForm extends XoopsThemeForm
         $catTray = new XoopsFormElementTray(_AM_PUBLISHER_SCATEGORYNAME, '<br><br>');
         for ($i = 0; $i < $this->subCatsCount; ++$i) {
             $subname = '';
-            if ($i < (($scname = Request::getArray('scname', array(), 'POST')) ? count($scname) : 0)) {
-                $temp    = Request::getArray('scname', array(), 'POST');
+            if ($i < (($scname = Request::getArray('scname', [], 'POST')) ? count($scname) : 0)) {
+                $temp    = Request::getArray('scname', [], 'POST');
                 $subname = ($scname = Request::getArray('scname', '', 'POST')) ? $temp[$i] : '';
             }
             $catTray->addElement(new XoopsFormText('', 'scname[' . $i . ']', 50, 255, $subname));

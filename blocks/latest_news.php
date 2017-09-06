@@ -20,7 +20,7 @@
  * @author          Mowaffak
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -31,7 +31,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_latest_news_show($options)
 {
-    $block = array();
+    $block = [];
 
     xoops_loadLanguage('main', 'publisher');
     $publisher = PublisherPublisher::getInstance();
@@ -72,7 +72,7 @@ function publisher_latest_news_show($options)
         $criteria->add(new Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
     }
 
-    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'itemid');
+    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);
 
@@ -80,10 +80,10 @@ function publisher_latest_news_show($options)
         return false;
     }
     $k       = 0;
-    $columns = array();
+    $columns = [];
 
     foreach ($itemsObj as $itemid => $itemObj) {
-        $item            = array();
+        $item            = [];
         $item['itemurl'] = $itemObj->getItemUrl();
         $item['title']   = $itemObj->getItemLink();
         $item['alt']     = strip_tags($itemObj->getItemLink());
@@ -281,7 +281,7 @@ function publisher_latest_news_edit($options)
 
     $form .= "<select size='1' name='options[8]'>";
 
-    $directions = array('right' => _MB_PUBLISHER_SCROLL_RIGHT, 'left' => _MB_PUBLISHER_SCROLL_LEFT, 'up' => _MB_PUBLISHER_SCROLL_UP, 'down' => _MB_PUBLISHER_SCROLL_DOWN);
+    $directions = ['right' => _MB_PUBLISHER_SCROLL_RIGHT, 'left' => _MB_PUBLISHER_SCROLL_LEFT, 'up' => _MB_PUBLISHER_SCROLL_UP, 'down' => _MB_PUBLISHER_SCROLL_DOWN];
     foreach ($directions as $key => $value) {
         $form .= "<option value='{$key}'";
         if ($options[8] == $key) {
@@ -372,13 +372,13 @@ function publisher_latest_news_edit($options)
     $form .= $tabletag1 . _MB_PUBLISHER_TEMPLATE . $tabletag2;
     $form .= "<select size='1' name='options[28]'>";
 
-    $templates = array(
+    $templates = [
         'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
         'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED,
         'ticker'   => _MB_PUBLISHER_TEMPLATE_TICKER,
         'slider1'  => _MB_PUBLISHER_TEMPLATE_SLIDER1,
         'slider2'  => _MB_PUBLISHER_TEMPLATE_SLIDER2
-    );
+    ];
     foreach ($templates as $key => $value) {
         $form .= "<option value='{$key}'";
         if ($options[28] == $key) {

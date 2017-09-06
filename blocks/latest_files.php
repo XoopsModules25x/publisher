@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -38,7 +38,7 @@ function publisher_latest_files_show($options)
      * $oprions[3] : bool TRUE to link to the file download, FALSE to link to the article
      */
 
-    $block = array();
+    $block = [];
 
     $sort           = $options[1];
     $order          = PublisherUtility::getOrderBy($sort);
@@ -48,7 +48,7 @@ function publisher_latest_files_show($options)
     // creating the files objects
     $filesObj = $publisher->getHandler('file')->getAllFiles(0, PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE, $limit, 0, $sort, $order, explode(',', $options[0]));
     foreach ($filesObj as $fileObj) {
-        $aFile         = array();
+        $aFile         = [];
         $aFile['link'] = $directDownload ? $fileObj->getFileLink() : $fileObj->getItemLink();
         if ($sort === 'datesub') {
             $aFile['new'] = $fileObj->getDatesub();
@@ -77,11 +77,11 @@ function publisher_latest_files_edit($options)
 
     $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, PublisherUtility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
-    $orderEle->addOptionArray(array(
+    $orderEle->addOptionArray([
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
                                   'weight'  => _MB_PUBLISHER_WEIGHT
-                              ));
+                              ]);
     $dispEle   = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $directEle = new XoopsFormRadioYN(_MB_PUBLISHER_DIRECTDOWNLOAD, 'options[3]', $options[3]);
 

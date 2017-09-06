@@ -45,7 +45,7 @@ switch ($op) {
             //            exit();
         } else {
             xoops_cp_header();
-            xoops_confirm(array('op' => 'del', 'categoryid' => $categoryObj->categoryid(), 'confirm' => 1, 'name' => $categoryObj->name()), 'category.php', _AM_PUBLISHER_DELETECOL . " '" . $categoryObj->name() . "'. <br> <br>" . _AM_PUBLISHER_DELETE_CAT_CONFIRM, _AM_PUBLISHER_DELETE);
+            xoops_confirm(['op' => 'del', 'categoryid' => $categoryObj->categoryid(), 'confirm' => 1, 'name' => $categoryObj->name()], 'category.php', _AM_PUBLISHER_DELETECOL . " '" . $categoryObj->name() . "'. <br> <br>" . _AM_PUBLISHER_DELETE_CAT_CONFIRM, _AM_PUBLISHER_DELETE);
             xoops_cp_footer();
         }
         break;
@@ -75,7 +75,7 @@ switch ($op) {
         $temp = Request::getArray('image_file', '', 'FILES');
         if ($image_file = $temp['name']) {
             //            $filename = Request::getArray('xoops_upload_file', array(), 'POST')[0];
-            $temp2 = Request::getArray('xoops_upload_file', array(), 'POST');
+            $temp2 = Request::getArray('xoops_upload_file', [], 'POST');
             if ($filename = $temp2[0]) {
                 // TODO : implement publisher mimetype management
                 $max_size          = $publisher->getConfig('maximum_filesize');
@@ -105,9 +105,9 @@ switch ($op) {
         $categoryObj->setVar('weight', Request::getInt('weight', 1, 'POST'));
 
         // Groups and permissions
-        $grpread       = Request::getArray('groupsRead', array(), 'POST');
-        $grpsubmit     = Request::getArray('groupsSubmit', array(), 'POST');
-        $grpmoderation = Request::getArray('groupsModeration', array(), 'POST');
+        $grpread       = Request::getArray('groupsRead', [], 'POST');
+        $grpsubmit     = Request::getArray('groupsSubmit', [], 'POST');
+        $grpmoderation = Request::getArray('groupsModeration', [], 'POST');
 
         $categoryObj->setVar('name', Request::getString('name', '', 'POST'));
 
@@ -139,12 +139,12 @@ switch ($op) {
 
         //Added by fx2024
         $parentCat = $categoryObj->categoryid();
-        $sizeof    = count(Request::getArray('scname', array(), 'POST'));
+        $sizeof    = count(Request::getArray('scname', [], 'POST'));
         for ($i = 0; $i < $sizeof; ++$i) {
-            $temp = Request::getArray('scname', array(), 'POST');
+            $temp = Request::getArray('scname', [], 'POST');
             if ($temp[$i] != '') {
                 $categoryObj = $publisher->getHandler('category')->create();
-                $temp2       = Request::getArray('scname', array(), 'POST');
+                $temp2       = Request::getArray('scname', [], 'POST');
                 $categoryObj->setVar('name', $temp2[$i]);
                 $categoryObj->setVar('parentid', $parentCat);
 

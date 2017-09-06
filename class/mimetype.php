@@ -18,7 +18,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -116,7 +116,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      */
     public function &getObjects(CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
     {
-        $ret   = array();
+        $ret   = [];
         $limit = $start = 0;
         $sql   = $this->selectQuery($criteria);
         $id    = $this->idfield;
@@ -453,7 +453,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      */
     public function &getObjects(CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
     {
-        $ret   = array();
+        $ret   = [];
         $limit = $start = 0;
         $sql   = $this->selectQuery($criteria);
         if (isset($criteria)) {
@@ -486,7 +486,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
     public function getArray($mimeExt = null)
     {
         //        global $publisherIsAdmin;
-        $ret = array();
+        $ret = [];
         if ($GLOBALS['xoopsUser'] && !$GLOBALS['publisherIsAdmin']) {
             // For user uploading
             $crit = new CriteriaCompo(new Criteria('mime_user', 1)); //$sql = sprintf("SELECT * FROM %s WHERE mime_user=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
@@ -507,7 +507,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
         foreach ($result as $mime) {
             $line = explode(' ', $mime->getVar('mime_types'));
             foreach ($line as $row) {
-                $ret[] = array('type' => $row, 'ext' => $mime->getVar('mime_ext'));
+                $ret[] = ['type' => $row, 'ext' => $mime->getVar('mime_ext')];
             }
         }
 
@@ -544,7 +544,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      */
     public function getArrayByType()
     {
-        static $array = array();
+        static $array = [];
         if (empty($array)) {
             $items = $this->getArray();
             foreach ($items as $item) {
@@ -604,9 +604,17 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
         foreach ($obj->cleanVars as $k => $v) {
             ${$k} = $v;
         }
-        $sql = sprintf('INSERT INTO %s (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
-            (%u, %s, %s, %s, %u, %u)', $this->db->prefix($this->dbtable), $obj->getVar('mime_id'), $this->db->quoteString($obj->getVar('mime_ext')), $this->db->quoteString($obj->getVar('mime_types')), $this->db->quoteString($obj->getVar('mime_name')), $obj->getVar('mime_admin'),
-                       $obj->getVar('mime_user'));
+        $sql = sprintf(
+            'INSERT INTO %s (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
+            (%u, %s, %s, %s, %u, %u)',
+            $this->db->prefix($this->dbtable),
+            $obj->getVar('mime_id'),
+            $this->db->quoteString($obj->getVar('mime_ext')),
+            $this->db->quoteString($obj->getVar('mime_types')),
+            $this->db->quoteString($obj->getVar('mime_name')),
+            $obj->getVar('mime_admin'),
+                       $obj->getVar('mime_user')
+        );
 
         return $sql;
     }

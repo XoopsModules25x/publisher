@@ -231,7 +231,7 @@ if (!defined('WEBSHOT_XVFB_RUNNING')) {
 
 // If ALLOW_EXTERNAL is true and ALLOW_ALL_EXTERNAL_SITES is false, then external images will only be fetched from these domains and their subdomains.
 if (!isset($ALLOWED_SITES)) {
-    $ALLOWED_SITES = array(
+    $ALLOWED_SITES = [
         'flickr.com',
         'staticflickr.com',
         'picasa.com',
@@ -241,7 +241,7 @@ if (!isset($ALLOWED_SITES)) {
         'imgur.com',
         'imageshack.us',
         'tinypic.com'
-    );
+    ];
 }
 // -------------------------------------------------------------
 // -------------- STOP EDITING CONFIGURATION HERE --------------
@@ -264,8 +264,8 @@ class Timthumb
     protected $myHost                   = '';
     protected $isURL                    = false;
     protected $cachefile                = '';
-    protected $errors                   = array();
-    protected $toDeletes                = array();
+    protected $errors                   = [];
+    protected $toDeletes                = [];
     protected $cacheDirectory           = '';
     protected $startTime                = 0.0;
     protected $lastBenchTime            = 0.0;
@@ -701,19 +701,19 @@ class Timthumb
         }
 
         if (defined('IMG_FILTER_NEGATE') && function_exists('imagefilter')) {
-            $imageFilters = array(
-                1  => array(IMG_FILTER_NEGATE, 0),
-                2  => array(IMG_FILTER_GRAYSCALE, 0),
-                3  => array(IMG_FILTER_BRIGHTNESS, 1),
-                4  => array(IMG_FILTER_CONTRAST, 1),
-                5  => array(IMG_FILTER_COLORIZE, 4),
-                6  => array(IMG_FILTER_EDGEDETECT, 0),
-                7  => array(IMG_FILTER_EMBOSS, 0),
-                8  => array(IMG_FILTER_GAUSSIAN_BLUR, 0),
-                9  => array(IMG_FILTER_SELECTIVE_BLUR, 0),
-                10 => array(IMG_FILTER_MEAN_REMOVAL, 0),
-                11 => array(IMG_FILTER_SMOOTH, 0)
-            );
+            $imageFilters = [
+                1  => [IMG_FILTER_NEGATE, 0],
+                2  => [IMG_FILTER_GRAYSCALE, 0],
+                3  => [IMG_FILTER_BRIGHTNESS, 1],
+                4  => [IMG_FILTER_CONTRAST, 1],
+                5  => [IMG_FILTER_COLORIZE, 4],
+                6  => [IMG_FILTER_EDGEDETECT, 0],
+                7  => [IMG_FILTER_EMBOSS, 0],
+                8  => [IMG_FILTER_GAUSSIAN_BLUR, 0],
+                9  => [IMG_FILTER_SELECTIVE_BLUR, 0],
+                10 => [IMG_FILTER_MEAN_REMOVAL, 0],
+                11 => [IMG_FILTER_SMOOTH, 0]
+            ];
         }
 
         // get standard input properties
@@ -892,11 +892,11 @@ class Timthumb
 
         // sharpen image
         if ($sharpen && function_exists('imageconvolution')) {
-            $sharpenMatrix = array(
-                array(-1, -1, -1),
-                array(-1, 16, -1),
-                array(-1, -1, -1)
-            );
+            $sharpenMatrix = [
+                [-1, -1, -1],
+                [-1, 16, -1],
+                [-1, -1, -1]
+            ];
 
             $divisor = 8;
             $offset  = 0;

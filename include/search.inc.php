@@ -16,7 +16,7 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -33,10 +33,10 @@ require_once dirname(__DIR__) . '/include/common.php';
  *
  * @return array
  */
-function publisher_search($queryArray, $andor, $limit, $offset, $userid, $categories = array(), $sortby = 0, $searchin = '', $extra = '')
+function publisher_search($queryArray, $andor, $limit, $offset, $userid, $categories = [], $sortby = 0, $searchin = '', $extra = '')
 {
     $publisher = PublisherPublisher::getInstance();
-    $ret       = $item = array();
+    $ret       = $item = [];
     if ($queryArray == '' || count($queryArray) == 0) {
         $hightlightKey = '';
     } else {
@@ -46,7 +46,7 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
     $itemsObjs        = $publisher->getHandler('item')->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
     $withCategoryPath = $publisher->getConfig('search_cat_path');
     //xoops_load("xoopslocal");
-    $usersIds = array();
+    $usersIds = [];
     if (0 !== count($itemsObjs)) {
         foreach ($itemsObjs as $obj) {
             $item['image'] = 'assets/images/item_icon.gif';
@@ -63,7 +63,7 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
             $text          = $obj->getBody();
             $sanitizedText = '';
             $textLower     = strtolower($text);
-            $queryArray    = is_array($queryArray) ? $queryArray : array($queryArray);
+            $queryArray    = is_array($queryArray) ? $queryArray : [$queryArray];
 
             if ($queryArray[0] != '' && count($queryArray) > 0) {
                 foreach ($queryArray as $query) {

@@ -111,8 +111,8 @@ if ($itemsObj) {
 }
 
 // Arrays that will hold the informations passed on to smarty variables
-$category = array();
-$items    = array();
+$category = [];
+$items    = [];
 
 // Populating the smarty variables with informations related to the selected category
 $category                 = $categoryObj->toArraySimple(null, true);
@@ -122,7 +122,7 @@ $category['categoryPath'] = $categoryObj->getCategoryPath($publisher->getConfig(
 
 if ($publisher->getConfig('idxcat_display_last_item') == 1) {
     // Get the last smartitem
-    $lastItemObj = $publisher->getHandler('item')->getLastPublishedByCat(array(array($categoryObj)));
+    $lastItemObj = $publisher->getHandler('item')->getLastPublishedByCat([[$categoryObj]]);
 }
 $lastitemsize = (int)$publisher->getConfig('idxcat_last_item_size');
 
@@ -132,7 +132,7 @@ $total_subcats = count($subcatsObj);
 
 $total_items = 0;
 
-$subcategories = array();
+$subcategories = [];
 
 if ($publisher->getConfig('idxcat_show_subcats') !== 'no') {
     // if this category has subcats
@@ -211,7 +211,7 @@ if (count($itemsObj) > 0) {
     $xoopsTpl->assign('show_subtitle', $publisher->getConfig('cat_disp_subtitle'));
 }
 
-$categories   = array();
+$categories   = [];
 $categories[] = $category;
 $xoopsTpl->assign('category', $category);
 $xoopsTpl->assign('categories', $categories);

@@ -17,7 +17,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -42,7 +42,7 @@ function publisher_items_spot_show($options)
     if ($optCategoryId == 0) {
         $optCategoryId = -1;
     }
-    $block = array();
+    $block = [];
     if ($optDisplayLast == 1) {
         $itemsObj   = $publisher->getHandler('item')->getAllPublished($optItemsCount, 0, $optCategoryId, $sort = 'datesub', $order = 'DESC', 'summary');
         $i          = 1;
@@ -141,10 +141,10 @@ function publisher_items_spot_edit($options)
     $whoEle  = new XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_WHO_AND_WHEN, 'options[4]', $options[4]);
     $comEle  = new XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_COMMENTS, 'options[5]', $options[5]);
     $typeEle = new XoopsFormSelect(_MB_PUBLISHER_DISPLAY_TYPE, 'options[6]', $options[6]);
-    $typeEle->addOptionArray(array(
+    $typeEle->addOptionArray([
                                  'block'  => _MB_PUBLISHER_DISPLAY_TYPE_BLOCK,
                                  'bullet' => _MB_PUBLISHER_DISPLAY_TYPE_BULLET
-                             ));
+                             ]);
     $truncateEle = new XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[7]', 4, 255, $options[7]);
     $imageEle    = new XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_CATIMAGE, 'options[8]', $options[8]);
     $form->addElement($autoEle);

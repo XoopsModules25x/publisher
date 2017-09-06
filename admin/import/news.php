@@ -59,7 +59,7 @@ if ($op === 'start') {
             $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('news_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('news_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
             $result           = $GLOBALS['xoopsDB']->query($sql);
-            $cat_cbox_options = array();
+            $cat_cbox_options = [];
 
             while ((list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
                 $cat_title              = $myts->displayTarea($cat_title);
@@ -113,12 +113,12 @@ if ($op === 'go') {
 
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
-    $newCatArray     = array();
-    $newArticleArray = array();
+    $newCatArray     = [];
+    $newArticleArray = [];
 
-    $oldToNew = array();
+    $oldToNew = [];
     while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) !== false) {
-        $newCat           = array();
+        $newCat           = [];
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
         /* @var  $categoryObj PublisherCategory */

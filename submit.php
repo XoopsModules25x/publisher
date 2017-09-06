@@ -99,7 +99,7 @@ $allowedEditors = PublisherUtility::getEditors($gpermHandler->getItemIds('editor
 $formView       = $gpermHandler->getItemIds('form_view', $groups, $moduleId);
 
 // This code makes sure permissions are not manipulated
-$elements = array(
+$elements = [
     'summary',
     'available_page_wrap',
     'item_tag',
@@ -121,16 +121,16 @@ $elements = array(
     'notify',
     'subtitle',
     'author_alias'
-);
+];
 foreach ($elements as $element) {
-    if (Request::hasVar($element,'POST') && !in_array(constant('PublisherConstants::PUBLISHER_' . strtoupper($element)), $formView)) {
+    if (Request::hasVar($element, 'POST') && !in_array(constant('PublisherConstants::PUBLISHER_' . strtoupper($element)), $formView)) {
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
         //        exit();
     }
 }
 //unset($element);
 
-$itemUploadFile = Request::getArray('item_upload_file', array(), 'FILES');
+$itemUploadFile = Request::getArray('item_upload_file', [], 'FILES');
 
 //stripcslashes
 switch ($op) {
@@ -146,8 +146,12 @@ switch ($op) {
             //            exit();
         } else {
             require_once $GLOBALS['xoops']->path('header.php');
-            xoops_confirm(array('op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()), 'submit.php',
-                          _AM_PUBLISHER_DELETETHISITEM . " <br>'" . $itemObj->getTitle() . "'. <br> <br>", _AM_PUBLISHER_DELETE);
+            xoops_confirm(
+                ['op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()],
+                'submit.php',
+                          _AM_PUBLISHER_DELETETHISITEM . " <br>'" . $itemObj->getTitle() . "'. <br> <br>",
+                _AM_PUBLISHER_DELETE
+            );
             require_once $GLOBALS['xoops']->path('footer.php');
         }
         exit();
@@ -213,7 +217,6 @@ switch ($op) {
             $fileUploadResult = PublisherUtility::uploadFile(false, true, $itemObj);
             if ($fileUploadResult !== true) {
                 redirect_header('javascript:history.go(-1)', 3, $fileUploadResult);
-                exit;
             }
         }
 
@@ -223,7 +226,7 @@ switch ($op) {
                 // We do not not subscribe user to notification on publish since we publish it right away
 
                 // Send notifications
-                $itemObj->sendNotifications(array(PublisherConstants::PUBLISHER_NOTIFY_ITEM_PUBLISHED));
+                $itemObj->sendNotifications([PublisherConstants::PUBLISHER_NOTIFY_ITEM_PUBLISHED]);
 
                 $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_AND_PUBLISHED;
                 redirect_header($itemObj->getItemUrl(), 2, $redirect_msg);
@@ -235,7 +238,7 @@ switch ($op) {
                     $notificationHandler->subscribe('item', $itemObj->itemid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
-                $itemObj->sendNotifications(array(PublisherConstants::PUBLISHER_NOTIFY_ITEM_SUBMITTED));
+                $itemObj->sendNotifications([PublisherConstants::PUBLISHER_NOTIFY_ITEM_SUBMITTED]);
 
                 $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
             }

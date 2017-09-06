@@ -26,8 +26,8 @@ PublisherUtility::cpHeader();
 //publisher_adminMenu(3, _AM_PUBLISHER_PERMISSIONS);
 
 // View Categories permissions
-$item_list_view = array();
-$block_view     = array();
+$item_list_view = [];
+$block_view     = [];
 PublisherUtility::openCollapsableBar('permissionstable_view', 'permissionsicon_view', _AM_PUBLISHER_PERMISSIONSVIEWMAN, _AM_PUBLISHER_VIEW_CATS);
 
 $result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($xoopsModule->getVar('dirname', 'n') . '_categories') . ' ');
@@ -75,7 +75,7 @@ PublisherUtility::closeCollapsableBar('permissionstable_moderation', 'permission
 // Form permissions
 echo "<br>\n";
 PublisherUtility::openCollapsableBar('permissionstable_form', 'permissionsicon_form', _AM_PUBLISHER_PERMISSIONS_FORM, _AM_PUBLISHER_PERMISSIONS_FORM_DSC);
-$form_options = array(
+$form_options = [
     PublisherConstants::PUBLISHER_SUMMARY               => _AM_PUBLISHER_SUMMARY,
     //PublisherConstants::PUBLISHER_DISPLAY_SUMMARY        => _CO_PUBLISHER_DISPLAY_SUMMARY,
     PublisherConstants::PUBLISHER_AVAILABLE_PAGE_WRAP   => _CO_PUBLISHER_AVAILABLE_PAGE_WRAP,
@@ -102,7 +102,7 @@ $form_options = array(
     PublisherConstants::PUBLISHER_NOTIFY                => _AM_PUBLISHER_NOTIFY,
     PublisherConstants::PUBLISHER_SUBTITLE              => _CO_PUBLISHER_SUBTITLE,
     PublisherConstants::PUBLISHER_AUTHOR_ALIAS          => _CO_PUBLISHER_AUTHOR_ALIAS
-);
+];
 $form_submit  = new XoopsGroupPermForm('', $publisher->getModule()->mid(), 'form_view', '', 'admin/permissions.php');
 foreach ($form_options as $key => $value) {
     $form_submit->addItem($key, $value);
@@ -126,10 +126,10 @@ PublisherUtility::closeCollapsableBar('permissionstable_editors', 'permissionsic
 // Global permissions
 echo "<br>\n";
 PublisherUtility::openCollapsableBar('permissionstable_global', 'permissionsicon_global', _AM_PUBLISHER_PERMISSIONS_GLOBAL, _AM_PUBLISHER_PERMISSIONS_GLOBAL_DSC);
-$form_options = array(
+$form_options = [
     PublisherConstants::PUBLISHER_SEARCH => _AM_PUBLISHER_SEARCH,
     PublisherConstants::PUBLISHER_RATE   => _AM_PUBLISHER_RATE
-);
+];
 $form_submit  = new XoopsGroupPermForm('', $publisher->getModule()->mid(), 'global', '', 'admin/permissions.php');
 foreach ($form_options as $key => $value) {
     $form_submit->addItem($key, $value);

@@ -27,7 +27,7 @@ $GLOBALS['xoopsLogger']->activated = false;
 xoops_loadLanguage('common', basename(dirname(__DIR__)));
 
 if (!is_object($GLOBALS['xoopsUser'])) {
-    $group = array(XOOPS_GROUP_ANONYMOUS);
+    $group = [XOOPS_GROUP_ANONYMOUS];
 } else {
     $group = $GLOBALS['xoopsUser']->getGroups();
 }
@@ -62,7 +62,7 @@ if (!is_object($imgcat)) {
 
 if ($error === false) {
     xoops_load('XoopsMediaUploader');
-    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'), $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
+    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'], $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
     $uploader->setPrefix('img');
     if ($uploader->fetchMedia('publisher_upload_file')) {
         if (!$uploader->upload()) {
@@ -95,9 +95,9 @@ if ($error === false) {
     }
 }
 
-$arr = array('success', $image->getVar('image_name'), PublisherUtility::convertCharset($image->getVar('image_nicename')));
+$arr = ['success', $image->getVar('image_name'), PublisherUtility::convertCharset($image->getVar('image_nicename'))];
 if (false !== $error) {
-    $arr = array('error', PublisherUtility::convertCharset($error));
+    $arr = ['error', PublisherUtility::convertCharset($error)];
 }
 
 echo json_encode($arr);

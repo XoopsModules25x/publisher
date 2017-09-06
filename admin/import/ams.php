@@ -84,7 +84,7 @@ if ($op === 'start') {
             $newid                    = $imagecategory->getVar('imgcat_id');
             $imagecategorypermHandler = xoops_getHandler('groupperm');
             if (!isset($readgroup)) {
-                $readgroup = array();
+                $readgroup = [];
             }
             if (!in_array(XOOPS_GROUP_ADMIN, $readgroup)) {
                 $readgroup[] = XOOPS_GROUP_ADMIN;
@@ -100,7 +100,7 @@ if ($op === 'start') {
             }
             //            unset($rgroup);
             if (!isset($writegroup)) {
-                $writegroup = array();
+                $writegroup = [];
             }
             if (!in_array(XOOPS_GROUP_ADMIN, $writegroup)) {
                 $writegroup[] = XOOPS_GROUP_ADMIN;
@@ -122,7 +122,7 @@ if ($op === 'start') {
             $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('ams_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('nw_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
             $result           = $GLOBALS['xoopsDB']->query($sql);
-            $cat_cbox_options = array();
+            $cat_cbox_options = [];
 
             while ((list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
                 $cat_title              = $myts->displayTarea($cat_title);
@@ -178,8 +178,8 @@ if ($op === 'go') {
 
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
-    $newCatArray     = array();
-    $newArticleArray = array();
+    $newCatArray     = [];
+    $newArticleArray = [];
 
     $imageCategoryHandler = xoops_getHandler('imagecategory');
     //    $criteria = new criteriaCombo;
@@ -209,9 +209,9 @@ if ($op === 'go') {
     //
     //    $newid = $resultImageCategory->getVar('imgcat_id');
 
-    $oldToNew = array();
+    $oldToNew = [];
     while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) !== false) {
-        $newCat           = array();
+        $newCat           = [];
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
         /* @var  $categoryObj PublisherCategory */

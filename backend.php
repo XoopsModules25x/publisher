@@ -84,14 +84,14 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     if (!empty($sarray) && is_array($sarray)) {
         $count = $sarray;
         foreach ($sarray as $item) {
-            $tpl->append('items', array(
+            $tpl->append('items', [
                 'title'       => htmlspecialchars($item->getTitle(), ENT_QUOTES),
                 'link'        => $item->getItemUrl(),
                 'guid'        => $item->getItemUrl(),
                 //mb                'pubdate'     => XoopsLocal::formatTimestamp($item->getVar('datesub'), 'rss'),
                 'pubdate'     => formatTimestamp($item->getVar('datesub'), 'rss'),
                 'description' => htmlspecialchars($item->getBlockSummary(300, true), ENT_QUOTES)
-            ));
+            ]);
         }
         //        unset($item);
     }

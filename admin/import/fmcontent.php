@@ -67,7 +67,7 @@ if ('start' === $op) {
                    . " AS art ON ((cat.topic_id=art.content_topic) AND (cat.topic_modid=art.content_modid)) WHERE cat.topic_modid={$fm_module_id} GROUP BY art.content_topic";
 
             $result           = $GLOBALS['xoopsDB']->query($sql);
-            $cat_cbox_options = array();
+            $cat_cbox_options = [];
 
             while ((list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
                 $cat_title              = $myts->displayTarea($cat_title);
@@ -159,7 +159,7 @@ if ('go' === $op) {
         // create Publsher category to hold FmContent Content items with no Topic (content_topic=0)
         /* @var  $categoryObj PublisherCategory */
         $categoryObj = $publisher->getHandler('category')->create();
-        $categoryObj->setVars(array(
+        $categoryObj->setVars([
                                   'parentid'    => $parentId,
                                   'name'        => _AM_PUBLISHER_IMPORT_FMCONTENT_NAME,
                                   'description' => _AM_PUBLISHER_IMPORT_FMCONTENT_TLT,
@@ -169,7 +169,7 @@ if ('go' === $op) {
                                   'created'     => time(),
                                   'moderator',
                                   $GLOBALS['xoopsUser']->getVar('uid')
-                              ));
+                              ]);
         $categoryObj->store();
 
         $fmTopicHdlr = xoops_getModuleHandler('topic', 'fmcontent');
@@ -177,7 +177,7 @@ if ('go' === $op) {
         // insert articles for this category
         foreach ($fmContentObjs as $thisFmContentObj) {
             $itemObj = $publisher->getHandler('item')->create();
-            $itemObj->setVars(array(
+            $itemObj->setVars([
                                   'categoryid'       => $categoryObj->categoryid(),
                                   'title'            => $thisFmContentObj->getVar('content_title'),
                                   'uid'              => $thisFmContentObj->getVar('content_uid'),
@@ -197,13 +197,13 @@ if ('go' === $op) {
                                   'comments'         => $thisFmContentObj->getVar('content_comments'),
                                   'meta_keywords'    => $thisFmContentObj->getVar('content_words'),
                                   'meta_description' => $thisFmContentObj->getVar('content_desc')
-                              ));
+                              ]);
             $contentImg = $thisFmContentObj->getVar('content_img');
             if (!empty($contentImg)) {
-                $itemObj->setVars(array(
+                $itemObj->setVars([
                                       'images' => 1,
                                       'image'  => $thisFmContentObj->getVar('content_img')
-                                  ));
+                                  ]);
             }
 
             if (!$itemObj->store()) {
@@ -227,27 +227,27 @@ if ('go' === $op) {
     }
 
     // Process all "normal" Topics (categories) from FmContent
-    $newCatArray     = array();
-    $newArticleArray = array();
-    $oldToNew        = array();
+    $newCatArray     = [];
+    $newArticleArray = [];
+    $oldToNew        = [];
 
     $fmTopicObjs = $fmTopicHdlr->getAll(new Criteria('topic_modid', $fm_module_id));
 
     // first create FmContent Topics as Publisher Categories
     foreach ($fmTopicObjs as $thisFmTopicObj) {
-        $CatIds = array(
+        $CatIds = [
             'oldid'  => $thisFmTopicObj->getVar('topic_id'),
             'oldpid' => $thisFmTopicObj->getVar('topic_pid')
-        );
+        ];
 
         $categoryObj = $publisher->getHandler('category')->create();
 
-        $categoryObj->setVars(array(
+        $categoryObj->setVars([
                                   'parentid'    => $thisFmTopicObj->getVar('topic_pid'),
                                   'weight'      => $thisFmTopicObj->getVar('topic_weight'),
                                   'name'        => $thisFmTopicObj->getVar('topic_title'),
                                   'description' => $thisFmTopicObj->getVar('topic_desc')
-                              ));
+                              ]);
 
         // Category image
         if (('blank.gif' !== $thisFmTopicObj->getVar('topic_img')) && ('' !== $thisFmTopicObj->getVar('topic_img'))) {
@@ -275,7 +275,7 @@ if ('go' === $op) {
         /** @var PublisherItem $itemObj */
         foreach ($fmContentObjs as $thisFmContentObj) {
             $itemObj = $publisher->getHandler('item')->create();
-            $itemObj->setVars(array(
+            $itemObj->setVars([
                                   'categoryid'       => $CatIds['newid'],
                                   'title'            => $thisFmContentObj->getVar('content_title'),
                                   'uid'              => $thisFmContentObj->getVar('content_uid'),
@@ -295,7 +295,7 @@ if ('go' === $op) {
                                   'comments'         => $thisFmContentObj->getVar('content_comments'),
                                   'meta_keywords'    => $thisFmContentObj->getVar('content_words'),
                                   'meta_description' => $thisFmContentObj->getVar('content_desc')
-                              ));
+                              ]);
             $contentImg = $thisFmContentObj->getVar('content_img');
             if (!empty($contentImg)) {
                 $itemObj->setVar('images', 1);

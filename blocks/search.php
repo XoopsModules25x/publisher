@@ -21,7 +21,7 @@
 
 use Xmf\Request;
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -32,7 +32,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_search_show($options)
 {
-    $block      = array();
+    $block      = [];
     $publisher  = PublisherPublisher::getInstance();
     $categories = $publisher->getHandler('category')->getCategoriesForSearch();
     if (count($categories) == 0) {
@@ -48,24 +48,24 @@ function publisher_search_show($options)
 
     $searchin = Request::getArray('searchin', '', 'POST');
     if (!isset($searchin)) {
-        $searchin = Request::getString('searchin', array(), 'GET');
-        $searchin = isset($searchin) ? explode('|', $searchin) : array();
+        $searchin = Request::getString('searchin', [], 'GET');
+        $searchin = isset($searchin) ? explode('|', $searchin) : [];
     }
 
     $sortby = Request::getString('sortby', Request::getString('sortby', null, 'GET'), 'POST');
     $term   = Request::getString('term', Request::getString('term', '', 'GET'));
 
     //mb TODO simplify next lines with category
-    $category = Request::getArray('category', array(), 'POST') ?: Request::getArray('category', null, 'GET');
+    $category = Request::getArray('category', [], 'POST') ?: Request::getArray('category', null, 'GET');
     if (empty($category) || (is_array($category) && in_array('all', $category))) {
-        $category = array();
+        $category = [];
     } else {
         $category = (!is_array($category)) ? explode(',', $category) : $category;
         $category = array_map('intval', $category);
     }
 
-    $andor  = in_array(strtoupper($andor), array('OR', 'AND', 'EXACT')) ? strtoupper($andor) : 'OR';
-    $sortby = in_array(strtolower($sortby), array('itemid', 'datesub', 'title', 'categoryid')) ? strtolower($sortby) : 'itemid';
+    $andor  = in_array(strtoupper($andor), ['OR', 'AND', 'EXACT']) ? strtoupper($andor) : 'OR';
+    $sortby = in_array(strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid']) ? strtolower($sortby) : 'itemid';
 
     /* type */
     $typeSelect = '<select name="andor">';

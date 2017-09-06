@@ -58,8 +58,8 @@ if ($op === 'start') {
             // Categories to be imported
             $sql              = 'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_category') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('wfs_article') . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
             $result           = $GLOBALS['xoopsDB']->query($sql);
-            $cat_cbox_values  = array();
-            $cat_cbox_options = array();
+            $cat_cbox_values  = [];
+            $cat_cbox_options = [];
             while ((list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
                 $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
@@ -110,12 +110,12 @@ if ($op === 'go') {
     //end added to support 2.0.7
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
-    $newCatArray = array();
+    $newCatArray = [];
     while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) !== false) {
         /* @var  $categoryObj PublisherCategory */
         $categoryObj = $publisher->getHandler('category')->create();
 
-        $newCat = array();
+        $newCat = [];
 
         $newCat['oldid']  = $arrCat['id'];
         $newCat['oldpid'] = $arrCat['pid'];

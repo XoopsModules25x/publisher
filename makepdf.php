@@ -62,14 +62,14 @@ $content .= $itemObj->getBody();
 $content = str_replace('[pagebreak]', '', $content);
 
 // Configuration for TCPDF_for_XOOPS
-$pdf_data = array(
+$pdf_data = [
     'author'           => $itemObj->posterName(),
     'title'            => $myts->undoHtmlSpecialChars($categoryObj->name()),
     'page_format'      => 'A4',
     'page_orientation' => 'P',
     'unit'             => 'mm',
     'rtl'              => false //true if right to left
-);
+];
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
@@ -92,7 +92,7 @@ $firstLine  = PublisherUtility::convertCharset($GLOBALS['xoopsConfig']['sitename
 $secondLine = PublisherUtility::convertCharset($GLOBALS['xoopsConfig']['slogan']);
 
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
-$pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine, array(0, 64, 255), array(0, 64, 128));
+$pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine, [0, 64, 255], [0, 64, 128]);
 
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
 
@@ -106,10 +106,10 @@ $pdf->setHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
 
 //2.5.8
-$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+$pdf->setHeaderFont([PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN]);
+$pdf->setFooterFont([PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA]);
 
-$pdf->setFooterData($tc = array(0, 64, 0), $lc = array(0, 64, 128));
+$pdf->setFooterData($tc = [0, 64, 0], $lc = [0, 64, 128]);
 
 //initialize document
 $pdf->Open();

@@ -18,7 +18,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -31,7 +31,7 @@ function publisher_category_items_sel_show($options)
 {
     $publisher = PublisherPublisher::getInstance();
 
-    $block = $item = array();
+    $block = $item = [];
 
     $categories = $publisher->getHandler('category')->getCategories(0, 0, -1);
 
@@ -46,14 +46,14 @@ function publisher_category_items_sel_show($options)
     $start          = 0;
 
     // creating the ITEM objects that belong to the selected category
-    $block['categories'] = array();
+    $block['categories'] = [];
     foreach ($categories as $catID => $catObj) {
         if (!in_array(0, $selectedcatids) && !in_array($catID, $selectedcatids)) {
             continue;
         }
 
         $criteria = new Criteria('categoryid', $catID);
-        $items    = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, true);
+        $items    = $publisher->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
         unset($criteria);
 
         if (count($items) === 0) {
@@ -95,11 +95,11 @@ function publisher_category_items_sel_edit($options)
 
     $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, PublisherUtility::createCategorySelect($options[0]), 'options[0]');
     $orderEle = new XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
-    $orderEle->addOptionArray(array(
+    $orderEle->addOptionArray([
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
                                   'weight'  => _MB_PUBLISHER_WEIGHT
-                              ));
+                              ]);
     $dispEle  = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $charsEle = new XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);
 

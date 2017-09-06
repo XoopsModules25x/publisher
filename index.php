@@ -61,11 +61,11 @@ $subcats = $publisher->getHandler('category')->getSubCats($categoriesObj);
 $totalItems = $publisher->getHandler('category')->publishedItemsCount();
 
 // real total count of items
-$real_total_items = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
+$real_total_items = $publisher->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
 
 if ($publisher->getConfig('idxcat_display_last_item') == 1) {
     // Get the last item in each category
-    $lastItemObj = $publisher->getHandler('item')->getLastPublishedByCat(array_merge(array($categoriesObj), $subcats));
+    $lastItemObj = $publisher->getHandler('item')->getLastPublishedByCat(array_merge([$categoriesObj], $subcats));
 }
 
 // Max size of the title in the last item column
@@ -76,7 +76,7 @@ if ('nomain' === $publisher->getConfig('idxcat_show_subcats')) {
     $publisher->setConfig('idxcat_show_subcats', 'no');
 }
 
-$categories = array();
+$categories = [];
 foreach ($categoriesObj as $catId => $category) {
     $total = 0;
     // Do we display sub categories ?
@@ -121,7 +121,7 @@ foreach ($categoriesObj as $catId => $category) {
     $category->setVar('itemcount', $total);
 
     if (!isset($categories[$catId])) {
-        $categories[$catId] = array();
+        $categories[$catId] = [];
     }
 
     $categories[$catId] = $category->toArrayTable($categories[$catId]);

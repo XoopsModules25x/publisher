@@ -124,7 +124,7 @@ $publisher->getHandler('item')->updateAll('votes', $count, $criteria, true);
 $tense = $count == 1 ? _MD_PUBLISHER_VOTE_VOTE : _MD_PUBLISHER_VOTE_VOTES; //plural form votes/vote
 
 // $new_back is what gets 'drawn' on your page after a successful 'AJAX/Javascript' vote
-$new_back = array();
+$new_back = [];
 
 $new_back[] .= '<div class="publisher_unit-rating" style="width:' . $units * $rating_unitwidth . 'px;">';
 $new_back[] .= '<div class="publisher_current-rating" style="width:' . ($count !== 0 ? number_format($current_rating / $count, 2) * $rating_unitwidth : 0) . 'px;">' . _MD_PUBLISHER_VOTE_RATING . '</div>';

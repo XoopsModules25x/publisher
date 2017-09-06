@@ -26,7 +26,6 @@ require_once __DIR__ . '/admin_header.php';
 if ('delfileok' === Request::getString('op', '', 'POST')) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header(XOOPS_URL . '/modules/publisher/admin/item.php', 3, _AM_PUBLISHER_FILE_DELETE_ERROR);
-        exit;
     }
 
     $dir        = PublisherUtility::getUploadDir(true, 'content');
@@ -39,7 +38,6 @@ if ('delfileok' === Request::getString('op', '', 'POST')) {
     } catch (\InvalidArgumentException $e) {
         // handle the exception
         redirect_header(XOOPS_URL . '/modules/publisher/admin/item.php', 2, $e->getMessage());
-        exit;
     }
     if (file_exists($dir . '/' . $filename)) {
         unlink($dir . '/' . $filename);
@@ -47,6 +45,6 @@ if ('delfileok' === Request::getString('op', '', 'POST')) {
     redirect_header(Request::getString('backto', '', 'POST'), 2, _AM_PUBLISHER_FDELETED);
 } else {
     xoops_cp_header();
-    xoops_confirm(array('backto' => Request::getString('backto', '', 'POST'), 'address' => Request::getString('address', '', 'POST'), 'op' => 'delfileok'), 'pw_delete_file.php', _AM_PUBLISHER_RUSUREDELF, _YES);
+    xoops_confirm(['backto' => Request::getString('backto', '', 'POST'), 'address' => Request::getString('address', '', 'POST'), 'op' => 'delfileok'], 'pw_delete_file.php', _AM_PUBLISHER_RUSUREDELF, _YES);
     xoops_cp_footer();
 }

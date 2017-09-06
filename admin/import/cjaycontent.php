@@ -96,9 +96,9 @@ if ($op === 'go') {
 
     $cnt_imported_articles = 0;
 
-    $newArticleArray = array();
+    $newArticleArray = [];
 
-    $oldToNew = array();
+    $oldToNew = [];
 
     $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('cjaycontent');
     $resultArticles = $GLOBALS['xoopsDB']->query($sql);

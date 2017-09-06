@@ -44,26 +44,26 @@ defined($capsDirName . '_UPLOAD_PATH') || define($capsDirName . '_UPLOAD_PATH', 
 //Configurator
 return (object)[
     'name'           => 'Module Configurator',
-    'uploadFolders'  => array(
+    'uploadFolders'  => [
         constant($capsDirName . '_UPLOAD_PATH'),
         constant($capsDirName . '_UPLOAD_PATH') . '/content',
         constant($capsDirName . '_UPLOAD_PATH') . '/images',
         constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
         constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
-    ),
-    'blankFiles' => array(
+    ],
+    'blankFiles' => [
         constant($capsDirName . '_UPLOAD_PATH'),
         constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
         constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
-    ),
+    ],
 
-    'templateFolders' => array(
+    'templateFolders' => [
         '/templates/',
         '/templates/blocks/',
         '/templates/admin/'
 
-    ),
-    'oldFiles'        => array(
+    ],
+    'oldFiles'        => [
         '/class/request.php',
         '/class/registry.php',
         '/class/utilities.php',
@@ -71,12 +71,11 @@ return (object)[
         '/include/constants.php',
         '/include/functions.php',
         '/ajaxrating.txt'
-    ),
-    'oldFolders'      => array(
+    ],
+    'oldFolders'      => [
         '/images',
         '/css',
         '/js',
         '/tcpdf',
-    ),
+    ],
 ];
-

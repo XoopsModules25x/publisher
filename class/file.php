@@ -16,7 +16,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -82,9 +82,9 @@ class PublisherFile extends XoopsObject
      *
      * @return bool
      */
-    public function checkUpload($postField, $allowedMimetypes = array(), &$errors)
+    public function checkUpload($postField, $allowedMimetypes = [], &$errors)
     {
-        $errors = array();
+        $errors = [];
         if (!$this->publisher->getHandler('mimetype')->checkMimeTypes($postField)) {
             $errors[] = _CO_PUBLISHER_MESSAGE_WRONG_MIMETYPE;
 
@@ -114,7 +114,7 @@ class PublisherFile extends XoopsObject
      *
      * @return bool
      */
-    public function storeUpload($postField, $allowedMimetypes = array(), &$errors)
+    public function storeUpload($postField, $allowedMimetypes = [], &$errors)
     {
         $itemid = $this->getVar('itemid');
         if (0 === count($allowedMimetypes)) {
@@ -160,7 +160,7 @@ class PublisherFile extends XoopsObject
     public function store($allowedMimetypes = null, $force = true, $doupload = true)
     {
         if ($this->isNew()) {
-            $errors = array();
+            $errors = [];
             $ret    = true;
             if ($doupload) {
                 $ret = $this->storeUpload('item_upload_file', $allowedMimetypes, $errors);
@@ -353,10 +353,10 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
      *
      * @return array array of {@link PublisherFile} objects
      */
-    public function getAllFiles($itemid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = array())
+    public function getAllFiles($itemid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = [])
     {
         global $xoopsModule;
-        $files = array();
+        $files = [];
 
         $this->table_link = $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items');
 
@@ -400,7 +400,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
             $criteria->setOrder($order);
             $criteria->setLimit($limit);
             $criteria->setStart($start);
-            $files =& $this->getByLink($criteria, array('o.*'), true);
+            $files =& $this->getByLink($criteria, ['o.*'], true);
 
             //            return $files;
         }

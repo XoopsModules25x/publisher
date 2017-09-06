@@ -49,7 +49,7 @@ require_once PUBLISHER_ROOT_PATH . '/footer.php';
 $criteria = new CriteriaCompo(new Criteria('datesub', time(), '<='));
 $criteria->add(new Criteria('uid', $uid));
 
-$items = $publisher->getHandler('item')->getItems($limit = 0, $start = 0, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, 'datesub', 'DESC', '', true, $criteria);
+$items = $publisher->getHandler('item')->getItems($limit = 0, $start = 0, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, 'datesub', 'DESC', '', true, $criteria);
 unset($criteria);
 $count = count($items);
 
@@ -61,30 +61,30 @@ $author_name = XoopsUserUtility::getUnameFromId($uid, $publisher->getConfig('for
 $xoopsTpl->assign('author_name_with_link', $author_name);
 $xoopsTpl->assign('user_avatarurl', XOOPS_URL . '/uploads/' . $thisuser->getVar('user_avatar'));
 //$xoopsLocal = new XoopsLocal();
-$categories = array();
+$categories = [];
 if ($count > 0) {
     /** @var PublisherItem $item */
     foreach ($items as $item) {
         $catid = $item->categoryid();
         if (!isset($categories[$catid])) {
-            $categories[$catid] = array(
+            $categories[$catid] = [
                 'count_items' => 0,
                 'count_hits'  => 0,
                 'title'       => $item->getCategoryName(),
                 'link'        => $item->getCategoryLink()
-            );
+            ];
         }
 
         $categories[$catid]['count_items']++;
         $categories[$catid]['count_hits'] += $item->counter();
-        $categories[$catid]['items'][]    = array(
+        $categories[$catid]['items'][]    = [
             'title'     => $item->getTitle(),
             'hits'      => $item->counter(),
             'link'      => $item->getItemLink(),
             'published' => $item->getDatesub(_SHORTDATESTRING),
             //'rating'    => $xoopsLocal->number_format((float)$item->rating())
             'rating'    => $item->rating()
-        );
+        ];
     }
 }
 unset($item);

@@ -71,8 +71,9 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
     $moduleHelper->loadLanguage('modinfo');
 
     $configurator = new PublisherConfigurator();
-    $classUtility = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($classUtility)) {
+    /** @var PublisherUtility $utilityClass */
+    $utilityClass = ucfirst($moduleDirName) . 'Utility';
+    if (!class_exists($utilityClass)) {
         xoops_load('utility', $moduleDirName);
     }
 
@@ -93,9 +94,9 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
         $xoopsDB->queryF($sql);
         $sql = '    ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' MODIFY `meta_description` TEXT NULL';
         $xoopsDB->queryF($sql);
-
-        $classUtility = ucfirst($moduleDirName) . 'Utility';
-        if (!class_exists($classUtility)) {
+        /** @var PublisherUtility $utilityClass */
+        $utilityClass = ucfirst($moduleDirName) . 'Utility';
+        if (!class_exists($utilityClass)) {
             xoops_load('utility', $moduleDirName);
         }
 
@@ -104,7 +105,7 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
             foreach ($configurator->templateFolders as $folder) {
                 $templateFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $folder);
                 if (is_dir($templateFolder)) {
-                    $templateList = array_diff(scandir($templateFolder, SCANDIR_SORT_NONE), array('..', '.'));
+                    $templateList = array_diff(scandir($templateFolder, SCANDIR_SORT_NONE), ['..', '.']);
                     foreach ($templateList as $k => $v) {
                         $fileInfo = new SplFileInfo($templateFolder . $v);
                         if ($fileInfo->getExtension() === 'html' && $fileInfo->getFilename() !== 'index.html') {
@@ -144,7 +145,7 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
         if (count($configurator->uploadFolders) > 0) {
             //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
             foreach (array_keys($configurator->uploadFolders) as $i) {
-                $classUtility::createFolder($configurator->uploadFolders[$i]);
+                $utilityClass::createFolder($configurator->uploadFolders[$i]);
             }
         }
 
@@ -153,7 +154,7 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
             $file = __DIR__ . '/../assets/images/blank.png';
             foreach (array_keys($configurator->blankFiles) as $i) {
                 $dest = $configurator->blankFiles[$i] . '/blank.png';
-                $classUtility::copyFile($file, $dest);
+                $utilityClass::copyFile($file, $dest);
             }
         }
 

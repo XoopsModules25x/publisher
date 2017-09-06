@@ -20,7 +20,7 @@
  */
 //namespace Publisher;
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -92,7 +92,7 @@ class PublisherSession
      */
     public function destroy()
     {
-        $_SESSION = array();
+        $_SESSION = [];
         session_destroy();
     }
 

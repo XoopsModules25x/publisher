@@ -79,7 +79,7 @@ class MyTextSanitizerExtension
             } elseif (!empty($height)) {
                 $width = $dimension[0] * $height / $dimension[1];
             } else {
-                list($width, $height) = array($dimension[0], $dimension[1]);
+                list($width, $height) = [$dimension[0], $dimension[1]];
             }
         }
 

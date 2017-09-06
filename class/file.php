@@ -31,7 +31,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 class PublisherFile extends XoopsObject
 {
     /**
-     * @var PublisherPublisher
+     * @var Publisher
      * @access public
      */
     public $publisher;
@@ -41,7 +41,7 @@ class PublisherFile extends XoopsObject
      */
     public function __construct($id = null)
     {
-        $this->publisher = PublisherPublisher::getInstance();
+        $this->publisher = Publisher::getInstance();
         $this->db        = XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('fileid', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('itemid', XOBJ_DTYPE_INT, null, true);

@@ -33,7 +33,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_columns_show($options)
 {
     //    global $xoTheme;
-    $publisher = PublisherPublisher::getInstance();
+    $publisher = Publisher::getInstance();
 
     //Column Settings
     $optNumColumns  = isset($options[0]) ? (int)$options[0] : '2';

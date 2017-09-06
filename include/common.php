@@ -38,7 +38,7 @@ define('PUBLISHER_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PUBLISHER_DIRNAME); //
 require_once PUBLISHER_ROOT_PATH . '/include/seo_functions.php';
 require_once PUBLISHER_ROOT_PATH . '/class/metagen.php';
 require_once PUBLISHER_ROOT_PATH . '/class/session.php';
-require_once PUBLISHER_ROOT_PATH . '/class/publisher.php';
+require_once PUBLISHER_ROOT_PATH . '/class/helper.php';
 //require_once PUBLISHER_ROOT_PATH . '/class/request.php';
 
 // module information
@@ -52,7 +52,7 @@ xoops_load('utility', PUBLISHER_DIRNAME);
 xoops_load('XoopsFilterInput');
 
 $debug     = false;
-$publisher = PublisherPublisher::getInstance($debug);
+$publisher = Publisher::getInstance($debug);
 
 //This is needed or it will not work in blocks.
 global $publisherIsAdmin;

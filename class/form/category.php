@@ -34,7 +34,7 @@ require_once $GLOBALS['xoops']->path('class/tree.php');
 class PublisherCategoryForm extends XoopsThemeForm
 {
     /**
-     * @var PublisherPublisher
+     * @var Publisher
      * @access public
      */
     public $publisher;
@@ -51,7 +51,7 @@ class PublisherCategoryForm extends XoopsThemeForm
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
-        $this->publisher = PublisherPublisher::getInstance();
+        $this->publisher = Publisher::getInstance();
 
         $this->targetObject =& $target;
         $this->subCatsCount = $subCatsCount;

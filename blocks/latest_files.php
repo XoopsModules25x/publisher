@@ -30,7 +30,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_latest_files_show($options)
 {
-    $publisher = PublisherPublisher::getInstance();
+    $publisher = Publisher::getInstance();
     /**
      * $options[0] : Category
      * $options[1] : Sort order - datesub | counter

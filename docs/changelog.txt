@@ -1,3 +1,6 @@
+<h5>1.05 RC 2       (NOT RELEASED)</h5>
+<hr>
+
 <h5>1.05 RC 1       (NOT RELEASED)</h5>
 - fixed Pagination issues (geekwright)
 - check nonce and file path (geekwright)
@@ -10,6 +13,9 @@
 - fixed issue #61: Other articles in this category not working (liomj/mamba)
 - fixed 'element' to $element  (geekwright)
 - update Help, .html to .tpl (mamba)
+- conversion of Publisher helper class to XMF (mamba)
+- short array syntax (mamba)
+- converted to Yoda syntax (mamba)
 
 <h5>1.05 Beta 1       (NOT RELEASED)</h5>
 - PSR-2 code cosmetics (mamba)

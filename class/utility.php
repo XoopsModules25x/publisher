@@ -176,7 +176,7 @@ class PublisherUtility
      */
     public static function displayCategory(PublisherCategory $categoryObj, $level = 0)
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $description = $categoryObj->description();
         if (!XOOPS_USE_MULTIBYTES) {
@@ -217,7 +217,7 @@ class PublisherUtility
      */
     public static function editCategory($showmenu = false, $categoryId = 0, $nbSubCats = 4, $categoryObj = null)
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
         /* @var  $categoryObj PublisherCategory */
@@ -494,7 +494,7 @@ class PublisherUtility
      */
     public static function moduleHome($withLink = true)
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         if (!$publisher->getConfig('format_breadcrumb_modname')) {
             return '';
@@ -686,7 +686,7 @@ class PublisherUtility
      */
     public static function userIsAdmin()
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         static $publisherIsAdmin;
 
@@ -722,7 +722,7 @@ class PublisherUtility
      */
     public static function userIsModerator($itemObj)
     {
-        $publisher         = PublisherPublisher::getInstance();
+        $publisher         = Publisher::getInstance();
         $categoriesGranted = $publisher->getHandler('permission')->getGrantedItems('category_moderation');
 
         return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted));
@@ -738,7 +738,7 @@ class PublisherUtility
      */
     public static function saveCategoryPermissions($groups, $categoryId, $permName)
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $result = true;
 
@@ -886,7 +886,7 @@ class PublisherUtility
      */
     public static function addCategoryOption(PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $spaces = '';
         for ($j = 0; $j < $level; ++$j) {
@@ -921,7 +921,7 @@ class PublisherUtility
      */
     public static function createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[0]')
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $selectedid = explode(',', $selectedid);
 
@@ -955,7 +955,7 @@ class PublisherUtility
      */
     public static function createCategoryOptions($selectedid = 0, $parentcategory = 0, $allCatOption = true)
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $ret = '';
         if ($allCatOption) {
@@ -1060,7 +1060,7 @@ class PublisherUtility
         require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
         //    global $publisherIsAdmin;
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $itemId  = Request::getInt('itemid', 0, 'POST');
         $uid     = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
@@ -1220,7 +1220,7 @@ class PublisherUtility
      */
     public static function ratingBar($itemId)
     {
-        $publisher       = PublisherPublisher::getInstance();
+        $publisher       = Publisher::getInstance();
         $ratingUnitWidth = 30;
         $units           = 5;
 

@@ -31,7 +31,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 class PublisherItem extends XoopsObject
 {
     /**
-     * @var PublisherPublisher
+     * @var Publisher
      * @access public
      */
     public $publisher;
@@ -48,7 +48,7 @@ class PublisherItem extends XoopsObject
      */
     public function __construct($id = null)
     {
-        $this->publisher = PublisherPublisher::getInstance();
+        $this->publisher = Publisher::getInstance();
         $this->db        = XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', XOBJ_DTYPE_INT, 0, false);
@@ -1095,7 +1095,7 @@ class PublisherItem extends XoopsObject
 class PublisherItemHandler extends XoopsPersistableObjectHandler
 {
     /**
-     * @var PublisherPublisher
+     * @var Publisher
      * @access public
      */
     public $publisher;
@@ -1108,7 +1108,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'publisher_items', 'PublisherItem', 'itemid', 'title');
-        $this->publisher = PublisherPublisher::getInstance();
+        $this->publisher = Publisher::getInstance();
     }
 
     /**

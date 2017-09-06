@@ -109,7 +109,7 @@ class PublisherSeo
      */
     public static function generateUrl($op, $id, $shortUrl = '')
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
         if ($publisher->getConfig('seo_url_rewrite') !== 'none') {
             if (!empty($shortUrl)) {
                 $shortUrl .= '.html';

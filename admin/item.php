@@ -391,7 +391,7 @@ require_once __DIR__ . '/admin_footer.php';
  */
 function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 {
-    $publisher = PublisherPublisher::getInstance();
+    $publisher = Publisher::getInstance();
     global $publisherCurrentPage;
 
     xoops_load('XoopsFormLoader');

@@ -93,7 +93,7 @@ class PublisherMimetypesUtility
 {
     public static function add()
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
         global $limit, $start;
         $error = [];
         if (!Request::getString('add_mime', '', 'POST')) {
@@ -236,7 +236,7 @@ class PublisherMimetypesUtility
 
     public static function delete()
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
         global $start, $limit;
         $mimeId = 0;
         if (0 == Request::getInt('id', 0, 'GET')) {
@@ -254,7 +254,7 @@ class PublisherMimetypesUtility
 
     public static function edit()
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
         global $start, $limit;
         $mimeId    = 0;
         $error     = [];
@@ -397,7 +397,7 @@ class PublisherMimetypesUtility
 
     public static function manage()
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
         global $imagearray, $start, $limit, $aSortBy, $aOrderBy, $aLimitBy, $aSearchBy;
 
         if (Request::getString('deleteMimes', '', 'POST')) {
@@ -539,7 +539,7 @@ class PublisherMimetypesUtility
 
     public static function search()
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
         global $limit, $start, $imagearray, $aSearchBy, $aOrderBy, $aLimitBy, $aSortBy;
 
         if (Request::getString('deleteMimes', '', 'POST')) {
@@ -731,7 +731,7 @@ class PublisherMimetypesUtility
             'limit' => Request::getInt('limit', 15, 'GET'),
         ];
 
-        $publisher   = PublisherPublisher::getInstance();
+        $publisher   = Publisher::getInstance();
         $mimeTypeObj = $publisher->getHandler('mimetype')->get($hiddens['id']);
         if (Request::hasVar('mime_admin')) {
             $hiddens['mime_admin'] = Request::getInt('mime_admin', 0, 'GET');
@@ -750,7 +750,7 @@ class PublisherMimetypesUtility
 
     public static function confirmUpdateMimeValue()
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $limit  = Request::getInt('limit', 0, 'POST');
         $start  = Request::getInt('start', 0, 'POST');

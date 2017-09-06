@@ -31,7 +31,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_random_item_show($options)
 {
     $block     = [];
-    $publisher = PublisherPublisher::getInstance();
+    $publisher = Publisher::getInstance();
     // creating the ITEM object
     $itemsObj = $publisher->getHandler('item')->getRandomItem('', [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
 

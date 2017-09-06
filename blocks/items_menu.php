@@ -34,7 +34,7 @@ function publisher_items_menu_show($options)
 {
     $block = [];
 
-    $publisher = PublisherPublisher::getInstance();
+    $publisher = Publisher::getInstance();
 
     // Getting all top cats
     $blockCategoriesObj = $publisher->getHandler('category')->getCategories(0, 0, 0);

@@ -33,7 +33,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_search_show($options)
 {
     $block      = [];
-    $publisher  = PublisherPublisher::getInstance();
+    $publisher  = Publisher::getInstance();
     $categories = $publisher->getHandler('category')->getCategoriesForSearch();
     if (count($categories) == 0) {
         return $block;

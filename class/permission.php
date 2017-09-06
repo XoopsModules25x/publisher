@@ -28,7 +28,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 class PublisherPermissionHandler extends XoopsObjectHandler
 {
     /**
-     * @var PublisherPublisher
+     * @var Publisher
      * @access public
      */
     public $publisher;
@@ -38,7 +38,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      */
     public function __construct()
     {
-        $this->publisher = PublisherPublisher::getInstance();
+        $this->publisher = Publisher::getInstance();
     }
 
     /**

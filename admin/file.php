@@ -31,7 +31,7 @@ $op = Request::getString('op');
  */
 function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
 {
-    $publisher = PublisherPublisher::getInstance();
+    $publisher = Publisher::getInstance();
     require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
     // if there is a parameter, and the id exists, retrieve data: we're editing a file

@@ -93,7 +93,7 @@ class PublisherItemForm extends PublisherThemeTabForm
      */
     public function isGranted($item)
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
         $ret       = false;
         if (!$this->checkperm || $publisher->getHandler('permission')->isGranted('form_view', $item)) {
             $ret = true;
@@ -131,7 +131,7 @@ class PublisherItemForm extends PublisherThemeTabForm
      */
     public function createElements($obj)
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $allowedEditors = PublisherUtility::getEditors($publisher->getHandler('permission')->getGrantedItems('editors'));
 

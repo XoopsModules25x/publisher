@@ -34,7 +34,7 @@ function publisher_latest_news_show($options)
     $block = [];
 
     xoops_loadLanguage('main', 'publisher');
-    $publisher = PublisherPublisher::getInstance();
+    $publisher = Publisher::getInstance();
 
     $start           = $options[0]; // You can show articles from specified range
     $limit           = $options[1];

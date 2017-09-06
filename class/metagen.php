@@ -26,7 +26,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 class PublisherMetagen
 {
     /**
-     * @var PublisherPublisher
+     * @var Publisher
      * @access public
      */
     public $publisher;
@@ -75,7 +75,7 @@ class PublisherMetagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        $this->publisher = PublisherPublisher::getInstance();
+        $this->publisher = Publisher::getInstance();
         $this->myts      = MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
         $this->setTitle($title);

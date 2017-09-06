@@ -175,7 +175,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // SELECT EDITOR
         $nohtml = !$obj->dohtml();
-        if (count($allowedEditors) === 1) {
+        if (1 === count($allowedEditors)) {
             $editor = $allowedEditors[0];
         } elseif (count($allowedEditors) > 0) {
             $editor = Request::getString('editor', '', 'POST');
@@ -319,7 +319,7 @@ class PublisherItemForm extends PublisherThemeTabForm
             if ($obj->isNew()) {
                 $datesub = time();
             } else {
-                $datesub = ($obj->getVar('datesub') == 0) ? time() : $obj->getVar('datesub');
+                $datesub = (0 == $obj->getVar('datesub')) ? time() : $obj->getVar('datesub');
             }
             $datesub_datetime = new PublisherFormDateTime(_CO_PUBLISHER_DATESUB, 'datesub', $size = 15, $datesub, true, true);
             // $datesub_datetime = new XoopsFormDateTime(_CO_PUBLISHER_DATESUB, 'datesub', $size = 15, $datesub, true, true);
@@ -480,7 +480,7 @@ $publisher(document).ready(function () {
             $this->addElement($imageTray);
 
             $imagename    = is_object($objimages['main']) ? $objimages['main']->getVar('image_name') : '';
-            $imageforpath = ($imagename != '') ? $imagename : 'blank.gif';
+            $imageforpath = ('' != $imagename) ? $imagename : 'blank.gif';
 
             $imageSelect3 = new XoopsFormSelect(_CO_PUBLISHER_IMAGE_ITEM, 'image_featured', $imagename, 1);
             $imageSelect3->addOptionArray($objimage_array);
@@ -538,7 +538,7 @@ $publisher(document).ready(function () {
                         $modify      = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _CO_PUBLISHER_EDITFILE . "' alt='" . _CO_PUBLISHER_EDITFILE . "'></a>";
                         $delete      = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _CO_PUBLISHER_DELETEFILE . "' alt='" . _CO_PUBLISHER_DELETEFILE . "'></a>";
                         $not_visible = '';
-                        if ($fileObj->status() == 0) {
+                        if (0 == $fileObj->status()) {
                             $not_visible = "<img src='" . PUBLISHER_URL . "/assets/images/no.gif'>";
                         }
                         $table .= '<tr>';

@@ -39,11 +39,11 @@ function publisher_items_spot_show($options)
     $optDisplayType    = $options[6];
     $optTruncate       = (int)$options[7];
     $optCatImage       = $options[8];
-    if ($optCategoryId == 0) {
+    if (0 == $optCategoryId) {
         $optCategoryId = -1;
     }
     $block = [];
-    if ($optDisplayLast == 1) {
+    if (1 == $optDisplayLast) {
         $itemsObj   = $publisher->getHandler('item')->getAllPublished($optItemsCount, 0, $optCategoryId, $sort = 'datesub', $order = 'DESC', 'summary');
         $i          = 1;
         $itemsCount = count($itemsObj);
@@ -52,7 +52,7 @@ function publisher_items_spot_show($options)
                 $cat                     = $publisher->getHandler('category')->get($optCategoryId);
                 $category['name']        = $cat->name();
                 $category['categoryurl'] = $cat->getCategoryUrl();
-                if ($cat->getImage() !== 'blank.png') {
+                if ('blank.png' !== $cat->getImage()) {
                     $category['image_path'] = PublisherUtility::getImageDir('category', false) . $cat->getImage();
                 } else {
                     $category['image_path'] = '';
@@ -95,7 +95,7 @@ function publisher_items_spot_show($options)
             }
         }
     }
-    if (!isset($block['items']) || count($block['items']) == 0) {
+    if (!isset($block['items']) || 0 == count($block['items'])) {
         return false;
     }
     $block['lang_reads']           = _MB_PUBLISHER_READS;
@@ -131,7 +131,7 @@ function publisher_items_spot_edit($options)
     $itemsObj = $publisher->getHandler('item')->getList($criteria);
     $keys     = array_keys($itemsObj);
     unset($criteria);
-    if (empty($options[3]) || ($options[3] == 0)) {
+    if (empty($options[3]) || (0 == $options[3])) {
         $selItems = isset($keys[0]) ? $keys[0] : 0;
     } else {
         $selItems = explode(',', $options[3]);

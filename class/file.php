@@ -132,7 +132,7 @@ class PublisherFile extends XoopsObject
             $uploader->setTargetFileName($itemid . '_' . $uploader->getMediaName());
             if ($uploader->upload()) {
                 $this->setVar('filename', $uploader->getSavedFileName());
-                if ($this->getVar('name') == '') {
+                if ('' == $this->getVar('name')) {
                     $this->setVar('name', $this->getNameFromFilename());
                 }
                 $this->setVar('mimetype', $uploader->getMediaType());
@@ -195,7 +195,7 @@ class PublisherFile extends XoopsObject
      */
     public function notLoaded()
     {
-        return ($this->getVar('itemid') == 0);
+        return (0 == $this->getVar('itemid'));
     }
 
     /**
@@ -326,7 +326,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
      */
     public function deleteItemFiles(XoopsObject $itemObj)
     {
-        if (strtolower(get_class($itemObj)) !== 'publisheritem') {
+        if ('publisheritem' !== strtolower(get_class($itemObj))) {
             return false;
         }
         $files  = $this->getAllFiles($itemObj->itemid());
@@ -379,7 +379,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
             $hasCategoryCriteria = false;
             $criteriaCategory    = new CriteriaCompo();
             $category            = (array)$category;
-            if (isset($category[0]) && $category[0] != 0 && count($category) > 0) {
+            if (isset($category[0]) && 0 != $category[0] && count($category) > 0) {
                 $hasCategoryCriteria = true;
                 foreach ($category as $cat) {
                     $criteriaCategory->add(new Criteria('l.categoryid', $cat), 'OR');
@@ -387,7 +387,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
             }
             $criteriaItemid = new Criteria('o.itemid', $itemid);
             $criteria       = new CriteriaCompo();
-            if ($itemid != 0) {
+            if (0 != $itemid) {
                 $criteria->add($criteriaItemid);
             }
             if ($hasStatusCriteria) {

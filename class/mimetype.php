@@ -93,7 +93,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
                 return false;
             }
             $numrows = $this->db->getRowsNum($result);
-            if ($numrows == 1) {
+            if (1 == $numrows) {
                 $obj = new $this->className($this->db->fetchArray($result));
 
                 return $obj;
@@ -130,7 +130,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
             return $ret;
         }
         // Add each returned record to the result array
-        while (($myrow = $this->db->fetchArray($result)) !== false) {
+        while (false !== ($myrow = $this->db->fetchArray($result))) {
             $obj = new $this->className($myrow);
             if (!$idAsKey) {
                 $ret[] = $obj;
@@ -152,7 +152,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     public function insert(XoopsObject $obj, $force = false)// insert($obj, $force = false)
     {
         // Make sure object is of correct type
-        if (strcasecmp($this->className, get_class($obj)) != 0) {
+        if (0 != strcasecmp($this->className, get_class($obj))) {
             return false;
         }
         // Make sure object needs to be stored in DB
@@ -203,7 +203,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
         $sql = sprintf('SELECT * FROM %s', $this->db->prefix($this->dbtable));
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
-            if ($criteria->getSort() != '') {
+            if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . '
                     ' . $criteria->getOrder();
             }
@@ -245,7 +245,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      */
     public function delete(XoopsObject $obj, $force = false) //delete($obj, $force = false)
     {
-        if (strcasecmp($this->className, get_class($obj)) != 0) {
+        if (0 != strcasecmp($this->className, get_class($obj))) {
             return false;
         }
         $sql = $this->deleteQuery($obj);
@@ -369,7 +369,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
 class PublisherMimetype extends XoopsObject
 {
     /**
-     * @param null|int $id
+     * @param null|int|array $id
      */
     public function __construct($id = null)
     {
@@ -429,7 +429,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
                 return false;
             }
             $numrows = $this->db->getRowsNum($result);
-            if ($numrows == 1) {
+            if (1 == $numrows) {
                 $obj = new $this->className($this->db->fetchArray($result));
 
                 return $obj;
@@ -467,7 +467,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
             return $ret;
         }
         // Add each returned record to the result array
-        while (($myrow = $this->db->fetchArray($result)) !== false) {
+        while (false !== ($myrow = $this->db->fetchArray($result))) {
             $obj   = new $this->className($myrow);
             $ret[] = $obj;
             unset($obj);
@@ -578,6 +578,8 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
                 throw new Exception('no need for join...');
             }
         } catch (Exception $e) {
+            $publisher = Publisher::getInstance();
+            $publisher->addLog($e);
             echo 'no need for join...';
         }
 
@@ -585,7 +587,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
 
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
-            if ($criteria->getSort() != '') {
+            if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
             }
         }

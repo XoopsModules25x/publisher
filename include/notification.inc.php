@@ -31,7 +31,7 @@ require_once __DIR__ . '/seo_functions.php';
  */
 function publisher_notify_iteminfo($category, $itemId)
 {
-    if ($category === 'global') {
+    if ('global' === $category) {
         $item['name'] = '';
         $item['url']  = '';
 
@@ -39,7 +39,7 @@ function publisher_notify_iteminfo($category, $itemId)
     }
 
     global $module;
-    if ($category === 'category') {
+    if ('category' === $category) {
         // Assume we have a valid category id
         $sql          = 'SELECT name, short_url FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' WHERE categoryid  = ' . $itemId;
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
@@ -50,7 +50,7 @@ function publisher_notify_iteminfo($category, $itemId)
         return $item;
     }
 
-    if ($category === 'item') {
+    if ('item' === $category) {
         // Assume we have a valid story id
         $sql          = 'SELECT title, short_url FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items') . ' WHERE itemid = ' . $itemId;
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check

@@ -110,15 +110,15 @@ class PublisherSeo
     public static function generateUrl($op, $id, $shortUrl = '')
     {
         $publisher = Publisher::getInstance();
-        if ($publisher->getConfig('seo_url_rewrite') !== 'none') {
+        if ('none' !== $publisher->getConfig('seo_url_rewrite')) {
             if (!empty($shortUrl)) {
                 $shortUrl .= '.html';
             }
 
-            if ($publisher->getConfig('seo_url_rewrite') === 'htaccess') {
+            if ('htaccess' === $publisher->getConfig('seo_url_rewrite')) {
                 // generate SEO url using htaccess
                 return XOOPS_URL . '/' . $publisher->getConfig('seo_module_name') . ".${op}.${id}/${shortUrl}";
-            } elseif ($publisher->getConfig('seo_url_rewrite') === 'path-info') {
+            } elseif ('path-info' === $publisher->getConfig('seo_url_rewrite')) {
                 // generate SEO url using path-info
                 return PUBLISHER_URL . "/index.php/${op}.${id}/${shortUrl}";
             } else {

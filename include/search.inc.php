@@ -37,7 +37,7 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
 {
     $publisher = Publisher::getInstance();
     $ret       = $item = [];
-    if ($queryArray == '' || count($queryArray) == 0) {
+    if ('' == $queryArray || 0 == count($queryArray)) {
         $hightlightKey = '';
     } else {
         $keywords      = implode('+', $queryArray);
@@ -51,7 +51,7 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
         foreach ($itemsObjs as $obj) {
             $item['image'] = 'assets/images/item_icon.gif';
             $item['link']  = $obj->getItemUrl();
-            $item['link']  .= (!empty($hightlightKey) && (strpos($item['link'], '.php?') === false)) ? '?' . ltrim($hightlightKey, '&amp;') : $hightlightKey;
+            $item['link']  .= (!empty($hightlightKey) && (false === strpos($item['link'], '.php?'))) ? '?' . ltrim($hightlightKey, '&amp;') : $hightlightKey;
             if ($withCategoryPath) {
                 $item['title'] = $obj->getCategoryPath(false) . ' > ' . $obj->getTitle();
             } else {
@@ -65,7 +65,7 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
             $textLower     = strtolower($text);
             $queryArray    = is_array($queryArray) ? $queryArray : [$queryArray];
 
-            if ($queryArray[0] != '' && count($queryArray) > 0) {
+            if ('' != $queryArray[0] && count($queryArray) > 0) {
                 foreach ($queryArray as $query) {
                     $pos           = strpos($textLower, strtolower($query)); //xoops_local("strpos", $textLower, strtolower($query));
                     $start         = max($pos - 100, 0);
@@ -86,7 +86,7 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
     xoops_load('XoopsUserUtility');
     $usersNames = XoopsUserUtility::getUnameFromIds($usersIds, $publisher->getConfig('format_realname'), true);
     foreach ($ret as $key => $item) {
-        if ($item['author'] == '') {
+        if ('' == $item['author']) {
             $ret[$key]['author'] = isset($usersNames[$item['uid']]) ? $usersNames[$item['uid']] : '';
         }
     }

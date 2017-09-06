@@ -65,7 +65,7 @@ function publisher_items_columns_show($options)
 
     $ccount = count($selCategoriesObj);
 
-    if ($ccount === 0) {
+    if (0 === $ccount) {
         return false;
     }
 
@@ -99,7 +99,7 @@ function publisher_items_columns_show($options)
             $mainItem['item_summary'] = $thisitem->getBlockSummary($optCatTruncate);
 
             $mainItem['item_cat_name']        = $mainItemCatObj->name();
-            $mainItem['item_cat_description'] = $mainItemCatObj->description() !== '' ? $mainItemCatObj->description() : $mainItemCatObj->name();
+            $mainItem['item_cat_description'] = '' !== $mainItemCatObj->description() ? $mainItemCatObj->description() : $mainItemCatObj->name();
             $mainItem['item_cat_link']        = $mainItemCatObj->getCategoryLink();
             $mainItem['categoryurl']          = $mainItemCatObj->getCategoryUrl();
 

@@ -39,7 +39,7 @@ function publisher_items_menu_show($options)
     // Getting all top cats
     $blockCategoriesObj = $publisher->getHandler('category')->getCategories(0, 0, 0);
 
-    if (count($blockCategoriesObj) == 0) {
+    if (0 == count($blockCategoriesObj)) {
         return $block;
     }
 
@@ -54,7 +54,7 @@ function publisher_items_menu_show($options)
         // Are we in a category and if yes, in which one ?
         $categoryid = Request::getInt('categoryid', 0, 'GET');
 
-        if ($categoryid != 0) {
+        if (0 != $categoryid) {
             // if we are in a category, then the $categoryObj is already defined in publisher/category.php
             global $categoryObj;
             $block['currentcat'] = $categoryObj->getCategoryLink('menuTop');

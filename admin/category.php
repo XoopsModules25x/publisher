@@ -64,7 +64,7 @@ switch ($op) {
         global $modify;
 
         $parentid = Request::getInt('parentid');
-        if ($categoryid != 0) {
+        if (0 != $categoryid) {
             $categoryObj = $publisher->getHandler('category')->get($categoryid);
         } else {
             $categoryObj = $publisher->getHandler('category')->create();
@@ -82,7 +82,7 @@ switch ($op) {
                 $max_imgwidth      = $publisher->getConfig('maximum_image_width');
                 $max_imgheight     = $publisher->getConfig('maximum_image_height');
                 $allowed_mimetypes = PublisherUtility::getAllowedImagesTypes();
-                if (($temp['tmp_name'] == '') || !is_readable($temp['tmp_name'])) {
+                if (('' == $temp['tmp_name']) || !is_readable($temp['tmp_name'])) {
                     redirect_header('javascript:history.go(-1)', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
                     //                    exit();
                 }
@@ -142,7 +142,7 @@ switch ($op) {
         $sizeof    = count(Request::getArray('scname', [], 'POST'));
         for ($i = 0; $i < $sizeof; ++$i) {
             $temp = Request::getArray('scname', [], 'POST');
-            if ($temp[$i] != '') {
+            if ('' != $temp[$i]) {
                 $categoryObj = $publisher->getHandler('category')->create();
                 $temp2       = Request::getArray('scname', [], 'POST');
                 $categoryObj->setVar('name', $temp2[$i]);

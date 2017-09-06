@@ -57,7 +57,7 @@ class Publisher extends \Xmf\Module\Helper
      */
     public function setConfig($name = null, $value = null)
     {
-        if ($this->configs === null) {
+        if (null === $this->configs) {
             $this->initConfig();
         }
         $this->configs[$name] = $value;

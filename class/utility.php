@@ -83,7 +83,7 @@ class PublisherUtility
         $dir = opendir($src);
         //    @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
-            if (($file !== '.') && ($file !== '..')) {
+            if (('.' !== $file) && ('..' !== $file)) {
                 if (is_dir($src . '/' . $file)) {
                     self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
                 } else {
@@ -221,7 +221,7 @@ class PublisherUtility
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
         /* @var  $categoryObj PublisherCategory */
-        if ($categoryId != 0) {
+        if (0 != $categoryId) {
             // Creating the category object for the selected category
             $categoryObj = $publisher->getHandler('category')->get($categoryId);
             if ($categoryObj->notLoaded()) {
@@ -234,7 +234,7 @@ class PublisherUtility
             }
         }
 
-        if ($categoryId != 0) {
+        if (0 != $categoryId) {
             echo "<br>\n";
             static::openCollapsableBar('edittable', 'edittableicon', _AM_PUBLISHER_EDITCOL, _AM_PUBLISHER_CATEGORY_EDIT_INFO);
         } else {
@@ -380,17 +380,17 @@ class PublisherUtility
      */
     public static function getOrderBy($sort)
     {
-        if ($sort === 'datesub') {
+        if ('datesub' === $sort) {
             return 'DESC';
-        } elseif ($sort === 'counter') {
+        } elseif ('counter' === $sort) {
             return 'DESC';
-        } elseif ($sort === 'weight') {
+        } elseif ('weight' === $sort) {
             return 'ASC';
-        } elseif ($sort === 'votes') {
+        } elseif ('votes' === $sort) {
             return 'DESC';
-        } elseif ($sort === 'rating') {
+        } elseif ('rating' === $sort) {
             return 'DESC';
-        } elseif ($sort === 'comments') {
+        } elseif ('comments' === $sort) {
             return 'DESC';
         }
 
@@ -408,7 +408,7 @@ class PublisherUtility
     public static function substr($str, $start, $length, $trimMarker = '...')
     {
         // if the string is empty, let's get out ;-)
-        if ($str == '') {
+        if ('' == $str) {
             return $str;
         }
 
@@ -532,12 +532,12 @@ class PublisherUtility
         $dir = dir($source);
         while (false !== $entry = $dir->read()) {
             // Skip pointers
-            if ($entry === '.' || $entry === '..') {
+            if ('.' === $entry || '..' === $entry) {
                 continue;
             }
 
             // Deep copy directories
-            if (($dest !== "$source/$entry") && is_dir("$source/$entry")) {
+            if (("$source/$entry" !== $dest) && is_dir("$source/$entry")) {
                 static::copyr("$source/$entry", "$dest/$entry");
             } else {
                 copy("$source/$entry", "$dest/$entry");
@@ -635,7 +635,7 @@ class PublisherUtility
     public static function getUploadDir($hasPath = true, $item = '')
     {
         if ('' !== $item) {
-            if ($item === 'root') {
+            if ('root' === $item) {
                 $item = '';
             } else {
                 $item .= '/';
@@ -778,7 +778,7 @@ class PublisherUtility
         echo "<h3 style=\"color: #2F5376; font-weight: bold; font-size: 14px; margin: 6px 0 0 0; \"><a href='javascript:;' onclick=\"toggle('" . $tablename . "'); toggleIcon('" . $iconname . "')\">";
         echo "<img id='" . $iconname . "' src='" . PUBLISHER_URL . '/assets/images/links/' . $image . "' alt=''></a>&nbsp;" . $tabletitle . '</h3>';
         echo "<div id='" . $tablename . "' style='display: " . $display . ";'>";
-        if ($tabledsc != '') {
+        if ('' != $tabledsc) {
             echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $tabledsc . '</span>';
         }
     }
@@ -799,7 +799,7 @@ class PublisherUtility
         $cookieName = str_replace('.', '_', $cookieName);
         $cookie     = static::getCookieVar($cookieName, '');
 
-        if ($cookie === 'none') {
+        if ('none' === $cookie) {
             echo '
         <script type="text/javascript"><!--
         toggle("' . $name . '"); toggleIcon("' . $icon . '");
@@ -817,7 +817,7 @@ class PublisherUtility
      */
     public static function setCookieVar($name, $value, $time = 0)
     {
-        if ($time == 0) {
+        if (0 == $time) {
             $time = time() + 3600 * 24 * 365;
         }
         setcookie($name, $value, $time, '/');
@@ -843,7 +843,7 @@ class PublisherUtility
      */
     public static function getCurrentUrls()
     {
-        $http = strpos(XOOPS_URL, 'https://') === false ? 'http://' : 'https://';
+        $http = false === strpos(XOOPS_URL, 'https://') ? 'http://' : 'https://';
         //    $phpself     = $_SERVER['PHP_SELF'];
         //    $httphost    = $_SERVER['HTTP_HOST'];
         //    $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
@@ -851,7 +851,7 @@ class PublisherUtility
         $httphost    = Request::getString('HTTP_HOST', '', 'SERVER');
         $querystring = Request::getString('QUERY_STRING', '', 'SERVER');
 
-        if ($querystring != '') {
+        if ('' != $querystring) {
             $querystring = '?' . $querystring;
         }
 
@@ -913,7 +913,7 @@ class PublisherUtility
     }
 
     /**
-     * @param  int    $selectedid
+     * @param  int|array    $selectedid
      * @param  int    $parentcategory
      * @param  bool   $allCatOption
      * @param  string $selectname
@@ -1111,6 +1111,7 @@ class PublisherUtility
                     throw new Exception(_CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
                 }
             } catch (Exception $e) {
+                $publisher->addLog($e);
                 redirect_header('file.php?op=mod&itemid=' . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
             }
             //    } else {
@@ -1158,7 +1159,7 @@ class PublisherUtility
      */
     public static function truncateTagSafe($string, $length = 80, $etc = '...', $breakWords = false)
     {
-        if ($length == 0) {
+        if (0 == $length) {
             return '';
         }
 
@@ -1242,10 +1243,10 @@ class PublisherUtility
             }
         }
 
-        $tense = $count == 1 ? _MD_PUBLISHER_VOTE_VOTE : _MD_PUBLISHER_VOTE_VOTES; //plural form votes/vote
+        $tense = 1 == $count ? _MD_PUBLISHER_VOTE_VOTE : _MD_PUBLISHER_VOTE_VOTES; //plural form votes/vote
 
         // now draw the rating bar
-        if ($count != 0) {
+        if (0 != $count) {
             $ratingWidth = number_format($currentRating / $count, 2) * $ratingUnitWidth;
             $rating1     = number_format($currentRating / $count, 1);
             $rating2     = number_format($currentRating / $count, 2);
@@ -1332,9 +1333,9 @@ class PublisherUtility
     public static function stringToInt($string = '', $length = 5)
     {
         $final  = '';
-        $string = substr(md5($string), $length);
+        $substring = substr(md5($string), $length);
         for ($i = 0; $i < $length; ++$i) {
-            $final .= (int)$string[$i];
+            $final .= (int)$substring[$i];
         }
 
         return (int)$final;

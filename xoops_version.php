@@ -123,8 +123,8 @@ if (is_object($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirna
         $isAdmin = $GLOBALS['xoopsUser']->isAdmin($GLOBALS['xoopsModule']->getVar('mid'));
     }
     // Add the Submit new item button
-    $allowsubmit = (isset($GLOBALS['xoopsModuleConfig']['perm_submit']) && $GLOBALS['xoopsModuleConfig']['perm_submit'] == 1);
-    $anonpost    = (isset($GLOBALS['xoopsModuleConfig']['permissions_anon_post']) && $GLOBALS['xoopsModuleConfig']['permissions_anon_post'] == 1);
+    $allowsubmit = (isset($GLOBALS['xoopsModuleConfig']['perm_submit']) && 1 == $GLOBALS['xoopsModuleConfig']['perm_submit']);
+    $anonpost    = (isset($GLOBALS['xoopsModuleConfig']['permissions_anon_post']) && 1 == $GLOBALS['xoopsModuleConfig']['permissions_anon_post']);
     if ($isAdmin || ($allowsubmit && (is_object($GLOBALS['xoopsUser']) || $anonpost))) {
         $modversion['sub'][] = [
             'name' => _MI_PUBLISHER_SUB_SMNAME1,
@@ -133,7 +133,7 @@ if (is_object($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirna
     }
 
     // ------------------- Search -------------------
-    $allowsearch = (isset($GLOBALS['xoopsModuleConfig']['perm_search']) && $GLOBALS['xoopsModuleConfig']['perm_search'] == 1);
+    $allowsearch = (isset($GLOBALS['xoopsModuleConfig']['perm_search']) && 1 == $GLOBALS['xoopsModuleConfig']['perm_search']);
     if ($allowsearch) {
         $modversion['sub'][] = [
             'name' => _MI_PUBLISHER_SUB_SMNAME3,

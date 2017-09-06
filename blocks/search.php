@@ -35,7 +35,7 @@ function publisher_search_show($options)
     $block      = [];
     $publisher  = Publisher::getInstance();
     $categories = $publisher->getHandler('category')->getCategoriesForSearch();
-    if (count($categories) == 0) {
+    if (0 == count($categories)) {
         return $block;
     }
 
@@ -90,7 +90,7 @@ function publisher_search_show($options)
 
     $categorySelect = '<select name="category[]" size="5" multiple="multiple" width="150" style="width:150px;">';
     $categorySelect .= '<option value="all"';
-    if (empty($category) || count($category) == 0) {
+    if (empty($category) || 0 == count($category)) {
         $categorySelect .= 'selected="selected"';
     }
     $categorySelect .= '>' . _ALL . '</option>';

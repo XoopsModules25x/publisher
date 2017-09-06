@@ -44,7 +44,7 @@ $op = Request::getString('op', 'default', 'GET');
 
 // all post requests should have a valid token
 if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
-    redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage", 3, _CO_PUBLISHER_BAD_TOKEN);
+    redirect_header(PUBLISHER_ADMIN_URL . '/mimetypes.php?op=manage', 3, _CO_PUBLISHER_BAD_TOKEN);
 }
 
 switch ($op) {
@@ -107,11 +107,11 @@ class PublisherMimetypesUtility
             $mimeErrors = $session->get('publisher_addMimeErr');
 
             //Display any form errors
-            if (!$mimeErrors === false) {
+            if (false === !$mimeErrors) {
                 PublisherUtility::renderErrors($mimeErrors, PublisherUtility::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', ['op' => 'clearAddSession']));
             }
 
-            if ($mimeType === false) {
+            if (false === $mimeType) {
                 $mimeExt   = '';
                 $mimeName  = '';
                 $mimeTypes = '';
@@ -145,15 +145,15 @@ class PublisherMimetypesUtility
             echo "<tr valign='top'>
         <td class='head'>" . _AM_PUBLISHER_MIME_ADMINF . "</td>
         <td class='even'>";
-            echo "<input type='radio' name='mime_admin' value='1' " . ($mimeAdmin == 1 ? 'checked' : '') . '>' . _YES;
-            echo "<input type='radio' name='mime_admin' value='0' " . ($mimeAdmin == 0 ? 'checked' : '') . '>' . _NO . '
+            echo "<input type='radio' name='mime_admin' value='1' " . (1 == $mimeAdmin ? 'checked' : '') . '>' . _YES;
+            echo "<input type='radio' name='mime_admin' value='0' " . (0 == $mimeAdmin ? 'checked' : '') . '>' . _NO . '
         </td>
         </tr>';
             echo "<tr valign='top'>
         <td class='head'>" . _AM_PUBLISHER_MIME_USERF . "</td>
         <td class='even'>";
-            echo "<input type='radio' name='mime_user' value='1'" . ($mimeUser == 1 ? 'checked' : '') . '>' . _YES;
-            echo "<input type='radio' name='mime_user' value='0'" . ($mimeUser == 0 ? 'checked' : '') . '>' . _NO . '
+            echo "<input type='radio' name='mime_user' value='1'" . (1 == $mimeUser ? 'checked' : '') . '>' . _YES;
+            echo "<input type='radio' name='mime_user' value='0'" . (0 == $mimeUser ? 'checked' : '') . '>' . _NO . '
         </td>
         </tr>';
             echo "<tr valign='top'>
@@ -278,11 +278,11 @@ class PublisherMimetypesUtility
             PublisherUtility::openCollapsableBar('mimemedittable', 'mimeediticon', _AM_PUBLISHER_MIME_EDIT_TITLE);
 
             //Display any form errors
-            if (!$mimeErrors === false) {
+            if (false === !$mimeErrors) {
                 PublisherUtility::renderErrors($mimeErrors, PublisherUtility::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', ['op' => 'clearEditSession', 'id' => $mimeId]));
             }
 
-            if ($mimeType === false) {
+            if (false === $mimeType) {
                 $mimeExt   = $mimeTypeObj->getVar('mime_ext');
                 $mimeName  = $mimeTypeObj->getVar('mime_name', 'e');
                 $mimeTypes = $mimeTypeObj->getVar('mime_types', 'e');
@@ -318,15 +318,15 @@ class PublisherMimetypesUtility
             echo "<tr valign='top'>
         <td class='head'>" . _AM_PUBLISHER_MIME_ADMINF . "</td>
         <td class='even'>
-        <input type='radio' name='mime_admin' value='1' " . ($mimeAdmin == 1 ? 'checked' : '') . '>' . _YES . "
-        <input type='radio' name='mime_admin' value='0' " . ($mimeAdmin == 0 ? 'checked' : '') . '>' . _NO . '
+        <input type='radio' name='mime_admin' value='1' " . (1 == $mimeAdmin ? 'checked' : '') . '>' . _YES . "
+        <input type='radio' name='mime_admin' value='0' " . (0 == $mimeAdmin ? 'checked' : '') . '>' . _NO . '
         </td>
         </tr>';
             echo "<tr valign='top'>
         <td class='head'>" . _AM_PUBLISHER_MIME_USERF . "</td>
         <td class='even'>
-        <input type='radio' name='mime_user' value='1' " . ($mimeUser == 1 ? 'checked' : '') . '>' . _YES . "
-        <input type='radio' name='mime_user' value='0' " . ($mimeUser == 0 ? 'checked' : '') . '>' . _NO . '
+        <input type='radio' name='mime_user' value='1' " . (1 == $mimeUser ? 'checked' : '') . '>' . _YES . "
+        <input type='radio' name='mime_user' value='0' " . (0 == $mimeUser ? 'checked' : '') . '>' . _NO . '
         </td>
         </tr>';
             echo "<tr valign='top'>
@@ -782,7 +782,7 @@ class PublisherMimetypesUtility
      */
     protected static function changeMimeValue($mimeValue)
     {
-        if ((int)$mimeValue === 1) {
+        if (1 === (int)$mimeValue) {
             $mimeValue = 0;
         } else {
             $mimeValue = 1;

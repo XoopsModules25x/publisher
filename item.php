@@ -26,7 +26,7 @@ require_once __DIR__ . '/header.php';
 $itemId     = Request::getInt('itemid', 0, 'GET');
 $itemPageId = Request::getInt('page', -1, 'GET');
 
-if ($itemId == 0) {
+if (0 == $itemId) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
     //    exit();
 }
@@ -66,7 +66,7 @@ $com_replytitle = $itemObj->getTitle();
 // Update the read counter of the selected item
 if (!$GLOBALS['xoopsUser']
     || ($GLOBALS['xoopsUser'] && !$GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid()))
-    || ($GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid()) && $publisher->getConfig('item_admin_hits') == 1)) {
+    || ($GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid()) && 1 == $publisher->getConfig('item_admin_hits'))) {
     $itemObj->updateCounter();
 }
 
@@ -134,7 +134,7 @@ if ('previous_next' === $publisher->getConfig('item_other_items_type')) {
 }
 
 //CAREFUL!! with many items this will exhaust memory
-if ($publisher->getConfig('item_other_items_type') === 'all') {
+if ('all' === $publisher->getConfig('item_other_items_type')) {
     $itemsObj = $publisher->getHandler('item')->getAllPublished(0, 0, $categoryObj->categoryid(), $sort, $order, '', true, true);
     $items    = [];
     foreach ($itemsObj[''] as $theItemObj) {
@@ -188,7 +188,7 @@ if (null !== $filesObj) {
             $file['mod'] = true;
         }
 
-        if ($fileObj->mimetype() === 'application/x-shockwave-flash') {
+        if ('application/x-shockwave-flash' === $fileObj->mimetype()) {
             $file['content'] = $fileObj->displayFlash();
             if (strpos($item['maintext'], '[flash-' . $fileObj->getVar('fileid') . ']')) {
                 $item['maintext'] = str_replace('[flash-' . $fileObj->getVar('fileid') . ']', $file['content'], $item['maintext']);
@@ -238,7 +238,7 @@ $publisherMetagen = new PublisherMetagen($itemObj->getVar('title'), $itemObj->ge
 $publisherMetagen->createMetaTags();
 
 // Include the comments if the selected ITEM supports comments
-if (($publisher->getConfig('com_rule') <> 0) && (($itemObj->cancomment() == 1) || !$publisher->getConfig('perm_com_art_level'))) {
+if ((0 <> $publisher->getConfig('com_rule')) && ((1 == $itemObj->cancomment()) || !$publisher->getConfig('perm_com_art_level'))) {
     require_once $GLOBALS['xoops']->path('include/comment_view.php');
     // Problem with url_rewrite and posting comments :
     $xoopsTpl->assign([

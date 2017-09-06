@@ -80,7 +80,7 @@ class PublisherMetagen
         $this->setCategoryPath($categoryPath);
         $this->setTitle($title);
         $this->setDescription($description);
-        if ($keywords == '') {
+        if ('' == $keywords) {
             $keywords = $this->createMetaKeywords();
         }
         $this->setKeywords($keywords);
@@ -95,21 +95,21 @@ class PublisherMetagen
         $this->originalTitle = $this->title;
         $titleTag            = [];
         $titleTag['module']  = $this->publisher->getModule()->getVar('name');
-        if (isset($this->title) && ($this->title != '') && (strtoupper($this->title) != strtoupper($titleTag['module']))) {
+        if (isset($this->title) && ('' != $this->title) && (strtoupper($this->title) != strtoupper($titleTag['module']))) {
             $titleTag['title'] = $this->title;
         }
-        if (isset($this->categoryPath) && ($this->categoryPath != '')) {
+        if (isset($this->categoryPath) && ('' != $this->categoryPath)) {
             $titleTag['category'] = $this->categoryPath;
         }
         $ret = isset($titleTag['title']) ? $titleTag['title'] : '';
-        if (isset($titleTag['category']) && $titleTag['category'] != '') {
-            if ($ret != '') {
+        if (isset($titleTag['category']) && '' != $titleTag['category']) {
+            if ('' != $ret) {
                 $ret .= ' - ';
             }
             $ret .= $titleTag['category'];
         }
-        if (isset($titleTag['module']) && $titleTag['module'] != '') {
-            if ($ret != '') {
+        if (isset($titleTag['module']) && '' != $titleTag['module']) {
+            if ('' != $ret) {
                 $ret .= ' - ';
             }
             $ret .= $titleTag['module'];
@@ -208,7 +208,7 @@ class PublisherMetagen
     {
         $keywords       = $this->findMetaKeywords($this->originalTitle . ' ' . $this->description, $this->minChar);
         $moduleKeywords = $this->publisher->getConfig('seo_meta_keywords');
-        if ($moduleKeywords != '') {
+        if ('' != $moduleKeywords) {
             $moduleKeywords = explode(',', $moduleKeywords);
             $keywords       = array_merge($keywords, array_map('trim', $moduleKeywords));
         }
@@ -240,13 +240,13 @@ class PublisherMetagen
     public function createMetaTags()
     {
         global $xoopsTpl, $xoTheme;
-        if ($this->keywords != '') {
+        if ('' != $this->keywords) {
             $xoTheme->addMeta('meta', 'keywords', $this->keywords);
         }
-        if ($this->description != '') {
+        if ('' != $this->description) {
             $xoTheme->addMeta('meta', 'description', $this->description);
         }
-        if ($this->title != '') {
+        if ('' != $this->title) {
             $xoopsTpl->assign('xoops_pagetitle', $this->title);
         }
     }

@@ -122,7 +122,7 @@ class PublisherItem extends XoopsObject
     public function getTitle($maxLength = 0, $format = 'S')
     {
         $ret = $this->getVar('title', $format);
-        if ($maxLength != 0) {
+        if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
                     $ret = PublisherUtility::substr($ret, 0, $maxLength);
@@ -142,7 +142,7 @@ class PublisherItem extends XoopsObject
     public function getSubtitle($maxLength = 0, $format = 'S')
     {
         $ret = $this->getVar('subtitle', $format);
-        if ($maxLength != 0) {
+        if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
                     $ret = PublisherUtility::substr($ret, 0, $maxLength);
@@ -166,7 +166,7 @@ class PublisherItem extends XoopsObject
         if (!empty($stripTags)) {
             $ret = strip_tags($ret, $stripTags);
         }
-        if ($maxLength != 0) {
+        if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
                     //$ret = PublisherUtility::substr($ret , 0, $maxLength);
@@ -243,10 +243,10 @@ class PublisherItem extends XoopsObject
     {
         $ret     = $this->getVar('body', $format);
         $wrapPos = strpos($ret, '[pagewrap=');
-        if (!($wrapPos === false)) {
+        if (!(false === $wrapPos)) {
             $wrapPages      = [];
             $wrapCodeLength = strlen('[pagewrap=');
-            while (!($wrapPos === false)) {
+            while (!(false === $wrapPos)) {
                 $endWrapPos = strpos($ret, ']', $wrapPos);
                 if ($endWrapPos) {
                     $wrap_page_name = substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
@@ -268,7 +268,7 @@ class PublisherItem extends XoopsObject
         if (!empty($stripTags)) {
             $ret = strip_tags($ret, $stripTags);
         }
-        if ($maxLength != 0) {
+        if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
                     //$ret = PublisherUtility::substr($ret , 0, $maxLength);
@@ -307,7 +307,7 @@ class PublisherItem extends XoopsObject
             $realName = $this->publisher->getConfig('format_realname');
         }
         $ret = $this->author_alias();
-        if ($ret == '') {
+        if ('' == $ret) {
             $ret = XoopsUserUtility::getUnameFromId($this->uid(), $realName);
         }
 
@@ -336,7 +336,7 @@ class PublisherItem extends XoopsObject
     {
         xoops_load('XoopsUserUtility');
         $ret = $this->author_alias();
-        if ($ret === '') {
+        if ('' === $ret) {
             $ret = XoopsUserUtility::getUnameFromId($this->uid(), $this->publisher->getConfig('format_realname'), true);
         }
 
@@ -686,7 +686,7 @@ class PublisherItem extends XoopsObject
             $imagesIds              = [];
             $image                  = $this->getVar('image');
             $images                 = $this->getVar('images');
-            if ($images != '') {
+            if ('' != $images) {
                 $imagesIds = explode('|', $images);
             }
             if ($image > 0) {
@@ -906,7 +906,7 @@ class PublisherItem extends XoopsObject
             return $str;
         }
         // no action, if not Japanese
-        if ($GLOBALS['xoopsConfig']['language'] !== 'japanese') {
+        if ('japanese' !== $GLOBALS['xoopsConfig']['language']) {
             return $str;
         }
         // presume OS Browser
@@ -922,7 +922,7 @@ class PublisherItem extends XoopsObject
             $browser = 'msie';
         }
         // if msie
-        if (($os === 'win') && ($browser === 'msie')) {
+        if (('win' === $os) && ('msie' === $browser)) {
             // if multibyte
             if (function_exists('mb_convert_encoding')) {
                 $str = mb_convert_encoding($str, 'SJIS', 'EUC-JP');
@@ -1000,7 +1000,7 @@ class PublisherItem extends XoopsObject
 
             $sql    = 'SELECT image_id, image_name FROM ' . $GLOBALS['xoopsDB']->prefix('image');
             $result = $GLOBALS['xoopsDB']->query($sql, 0, 0);
-            while (($myrow = $GLOBALS['xoopsDB']->fetchArray($result)) !== false) {
+            while (false !== ($myrow = $GLOBALS['xoopsDB']->fetchArray($result))) {
                 $imageName = $myrow['image_name'];
                 $id        = $myrow['image_id'];
                 if ($imageName == $imageFeatured) {
@@ -1018,7 +1018,7 @@ class PublisherItem extends XoopsObject
 
         if (false !== ($authorAlias = Request::getString('author_alias', '', 'POST'))) {
             $this->setVar('author_alias', $authorAlias);
-            if ($this->getVar('author_alias') !== '') {
+            if ('' !== $this->getVar('author_alias')) {
                 $this->setVar('uid', 0);
             }
         }
@@ -1038,7 +1038,7 @@ class PublisherItem extends XoopsObject
             // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime
             $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
             $tz             = timezone_name_from_abbr(null, $userTimeoffset * 3600);
-            if ($tz === false) {
+            if (false === $tz) {
                 $tz = timezone_name_from_abbr(null, $userTimeoffset * 3600, false);
             }
 
@@ -1226,7 +1226,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $sql   = 'SELECT * FROM ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items');
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $whereClause = $criteria->renderWhere();
-            if ($whereClause !== 'WHERE ()') {
+            if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
                 if (!empty($notNullFields)) {
                     $sql .= $this->notNullFieldClause($notNullFields, true);
@@ -1234,7 +1234,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             } elseif (!empty($notNullFields)) {
                 $sql .= ' WHERE ' . $this->notNullFieldClause($notNullFields);
             }
-            if ($criteria->getSort() != '') {
+            if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
             }
             $limit = $criteria->getLimit();
@@ -1243,20 +1243,20 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             $sql .= $sql .= ' WHERE ' . $this->notNullFieldClause($notNullFields);
         }
         $result = $this->db->query($sql, $limit, $start);
-        if (!$result || count($result) === 0) {
+        if (!$result || 0 === count($result)) {
             return $ret;
         }
         $theObjects = [];
-        while (($myrow = $this->db->fetchArray($result)) !== false) {
+        while (false !== ($myrow = $this->db->fetchArray($result))) {
             $item = new PublisherItem();
             $item->assignVars($myrow);
             $theObjects[$myrow['itemid']] = $item;
             unset($item);
         }
         foreach ($theObjects as $theObject) {
-            if ($idKey === 'none') {
+            if ('none' === $idKey) {
                 $ret[] = $theObject;
-            } elseif ($idKey === 'itemid') {
+            } elseif ('itemid' === $idKey) {
                 $ret[$theObject->itemid()] = $theObject;
             } else {
                 $ret[$theObject->getVar($idKey)][$theObject->itemid()] = $theObject;
@@ -1281,7 +1281,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items');
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $whereClause = $criteria->renderWhere();
-            if ($whereClause !== 'WHERE ()') {
+            if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
                 if (!empty($notNullFields)) {
                     $sql .= $this->notNullFieldClause($notNullFields, true);
@@ -1682,7 +1682,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $gpermHandler = xoops_getHandler('groupperm');
         $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $searchin     = empty($searchin) ? ['title', 'body', 'summary'] : (is_array($searchin) ? $searchin : [$searchin]);
-        if (in_array('all', $searchin) || count($searchin) == 0) {
+        if (in_array('all', $searchin) || 0 == count($searchin)) {
             $searchin = ['title', 'subtitle', 'body', 'summary', 'meta_keywords'];
         }
         if (is_array($userid) && count($userid) > 0) {
@@ -1725,7 +1725,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             if (count($categories) > 0) {
                 $categoriesGranted = array_intersect($categoriesGranted, $categories);
             }
-            if (count($categoriesGranted) == 0) {
+            if (0 == count($categoriesGranted)) {
                 return $ret;
             }
             $grantedCategories = new Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
@@ -1757,7 +1757,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         }
         $criteria->setSort($sortby);
         $order = 'ASC';
-        if ($sortby === 'datesub') {
+        if ('datesub' === $sortby) {
             $order = 'DESC';
         }
         $criteria->setOrder($order);
@@ -1818,7 +1818,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $sql    .= ' GROUP BY categoryid)mo';
         $sql    .= ' JOIN ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items') . ' mi ON mi.datesub = mo.date';
         $result = $this->db->query($sql);
-        while (($row = $this->db->fetchArray($result)) !== false) {
+        while (false !== ($row = $this->db->fetchArray($result))) {
             $item = new PublisherItem();
             $item->assignVars($row);
             $ret[$row['categoryid']] = $item;
@@ -1877,14 +1877,14 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             return $ret;
         }
         if (!$inSubCat) {
-            while (($row = $this->db->fetchArray($result)) !== false) {
+            while (false !== ($row = $this->db->fetchArray($result))) {
                 $catsCount[$row['categoryid']] = $row['count'];
             }
 
             return $catsCount;
         }
         //        while ($row = $this->db->fetchArray($result)) {
-        while (($row = $this->db->fetchArray($result)) !== false) {
+        while (false !== ($row = $this->db->fetchArray($result))) {
             $catsCount[$row['parentid']][$row['categoryid']] = $row['count'];
         }
         //        $resultCatCounts = array();

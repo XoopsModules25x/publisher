@@ -232,7 +232,7 @@ echo "
     </form>";
 
 // Get number of entries in the selected state
-$statusSelected = ($statussel == 0) ? -1 : $statussel;
+$statusSelected = (0 == $statussel) ? -1 : $statussel;
 
 $numrows = $publisher->getHandler('item')->getItemsCount(-1, $statusSelected);
 
@@ -350,7 +350,7 @@ echo "</table>\n";
 echo "<span style=\"color: #567; margin: 3px 0 18px 0; font-size: small; display: block; \">$status_explaination</span>";
 $pagenav = new XoopsPageNav($numrows, $publisher->getConfig('idxcat_perpage'), $startentry, 'startentry', "statussel=$statussel&amp;sortsel=$sortsel&amp;ordersel=$ordersel");
 
-if ($publisher->getConfig('format_image_nav') == 1) {
+if (1 == $publisher->getConfig('format_image_nav')) {
     echo '<div style="text-align:right; background-color: white; margin: 10px 0;">' . $pagenav->renderImageNav() . '</div>';
 } else {
     echo '<div style="text-align:right; background-color: white; margin: 10px 0;">' . $pagenav->renderNav() . '</div>';

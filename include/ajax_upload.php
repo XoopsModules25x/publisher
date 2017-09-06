@@ -34,7 +34,7 @@ if (!is_object($GLOBALS['xoopsUser'])) {
 
 $filename       = basename($_FILES['publisher_upload_file']['name']);
 $image_nicename = Request::getString('image_nicename', '', 'POST');
-if ($image_nicename == '' || $image_nicename == _CO_PUBLISHER_IMAGE_NICENAME) {
+if ('' == $image_nicename || _CO_PUBLISHER_IMAGE_NICENAME == $image_nicename) {
     $image_nicename = $filename;
 }
 
@@ -60,7 +60,7 @@ if (!is_object($imgcat)) {
     }
 }
 
-if ($error === false) {
+if (false === $error) {
     xoops_load('XoopsMediaUploader');
     $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'], $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
     $uploader->setPrefix('img');
@@ -77,7 +77,7 @@ if ($error === false) {
             $image->setVar('image_display', 1);
             $image->setVar('image_weight', 0);
             $image->setVar('imgcat_id', $imgcat_id);
-            if ($imgcat->getVar('imgcat_storetype') === 'db') {
+            if ('db' === $imgcat->getVar('imgcat_storetype')) {
                 $fp      = @fopen($uploader->getSavedDestination(), 'rb');
                 $fbinary = @fread($fp, filesize($uploader->getSavedDestination()));
                 @fclose($fp);

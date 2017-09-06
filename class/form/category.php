@@ -114,10 +114,10 @@ class PublisherCategoryForm extends XoopsThemeForm
         }
 
         $editorConfigs           = [];
-        $editorConfigs['rows']   = $this->publisher->getConfig('submit_editor_rows') == '' ? 35 : $this->publisher->getConfig('submit_editor_rows');
-        $editorConfigs['cols']   = $this->publisher->getConfig('submit_editor_cols') == '' ? 60 : $this->publisher->getConfig('submit_editor_cols');
-        $editorConfigs['width']  = $this->publisher->getConfig('submit_editor_width') == '' ? '100%' : $this->publisher->getConfig('submit_editor_width');
-        $editorConfigs['height'] = $this->publisher->getConfig('submit_editor_height') == '' ? '400px' : $this->publisher->getConfig('submit_editor_height');
+        $editorConfigs['rows']   = '' == $this->publisher->getConfig('submit_editor_rows') ? 35 : $this->publisher->getConfig('submit_editor_rows');
+        $editorConfigs['cols']   = '' == $this->publisher->getConfig('submit_editor_cols') ? 60 : $this->publisher->getConfig('submit_editor_cols');
+        $editorConfigs['width']  = '' == $this->publisher->getConfig('submit_editor_width') ? '100%' : $this->publisher->getConfig('submit_editor_width');
+        $editorConfigs['height'] = '' == $this->publisher->getConfig('submit_editor_height') ? '400px' : $this->publisher->getConfig('submit_editor_height');
 
         $editorConfigs['name']  = 'header';
         $editorConfigs['value'] = $this->targetObject->header('e');

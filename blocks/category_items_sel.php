@@ -35,7 +35,7 @@ function publisher_category_items_sel_show($options)
 
     $categories = $publisher->getHandler('category')->getCategories(0, 0, -1);
 
-    if (count($categories) === 0) {
+    if (0 === count($categories)) {
         return $block;
     }
 
@@ -56,7 +56,7 @@ function publisher_category_items_sel_show($options)
         $items    = $publisher->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
         unset($criteria);
 
-        if (count($items) === 0) {
+        if (0 === count($items)) {
             continue;
         }
 
@@ -74,7 +74,7 @@ function publisher_category_items_sel_show($options)
 
     unset($items, $categories, $itemObj, $catID, $catObj);
 
-    if (count($block['categories']) === 0) {
+    if (0 === count($block['categories'])) {
         return $block;
     }
 

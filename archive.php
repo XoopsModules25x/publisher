@@ -59,7 +59,7 @@ if ($fromyear && $frommonth) {
 
 $dateformat = $publisher->getConfig('format_date');
 
-if ($dateformat === '') {
+if ('' === $dateformat) {
     $dateformat = 'm';
 }
 
@@ -105,7 +105,7 @@ if (!($itemsCount > 0)) {
                 $articlesThisMonth = 0;
             }
             //first month of the year reset
-            if ($lastmonth == 0) {
+            if (0 == $lastmonth) {
                 $lastmonth                    = $thisMonth;
                 $months[$lastmonth]['string'] = $monthsArray[$lastmonth];
                 $months[$lastmonth]['number'] = $lastmonth;
@@ -152,7 +152,7 @@ if (!($itemsCount > 0)) {
 }
 unset($items);
 
-if ($fromyear != 0 && $frommonth != 0) {
+if (0 != $fromyear && 0 != $frommonth) {
     $xoopsTpl->assign('show_articles', true);
     $xoopsTpl->assign('lang_articles', _MD_PUBLISHER_ITEM);
     $xoopsTpl->assign('currentmonth', $monthsArray[$frommonth]);

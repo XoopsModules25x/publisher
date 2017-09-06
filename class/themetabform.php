@@ -113,7 +113,7 @@ class PublisherThemeTabForm extends XoopsForm
         $this->action  = $action;
         $this->method  = $method;
         $this->summary = $summary;
-        if ($addtoken !== false) {
+        if (false !== $addtoken) {
             $this->addElement(new XoopsFormHiddenToken());
         }
     }
@@ -133,11 +133,11 @@ class PublisherThemeTabForm extends XoopsForm
         }
         foreach ($this->getElements() as $ele) {
             ++$i;
-            if (is_string($ele) && $ele === 'addTab') {
+            if (is_string($ele) && 'addTab' === $ele) {
                 ++$tab;
                 continue;
             }
-            if (is_string($ele) && $ele === 'endTabs') {
+            if (is_string($ele) && 'endTabs' === $ele) {
                 $tab = -1;
                 continue;
             }
@@ -154,7 +154,7 @@ class PublisherThemeTabForm extends XoopsForm
             $elements[$n]['body']     = $ele->render();
             $elements[$n]['hidden']   = $ele->isHidden() ? true : false;
             $elements[$n]['required'] = $ele->isRequired();
-            if ($eleDescription != '') {
+            if ('' != $eleDescription) {
                 $elements[$n]['description'] = $eleDescription;
             }
             $elements[$n]['tab'] = $tab;
@@ -275,7 +275,7 @@ class PublisherThemeTabForm extends XoopsForm
      */
     public function getMethod()
     {
-        return (strtolower($this->method) === 'get') ? 'get' : 'post';
+        return ('get' === strtolower($this->method)) ? 'get' : 'post';
     }
 
     /**

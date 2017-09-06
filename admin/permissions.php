@@ -33,7 +33,7 @@ PublisherUtility::openCollapsableBar('permissionstable_view', 'permissionsicon_v
 $result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($xoopsModule->getVar('dirname', 'n') . '_categories') . ' ');
 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
     $form_submit = new XoopsGroupPermForm('', $publisher->getModule()->mid(), 'category_read', '', 'admin/permissions.php');
-    while (($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view)) !== false) {
+    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
         $form_submit->addItem($myrow_view['categoryid'], $myts->displayTarea($myrow_view['name']));
     }
     echo $form_submit->render();
@@ -48,7 +48,7 @@ PublisherUtility::openCollapsableBar('permissionstable_submit', 'permissionsicon
 $result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($xoopsModule->getVar('dirname', 'n') . '_categories') . ' ');
 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
     $form_submit = new XoopsGroupPermForm('', $publisher->getModule()->mid(), 'item_submit', '', 'admin/permissions.php');
-    while (($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view)) !== false) {
+    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
         $form_submit->addItem($myrow_view['categoryid'], $myts->displayTarea($myrow_view['name']));
     }
     echo $form_submit->render();
@@ -63,7 +63,7 @@ PublisherUtility::openCollapsableBar('permissionstable_moderation', 'permissions
 $result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($xoopsModule->getVar('dirname', 'n') . '_categories') . ' ');
 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
     $form_submit = new XoopsGroupPermForm('', $publisher->getModule()->mid(), 'category_moderation', '', 'admin/permissions.php');
-    while (($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view)) !== false) {
+    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
         $form_submit->addItem($myrow_view['categoryid'], $myts->displayTarea($myrow_view['name']));
     }
     echo $form_submit->render();

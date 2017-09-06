@@ -232,7 +232,7 @@ class XoopsMediaUploader
      */
     public function setTargetFileName($value)
     {
-        $this->targetFileName = (string)trim($value);
+        $this->targetFileName = trim($value);
     }
 
     /**
@@ -242,7 +242,7 @@ class XoopsMediaUploader
      */
     public function setPrefix($value)
     {
-        $this->prefix = (string)trim($value);
+        $this->prefix = trim($value);
     }
 
     /**
@@ -314,7 +314,7 @@ class XoopsMediaUploader
      */
     public function upload($chmod = 0644)
     {
-        if ($this->uploadDir == '') {
+        if ('' == $this->uploadDir) {
             $this->setErrors('Upload directory not set');
 
             return false;

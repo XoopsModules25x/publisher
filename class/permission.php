@@ -70,7 +70,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
             $start = $criteria->getStart();
         }
         $result = $db->query($sql, $limit, $start);
-        while (($myrow = $db->fetchArray($result)) !== false) {
+        while (false !== ($myrow = $db->fetchArray($result))) {
             $groups[$myrow['gperm_groupid']] = $myrow['gperm_groupid'];
         }
         $items[$gpermName][$id] = $groups;
@@ -108,7 +108,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
         $sql    = 'SELECT gperm_itemid FROM ' . $db->prefix('group_permission');
         $sql    .= ' ' . $criteria->renderWhere();
         $result = $db->query($sql, 0, 0);
-        while (($myrow = $db->fetchArray($result)) !== false) {
+        while (false !== ($myrow = $db->fetchArray($result))) {
             $ret[$myrow['gperm_itemid']] = $myrow['gperm_itemid'];
         }
         $items[$gpermName] = $ret;

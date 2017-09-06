@@ -112,7 +112,7 @@ class PublisherCategory extends XoopsObject
      */
     public function getImage($format = 's')
     {
-        if ($this->getVar('image') != '') {
+        if ('' != $this->getVar('image')) {
             return $this->getVar('image', $format);
         } else {
             return 'blank.png';
@@ -143,7 +143,7 @@ class PublisherCategory extends XoopsObject
                 $ret = $this->name();
             }
             $parentid = $this->parentid();
-            if ($parentid != 0) {
+            if (0 != $parentid) {
                 $parentObj = $this->publisher->getHandler('category')->get($parentid);
                 //                if ($parentObj->notLoaded()) {
                 //                    exit;
@@ -154,6 +154,7 @@ class PublisherCategory extends XoopsObject
                         throw new Exception(_NOPERM);
                     }
                 } catch (Exception $e) {
+                    $this->publisher->addLog($e);
                     //                    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
                 }
 
@@ -172,7 +173,7 @@ class PublisherCategory extends XoopsObject
     {
         $ret      = '';
         $parentid = $this->parentid();
-        if ($parentid != 0) {
+        if (0 != $parentid) {
             $parentObj = $this->publisher->getHandler('category')->get($parentid);
             //            if ($parentObj->notLoaded()) {
             //                exit('NOT LOADED');
@@ -183,6 +184,7 @@ class PublisherCategory extends XoopsObject
                     throw new Exception('NOT LOADED');
                 }
             } catch (Exception $e) {
+                $this->publisher->addLog($e);
                 //                    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
             }
 
@@ -291,7 +293,7 @@ class PublisherCategory extends XoopsObject
             $category['last_itemid']     = $this->getVar('last_itemid', 'n');
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
-        if ($this->getImage() !== 'blank.png') {
+        if ('blank.png' !== $this->getImage()) {
             $category['image_path'] = PublisherUtility::getImageDir('category', false) . $this->getImage();
         } else {
             $category['image_path'] = '';
@@ -316,7 +318,7 @@ class PublisherCategory extends XoopsObject
             $category['last_itemid']     = $this->getVar('last_itemid', 'n');
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
-        if ($this->getImage() !== 'blank.png') {
+        if ('blank.png' !== $this->getImage()) {
             $category['image_path'] = PublisherUtility::getImageDir('category', false) . $this->getImage();
         } else {
             $category['image_path'] = '';
@@ -561,7 +563,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
             }
         }
         $categories =& $this->getAll($criteria, ['categoryid', 'parentid', 'name'], false, false);
-        if (count($categories) == 0) {
+        if (0 == count($categories)) {
             return $ret;
         }
         $catArray = [];
@@ -584,7 +586,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     /**
      * @return array
      */
-    public function &getCategoriesForSearch()
+    public function getCategoriesForSearch()
     {
         global $publisherIsAdmin, $theresult;
         $ret      = [];
@@ -603,7 +605,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
             }
         }
         $categories =& $this->getAll($criteria, ['categoryid', 'parentid', 'name'], false, false);
-        if (count($categories) == 0) {
+        if (0 == count($categories)) {
             return $ret;
         }
         $catArray = [];

@@ -28,7 +28,7 @@ if ($com_itemid > 0) {
     $itemObj       = $publisher->getHandler('item')->get($com_itemid);
     $com_replytext = _POSTEDBY . '&nbsp;<strong>' . $itemObj->getLinkedPosterName() . '</strong>&nbsp;' . _DATE . '&nbsp;<strong>' . $itemObj->dateSub() . '</strong><br><br>' . $itemObj->summary();
     $bodytext      = $itemObj->body();
-    if ($bodytext != '') {
+    if ('' != $bodytext) {
         $com_replytext .= '<br><br>' . $bodytext . '';
     }
     $com_replytitle = $itemObj->getTitle();

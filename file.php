@@ -26,7 +26,7 @@ xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 $op     = Request::getString('op', Request::getString('op', '', 'GET'), 'POST');
 $fileid = Request::getInt('fileid', Request::getInt('fileid', 0, 'GET'), 'POST');
 
-if ($fileid == 0) {
+if (0 == $fileid) {
     redirect_header('index.php', 2, _MD_PUBLISHER_NOITEMSELECTED);
     //    exit();
 }
@@ -63,7 +63,7 @@ switch ($op) {
         $fileid = Request::getInt('fileid', 0, 'POST');
 
         // Creating the file object
-        if ($fileid != 0) {
+        if (0 != $fileid) {
             $fileObj = $publisher->getHandler('file')->get($fileid);
         } else {
             redirect_header('index.php', 1, _NOPERM);
@@ -77,7 +77,7 @@ switch ($op) {
 
         // attach file if any
 
-        if (Request::getString('item_upload_file', '', 'FILES') != '') {
+        if ('' != Request::getString('item_upload_file', '', 'FILES')) {
             $oldfile = $fileObj->getFilePath();
 
             // Get available mimetypes for file uploading

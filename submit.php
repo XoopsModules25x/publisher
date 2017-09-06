@@ -37,7 +37,7 @@ $gpermHandler = xoops_getModuleHandler('groupperm');
 $moduleId     = $publisher->getModule()->getVar('mid');
 
 $itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
-if ($itemId != 0) {
+if (0 != $itemId) {
     // We are editing or deleting an article
     /* @var  $itemObj PublisherItem */
     $itemObj = $publisher->getHandler('item')->get($itemId);
@@ -59,7 +59,7 @@ if ($itemId != 0) {
 } else {
     // we are submitting a new article
     // if the user is not admin AND we don't allow user submission, exit
-    if (!(PublisherUtility::userIsAdmin() || ($publisher->getConfig('perm_submit') == 1 && (is_object($GLOBALS['xoopsUser']) || ($publisher->getConfig('perm_anon_submit') == 1))))) {
+    if (!(PublisherUtility::userIsAdmin() || (1 == $publisher->getConfig('perm_submit') && (is_object($GLOBALS['xoopsUser']) || (1 == $publisher->getConfig('perm_anon_submit')))))) {
         redirect_header('index.php', 1, _NOPERM);
         //        exit();
     }
@@ -87,7 +87,7 @@ if (Request::getString('additem', '', 'POST')) {
 
 $tokenError = false;
 if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
-    if ($op !== 'preview') {
+    if ('preview' !== $op) {
         $op = 'preview';
         $tokenError = true;
     }
@@ -213,9 +213,9 @@ switch ($op) {
         }
 
         // attach file if any
-        if ($itemUploadFile && $itemUploadFile['name'] != '') {
+        if ($itemUploadFile && '' != $itemUploadFile['name']) {
             $fileUploadResult = PublisherUtility::uploadFile(false, true, $itemObj);
-            if ($fileUploadResult !== true) {
+            if (true !== $fileUploadResult) {
                 redirect_header('javascript:history.go(-1)', 3, $fileUploadResult);
             }
         }

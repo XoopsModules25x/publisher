@@ -80,7 +80,7 @@ function publisher_items_new_show($options)
                 $item['image']      = $itemsObj[$i]->getCategoryImagePath();
                 $item['image_name'] = $itemsObj[$i]->getCategoryName();
             } elseif ('avatar' === $image) {
-                if ($itemsObj[$i]->uid() == '0') {
+                if ('0' == $itemsObj[$i]->uid()) {
                     $item['image'] = XOOPS_URL . '/uploads/blank.gif';
                     $images        = $itemsObj[$i]->getImages();
                     if (is_object($images['main'])) {

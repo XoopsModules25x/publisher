@@ -49,7 +49,7 @@ class PublisherFormDateTime extends XoopsFormElementTray
         for ($i = 0; $i < 24; ++$i) {
             for ($j = 0; $j < 60; $j += 10) {
                 $key             = ($i * 3600) + ($j * 60);
-                $timearray[$key] = ($j != 0) ? $i . ':' . $j : $i . ':0' . $j;
+                $timearray[$key] = (0 != $j) ? $i . ':' . $j : $i . ':0' . $j;
             }
         }
         ksort($timearray);

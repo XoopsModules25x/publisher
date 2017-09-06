@@ -75,7 +75,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     $next_search['term']     = $term;
     $query                   = trim($term);
 
-    if ($andor !== 'EXACT') {
+    if ('EXACT' !== $andor) {
         $ignored_queries = []; // holds keywords that are shorter than allowed minimum length
         $temp_queries    = preg_split("/[\s,]+/", $query);
         foreach ($temp_queries as $q) {
@@ -87,7 +87,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
             }
         }
         //        unset($q);
-        if (count($queries) == 0) {
+        if (0 == count($queries)) {
             redirect_header(PUBLISHER_URL . '/search.php', 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch['keyword_min']));
             //            exit();
         }
@@ -110,7 +110,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
             //            exit();
         }
         $uid = [];
-        while (($row = $GLOBALS['xoopsDB']->fetchArray($result)) !== false) {
+        while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             $uid[] = $row['uid'];
         }
     } else {
@@ -201,7 +201,7 @@ $categories = $publisher->getHandler('category')->getCategoriesForSearch();
 
 $categorySelect = '<select name="category[]" size="5" multiple="multiple">';
 $categorySelect .= '<option value="all"';
-if (empty($category) || count($category) == 0) {
+if (empty($category) || 0 == count($category)) {
     $categorySelect .= 'selected="selected"';
 }
 $categorySelect .= '>' . _ALL . '</option>';

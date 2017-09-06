@@ -44,9 +44,9 @@ $rejectedstartitem  = Request::getInt('rejectedstartitem', Request::getInt('subm
 
 switch ($op) {
     case 'clone':
-        if ($itemid == 0) {
+        if (0 == $itemid) {
             $totalcategories = $publisher->getHandler('category')->getCategoriesCount(-1);
-            if ($totalcategories == 0) {
+            if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
                 //                exit();
             }
@@ -56,9 +56,9 @@ switch ($op) {
         break;
 
     case 'mod':
-        if ($itemid == 0) {
+        if (0 == $itemid) {
             $totalcategories = $publisher->getHandler('category')->getCategoriesCount(-1);
-            if ($totalcategories == 0) {
+            if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
                 //                exit();
             }
@@ -71,7 +71,7 @@ switch ($op) {
     case 'additem':
         $redirect_msg = $error_msg = '';
         // Creating the item object
-        if ($itemid != 0) {
+        if (0 != $itemid) {
             $itemObj = $publisher->getHandler('item')->get($itemid);
         } else {
             $itemObj = $publisher->getHandler('item')->create();
@@ -126,9 +126,9 @@ switch ($op) {
         }
 
         // attach file if any
-        if (($item_upload_file = Request::getArray('item_upload_file', '', 'FILES')) && $item_upload_file['name'] !== '') {
+        if (($item_upload_file = Request::getArray('item_upload_file', '', 'FILES')) && '' !== $item_upload_file['name']) {
             $file_upload_result = PublisherUtility::uploadFile(false, false, $itemObj);
-            if ($file_upload_result !== true) {
+            if (true !== $file_upload_result) {
                 redirect_header('javascript:history.go(-1)', 3, $file_upload_result);
                 //                exit;
             }
@@ -401,7 +401,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     // if there is a parameter, and the id exists, retrieve data: we're editing a item
 
-    if ($itemid != 0) {
+    if (0 != $itemid) {
         // Creating the ITEM object
         $itemObj = $publisher->getHandler('item')->get($itemid);
 
@@ -531,8 +531,8 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     $pWrapSelect = new XoopsFormSelect(PublisherUtility::getUploadDir(true, 'content'), 'address');
     $folder      = dir($dir);
-    while (($file = $folder->read()) !== false) {
-        if ($file !== '.' && $file !== '..') {
+    while (false !== ($file = $folder->read())) {
+        if ('.' !== $file && '..' !== $file) {
             $pWrapSelect->addOption($file, $file);
         }
     }

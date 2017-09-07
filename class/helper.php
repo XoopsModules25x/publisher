@@ -25,7 +25,7 @@ class Publisher extends \Xmf\Module\Helper
     public $debugArray = [];
 
     /**
-     * @param $debug
+     * @internal param $debug
      */
     protected function __construct()
     {

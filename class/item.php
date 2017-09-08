@@ -1219,10 +1219,13 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      * @return array           array of <a href='psi_element://PublisherItem'>PublisherItem</a> objects
      *                                       objects
      */
-    public function getObjects(CriteriaElement $criteria = null, $idKey = 'none', $as_object = true, $notNullFields = '') //&getObjects($criteria = null, $idKey = 'none', $notNullFields = '')
+
+    public function &getObjects(CriteriaElement $criteria = null, $idKey = 'none', $as_object = true, $notNullFields = null)
     {
         global $xoopsModule;
         $limit = $start = 0;
+        $ret = [];
+        $notNullFields = (null !== $notNullFields) ?: '';
         $sql   = 'SELECT * FROM ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items');
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $whereClause = $criteria->renderWhere();
@@ -1243,7 +1246,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             $sql .= $sql .= ' WHERE ' . $this->notNullFieldClause($notNullFields);
         }
         $result = $this->db->query($sql, $limit, $start);
-        if (!$result || 0 === count($result)) {
+        if (!$result || 0 === $GLOBALS['xoopsDB']->getRowsNum($result)) {
             return $ret;
         }
         $theObjects = [];

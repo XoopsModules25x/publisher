@@ -29,8 +29,8 @@ $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = [
     'version'             => '1.05',
-    'module_status'       => 'RC 1',
-    'release_date'        => '2017/05/14',
+    'module_status'       => 'RC-2',
+    'release_date'        => '2017/09/08',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -1323,7 +1323,7 @@ $modversion['config'][] = [
  * Make Sample button visible?
  */
 $modversion['config'][] = [
-    'name'        => 'showsamplebutton',
+    'name'        => 'displaySampleButton',
     'title'       => '_MI_PUBLISHER_SHOW_SAMPLE_BUTTON',
     'description' => '_MI_PUBLISHER_SHOW_SAMPLE_BUTTON_DESC',
     'formtype'    => 'yesno',

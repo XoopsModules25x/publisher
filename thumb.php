@@ -278,7 +278,7 @@ class Timthumb
 
     public static function start()
     {
-        $tim = new timthumb();
+        $tim = new self();
         $tim->handleErrors();
         $tim->securityChecks();
         if ($tim->tryBrowserCache()) {
@@ -1450,8 +1450,8 @@ class Timthumb
     protected function setMemoryLimit()
     {
         $inimem   = ini_get('memory_limit');
-        $inibytes = Timthumb::returnBytes($inimem);
-        $ourbytes = Timthumb::returnBytes(MEMORY_LIMIT);
+        $inibytes = self::returnBytes($inimem);
+        $ourbytes = self::returnBytes(MEMORY_LIMIT);
         if ($inibytes < $ourbytes) {
             ini_set('memory_limit', MEMORY_LIMIT);
             $this->debug(3, "Increased memory from $inimem to " . MEMORY_LIMIT);

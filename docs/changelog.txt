@@ -1,7 +1,13 @@
-<h5>1.05 RC 2       (NOT RELEASED)</h5>
+<h5>1.05 RC 2       [2017-09-08]</h5>
 <hr>
+- update Help, .html to .tpl (mamba)
+- conversion of Publisher helper class to XMF (mamba)
+- short array syntax (mamba)
+- converted to Yoda syntax (mamba)
+- added button for Sample data (mamba)
 
-<h5>1.05 RC 1       (NOT RELEASED)</h5>
+
+<h5>1.05 RC 1       [NOT RELEASED]</h5>
 - fixed Pagination issues (geekwright)
 - check nonce and file path (geekwright)
 - escape search string (geekwright)
@@ -12,12 +18,9 @@
 - commented out "img-responsive" to all images in index.php and item.php (mamba) (it was a temporary fix for Bootstrap)
 - fixed issue #61: Other articles in this category not working (liomj/mamba)
 - fixed 'element' to $element  (geekwright)
-- update Help, .html to .tpl (mamba)
-- conversion of Publisher helper class to XMF (mamba)
-- short array syntax (mamba)
-- converted to Yoda syntax (mamba)
 
-<h5>1.05 Beta 1       (NOT RELEASED)</h5>
+
+<h5>1.05 Beta 1       [NOT RELEASED]</h5>
 - PSR-2 code cosmetics (mamba)
 - addNavigation(basename(__FILE__))  (mamba)
 - dirname(__FILE__) to __DIR__ (mamba)
@@ -46,20 +49,20 @@
 - changed min_db to 5.5 (mamba)
 - changed 'include_once' to 'require_once' (mamba)
 
-<h5>1.04 FINAL       (2015-10-21)</h5>
+<h5>1.04 FINAL       [2015-10-21]</h5>
 - added XoopsLocal::number_format for rating in author_items.php (mamba)
 - added _SHORTDATESTRING to use for date formatting in author_items.php (mamba)
 - added "img-responsive" to all images in index.php and item.php (mamba) (temporary fix for Bootstrap)
 - cosmetics in publisher_author_items.tpl (mamba)
 
-<h5>1.04 RC 2       (NOT RELEASED)</h5>
+<h5>1.04 RC 2       [NOT RELEASED]</h5>
 - change TEXT fields to allow NULL, needed for import in "strict" mode (mamba)
 - changed min_db to 5.5 (mamba)
 - changed "emptyString" function in metagen.php to static to allow a callback from a static "generateSeoTitle" (mamba)
 - replaced "preg_replace" with "str_replace" in metagen.php (mamba)
 - updated import from News 1.71 (mamba)
 
-<h5>1.04 RC 1       (NOT RELEASED)</h5>
+<h5>1.04 RC 1       [NOT RELEASED]</h5>
 - fix bug when date change by user is not allowed (cesagonchu/mamba)
 - fix case when TCPDF is not available, incl. warning in Admin (cesagonchu/mamba)
 - fix for HTML in Category description (mage)
@@ -83,11 +86,11 @@
 - fixed Recent Articles Details Block (mamba)
 - changed: if selected "Display block summary on articles page", both Summary & Body are displayed (bleekk/mamba)
 
-<h5>1.03 Beta 4       (NOT RELEASED)</h5>
+<h5>1.03 Beta 4       [NOT RELEASED]</h5>
 - fixed bug in Latest news block (mamba)
 - added copy blank.png in index.php (mamba)
 
-<h5>1.03 Beta 3       (NOT RELEASED)</h5>
+<h5>1.03 Beta 3       [NOT RELEASED]</h5>
 - removed @version (mamba)
 - standardization on addNavigation(basename(__FILE__) (mamba)
 - standardize HTML $lt;br&gt; tags
@@ -126,7 +129,7 @@
 - fix for file deletes (mamba)
 - adding link to on-line Tutorial (mamba)
 
-<h5>1.02 RC4       (NOT RELEASED)</h5>
+<h5>1.02 RC4       [NOT RELEASED]</h5>
 - fix issues with Popeye images (mamba)
 - removed 500px hardcoded width for image preview in Admin, as it looks bad for small images (mamba)
 - fixed bug: wrong flag for status after modification in frontend (Dante7237/mamba)

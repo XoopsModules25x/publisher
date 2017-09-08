@@ -30,7 +30,7 @@ $scriptname = 'news.php';
 
 $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 
-if ($op === 'start') {
+if ('start' === $op) {
     xoops_load('XoopsFormLoader');
 
     PublisherUtility::cpHeader();
@@ -40,7 +40,7 @@ if ($op === 'start') {
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('news_topics'));
     list($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
 
-    if ($totalCat == 0) {
+    if (0 == $totalCat) {
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_IMPORT_NO_CATEGORY . '</span>';
     } else {
         require_once $GLOBALS['xoops']->path('class/xoopstree.php');
@@ -48,28 +48,20 @@ if ($op === 'start') {
         $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('news_stories'));
         list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
 
-        if ($totalArticles == 0) {
-            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">'
-                 . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles)
-                 . '</span>';
+        if (0 == $totalArticles) {
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles) . '</span>';
         } else {
-            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">'
-                 . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat)
-                 . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat) . '</span>';
 
             $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/{$scriptname}");
 
             // Categories to be imported
-            $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM '
-                   . $GLOBALS['xoopsDB']->prefix('news_topics')
-                   . ' AS cat INNER JOIN '
-                   . $GLOBALS['xoopsDB']->prefix('news_stories')
-                   . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
+            $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('news_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('news_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
             $result           = $GLOBALS['xoopsDB']->query($sql);
-            $cat_cbox_options = array();
+            $cat_cbox_options = [];
 
-            while ((list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
+            while (false !== (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result))) {
                 $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = '$cat_title ($art_count)';
             }
@@ -79,7 +71,7 @@ if ($op === 'start') {
             $form->addElement($cat_label);
 
             // Publisher parent category
-            $mytree = new XoopsTree($GLOBALS['xoopsDB']->prefix('publisher_categories'), 'categoryid', 'parentid');
+            $mytree = new XoopsTree($GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories'), 'categoryid', 'parentid');
             ob_start();
             $mytree->makeMySelBox('name', 'weight', $preset_id = 0, $none = 1, $sel_name = 'parent_category');
 
@@ -101,7 +93,7 @@ if ($op === 'start') {
     xoops_cp_footer();
 }
 
-if ($op === 'go') {
+if ('go' === $op) {
     PublisherUtility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     PublisherUtility::openCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
@@ -121,12 +113,12 @@ if ($op === 'go') {
 
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
-    $newCatArray     = array();
-    $newArticleArray = array();
+    $newCatArray     = [];
+    $newArticleArray = [];
 
-    $oldToNew = array();
-    while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) !== false) {
-        $newCat           = array();
+    $oldToNew = [];
+    while (false !== ($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat))) {
+        $newCat           = [];
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
         /* @var  $categoryObj PublisherCategory */
@@ -138,9 +130,8 @@ if ($op === 'go') {
         $categoryObj->setVar('description', $arrCat['topic_description']);
 
         // Category image
-        if (($arrCat['topic_imgurl'] !== 'blank.gif') && ($arrCat['topic_imgurl'] !== '')) {
-            if (copy($GLOBALS['xoops']->path('modules/news/assets/images/topics/' . $arrCat['topic_imgurl']),
-                     $GLOBALS['xoops']->path('uploads/publisher/images/category/' . $arrCat['topic_imgurl']))) {
+        if (('blank.gif' !== $arrCat['topic_imgurl']) && ('' !== $arrCat['topic_imgurl'])) {
+            if (copy($GLOBALS['xoops']->path('modules/news/assets/images/topics/' . $arrCat['topic_imgurl']), $GLOBALS['xoops']->path('uploads/publisher/images/category/' . $arrCat['topic_imgurl']))) {
                 $categoryObj->setVar('image', $arrCat['topic_imgurl']);
             }
         }
@@ -157,7 +148,7 @@ if ($op === 'go') {
 
         $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('news_stories') . ' WHERE topicid=' . $arrCat['topic_id'];
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
-        while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
+        while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
             /** @var PublisherItem $itemObj */
             $itemObj = $publisher->getHandler('item')->create();
@@ -250,7 +241,7 @@ if ($op === 'go') {
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('categoryid', $newCat['newid']));
         $oldpid = $newCat['oldpid'];
-        if ($oldpid == 0) {
+        if (0 == $oldpid) {
             $newpid = $parentId;
         } else {
             $newpid = $newCatArray[$oldpid]['newid'];

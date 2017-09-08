@@ -30,7 +30,7 @@ $scriptname = 'xfsection.php';
 
 $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 
-if ($op === 'start') {
+if ('start' === $op) {
     xoops_load('XoopsFormLoader');
 
     PublisherUtility::cpHeader();
@@ -40,7 +40,7 @@ if ($op === 'start') {
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_category'));
     list($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
 
-    if ($totalCat == 0) {
+    if (0 == $totalCat) {
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_IMPORT_NOCATSELECTED . '</span>';
     } else {
         require_once $GLOBALS['xoops']->path('class/xoopstree.php');
@@ -48,27 +48,19 @@ if ($op === 'start') {
         $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_article'));
         list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
 
-        if ($totalArticles == 0) {
-            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">'
-                 . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles)
-                 . '</span>';
+        if (0 == $totalArticles) {
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles) . '</span>';
         } else {
-            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">'
-                 . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat)
-                 . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat) . '</span>';
 
             $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
             // Categories to be imported
-            $sql              = 'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM '
-                                . $GLOBALS['xoopsDB']->prefix('xfs_category')
-                                . ' AS cat INNER JOIN '
-                                . $GLOBALS['xoopsDB']->prefix('xfs_article')
-                                . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
+            $sql              = 'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_category') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('xfs_article') . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
             $result           = $GLOBALS['xoopsDB']->query($sql);
-            $cat_cbox_values  = array();
-            $cat_cbox_options = array();
-            while ((list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
+            $cat_cbox_values  = [];
+            $cat_cbox_options = [];
+            while (false !== (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result))) {
                 $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }
@@ -77,7 +69,7 @@ if ($op === 'start') {
             $form->addElement($cat_label);
 
             // SmartFAQ parent category
-            $mytree = new XoopsTree($GLOBALS['xoopsDB']->prefix('publisher_categories'), 'categoryid', 'parentid');
+            $mytree = new XoopsTree($GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories'), 'categoryid', 'parentid');
             ob_start();
             $mytree->makeMySelBox('name', 'weight', $preset_id = 0, $none = 1, $sel_name = 'parent_category');
 
@@ -99,7 +91,7 @@ if ($op === 'start') {
     xoops_cp_footer();
 }
 
-if ($op === 'go') {
+if ('go' === $op) {
     PublisherUtility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     PublisherUtility::openCollapsableBar('xfsectionimportgo', 'xfsectionimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
@@ -113,12 +105,12 @@ if ($op === 'go') {
 
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
-    $newCatArray = array();
-    while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) !== false) {
+    $newCatArray = [];
+    while (false !== ($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat))) {
         /* @var  $categoryObj PublisherCategory */
         $categoryObj = $publisher->getHandler('category')->create();
 
-        $newCat = array();
+        $newCat = [];
 
         $newCat['oldid']  = $arrCat['id'];
         $newCat['oldpid'] = $arrCat['pid'];
@@ -132,7 +124,7 @@ if ($op === 'go') {
         $categoryObj->setVar('description', $arrCat['description']);
 
         // Category image
-        if (($arrCat['imgurl'] !== 'blank.gif') && $arrCat['imgurl']) {
+        if (('blank.gif' !== $arrCat['imgurl']) && $arrCat['imgurl']) {
             if (copy($GLOBALS['xoops']->path('modules/xfsection/images/category/' . $arrCat['imgurl']), PUBLISHER_UPLOAD_PATH . '/images/category/' . $arrCat['imgurl'])) {
                 $categoryObj->setVar('image', $arrCat['imgurl']);
             }
@@ -154,7 +146,7 @@ if ($op === 'go') {
 
         $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_article') . ' WHERE categoryid=' . $arrCat['id'] . ' ORDER BY weight';
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
-        while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
+        while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
             /** @var PublisherItem $itemObj */
             $itemObj = $publisher->getHandler('item')->create();
@@ -199,7 +191,7 @@ if ($op === 'go') {
                 $sql               = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_files') . ' WHERE articleid=' . $arrArticle['articleid'];
                 $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
                 $allowed_mimetypes = '';
-                while (($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles)) !== false) {
+                while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
                     $filename = $GLOBALS['xoops']->path('modules/xfsection/cache/uploaded/' . $arrFile['filerealname']);
                     if (file_exists($filename)) {
                         if (copy($filename, PUBLISHER_UPLOAD_PATH . '/' . $arrFile['filerealname'])) {
@@ -236,7 +228,7 @@ if ($op === 'go') {
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('categoryid', $newCat['newid']));
         $oldpid = $newCat['oldpid'];
-        if ($oldpid == 0) {
+        if (0 == $oldpid) {
             $newpid = $parentId;
         } else {
             $newpid = $newCatArray[$oldpid]['newid'];

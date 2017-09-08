@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /** Get item fields: title, content, time, link, uid, uname, tags *
  *
@@ -27,7 +27,7 @@
  */
 function publisher_tag_iteminfo(&$items)
 {
-    $itemsId = array();
+    $itemsId = [];
     foreach (array_keys($items) as $catId) {
         // Some handling here to build the link upon catid
         // if catid is not used, just skip it
@@ -43,14 +43,14 @@ function publisher_tag_iteminfo(&$items)
     foreach (array_keys($items) as $catId) {
         foreach (array_keys($items[$catId]) as $itemId) {
             $itemObj                = $itemsObj[$itemId];
-            $items[$catId][$itemId] = array(
+            $items[$catId][$itemId] = [
                 'title'   => $itemObj->getVar('title'),
                 'uid'     => $itemObj->getVar('uid'),
                 'link'    => "item.php?itemid={$itemId}",
                 'time'    => $itemObj->getVar('datesub'),
                 'tags'    => tag_parse_tag($itemObj->getVar('item_tag', 'n')), // optional
                 'content' => ''
-            );
+            ];
         }
     }
     unset($itemsObj);

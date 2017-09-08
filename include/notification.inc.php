@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once __DIR__ . '/seo_functions.php';
 
@@ -31,16 +31,17 @@ require_once __DIR__ . '/seo_functions.php';
  */
 function publisher_notify_iteminfo($category, $itemId)
 {
-    if ($category === 'global') {
+    if ('global' === $category) {
         $item['name'] = '';
         $item['url']  = '';
 
         return $item;
     }
 
-    if ($category === 'category') {
+    global $module;
+    if ('category' === $category) {
         // Assume we have a valid category id
-        $sql          = 'SELECT name, short_url FROM ' . $GLOBALS['xoopsDB']->prefix('publisher_categories') . ' WHERE categoryid  = ' . $itemId;
+        $sql          = 'SELECT name, short_url FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' WHERE categoryid  = ' . $itemId;
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
         $resultArray  = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $resultArray['name'];
@@ -49,9 +50,9 @@ function publisher_notify_iteminfo($category, $itemId)
         return $item;
     }
 
-    if ($category === 'item') {
+    if ('item' === $category) {
         // Assume we have a valid story id
-        $sql          = 'SELECT title, short_url FROM ' . $GLOBALS['xoopsDB']->prefix('publisher_items') . ' WHERE itemid = ' . $itemId;
+        $sql          = 'SELECT title, short_url FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items') . ' WHERE itemid = ' . $itemId;
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
         $resultArray  = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $resultArray['title'];

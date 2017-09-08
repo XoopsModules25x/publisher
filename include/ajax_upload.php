@@ -10,7 +10,7 @@
  */
 
 /**
- * @copyright      {@link http://xoops.org/ XOOPS Project}
+ * @copyright      {@link https://xoops.org/ XOOPS Project}
  * @license        {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
@@ -27,14 +27,14 @@ $GLOBALS['xoopsLogger']->activated = false;
 xoops_loadLanguage('common', basename(dirname(__DIR__)));
 
 if (!is_object($GLOBALS['xoopsUser'])) {
-    $group = array(XOOPS_GROUP_ANONYMOUS);
+    $group = [XOOPS_GROUP_ANONYMOUS];
 } else {
     $group = $GLOBALS['xoopsUser']->getGroups();
 }
 
 $filename       = basename($_FILES['publisher_upload_file']['name']);
 $image_nicename = Request::getString('image_nicename', '', 'POST');
-if ($image_nicename == '' || $image_nicename == _CO_PUBLISHER_IMAGE_NICENAME) {
+if ('' == $image_nicename || _CO_PUBLISHER_IMAGE_NICENAME == $image_nicename) {
     $image_nicename = $filename;
 }
 
@@ -60,10 +60,9 @@ if (!is_object($imgcat)) {
     }
 }
 
-if ($error === false) {
+if (false === $error) {
     xoops_load('XoopsMediaUploader');
-    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'), $imgcat->getVar('imgcat_maxsize'),
-                                       $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
+    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'], $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
     $uploader->setPrefix('img');
     if ($uploader->fetchMedia('publisher_upload_file')) {
         if (!$uploader->upload()) {
@@ -78,7 +77,7 @@ if ($error === false) {
             $image->setVar('image_display', 1);
             $image->setVar('image_weight', 0);
             $image->setVar('imgcat_id', $imgcat_id);
-            if ($imgcat->getVar('imgcat_storetype') === 'db') {
+            if ('db' === $imgcat->getVar('imgcat_storetype')) {
                 $fp      = @fopen($uploader->getSavedDestination(), 'rb');
                 $fbinary = @fread($fp, filesize($uploader->getSavedDestination()));
                 @fclose($fp);
@@ -96,9 +95,9 @@ if ($error === false) {
     }
 }
 
-$arr = array('success', $image->getVar('image_name'), PublisherUtility::convertCharset($image->getVar('image_nicename')));
+$arr = ['success', $image->getVar('image_name'), PublisherUtility::convertCharset($image->getVar('image_nicename'))];
 if (false !== $error) {
-    $arr = array('error', PublisherUtility::convertCharset($error));
+    $arr = ['error', PublisherUtility::convertCharset($error)];
 }
 
 echo json_encode($arr);

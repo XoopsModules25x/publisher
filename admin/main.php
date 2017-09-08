@@ -32,7 +32,7 @@ $statussel = Request::getInt('statussel', Request::getInt('statussel', 0, 'GET')
 $sortsel   = Request::getString('sortsel', Request::getString('sortsel', 'itemid', 'GET'), 'POST');
 $ordersel  = Request::getString('ordersel', Request::getString('ordersel', 'DESC', 'GET'), 'POST');
 
-$module_id    = $publisher->getModule()->mid();
+$module_id = $publisher->getModule()->mid();
 /* @var  $gpermHandler XoopsGroupPermHandler */
 $gpermHandler = xoops_getHandler('groupperm');
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
@@ -51,24 +51,23 @@ $totalitems = $publisher->getHandler('item')->getItemsCount();
 $totalcategories = $publisher->getHandler('category')->getCategoriesCount(-1);
 
 // Total submitted ITEMs
-$totalsubmitted = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_SUBMITTED));
+$totalsubmitted = $publisher->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_SUBMITTED]);
 
 // Total published ITEMs
-$totalpublished = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
+$totalpublished = $publisher->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
 
 // Total offline ITEMs
-$totaloffline = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_OFFLINE));
+$totaloffline = $publisher->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_OFFLINE]);
 
 // Total rejected
-$totalrejected = $publisher->getHandler('item')->getItemsCount(-1, array(PublisherConstants::PUBLISHER_STATUS_REJECTED));
+$totalrejected = $publisher->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_REJECTED]);
 
 // Check Path Configuration
 if ((PublisherUtility::getPathStatus('root', true) < 0)
     || (PublisherUtility::getPathStatus('images', true) < 0)
     || (PublisherUtility::getPathStatus('images/category', true) < 0)
     || (PublisherUtility::getPathStatus('images/item', true) < 0)
-    || (PublisherUtility::getPathStatus('content', true) < 0)
-) {
+    || (PublisherUtility::getPathStatus('content', true) < 0)) {
     PublisherUtility::createDir();
 }
 
@@ -233,7 +232,7 @@ echo "
     </form>";
 
 // Get number of entries in the selected state
-$statusSelected = ($statussel == 0) ? -1 : $statussel;
+$statusSelected = (0 == $statussel) ? -1 : $statussel;
 
 $numrows = $publisher->getHandler('item')->getItemsCount(-1, $statusSelected);
 
@@ -263,19 +262,9 @@ if ($numrows > 0) {
                              . _AM_PUBLISHER_SUBMISSION_MODERATE
                              . "' alt='"
                              . _AM_PUBLISHER_SUBMISSION_MODERATE
-                             . "' /></a>&nbsp;";
+                             . "'></a>&nbsp;";
                 $clone     = '';
-                $delete    = "<a href='item.php?op=del&itemid="
-                             . $itemsObj[$i]->itemid()
-                             . "'><img src='"
-                             . XOOPS_URL
-                             . '/modules/'
-                             . $publisher->getModule()->dirname()
-                             . "/assets/images/links/delete.png' title='"
-                             . _AM_PUBLISHER_DELETEITEM
-                             . "' alt='"
-                             . _AM_PUBLISHER_DELETEITEM
-                             . "' /></a>";
+                $delete    = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>";
                 $modify    = '';
                 break;
 
@@ -283,78 +272,18 @@ if ($numrows > 0) {
                 $statustxt = _CO_PUBLISHER_PUBLISHED;
                 $approve   = '';
 
-                $modify = "<a href='item.php?op=mod&itemid="
-                          . $itemsObj[$i]->itemid()
-                          . "'><img src='"
-                          . XOOPS_URL
-                          . '/modules/'
-                          . $publisher->getModule()->dirname()
-                          . "/assets/images/links/edit.gif' title='"
-                          . _AM_PUBLISHER_ITEM_EDIT
-                          . "' alt='"
-                          . _AM_PUBLISHER_ITEM_EDIT
-                          . "' /></a>&nbsp;";
-                $delete = "<a href='item.php?op=del&itemid="
-                          . $itemsObj[$i]->itemid()
-                          . "'><img src='"
-                          . XOOPS_URL
-                          . '/modules/'
-                          . $publisher->getModule()->dirname()
-                          . "/assets/images/links/delete.png' title='"
-                          . _AM_PUBLISHER_DELETEITEM
-                          . "' alt='"
-                          . _AM_PUBLISHER_DELETEITEM
-                          . "' /></a>&nbsp;";
-                $clone  = "<a href='item.php?op=clone&itemid="
-                          . $itemsObj[$i]->itemid()
-                          . "'><img src='"
-                          . XOOPS_URL
-                          . '/modules/'
-                          . $publisher->getModule()->dirname()
-                          . "/assets/images/links/clone.gif' title='"
-                          . _AM_PUBLISHER_CLONE_ITEM
-                          . "' alt='"
-                          . _AM_PUBLISHER_CLONE_ITEM
-                          . "' /></a>&nbsp;";
+                $modify = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_ITEM_EDIT . "' alt='" . _AM_PUBLISHER_ITEM_EDIT . "'></a>&nbsp;";
+                $delete = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>&nbsp;";
+                $clone  = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>&nbsp;";
                 break;
 
             case PublisherConstants::PUBLISHER_STATUS_OFFLINE:
                 $statustxt = _CO_PUBLISHER_OFFLINE;
                 $approve   = '';
-                $modify    = "<a href='item.php?op=mod&itemid="
-                             . $itemsObj[$i]->itemid()
-                             . "'><img src='"
-                             . XOOPS_URL
-                             . '/modules/'
-                             . $publisher->getModule()->dirname()
-                             . "/assets/images/links/edit.gif' title='"
-                             . _AM_PUBLISHER_ITEM_EDIT
-                             . "' alt='"
-                             . _AM_PUBLISHER_ITEM_EDIT
-                             . "' /></a>&nbsp;";
-                $delete    = "<a href='item.php?op=del&itemid="
-                             . $itemsObj[$i]->itemid()
-                             . "'><img src='"
-                             . XOOPS_URL
-                             . '/modules/'
-                             . $publisher->getModule()->dirname()
-                             . "/assets/images/links/delete.png' title='"
-                             . _AM_PUBLISHER_DELETEITEM
-                             . "' alt='"
-                             . _AM_PUBLISHER_DELETEITEM
-                             . "' /></a>&nbsp;";
+                $modify    = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_ITEM_EDIT . "' alt='" . _AM_PUBLISHER_ITEM_EDIT . "'></a>&nbsp;";
+                $delete    = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>&nbsp;";
                 $clone     = /** @lang text */
-                    "<a href='item.php?op=clone&itemid="
-                    . $itemsObj[$i]->itemid()
-                    . "'><img src='"
-                    . XOOPS_URL
-                    . '/modules/'
-                    . $publisher->getModule()->dirname()
-                    . "/assets/images/links/clone.gif' title='"
-                    . _AM_PUBLISHER_CLONE_ITEM
-                    . "' alt='"
-                    . _AM_PUBLISHER_CLONE_ITEM
-                    . "' /></a>&nbsp;";
+                    "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>&nbsp;";
                 break;
 
             case PublisherConstants::PUBLISHER_STATUS_REJECTED:
@@ -370,29 +299,9 @@ if ($numrows > 0) {
                              . _AM_PUBLISHER_REJECTED_EDIT
                              . "' alt='"
                              . _AM_PUBLISHER_REJECTED_EDIT
-                             . "' /></a>&nbsp;";
-                $delete    = "<a href='item.php?op=del&itemid="
-                             . $itemsObj[$i]->itemid()
-                             . "'><img src='"
-                             . XOOPS_URL
-                             . '/modules/'
-                             . $publisher->getModule()->dirname()
-                             . "/assets/images/links/delete.png' title='"
-                             . _AM_PUBLISHER_DELETEITEM
-                             . "' alt='"
-                             . _AM_PUBLISHER_DELETEITEM
-                             . "' /></a>&nbsp;";
-                $clone     = "<a href='item.php?op=clone&itemid="
-                             . $itemsObj[$i]->itemid()
-                             . "'><img src='"
-                             . XOOPS_URL
-                             . '/modules/'
-                             . $publisher->getModule()->dirname()
-                             . "/assets/images/links/clone.gif' title='"
-                             . _AM_PUBLISHER_CLONE_ITEM
-                             . "' alt='"
-                             . _AM_PUBLISHER_CLONE_ITEM
-                             . "' /></a>&nbsp;";
+                             . "'></a>&nbsp;";
+                $delete    = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>&nbsp;";
+                $clone     = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>&nbsp;";
                 break;
 
             case 'default':
@@ -410,18 +319,8 @@ if ($numrows > 0) {
                              . _AM_PUBLISHER_REJECTED_EDIT
                              . "' alt='"
                              . _AM_PUBLISHER_REJECTED_EDIT
-                             . "' /></a>&nbsp;";
-                $delete    = "<a href='item.php?op=del&itemid="
-                             . $itemsObj[$i]->itemid()
-                             . "'><img src='"
-                             . XOOPS_URL
-                             . '/modules/'
-                             . $publisher->getModule()->dirname()
-                             . "/assets/images/links/delete.png' title='"
-                             . _AM_PUBLISHER_DELETEITEM
-                             . "' alt='"
-                             . _AM_PUBLISHER_DELETEITEM
-                             . "' /></a>";
+                             . "'></a>&nbsp;";
+                $delete    = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>";
                 break;
         }
 
@@ -451,7 +350,7 @@ echo "</table>\n";
 echo "<span style=\"color: #567; margin: 3px 0 18px 0; font-size: small; display: block; \">$status_explaination</span>";
 $pagenav = new XoopsPageNav($numrows, $publisher->getConfig('idxcat_perpage'), $startentry, 'startentry', "statussel=$statussel&amp;sortsel=$sortsel&amp;ordersel=$ordersel");
 
-if ($publisher->getConfig('format_image_nav') == 1) {
+if (1 == $publisher->getConfig('format_image_nav')) {
     echo '<div style="text-align:right; background-color: white; margin: 10px 0;">' . $pagenav->renderImageNav() . '</div>';
 } else {
     echo '<div style="text-align:right; background-color: white; margin: 10px 0;">' . $pagenav->renderNav() . '</div>';

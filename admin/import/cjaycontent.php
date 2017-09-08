@@ -50,7 +50,7 @@ $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 //    closedir($dir);
 //}
 
-if ($op === 'start') {
+if ('start' === $op) {
     xoops_load('XoopsFormLoader');
 
     PublisherUtility::cpHeader();
@@ -60,14 +60,10 @@ if ($op === 'start') {
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('cjaycontent'));
     list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
 
-    if ($totalArticles == 0) {
-        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">'
-             . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles)
-             . '</span>';
+    if (0 == $totalArticles) {
+        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles) . '</span>';
     } else {
-        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">'
-             . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat)
-             . '</span>';
+        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat) . '</span>';
 
         $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
@@ -86,7 +82,7 @@ if ($op === 'start') {
     xoops_cp_footer();
 }
 
-if ($op === 'go') {
+if ('go' === $op) {
     PublisherUtility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     require_once dirname(dirname(__DIR__)) . '/include/common.php';
@@ -100,13 +96,13 @@ if ($op === 'go') {
 
     $cnt_imported_articles = 0;
 
-    $newArticleArray = array();
+    $newArticleArray = [];
 
-    $oldToNew = array();
+    $oldToNew = [];
 
     $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('cjaycontent');
     $resultArticles = $GLOBALS['xoopsDB']->query($sql);
-    while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
+    while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
         // insert article
         /** @var PublisherItem $itemObj */
         $itemObj = $publisher->getHandler('item')->create();

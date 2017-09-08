@@ -26,7 +26,7 @@ xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 $op     = Request::getString('op', Request::getString('op', '', 'GET'), 'POST');
 $fileid = Request::getInt('fileid', Request::getInt('fileid', 0, 'GET'), 'POST');
 
-if ($fileid == 0) {
+if (0 == $fileid) {
     redirect_header('index.php', 2, _MD_PUBLISHER_NOITEMSELECTED);
     //    exit();
 }
@@ -63,7 +63,7 @@ switch ($op) {
         $fileid = Request::getInt('fileid', 0, 'POST');
 
         // Creating the file object
-        if ($fileid != 0) {
+        if (0 != $fileid) {
             $fileObj = $publisher->getHandler('file')->get($fileid);
         } else {
             redirect_header('index.php', 1, _NOPERM);
@@ -77,16 +77,16 @@ switch ($op) {
 
         // attach file if any
 
-        if (Request::getString('item_upload_file', '', 'FILES') != '') {
+        if ('' != Request::getString('item_upload_file', '', 'FILES')) {
             $oldfile = $fileObj->getFilePath();
 
             // Get available mimetypes for file uploading
             $allowed_mimetypes = $publisher->getHandler('mimetype')->getArrayByType();
             // TODO : display the available mimetypes to the user
-            $errors = array();
+            $errors = [];
 
             //            if ($publisher->getConfig('perm_upload') && is_uploaded_file(Request::getArray('item_upload_file', array(), 'FILES')['tmp_name'])) {
-            $temp = Request::getArray('item_upload_file', array(), 'FILES');
+            $temp = Request::getArray('item_upload_file', [], 'FILES');
             if ($publisher->getConfig('perm_upload') && is_uploaded_file($temp['tmp_name'])) {
                 if ($fileObj->checkUpload('item_upload_file', $allowed_mimetypes, $errors)) {
                     if ($fileObj->storeUpload('item_upload_file', $allowed_mimetypes, $errors)) {
@@ -124,8 +124,7 @@ switch ($op) {
             // no confirm: show deletion condition
 
             require_once $GLOBALS['xoops']->path('header.php');
-            xoops_confirm(array('op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()), 'file.php',
-                          _AM_PUBLISHER_DELETETHISFILE . ' <br>' . $fileObj->name() . ' <br> <br>', _AM_PUBLISHER_DELETE);
+            xoops_confirm(['op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()], 'file.php', _AM_PUBLISHER_DELETETHISFILE . ' <br>' . $fileObj->name() . ' <br> <br>', _AM_PUBLISHER_DELETE);
             require_once $GLOBALS['xoops']->path('footer.php');
         }
         exit();

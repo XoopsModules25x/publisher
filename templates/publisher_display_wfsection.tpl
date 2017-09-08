@@ -1,7 +1,7 @@
 <{include file='db:publisher_header.tpl'}>
 
 <!--<{if $collapsable_heading == 1}>
-    <div class="publisher_collaps_title"><a href='javascript:;' onclick="toggle('toptable'); toggleIcon('toptableicon')"><img id='toptableicon' src='<{$publisher_url}>/assets/images/links/close12.gif' alt='' /></a>&nbsp;<{$lang_category_summary}></div>
+    <div class="publisher_collaps_title"><a href='javascript:;' onclick="toggle('toptable'); toggleIcon('toptableicon')"><img id='toptableicon' src='<{$publisher_url}>/assets/images/links/close12.gif' alt=''></a>&nbsp;<{$lang_category_summary}></div>
     <div id='toptable'>
     <span class="publisher_collaps_info""><{$lang_category_summary}></span>
 <{/if}> -->
@@ -13,7 +13,7 @@
             <div class="publisher_categoryname"><{$category.categorylink}></div>
             <div>
                 <{if $category.image_path}>
-                    <img class="publisher_category_image" src="<{$category.image_path}>" alt="<{$category.name}>" width="<{$category_list_image_width}>"/>
+                    <img class="publisher_category_image" src="<{$category.image_path}>" alt="<{$category.name}>" width="<{$category_list_image_width}>">
                 <{/if}> <{$category.description}>
             </div>
             <{if $category.subcats}>
@@ -31,7 +31,7 @@
         <div style="clear: both;">
             <div>
                 <{if $category.image_path}>
-                    <img class="publisher_category_image" src="<{$category.image_path}>" alt="<{$category.name}>" width="<{$category_list_image_width}>"/>
+                    <img class="publisher_category_image" src="<{$category.image_path}>" alt="<{$category.name}>" width="<{$category_list_image_width}>">
                 <{/if}> <{$category.description}>
             </div>
             <div class="publisher_category_header">
@@ -55,7 +55,7 @@
     <{if $items}> <{if $collapsable_heading == 1}>
         <div class="publisher_collaps_title">
             <a href='javascript:' onclick="toggle('bottomtable'); toggleIcon('bottomtableicon')"><img id='bottomtableicon' src='<{$publisher_url}>/assets/images/links/close12.gif'
-                                                                                                      alt=''/></a>&nbsp;<{$lang_items_title}>
+                                                                                                      alt=''></a>&nbsp;<{$lang_items_title}>
         </div>
         <div id='bottomtable'>
         <span class="publisher_collaps_info"><{$smarty.const._MD_PUBLISHER_ITEMS_INFO}></span>

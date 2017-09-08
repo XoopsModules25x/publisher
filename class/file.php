@@ -16,7 +16,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -31,7 +31,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 class PublisherFile extends XoopsObject
 {
     /**
-     * @var PublisherPublisher
+     * @var Publisher
      * @access public
      */
     public $publisher;
@@ -41,7 +41,7 @@ class PublisherFile extends XoopsObject
      */
     public function __construct($id = null)
     {
-        $this->publisher = PublisherPublisher::getInstance();
+        $this->publisher = Publisher::getInstance();
         $this->db        = XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('fileid', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('itemid', XOBJ_DTYPE_INT, null, true);
@@ -82,9 +82,9 @@ class PublisherFile extends XoopsObject
      *
      * @return bool
      */
-    public function checkUpload($postField, $allowedMimetypes = array(), &$errors)
+    public function checkUpload($postField, $allowedMimetypes = [], &$errors)
     {
-        $errors = array();
+        $errors = [];
         if (!$this->publisher->getHandler('mimetype')->checkMimeTypes($postField)) {
             $errors[] = _CO_PUBLISHER_MESSAGE_WRONG_MIMETYPE;
 
@@ -114,7 +114,7 @@ class PublisherFile extends XoopsObject
      *
      * @return bool
      */
-    public function storeUpload($postField, $allowedMimetypes = array(), &$errors)
+    public function storeUpload($postField, $allowedMimetypes = [], &$errors)
     {
         $itemid = $this->getVar('itemid');
         if (0 === count($allowedMimetypes)) {
@@ -132,7 +132,7 @@ class PublisherFile extends XoopsObject
             $uploader->setTargetFileName($itemid . '_' . $uploader->getMediaName());
             if ($uploader->upload()) {
                 $this->setVar('filename', $uploader->getSavedFileName());
-                if ($this->getVar('name') == '') {
+                if ('' == $this->getVar('name')) {
                     $this->setVar('name', $this->getNameFromFilename());
                 }
                 $this->setVar('mimetype', $uploader->getMediaType());
@@ -160,7 +160,7 @@ class PublisherFile extends XoopsObject
     public function store($allowedMimetypes = null, $force = true, $doupload = true)
     {
         if ($this->isNew()) {
-            $errors = array();
+            $errors = [];
             $ret    = true;
             if ($doupload) {
                 $ret = $this->storeUpload('item_upload_file', $allowedMimetypes, $errors);
@@ -195,7 +195,7 @@ class PublisherFile extends XoopsObject
      */
     public function notLoaded()
     {
-        return ($this->getVar('itemid') == 0);
+        return (0 == $this->getVar('itemid'));
     }
 
     /**
@@ -326,7 +326,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
      */
     public function deleteItemFiles(XoopsObject $itemObj)
     {
-        if (strtolower(get_class($itemObj)) !== 'publisheritem') {
+        if ('publisheritem' !== strtolower(get_class($itemObj))) {
             return false;
         }
         $files  = $this->getAllFiles($itemObj->itemid());
@@ -353,13 +353,14 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
      *
      * @return array array of {@link PublisherFile} objects
      */
-    public function getAllFiles($itemid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = array())
+    public function getAllFiles($itemid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = [])
     {
-        $files = array();
+        global $xoopsModule;
+        $files = [];
 
-        $this->table_link = $this->db->prefix('publisher_items');
+        $this->table_link = $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items');
 
-        $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $this->db->prefix('publisher_files'));
+        $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_files'));
         list($count) = $GLOBALS['xoopsDB']->fetchRow($result);
         if ($count > 0) {
             $this->field_object = 'itemid';
@@ -378,7 +379,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
             $hasCategoryCriteria = false;
             $criteriaCategory    = new CriteriaCompo();
             $category            = (array)$category;
-            if (isset($category[0]) && $category[0] != 0 && count($category) > 0) {
+            if (isset($category[0]) && 0 != $category[0] && count($category) > 0) {
                 $hasCategoryCriteria = true;
                 foreach ($category as $cat) {
                     $criteriaCategory->add(new Criteria('l.categoryid', $cat), 'OR');
@@ -386,7 +387,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
             }
             $criteriaItemid = new Criteria('o.itemid', $itemid);
             $criteria       = new CriteriaCompo();
-            if ($itemid != 0) {
+            if (0 != $itemid) {
                 $criteria->add($criteriaItemid);
             }
             if ($hasStatusCriteria) {
@@ -399,7 +400,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
             $criteria->setOrder($order);
             $criteria->setLimit($limit);
             $criteria->setStart($start);
-            $files =& $this->getByLink($criteria, array('o.*'), true);
+            $files =& $this->getByLink($criteria, ['o.*'], true);
 
             //            return $files;
         }

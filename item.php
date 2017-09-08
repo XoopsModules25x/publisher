@@ -26,7 +26,7 @@ require_once __DIR__ . '/header.php';
 $itemId     = Request::getInt('itemid', 0, 'GET');
 $itemPageId = Request::getInt('page', -1, 'GET');
 
-if ($itemId == 0) {
+if (0 == $itemId) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
     //    exit();
 }
@@ -66,8 +66,7 @@ $com_replytitle = $itemObj->getTitle();
 // Update the read counter of the selected item
 if (!$GLOBALS['xoopsUser']
     || ($GLOBALS['xoopsUser'] && !$GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid()))
-    || ($GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid()) && $publisher->getConfig('item_admin_hits') == 1)
-) {
+    || ($GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->mid()) && 1 == $publisher->getConfig('item_admin_hits'))) {
     $itemObj->updateCounter();
 }
 
@@ -135,11 +134,11 @@ if ('previous_next' === $publisher->getConfig('item_other_items_type')) {
 }
 
 //CAREFUL!! with many items this will exhaust memory
-if ($publisher->getConfig('item_other_items_type') === 'all') {
+if ('all' === $publisher->getConfig('item_other_items_type')) {
     $itemsObj = $publisher->getHandler('item')->getAllPublished(0, 0, $categoryObj->categoryid(), $sort, $order, '', true, true);
-    $items    = array();
+    $items    = [];
     foreach ($itemsObj[''] as $theItemObj) {
-        $theItem              = array();
+        $theItem              = [];
         $theItem['titlelink'] = $theItemObj->getItemLink();
         $theItem['datesub']   = $theItemObj->getDatesub();
         $theItem['counter']   = $theItemObj->counter();
@@ -171,9 +170,9 @@ if ($itemObj->pagescount() > 0) {
 }
 
 // Creating the files object associated with this item
-$file         = array();
-$files        = array();
-$embededFiles = array();
+$file         = [];
+$files        = [];
+$embededFiles = [];
 $filesObj     = $itemObj->getFiles();
 
 // check if user has permission to modify files
@@ -183,13 +182,13 @@ if (!(PublisherUtility::userIsAdmin() || PublisherUtility::userIsModerator($item
 }
 if (null !== $filesObj) {
     foreach ($filesObj as $fileObj) {
-        $file        = array();
+        $file        = [];
         $file['mod'] = false;
         if ($hasFilePermissions || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid'))) {
             $file['mod'] = true;
         }
 
-        if ($fileObj->mimetype() === 'application/x-shockwave-flash') {
+        if ('application/x-shockwave-flash' === $fileObj->mimetype()) {
             $file['content'] = $fileObj->displayFlash();
             if (strpos($item['maintext'], '[flash-' . $fileObj->getVar('fileid') . ']')) {
                 $item['maintext'] = str_replace('[flash-' . $fileObj->getVar('fileid') . ']', $file['content'], $item['maintext']);
@@ -214,17 +213,12 @@ $item['embeded_files'] = $embededFiles;
 unset($file, $embededFiles, $filesObj, $fileObj);
 
 // Language constants
-$xoopsTpl->assign('mail_link', 'mailto:?subject='
-                               . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename'])
-                               . '&amp;body='
-                               . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename'])
-                               . ': '
-                               . $itemObj->getItemUrl());
+$xoopsTpl->assign('mail_link', 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ': ' . $itemObj->getItemUrl());
 $xoopsTpl->assign('itemid', $itemObj->itemId());
 $xoopsTpl->assign('sectionname', $publisher->getModule()->getVar('name'));
 $xoopsTpl->assign('module_dirname', $publisher->getModule()->getVar('dirname'));
 $xoopsTpl->assign('module_home', PublisherUtility::moduleHome($publisher->getConfig('format_linked_path')));
-$xoopsTpl->assign('categoryPath', '<li>'.$item['categoryPath'] . '</li><li> ' . $item['title'].'</li>');
+$xoopsTpl->assign('categoryPath', '<li>' . $item['categoryPath'] . '</li><li> ' . $item['title'] . '</li>');
 $xoopsTpl->assign('commentatarticlelevel', $publisher->getConfig('perm_com_art_level'));
 $xoopsTpl->assign('com_rule', $publisher->getConfig('com_rule'));
 $xoopsTpl->assign('other_items', $publisher->getConfig('item_other_items_type'));
@@ -244,14 +238,14 @@ $publisherMetagen = new PublisherMetagen($itemObj->getVar('title'), $itemObj->ge
 $publisherMetagen->createMetaTags();
 
 // Include the comments if the selected ITEM supports comments
-if (($publisher->getConfig('com_rule') <> 0) && (($itemObj->cancomment() == 1) || !$publisher->getConfig('perm_com_art_level'))) {
+if ((0 <> $publisher->getConfig('com_rule')) && ((1 == $itemObj->cancomment()) || !$publisher->getConfig('perm_com_art_level'))) {
     require_once $GLOBALS['xoops']->path('include/comment_view.php');
     // Problem with url_rewrite and posting comments :
-    $xoopsTpl->assign(array(
+    $xoopsTpl->assign([
                           'editcomment_link'   => PUBLISHER_URL . '/comment_edit.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
                           'deletecomment_link' => PUBLISHER_URL . '/comment_delete.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
                           'replycomment_link'  => PUBLISHER_URL . '/comment_reply.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra
-                      ));
+                      ]);
     $xoopsTpl->_tpl_vars['commentsnav'] = str_replace("self.location.href='", "self.location.href='" . PUBLISHER_URL . '/', $xoopsTpl->_tpl_vars['commentsnav']);
 }
 

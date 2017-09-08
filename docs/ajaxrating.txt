@@ -104,12 +104,12 @@ CREATE TABLE `ratings` (
 =============================================================================
 2. Enter your specific info into _config-rating.php
 =============================================================================
-	$dbhost        = 'localhost';
-	$dbuser        = '###';
-	$dbpass        = '###';
-	$dbname        = '###';
-	$tableName     = 'ratings';
-	$rating_unitwidth     = 30;
+    $dbhost        = 'localhost';
+    $dbuser        = '###';
+    $dbpass        = '###';
+    $dbname        = '###';
+    $tableName     = 'ratings';
+    $rating_unitwidth     = 30;
 
 
 =============================================================================

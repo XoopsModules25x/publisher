@@ -26,12 +26,12 @@ require_once __DIR__ . '/header.php';
 $rating = Request::getInt('rating', 0, 'GET');
 $itemid = Request::getInt('itemid', 0, 'GET');
 
-$groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var $gpermHandler XoopsGroupPermHandler  */
+$groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+/* @var $gpermHandler XoopsGroupPermHandler */
 $gpermHandler = xoops_getModuleHandler('groupperm');
-/* @var $configHandler XoopsConfigHandler  */
-$configHandler   = xoops_getHandler('config');
-$module_id    = $publisher->getModule()->getVar('mid');
+/* @var $configHandler XoopsConfigHandler */
+$configHandler = xoops_getHandler('config');
+$module_id     = $publisher->getModule()->getVar('mid');
 
 //Checking permissions
 if (!$publisher->getConfig('perm_rating') || !$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_RATE, $groups, $module_id)) {

@@ -31,11 +31,11 @@ $op = Request::getString('op');
  */
 function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
 {
-    $publisher = PublisherPublisher::getInstance();
+    $publisher = Publisher::getInstance();
     require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
     // if there is a parameter, and the id exists, retrieve data: we're editing a file
-    if ($fileid != 0) {
+    if (0 != $fileid) {
         // Creating the File object
         $fileObj = $publisher->getHandler('file')->get($fileid);
 
@@ -61,7 +61,7 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
     $uploadForm = $fileObj->getForm();
     $uploadForm->display();
 
-    if ($fileid != 0) {
+    if (0 != $fileid) {
         PublisherUtility::closeCollapsableBar('editfile', 'editfileicon');
     } else {
         PublisherUtility::closeCollapsableBar('addfile', 'addfileicon');
@@ -84,7 +84,7 @@ switch ($op) {
     case 'mod':
         $fileid = Request::getInt('fileid', 0, 'GET');
         $itemid = Request::getInt('itemid', 0, 'GET');
-        if (($fileid == 0) && ($itemid == 0)) {
+        if ((0 == $fileid) && (0 == $itemid)) {
             redirect_header('javascript:history.go(-1)', 3, _AM_PUBLISHER_NOITEMSELECTED);
             //            exit();
         }
@@ -99,7 +99,7 @@ switch ($op) {
         $fileid = Request::getInt('fileid', 0, 'POST');
 
         // Creating the file object
-        if ($fileid != 0) {
+        if (0 != $fileid) {
             $fileObj = $publisher->getHandler('file')->get($fileid);
         } else {
             $fileObj = $publisher->getHandler('file')->create();
@@ -142,8 +142,7 @@ switch ($op) {
             $fileid = Request::getInt('fileid', 0, 'GET');
 
             PublisherUtility::cpHeader();
-            xoops_confirm(array('op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()), 'file.php',
-                          _AM_PUBLISHER_DELETETHISFILE . ' <br>' . $fileObj->name() . ' <br> <br>', _AM_PUBLISHER_DELETE);
+            xoops_confirm(['op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()], 'file.php', _AM_PUBLISHER_DELETETHISFILE . ' <br>' . $fileObj->name() . ' <br> <br>', _AM_PUBLISHER_DELETE);
             xoops_cp_footer();
         }
 

@@ -231,7 +231,7 @@ if (!defined('WEBSHOT_XVFB_RUNNING')) {
 
 // If ALLOW_EXTERNAL is true and ALLOW_ALL_EXTERNAL_SITES is false, then external images will only be fetched from these domains and their subdomains.
 if (!isset($ALLOWED_SITES)) {
-    $ALLOWED_SITES = array(
+    $ALLOWED_SITES = [
         'flickr.com',
         'staticflickr.com',
         'picasa.com',
@@ -241,7 +241,7 @@ if (!isset($ALLOWED_SITES)) {
         'imgur.com',
         'imageshack.us',
         'tinypic.com'
-    );
+    ];
 }
 // -------------------------------------------------------------
 // -------------- STOP EDITING CONFIGURATION HERE --------------
@@ -264,8 +264,8 @@ class Timthumb
     protected $myHost                   = '';
     protected $isURL                    = false;
     protected $cachefile                = '';
-    protected $errors                   = array();
-    protected $toDeletes                = array();
+    protected $errors                   = [];
+    protected $toDeletes                = [];
     protected $cacheDirectory           = '';
     protected $startTime                = 0.0;
     protected $lastBenchTime            = 0.0;
@@ -278,7 +278,7 @@ class Timthumb
 
     public static function start()
     {
-        $tim = new timthumb();
+        $tim = new self();
         $tim->handleErrors();
         $tim->securityChecks();
         if ($tim->tryBrowserCache()) {
@@ -395,12 +395,7 @@ class Timthumb
             $this->debug(1, "Local image path is {$this->localImage}");
             $this->localImageMTime = @filemtime($this->localImage);
             //We include the mtime of the local file in case in changes on disk.
-            $this->cachefile = $this->cacheDirectory
-                               . '/'
-                               . FILE_CACHE_PREFIX
-                               . $cachePrefix
-                               . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion)
-                               . FILE_CACHE_SUFFIX;
+            $this->cachefile = $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
         }
         $this->debug(2, 'Cache file is: ' . $this->cachefile);
 
@@ -706,19 +701,19 @@ class Timthumb
         }
 
         if (defined('IMG_FILTER_NEGATE') && function_exists('imagefilter')) {
-            $imageFilters = array(
-                1  => array(IMG_FILTER_NEGATE, 0),
-                2  => array(IMG_FILTER_GRAYSCALE, 0),
-                3  => array(IMG_FILTER_BRIGHTNESS, 1),
-                4  => array(IMG_FILTER_CONTRAST, 1),
-                5  => array(IMG_FILTER_COLORIZE, 4),
-                6  => array(IMG_FILTER_EDGEDETECT, 0),
-                7  => array(IMG_FILTER_EMBOSS, 0),
-                8  => array(IMG_FILTER_GAUSSIAN_BLUR, 0),
-                9  => array(IMG_FILTER_SELECTIVE_BLUR, 0),
-                10 => array(IMG_FILTER_MEAN_REMOVAL, 0),
-                11 => array(IMG_FILTER_SMOOTH, 0)
-            );
+            $imageFilters = [
+                1  => [IMG_FILTER_NEGATE, 0],
+                2  => [IMG_FILTER_GRAYSCALE, 0],
+                3  => [IMG_FILTER_BRIGHTNESS, 1],
+                4  => [IMG_FILTER_CONTRAST, 1],
+                5  => [IMG_FILTER_COLORIZE, 4],
+                6  => [IMG_FILTER_EDGEDETECT, 0],
+                7  => [IMG_FILTER_EMBOSS, 0],
+                8  => [IMG_FILTER_GAUSSIAN_BLUR, 0],
+                9  => [IMG_FILTER_SELECTIVE_BLUR, 0],
+                10 => [IMG_FILTER_MEAN_REMOVAL, 0],
+                11 => [IMG_FILTER_SMOOTH, 0]
+            ];
         }
 
         // get standard input properties
@@ -733,9 +728,9 @@ class Timthumb
         $canvas_trans = (bool)$this->param('ct', '1');
 
         // set default width and height if neither are set already
-        if ($newWidth == 0 && $newHeight == 0) {
-            $newWidth  = (int)DEFAULT_WIDTH;
-            $newHeight = (int)DEFAULT_HEIGHT;
+        if (0 == $newWidth && 0 == $newHeight) {
+            $newWidth  = DEFAULT_WIDTH;
+            $newHeight = DEFAULT_HEIGHT;
         }
 
         // ensure size limits can not be abused
@@ -747,7 +742,7 @@ class Timthumb
 
         // open the existing image
         $image = $this->openImage($mimeType, $localImage);
-        if ($image === false) {
+        if (false === $image) {
             return $this->error('Unable to open image.');
         }
 
@@ -765,7 +760,7 @@ class Timthumb
         }
 
         // scale down and add borders
-        if ($zoom_crop == 3) {
+        if (3 == $zoom_crop) {
             $final_height = $height * ($newWidth / $width);
 
             if ($final_height > $newHeight) {
@@ -779,9 +774,9 @@ class Timthumb
         $canvas = imagecreatetruecolor($newWidth, $newHeight);
         imagealphablending($canvas, false);
 
-        if (strlen($canvas_color) == 3) { //if is 3-char notation, edit string into 6-char notation
+        if (3 == strlen($canvas_color)) { //if is 3-char notation, edit string into 6-char notation
             $canvas_color = str_repeat(substr($canvas_color, 0, 1), 2) . str_repeat(substr($canvas_color, 1, 1), 2) . str_repeat(substr($canvas_color, 2, 1), 2);
-        } elseif (strlen($canvas_color) != 6) {
+        } elseif (6 != strlen($canvas_color)) {
             $canvas_color = DEFAULT_CC; // on error return default canvas color
         }
 
@@ -801,7 +796,7 @@ class Timthumb
         // Completely fill the background of the new image with allocated color.
         imagefill($canvas, 0, 0, $color);
         // scale down and add borders
-        if ($zoom_crop == 2) {
+        if (2 == $zoom_crop) {
             $final_height = $height * ($newWidth / $width);
             if ($final_height > $newHeight) {
                 $origin_x = $newWidth / 2;
@@ -836,16 +831,16 @@ class Timthumb
 
             // positional cropping!
             if ($align) {
-                if (strpos($align, 't') !== false) {
+                if (false !== strpos($align, 't')) {
                     $src_y = 0;
                 }
-                if (strpos($align, 'b') !== false) {
+                if (false !== strpos($align, 'b')) {
                     $src_y = $height - $src_h;
                 }
-                if (strpos($align, 'l') !== false) {
+                if (false !== strpos($align, 'l')) {
                     $src_x = 0;
                 }
-                if (strpos($align, 'r') !== false) {
+                if (false !== strpos($align, 'r')) {
                     $src_x = $width - $src_w;
                 }
             }
@@ -856,7 +851,7 @@ class Timthumb
             imagecopyresampled($canvas, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
         }
 
-        if (defined('IMG_FILTER_NEGATE') && $filters != '' && function_exists('imagefilter')) {
+        if (defined('IMG_FILTER_NEGATE') && '' != $filters && function_exists('imagefilter')) {
             // apply filters to image
             $filterList = explode('|', $filters);
             foreach ($filterList as $fl) {
@@ -897,11 +892,11 @@ class Timthumb
 
         // sharpen image
         if ($sharpen && function_exists('imageconvolution')) {
-            $sharpenMatrix = array(
-                array(-1, -1, -1),
-                array(-1, 16, -1),
-                array(-1, -1, -1)
-            );
+            $sharpenMatrix = [
+                [-1, -1, -1],
+                [-1, 16, -1],
+                [-1, -1, -1]
+            ];
 
             $divisor = 8;
             $offset  = 0;
@@ -928,7 +923,7 @@ class Timthumb
             return $this->sanityFail('Could not match mime type after verifying it previously.');
         }
 
-        if ($imgType === 'png' && OPTIPNG_ENABLED && OPTIPNG_PATH && @is_file(OPTIPNG_PATH)) {
+        if ('png' === $imgType && OPTIPNG_ENABLED && OPTIPNG_PATH && @is_file(OPTIPNG_PATH)) {
             $exec = OPTIPNG_PATH;
             $this->debug(3, "optipng'ing $tempfile");
             $presize = filesize($tempfile);
@@ -943,7 +938,7 @@ class Timthumb
             } else {
                 $this->debug(1, 'optipng did not change image size.');
             }
-        } elseif ($imgType === 'png' && PNGCRUSH_ENABLED && PNGCRUSH_PATH && @is_file(PNGCRUSH_PATH)) {
+        } elseif ('png' === $imgType && PNGCRUSH_ENABLED && PNGCRUSH_PATH && @is_file(PNGCRUSH_PATH)) {
             $exec      = PNGCRUSH_PATH;
             $tempfile2 = tempnam($this->cacheDirectory, 'timthumb_tmpimg_');
             $this->debug(3, "pngcrush'ing $tempfile to $tempfile2");
@@ -1020,7 +1015,7 @@ class Timthumb
                 $this->debug(3, "Generated docRoot using PATH_TRANSLATED and PHP_SELF as: $docRoot");
             }
         }
-        if ($docRoot && $_SERVER['DOCUMENT_ROOT'] !== '/') {
+        if ($docRoot && '/' !== $_SERVER['DOCUMENT_ROOT']) {
             $docRoot = preg_replace('/\/$/', '', $docRoot);
         }
         $this->debug(3, 'Doc root is: ' . $docRoot);
@@ -1056,7 +1051,7 @@ class Timthumb
         if (file_exists($this->docRoot . '/' . $src)) {
             $this->debug(3, 'Found file as ' . $this->docRoot . '/' . $src);
             $real = $this->realpath($this->docRoot . '/' . $src);
-            if (stripos($real, $this->docRoot) === 0) {
+            if (0 === stripos($real, $this->docRoot)) {
                 return $real;
             } else {
                 $this->debug(1, 'Security block: The file specified occurs outside the document root.');
@@ -1070,7 +1065,7 @@ class Timthumb
             if (!$this->docRoot) {
                 $this->sanityFail('docRoot not set when checking absolute path.');
             }
-            if (stripos($absolute, $this->docRoot) === 0) {
+            if (0 === stripos($absolute, $this->docRoot)) {
                 return $absolute;
             } else {
                 $this->debug(1, 'Security block: The file specified occurs outside the document root.');
@@ -1093,7 +1088,7 @@ class Timthumb
             if (file_exists($base . $src)) {
                 $this->debug(3, 'Found file as: ' . $base . $src);
                 $real = $this->realpath($base . $src);
-                if (stripos($real, $this->realpath($this->docRoot)) === 0) {
+                if (0 === stripos($real, $this->realpath($this->docRoot))) {
                     return $real;
                 } else {
                     $this->debug(1, 'Security block: The file specified occurs outside the document root.');
@@ -1280,7 +1275,7 @@ class Timthumb
             return true;
         }
         $content = file_get_contents($this->cachefile);
-        if ($content !== false) {
+        if (false !== $content) {
             $content = substr($content, strlen($this->filePrependSecurityBlock) + 6);
             echo $content;
             $this->debug(3, 'Served using file_get_contents and echo');
@@ -1304,7 +1299,7 @@ class Timthumb
         if (!preg_match('/^image\//i', $mimeType)) {
             $mimeType = 'image/' . $mimeType;
         }
-        if (strtolower($mimeType) === 'image/jpg') {
+        if ('image/jpg' === strtolower($mimeType)) {
             $mimeType = 'image/jpeg';
         }
         $gmdate_expires  = gmdate('D, d M Y H:i:s', strtotime('now +10 days')) . ' GMT';
@@ -1455,8 +1450,8 @@ class Timthumb
     protected function setMemoryLimit()
     {
         $inimem   = ini_get('memory_limit');
-        $inibytes = Timthumb::returnBytes($inimem);
-        $ourbytes = Timthumb::returnBytes(MEMORY_LIMIT);
+        $inibytes = self::returnBytes($inimem);
+        $ourbytes = self::returnBytes(MEMORY_LIMIT);
         if ($inibytes < $ourbytes) {
             ini_set('memory_limit', MEMORY_LIMIT);
             $this->debug(3, "Increased memory from $inimem to " . MEMORY_LIMIT);
@@ -1520,10 +1515,10 @@ class Timthumb
             $curlResult = curl_exec($curl);
             fclose(self::$curlFH);
             $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            if ($httpStatus == 404) {
+            if (404 == $httpStatus) {
                 $this->set404();
             }
-            if ($httpStatus == 302) {
+            if (302 == $httpStatus) {
                 $this->error('External Image is Redirecting. Try alternate image url');
 
                 return false;
@@ -1540,7 +1535,7 @@ class Timthumb
             }
         } else {
             $img = @file_get_contents($url);
-            if ($img === false) {
+            if (false === $img) {
                 $err                = error_get_last();
                 $this->lastURLError = $err;
                 if (is_array($err) && $err['message']) {
@@ -1582,7 +1577,7 @@ class Timthumb
             return true;
         }
         $content = @file_get_contents($file);
-        if ($content !== false) {
+        if (false !== $content) {
             echo $content;
 
             return true;

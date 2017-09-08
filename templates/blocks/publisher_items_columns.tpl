@@ -14,7 +14,7 @@
 
                         <p>
                             <{if $item.item_image != ''}>
-                                <img src="<{$item.item_image}>" alt="<{$item.item_cleantitle}>" align="left" width="100"/>
+                                <img src="<{$item.item_image}>" alt="<{$item.item_cleantitle}>" align="left" width="100">
                             <{/if}> <{$item.item_summary}>
                         </p>
                     </div>
@@ -48,7 +48,7 @@
 
                         <div class="publisher-content clearfix">
                             <{if $item.item_image != ''}>
-                                <img src="<{$item.item_image}>" alt="<{$item.item_cleantitle}>" align="right" width="100"/>
+                                <img src="<{$item.item_image}>" alt="<{$item.item_cleantitle}>" align="right" width="100">
                             <{/if}>
                             <p><{$item.item_summary}></p>
 

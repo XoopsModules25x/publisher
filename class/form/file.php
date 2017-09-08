@@ -33,7 +33,7 @@ xoops_loadLanguage('main', 'publisher');
 class PublisherFileForm extends XoopsThemeForm
 {
     /**
-     * @var PublisherPublisher
+     * @var Publisher
      * @access public
      */
     public $publisher;
@@ -45,10 +45,10 @@ class PublisherFileForm extends XoopsThemeForm
      */
     public function __construct(&$target)
     {
-        $this->publisher    = PublisherPublisher::getInstance();
+        $this->publisher    = Publisher::getInstance();
         $this->targetObject =& $target;
 
-        parent::__construct(_AM_PUBLISHER_UPLOAD_FILE, 'form', xoops_getenv('PHP_SELF'));
+        parent::__construct(_AM_PUBLISHER_UPLOAD_FILE, 'form', xoops_getenv('PHP_SELF'), 'post', true);
         $this->setExtra('enctype="multipart/form-data"');
 
         $this->createElements();

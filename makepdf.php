@@ -12,7 +12,7 @@ error_reporting(E_ALL);
 require_once __DIR__ . '/header.php';
 $itemid       = Request::getInt('itemid', 0, 'GET');
 $item_page_id = Request::getInt('page', -1, 'GET');
-if ($itemid == 0) {
+if (0 == $itemid) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
@@ -42,18 +42,10 @@ $sender_inform = sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemOb
 $mainImage     = $itemObj->getMainImage();
 
 $content = '';
-if ($mainImage['image_path'] != '') {
-    $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"/><br>';
+if ('' != $mainImage['image_path']) {
+    $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"><br>';
 }
-$content .= '<a href="'
-            . PUBLISHER_URL
-            . '/item.php?itemid='
-            . $itemid
-            . '" style="text-decoration: none; color: black; font-size: 120%;" title="'
-            . $myts->undoHtmlSpecialChars($itemObj->getTitle())
-            . '">'
-            . $myts->undoHtmlSpecialChars($itemObj->getTitle())
-            . '</a>';
+$content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" style="text-decoration: none; color: black; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '">' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '</a>';
 $content .= '<br><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">'
             . _CO_PUBLISHER_CATEGORY
             . ' : </span><a href="'
@@ -70,14 +62,14 @@ $content .= $itemObj->getBody();
 $content = str_replace('[pagebreak]', '', $content);
 
 // Configuration for TCPDF_for_XOOPS
-$pdf_data = array(
+$pdf_data = [
     'author'           => $itemObj->posterName(),
     'title'            => $myts->undoHtmlSpecialChars($categoryObj->name()),
     'page_format'      => 'A4',
     'page_orientation' => 'P',
     'unit'             => 'mm',
     'rtl'              => false //true if right to left
-);
+];
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
@@ -100,7 +92,7 @@ $firstLine  = PublisherUtility::convertCharset($GLOBALS['xoopsConfig']['sitename
 $secondLine = PublisherUtility::convertCharset($GLOBALS['xoopsConfig']['slogan']);
 
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
-$pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine, array(0, 64, 255), array(0, 64, 128));
+$pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine, [0, 64, 255], [0, 64, 128]);
 
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
 
@@ -114,10 +106,10 @@ $pdf->setHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
 
 //2.5.8
-$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+$pdf->setHeaderFont([PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN]);
+$pdf->setFooterFont([PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA]);
 
-$pdf->setFooterData($tc = array(0, 64, 0), $lc = array(0, 64, 128));
+$pdf->setFooterData($tc = [0, 64, 0], $lc = [0, 64, 128]);
 
 //initialize document
 $pdf->Open();

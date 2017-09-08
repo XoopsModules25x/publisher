@@ -35,10 +35,8 @@ if (false !== strpos(decoct(fileperms($dir)), '777')) {
 echo "<form name='form_name2' id='form_name2' action='pw_upload_file.php' method='post' enctype='multipart/form-data'>";
 echo "<table cellspacing='1' width='100%' class='outer'>";
 echo "<tr><th colspan='2'>" . _AM_PUBLISHER_UPLOAD_FILE . '</th></tr>';
-echo "<tr valign='top' align='left'><td class='head'>" . _AM_PUBLISHER_SEARCH . "</td><td class='even'><input type='file' name='fileupload' id='fileupload' size='30' /></td></tr>";
-echo "<tr valign='top' align='left'><td class='head'><input type='hidden' name='MAX_FILE_SIZE' id='op' value='500000' /></td><td class='even'><input type='submit' name='submit' value='"
-     . _AM_PUBLISHER_UPLOAD
-     . "' /></td></tr>";
+echo "<tr valign='top' align='left'><td class='head'>" . _AM_PUBLISHER_SEARCH . "</td><td class='even'><input type='file' name='fileupload' id='fileupload' size='30'></td></tr>";
+echo "<tr valign='top' align='left'><td class='head'><input type='hidden' name='MAX_FILE_SIZE' id='op' value='500000'></td><td class='even'><input type='submit' name='submit' value='" . _AM_PUBLISHER_UPLOAD . "'></td></tr>";
 echo '</table>';
 echo '</form>';
 
@@ -48,7 +46,7 @@ $form = new XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_fil
 $pWrapSelect = new XoopsFormSelect(PublisherUtility::getUploadDir(true, 'content'), 'address');
 $folder      = dir($dir);
 while ($file == $folder->read()) {
-    if ($file !== '.' && $file !== '..') {
+    if ('.' !== $file && '..' !== $file) {
         $pWrapSelect->addOption($file, $file);
     }
 }

@@ -21,7 +21,7 @@
 
 use Xmf\Request;
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -32,14 +32,14 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_items_menu_show($options)
 {
-    $block = array();
+    $block = [];
 
-    $publisher = PublisherPublisher::getInstance();
+    $publisher = Publisher::getInstance();
 
     // Getting all top cats
     $blockCategoriesObj = $publisher->getHandler('category')->getCategories(0, 0, 0);
 
-    if (count($blockCategoriesObj) == 0) {
+    if (0 == count($blockCategoriesObj)) {
         return $block;
     }
 
@@ -54,7 +54,7 @@ function publisher_items_menu_show($options)
         // Are we in a category and if yes, in which one ?
         $categoryid = Request::getInt('categoryid', 0, 'GET');
 
-        if ($categoryid != 0) {
+        if (0 != $categoryid) {
             // if we are in a category, then the $categoryObj is already defined in publisher/category.php
             global $categoryObj;
             $block['currentcat'] = $categoryObj->getCategoryLink('menuTop');
@@ -85,11 +85,11 @@ function publisher_items_menu_edit($options)
 
     $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, PublisherUtility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
-    $orderEle->addOptionArray(array(
+    $orderEle->addOptionArray([
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
                                   'weight'  => _MB_PUBLISHER_WEIGHT
-                              ));
+                              ]);
     $dispEle = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
 
     $form->addElement($catEle);

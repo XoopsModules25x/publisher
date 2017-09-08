@@ -1,0 +1,7 @@
+TODO: Planned features in the future
+=====================================
+
+
+Features that are being considered/planned/needed for the future releases:
+
+- test with MySQL strict mode (STRICT_TRANS_TABLES)

@@ -41,7 +41,7 @@ $op = Request::getString('op', $op, 'GET');
 
 $configcat = Request::getString('configcat', '', 'GET');
 
-if ($op === 'showmod') {
+if ('showmod' === $op) {
     $configHandler = xoops_getHandler('config');
 
     $config = $configHandler->getConfigs(new Criteria('conf_modid', $mod));
@@ -54,20 +54,20 @@ if ($op === 'showmod') {
     $config_cats = $module->getInfo('configcat');
 
     if (!array_key_exists('others', $config_cats)) {
-        $config_cats['others'] = array(
+        $config_cats['others'] = [
             'name'        => _MI_PUBLISHER_CONFCAT_OTHERS,
             'description' => _MI_PUBLISHER_CONFCAT_OTHERS_DSC
-        );
+        ];
     }
     $cat_others_used = false;
 
     xoops_loadLanguage('modinfo', $module->getVar('dirname'));
 
-    if ($module->getVar('hascomments') == 1) {
+    if (1 == $module->getVar('hascomments')) {
         xoops_loadLanguage('comment');
     }
 
-    if ($module->getVar('hasnotification') == 1) {
+    if (1 == $module->getVar('hasnotification')) {
         xoops_loadLanguage('notification');
     }
 
@@ -95,18 +95,13 @@ if ($op === 'showmod') {
         }
 
         $title = (!defined($config[$i]->getVar('conf_desc'))
-                  || constant($config[$i]->getVar('conf_desc')) == '') ? constant($config[$i]->getVar('conf_title')) : constant($config[$i]->getVar('conf_title'))
-                                                                                                                       . '<br><br><span style="font-weight:normal;">'
-                                                                                                                       . constant($config[$i]->getVar('conf_desc'))
-                                                                                                                       . '</span>';
+                  || '' == constant($config[$i]->getVar('conf_desc'))) ? constant($config[$i]->getVar('conf_title')) : constant($config[$i]->getVar('conf_title')) . '<br><br><span style="font-weight:normal;">' . constant($config[$i]->getVar('conf_desc')) . '</span>';
         switch ($config[$i]->getVar('conf_formtype')) {
             case 'textarea':
                 $myts = MyTextSanitizer::getInstance();
-                if ($config[$i]->getVar('conf_valuetype') === 'array') {
+                if ('array' === $config[$i]->getVar('conf_valuetype')) {
                     // this is exceptional.. only when value type is arrayneed a smarter way for this
-                    $ele = ($config[$i]->getVar('conf_value') != '') ? new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'),
-                                                                                             $myts->htmlspecialchars(implode('|', $config[$i]->getConfValueForOutput())), 5,
-                                                                                             50) : new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), '', 5, 50);
+                    $ele = ('' != $config[$i]->getVar('conf_value')) ? new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), $myts->htmlspecialchars(implode('|', $config[$i]->getConfValueForOutput())), 5, 50) : new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), '', 5, 50);
                 } else {
                     $ele = new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), $myts->htmlspecialchars($config[$i]->getConfValueForOutput()), 5, 50);
                 }
@@ -177,7 +172,7 @@ if ($op === 'showmod') {
     PublisherUtility::cpHeader();
     //publisher_adminMenu(5, _PREFERENCES);
     foreach ($config_cats as $formCat => $info) {
-        if ($formCat === 'others' && !$cat_others_used) {
+        if ('others' === $formCat && !$cat_others_used) {
             continue;
         }
         $$formCat->addElement(new XoopsFormHidden('op', 'save'));
@@ -191,7 +186,7 @@ if ($op === 'showmod') {
     exit();
 }
 
-if ($op === 'save') {
+if ('save' === $op) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header($module->getInfo('adminindex'), 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
     }

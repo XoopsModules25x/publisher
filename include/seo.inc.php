@@ -21,7 +21,7 @@
 
 use Xmf\Request;
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 //$seoOp = @$_GET['seoOp'];
 $seoOp = Request::getString('seoOp', '', 'GET');
@@ -44,11 +44,11 @@ if ('' == $seoOp && Request::getString('PATH_INFO', '', 'SERVER')) {
     // $seoArg = substr($data[1], strlen($seoOp) + 1);
 }
 
-$seoMap = array(
+$seoMap = [
     'category' => 'category.php',
     'item'     => 'item.php',
     'print'    => 'print.php'
-);
+];
 
 if (!empty($seoOp) && isset($seoMap[$seoOp])) {
     // module specific dispatching logic, other module must implement as

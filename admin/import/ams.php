@@ -30,7 +30,7 @@ $scriptname = 'ams.php';
 
 $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 
-if ($op === 'start') {
+if ('start' === $op) {
     xoops_load('XoopsFormLoader');
 
     PublisherUtility::cpHeader();
@@ -40,7 +40,7 @@ if ($op === 'start') {
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('ams_topics'));
     list($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
 
-    if ($totalCat == 0) {
+    if (0 == $totalCat) {
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_IMPORT_NO_CATEGORY . '</span>';
     } else {
         require_once $GLOBALS['xoops']->path('class/xoopstree.php');
@@ -48,14 +48,10 @@ if ($op === 'start') {
         $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('nw_stories'));
         list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
 
-        if ($totalArticles == 0) {
-            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">'
-                 . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles)
-                 . '</span>';
+        if (0 == $totalArticles) {
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles) . '</span>';
         } else {
-            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">'
-                 . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat)
-                 . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat) . '</span>';
 
             $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
@@ -88,7 +84,7 @@ if ($op === 'start') {
             $newid                    = $imagecategory->getVar('imgcat_id');
             $imagecategorypermHandler = xoops_getHandler('groupperm');
             if (!isset($readgroup)) {
-                $readgroup = array();
+                $readgroup = [];
             }
             if (!in_array(XOOPS_GROUP_ADMIN, $readgroup)) {
                 $readgroup[] = XOOPS_GROUP_ADMIN;
@@ -104,7 +100,7 @@ if ($op === 'start') {
             }
             //            unset($rgroup);
             if (!isset($writegroup)) {
-                $writegroup = array();
+                $writegroup = [];
             }
             if (!in_array(XOOPS_GROUP_ADMIN, $writegroup)) {
                 $writegroup[] = XOOPS_GROUP_ADMIN;
@@ -123,16 +119,12 @@ if ($op === 'start') {
             //---------- mb ------------------
 
             // Categories to be imported
-            $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM '
-                   . $GLOBALS['xoopsDB']->prefix('ams_topics')
-                   . ' AS cat INNER JOIN '
-                   . $GLOBALS['xoopsDB']->prefix('nw_stories')
-                   . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
+            $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('ams_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('nw_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
             $result           = $GLOBALS['xoopsDB']->query($sql);
-            $cat_cbox_options = array();
+            $cat_cbox_options = [];
 
-            while ((list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) !== false) {
+            while (false !== (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result))) {
                 $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }
@@ -142,7 +134,7 @@ if ($op === 'start') {
             $form->addElement($cat_label);
 
             // Publisher parent category
-            $mytree = new XoopsTree($GLOBALS['xoopsDB']->prefix('publisher_categories'), 'categoryid', 'parentid');
+            $mytree = new XoopsTree($GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories'), 'categoryid', 'parentid');
             ob_start();
             $mytree->makeMySelBox('name', 'weight', $preset_id = 0, $none = 1, $sel_name = 'parent_category');
 
@@ -164,7 +156,7 @@ if ($op === 'start') {
     xoops_cp_footer();
 }
 
-if ($op === 'go') {
+if ('go' === $op) {
     PublisherUtility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     require_once dirname(dirname(__DIR__)) . '/include/common.php';
@@ -186,8 +178,8 @@ if ($op === 'go') {
 
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
-    $newCatArray     = array();
-    $newArticleArray = array();
+    $newCatArray     = [];
+    $newArticleArray = [];
 
     $imageCategoryHandler = xoops_getHandler('imagecategory');
     //    $criteria = new criteriaCombo;
@@ -217,9 +209,9 @@ if ($op === 'go') {
     //
     //    $newid = $resultImageCategory->getVar('imgcat_id');
 
-    $oldToNew = array();
-    while (($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat)) !== false) {
-        $newCat           = array();
+    $oldToNew = [];
+    while (false !== ($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat))) {
+        $newCat           = [];
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
         /* @var  $categoryObj PublisherCategory */
@@ -233,9 +225,8 @@ if ($op === 'go') {
         $categoryObj->setVar('moderator', 1);
 
         // Category image: copying to Publisher category uploads
-        if (($arrCat['topic_imgurl'] !== 'blank.gif') && ($arrCat['topic_imgurl'] !== '')) {
-            if (copy($GLOBALS['xoops']->path('uploads/AMS/topics/' . $arrCat['topic_imgurl']),
-                     $GLOBALS['xoops']->path('uploads/' . PUBLISHER_DIRNAME . '/images/category/' . $arrCat['topic_imgurl']))) {
+        if (('blank.gif' !== $arrCat['topic_imgurl']) && ('' !== $arrCat['topic_imgurl'])) {
+            if (copy($GLOBALS['xoops']->path('uploads/AMS/topics/' . $arrCat['topic_imgurl']), $GLOBALS['xoops']->path('uploads/' . PUBLISHER_DIRNAME . '/images/category/' . $arrCat['topic_imgurl']))) {
                 $categoryObj->setVar('image', $arrCat['topic_imgurl']);
 
                 //======== there is no need to add the category images to Image Manager, because they are handled directly from /images/category/ folder
@@ -297,7 +288,7 @@ if ($op === 'go') {
 
         $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('ams_article') . ' WHERE topicid=' . $arrCat['topic_id'];
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
-        while (($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles)) !== false) {
+        while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
 
             /** @var XoopsPersistableObjectHandler $itemObj */
@@ -358,7 +349,7 @@ if ($op === 'go') {
                 $sql               = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('ams_article_files') . ' WHERE storyid=' . $arrArticle['storyid'];
                 $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
                 $allowed_mimetypes = '';
-                while (($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles)) !== false) {
+                while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
                     $filename = $GLOBALS['xoops']->path('uploads/AMS/attached/' . $arrFile['downloadname']);
                     if (file_exists($filename)) {
                         if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
@@ -409,7 +400,7 @@ if ($op === 'go') {
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('categoryid', $newCat['newid']));
         $oldpid = $newCat['oldpid'];
-        if ($oldpid == 0) {
+        if (0 == $oldpid) {
             $newpid = $parentId;
         } else {
             $newpid = $newCatArray[$oldpid]['newid'];

@@ -22,7 +22,7 @@ use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 
-$errors = array();
+$errors = [];
 
 if (publisher_pagewrap_upload($errors)) {
     redirect_header(Request::getString('backto', '', 'POST'), 2, _AM_PUBLISHER_FILEUPLOAD_SUCCESS);
@@ -42,7 +42,7 @@ function publisher_pagewrap_upload(&$errors)
     //    require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
     xoops_load('XoopsMediaUploader');
 
-    $publisher = PublisherPublisher::getInstance();
+    $publisher = Publisher::getInstance();
     $postField = 'fileupload';
 
     $maxFileSize    = $publisher->getConfig('maximum_filesize');
@@ -52,7 +52,7 @@ function publisher_pagewrap_upload(&$errors)
     if (!is_dir(PublisherUtility::getUploadDir(true, 'content'))) {
         mkdir(PublisherUtility::getUploadDir(true, 'content'), 0757);
     }
-    $allowedMimeTypes = array('text/html', 'text/plain', 'application/xhtml+xml');
+    $allowedMimeTypes = ['text/html', 'text/plain', 'application/xhtml+xml'];
     $uploader         = new XoopsMediaUploader(PublisherUtility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
     if ($uploader->fetchMedia($postField)) {
         $uploader->setTargetFileName($uploader->getMediaName());

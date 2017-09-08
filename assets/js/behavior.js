@@ -257,7 +257,7 @@ document.getElementsBySelector = function (selector) {
     return currentContext;
 };
 
-/* That revolting regular expression explained 
+/* That revolting regular expression explained
  /^(\w+)\[(\w+)([=~\|\^\$\*]?)=?"?([^\]"]*)"?\]$/
  \---/  \---/\-------------/    \-------/
  |      |         |               |

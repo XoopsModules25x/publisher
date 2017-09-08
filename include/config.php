@@ -11,19 +11,19 @@
 /**
  * animal module for xoops
  *
- * @copyright       XOOPS Project (http://xoops.org)
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GPL 2.0 or later
  * @package         Publisher
  * @subpackage      Config
  * @since           1.03
- * @author          XOOPS Development Team - ( http://xoops.org )
+ * @author          XOOPS Development Team - ( https://xoops.org )
  */
 
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once __DIR__ . '/../class/configurator.php';
 
 $moduleDirName = basename(dirname(__DIR__));
-
-$capsDirName = strtoupper($moduleDirName);
+$capsDirName   = strtoupper($moduleDirName);
 
 if (!defined($capsDirName . '_DIRNAME')) {
     define($capsDirName . '_DIRNAME', $moduleDirName);
@@ -42,29 +42,28 @@ if (!defined($capsDirName . '_DIRNAME')) {
 defined($capsDirName . '_UPLOAD_PATH') || define($capsDirName . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . constant($capsDirName . '_DIRNAME')); // WITHOUT Trailing slash
 
 //Configurator
-/*
-return array(
+return (object)[
     'name'           => 'Module Configurator',
-    'uploadFolders'  => array(
+    'uploadFolders'  => [
         constant($capsDirName . '_UPLOAD_PATH'),
         constant($capsDirName . '_UPLOAD_PATH') . '/content',
         constant($capsDirName . '_UPLOAD_PATH') . '/images',
         constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
         constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
-    ),
-    'blankFiles' => array(
+    ],
+    'blankFiles' => [
         constant($capsDirName . '_UPLOAD_PATH'),
         constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
         constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
-    ),
+    ],
 
-    'templateFolders' => array(
+    'templateFolders' => [
         '/templates/',
         '/templates/blocks/',
         '/templates/admin/'
 
-    ),
-    'oldFiles'        => array(
+    ],
+    'oldFiles'        => [
         '/class/request.php',
         '/class/registry.php',
         '/class/utilities.php',
@@ -72,69 +71,11 @@ return array(
         '/include/constants.php',
         '/include/functions.php',
         '/ajaxrating.txt'
-    ),
-    'oldFolders'      => array(
+    ],
+    'oldFolders'      => [
         '/images',
         '/css',
         '/js',
         '/tcpdf',
-    ),
-);
-*/
-
-/**
- * Class ModuleConfigurator
- */
-class ModuleConfigurator
-{
-    public $uploadFolders   = [];
-    public $blankFiles  = [];
-    public $templateFolders = [];
-    public $oldFiles        = [];
-    public $oldFolders      = [];
-    public $name;
-
-    /**
-     * ModuleConfigurator constructor.
-     */
-    public function __construct()
-    {
-        $moduleDirName        = basename(dirname(__DIR__));
-        $capsDirName          = strtoupper($moduleDirName);
-        $this->name           = 'Module Configurator';
-        $this->uploadFolders  = [
-            constant($capsDirName . '_UPLOAD_PATH'),
-            constant($capsDirName . '_UPLOAD_PATH') . '/content',
-            constant($capsDirName . '_UPLOAD_PATH') . '/images',
-            constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
-            constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
-        ];
-        $this->blankFiles = [
-            constant($capsDirName . '_UPLOAD_PATH'),
-            constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
-            constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
-        ];
-
-        $this->templateFolders = [
-            '/templates/',
-            '/templates/blocks/',
-            '/templates/admin/'
-
-        ];
-        $this->oldFiles        = [
-            '/class/request.php',
-            '/class/registry.php',
-            '/class/utilities.php',
-            '/class/util.php',
-            '/include/constants.php',
-            '/include/functions.php',
-            '/ajaxrating.txt'
-        ];
-        $this->oldFolders      = [
-            '/images',
-            '/css',
-            '/js',
-            '/tcpdf',
-        ];
-    }
-}
+    ],
+];

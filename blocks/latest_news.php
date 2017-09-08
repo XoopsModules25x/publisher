@@ -20,7 +20,7 @@
  * @author          Mowaffak
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -31,10 +31,10 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_latest_news_show($options)
 {
-    $block = array();
+    $block = [];
 
     xoops_loadLanguage('main', 'publisher');
-    $publisher = PublisherPublisher::getInstance();
+    $publisher = Publisher::getInstance();
 
     $start           = $options[0]; // You can show articles from specified range
     $limit           = $options[1];
@@ -48,7 +48,7 @@ function publisher_latest_news_show($options)
     $border          = $options[13];
     $bordercolor     = $options[14];
 
-    $block['spec']['columnwidth'] = (int)(1 / $columnCount * 100);
+    $block['spec']['columnwidth'] = (1 / $columnCount * 100);
 
     $allcats = false;
     if (!isset($options[29])) {
@@ -66,24 +66,24 @@ function publisher_latest_news_show($options)
     }
 
     // Use specific ITEMS
-    if ($selectedStories != 0) {
+    if (0 != $selectedStories) {
         unset($criteria); //removes category option
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
     }
 
-    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED), -1, $sort, $order, '', true, $criteria, 'itemid');
+    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);
 
-    if ($scount == 0) {
+    if (0 == $scount) {
         return false;
     }
     $k       = 0;
-    $columns = array();
+    $columns = [];
 
     foreach ($itemsObj as $itemid => $itemObj) {
-        $item            = array();
+        $item            = [];
         $item['itemurl'] = $itemObj->getItemUrl();
         $item['title']   = $itemObj->getItemLink();
         $item['alt']     = strip_tags($itemObj->getItemLink());
@@ -99,59 +99,38 @@ function publisher_latest_news_show($options)
         $item = $itemObj->getMainImage($item); //returns an array
 
         $lsHeight = $imgPosition = $lsMargin = '';
-        if ($options[12] != 0) {
+        if (0 != $options[12]) {
             $lsHeight = 'height="' . $imgHeight . '" ';
         } // set height = 0 in block option for auto height
 
-        if ($options[15] === 'LEFT') {
+        if ('LEFT' === $options[15]) {
             $imgPosition = 'float: left';
             $lsMargin    = '-right';
         }
 
-        if ($options[15] === 'CENTER') {
+        if ('CENTER' === $options[15]) {
             $imgPosition = 'text-align:center';
             $lsMargin    = '';
         }
 
-        if ($options[15] === 'RIGHT') {
+        if ('RIGHT' === $options[15]) {
             $imgPosition = 'float: right';
             $lsMargin    = '-left';
         }
 
         //Image
-        if ($options[10] == 1 && $item['image_path'] != '') {
+        if (1 == $options[10] && '' != $item['image_path']) {
             $startdiv = '<div style="' . $imgPosition . '"><a href="' . $item['itemurl'] . '">';
             $style    = 'style="margin' . $lsMargin . ': 10px; padding: 2px; border: ' . $border . 'px solid #' . $bordercolor . '"';
-            $enddiv   = 'width="' . $imgWidth . '" ' . $lsHeight . '/></a></div>';
+            $enddiv   = 'width="' . $imgWidth . '" ' . $lsHeight . '></a></div>';
             $image    = $startdiv . '<img ' . $style . ' src="' . $item['item_image'] . '" alt="' . $item['image_name'] . '" ' . $enddiv;
 
             $item['image'] = $image;
         }
 
         if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->isAdmin(-1)) {
-            $item['admin'] = "<a href='"
-                             . PUBLISHER_URL . '/submit.php?itemid='
-                             . $itemObj->itemid()
-                             . "'><img src='"
-                             . PUBLISHER_URL
-                             . "/assets/images/links/edit.gif'"
-                             . " title='"
-                             . _CO_PUBLISHER_EDIT
-                             . "' alt='"
-                             . _CO_PUBLISHER_EDIT
-                             . "' /></a>&nbsp;";
-            $item['admin'] .= "<a href='"
-                              . PUBLISHER_URL
-                              . '/admin/item.php?op=del&amp;itemid='
-                              . $itemObj->itemid()
-                              . "'><img src='"
-                              . PUBLISHER_URL
-                              . "/assets/images/links/delete.png'"
-                              . " title='"
-                              . _CO_PUBLISHER_DELETE
-                              . "' alt='"
-                              . _CO_PUBLISHER_DELETE
-                              . "' /></a>";
+            $item['admin'] = "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $itemObj->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . _CO_PUBLISHER_EDIT . "' alt='" . _CO_PUBLISHER_EDIT . "'></a>&nbsp;";
+            $item['admin'] .= "<a href='" . PUBLISHER_URL . '/admin/item.php?op=del&amp;itemid=' . $itemObj->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . _CO_PUBLISHER_DELETE . "' alt='" . _CO_PUBLISHER_DELETE . "'></a>";
         } else {
             $item['admin'] = '';
         }
@@ -163,47 +142,47 @@ function publisher_latest_news_show($options)
          }
          */
         $block['archivelink'] = '';
-        if ($options[17] == 1) {
+        if (1 == $options[17]) {
             $block['archivelink'] = '| <a href="' . PUBLISHER_URL . '/archive.php">' . _MB_PUBLISHER_ARCHIVE . '</a> ';
         }
 
         //TODO: Should we not show link to Anonymous?
         $block['submitlink'] = '';
-        if ($options[18] == 1 && $GLOBALS['xoopsUser']) {
+        if (1 == $options[18] && $GLOBALS['xoopsUser']) {
             $block['submitlink'] = '| <a href="' . PUBLISHER_URL . '/submit.php">' . _MB_PUBLISHER_SUBMITNEWS . '</a> ';
         }
 
         $item['poster'] = '';
-        if ($options[19] == 1) {
+        if (1 == $options[19]) {
             $item['poster'] = _MB_PUBLISHER_POSTER . ' ' . $itemObj->posterName();
         }
 
         $item['posttime'] = '';
-        if ($options[20] == 1) {
+        if (1 == $options[20]) {
             $item['posttime'] = _ON . ' ' . $itemObj->getDatesub();
         }
 
         $item['topic_title'] = '';
-        if ($options[21] == 1) {
+        if (1 == $options[21]) {
             $item['topic_title'] = $itemObj->getCategoryLink() . _MB_PUBLISHER_SP;
         }
 
         $item['read'] = '';
-        if ($options[22] == 1) {
+        if (1 == $options[22]) {
             $item['read'] = '&nbsp;(' . $itemObj->counter() . ' ' . _READS . ')';
         }
 
         $item['more'] = '';
-        if ($itemObj->body() != '' || $itemObj->comments() > 0) {
+        if ('' != $itemObj->body() || $itemObj->comments() > 0) {
             $item['more'] = '<a class="publisher_spotlight_readmore" href="' . $itemObj->getItemUrl() . '">' . _MB_PUBLISHER_READMORE . '</a>';
         }
 
         $comments = $itemObj->comments();
-        if ($options[23] == 1) {
+        if (1 == $options[23]) {
             if ($comments > 0) {
                 //shows 1 comment instead of 1 comm. if comments ==1
                 //langugage file modified accordingly
-                if ($comments == 1) {
+                if (1 == $comments) {
                     $item['comment'] = '&nbsp;' . _MB_PUBLISHER_ONECOMMENT . '&nbsp;';
                 } else {
                     $item['comment'] = '&nbsp;' . $comments . '&nbsp;' . _MB_PUBLISHER_COMMENTS . '&nbsp;';
@@ -214,58 +193,32 @@ function publisher_latest_news_show($options)
         }
 
         $item['print'] = '';
-        if ($options[24] == 1) {
-            $item['print'] = '<a href="'
-                             . PublisherSeo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url())
-                             . '" rel="nofollow"><img src="'
-                             . PUBLISHER_URL
-                             . '/assets/images/links/print.gif" title="'
-                             . _CO_PUBLISHER_PRINT
-                             . '" alt="'
-                             . _CO_PUBLISHER_PRINT
-                             . '" /></a>&nbsp;';
+        if (1 == $options[24]) {
+            $item['print'] = '<a href="' . PublisherSeo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '"></a>&nbsp;';
         }
 
         $item['pdf'] = '';
         if ($publisher->getConfig('display_pdf')) {
-            if ($options[25] == 1) {
-                $item['pdf'] = "<a href='"
-                               . PUBLISHER_URL
-                               . '/makepdf.php?itemid='
-                               . $itemObj->itemid()
-                               . "' rel='nofollow'><img src='"
-                               . PUBLISHER_URL
-                               . "/assets/images/links/pdf.gif' title='"
-                               . _CO_PUBLISHER_PDF
-                               . "' alt='"
-                               . _CO_PUBLISHER_PDF
-                               . "' /></a>&nbsp;";
+            if (1 == $options[25]) {
+                $item['pdf'] = "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $itemObj->itemid() . "' rel='nofollow'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif' title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "'></a>&nbsp;";
             }
         }
         $item['email'] = '';
-        if ($options[26] == 1 && xoops_isActiveModule('tellafriend')) {
+        if (1 == $options[26] && xoops_isActiveModule('tellafriend')) {
             $subject  = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
             $subject  = $itemObj->convertForJapanese($subject);
             $maillink = PublisherUtility::tellAFriend($subject);
 
-            $item['email'] = '<a href="'
-                             . $maillink
-                             . '"><img src="'
-                             . PUBLISHER_URL
-                             . '/assets/images/links/friend.gif" title="'
-                             . _CO_PUBLISHER_MAIL
-                             . '" alt="'
-                             . _CO_PUBLISHER_MAIL
-                             . '" /></a>&nbsp;';
+            $item['email'] = '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '"></a>&nbsp;';
         }
 
         $block['morelink'] = '';
-        if ($options[27] == 1) {
+        if (1 == $options[27]) {
             $block['morelink'] = '<a href="' . PUBLISHER_URL . '/index.php">' . _MB_PUBLISHER_MORE_ITEMS . '</a> ';
         }
 
         $block['latestnews_scroll'] = false;
-        if ($options[5] == 1) {
+        if (1 == $options[5]) {
             $block['latestnews_scroll'] = true;
         }
 
@@ -328,7 +281,7 @@ function publisher_latest_news_edit($options)
 
     $form .= "<select size='1' name='options[8]'>";
 
-    $directions = array('right' => _MB_PUBLISHER_SCROLL_RIGHT, 'left' => _MB_PUBLISHER_SCROLL_LEFT, 'up' => _MB_PUBLISHER_SCROLL_UP, 'down' => _MB_PUBLISHER_SCROLL_DOWN);
+    $directions = ['right' => _MB_PUBLISHER_SCROLL_RIGHT, 'left' => _MB_PUBLISHER_SCROLL_LEFT, 'up' => _MB_PUBLISHER_SCROLL_UP, 'down' => _MB_PUBLISHER_SCROLL_DOWN];
     foreach ($directions as $key => $value) {
         $form .= "<option value='{$key}'";
         if ($options[8] == $key) {
@@ -341,17 +294,17 @@ function publisher_latest_news_edit($options)
     $form .= $tabletag1 . _MB_PUBLISHER_ORDER . $tabletag2;
     $form .= "<select name='options[9]'>";
     $form .= "<option value='datesub'";
-    if ($options[9] === 'datesub') {
+    if ('datesub' === $options[9]) {
         $form .= ' selected';
     }
     $form .= '>' . _MB_PUBLISHER_DATE . '</option>';
     $form .= "<option value='counter'";
-    if ($options[9] === 'counter') {
+    if ('counter' === $options[9]) {
         $form .= ' selected';
     }
     $form .= '>' . _MB_PUBLISHER_HITS . '</option>';
     $form .= "<option value='weight'";
-    if ($options[9] === 'weight') {
+    if ('weight' === $options[9]) {
         $form .= ' selected';
     }
     $form .= '>' . _MB_PUBLISHER_WEIGHT . '</option>';
@@ -371,19 +324,19 @@ function publisher_latest_news_edit($options)
     $form .= $tabletag1 . _MB_PUBLISHER_IMGPOSITION . $tabletag2;
     $form .= "<select name='options[]'>";
     $form .= "<option value='LEFT'";
-    if ($options[15] === 'LEFT') {
+    if ('LEFT' === $options[15]) {
         $form .= ' selected';
     }
     $form .= '>' . _LEFT . "</option>\n";
 
     $form .= "<option value='CENTER'";
-    if ($options[15] === 'CENTER') {
+    if ('CENTER' === $options[15]) {
         $form .= ' selected';
     }
     $form .= '>' . _CENTER . "</option>\n";
 
     $form .= "<option value='RIGHT'";
-    if ($options[15] === 'RIGHT') {
+    if ('RIGHT' === $options[15]) {
         $form .= ' selected';
     }
     $form .= '>' . _RIGHT . '</option>';
@@ -419,13 +372,13 @@ function publisher_latest_news_edit($options)
     $form .= $tabletag1 . _MB_PUBLISHER_TEMPLATE . $tabletag2;
     $form .= "<select size='1' name='options[28]'>";
 
-    $templates = array(
+    $templates = [
         'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
         'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED,
         'ticker'   => _MB_PUBLISHER_TEMPLATE_TICKER,
         'slider1'  => _MB_PUBLISHER_TEMPLATE_SLIDER1,
         'slider2'  => _MB_PUBLISHER_TEMPLATE_SLIDER2
-    );
+    ];
     foreach ($templates as $key => $value) {
         $form .= "<option value='{$key}'";
         if ($options[28] == $key) {
@@ -455,15 +408,15 @@ function publisher_latest_news_edit($options)
 function publisher_mk_chkbox($options, $number)
 {
     $chk = '';
-    if ($options[$number] == 1) {
+    if (1 == $options[$number]) {
         $chk = ' checked';
     }
-    $chkbox = "<input type='radio' name='options[{$number}]' value='1'" . $chk . ' />&nbsp;' . _YES . '&nbsp;&nbsp;';
+    $chkbox = "<input type='radio' name='options[{$number}]' value='1'" . $chk . '>&nbsp;' . _YES . '&nbsp;&nbsp;';
     $chk    = '';
-    if ($options[$number] == 0) {
+    if (0 == $options[$number]) {
         $chk = ' checked';
     }
-    $chkbox .= "<input type='radio' name='options[{$number}]' value='0'" . $chk . ' />&nbsp;' . _NO . '</td></tr>';
+    $chkbox .= "<input type='radio' name='options[{$number}]' value='0'" . $chk . '>&nbsp;' . _NO . '</td></tr>';
 
     return $chkbox;
 }
@@ -477,20 +430,20 @@ function publisher_mk_chkbox($options, $number)
 function publisher_mk_select($options, $number)
 {
     $slc = '';
-    if ($options[$number] == 2) {
+    if (2 == $options[$number]) {
         $slc = ' checked';
     }
-    $select = "<input type='radio' name='options[{$number}]' value='2'" . $slc . ' />&nbsp;' . _LEFT . '&nbsp;&nbsp;';
+    $select = "<input type='radio' name='options[{$number}]' value='2'" . $slc . '>&nbsp;' . _LEFT . '&nbsp;&nbsp;';
     $slc    = '';
-    if ($options[$number] == 1) {
+    if (1 == $options[$number]) {
         $slc = ' checked';
     }
-    $select = "<input type='radio' name='options[{$number}]' value='1'" . $slc . ' />&nbsp;' . _CENTER . '&nbsp;&nbsp;';
+    $select = "<input type='radio' name='options[{$number}]' value='1'" . $slc . '>&nbsp;' . _CENTER . '&nbsp;&nbsp;';
     $slc    = '';
-    if ($options[$number] == 0) {
+    if (0 == $options[$number]) {
         $slc = ' checked';
     }
-    $select .= "<input type='radio' name='options[{$number}]' value='0'" . $slc . ' />&nbsp;' . _RIGHT . '</td></tr>';
+    $select .= "<input type='radio' name='options[{$number}]' value='0'" . $slc . '>&nbsp;' . _RIGHT . '</td></tr>';
 
     return $select;
 }

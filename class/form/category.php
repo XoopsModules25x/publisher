@@ -34,7 +34,7 @@ require_once $GLOBALS['xoops']->path('class/tree.php');
 class PublisherCategoryForm extends XoopsThemeForm
 {
     /**
-     * @var PublisherPublisher
+     * @var Publisher
      * @access public
      */
     public $publisher;
@@ -43,7 +43,7 @@ class PublisherCategoryForm extends XoopsThemeForm
 
     public $subCatsCount = 4;
 
-    public $userGroups = array();
+    public $userGroups = [];
 
     /**
      * @param     $target
@@ -51,7 +51,7 @@ class PublisherCategoryForm extends XoopsThemeForm
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
-        $this->publisher = PublisherPublisher::getInstance();
+        $this->publisher = Publisher::getInstance();
 
         $this->targetObject =& $target;
         $this->subCatsCount = $subCatsCount;
@@ -59,7 +59,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $memberHandler    = xoops_getHandler('member');
         $this->userGroups = $memberHandler->getGroupList();
 
-        parent::__construct(_AM_PUBLISHER_CATEGORY, 'form', xoops_getenv('PHP_SELF'));
+        parent::__construct(_AM_PUBLISHER_CATEGORY, 'form', xoops_getenv('PHP_SELF'), 'post', true);
         $this->setExtra('enctype="multipart/form-data"');
 
         $this->createElements();
@@ -73,9 +73,10 @@ class PublisherCategoryForm extends XoopsThemeForm
         $criteria = new Criteria(null);
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
-        $myTree    = new XoopsObjectTree($this->publisher->getHandler('category')->getObjects($criteria), 'categoryid', 'parentid');
-
-        if (PublisherUtility::checkXoopsVersion('2', '5', '9', '>=')) {
+        $myTree        = new XoopsObjectTree($this->publisher->getHandler('category')->getObjects($criteria), 'categoryid', 'parentid');
+        $moduleDirName = basename(dirname(__DIR__));
+        $module        = XoopsModule::getByDirname($moduleDirName);
+        if (PublisherUtility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
             $catSelect = $myTree->makeSelectElement('parentid', 'name', '--', $this->targetObject->parentid(), true, 0, '', _AM_PUBLISHER_PARENT_CATEGORY_EXP);
             $this->addElement($catSelect);
         } else {
@@ -112,11 +113,11 @@ class PublisherCategoryForm extends XoopsThemeForm
             $editor = $this->publisher->getConfig('submit_editor');
         }
 
-        $editorConfigs           = array();
-        $editorConfigs['rows']   = $this->publisher->getConfig('submit_editor_rows') == '' ? 35 : $this->publisher->getConfig('submit_editor_rows');
-        $editorConfigs['cols']   = $this->publisher->getConfig('submit_editor_cols') == '' ? 60 : $this->publisher->getConfig('submit_editor_cols');
-        $editorConfigs['width']  = $this->publisher->getConfig('submit_editor_width') == '' ? '100%' : $this->publisher->getConfig('submit_editor_width');
-        $editorConfigs['height'] = $this->publisher->getConfig('submit_editor_height') == '' ? '400px' : $this->publisher->getConfig('submit_editor_height');
+        $editorConfigs           = [];
+        $editorConfigs['rows']   = '' == $this->publisher->getConfig('submit_editor_rows') ? 35 : $this->publisher->getConfig('submit_editor_rows');
+        $editorConfigs['cols']   = '' == $this->publisher->getConfig('submit_editor_cols') ? 60 : $this->publisher->getConfig('submit_editor_cols');
+        $editorConfigs['width']  = '' == $this->publisher->getConfig('submit_editor_width') ? '100%' : $this->publisher->getConfig('submit_editor_width');
+        $editorConfigs['height'] = '' == $this->publisher->getConfig('submit_editor_height') ? '400px' : $this->publisher->getConfig('submit_editor_height');
 
         $editorConfigs['name']  = 'header';
         $editorConfigs['value'] = $this->targetObject->header('e');
@@ -133,8 +134,7 @@ class PublisherCategoryForm extends XoopsThemeForm
         $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"image\", \"" . 'uploads/' . PUBLISHER_DIRNAME . '/images/category/' . '", "", "' . XOOPS_URL . "\")'");
         $imageTray = new XoopsFormElementTray(_AM_PUBLISHER_IMAGE, '&nbsp;');
         $imageTray->addElement($imageSelect);
-        $imageTray->addElement(new XoopsFormLabel('',
-                                                  "<br><br><img src='" . PublisherUtility::getImageDir('category', false) . $this->targetObject->getImage() . "' name='image3' id='image3' alt='' />"));
+        $imageTray->addElement(new XoopsFormLabel('', "<br><br><img src='" . PublisherUtility::getImageDir('category', false) . $this->targetObject->getImage() . "' name='image3' id='image3' alt=''>"));
         $imageTray->setDescription(_AM_PUBLISHER_IMAGE_DSC);
         $this->addElement($imageTray);
 
@@ -226,8 +226,8 @@ class PublisherCategoryForm extends XoopsThemeForm
         $catTray = new XoopsFormElementTray(_AM_PUBLISHER_SCATEGORYNAME, '<br><br>');
         for ($i = 0; $i < $this->subCatsCount; ++$i) {
             $subname = '';
-            if ($i < (($scname = Request::getArray('scname', array(), 'POST')) ? count($scname) : 0)) {
-                $temp    = Request::getArray('scname', array(), 'POST');
+            if ($i < (($scname = Request::getArray('scname', [], 'POST')) ? count($scname) : 0)) {
+                $temp    = Request::getArray('scname', [], 'POST');
                 $subname = ($scname = Request::getArray('scname', '', 'POST')) ? $temp[$i] : '';
             }
             $catTray->addElement(new XoopsFormText('', 'scname[' . $i . ']', 50, 255, $subname));

@@ -19,7 +19,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 require_once dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -28,7 +28,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 class PublisherPermissionHandler extends XoopsObjectHandler
 {
     /**
-     * @var PublisherPublisher
+     * @var Publisher
      * @access public
      */
     public $publisher;
@@ -38,7 +38,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      */
     public function __construct()
     {
-        $this->publisher = PublisherPublisher::getInstance();
+        $this->publisher = Publisher::getInstance();
     }
 
     /**
@@ -55,7 +55,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
         if (isset($items[$gpermName][$id])) {
             return $items[$gpermName][$id];
         }
-        $groups   = array();
+        $groups   = [];
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('gperm_modid', $this->publisher->getModule()->getVar('mid')));
         $criteria->add(new Criteria('gperm_name', $gpermName));
@@ -70,7 +70,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
             $start = $criteria->getStart();
         }
         $result = $db->query($sql, $limit, $start);
-        while (($myrow = $db->fetchArray($result)) !== false) {
+        while (false !== ($myrow = $db->fetchArray($result))) {
             $groups[$myrow['gperm_groupid']] = $myrow['gperm_groupid'];
         }
         $items[$gpermName][$id] = $groups;
@@ -92,13 +92,13 @@ class PublisherPermissionHandler extends XoopsObjectHandler
             return $items[$gpermName];
         }
 
-        $ret = array();
+        $ret = [];
         //Instead of calling groupperm handler and get objects, we will save some memory and do it our way
         $criteria = new CriteriaCompo(new Criteria('gperm_name', $gpermName));
         $criteria->add(new Criteria('gperm_modid', $this->publisher->getModule()->getVar('mid')));
 
         //Get user's groups
-        $groups    = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(XOOPS_GROUP_ANONYMOUS);
+        $groups    = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
         $criteria2 = new CriteriaCompo();
         foreach ($groups as $gid) {
             $criteria2->add(new Criteria('gperm_groupid', $gid), 'OR');
@@ -108,7 +108,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
         $sql    = 'SELECT gperm_itemid FROM ' . $db->prefix('group_permission');
         $sql    .= ' ' . $criteria->renderWhere();
         $result = $db->query($sql, 0, 0);
-        while (($myrow = $db->fetchArray($result)) !== false) {
+        while (false !== ($myrow = $db->fetchArray($result))) {
             $ret[$myrow['gperm_itemid']] = $myrow['gperm_itemid'];
         }
         $items[$gpermName] = $ret;
@@ -147,8 +147,8 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      */
     public function saveItemPermissions($groups, $itemId, $permName)
     {
-        $result       = true;
-        $moduleId     = $this->publisher->getModule()->getVar('mid');
+        $result   = true;
+        $moduleId = $this->publisher->getModule()->getVar('mid');
         /* @var  $gpermHandler XoopsGroupPermHandler */
         $gpermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them

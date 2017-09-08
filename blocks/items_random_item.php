@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -30,10 +30,10 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_items_random_item_show($options)
 {
-    $block     = array();
-    $publisher = PublisherPublisher::getInstance();
+    $block     = [];
+    $publisher = Publisher::getInstance();
     // creating the ITEM object
-    $itemsObj = $publisher->getHandler('item')->getRandomItem('', array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
+    $itemsObj = $publisher->getHandler('item')->getRandomItem('', [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
 
     if (!is_object($itemsObj)) {
         return $block;

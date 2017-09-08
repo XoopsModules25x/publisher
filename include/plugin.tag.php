@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /** Get item fields: title, content, time, link, uid, uname, tags *
  *
@@ -27,7 +27,7 @@
  */
 function publisher_tag_iteminfo(&$items)
 {
-    $items_id = array();
+    $items_id = [];
     foreach (array_keys($items) as $catId) {
         // Some handling here to build the link upon catid
         // if catid is not used, just skip it
@@ -37,20 +37,20 @@ function publisher_tag_iteminfo(&$items)
         }
     }
     $itemHandler = xoops_getModuleHandler('item', 'publisher');
-    $criteria     = new Criteria('itemid', '(' . implode(', ', $items_id) . ')', 'IN');
-    $items_obj    = $itemHandler->getObjects($criteria, 'itemid');
+    $criteria    = new Criteria('itemid', '(' . implode(', ', $items_id) . ')', 'IN');
+    $items_obj   = $itemHandler->getObjects($criteria, 'itemid');
 
     foreach (array_keys($items) as $catId) {
         foreach (array_keys($items[$catId]) as $item_id) {
             $item_obj                = $items_obj[$item_id];
-            $items[$catId][$item_id] = array(
+            $items[$catId][$item_id] = [
                 'title'   => $item_obj->getVar('title'),
                 'uid'     => $item_obj->getVar('uid'),
                 'link'    => "item.php?itemid={$item_id}",
                 'time'    => $item_obj->getVar('datesub'),
                 'tags'    => tag_parse_tag($item_obj->getVar('item_tag', 'n')), // optional
                 'content' => ''
-            );
+            ];
         }
     }
     unset($items_obj);

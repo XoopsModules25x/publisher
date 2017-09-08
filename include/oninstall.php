@@ -10,7 +10,7 @@
  */
 
 /**
- * @copyright       XOOPS Project (http://xoops.org)
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author          luciorota <lucio.rota@gmail.com>
  *
@@ -25,20 +25,19 @@
  */
 function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
 {
-    if (!isset($moduleDirName)) {
-        $moduleDirName = basename(dirname(__DIR__));
-    }
-    $classUtility = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($classUtility)) {
+    $moduleDirName = basename(dirname(__DIR__));
+    /** @var PublisherUtility $utilityClass */
+    $utilityClass = ucfirst($moduleDirName) . 'Utility';
+    if (!class_exists($utilityClass)) {
         xoops_load('utility', $moduleDirName);
     }
     //check for minimum XOOPS version
-    if (!$classUtility::checkVerXoops($xoopsModule)) {
+    if (!$utilityClass::checkVerXoops($xoopsModule)) {
         return false;
     }
 
     // check for minimum PHP version
-    if (!$classUtility::checkVerPhp($xoopsModule)) {
+    if (!$utilityClass::checkVerPhp($xoopsModule)) {
         return false;
     }
 
@@ -57,12 +56,10 @@ function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
  */
 function xoops_module_install_publisher(XoopsModule $xoopsModule)
 {
-    require_once  __DIR__ . '/../../../mainfile.php';
-    require_once  __DIR__ . '/../include/config.php';
+    require_once __DIR__ . '/../../../mainfile.php';
+    require_once __DIR__ . '/../include/config.php';
 
-    if (!isset($moduleDirName)) {
-        $moduleDirName = basename(dirname(__DIR__));
-    }
+    $moduleDirName = basename(dirname(__DIR__));
 
     if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
     } else {
@@ -73,20 +70,21 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
     $moduleHelper->loadLanguage('admin');
     $moduleHelper->loadLanguage('modinfo');
 
-    $configurator = new ModuleConfigurator();
-    $classUtility    = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($classUtility)) {
+    $configurator = new PublisherConfigurator();
+    /** @var PublisherUtility $utilityClass */
+    $utilityClass = ucfirst($moduleDirName) . 'Utility';
+    if (!class_exists($utilityClass)) {
         xoops_load('utility', $moduleDirName);
     }
 
-//    $moduleDirName = $xoopsModule->getVar('dirname');
-//    require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
+    //    $moduleDirName = $xoopsModule->getVar('dirname');
+    //    require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
 
     //  ---  CREATE FOLDERS ---------------
     if (count($configurator->uploadFolders) > 0) {
         //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
         foreach (array_keys($configurator->uploadFolders) as $i) {
-            $classUtility::createFolder($configurator->uploadFolders[$i]);
+            $utilityClass::createFolder($configurator->uploadFolders[$i]);
         }
     }
 
@@ -95,19 +93,21 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
         $file = __DIR__ . '/../assets/images/blank.png';
         foreach (array_keys($configurator->blankFiles) as $i) {
             $dest = $configurator->blankFiles[$i] . '/blank.png';
-            $classUtility::copyFile($file, $dest);
+            $utilityClass::copyFile($file, $dest);
         }
     }
-/*
-    foreach (array_keys($uploadFolders) as $i) {
-        PublisherUtility::createFolder($uploadFolders[$i]);
-    }
 
-    $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
-    foreach (array_keys($blankFiles) as $i) {
-        $dest = $blankFiles[$i] . '/blank.png';
-        PublisherUtility::copyFile($file, $dest);
-    }
-*/
+    /*
+        foreach (array_keys($uploadFolders) as $i) {
+            PublisherUtility::createFolder($uploadFolders[$i]);
+        }
+
+        $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
+        foreach (array_keys($blankFiles) as $i) {
+            $dest = $blankFiles[$i] . '/blank.png';
+            PublisherUtility::copyFile($file, $dest);
+        }
+    */
+
     return true;
 }

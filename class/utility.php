@@ -8,10 +8,11 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * PublisherUtil Class
  *
- * @copyright   XOOPS Project (http://xoops.org)
+ * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      XOOPS Development Team
  * @package     Publisher
@@ -30,40 +31,6 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 class PublisherUtility
 {
-    /**
-     * Check Xoops Version against a provided version
-     *
-     * @param int $x
-     * @param int $y
-     * @param int $z
-     * @param string $signal
-     * @return bool
-     */
-    public static function checkXoopsVersion($x, $y, $z, $signal = '==')
-    {
-        $xv = explode('-', str_replace('XOOPS ', '', XOOPS_VERSION));
-
-        list($a, $b, $c) = explode('.', $xv[0]);
-        $xv = $a*10000 + $b*100 + $c;
-        $mv = $x*10000 + $y*100 + $z;
-        if ($signal === '>') {
-            return $xv > $mv;
-        }
-        if ($signal === '>=') {
-            return $xv >= $mv;
-        }
-        if ($signal === '<') {
-            return $xv < $mv;
-        }
-        if ($signal === '<=') {
-            return $xv <= $mv;
-        }
-        if ($signal === '==') {
-            return $xv == $mv;
-        }
-
-        return false;
-    }
 
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
@@ -83,7 +50,7 @@ class PublisherUtility
                 }
             }
         } catch (Exception $e) {
-            echo 'Caught exception: ', $e->getMessage(), "\n", '<br/>';
+            echo 'Caught exception: ', $e->getMessage(), "\n", '<br>';
         }
     }
 
@@ -116,7 +83,7 @@ class PublisherUtility
         $dir = opendir($src);
         //    @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
-            if (($file !== '.') && ($file !== '..')) {
+            if (('.' !== $file) && ('..' !== $file)) {
                 if (is_dir($src . '/' . $file)) {
                     self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
                 } else {
@@ -205,11 +172,11 @@ class PublisherUtility
 
     /**
      * @param PublisherCategory $categoryObj
-     * @param int $level
+     * @param int               $level
      */
     public static function displayCategory(PublisherCategory $categoryObj, $level = 0)
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $description = $categoryObj->description();
         if (!XOOPS_USE_MULTIBYTES) {
@@ -217,26 +184,8 @@ class PublisherUtility
                 $description = substr($description, 0, 100 - 1) . '...';
             }
         }
-        $modify = "<a href='category.php?op=mod&amp;categoryid="
-                  . $categoryObj->categoryid()
-                  . '&amp;parentid='
-                  . $categoryObj->parentid()
-                  . "'><img src='"
-                  . PUBLISHER_URL
-                  . "/assets/images/links/edit.gif' title='"
-                  . _AM_PUBLISHER_EDITCOL
-                  . "' alt='"
-                  . _AM_PUBLISHER_EDITCOL
-                  . "' /></a>";
-        $delete = "<a href='category.php?op=del&amp;categoryid="
-                  . $categoryObj->categoryid()
-                  . "'><img src='"
-                  . PUBLISHER_URL
-                  . "/assets/images/links/delete.png' title='"
-                  . _AM_PUBLISHER_DELETECOL
-                  . "' alt='"
-                  . _AM_PUBLISHER_DELETECOL
-                  . "' /></a>";
+        $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITCOL . "' alt='" . _AM_PUBLISHER_EDITCOL . "'></a>";
+        $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETECOL . "' alt='" . _AM_PUBLISHER_DELETECOL . "'></a>";
 
         $spaces = '';
         for ($j = 0; $j < $level; ++$j) {
@@ -245,17 +194,7 @@ class PublisherUtility
 
         echo '<tr>';
         echo "<td class='even' align='center'>" . $categoryObj->categoryid() . '</td>';
-        echo "<td class='even' align='left'>"
-             . $spaces
-             . "<a href='"
-             . PUBLISHER_URL
-             . '/category.php?categoryid='
-             . $categoryObj->categoryid()
-             . "'><img src='"
-             . PUBLISHER_URL
-             . "/assets/images/links/subcat.gif' alt='' />&nbsp;"
-             . $categoryObj->name()
-             . '</a></td>';
+        echo "<td class='even' align='left'>" . $spaces . "<a href='" . PUBLISHER_URL . '/category.php?categoryid=' . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/subcat.gif' alt=''>&nbsp;" . $categoryObj->name() . '</a></td>';
         echo "<td class='even' align='center'>" . $categoryObj->weight() . '</td>';
         echo "<td class='even' align='center'> $modify $delete </td>";
         echo '</tr>';
@@ -278,11 +217,11 @@ class PublisherUtility
      */
     public static function editCategory($showmenu = false, $categoryId = 0, $nbSubCats = 4, $categoryObj = null)
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
         /* @var  $categoryObj PublisherCategory */
-        if ($categoryId != 0) {
+        if (0 != $categoryId) {
             // Creating the category object for the selected category
             $categoryObj = $publisher->getHandler('category')->get($categoryId);
             if ($categoryObj->notLoaded()) {
@@ -295,7 +234,7 @@ class PublisherUtility
             }
         }
 
-        if ($categoryId != 0) {
+        if (0 != $categoryId) {
             echo "<br>\n";
             static::openCollapsableBar('edittable', 'edittableicon', _AM_PUBLISHER_EDITCOL, _AM_PUBLISHER_CATEGORY_EDIT_INFO);
         } else {
@@ -331,41 +270,11 @@ class PublisherUtility
             echo '</tr>';
             if ($totalsubs > 0) {
                 foreach ($subcatsObj as $subcat) {
-                    $modify = "<a href='category.php?op=mod&amp;categoryid="
-                              . $subcat->categoryid()
-                              . "'><img src='"
-                              . XOOPS_URL
-                              . '/modules/'
-                              . $publisher->getModule()->dirname()
-                              . "/assets/images/links/edit.gif' title='"
-                              . _AM_PUBLISHER_MODIFY
-                              . "' alt='"
-                              . _AM_PUBLISHER_MODIFY
-                              . "' /></a>";
-                    $delete = "<a href='category.php?op=del&amp;categoryid="
-                              . $subcat->categoryid()
-                              . "'><img src='"
-                              . XOOPS_URL
-                              . '/modules/'
-                              . $publisher->getModule()->dirname()
-                              . "/assets/images/links/delete.png' title='"
-                              . _AM_PUBLISHER_DELETE
-                              . "' alt='"
-                              . _AM_PUBLISHER_DELETE
-                              . "' /></a>";
+                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_MODIFY . "' alt='" . _AM_PUBLISHER_MODIFY . "'></a>";
+                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETE . "' alt='" . _AM_PUBLISHER_DELETE . "'></a>";
                     echo '<tr>';
                     echo "<td class='head' align='left'>" . $subcat->categoryid() . '</td>';
-                    echo "<td class='even' align='left'><a href='"
-                         . XOOPS_URL
-                         . '/modules/'
-                         . $publisher->getModule()->dirname()
-                         . '/category.php?categoryid='
-                         . $subcat->categoryid()
-                         . '&amp;parentid='
-                         . $subcat->parentid()
-                         . "'>"
-                         . $subcat->name()
-                         . '</a></td>';
+                    echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . '/category.php?categoryid=' . $subcat->categoryid() . '&amp;parentid=' . $subcat->parentid() . "'>" . $subcat->name() . '</a></td>';
                     echo "<td class='even' align='left'>" . $subcat->description() . '</td>';
                     echo "<td class='even' align='right'> {$modify} {$delete} </td>";
                     echo '</tr>';
@@ -383,7 +292,7 @@ class PublisherUtility
             static::openCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = Request::getInt('startitem');
             // Get the total number of published ITEMS
-            $totalitems = $publisher->getHandler('item')->getItemsCount($selCat, array(PublisherConstants::PUBLISHER_STATUS_PUBLISHED));
+            $totalitems = $publisher->getHandler('item')->getItemsCount($selCat, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
             $itemsObj         = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $startitem, $selCat);
             $totalitemsOnPage = count($itemsObj);
@@ -399,17 +308,7 @@ class PublisherUtility
             if ($totalitems > 0) {
                 for ($i = 0; $i < $totalitemsOnPage; ++$i) {
                     $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
-                    $modify      = "<a href='item.php?op=mod&amp;itemid="
-                                   . $itemsObj[$i]->itemid()
-                                   . "'><img src='"
-                                   . XOOPS_URL
-                                   . '/modules/'
-                                   . $publisher->getModule()->dirname()
-                                   . "/assets/images/links/edit.gif' title='"
-                                   . _AM_PUBLISHER_EDITITEM
-                                   . "' alt='"
-                                   . _AM_PUBLISHER_EDITITEM
-                                   . "' /></a>";
+                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "'></a>";
                     $delete      = "<a href='item.php?op=del&amp;itemid="
                                    . $itemsObj[$i]->itemid()
                                    . "'><img src='"
@@ -420,7 +319,7 @@ class PublisherUtility
                                    . _AM_PUBLISHER_DELETEITEM
                                    . "' alt='"
                                    . _AM_PUBLISHER_DELETEITEM
-                                   . "'/></a>";
+                                   . "'></a>";
                     echo '<tr>';
                     echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
                     echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';
@@ -461,8 +360,8 @@ class PublisherUtility
         xoops_cp_header();
 
         //cannot use xoTheme, some conflit with admin gui
-        echo '<link type="text/css" href="' . XOOPS_URL . '/modules/system/css/ui/' . xoops_getModuleOption('jquery_theme', 'system') . '/ui.all.css" rel="stylesheet" />
-    <link type="text/css" href="' . PUBLISHER_URL . '/assets/css/publisher.css" rel="stylesheet" />
+        echo '<link type="text/css" href="' . XOOPS_URL . '/modules/system/css/ui/' . xoops_getModuleOption('jquery_theme', 'system') . '/ui.all.css" rel="stylesheet">
+    <link type="text/css" href="' . PUBLISHER_URL . '/assets/css/publisher.css" rel="stylesheet">
     <script type="text/javascript" src="' . PUBLISHER_URL . '/assets/js/funcs.js"></script>
     <script type="text/javascript" src="' . PUBLISHER_URL . '/assets/js/cookies.js"></script>
     <script type="text/javascript" src="' . XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js"></script>
@@ -481,17 +380,17 @@ class PublisherUtility
      */
     public static function getOrderBy($sort)
     {
-        if ($sort === 'datesub') {
+        if ('datesub' === $sort) {
             return 'DESC';
-        } elseif ($sort === 'counter') {
+        } elseif ('counter' === $sort) {
             return 'DESC';
-        } elseif ($sort === 'weight') {
+        } elseif ('weight' === $sort) {
             return 'ASC';
-        } elseif ($sort === 'votes') {
+        } elseif ('votes' === $sort) {
             return 'DESC';
-        } elseif ($sort === 'rating') {
+        } elseif ('rating' === $sort) {
             return 'DESC';
-        } elseif ($sort === 'comments') {
+        } elseif ('comments' === $sort) {
             return 'DESC';
         }
 
@@ -509,7 +408,7 @@ class PublisherUtility
     public static function substr($str, $start, $length, $trimMarker = '...')
     {
         // if the string is empty, let's get out ;-)
-        if ($str == '') {
+        if ('' == $str) {
             return $str;
         }
 
@@ -539,9 +438,9 @@ class PublisherUtility
         // and white space. It will also convert some
         // common HTML entities to their text equivalent.
         // Credits : newbb2
-        $search = array(
+        $search = [
             "'<script[^>]*?>.*?</script>'si", // Strip out javascript
-            "'<img.*?/>'si", // Strip out img tags
+            "'<img.*?>'si", // Strip out img tags
             "'<[\/\!]*?[^<>]*?>'si", // Strip out HTML tags
             "'([\r\n])[\s]+'", // Strip out white space
             "'&(quot|#34);'i", // Replace HTML entities
@@ -553,9 +452,9 @@ class PublisherUtility
             "'&(cent|#162);'i",
             "'&(pound|#163);'i",
             "'&(copy|#169);'i"
-        ); // evaluate as php
+        ]; // evaluate as php
 
-        $replace = array(
+        $replace = [
             '',
             '',
             '',
@@ -569,7 +468,7 @@ class PublisherUtility
             chr(162),
             chr(163),
             chr(169)
-        );
+        ];
 
         $text = preg_replace($search, $replace, $document);
 
@@ -586,7 +485,7 @@ class PublisherUtility
      */
     public static function getAllowedImagesTypes()
     {
-        return array('jpg/jpeg', 'image/bmp', 'image/gif', 'image/jpeg', 'image/jpg', 'image/x-png', 'image/png', 'image/pjpeg');
+        return ['jpg/jpeg', 'image/bmp', 'image/gif', 'image/jpeg', 'image/jpg', 'image/x-png', 'image/png', 'image/pjpeg'];
     }
 
     /**
@@ -595,7 +494,7 @@ class PublisherUtility
      */
     public static function moduleHome($withLink = true)
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         if (!$publisher->getConfig('format_breadcrumb_modname')) {
             return '';
@@ -633,12 +532,12 @@ class PublisherUtility
         $dir = dir($source);
         while (false !== $entry = $dir->read()) {
             // Skip pointers
-            if ($entry === '.' || $entry === '..') {
+            if ('.' === $entry || '..' === $entry) {
                 continue;
             }
 
             // Deep copy directories
-            if (($dest !== "$source/$entry") && is_dir("$source/$entry")) {
+            if (("$source/$entry" !== $dest) && is_dir("$source/$entry")) {
                 static::copyr("$source/$entry", "$dest/$entry");
             } else {
                 copy("$source/$entry", "$dest/$entry");
@@ -736,7 +635,7 @@ class PublisherUtility
     public static function getUploadDir($hasPath = true, $item = '')
     {
         if ('' !== $item) {
-            if ($item === 'root') {
+            if ('root' === $item) {
                 $item = '';
             } else {
                 $item .= '/';
@@ -770,7 +669,7 @@ class PublisherUtility
      * @param  array $errors
      * @return string
      */
-    public static function formatErrors($errors = array())
+    public static function formatErrors($errors = [])
     {
         $ret = '';
         foreach ($errors as $key => $value) {
@@ -787,7 +686,7 @@ class PublisherUtility
      */
     public static function userIsAdmin()
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         static $publisherIsAdmin;
 
@@ -823,7 +722,7 @@ class PublisherUtility
      */
     public static function userIsModerator($itemObj)
     {
-        $publisher         = PublisherPublisher::getInstance();
+        $publisher         = Publisher::getInstance();
         $categoriesGranted = $publisher->getHandler('permission')->getGrantedItems('category_moderation');
 
         return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted));
@@ -839,11 +738,11 @@ class PublisherUtility
      */
     public static function saveCategoryPermissions($groups, $categoryId, $permName)
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $result = true;
 
-        $moduleId     = $publisher->getModule()->getVar('mid');
+        $moduleId = $publisher->getModule()->getVar('mid');
         /* @var  $gpermHandler XoopsGroupPermHandler */
         $gpermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
@@ -877,9 +776,9 @@ class PublisherUtility
         }
 
         echo "<h3 style=\"color: #2F5376; font-weight: bold; font-size: 14px; margin: 6px 0 0 0; \"><a href='javascript:;' onclick=\"toggle('" . $tablename . "'); toggleIcon('" . $iconname . "')\">";
-        echo "<img id='" . $iconname . "' src='" . PUBLISHER_URL . '/assets/images/links/' . $image . "' alt='' /></a>&nbsp;" . $tabletitle . '</h3>';
+        echo "<img id='" . $iconname . "' src='" . PUBLISHER_URL . '/assets/images/links/' . $image . "' alt=''></a>&nbsp;" . $tabletitle . '</h3>';
         echo "<div id='" . $tablename . "' style='display: " . $display . ";'>";
-        if ($tabledsc != '') {
+        if ('' != $tabledsc) {
             echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $tabledsc . '</span>';
         }
     }
@@ -900,7 +799,7 @@ class PublisherUtility
         $cookieName = str_replace('.', '_', $cookieName);
         $cookie     = static::getCookieVar($cookieName, '');
 
-        if ($cookie === 'none') {
+        if ('none' === $cookie) {
             echo '
         <script type="text/javascript"><!--
         toggle("' . $name . '"); toggleIcon("' . $icon . '");
@@ -918,7 +817,7 @@ class PublisherUtility
      */
     public static function setCookieVar($name, $value, $time = 0)
     {
-        if ($time == 0) {
+        if (0 == $time) {
             $time = time() + 3600 * 24 * 365;
         }
         setcookie($name, $value, $time, '/');
@@ -944,7 +843,7 @@ class PublisherUtility
      */
     public static function getCurrentUrls()
     {
-        $http = strpos(XOOPS_URL, 'https://') === false ? 'http://' : 'https://';
+        $http = false === strpos(XOOPS_URL, 'https://') ? 'http://' : 'https://';
         //    $phpself     = $_SERVER['PHP_SELF'];
         //    $httphost    = $_SERVER['HTTP_HOST'];
         //    $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
@@ -952,13 +851,13 @@ class PublisherUtility
         $httphost    = Request::getString('HTTP_HOST', '', 'SERVER');
         $querystring = Request::getString('QUERY_STRING', '', 'SERVER');
 
-        if ($querystring != '') {
+        if ('' != $querystring) {
             $querystring = '?' . $querystring;
         }
 
         $currenturl = $http . $httphost . $phpself . $querystring;
 
-        $urls                = array();
+        $urls                = [];
         $urls['http']        = $http;
         $urls['httphost']    = $httphost;
         $urls['phpself']     = $phpself;
@@ -987,7 +886,7 @@ class PublisherUtility
      */
     public static function addCategoryOption(PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $spaces = '';
         for ($j = 0; $j < $level; ++$j) {
@@ -1014,7 +913,7 @@ class PublisherUtility
     }
 
     /**
-     * @param  int    $selectedid
+     * @param  int|array    $selectedid
      * @param  int    $parentcategory
      * @param  bool   $allCatOption
      * @param  string $selectname
@@ -1022,7 +921,7 @@ class PublisherUtility
      */
     public static function createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[0]')
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $selectedid = explode(',', $selectedid);
 
@@ -1056,7 +955,7 @@ class PublisherUtility
      */
     public static function createCategoryOptions($selectedid = 0, $parentcategory = 0, $allCatOption = true)
     {
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $ret = '';
         if ($allCatOption) {
@@ -1083,9 +982,7 @@ class PublisherUtility
     public static function renderErrors(&$errArray, $reseturl = '')
     {
         if (is_array($errArray) && count($errArray) > 0) {
-            echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url('
-                 . PUBLISHER_URL
-                 . '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
+            echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' . PUBLISHER_URL . '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
 
             echo '<h4 style="text-align:left;margin:0; padding-top:0;">' . _AM_PUBLISHER_MSG_SUBMISSION_ERR;
 
@@ -1118,7 +1015,7 @@ class PublisherUtility
      *
      * @credit : xHelp module, developped by 3Dev
      */
-    public static function makeUri($page, $vars = array(), $encodeAmp = true)
+    public static function makeUri($page, $vars = [], $encodeAmp = true)
     {
         $joinStr = '';
 
@@ -1163,7 +1060,7 @@ class PublisherUtility
         require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
         //    global $publisherIsAdmin;
-        $publisher = PublisherPublisher::getInstance();
+        $publisher = Publisher::getInstance();
 
         $itemId  = Request::getInt('itemid', 0, 'POST');
         $uid     = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
@@ -1189,7 +1086,7 @@ class PublisherUtility
         // Get available mimetypes for file uploading
         $allowedMimetypes = $publisher->getHandler('mimetype')->getArrayByType();
         // TODO : display the available mimetypes to the user
-        $errors = array();
+        $errors = [];
         if ($publisher->getConfig('perm_upload') && is_uploaded_file($_FILES['item_upload_file']['tmp_name'])) {
             if (!$ret = $fileObj->checkUpload('item_upload_file', $allowedMimetypes, $errors)) {
                 $errorstxt = implode('<br>', $errors);
@@ -1214,6 +1111,7 @@ class PublisherUtility
                     throw new Exception(_CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
                 }
             } catch (Exception $e) {
+                $publisher->addLog($e);
                 redirect_header('file.php?op=mod&itemid=' . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
             }
             //    } else {
@@ -1261,7 +1159,7 @@ class PublisherUtility
      */
     public static function truncateTagSafe($string, $length = 80, $etc = '...', $breakWords = false)
     {
-        if ($length == 0) {
+        if (0 == $length) {
             return '';
         }
 
@@ -1292,7 +1190,7 @@ class PublisherUtility
             $startTags = $startTags[1];
             // match closed tags
             if (preg_match_all('/<\/([a-z]+)>/', $string, $endTags)) {
-                $completeTags = array();
+                $completeTags = [];
                 $endTags      = $endTags[1];
 
                 foreach ($startTags as $key => $val) {
@@ -1323,7 +1221,7 @@ class PublisherUtility
      */
     public static function ratingBar($itemId)
     {
-        $publisher       = PublisherPublisher::getInstance();
+        $publisher       = Publisher::getInstance();
         $ratingUnitWidth = 30;
         $units           = 5;
 
@@ -1345,38 +1243,26 @@ class PublisherUtility
             }
         }
 
-        $tense = $count == 1 ? _MD_PUBLISHER_VOTE_VOTE : _MD_PUBLISHER_VOTE_VOTES; //plural form votes/vote
+        $tense = 1 == $count ? _MD_PUBLISHER_VOTE_VOTE : _MD_PUBLISHER_VOTE_VOTES; //plural form votes/vote
 
         // now draw the rating bar
-        if ($count != 0) {
+        if (0 != $count) {
             $ratingWidth = number_format($currentRating / $count, 2) * $ratingUnitWidth;
             $rating1     = number_format($currentRating / $count, 1);
             $rating2     = number_format($currentRating / $count, 2);
         }
-        $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        /* @var $gpermHandler XoopsGroupPermHandler  */
+        $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        /* @var $gpermHandler XoopsGroupPermHandler */
         $gpermHandler = $publisher->getHandler('groupperm');
 
         if (!$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
-            $staticRater   = array();
+            $staticRater   = [];
             $staticRater[] .= "\n" . '<div class="publisher_ratingblock">';
             $staticRater[] .= '<div id="unit_long' . $itemId . '">';
             $staticRater[] .= '<div id="unit_ul' . $itemId . '" class="publisher_unit-rating" style="width:' . $ratingUnitWidth * $units . 'px;">';
             $staticRater[] .= '<div class="publisher_current-rating" style="width:' . $ratingWidth . 'px;">' . _MD_PUBLISHER_VOTE_RATING . ' ' . $rating2 . '/' . $units . '</div>';
             $staticRater[] .= '</div>';
-            $staticRater[] .= '<div class="publisher_static">'
-                              . _MD_PUBLISHER_VOTE_RATING
-                              . ': <strong> '
-                              . $rating1
-                              . '</strong>/'
-                              . $units
-                              . ' ('
-                              . $count
-                              . ' '
-                              . $tense
-                              . ') <br><em>'
-                              . _MD_PUBLISHER_VOTE_DISABLE
-                              . '</em></div>';
+            $staticRater[] .= '<div class="publisher_static">' . _MD_PUBLISHER_VOTE_RATING . ': <strong> ' . $rating1 . '</strong>/' . $units . ' (' . $count . ' ' . $tense . ') <br><em>' . _MD_PUBLISHER_VOTE_DISABLE . '</em></div>';
             $staticRater[] .= '</div>';
             $staticRater[] .= '</div>' . "\n\n";
 
@@ -1390,23 +1276,7 @@ class PublisherUtility
 
             for ($ncount = 1; $ncount <= $units; ++$ncount) { // loop from 1 to the number of units
                 if (!$voted) { // if the user hasn't yet voted, draw the voting stars
-                    $rater .= '<div><a href="'
-                              . PUBLISHER_URL
-                              . '/rate.php?itemid='
-                              . $itemId
-                              . '&amp;rating='
-                              . $ncount
-                              . '" title="'
-                              . $ncount
-                              . ' '
-                              . _MD_PUBLISHER_VOTE_OUTOF
-                              . ' '
-                              . $units
-                              . '" class="publisher_r'
-                              . $ncount
-                              . '-unit rater" rel="nofollow">'
-                              . $ncount
-                              . '</a></div>';
+                    $rater .= '<div><a href="' . PUBLISHER_URL . '/rate.php?itemid=' . $itemId . '&amp;rating=' . $ncount . '" title="' . $ncount . ' ' . _MD_PUBLISHER_VOTE_OUTOF . ' ' . $units . '" class="publisher_r' . $ncount . '-unit rater" rel="nofollow">' . $ncount . '</a></div>';
                 }
             }
 
@@ -1433,7 +1303,7 @@ class PublisherUtility
      */
     public static function getEditors($allowedEditors = null)
     {
-        $ret    = array();
+        $ret    = [];
         $nohtml = false;
         xoops_load('XoopsEditorHandler');
         $editorHandler = XoopsEditorHandler::getInstance();
@@ -1463,9 +1333,9 @@ class PublisherUtility
     public static function stringToInt($string = '', $length = 5)
     {
         $final  = '';
-        $string = substr(md5($string), $length);
+        $substring = substr(md5($string), $length);
         for ($i = 0; $i < $length; ++$i) {
-            $final .= (int)$string[$i];
+            $final .= (int)$substring[$i];
         }
 
         return (int)$final;
@@ -1499,17 +1369,24 @@ class PublisherUtility
      * @static
      * @param XoopsModule $module
      *
+     * @param null|string $requiredVer
      * @return bool true if meets requirements, false if not
      */
-    public static function checkVerXoops(XoopsModule $module)
+    public static function checkVerXoops(XoopsModule $module = null, $requiredVer = null)
     {
-        xoops_loadLanguage('admin', $module->dirname());
+        $moduleDirName = basename(dirname(__DIR__));
+        if (null === $module) {
+            $module = XoopsModule::getByDirname($moduleDirName);
+        }
+        xoops_loadLanguage('admin', $moduleDirName);
         //check for minimum XOOPS version
-        $currentVer  = substr(XOOPS_VERSION, 6); // get the numeric part of string
-        $currArray   = explode('.', $currentVer);
-        $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
-        $reqArray    = explode('.', $requiredVer);
-        $success     = true;
+        $currentVer = substr(XOOPS_VERSION, 6); // get the numeric part of string
+        $currArray  = explode('.', $currentVer);
+        if (null === $requiredVer) {
+            $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
+        }
+        $reqArray = explode('.', $requiredVer);
+        $success  = true;
         foreach ($reqArray as $k => $v) {
             if (isset($currArray[$k])) {
                 if ($currArray[$k] > $v) {
@@ -1521,14 +1398,14 @@ class PublisherUtility
                     break;
                 }
             } else {
-                if ((int)$v > 0) { // handles things like x.x.x.0_RC2
+                if ((int)$v > 0) { // handles versions like x.x.x.0_RC2
                     $success = false;
                     break;
                 }
             }
         }
 
-        if (!$success) {
+        if (false === $success) {
             $module->setErrors(sprintf(_AM_PUBLISHER_ERROR_BAD_XOOPS, $requiredVer, $currentVer));
         }
 
@@ -1549,7 +1426,7 @@ class PublisherUtility
         // check for minimum PHP version
         $success = true;
         $verNum  = PHP_VERSION;
-        $reqVer  =& $module->getInfo('min_php');
+        $reqVer  = $module->getInfo('min_php');
         if (false !== $reqVer && '' !== $reqVer) {
             if (version_compare($verNum, $reqVer, '<')) {
                 $module->setErrors(sprintf(_AM_PUBLISHER_ERROR_BAD_PHP, $reqVer, $verNum));

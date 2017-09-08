@@ -10,7 +10,7 @@
  */
 
 /**
- * @copyright    XOOPS Project http://xoops.org/
+ * @copyright    XOOPS Project https://xoops.org/
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
@@ -79,7 +79,7 @@ class XoopsMediaUploader
     public $mediaTmpName;
     public $mediaError;
     public $uploadDir        = '';
-    public $allowedMimeTypes = array();
+    public $allowedMimeTypes = [];
     public $maxFileSize      = 0;
     public $maxWidth;
     public $maxHeight;
@@ -87,7 +87,7 @@ class XoopsMediaUploader
     public $prefix;
     public $ext;
     public $dimension;
-    public $errors           = array();
+    public $errors           = [];
     public $savedDestination;
     public $savedFileName;
     /**
@@ -160,7 +160,7 @@ class XoopsMediaUploader
             $this->mediaError   = !empty($mediaName['error']) ? $mediaName['error'] : 0;
         }
         $this->dimension = getimagesize($this->mediaTmpName);
-        $this->errors    = array();
+        $this->errors    = [];
         if ((int)$this->mediaSize < 0) {
             $this->setErrors('Invalid File Size');
 
@@ -232,7 +232,7 @@ class XoopsMediaUploader
      */
     public function setTargetFileName($value)
     {
-        $this->targetFileName = (string)trim($value);
+        $this->targetFileName = trim($value);
     }
 
     /**
@@ -242,7 +242,7 @@ class XoopsMediaUploader
      */
     public function setPrefix($value)
     {
-        $this->prefix = (string)trim($value);
+        $this->prefix = trim($value);
     }
 
     /**
@@ -314,7 +314,7 @@ class XoopsMediaUploader
      */
     public function upload($chmod = 0644)
     {
-        if ($this->uploadDir == '') {
+        if ('' == $this->uploadDir) {
             $this->setErrors('Upload directory not set');
 
             return false;
@@ -355,7 +355,7 @@ class XoopsMediaUploader
      */
     public function copyFile($chmod)
     {
-        $matched = array();
+        $matched = [];
         if (!preg_match("/\.([a-zA-Z0-9]+)$/", $this->mediaName, $matched)) {
             return false;
         }

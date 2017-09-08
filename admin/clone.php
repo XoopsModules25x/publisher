@@ -45,11 +45,11 @@ if ('submit' === Request::getString('op', '', 'POST')) {
         redirect_header('clone.php', 3, sprintf(_AM_PUBLISHER_CLONE_EXISTS, $clone));
     }
 
-    $patterns = array(
+    $patterns = [
         strtolower(PUBLISHER_DIRNAME)          => strtolower($clone),
         strtoupper(PUBLISHER_DIRNAME)          => strtoupper($clone),
         ucfirst(strtolower(PUBLISHER_DIRNAME)) => ucfirst(strtolower($clone))
-    );
+    ];
 
     $patKeys   = array_keys($patterns);
     $patValues = array_values($patterns);
@@ -117,15 +117,15 @@ class PublisherClone
 
             // check all files in dir, and process it
             if ($handle = opendir($path)) {
-                while (($file = readdir($handle)) !== false) {
-                    if (substr($file, 0, 1) !== '.') {
+                while (false !== ($file = readdir($handle))) {
+                    if ('.' !== substr($file, 0, 1)) {
                         self::cloneFileFolder("{$path}/{$file}");
                     }
                 }
                 closedir($handle);
             }
         } else {
-            $noChangeExtensions = array('jpeg', 'jpg', 'gif', 'png', 'zip', 'ttf');
+            $noChangeExtensions = ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ttf'];
             if (in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), $noChangeExtensions)) {
                 // image
                 copy($path, $newPath);
@@ -148,7 +148,7 @@ class PublisherClone
         if (!extension_loaded('gd')) {
             return false;
         } else {
-            $requiredFunctions = array(
+            $requiredFunctions = [
                 'imagecreatefrompng',
                 'imagecolorallocate',
                 'imagefilledrectangle',
@@ -157,7 +157,7 @@ class PublisherClone
                 'imagefttext',
                 'imagealphablending',
                 'imagesavealpha'
-            );
+            ];
             foreach ($requiredFunctions as $func) {
                 if (!function_exists($func)) {
                     return false;
@@ -167,8 +167,7 @@ class PublisherClone
         }
 
         if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logoModule.png'))
-            || !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))
-        ) {
+            || !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))) {
             return false;
         }
 
@@ -184,7 +183,7 @@ class PublisherClone
         // Write text
         $textColor     = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceToBorder = (80 - strlen($dirname) * 6.5) / 2;
-        imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, ucfirst($dirname), array());
+        imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, ucfirst($dirname), []);
 
         // Set transparency color
         //$white = imagecolorallocatealpha($imageModule, 255, 255, 255, 127);

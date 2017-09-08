@@ -26,7 +26,7 @@ require_once $GLOBALS['xoops']->path('class/template.php');
 
 $itemid = Request::getInt('itemid', 0, 'GET');
 
-if ($itemid == 0) {
+if (0 == $itemid) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
     //    exit();
 }
@@ -57,8 +57,8 @@ $item['body']         = $itemObj->getBody();
 $item['categoryname'] = $myts->displayTarea($categoryObj->name());
 
 $mainImage = $itemObj->getMainImage();
-if ($mainImage['image_path'] != '') {
-    $item['image'] = '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"/>';
+if ('' != $mainImage['image_path']) {
+    $item['image'] = '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '">';
 }
 $xoopsTpl->assign('item', $item);
 $xoopsTpl->assign('printtitle', $GLOBALS['xoopsConfig']['sitename'] . ' - ' . PublisherUtility::html2text($categoryObj->getCategoryPath()) . ' > ' . $myts->displayTarea($itemObj->getTitle()));
@@ -77,10 +77,10 @@ $xoopsTpl->assign('noTitle', $noTitle);
 $xoopsTpl->assign('smartPopup', $smartPopup);
 $xoopsTpl->assign('current_language', $GLOBALS['xoopsConfig']['language']);
 
-if ($publisher->getConfig('print_footer') === 'item footer' || $publisher->getConfig('print_footer') === 'both') {
+if ('item footer' === $publisher->getConfig('print_footer') || 'both' === $publisher->getConfig('print_footer')) {
     $xoopsTpl->assign('itemfooter', $myts->displayTarea($publisher->getConfig('item_footer'), 1));
 }
-if ($publisher->getConfig('print_footer') === 'index footer' || $publisher->getConfig('print_footer') === 'both') {
+if ('index footer' === $publisher->getConfig('print_footer') || 'both' === $publisher->getConfig('print_footer')) {
     $xoopsTpl->assign('indexfooter', $myts->displayTarea($publisher->getConfig('index_footer'), 1));
 }
 

@@ -11,16 +11,13 @@ define('_CO_PUBLISHER_ALLOWCOMMENTS', 'Can article be commented?');
 define('_CO_PUBLISHER_AUTHOR_ALIAS', 'Author alias');
 define('_CO_PUBLISHER_AUTHOR_ALIAS_DSC', 'Select the alias name of the poster, this will be used instead of “anonymous” and will set the owner ID of the article to 0');
 define('_CO_PUBLISHER_AVAILABLE_PAGE_WRAP', 'Available pages to wrap');
-define('_CO_PUBLISHER_AVAILABLE_PAGE_WRAP_DSC',
-       'Here are the pages available for wrapping in the body. Click on the page(s) you would like to wrap. Works with XOOPS editor only for the moment. Add manually if you are on another editor.');
+define('_CO_PUBLISHER_AVAILABLE_PAGE_WRAP_DSC', 'Here are the pages available for wrapping in the body. Click on the page(s) you would like to wrap. Works with XOOPS editor only for the moment. Add manually if you are on another editor.');
 define('_CO_PUBLISHER_DATESUB', 'Published');
 define('_CO_PUBLISHER_DATESUB_DSC', 'Select the date of publication');
 define('_CO_PUBLISHER_ITEM_META_DESCRIPTION', 'Meta Description');
-define('_CO_PUBLISHER_ITEM_META_DESCRIPTION_DSC',
-       'In order to help Search Engines, you can customize the meta description you would like to use for this article. if you leave this field empty when creating a category, it will automatically be populated with the Summary field of this article.');
+define('_CO_PUBLISHER_ITEM_META_DESCRIPTION_DSC', 'In order to help Search Engines, you can customize the meta description you would like to use for this article. if you leave this field empty when creating a category, it will automatically be populated with the Summary field of this article.');
 define('_CO_PUBLISHER_ITEM_META_KEYWORDS', 'Meta Keywords');
-define('_CO_PUBLISHER_ITEM_META_KEYWORDS_DSC',
-       'In order to help Search Engines, you can customize the keywords you would like to use for this article. If you leave this field empty when creating an article, it will automatically be populated with words from the Summary field of this article.');
+define('_CO_PUBLISHER_ITEM_META_KEYWORDS_DSC', 'In order to help Search Engines, you can customize the keywords you would like to use for this article. If you leave this field empty when creating an article, it will automatically be populated with words from the Summary field of this article.');
 define('_CO_PUBLISHER_ITEM_SHORT_URL', 'Short URL');
 define('_CO_PUBLISHER_ITEM_SHORT_URL_DSC', 'When using the SEO features of this module, you can specify a Short URL for this article. This field is optional.');
 //define('_CO_PUBLISHER_PERMISSIONS_ITEM', 'Permissions');
@@ -35,8 +32,10 @@ define('_CO_PUBLISHER_UID', 'Poster name');
 define('_CO_PUBLISHER_UID_DSC', 'Select the name of the poster');
 define('_CO_PUBLISHER_WEIGHT', 'Weight');
 define('_CO_PUBLISHER_ITEM_UPLOAD_FILE', 'File upload');
-define('_CO_PUBLISHER_ITEM_UPLOAD_FILE_DSC',
-       'Select a file from your computer to attach it to this article. You will be able to add more files once the article has been created. Simply edit the article and scroll at the bottom of the page to see the Add file button.<br><br> For example, you could add a Word document or an Excel document. You can even upload a Flash file and it will be directly embedded into your article! ');
+define(
+    '_CO_PUBLISHER_ITEM_UPLOAD_FILE_DSC',
+       'SELECT a file FROM your computer TO attach it TO this article. You will be able TO ADD more files once the article has been created. Simply edit the article AND scroll AT the bottom of the PAGE TO see the ADD FILE button.<br><br> FOR example, you could ADD a Word document OR an Excel document. You can even upload a Flash FILE AND it will be directly embedded INTO your article! '
+);
 //define('_CO_PUBLISHER_OPTIONS','Options');
 define('_CO_PUBLISHER_DISPLAY_SUMMARY', 'Display summary on the item page ?');
 define('_CO_PUBLISHER_DOHTML', 'Enable HTML tags');
@@ -108,5 +107,5 @@ define('_CO_PUBLISHER_FILES_LINKED', 'Files linked to this article');
 //Added 30/05/2012
 define('_CO_PUBLISHER_EDITFILE', 'Edit file');
 define('_CO_PUBLISHER_DELETEFILE', 'Delete file');
-// added 15/05/2017
+//added 2017-05-16
 define('_CO_PUBLISHER_BAD_TOKEN', 'Invalid token, please try again');

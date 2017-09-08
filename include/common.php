@@ -18,7 +18,7 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 //require_once __DIR__ . '/config.php';
 
@@ -38,12 +38,12 @@ define('PUBLISHER_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PUBLISHER_DIRNAME); //
 require_once PUBLISHER_ROOT_PATH . '/include/seo_functions.php';
 require_once PUBLISHER_ROOT_PATH . '/class/metagen.php';
 require_once PUBLISHER_ROOT_PATH . '/class/session.php';
-require_once PUBLISHER_ROOT_PATH . '/class/publisher.php';
+require_once PUBLISHER_ROOT_PATH . '/class/helper.php';
 //require_once PUBLISHER_ROOT_PATH . '/class/request.php';
 
 // module information
-$mod_copyright = "<a href='http://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . PUBLISHER_AUTHOR_LOGOIMG . "' alt='XOOPS Project' /></a>";
+$mod_copyright = "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
+                     <img src='" . PUBLISHER_AUTHOR_LOGOIMG . "' alt='XOOPS Project'></a>";
 
 xoops_loadLanguage('common', PUBLISHER_DIRNAME);
 
@@ -52,7 +52,7 @@ xoops_load('utility', PUBLISHER_DIRNAME);
 xoops_load('XoopsFilterInput');
 
 $debug     = false;
-$publisher = PublisherPublisher::getInstance($debug);
+$publisher = Publisher::getInstance($debug);
 
 //This is needed or it will not work in blocks.
 global $publisherIsAdmin;

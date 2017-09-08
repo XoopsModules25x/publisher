@@ -8,7 +8,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @package
  * @since           2.5.9
@@ -16,10 +16,6 @@
  */
 
 require_once __DIR__ . '/../../../mainfile.php';
-
-if (!isset($moduleDirName)) {
-    $moduleDirName = basename(dirname(__DIR__));
-}
 
 $op = \Xmf\Request::getCmd('op', '');
 
@@ -33,9 +29,10 @@ switch ($op) {
 
 function loadSampleData()
 {
+    $moduleDirName = basename(dirname(__DIR__));
     xoops_loadLanguage('admin', $moduleDirName);
     $items = \Xmf\Yaml::readWrapped('item-data.yml');
-    $cat = \Xmf\Yaml::readWrapped('cat-data.yml');
+    $cat   = \Xmf\Yaml::readWrapped('cat-data.yml');
 
     \Xmf\Database\TableLoad::truncateTable('publisher_items');
     \Xmf\Database\TableLoad::truncateTable('publisher_categories');

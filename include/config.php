@@ -20,7 +20,7 @@
  */
 
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-require_once __DIR__ . '/../class/configurator.php';
+//require_once __DIR__ . '/../class/configurator.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 $capsDirName   = strtoupper($moduleDirName);

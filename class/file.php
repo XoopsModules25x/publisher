@@ -287,12 +287,18 @@ class PublisherFile extends XoopsObject
 class PublisherFileHandler extends XoopsPersistableObjectHandler
 {
     public $table_link   = '';
+    /**
+     * @var Publisher
+     * @access public
+     */
+    public $publisher;
 
     /**
      * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {
+        $this->publisher = Publisher::getInstance();
         parent::__construct($db, 'publisher_files', 'PublisherFile', 'fileid', 'name');
     }
 

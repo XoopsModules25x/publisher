@@ -287,8 +287,6 @@ class PublisherFile extends XoopsObject
 class PublisherFileHandler extends XoopsPersistableObjectHandler
 {
     public $table_link   = '';
-    public $field_object = '';
-    public $field_link   = '';
 
     /**
      * @param null|XoopsDatabase $db
@@ -355,12 +353,11 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
      */
     public function getAllFiles($itemid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = [])
     {
-        global $xoopsModule;
         $files = [];
 
-        $this->table_link = $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items');
+        $this->table_link = $this->db->prefix($this->publisher->getDirname() . '_items');
 
-        $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_files'));
+        $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $this->db->prefix($this->publisher->getDirname() . '_files'));
         list($count) = $GLOBALS['xoopsDB']->fetchRow($result);
         if ($count > 0) {
             $this->field_object = 'itemid';

@@ -49,7 +49,6 @@ xoops_loadLanguage('common', PUBLISHER_DIRNAME);
 
 xoops_load('constants', PUBLISHER_DIRNAME);
 xoops_load('utility', PUBLISHER_DIRNAME);
-xoops_load('XoopsFilterInput');
 
 $debug     = false;
 $publisher = Publisher::getInstance($debug);

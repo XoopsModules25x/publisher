@@ -216,7 +216,7 @@ unset($file, $embededFiles, $filesObj, $fileObj);
 $xoopsTpl->assign('mail_link', 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ': ' . $itemObj->getItemUrl());
 $xoopsTpl->assign('itemid', $itemObj->itemId());
 $xoopsTpl->assign('sectionname', $publisher->getModule()->getVar('name'));
-$xoopsTpl->assign('module_dirname', $publisher->getModule()->getVar('dirname'));
+$xoopsTpl->assign('module_dirname', $publisher->getDirname());
 $xoopsTpl->assign('module_home', PublisherUtility::moduleHome($publisher->getConfig('format_linked_path')));
 $xoopsTpl->assign('categoryPath', '<li>' . $item['categoryPath'] . '</li><li> ' . $item['title'] . '</li>');
 $xoopsTpl->assign('commentatarticlelevel', $publisher->getConfig('perm_com_art_level'));

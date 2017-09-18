@@ -48,7 +48,6 @@ class Publisher extends \Xmf\Module\Helper
         return $instance;
     }
 
-
     /**
      * @param null|string $name
      * @param null|string $value
@@ -66,4 +65,11 @@ class Publisher extends \Xmf\Module\Helper
         return $this->configs[$name];
     }
 
+    /**
+     * @return string
+     */
+    public function getDirname()
+    {
+        return $this->dirname;
+    }
 }

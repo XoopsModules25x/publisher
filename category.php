@@ -219,7 +219,7 @@ $xoopsTpl->assign('categories', $categories);
 // Language constants
 $xoopsTpl->assign('sectionname', $publisher->getModule()->getVar('name'));
 $xoopsTpl->assign('whereInSection', $publisher->getModule()->getVar('name'));
-$xoopsTpl->assign('module_dirname', $publisher->getModule()->getVar('dirname'));
+$xoopsTpl->assign('module_dirname', $publisher->getDirname());
 $xoopsTpl->assign('lang_category_summary', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY, $categoryObj->name()));
 $xoopsTpl->assign('lang_category_summary_info', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY_INFO, $categoryObj->name()));
 $xoopsTpl->assign('lang_items_title', sprintf(_MD_PUBLISHER_ITEMS_TITLE, $categoryObj->name()));

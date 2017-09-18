@@ -44,7 +44,7 @@ function publisher_items_menu_show($options)
     }
 
     // Are we in Publisher ?
-    $block['inModule'] = (isset($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirname') == $publisher->getModule()->getVar('dirname'));
+    $block['inModule'] = (isset($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirname') == $publisher->getDirname());
 
     $catLinkClass = 'menuMain';
 

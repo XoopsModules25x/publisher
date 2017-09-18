@@ -118,7 +118,7 @@ class PublisherClone
             // check all files in dir, and process it
             if ($handle = opendir($path)) {
                 while (false !== ($file = readdir($handle))) {
-                    if ('.' !== substr($file, 0, 1)) {
+                    if (0 !== strpos($file, '.')) {
                         self::cloneFileFolder("{$path}/{$file}");
                     }
                 }

@@ -287,8 +287,6 @@ class PublisherFile extends XoopsObject
 class PublisherFileHandler extends XoopsPersistableObjectHandler
 {
     public $table_link   = '';
-    public $field_object = '';
-    public $field_link   = '';
 
     /**
      * @param null|XoopsDatabase $db

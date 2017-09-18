@@ -394,12 +394,6 @@ class PublisherMimetype extends XoopsObject
  */
 class PublisherMimetypeHandler extends PublisherBaseObjectHandler
 {
-    /**
-     * Name of child class
-     *
-     * @var string
-     */
-    public $className = 'publishermimetype';
 
     /**
      * Constructor
@@ -409,6 +403,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
     public function __construct(XoopsDatabase $db)
     {
         parent::init($db);
+        $this->className = 'publishermimetype';
     }
 
     /**

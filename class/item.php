@@ -1222,11 +1222,11 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
 
     public function &getObjects(CriteriaElement $criteria = null, $idKey = 'none', $as_object = true, $notNullFields = null)
     {
-        global $xoopsModule;
         $limit = $start = 0;
         $ret = [];
         $notNullFields = (null !== $notNullFields) ?: '';
-        $sql   = 'SELECT * FROM ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items');
+
+        $sql   = 'SELECT * FROM ' . $this->db->prefix($this->publisher->getDirname() . '_items');
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
@@ -1280,8 +1280,8 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      */
     public function getCount(CriteriaElement $criteria = null, $notNullFields = '')
     {
-        global $xoopsModule;
-        $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items');
+
+        $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->publisher->getDirname() . '_items');
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
@@ -1632,8 +1632,8 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      */
     public function updateCounter($itemid)
     {
-        global $xoopsModule;
-        $sql = 'UPDATE ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items') . ' SET counter=counter+1 WHERE itemid = ' . $itemid;
+
+        $sql = 'UPDATE ' . $this->db->prefix($this->publisher->getDirname() . '_items') . ' SET counter=counter+1 WHERE itemid = ' . $itemid;
         if ($this->db->queryF($sql)) {
             return true;
         } else {
@@ -1777,7 +1777,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      */
     public function getLastPublishedByCat($categoriesObj, $status = [PublisherConstants::PUBLISHER_STATUS_PUBLISHED])
     {
-        global $xoopsModule;
+
         $ret    = [];
         $catIds = [];
         foreach ($categoriesObj as $parentid) {
@@ -1791,13 +1791,13 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         }
         /*$cat = array();
 
-        $sql = "SELECT categoryid, MAX(datesub) as date FROM " . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items') . " WHERE status IN (" . implode(',', $status) . ") GROUP BY categoryid";
+        $sql = "SELECT categoryid, MAX(datesub) as date FROM " . $this->db->prefix($this->publisher->getDirname() . '_items') . " WHERE status IN (" . implode(',', $status) . ") GROUP BY categoryid";
         $result = $this->db->query($sql);
         while ($row = $this->db->fetchArray($result)) {
             $cat[$row['categoryid']] = $row['date'];
         }
         if (count($cat) == 0) return $ret;
-        $sql = "SELECT categoryid, itemid, title, short_url, uid, datesub FROM " . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items');
+        $sql = "SELECT categoryid, itemid, title, short_url, uid, datesub FROM " . $this->db->prefix($this->publisher->getDirname() . '_items');
         $criteriaBig = new CriteriaCompo();
         foreach ($cat as $id => $date) {
             $criteria = new CriteriaCompo(new Criteria('categoryid', $id));
@@ -1815,11 +1815,11 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         }
         */
         $sql    = 'SELECT mi.categoryid, mi.itemid, mi.title, mi.short_url, mi.uid, mi.datesub';
-        $sql    .= ' FROM (SELECT categoryid, MAX(datesub) AS date FROM ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items');
+        $sql    .= ' FROM (SELECT categoryid, MAX(datesub) AS date FROM ' . $this->db->prefix($this->publisher->getDirname() . '_items');
         $sql    .= ' WHERE status IN (' . implode(',', $status) . ')';
         $sql    .= ' AND categoryid IN (' . implode(',', $catIds) . ')';
         $sql    .= ' GROUP BY categoryid)mo';
-        $sql    .= ' JOIN ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items') . ' mi ON mi.datesub = mo.date';
+        $sql    .= ' JOIN ' . $this->db->prefix($this->publisher->getDirname() . '_items') . ' mi ON mi.datesub = mo.date';
         $result = $this->db->query($sql);
         while (false !== ($row = $this->db->fetchArray($result))) {
             $item = new PublisherItem();
@@ -1864,10 +1864,10 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     public function getCountsByCat($catId = 0, $status, $inSubCat = false)
     {
         //        global $resultCatCounts;
-        global $xoopsModule;
+
         $ret       = [];
         $catsCount = [];
-        $sql       = 'SELECT c.parentid, i.categoryid, COUNT(*) AS count FROM ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_items') . ' AS i INNER JOIN ' . $this->db->prefix($xoopsModule->getVar('dirname', 'n') . '_categories') . ' AS c ON i.categoryid=c.categoryid';
+        $sql       = 'SELECT c.parentid, i.categoryid, COUNT(*) AS count FROM ' . $this->db->prefix($this->publisher->getDirname() . '_items') . ' AS i INNER JOIN ' . $this->db->prefix($this->publisher->getDirname() . '_categories') . ' AS c ON i.categoryid=c.categoryid';
         if ((int)$catId > 0) {
             $sql .= ' WHERE i.categoryid = ' . (int)$catId;
             $sql .= ' AND i.status IN (' . implode(',', $status) . ')';

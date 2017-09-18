@@ -280,7 +280,7 @@ $xoopsTpl->assign('search_term', htmlspecialchars($term, ENT_QUOTES));
 $xoopsTpl->assign('search_user', $username);
 
 $xoopsTpl->assign('modulename', $publisher->getModule()->name());
-$xoopsTpl->assign('module_dirname', $publisher->getModule()->getVar('dirname'));
+$xoopsTpl->assign('module_dirname', $publisher->getDirname());
 
 if ($xoopsConfigSearch['keyword_min'] > 0) {
     $xoopsTpl->assign('search_rule', sprintf(_SR_KEYIGNORE, $xoopsConfigSearch['keyword_min']));

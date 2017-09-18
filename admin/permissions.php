@@ -30,7 +30,7 @@ $item_list_view = [];
 $block_view     = [];
 PublisherUtility::openCollapsableBar('permissionstable_view', 'permissionsicon_view', _AM_PUBLISHER_PERMISSIONSVIEWMAN, _AM_PUBLISHER_VIEW_CATS);
 
-$result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($xoopsModule->getVar('dirname', 'n') . '_categories') . ' ');
+$result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($publisher->getDirname() . '_categories') . ' ');
 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
     $form_submit = new XoopsGroupPermForm('', $publisher->getModule()->mid(), 'category_read', '', 'admin/permissions.php');
     while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
@@ -45,7 +45,7 @@ PublisherUtility::closeCollapsableBar('permissionstable_view', 'permissionsicon_
 // Submit Categories permissions
 echo "<br>\n";
 PublisherUtility::openCollapsableBar('permissionstable_submit', 'permissionsicon_submit', _AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT, _AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT_DSC);
-$result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($xoopsModule->getVar('dirname', 'n') . '_categories') . ' ');
+$result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($publisher->getDirname() . '_categories') . ' ');
 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
     $form_submit = new XoopsGroupPermForm('', $publisher->getModule()->mid(), 'item_submit', '', 'admin/permissions.php');
     while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
@@ -60,7 +60,7 @@ PublisherUtility::closeCollapsableBar('permissionstable_submit', 'permissionsico
 // Moderators Categories permissions
 echo "<br>\n";
 PublisherUtility::openCollapsableBar('permissionstable_moderation', 'permissionsicon_moderation', _AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR, _AM_PUBLISHER_PERMISSIONS_CAT_MODERATOR_DSC);
-$result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($xoopsModule->getVar('dirname', 'n') . '_categories') . ' ');
+$result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($publisher->getDirname() . '_categories') . ' ');
 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
     $form_submit = new XoopsGroupPermForm('', $publisher->getModule()->mid(), 'category_moderation', '', 'admin/permissions.php');
     while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {

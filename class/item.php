@@ -1696,7 +1696,10 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             $criteriaUser = new CriteriaCompo();
             $criteriaUser->add(new Criteria('uid', $userid), 'OR');
         }
-        $count = count($queryArray);
+        $count = 0;
+        if(is_array($queryArray)) {
+            $count = count($queryArray);
+        }
         if (is_array($queryArray) && $count > 0) {
             $criteriaKeywords = new CriteriaCompo();
             $elementCount     = count($queryArray);

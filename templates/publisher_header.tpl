@@ -51,7 +51,7 @@
         <{/if}> <{/if}> <{if $categoryPath}>
     <span class="publisher_breadcrumb">
             <{if $module_home}>
-                &gt;
+                >
             <{/if}>
         <{$categoryPath}></span>
 <{/if}>

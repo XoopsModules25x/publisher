@@ -3,6 +3,7 @@
 - fix bug in item class using $publisher helper (mydarkglobe/mamba)
 - added getDirname() to helper class (mamba)
 - replace $xoopsModule->getVar('dirname', 'n') with helper publisher->getDirname() (mamba)
+- changed to RuntimeException() (mamba)
 
 <h5>1.05 RC 2       [2017-09-08]</h5>
 <hr>

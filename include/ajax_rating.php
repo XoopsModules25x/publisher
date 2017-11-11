@@ -48,7 +48,7 @@ $module_id     = $publisher->getModule()->getVar('mid');
 
 try {
     if (!$publisher->getConfig('perm_rating') || !$gpermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
-        throw new Exception(_NOPERM);
+        throw new RuntimeException(_NOPERM);
     }
 } catch (Exception $e) {
     $publisher->addLog($e);
@@ -68,7 +68,7 @@ $units            = 5;
 
 try {
     if ($rating > 5 || $rating < 1) {
-        throw new Exception(_MD_PUBLISHER_VOTE_BAD);
+        throw new RuntimeException(_MD_PUBLISHER_VOTE_BAD);
     }
 } catch (Exception $e) {
     $publisher->addLog($e);
@@ -101,7 +101,7 @@ foreach ($ratingObjs as $ratingObj) {
 
 try {
     if ($voted) {
-        throw new Exception(_MD_PUBLISHER_VOTE_ALREADY);
+        throw new RuntimeException(_MD_PUBLISHER_VOTE_ALREADY);
     }
 } catch (Exception $e) {
     $publisher->addLog($e);

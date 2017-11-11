@@ -151,7 +151,7 @@ class PublisherCategory extends XoopsObject
 
                 try {
                     if ($parentObj->notLoaded()) {
-                        throw new Exception(_NOPERM);
+                        throw new RuntimeException(_NOPERM);
                     }
                 } catch (Exception $e) {
                     $this->publisher->addLog($e);
@@ -181,7 +181,7 @@ class PublisherCategory extends XoopsObject
 
             try {
                 if ($parentObj->notLoaded()) {
-                    throw new Exception('NOT LOADED');
+                    throw new RuntimeException('NOT LOADED');
                 }
             } catch (Exception $e) {
                 $this->publisher->addLog($e);

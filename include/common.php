@@ -22,16 +22,19 @@
 
 //require_once __DIR__ . '/config.php';
 
-define('PUBLISHER_DIRNAME', basename(dirname(__DIR__)));
-define('PUBLISHER_URL', XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME);
-define('PUBLISHER_PATH', XOOPS_ROOT_PATH . '/modules/' . PUBLISHER_DIRNAME);
-define('PUBLISHER_IMAGES_URL', PUBLISHER_URL . '/assets/images');
-define('PUBLISHER_ADMIN_URL', PUBLISHER_URL . '/admin');
-define('PUBLISHER_ADMIN_PATH', PUBLISHER_PATH . '/admin/index.php');
-define('PUBLISHER_ROOT_PATH', $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME));
-define('PUBLISHER_AUTHOR_LOGOIMG', PUBLISHER_URL . '/assets/images/logo.png');
-define('PUBLISHER_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
-define('PUBLISHER_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
+
+if (!defined('PUBLISHER_DIRNAME')) {
+    define('PUBLISHER_DIRNAME', basename(dirname(__DIR__)));
+    define('PUBLISHER_URL', XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME);
+    define('PUBLISHER_PATH', XOOPS_ROOT_PATH . '/modules/' . PUBLISHER_DIRNAME);
+    define('PUBLISHER_IMAGES_URL', PUBLISHER_URL . '/assets/images');
+    define('PUBLISHER_ADMIN_URL', PUBLISHER_URL . '/admin');
+    define('PUBLISHER_ADMIN_PATH', PUBLISHER_PATH . '/admin/index.php');
+    define('PUBLISHER_ROOT_PATH', $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME));
+    define('PUBLISHER_AUTHOR_LOGOIMG', PUBLISHER_URL . '/assets/images/logo.png');
+    define('PUBLISHER_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
+    define('PUBLISHER_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
+}
 
 //require_once PUBLISHER_ROOT_PATH . '/include/functions.php';
 //require_once PUBLISHER_ROOT_PATH . '/include/constants.php';

@@ -1057,7 +1057,8 @@ class PublisherUtility
      */
     public static function uploadFile($another = false, $withRedirect = true, &$itemObj)
     {
-        require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
+        xoops_load('XoopsMediaUploader');
+//        require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
         //    global $publisherIsAdmin;
         $publisher = Publisher::getInstance();
@@ -1108,7 +1109,7 @@ class PublisherUtility
             //        }
             try {
                 if ($withRedirect) {
-                    throw new Exception(_CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
+                    throw new RuntimeException(_CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
                 }
             } catch (Exception $e) {
                 $publisher->addLog($e);

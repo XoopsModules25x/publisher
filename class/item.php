@@ -1227,7 +1227,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         $notNullFields = (null !== $notNullFields) ?: '';
 
         $sql   = 'SELECT * FROM ' . $this->db->prefix($this->publisher->getDirname() . '_items');
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
@@ -1282,7 +1282,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     {
 
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->publisher->getDirname() . '_items');
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
@@ -1696,7 +1696,10 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             $criteriaUser = new CriteriaCompo();
             $criteriaUser->add(new Criteria('uid', $userid), 'OR');
         }
-        $count = count($queryArray);
+        $count = 0;
+        if(is_array($queryArray)) {
+            $count = count($queryArray);
+        }
         if (is_array($queryArray) && $count > 0) {
             $criteriaKeywords = new CriteriaCompo();
             $elementCount     = count($queryArray);

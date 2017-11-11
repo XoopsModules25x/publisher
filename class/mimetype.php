@@ -201,7 +201,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     private function selectQuery($criteria = null)
     {
         $sql = sprintf('SELECT * FROM %s', $this->db->prefix($this->dbtable));
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . '
@@ -223,7 +223,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     public function getCount(CriteriaElement $criteria = null) //getCount($criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->dbtable);
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {
@@ -274,7 +274,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
         $sql = 'DELETE FROM ' . $this->db->prefix($this->dbtable);
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {
@@ -299,7 +299,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     {
         $setClause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql       = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {
@@ -570,7 +570,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
 
         try {
             if ($join) {
-                throw new Exception('no need for join...');
+                throw new RuntimeException('no need for join...');
             }
         } catch (Exception $e) {
             $publisher = Publisher::getInstance();
@@ -580,7 +580,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
 
         $sql = sprintf('SELECT * FROM %s', $this->db->prefix($this->dbtable));
 
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();

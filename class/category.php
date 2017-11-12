@@ -158,7 +158,7 @@ class PublisherCategory extends XoopsObject
                     //                    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
                 }
 
-                $ret = $parentObj->getCategoryPath($withAllLink) . ' > ' . $ret;
+                $ret = $parentObj->getCategoryPath($withAllLink) . ' <li> ' . $ret . '</li>';
             }
             $this->categoryPath = $ret;
         }

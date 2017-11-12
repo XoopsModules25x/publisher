@@ -1,3 +1,7 @@
+<h5>1.05 RC 4       [NOT RELEASED]</h5>
+<hr>
+- fix breadcrumb for subcategories (bleekk)
+
 <h5>1.05 RC 3       [2017-11-10]</h5>
 <hr>
 - fix bug in item class using $publisher helper (mydarkglobe/mamba)

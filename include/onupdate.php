@@ -70,6 +70,7 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
     $moduleHelper->loadLanguage('admin');
     $moduleHelper->loadLanguage('modinfo');
 
+    xoops_load('configurator', $moduleDirName);
     $configurator = new PublisherConfigurator();
     /** @var PublisherUtility $utilityClass */
     $utilityClass = ucfirst($moduleDirName) . 'Utility';

@@ -79,6 +79,8 @@ if (is_object($GLOBALS['xoopsUser'])) {
 $criteria = new CriteriaCompo();
 $criteria->add(new Criteria('status', 2), 'AND');
 $criteria->add(new Criteria('datesub', time(), '<='), 'AND');
+$categoriesGranted = $publisher->getHandler('permission')->getGrantedItems('category_read');
+$criteria->add(new Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
 $criteria->setSort('datesub');
 $criteria->setOrder('DESC');
 //Get all articles dates as an array to save memory

@@ -1380,33 +1380,16 @@ class PublisherUtility
             $module = XoopsModule::getByDirname($moduleDirName);
         }
         xoops_loadLanguage('admin', $moduleDirName);
+
         //check for minimum XOOPS version
         $currentVer = substr(XOOPS_VERSION, 6); // get the numeric part of string
-        $currArray  = explode('.', $currentVer);
         if (null === $requiredVer) {
             $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
         }
-        $reqArray = explode('.', $requiredVer);
-        $success  = true;
-        foreach ($reqArray as $k => $v) {
-            if (isset($currArray[$k])) {
-                if ($currArray[$k] > $v) {
-                    break;
-                } elseif ($currArray[$k] == $v) {
-                    continue;
-                } else {
-                    $success = false;
-                    break;
-                }
-            } else {
-                if ((int)$v > 0) { // handles versions like x.x.x.0_RC2
-                    $success = false;
-                    break;
-                }
-            }
-        }
+        $success     = true;
 
-        if (false === $success) {
+        if (version_compare($currentVer, $requiredVer, '<')){
+            $success     = false;
             $module->setErrors(sprintf(_AM_PUBLISHER_ERROR_BAD_XOOPS, $requiredVer, $currentVer));
         }
 

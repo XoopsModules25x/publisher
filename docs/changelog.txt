@@ -1,6 +1,10 @@
-<h5>1.05 RC 4       [NOT RELEASED]</h5>
+<h5>1.05 RC 4       [2017-11-15]</h5>
 <hr>
 - fix breadcrumb for subcategories (bleekk)
+- change checkVerXoops(mamba)
+- fix confurator link (zyspec)
+- fix fmContent (zyspec)
+- fix archive (zyspec)
 
 <h5>1.05 RC 3       [2017-11-10]</h5>
 <hr>

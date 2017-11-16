@@ -155,9 +155,9 @@ function toggle(id) {
 }
 
 var iconClose = new Image();
-iconClose.src = '../assets/images/links/close12.gif';
+iconClose.src = './assets/images/links/close12.gif';
 var iconOpen = new Image();
-iconOpen.src = '../assets/images/links/open12.gif';
+iconOpen.src = './assets/images/links/open12.gif';
 
 function toggleIcon(iconName) {
     if (document.images[iconName].src == window.iconOpen.src) {

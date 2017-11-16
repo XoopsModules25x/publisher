@@ -26,6 +26,8 @@ $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 //$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/jquery.popeye-2.0.4.js');
 //$xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
+$xoTheme->addScript(PUBLISHER_URL . '/assets/js/cookies.js');
+$xoTheme->addScript(PUBLISHER_URL . '/assets/js/funcs.js');
 
 $xoopsTpl->assign('xoops_module_header', '<link rel="alternate" type="application/rss+xml" title="' . $publisher->getModule()->name() . '" href="' . PUBLISHER_URL . '/backend.php">' . @$xoopsTpl->get_template_vars('xoops_module_header'));
 

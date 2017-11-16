@@ -79,6 +79,8 @@ if (is_object($GLOBALS['xoopsUser'])) {
 $criteria = new CriteriaCompo();
 $criteria->add(new Criteria('status', 2), 'AND');
 $criteria->add(new Criteria('datesub', time(), '<='), 'AND');
+$categoriesGranted = $publisher->getHandler('permission')->getGrantedItems('category_read');
+$criteria->add(new Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
 $criteria->setSort('datesub');
 $criteria->setOrder('DESC');
 //Get all articles dates as an array to save memory
@@ -170,7 +172,7 @@ if (0 != $fromyear && 0 != $frommonth) {
     $count = 0;
 
     $itemHandler               = $publisher->getHandler('item');
-    $itemHandler->table_link   = $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories');
+    $itemHandler->table_link   = $GLOBALS['xoopsDB']->prefix($publisher->getDirname() . '_categories');
     $itemHandler->field_link   = 'categoryid';
     $itemHandler->field_object = 'categoryid';
     // Categories for which user has access

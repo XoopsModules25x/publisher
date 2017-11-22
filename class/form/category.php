@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
@@ -37,7 +38,7 @@ class PublisherCategoryForm extends XoopsThemeForm
      * @var Publisher
      * @access public
      */
-    public $publisher;
+    public $helper;
 
     public $targetObject;
 
@@ -51,7 +52,7 @@ class PublisherCategoryForm extends XoopsThemeForm
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
-        $this->publisher = Publisher::getInstance();
+        $this->publisher = publisher\Helper::getInstance();
 
         $this->targetObject =& $target;
         $this->subCatsCount = $subCatsCount;

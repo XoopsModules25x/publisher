@@ -16,6 +16,9 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
+
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
@@ -29,7 +32,7 @@ class PublisherMetagen
      * @var Publisher
      * @access public
      */
-    public $publisher;
+    public $helper;
 
     /**
      * @var MyTextSanitizer
@@ -75,7 +78,7 @@ class PublisherMetagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        $this->publisher = Publisher::getInstance();
+        $this->publisher = publisher\Helper::getInstance();
         $this->myts      = MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
         $this->setTitle($title);

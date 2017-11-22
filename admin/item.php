@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -45,7 +46,7 @@ $rejectedstartitem  = Request::getInt('rejectedstartitem', Request::getInt('subm
 switch ($op) {
     case 'clone':
         if (0 == $itemid) {
-            $totalcategories = $publisher->getHandler('category')->getCategoriesCount(-1);
+            $totalcategories = $helper->getHandler('category')->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
                 //                exit();
@@ -57,7 +58,7 @@ switch ($op) {
 
     case 'mod':
         if (0 == $itemid) {
-            $totalcategories = $publisher->getHandler('category')->getCategoriesCount(-1);
+            $totalcategories = $helper->getHandler('category')->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
                 //                exit();
@@ -72,9 +73,9 @@ switch ($op) {
         $redirect_msg = $error_msg = '';
         // Creating the item object
         if (0 != $itemid) {
-            $itemObj = $publisher->getHandler('item')->get($itemid);
+            $itemObj = $helper->getHandler('item')->get($itemid);
         } else {
-            $itemObj = $publisher->getHandler('item')->create();
+            $itemObj = $helper->getHandler('item')->create();
         }
 
         $itemObj->setVarsFromRequest();
@@ -144,11 +145,11 @@ switch ($op) {
         break;
 
     case 'del':
-        $itemObj = $publisher->getHandler('item')->get($itemid);
+        $itemObj = $helper->getHandler('item')->get($itemid);
         $confirm = Request::getInt('confirm', 0, 'POST');
 
         if ($confirm) {
-            if (!$publisher->getHandler('item')->delete($itemObj)) {
+            if (!$helper->getHandler('item')->delete($itemObj)) {
                 redirect_header('item.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . PublisherUtility::formatErrors($itemObj->getErrors()));
                 //                exit();
             }
@@ -180,9 +181,9 @@ switch ($op) {
         PublisherUtility::openCollapsableBar('submiteditemstable', 'submiteditemsicon', _AM_PUBLISHER_SUBMISSIONSMNGMT, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of submitted ITEM
-        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_SUBMITTED]);
+        $totalitems = $helper->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_SUBMITTED]);
 
-        $itemsObj = $publisher->getHandler('item')->getAllSubmitted($publisher->getConfig('idxcat_perpage'), $submittedstartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj = $helper->getHandler('item')->getAllSubmitted($helper->getConfig('idxcat_perpage'), $submittedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -222,7 +223,7 @@ switch ($op) {
         echo "</table>\n";
         echo "<br>\n";
 
-        $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $submittedstartitem, 'submittedstartitem');
+        $pagenav = new XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $submittedstartitem, 'submittedstartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 
         PublisherUtility::closeCollapsableBar('submiteditemstable', 'submiteditemsicon');
@@ -231,9 +232,9 @@ switch ($op) {
         PublisherUtility::openCollapsableBar('item_publisheditemstable', 'item_publisheditemsicon', _AM_PUBLISHER_PUBLISHEDITEMS, _AM_PUBLISHER_PUBLISHED_DSC);
 
         // Get the total number of published ITEM
-        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
+        $totalitems = $helper->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
 
-        $itemsObj = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $publishedstartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj = $helper->getHandler('item')->getAllPublished($helper->getConfig('idxcat_perpage'), $publishedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -274,7 +275,7 @@ switch ($op) {
         echo "</table>\n";
         echo "<br>\n";
 
-        $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $publishedstartitem, 'publishedstartitem');
+        $pagenav = new XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $publishedstartitem, 'publishedstartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 
         PublisherUtility::closeCollapsableBar('item_publisheditemstable', 'item_publisheditemsicon');
@@ -282,9 +283,9 @@ switch ($op) {
         // Display Offline articles
         PublisherUtility::openCollapsableBar('offlineitemstable', 'offlineitemsicon', _AM_PUBLISHER_ITEMS . ' ' . _CO_PUBLISHER_OFFLINE, _AM_PUBLISHER_OFFLINE_EXP);
 
-        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_OFFLINE]);
+        $totalitems = $helper->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_OFFLINE]);
 
-        $itemsObj = $publisher->getHandler('item')->getAllOffline($publisher->getConfig('idxcat_perpage'), $offlinestartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj = $helper->getHandler('item')->getAllOffline($helper->getConfig('idxcat_perpage'), $offlinestartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -326,7 +327,7 @@ switch ($op) {
         echo "</table>\n";
         echo "<br>\n";
 
-        $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $offlinestartitem, 'offlinestartitem');
+        $pagenav = new XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $offlinestartitem, 'offlinestartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 
         PublisherUtility::closeCollapsableBar('offlineitemstable', 'offlineitemsicon');
@@ -335,8 +336,8 @@ switch ($op) {
         PublisherUtility::openCollapsableBar('Rejecteditemstable', 'rejecteditemsicon', _AM_PUBLISHER_REJECTED_ITEM, _AM_PUBLISHER_REJECTED_ITEM_EXP, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of Rejected ITEM
-        $totalitems = $publisher->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_REJECTED]);
-        $itemsObj   = $publisher->getHandler('item')->getAllRejected($publisher->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
+        $totalitems = $helper->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_REJECTED]);
+        $itemsObj   = $helper->getHandler('item')->getAllRejected($helper->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -376,7 +377,7 @@ switch ($op) {
         echo "</table>\n";
         echo "<br>\n";
 
-        $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $rejectedstartitem, 'rejectedstartitem');
+        $pagenav = new XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $rejectedstartitem, 'rejectedstartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 
         PublisherUtility::closeCollapsableBar('Rejecteditemstable', 'rejecteditemsicon');
@@ -391,7 +392,7 @@ require_once __DIR__ . '/admin_footer.php';
  */
 function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 {
-    $publisher = Publisher::getInstance();
+    $helper = publisher\Helper::getInstance();
     global $publisherCurrentPage;
 
     xoops_load('XoopsFormLoader');
@@ -403,7 +404,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     if (0 != $itemid) {
         // Creating the ITEM object
-        $itemObj = $publisher->getHandler('item')->get($itemid);
+        $itemObj = $helper->getHandler('item')->get($itemid);
 
         if (!$itemObj) {
             redirect_header('item.php', 1, _AM_PUBLISHER_NOITEMSELECTED);
@@ -487,10 +488,10 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     } else {
         // there's no parameter, so we're adding an item
 
-        $itemObj = $publisher->getHandler('item')->create();
+        $itemObj = $helper->getHandler('item')->create();
         $itemObj->setVarsFromRequest();
 
-        $categoryObj       = $publisher->getHandler('category')->create();
+        $categoryObj       = $helper->getHandler('category')->create();
         $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;
         $breadcrumbAction2 = _AM_PUBLISHER_CREATINGNEW;
         $buttonCaption     = _AM_PUBLISHER_CREATE;

@@ -105,7 +105,7 @@ if ('go' === $op) {
     while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
         // insert article
         /** @var PublisherItem $itemObj */
-        $itemObj = $publisher->getHandler('item')->create();
+        $itemObj = $helper->getHandler('item')->create();
         $itemObj->setVar('itemid', $arrArticle['id']);
         //      $itemObj->setVar('categoryid', $categoryObj->categoryid());
         $itemObj->setVar('title', $arrArticle['title']);
@@ -158,7 +158,7 @@ if ('go' === $op) {
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
 
-    $publisher_module_id = $publisher->getModule()->mid();
+    $publisher_module_id = $helper->getModule()->mid();
     /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();

@@ -32,7 +32,7 @@ if (0 == $itemid) {
 }
 
 // Creating the ITEM object for the selected ITEM
-$itemObj = $publisher->getHandler('item')->get($itemid);
+$itemObj = $helper->getHandler('item')->get($itemid);
 
 // if the selected ITEM was not found, exit
 if ($itemObj->notLoaded()) {
@@ -62,8 +62,8 @@ if ('' != $mainImage['image_path']) {
 }
 $xoopsTpl->assign('item', $item);
 $xoopsTpl->assign('printtitle', $GLOBALS['xoopsConfig']['sitename'] . ' - ' . PublisherUtility::html2text($categoryObj->getCategoryPath()) . ' > ' . $myts->displayTarea($itemObj->getTitle()));
-$xoopsTpl->assign('printlogourl', $publisher->getConfig('print_logourl'));
-$xoopsTpl->assign('printheader', $myts->displayTarea($publisher->getConfig('print_header'), 1));
+$xoopsTpl->assign('printlogourl', $helper->getConfig('print_logourl'));
+$xoopsTpl->assign('printheader', $myts->displayTarea($helper->getConfig('print_header'), 1));
 $xoopsTpl->assign('lang_category', _CO_PUBLISHER_CATEGORY);
 $xoopsTpl->assign('lang_author_date', sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemObj->getDatesub()));
 
@@ -77,13 +77,13 @@ $xoopsTpl->assign('noTitle', $noTitle);
 $xoopsTpl->assign('smartPopup', $smartPopup);
 $xoopsTpl->assign('current_language', $GLOBALS['xoopsConfig']['language']);
 
-if ('item footer' === $publisher->getConfig('print_footer') || 'both' === $publisher->getConfig('print_footer')) {
-    $xoopsTpl->assign('itemfooter', $myts->displayTarea($publisher->getConfig('item_footer'), 1));
+if ('item footer' === $helper->getConfig('print_footer') || 'both' === $helper->getConfig('print_footer')) {
+    $xoopsTpl->assign('itemfooter', $myts->displayTarea($helper->getConfig('item_footer'), 1));
 }
-if ('index footer' === $publisher->getConfig('print_footer') || 'both' === $publisher->getConfig('print_footer')) {
-    $xoopsTpl->assign('indexfooter', $myts->displayTarea($publisher->getConfig('index_footer'), 1));
+if ('index footer' === $helper->getConfig('print_footer') || 'both' === $helper->getConfig('print_footer')) {
+    $xoopsTpl->assign('indexfooter', $myts->displayTarea($helper->getConfig('index_footer'), 1));
 }
 
-$xoopsTpl->assign('display_whowhen_link', $publisher->getConfig('item_disp_whowhen_link'));
+$xoopsTpl->assign('display_whowhen_link', $helper->getConfig('item_disp_whowhen_link'));
 
 $xoopsTpl->display('db:publisher_print.tpl');

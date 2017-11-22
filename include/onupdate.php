@@ -60,15 +60,11 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
     require_once __DIR__ . '/../include/config.php';
 
     $moduleDirName = basename(dirname(__DIR__));
-
-    if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
-    } else {
-        $moduleHelper = Xmf\Module\Helper::getHelper('system');
-    }
+    $helper = \Xmf\Module\Helper::getHelper($moduleDirName);
 
     // Load language files
-    $moduleHelper->loadLanguage('admin');
-    $moduleHelper->loadLanguage('modinfo');
+    $helper->loadLanguage('admin');
+    $helper->loadLanguage('modinfo');
 
     xoops_load('configurator', $moduleDirName);
     $configurator = new PublisherConfigurator();

@@ -19,6 +19,8 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
@@ -30,7 +32,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_latest_files_show($options)
 {
-    $publisher = Publisher::getInstance();
+    $helper = publisher\Helper::getInstance();
     /**
      * $options[0] : Category
      * $options[1] : Sort order - datesub | counter
@@ -46,7 +48,7 @@ function publisher_latest_files_show($options)
     $directDownload = $options[3];
 
     // creating the files objects
-    $filesObj = $publisher->getHandler('file')->getAllFiles(0, PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE, $limit, 0, $sort, $order, explode(',', $options[0]));
+    $filesObj = $helper->getHandler('file')->getAllFiles(0, PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE, $limit, 0, $sort, $order, explode(',', $options[0]));
     foreach ($filesObj as $fileObj) {
         $aFile         = [];
         $aFile['link'] = $directDownload ? $fileObj->getFileLink() : $fileObj->getItemLink();

@@ -31,7 +31,7 @@ if (0 == $fileid) {
     //    exit();
 }
 
-$fileObj = $publisher->getHandler('file')->get($fileid);
+$fileObj = $helper->getHandler('file')->get($fileid);
 
 // if the selected item was not found, exit
 if (!$fileObj) {
@@ -39,7 +39,7 @@ if (!$fileObj) {
     //    exit();
 }
 
-$itemObj = $publisher->getHandler('item')->get($fileObj->getVar('itemid'));
+$itemObj = $helper->getHandler('item')->get($fileObj->getVar('itemid'));
 
 // if the user does not have permission to modify this file, exit
 if (!(PublisherUtility::userIsAdmin() || PublisherUtility::userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
@@ -64,7 +64,7 @@ switch ($op) {
 
         // Creating the file object
         if (0 != $fileid) {
-            $fileObj = $publisher->getHandler('file')->get($fileid);
+            $fileObj = $helper->getHandler('file')->get($fileid);
         } else {
             redirect_header('index.php', 1, _NOPERM);
             //            exit();
@@ -81,13 +81,13 @@ switch ($op) {
             $oldfile = $fileObj->getFilePath();
 
             // Get available mimetypes for file uploading
-            $allowed_mimetypes = $publisher->getHandler('mimetype')->getArrayByType();
+            $allowed_mimetypes = $helper->getHandler('mimetype')->getArrayByType();
             // TODO : display the available mimetypes to the user
             $errors = [];
 
-            //            if ($publisher->getConfig('perm_upload') && is_uploaded_file(Request::getArray('item_upload_file', array(), 'FILES')['tmp_name'])) {
+            //            if ($helper->getConfig('perm_upload') && is_uploaded_file(Request::getArray('item_upload_file', array(), 'FILES')['tmp_name'])) {
             $temp = Request::getArray('item_upload_file', [], 'FILES');
-            if ($publisher->getConfig('perm_upload') && is_uploaded_file($temp['tmp_name'])) {
+            if ($helper->getConfig('perm_upload') && is_uploaded_file($temp['tmp_name'])) {
                 if ($fileObj->checkUpload('item_upload_file', $allowed_mimetypes, $errors)) {
                     if ($fileObj->storeUpload('item_upload_file', $allowed_mimetypes, $errors)) {
                         unlink($oldfile);
@@ -96,7 +96,7 @@ switch ($op) {
             }
         }
 
-        if (!$publisher->getHandler('file')->insert($fileObj)) {
+        if (!$helper->getHandler('file')->insert($fileObj)) {
             redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . PublisherUtility::formatErrors($fileObj->getErrors()));
             //            exit;
         }
@@ -113,7 +113,7 @@ switch ($op) {
         $confirm = Request::getInt('confirm', '', 'POST');
 
         if ($confirm) {
-            if (!$publisher->getHandler('file')->delete($fileObj)) {
+            if (!$helper->getHandler('file')->delete($fileObj)) {
                 redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, _AM_PUBLISHER_FILE_DELETE_ERROR);
                 //                exit;
             }

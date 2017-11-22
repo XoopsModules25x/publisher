@@ -25,7 +25,7 @@ require_once __DIR__ . '/header.php';
 xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
 // Get the total number of categories
-$categoriesArray = $publisher->getHandler('category')->getCategoriesForSubmit();
+$categoriesArray = $helper->getHandler('category')->getCategoriesForSubmit();
 
 if (!$categoriesArray) {
     redirect_header('index.php', 1, _MD_PUBLISHER_NEED_CATEGORY_ITEM);
@@ -34,22 +34,22 @@ if (!$categoriesArray) {
 
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $gpermHandler = xoops_getModuleHandler('groupperm');
-$moduleId     = $publisher->getModule()->getVar('mid');
+$moduleId     = $helper->getModule()->getVar('mid');
 
 $itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
 if (0 != $itemId) {
     // We are editing or deleting an article
     /* @var  $itemObj PublisherItem */
-    $itemObj = $publisher->getHandler('item')->get($itemId);
+    $itemObj = $helper->getHandler('item')->get($itemId);
     if (!(PublisherUtility::userIsAdmin() || PublisherUtility::userIsAuthor($itemObj) || PublisherUtility::userIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
         //        exit();
     }
     if (!PublisherUtility::userIsAdmin() || !PublisherUtility::userIsModerator($itemObj)) {
-        if ('del' === Request::getString('op', '', 'GET') && !$publisher->getConfig('perm_delete')) {
+        if ('del' === Request::getString('op', '', 'GET') && !$helper->getConfig('perm_delete')) {
             redirect_header('index.php', 1, _NOPERM);
             //            exit();
-        } elseif (!$publisher->getConfig('perm_edit')) {
+        } elseif (!$helper->getConfig('perm_edit')) {
             redirect_header('index.php', 1, _NOPERM);
             //            exit();
         }
@@ -59,14 +59,14 @@ if (0 != $itemId) {
 } else {
     // we are submitting a new article
     // if the user is not admin AND we don't allow user submission, exit
-    if (!(PublisherUtility::userIsAdmin() || (1 == $publisher->getConfig('perm_submit') && (is_object($GLOBALS['xoopsUser']) || (1 == $publisher->getConfig('perm_anon_submit')))))) {
+    if (!(PublisherUtility::userIsAdmin() || (1 == $helper->getConfig('perm_submit') && (is_object($GLOBALS['xoopsUser']) || (1 == $helper->getConfig('perm_anon_submit')))))) {
         redirect_header('index.php', 1, _NOPERM);
         //        exit();
     }
     /* @var  $itemObj PublisherItem */
-    $itemObj     = $publisher->getHandler('item')->create();
+    $itemObj     = $helper->getHandler('item')->create();
     /* @var  $categoryObj PublisherCategory */
-    $categoryObj = $publisher->getHandler('category')->create();
+    $categoryObj = $helper->getHandler('category')->create();
 }
 
 if ('clone' === Request::getString('op', '', 'GET')) {
@@ -138,7 +138,7 @@ switch ($op) {
         $confirm = Request::getInt('confirm', '', 'POST');
 
         if ($confirm) {
-            if (!$publisher->getHandler('item')->delete($itemObj)) {
+            if (!$helper->getHandler('item')->delete($itemObj)) {
                 redirect_header('index.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . PublisherUtility::formatErrors($itemObj->getErrors()));
                 //                exit();
             }
@@ -166,7 +166,7 @@ switch ($op) {
         $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
         require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
-        $categoryObj = $publisher->getHandler('category')->get(Request::getInt('categoryid', 0, 'POST'));
+        $categoryObj = $helper->getHandler('category')->get(Request::getInt('categoryid', 0, 'POST'));
 
         $item                 = $itemObj->toArraySimple();
         $item['summary']      = $itemObj->body();
@@ -184,8 +184,8 @@ switch ($op) {
             $xoopsTpl->assign('langIntroText', '');
         } else {
             $xoopsTpl->assign('categoryPath', _MD_PUBLISHER_SUB_SNEWNAME);
-            $xoopsTpl->assign('langIntroTitle', sprintf(_MD_PUBLISHER_SUB_SNEWNAME, ucwords($publisher->getModule()->name())));
-            $xoopsTpl->assign('langIntroText', $publisher->getConfig('submit_intro_msg'));
+            $xoopsTpl->assign('langIntroTitle', sprintf(_MD_PUBLISHER_SUB_SNEWNAME, ucwords($helper->getModule()->name())));
+            $xoopsTpl->assign('langIntroText', $helper->getConfig('submit_intro_msg'));
         }
         if ($tokenError) {
             $xoopsTpl->assign('langIntroText', _CO_PUBLISHER_BAD_TOKEN);
@@ -222,7 +222,7 @@ switch ($op) {
 
         // if autoapprove_submitted. This does not apply if we are editing an article
         if (!$itemId) {
-            if ($itemObj->getVar('status') == PublisherConstants::PUBLISHER_STATUS_PUBLISHED /*$publisher->getConfig('perm_autoapprove'] ==  1*/) {
+            if ($itemObj->getVar('status') == PublisherConstants::PUBLISHER_STATUS_PUBLISHED /*$helper->getConfig('perm_autoapprove'] ==  1*/) {
                 // We do not not subscribe user to notification on publish since we publish it right away
 
                 // Send notifications
@@ -271,8 +271,8 @@ switch ($op) {
             $xoopsTpl->assign('langIntroText', '');
         } else {
             $xoopsTpl->assign('categoryPath', _MD_PUBLISHER_SUB_SNEWNAME);
-            $xoopsTpl->assign('langIntroTitle', sprintf(_MD_PUBLISHER_SUB_SNEWNAME, ucwords($publisher->getModule()->name())));
-            $xoopsTpl->assign('langIntroText', $publisher->getConfig('submit_intro_msg'));
+            $xoopsTpl->assign('langIntroTitle', sprintf(_MD_PUBLISHER_SUB_SNEWNAME, ucwords($helper->getModule()->name())));
+            $xoopsTpl->assign('langIntroText', $helper->getConfig('submit_intro_msg'));
         }
         $sform = $itemObj->getForm($formtitle, true);
         $sform->assign($xoopsTpl);

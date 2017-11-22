@@ -20,7 +20,7 @@ if (0 == $itemid) {
 require_once XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php';
 
 // Creating the item object for the selected item
-$itemObj = $publisher->getHandler('item')->get($itemid);
+$itemObj = $helper->getHandler('item')->get($itemid);
 
 // if the selected item was not found, exit
 if (!$itemObj) {
@@ -28,7 +28,7 @@ if (!$itemObj) {
 }
 
 // Creating the category object that holds the selected item
-$categoryObj = $publisher->getHandler('category')->get($itemObj->categoryid());
+$categoryObj = $helper->getHandler('category')->get($itemObj->categoryid());
 
 // Check user permissions to access that category of the selected item
 if (!$itemObj->accessGranted()) {

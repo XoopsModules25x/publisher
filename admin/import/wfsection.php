@@ -113,7 +113,7 @@ if ('go' === $op) {
     $newCatArray = [];
     while (false !== ($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat))) {
         /* @var  $categoryObj PublisherCategory */
-        $categoryObj = $publisher->getHandler('category')->create();
+        $categoryObj = $helper->getHandler('category')->create();
 
         $newCat = [];
 
@@ -156,7 +156,7 @@ if ('go' === $op) {
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
             /** @var PublisherItem $itemObj */
-            $itemObj = $publisher->getHandler('item')->create();
+            $itemObj = $helper->getHandler('item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
             $itemObj->setVar('title', $arrArticle['title']);
@@ -197,7 +197,7 @@ if ('go' === $op) {
                     if (file_exists($filename)) {
                         if (copy($filename, PUBLISHER_UPLOAD_PATH . '/' . $arrFile['filerealname'])) {
                             /** @var PublisherFile $fileObj */
-                            $fileObj = $publisher->getHandler('file')->create();
+                            $fileObj = $helper->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['fileshowname']);
                             $fileObj->setVar('description', $arrFile['filedescript']);
                             $fileObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
@@ -234,7 +234,7 @@ if ('go' === $op) {
         } else {
             $newpid = $newCatArray[$oldpid]['newid'];
         }
-        $publisher->getHandler('category')->updateAll('parentid', $newpid, $criteria);
+        $helper->getHandler('category')->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
     unset($oldid, $newCat);
@@ -246,7 +246,7 @@ if ('go' === $op) {
     $moduleObj      = $moduleHandler->getByDirname('wfsection');
     $news_module_id = $moduleObj->getVar('mid');
 
-    $publisher_module_id = $publisher->getModule()->mid();
+    $publisher_module_id = $helper->getModule()->mid();
     /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();

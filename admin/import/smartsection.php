@@ -122,7 +122,7 @@ if ('go' === $op) {
         $newCat['oldid']  = $arrCat['categoryid'];
         $newCat['oldpid'] = $arrCat['parentid'];
         /* @var  $categoryObj PublisherCategory */
-        $categoryObj = $publisher->getHandler('category')->create();
+        $categoryObj = $helper->getHandler('category')->create();
 
         $categoryObj->setVars($arrCat);
         $categoryObj->setVar('categoryid', 0);
@@ -132,7 +132,7 @@ if ('go' === $op) {
             copy($GLOBALS['xoops']->path('uploads/smartsection/images/category/' . $arrCat['image']), $GLOBALS['xoops']->path('uploads/publisher/images/category/' . $arrCat['image']));
         }
 
-        if (!$publisher->getHandler('category')->insert($categoryObj)) {
+        if (!$helper->getHandler('category')->insert($categoryObj)) {
             echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_ERROR, $arrCat['name']) . '<br>';
             continue;
         }
@@ -148,7 +148,7 @@ if ('go' === $op) {
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
             /** @var PublisherItem $itemObj */
-            $itemObj = $publisher->getHandler('item')->create();
+            $itemObj = $helper->getHandler('item')->create();
 
             $itemObj->setVars($arrArticle);
             $itemObj->setVar('itemid', 0);
@@ -183,7 +183,7 @@ if ('go' === $op) {
                     if (file_exists($filename)) {
                         if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filename']))) {
                             /** @var PublisherFile $fileObj */
-                            $fileObj = $publisher->getHandler('file')->create();
+                            $fileObj = $helper->getHandler('file')->create();
                             $fileObj->setVars($arrFile);
                             $fileObj->setVar('fileid', 0);
 
@@ -221,7 +221,7 @@ if ('go' === $op) {
         } else {
             $newpid = $newCatArray[$oldpid]['newid'];
         }
-        $publisher->getHandler('category')->updateAll('parentid', $newpid, $criteria);
+        $helper->getHandler('category')->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
     unset($oldid, $newCat);
@@ -229,7 +229,7 @@ if ('go' === $op) {
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
 
-    $publisher_module_id = $publisher->getModule()->mid();
+    $publisher_module_id = $helper->getModule()->mid();
     /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();

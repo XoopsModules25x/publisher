@@ -33,11 +33,11 @@ $categoryid    = Request::getInt('categoryid');
 
 switch ($op) {
     case 'del':
-        $categoryObj = $publisher->getHandler('category')->get($categoryid);
+        $categoryObj = $helper->getHandler('category')->get($categoryid);
         $confirm     = Request::getInt('confirm', '', 'POST');
         $name        = Request::getString('name', '', 'POST');
         if ($confirm) {
-            if (!$publisher->getHandler('category')->delete($categoryObj)) {
+            if (!$helper->getHandler('category')->delete($categoryObj)) {
                 redirect_header('category.php', 1, _AM_PUBLISHER_DELETE_CAT_ERROR);
                 //                exit();
             }
@@ -65,9 +65,9 @@ switch ($op) {
 
         $parentid = Request::getInt('parentid');
         if (0 != $categoryid) {
-            $categoryObj = $publisher->getHandler('category')->get($categoryid);
+            $categoryObj = $helper->getHandler('category')->get($categoryid);
         } else {
-            $categoryObj = $publisher->getHandler('category')->create();
+            $categoryObj = $helper->getHandler('category')->create();
         }
 
         // Uploading the image, if any
@@ -78,9 +78,9 @@ switch ($op) {
             $temp2 = Request::getArray('xoops_upload_file', [], 'POST');
             if ($filename = $temp2[0]) {
                 // TODO : implement publisher mimetype management
-                $max_size          = $publisher->getConfig('maximum_filesize');
-                $max_imgwidth      = $publisher->getConfig('maximum_image_width');
-                $max_imgheight     = $publisher->getConfig('maximum_image_height');
+                $max_size          = $helper->getConfig('maximum_filesize');
+                $max_imgwidth      = $helper->getConfig('maximum_image_width');
+                $max_imgheight     = $helper->getConfig('maximum_image_height');
                 $allowed_mimetypes = PublisherUtility::getAllowedImagesTypes();
                 if (('' == $temp['tmp_name']) || !is_readable($temp['tmp_name'])) {
                     redirect_header('javascript:history.go(-1)', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
@@ -143,7 +143,7 @@ switch ($op) {
         for ($i = 0; $i < $sizeof; ++$i) {
             $temp = Request::getArray('scname', [], 'POST');
             if ('' != $temp[$i]) {
-                $categoryObj = $publisher->getHandler('category')->create();
+                $categoryObj = $helper->getHandler('category')->create();
                 $temp2       = Request::getArray('scname', [], 'POST');
                 $categoryObj->setVar('name', $temp2[$i]);
                 $categoryObj->setVar('parentid', $parentCat);
@@ -169,7 +169,7 @@ switch ($op) {
         $categoryid = 0;
         $nb_subcats = Request::getInt('nb_subcats', 0, 'POST') + Request::getInt('nb_sub_yet', 0, 'POST');
 
-        $categoryObj = $publisher->getHandler('category')->create();
+        $categoryObj = $helper->getHandler('category')->create();
         $categoryObj->setVar('name', Request::getString('name', '', 'POST'));
         $categoryObj->setVar('description', Request::getString('description', '', 'POST'));
         $categoryObj->setVar('weight', Request::getInt('weight', 0, 'POST'));
@@ -199,7 +199,7 @@ switch ($op) {
         echo '</div></form>';
 
         // Creating the objects for top categories
-        $categoriesObj = $publisher->getHandler('category')->getCategories($publisher->getConfig('idxcat_perpage'), $startcategory, 0);
+        $categoriesObj = $helper->getHandler('category')->getCategories($helper->getConfig('idxcat_perpage'), $startcategory, 0);
 
         PublisherUtility::openCollapsableBar('createdcategories', 'createdcategoriesicon', _AM_PUBLISHER_CATEGORIES_TITLE, _AM_PUBLISHER_CATEGORIES_DSC);
 
@@ -210,7 +210,7 @@ switch ($op) {
         echo "<th width='60' class='bg3' width='65' align='center'><strong>" . _CO_PUBLISHER_WEIGHT . '</strong></td>';
         echo "<th width='60' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . '</strong></td>';
         echo '</tr>';
-        $totalCategories = $publisher->getHandler('category')->getCategoriesCount(0);
+        $totalCategories = $helper->getHandler('category')->getCategoriesCount(0);
         if (count($categoriesObj) > 0) {
             foreach ($categoriesObj as $key => $thiscat) {
                 PublisherUtility::displayCategory($thiscat);
@@ -224,7 +224,7 @@ switch ($op) {
         }
         echo "</table>\n";
         require_once $GLOBALS['xoops']->path('class/pagenav.php');
-        $pagenav = new XoopsPageNav($totalCategories, $publisher->getConfig('idxcat_perpage'), $startcategory, 'startcategory');
+        $pagenav = new XoopsPageNav($totalCategories, $helper->getConfig('idxcat_perpage'), $startcategory, 'startcategory');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
         echo '<br>';
         PublisherUtility::closeCollapsableBar('createdcategories', 'createdcategoriesicon');

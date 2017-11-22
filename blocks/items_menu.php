@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
@@ -34,17 +35,17 @@ function publisher_items_menu_show($options)
 {
     $block = [];
 
-    $publisher = Publisher::getInstance();
+    $helper = publisher\Helper::getInstance();
 
     // Getting all top cats
-    $blockCategoriesObj = $publisher->getHandler('category')->getCategories(0, 0, 0);
+    $blockCategoriesObj = $helper->getHandler('category')->getCategories(0, 0, 0);
 
     if (0 == count($blockCategoriesObj)) {
         return $block;
     }
 
     // Are we in Publisher ?
-    $block['inModule'] = (isset($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirname') == $publisher->getDirname());
+    $block['inModule'] = (isset($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirname') == $helper->getDirname());
 
     $catLinkClass = 'menuMain';
 

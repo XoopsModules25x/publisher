@@ -21,6 +21,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -176,7 +177,7 @@ class PublisherUtility
      */
     public static function displayCategory(PublisherCategory $categoryObj, $level = 0)
     {
-        $publisher = Publisher::getInstance();
+        $helper = publisher\Helper::getInstance();
 
         $description = $categoryObj->description();
         if (!XOOPS_USE_MULTIBYTES) {
@@ -198,7 +199,7 @@ class PublisherUtility
         echo "<td class='even' align='center'>" . $categoryObj->weight() . '</td>';
         echo "<td class='even' align='center'> $modify $delete </td>";
         echo '</tr>';
-        $subCategoriesObj = $publisher->getHandler('category')->getCategories(0, 0, $categoryObj->categoryid());
+        $subCategoriesObj = $helper->getHandler('category')->getCategories(0, 0, $categoryObj->categoryid());
         if (count($subCategoriesObj) > 0) {
             ++$level;
             foreach ($subCategoriesObj as $key => $thiscat) {
@@ -217,20 +218,20 @@ class PublisherUtility
      */
     public static function editCategory($showmenu = false, $categoryId = 0, $nbSubCats = 4, $categoryObj = null)
     {
-        $publisher = Publisher::getInstance();
+        $helper = publisher\Helper::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
         /* @var  $categoryObj PublisherCategory */
         if (0 != $categoryId) {
             // Creating the category object for the selected category
-            $categoryObj = $publisher->getHandler('category')->get($categoryId);
+            $categoryObj = $helper->getHandler('category')->get($categoryId);
             if ($categoryObj->notLoaded()) {
                 redirect_header('category.php', 1, _AM_PUBLISHER_NOCOLTOEDIT);
                 //            exit();
             }
         } else {
             if (!$categoryObj) {
-                $categoryObj = $publisher->getHandler('category')->create();
+                $categoryObj = $helper->getHandler('category')->create();
             }
         }
 
@@ -256,10 +257,10 @@ class PublisherUtility
 
             static::openCollapsableBar('subcatstable', 'subcatsicon', _AM_PUBLISHER_SUBCAT_CAT, _AM_PUBLISHER_SUBCAT_CAT_DSC);
             // Get the total number of sub-categories
-            $categoriesObj = $publisher->getHandler('category')->get($selCat);
-            $totalsubs     = $publisher->getHandler('category')->getCategoriesCount($selCat);
+            $categoriesObj = $helper->getHandler('category')->get($selCat);
+            $totalsubs     = $helper->getHandler('category')->getCategoriesCount($selCat);
             // creating the categories objects that are published
-            $subcatsObj    = $publisher->getHandler('category')->getCategories(0, 0, $categoriesObj->categoryid());
+            $subcatsObj    = $helper->getHandler('category')->getCategories(0, 0, $categoriesObj->categoryid());
             $totalSCOnPage = count($subcatsObj);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
@@ -270,11 +271,11 @@ class PublisherUtility
             echo '</tr>';
             if ($totalsubs > 0) {
                 foreach ($subcatsObj as $subcat) {
-                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_MODIFY . "' alt='" . _AM_PUBLISHER_MODIFY . "'></a>";
-                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETE . "' alt='" . _AM_PUBLISHER_DELETE . "'></a>";
+                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_MODIFY . "' alt='" . _AM_PUBLISHER_MODIFY . "'></a>";
+                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETE . "' alt='" . _AM_PUBLISHER_DELETE . "'></a>";
                     echo '<tr>';
                     echo "<td class='head' align='left'>" . $subcat->categoryid() . '</td>';
-                    echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . '/category.php?categoryid=' . $subcat->categoryid() . '&amp;parentid=' . $subcat->parentid() . "'>" . $subcat->name() . '</a></td>';
+                    echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . '/category.php?categoryid=' . $subcat->categoryid() . '&amp;parentid=' . $subcat->parentid() . "'>" . $subcat->name() . '</a></td>';
                     echo "<td class='even' align='left'>" . $subcat->description() . '</td>';
                     echo "<td class='even' align='right'> {$modify} {$delete} </td>";
                     echo '</tr>';
@@ -292,11 +293,11 @@ class PublisherUtility
             static::openCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = Request::getInt('startitem');
             // Get the total number of published ITEMS
-            $totalitems = $publisher->getHandler('item')->getItemsCount($selCat, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
+            $totalitems = $helper->getHandler('item')->getItemsCount($selCat, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
-            $itemsObj         = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $startitem, $selCat);
+            $itemsObj         = $helper->getHandler('item')->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
             $totalitemsOnPage = count($itemsObj);
-            $allcats          = $publisher->getHandler('category')->getObjects(null, true);
+            $allcats          = $helper->getHandler('category')->getObjects(null, true);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
             echo "<td width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . '</strong></td>';
@@ -308,13 +309,13 @@ class PublisherUtility
             if ($totalitems > 0) {
                 for ($i = 0; $i < $totalitemsOnPage; ++$i) {
                     $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
-                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "'></a>";
+                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "'></a>";
                     $delete      = "<a href='item.php?op=del&amp;itemid="
                                    . $itemsObj[$i]->itemid()
                                    . "'><img src='"
                                    . XOOPS_URL
                                    . '/modules/'
-                                   . $publisher->getModule()->dirname()
+                                   . $helper->getModule()->dirname()
                                    . "/assets/images/links/delete.png' title='"
                                    . _AM_PUBLISHER_DELETEITEM
                                    . "' alt='"
@@ -339,7 +340,7 @@ class PublisherUtility
             $parentid         = Request::getInt('parentid', 0, 'GET');
             $pagenavExtraArgs = "op=mod&categoryid=$selCat&parentid=$parentid";
             xoops_load('XoopsPageNav');
-            $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $startitem, 'startitem', $pagenavExtraArgs);
+            $pagenav = new XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $startitem, 'startitem', $pagenavExtraArgs);
             echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
             echo "<input type='button' name='button' onclick=\"location='item.php?op=mod&categoryid=" . $selCat . "'\" value='" . _AM_PUBLISHER_CREATEITEM . "'>&nbsp;&nbsp;";
             echo '</div>';
@@ -494,16 +495,16 @@ class PublisherUtility
      */
     public static function moduleHome($withLink = true)
     {
-        $publisher = Publisher::getInstance();
+        $helper = publisher\Helper::getInstance();
 
-        if (!$publisher->getConfig('format_breadcrumb_modname')) {
+        if (!$helper->getConfig('format_breadcrumb_modname')) {
             return '';
         }
 
         if (!$withLink) {
-            return $publisher->getModule()->getVar('name');
+            return $helper->getModule()->getVar('name');
         } else {
-            return '<a href="' . PUBLISHER_URL . '/">' . $publisher->getModule()->getVar('name') . '</a>';
+            return '<a href="' . PUBLISHER_URL . '/">' . $helper->getModule()->getVar('name') . '</a>';
         }
     }
 
@@ -686,7 +687,7 @@ class PublisherUtility
      */
     public static function userIsAdmin()
     {
-        $publisher = Publisher::getInstance();
+        $helper = publisher\Helper::getInstance();
 
         static $publisherIsAdmin;
 
@@ -697,7 +698,7 @@ class PublisherUtility
         if (!$GLOBALS['xoopsUser']) {
             $publisherIsAdmin = false;
         } else {
-            $publisherIsAdmin = $GLOBALS['xoopsUser']->isAdmin($publisher->getModule()->getVar('mid'));
+            $publisherIsAdmin = $GLOBALS['xoopsUser']->isAdmin($helper->getModule()->getVar('mid'));
         }
 
         return $publisherIsAdmin;
@@ -722,8 +723,8 @@ class PublisherUtility
      */
     public static function userIsModerator($itemObj)
     {
-        $publisher         = Publisher::getInstance();
-        $categoriesGranted = $publisher->getHandler('permission')->getGrantedItems('category_moderation');
+        $helper         = publisher\Helper::getInstance();
+        $categoriesGranted = $helper->getHandler('permission')->getGrantedItems('category_moderation');
 
         return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted));
     }
@@ -738,11 +739,11 @@ class PublisherUtility
      */
     public static function saveCategoryPermissions($groups, $categoryId, $permName)
     {
-        $publisher = Publisher::getInstance();
+        $helper = publisher\Helper::getInstance();
 
         $result = true;
 
-        $moduleId = $publisher->getModule()->getVar('mid');
+        $moduleId = $helper->getModule()->getVar('mid');
         /* @var  $gpermHandler XoopsGroupPermHandler */
         $gpermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
@@ -886,7 +887,7 @@ class PublisherUtility
      */
     public static function addCategoryOption(PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
     {
-        $publisher = Publisher::getInstance();
+        $helper = publisher\Helper::getInstance();
 
         $spaces = '';
         for ($j = 0; $j < $level; ++$j) {
@@ -901,7 +902,7 @@ class PublisherUtility
         }
         $ret .= '>' . $spaces . $categoryObj->name() . "</option>\n";
 
-        $subCategoriesObj = $publisher->getHandler('category')->getCategories(0, 0, $categoryObj->categoryid());
+        $subCategoriesObj = $helper->getHandler('category')->getCategories(0, 0, $categoryObj->categoryid());
         if (count($subCategoriesObj) > 0) {
             ++$level;
             foreach ($subCategoriesObj as $catID => $subCategoryObj) {
@@ -921,7 +922,7 @@ class PublisherUtility
      */
     public static function createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[0]')
     {
-        $publisher = Publisher::getInstance();
+        $helper = publisher\Helper::getInstance();
 
         $selectedid = explode(',', $selectedid);
 
@@ -935,7 +936,7 @@ class PublisherUtility
         }
 
         // Creating category objects
-        $categoriesObj = $publisher->getHandler('category')->getCategories(0, 0, $parentcategory);
+        $categoriesObj = $helper->getHandler('category')->getCategories(0, 0, $parentcategory);
 
         if (count($categoriesObj) > 0) {
             foreach ($categoriesObj as $catID => $categoryObj) {
@@ -955,7 +956,7 @@ class PublisherUtility
      */
     public static function createCategoryOptions($selectedid = 0, $parentcategory = 0, $allCatOption = true)
     {
-        $publisher = Publisher::getInstance();
+        $helper = publisher\Helper::getInstance();
 
         $ret = '';
         if ($allCatOption) {
@@ -964,7 +965,7 @@ class PublisherUtility
         }
 
         // Creating category objects
-        $categoriesObj = $publisher->getHandler('category')->getCategories(0, 0, $parentcategory);
+        $categoriesObj = $helper->getHandler('category')->getCategories(0, 0, $parentcategory);
         if (count($categoriesObj) > 0) {
             foreach ($categoriesObj as $catID => $categoryObj) {
                 $ret .= static::addCategoryOption($categoryObj, $selectedid);
@@ -1061,7 +1062,7 @@ class PublisherUtility
 //        require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
         //    global $publisherIsAdmin;
-        $publisher = Publisher::getInstance();
+        $helper = publisher\Helper::getInstance();
 
         $itemId  = Request::getInt('itemid', 0, 'POST');
         $uid     = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
@@ -1073,10 +1074,10 @@ class PublisherUtility
         $session->set('publisher_file_itemid', $itemId);
 
         if (!is_object($itemObj)) {
-            $itemObj = $publisher->getHandler('item')->get($itemId);
+            $itemObj = $helper->getHandler('item')->get($itemId);
         }
 
-        $fileObj = $publisher->getHandler('file')->create();
+        $fileObj = $helper->getHandler('file')->create();
         $fileObj->setVar('name', Request::getString('item_file_name', '', 'POST'));
         $fileObj->setVar('description', Request::getString('item_file_description', '', 'POST'));
         $fileObj->setVar('status', Request::getInt('item_file_status', 1, 'POST'));
@@ -1085,10 +1086,10 @@ class PublisherUtility
         $fileObj->setVar('datesub', time());
 
         // Get available mimetypes for file uploading
-        $allowedMimetypes = $publisher->getHandler('mimetype')->getArrayByType();
+        $allowedMimetypes = $helper->getHandler('mimetype')->getArrayByType();
         // TODO : display the available mimetypes to the user
         $errors = [];
-        if ($publisher->getConfig('perm_upload') && is_uploaded_file($_FILES['item_upload_file']['tmp_name'])) {
+        if ($helper->getConfig('perm_upload') && is_uploaded_file($_FILES['item_upload_file']['tmp_name'])) {
             if (!$ret = $fileObj->checkUpload('item_upload_file', $allowedMimetypes, $errors)) {
                 $errorstxt = implode('<br>', $errors);
 
@@ -1112,7 +1113,7 @@ class PublisherUtility
                     throw new RuntimeException(_CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
                 }
             } catch (Exception $e) {
-                $publisher->addLog($e);
+                $helper->addLog($e);
                 redirect_header('file.php?op=mod&itemid=' . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
             }
             //    } else {
@@ -1222,12 +1223,12 @@ class PublisherUtility
      */
     public static function ratingBar($itemId)
     {
-        $publisher       = Publisher::getInstance();
+        $helper       = publisher\Helper::getInstance();
         $ratingUnitWidth = 30;
         $units           = 5;
 
         $criteria   = new Criteria('itemid', $itemId);
-        $ratingObjs = $publisher->getHandler('rating')->getObjects($criteria);
+        $ratingObjs = $helper->getHandler('rating')->getObjects($criteria);
         unset($criteria);
 
         $uid           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
@@ -1254,9 +1255,9 @@ class PublisherUtility
         }
         $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         /* @var $gpermHandler XoopsGroupPermHandler */
-        $gpermHandler = $publisher->getHandler('groupperm');
+        $gpermHandler = $helper->getHandler('groupperm');
 
-        if (!$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_RATE, $groups, $publisher->getModule()->getVar('mid'))) {
+        if (!$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
             $staticRater   = [];
             $staticRater[] .= "\n" . '<div class="publisher_ratingblock">';
             $staticRater[] .= '<div id="unit_long' . $itemId . '">';
@@ -1388,7 +1389,7 @@ class PublisherUtility
         }
         $success     = true;
 
-        if (version_compare($currentVer, $requiredVer, '<')){
+        if (version_compare($currentVer, $requiredVer, '<')) {
             $success     = false;
             $module->setErrors(sprintf(_AM_PUBLISHER_ERROR_BAD_XOOPS, $requiredVer, $currentVer));
         }

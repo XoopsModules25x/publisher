@@ -57,7 +57,7 @@ if ($fromyear && $frommonth) {
     $pgtitle = sprintf(' - %d - %d', $fromyear, $frommonth);
 }
 
-$dateformat = $publisher->getConfig('format_date');
+$dateformat = $helper->getConfig('format_date');
 
 if ('' === $dateformat) {
     $dateformat = 'm';
@@ -79,12 +79,12 @@ if (is_object($GLOBALS['xoopsUser'])) {
 $criteria = new CriteriaCompo();
 $criteria->add(new Criteria('status', 2), 'AND');
 $criteria->add(new Criteria('datesub', time(), '<='), 'AND');
-$categoriesGranted = $publisher->getHandler('permission')->getGrantedItems('category_read');
+$categoriesGranted = $helper->getHandler('permission')->getGrantedItems('category_read');
 $criteria->add(new Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
 $criteria->setSort('datesub');
 $criteria->setOrder('DESC');
 //Get all articles dates as an array to save memory
-$items      = $publisher->getHandler('item')->getAll($criteria, ['datesub'], false);
+$items      = $helper->getHandler('item')->getAll($criteria, ['datesub'], false);
 $itemsCount = count($items);
 
 if (!($itemsCount > 0)) {
@@ -171,12 +171,12 @@ if (0 != $fromyear && 0 != $frommonth) {
 
     $count = 0;
 
-    $itemHandler               = $publisher->getHandler('item');
-    $itemHandler->table_link   = $GLOBALS['xoopsDB']->prefix($publisher->getDirname() . '_categories');
+    $itemHandler               = $helper->getHandler('item');
+    $itemHandler->table_link   = $GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_categories');
     $itemHandler->field_link   = 'categoryid';
     $itemHandler->field_object = 'categoryid';
     // Categories for which user has access
-    $categoriesGranted = $publisher->getHandler('permission')->getGrantedItems('category_read');
+    $categoriesGranted = $helper->getHandler('permission')->getGrantedItems('category_read');
     $grantedCategories = new Criteria('l.categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
     $criteria          = new CriteriaCompo();
     $criteria->add($grantedCategories, 'AND');

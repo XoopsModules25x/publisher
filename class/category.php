@@ -16,6 +16,9 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
+
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
@@ -29,7 +32,7 @@ class PublisherCategory extends XoopsObject
      * @var Publisher
      * @access public
      */
-    public $publisher;
+    public $helper;
 
     /**
      * @var array
@@ -41,7 +44,7 @@ class PublisherCategory extends XoopsObject
      */
     public function __construct()
     {
-        $this->publisher = Publisher::getInstance();
+        $this->publisher = publisher\Helper::getInstance();
         $this->initVar('categoryid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('parentid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('name', XOBJ_DTYPE_TXTBOX, null, true, 100);
@@ -365,14 +368,14 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      * @var Publisher
      * @access public
      */
-    public $publisher;
+    public $helper;
 
     /**
      * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {
-        $this->publisher = Publisher::getInstance();
+        $this->publisher = publisher\Helper::getInstance();
         parent::__construct($db, 'publisher_categories', 'PublisherCategory', 'categoryid', 'name');
     }
 
@@ -562,7 +565,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
                 $criteria->add(new Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
             }
         }
-        $categories =& $this->getAll($criteria, ['categoryid', 'parentid', 'name'], false, false);
+        $categories = $this->getAll($criteria, ['categoryid', 'parentid', 'name'], false, false);
         if (0 == count($categories)) {
             return $ret;
         }
@@ -604,7 +607,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
                 $criteria->add(new Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
             }
         }
-        $categories =& $this->getAll($criteria, ['categoryid', 'parentid', 'name'], false, false);
+        $categories = $this->getAll($criteria, ['categoryid', 'parentid', 'name'], false, false);
         if (0 == count($categories)) {
             return $ret;
         }

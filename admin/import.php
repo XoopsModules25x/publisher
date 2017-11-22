@@ -27,7 +27,7 @@ $op = Request::getString('op', Request::getString('op', 'none', 'GET'), 'POST');
 switch ($op) {
     case 'importExecute':
         $importfile      = Request::getString('importfile', 'nonselected', 'POST');
-        $importfile_path = $GLOBALS['xoops']->path('modules/' . $publisher->getModule()->dirname() . '/admin/import/' . $importfile . '.php');
+        $importfile_path = $GLOBALS['xoops']->path('modules/' . $helper->getModule()->dirname() . '/admin/import/' . $importfile . '.php');
         require_once $importfile_path;
         break;
 

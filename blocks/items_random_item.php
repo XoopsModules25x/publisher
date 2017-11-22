@@ -19,6 +19,8 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
@@ -31,9 +33,9 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_random_item_show($options)
 {
     $block     = [];
-    $publisher = Publisher::getInstance();
+    $helper = publisher\Helper::getInstance();
     // creating the ITEM object
-    $itemsObj = $publisher->getHandler('item')->getRandomItem('', [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
+    $itemsObj = $helper->getHandler('item')->getRandomItem('', [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
 
     if (!is_object($itemsObj)) {
         return $block;

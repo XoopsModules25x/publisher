@@ -22,7 +22,7 @@ use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 
-$module  = $publisher->getModule();
+$module  = $helper->getModule();
 $mod     = $module->mid();
 $modname = $module->name();
 

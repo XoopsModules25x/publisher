@@ -19,6 +19,9 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
+
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -31,14 +34,14 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      * @var Publisher
      * @access public
      */
-    public $publisher;
+    public $helper;
 
     /**
      *
      */
     public function __construct()
     {
-        $this->publisher = Publisher::getInstance();
+        $this->publisher = publisher\Helper::getInstance();
     }
 
     /**

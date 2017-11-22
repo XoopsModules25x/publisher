@@ -19,6 +19,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 //namespace Publisher;
 
@@ -34,7 +35,7 @@ class PublisherItem extends XoopsObject
      * @var Publisher
      * @access public
      */
-    public $publisher;
+    public $helper;
     public $groupsRead = [];
 
     /**
@@ -48,7 +49,7 @@ class PublisherItem extends XoopsObject
      */
     public function __construct($id = null)
     {
-        $this->publisher = Publisher::getInstance();
+        $this->publisher = publisher\Helper::getInstance();
         $this->db        = XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', XOBJ_DTYPE_INT, 0, false);
@@ -1098,7 +1099,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      * @var Publisher
      * @access public
      */
-    public $publisher;
+    public $helper;
 
     protected $resultCatCounts = [];
 
@@ -1108,7 +1109,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
     public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'publisher_items', 'PublisherItem', 'itemid', 'title');
-        $this->publisher = Publisher::getInstance();
+        $this->publisher = publisher\Helper::getInstance();
     }
 
     /**
@@ -1280,7 +1281,6 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      */
     public function getCount(CriteriaElement $criteria = null, $notNullFields = '')
     {
-
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->publisher->getDirname() . '_items');
         if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $whereClause = $criteria->renderWhere();
@@ -1306,7 +1306,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
 
     /**
      * @param  int           $categoryid
-     * @param  string        $status
+     * @param  string|array        $status
      * @param  string        $notNullFields
      * @param                $criteriaPermissions
      * @return CriteriaCompo
@@ -1327,7 +1327,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
         //            }
         //        }
         if (isset($categoryid) && $categoryid != -1) {
-            $criteriaCategory = new criteria('categoryid', $categoryid);
+            $criteriaCategory = new Criteria('categoryid', $categoryid);
         }
         $criteriaStatus = new CriteriaCompo();
         if (!empty($status) && is_array($status)) {
@@ -1632,7 +1632,6 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      */
     public function updateCounter($itemid)
     {
-
         $sql = 'UPDATE ' . $this->db->prefix($this->publisher->getDirname() . '_items') . ' SET counter=counter+1 WHERE itemid = ' . $itemid;
         if ($this->db->queryF($sql)) {
             return true;
@@ -1697,7 +1696,7 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
             $criteriaUser->add(new Criteria('uid', $userid), 'OR');
         }
         $count = 0;
-        if(is_array($queryArray)) {
+        if (is_array($queryArray)) {
             $count = count($queryArray);
         }
         if (is_array($queryArray) && $count > 0) {
@@ -1780,7 +1779,6 @@ class PublisherItemHandler extends XoopsPersistableObjectHandler
      */
     public function getLastPublishedByCat($categoriesObj, $status = [PublisherConstants::PUBLISHER_STATUS_PUBLISHED])
     {
-
         $ret    = [];
         $catIds = [];
         foreach ($categoriesObj as $parentid) {

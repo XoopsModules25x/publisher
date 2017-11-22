@@ -34,24 +34,24 @@ $itemid = Request::getInt('itemid', 0, 'GET');
 xoops_loadLanguage('main', PUBLISHER_DIRNAME);
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 /* @var $gpermHandler XoopsGroupPermHandler */
-$gpermHandler = $publisher->getHandler('groupperm');
+$gpermHandler = $helper->getHandler('groupperm');
 /* @var $configHandler XoopsConfigHandler */
 $configHandler = xoops_getHandler('config');
-$module_id     = $publisher->getModule()->getVar('mid');
+$module_id     = $helper->getModule()->getVar('mid');
 
 //Checking permissions
-//if (!$publisher->getConfig('perm_rating') || !$gpermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
+//if (!$helper->getConfig('perm_rating') || !$gpermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
 //    $output = "unit_long$itemid|" . _NOPERM . "\n";
 //    echo $output;
 //    exit();
 //}
 
 try {
-    if (!$publisher->getConfig('perm_rating') || !$gpermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
+    if (!$helper->getConfig('perm_rating') || !$gpermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
         throw new RuntimeException(_NOPERM);
     }
 } catch (Exception $e) {
-    $publisher->addLog($e);
+    $helper->addLog($e);
     //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _NOPERM . "\n";
     echo $output;
@@ -71,14 +71,14 @@ try {
         throw new RuntimeException(_MD_PUBLISHER_VOTE_BAD);
     }
 } catch (Exception $e) {
-    $publisher->addLog($e);
+    $helper->addLog($e);
     //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_BAD . "\n";
     echo $output;
 }
 
 $criteria   = new Criteria('itemid', $itemid);
-$ratingObjs = $publisher->getHandler('rating')->getObjects($criteria);
+$ratingObjs = $helper->getHandler('rating')->getObjects($criteria);
 
 $uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
 $count          = count($ratingObjs);
@@ -104,25 +104,25 @@ try {
         throw new RuntimeException(_MD_PUBLISHER_VOTE_ALREADY);
     }
 } catch (Exception $e) {
-    $publisher->addLog($e);
+    $helper->addLog($e);
     //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_ALREADY . "\n";
     echo $output;
 }
 
-$newRatingObj = $publisher->getHandler('rating')->create();
+$newRatingObj = $helper->getHandler('rating')->create();
 $newRatingObj->setVar('itemid', $itemid);
 $newRatingObj->setVar('ip', $ip);
 $newRatingObj->setVar('uid', $uid);
 $newRatingObj->setVar('rate', $rating);
 $newRatingObj->setVar('date', time());
-$publisher->getHandler('rating')->insert($newRatingObj);
+$helper->getHandler('rating')->insert($newRatingObj);
 
 $current_rating += $rating;
 ++$count;
 
-$publisher->getHandler('item')->updateAll('rating', number_format($current_rating / $count, 4), $criteria, true);
-$publisher->getHandler('item')->updateAll('votes', $count, $criteria, true);
+$helper->getHandler('item')->updateAll('rating', number_format($current_rating / $count, 4), $criteria, true);
+$helper->getHandler('item')->updateAll('votes', $count, $criteria, true);
 
 $tense = 1 == $count ? _MD_PUBLISHER_VOTE_VOTE : _MD_PUBLISHER_VOTE_VOTES; //plural form votes/vote
 

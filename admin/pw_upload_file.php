@@ -19,6 +19,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -42,12 +43,12 @@ function publisher_pagewrap_upload(&$errors)
     //    require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
     xoops_load('XoopsMediaUploader');
 
-    $publisher = Publisher::getInstance();
+    $helper = publisher\Helper::getInstance();
     $postField = 'fileupload';
 
-    $maxFileSize    = $publisher->getConfig('maximum_filesize');
-    $maxImageWidth  = $publisher->getConfig('maximum_image_width');
-    $maxImageHeight = $publisher->getConfig('maximum_image_height');
+    $maxFileSize    = $helper->getConfig('maximum_filesize');
+    $maxImageWidth  = $helper->getConfig('maximum_image_width');
+    $maxImageHeight = $helper->getConfig('maximum_image_height');
 
     if (!is_dir(PublisherUtility::getUploadDir(true, 'content'))) {
         mkdir(PublisherUtility::getUploadDir(true, 'content'), 0757);

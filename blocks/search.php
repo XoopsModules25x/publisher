@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
@@ -33,8 +34,8 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_search_show($options)
 {
     $block      = [];
-    $publisher  = Publisher::getInstance();
-    $categories = $publisher->getHandler('category')->getCategoriesForSearch();
+    $helper  = publisher\Helper::getInstance();
+    $categories = $helper->getHandler('category')->getCategoriesForSearch();
     if (0 == count($categories)) {
         return $block;
     }

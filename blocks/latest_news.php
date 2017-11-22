@@ -20,6 +20,8 @@
  * @author          Mowaffak
  */
 
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
@@ -34,7 +36,7 @@ function publisher_latest_news_show($options)
     $block = [];
 
     xoops_loadLanguage('main', 'publisher');
-    $publisher = Publisher::getInstance();
+    $helper = publisher\Helper::getInstance();
 
     $start           = $options[0]; // You can show articles from specified range
     $limit           = $options[1];
@@ -72,7 +74,7 @@ function publisher_latest_news_show($options)
         $criteria->add(new Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
     }
 
-    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
+    $itemsObj = $helper->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);
 
@@ -198,7 +200,7 @@ function publisher_latest_news_show($options)
         }
 
         $item['pdf'] = '';
-        if ($publisher->getConfig('display_pdf')) {
+        if ($helper->getConfig('display_pdf')) {
             if (1 == $options[25]) {
                 $item['pdf'] = "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $itemObj->itemid() . "' rel='nofollow'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif' title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "'></a>&nbsp;";
             }

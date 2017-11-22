@@ -92,7 +92,7 @@ if ('start' === $op) {
 
             // Publisher parent category
             xoops_load('tree');
-            $categoryHdlr  = $publisher->getHandler('category');
+            $categoryHdlr  = $helper->getHandler('category');
             $catObjs       = $categoryHdlr->getAll();
             $myObjTree     = new XoopsObjectTree($catObjs, 'categoryid', 'parentid');
             $moduleDirName = basename(dirname(__DIR__));
@@ -158,7 +158,7 @@ if ('go' === $op) {
 
         // create Publsher category to hold FmContent Content items with no Topic (content_topic=0)
         /* @var  $categoryObj PublisherCategory */
-        $categoryObj = $publisher->getHandler('category')->create();
+        $categoryObj = $helper->getHandler('category')->create();
         $categoryObj->setVars([
                                   'parentid'    => $parentId,
                                   'name'        => _AM_PUBLISHER_IMPORT_FMCONTENT_NAME,
@@ -176,7 +176,7 @@ if ('go' === $op) {
 
         // insert articles for this category
         foreach ($fmContentObjs as $thisFmContentObj) {
-            $itemObj = $publisher->getHandler('item')->create();
+            $itemObj = $helper->getHandler('item')->create();
             $itemObj->setVars([
                                   'categoryid'       => $categoryObj->categoryid(),
                                   'title'            => $thisFmContentObj->getVar('content_title'),
@@ -240,7 +240,7 @@ if ('go' === $op) {
             'oldpid' => $thisFmTopicObj->getVar('topic_pid')
         ];
 
-        $categoryObj = $publisher->getHandler('category')->create();
+        $categoryObj = $helper->getHandler('category')->create();
 
         $categoryObj->setVars([
                                   'parentid'    => $thisFmTopicObj->getVar('topic_pid'),
@@ -255,7 +255,7 @@ if ('go' === $op) {
                 $categoryObj->setVar('image', $thisFmTopicObj->getVar('topic_img'));
             }
         }
-        if (!$publisher->getHandler('category')->insert($categoryObj)) {
+        if (!$helper->getHandler('category')->insert($categoryObj)) {
             echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_ERROR, $thisFmTopicObj->getVar('topic_title')) . "<br>\n";
             continue;
         }
@@ -274,7 +274,7 @@ if ('go' === $op) {
         // insert articles for this category
         /** @var PublisherItem $itemObj */
         foreach ($fmContentObjs as $thisFmContentObj) {
-            $itemObj = $publisher->getHandler('item')->create();
+            $itemObj = $helper->getHandler('item')->create();
             $itemObj->setVars([
                                   'categoryid'       => $CatIds['newid'],
                                   'title'            => $thisFmContentObj->getVar('content_title'),
@@ -330,7 +330,7 @@ if ('go' === $op) {
         $criteria->add(new Criteria('categoryid', $CatIds['newid']));
         $oldpid = $CatIds['oldpid'];
         $newpid = (0 == $oldpid) ? $parentId : $newCatArray[$oldpid]['newid'];
-        $publisher->getHandler('category')->updateAll('parentid', $newpid, $criteria);
+        $helper->getHandler('category')->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
     unset($oldid, $CatIds);
@@ -338,7 +338,7 @@ if ('go' === $op) {
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . "<br>\n";
 
-    $publisher_module_id = $publisher->getModule()->mid();
+    $publisher_module_id = $helper->getModule()->mid();
     /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();

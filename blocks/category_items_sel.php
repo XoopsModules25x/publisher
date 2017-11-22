@@ -18,6 +18,8 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
@@ -29,11 +31,11 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_category_items_sel_show($options)
 {
-    $publisher = Publisher::getInstance();
+    $helper = publisher\Helper::getInstance();
 
     $block = $item = [];
 
-    $categories = $publisher->getHandler('category')->getCategories(0, 0, -1);
+    $categories = $helper->getHandler('category')->getCategories(0, 0, -1);
 
     if (0 === count($categories)) {
         return $block;
@@ -53,7 +55,7 @@ function publisher_category_items_sel_show($options)
         }
 
         $criteria = new Criteria('categoryid', $catID);
-        $items    = $publisher->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
+        $items    = $helper->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
         unset($criteria);
 
         if (0 === count($items)) {

@@ -16,6 +16,9 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
+
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
@@ -34,14 +37,14 @@ class PublisherFile extends XoopsObject
      * @var Publisher
      * @access public
      */
-    public $publisher;
+    public $helper;
 
     /**
      * @param null|int $id
      */
     public function __construct($id = null)
     {
-        $this->publisher = Publisher::getInstance();
+        $this->publisher = publisher\Helper::getInstance();
         $this->db        = XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('fileid', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('itemid', XOBJ_DTYPE_INT, null, true);
@@ -291,14 +294,14 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
      * @var Publisher
      * @access public
      */
-    public $publisher;
+    public $helper;
 
     /**
      * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {
-        $this->publisher = Publisher::getInstance();
+        $this->publisher = publisher\Helper::getInstance();
         parent::__construct($db, 'publisher_files', 'PublisherFile', 'fileid', 'name');
     }
 

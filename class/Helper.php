@@ -1,4 +1,5 @@
-<?php
+<?php namespace Xoopsmodules\publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -20,7 +21,7 @@
  */
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
-class Publisher extends \Xmf\Module\Helper
+class Helper extends \Xmf\Module\Helper
 {
     public $debugArray = [];
 
@@ -36,7 +37,7 @@ class Publisher extends \Xmf\Module\Helper
     /**
      * @param bool $debug
      *
-     * @return Publisher
+     * @return \Xoopsmodules\publisher\Helper
      */
     public static function getInstance($debug = false)
     {

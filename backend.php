@@ -35,7 +35,7 @@ if (function_exists('mb_http_output')) {
 $categoryid = Request::getInt('categoryid', -1, 'GET');
 
 if ($categoryid != -1) {
-    $categoryObj = $publisher->getHandler('category')->get($categoryid);
+    $categoryObj = $helper->getHandler('category')->get($categoryid);
 }
 
 header('Content-Type:text/xml; charset=' . _CHARSET);
@@ -45,7 +45,7 @@ $tpl->xoops_setCacheTime(0);
 $myts = MyTextSanitizer::getInstance();
 if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     //    xoops_load('XoopsLocal');
-    $channel_category = $publisher->getModule()->name();
+    $channel_category = $helper->getModule()->name();
     // Check if ML Hack is installed, and if yes, parse the $content in formatForML
     if (method_exists($myts, 'formatForML')) {
         $GLOBALS['xoopsConfig']['sitename'] = $myts->formatForML($GLOBALS['xoopsConfig']['sitename']);
@@ -66,7 +66,7 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     }
 
     $tpl->assign('channel_category', htmlspecialchars($channel_category));
-    $tpl->assign('channel_generator', $publisher->getModule()->name());
+    $tpl->assign('channel_generator', $helper->getModule()->name());
     $tpl->assign('channel_language', _LANGCODE);
     $tpl->assign('image_url', XOOPS_URL . '/images/logo.gif');
     $dimention = getimagesize($GLOBALS['xoops']->path('images/logo.gif'));
@@ -80,7 +80,7 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     }
     $tpl->assign('image_width', $width);
     $tpl->assign('image_height', $height);
-    $sarray = $publisher->getHandler('item')->getAllPublished(10, 0, $categoryid);
+    $sarray = $helper->getHandler('item')->getAllPublished(10, 0, $categoryid);
     if (!empty($sarray) && is_array($sarray)) {
         $count = $sarray;
         foreach ($sarray as $item) {

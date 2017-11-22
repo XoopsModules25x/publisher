@@ -18,10 +18,8 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
-//require_once __DIR__ . '/config.php';
-
+use Xoopsmodules\publisher;
 
 if (!defined('PUBLISHER_DIRNAME')) {
     define('PUBLISHER_DIRNAME', basename(dirname(__DIR__)));
@@ -54,13 +52,13 @@ xoops_load('constants', PUBLISHER_DIRNAME);
 xoops_load('utility', PUBLISHER_DIRNAME);
 
 $debug     = false;
-$publisher = Publisher::getInstance($debug);
+$helper = publisher\Helper::getInstance($debug);
 
 //This is needed or it will not work in blocks.
 global $publisherIsAdmin;
 
 // Load only if module is installed
-if (is_object($publisher->getModule())) {
+if (is_object($helper->getModule())) {
     // Find if the user is admin of the module
     $publisherIsAdmin = PublisherUtility::userIsAdmin();
     // get current page

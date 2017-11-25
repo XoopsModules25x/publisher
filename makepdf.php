@@ -6,10 +6,13 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/header.php';
+$helper = publisher\Helper::getInstance();
+
 $itemid       = Request::getInt('itemid', 0, 'GET');
 $item_page_id = Request::getInt('page', -1, 'GET');
 if (0 == $itemid) {
@@ -35,7 +38,7 @@ if (!$itemObj->accessGranted()) {
     redirect_header('javascript:history.go(-1)', 1, _NOPERM);
 }
 
-xoops_loadLanguage('main', PUBLISHER_DIRNAME);
+$helper->loadLanguage('main');
 
 $dateformat    = $itemObj->getDatesub();
 $sender_inform = sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemObj->getDatesub());
@@ -73,7 +76,7 @@ $pdf_data = [
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
-$doc_title  = PublisherUtility::convertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
+$doc_title  = publisher\Utility::convertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
 $docSubject = $myts->undoHtmlSpecialChars($categoryObj->name());
 
 $docKeywords = $myts->undoHtmlSpecialChars($itemObj->meta_keywords());
@@ -88,8 +91,8 @@ $pdf->SetSubject($docSubject);
 //$pdf->SetKeywords(XOOPS_URL . ', '.' by TCPDF_for_XOOPS (chg-web.org), '.$doc_title);
 $pdf->SetKeywords($docKeywords);
 
-$firstLine  = PublisherUtility::convertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
-$secondLine = PublisherUtility::convertCharset($GLOBALS['xoopsConfig']['slogan']);
+$firstLine  = publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
+$secondLine = publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['slogan']);
 
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
 $pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine, [0, 64, 255], [0, 64, 128]);

@@ -18,13 +18,15 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 error_reporting(0);
 include dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 require_once __DIR__ . '/common.php';
 
 $GLOBALS['xoopsLogger']->activated = false;
-xoops_loadLanguage('common', basename(dirname(__DIR__)));
+$helper = publisher\Helper::getInstance();
+$helper->loadLanguage('common');
 
 if (!is_object($GLOBALS['xoopsUser'])) {
     $group = [XOOPS_GROUP_ANONYMOUS];
@@ -95,9 +97,9 @@ if (false === $error) {
     }
 }
 
-$arr = ['success', $image->getVar('image_name'), PublisherUtility::convertCharset($image->getVar('image_nicename'))];
+$arr = ['success', $image->getVar('image_name'), publisher\Utility::convertCharset($image->getVar('image_nicename'))];
 if (false !== $error) {
-    $arr = ['error', PublisherUtility::convertCharset($error)];
+    $arr = ['error', publisher\Utility::convertCharset($error)];
 }
 
 echo json_encode($arr);

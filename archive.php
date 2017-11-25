@@ -95,7 +95,7 @@ if (!($itemsCount > 0)) {
     $months = [];
     $i      = 0;
     foreach ($items as $item) {
-        //mb        $time = XoopsLocal::formatTimestamp($item['datesub'], 'mysql', $useroffset);
+        //mb        $time = \XoopsLocal::formatTimestamp($item['datesub'], 'mysql', $useroffset);
         $time = formatTimestamp($item['datesub'], 'mysql', $useroffset);
         if (preg_match('/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})/', $time, $datetime)) {
             $thisYear  = (int)$datetime[1];

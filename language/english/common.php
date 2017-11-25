@@ -109,3 +109,28 @@ define('_CO_PUBLISHER_EDITFILE', 'Edit file');
 define('_CO_PUBLISHER_DELETEFILE', 'Delete file');
 //added 2017-05-16
 define('_CO_PUBLISHER_BAD_TOKEN', 'Invalid token, please try again');
+
+//2017-11-22
+
+$moduleDirName      = basename(dirname(dirname(__DIR__)));
+$moduleDirNameUpper = strtoupper($moduleDirName);
+
+define('CO_' . $moduleDirNameUpper . '_GDLIBSTATUS', 'GD library support: ');
+define('CO_' . $moduleDirNameUpper . '_GDLIBVERSION', 'GD Library version: ');
+define('CO_' . $moduleDirNameUpper . '_GDOFF', "<span style='font-weight: bold;'>Disabled</span> (No thumbnails available)");
+define('CO_' . $moduleDirNameUpper . '_GDON', "<span style='font-weight: bold;'>Enabled</span> (Thumbsnails available)");
+define('CO_' . $moduleDirNameUpper . '_IMAGEINFO', 'Server status');
+define('CO_' . $moduleDirNameUpper . '_MAXPOSTSIZE', 'Max post size permitted (post_max_size directive in php.ini): ');
+define('CO_' . $moduleDirNameUpper . '_MAXUPLOADSIZE', 'Max upload size permitted (upload_max_filesize directive in php.ini): ');
+define('CO_' . $moduleDirNameUpper . '_MEMORYLIMIT', 'Memory limit (memory_limit directive in php.ini): ');
+define('CO_' . $moduleDirNameUpper . '_METAVERSION', "<span style='font-weight: bold;'>Downloads meta version:</span> ");
+define('CO_' . $moduleDirNameUpper . '_OFF', "<span style='font-weight: bold;'>OFF</span>");
+define('CO_' . $moduleDirNameUpper . '_ON', "<span style='font-weight: bold;'>ON</span>");
+define('CO_' . $moduleDirNameUpper . '_SERVERPATH', 'Server path to XOOPS root: ');
+define('CO_' . $moduleDirNameUpper . '_SERVERUPLOADSTATUS', 'Server uploads status: ');
+define('CO_' . $moduleDirNameUpper . '_SPHPINI', "<span style='font-weight: bold;'>Information taken from PHP ini file:</span>");
+define('CO_' . $moduleDirNameUpper . '_UPLOADPATHDSC', 'Note. Upload path *MUST* contain the full server path of your upload folder.');
+
+
+define('CO_' . $moduleDirNameUpper . '_PRINT', "<span style='font-weight: bold;'>Print</span>");
+define('CO_' . $moduleDirNameUpper . '_PDF', "<span style='font-weight: bold;'>Create PDF</span>");

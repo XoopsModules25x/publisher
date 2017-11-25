@@ -43,7 +43,7 @@ function publisher_items_new_show($options)
     }
 
     $sort  = $options[1];
-    $order = PublisherUtility::getOrderBy($sort);
+    $order = publisher\Utility::getOrderBy($sort);
     $limit = $options[3];
     $start = 0;
     $image = $options[5];
@@ -141,7 +141,7 @@ function publisher_items_new_edit($options)
 
     $form = new PublisherBlockForm();
 
-    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, PublisherUtility::createCategorySelect($options[0], 0, true, 'options[0]'));
+    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray([
                                   'datesub'  => _MB_PUBLISHER_DATE,

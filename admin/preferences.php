@@ -19,12 +19,20 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 require_once __DIR__ . '/admin_header.php';
 
+$helper      = publisher\Helper::getInstance();
+
 $module  = $helper->getModule();
-$mod     = $module->mid();
+$modId     = $module->mid();
 $modname = $module->name();
+$dirName = $helper->getDirname();
+
+$moduleHandler = xoops_getHandler('module');
+$xoopsModule0        = $moduleHandler->getByDirname(basename(dirname(__DIR__)));
+global $xoopsModule;
 
 xoops_loadLanguage('admin', 'system');
 xoops_loadLanguage('admin/preferences', 'system');
@@ -44,7 +52,7 @@ $configcat = Request::getString('configcat', '', 'GET');
 if ('showmod' === $op) {
     $configHandler = xoops_getHandler('config');
 
-    $config = $configHandler->getConfigs(new Criteria('conf_modid', $mod));
+    $config = $configHandler->getConfigs(new Criteria('conf_modid', $modId));
     $count  = count($config);
     if ($count < 1) {
         redirect_header($module->getInfo('adminindex'), 1);
@@ -169,7 +177,7 @@ if ('showmod' === $op) {
         unset($ele, $hidden);
     }
 
-    PublisherUtility::cpHeader();
+    publisher\Utility::cpHeader();
     //publisher_adminMenu(5, _PREFERENCES);
     foreach ($config_cats as $formCat => $info) {
         if ('others' === $formCat && !$cat_others_used) {
@@ -177,9 +185,9 @@ if ('showmod' === $op) {
         }
         $$formCat->addElement(new XoopsFormHidden('op', 'save'));
         $$formCat->addElement(new XoopsFormButton('', 'button', _GO, 'submit'));
-        PublisherUtility::openCollapsableBar($formCat . '_table', $formCat . '_icon', $info['name'], $info['description']);
+        publisher\Utility::openCollapsableBar($formCat . '_table', $formCat . '_icon', $info['name'], $info['description']);
         $$formCat->display();
-        PublisherUtility::closeCollapsableBar($formCat . '_table', $formCat . '_icon');
+        publisher\Utility::closeCollapsableBar($formCat . '_table', $formCat . '_icon');
     }
     unset($formCat, $info);
     xoops_cp_footer();

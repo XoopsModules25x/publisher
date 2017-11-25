@@ -24,12 +24,12 @@ use Xmf\Request;
 
 $moduleDirName = basename(__DIR__);
 xoops_load('xoopseditorhandler');
-$editorHandler = XoopsEditorHandler::getInstance();
+$editorHandler = \XoopsEditorHandler::getInstance();
 $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = [
     'version'             => '1.06',
-    'module_status'       => 'Beta 1',
+    'module_status'       => 'Alpha 1',
     'release_date'        => '2017/11/22',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
@@ -958,7 +958,7 @@ $modversion['config'][] = [
 ];
 
 xoops_load('XoopsEditorHandler');
-$editorHandler = XoopsEditorHandler::getInstance();
+$editorHandler = \XoopsEditorHandler::getInstance();
 
 $modversion['config'][] = [
     'name'        => 'submit_editor',

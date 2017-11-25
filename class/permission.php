@@ -64,7 +64,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
         $criteria->add(new Criteria('gperm_name', $gpermName));
         $criteria->add(new Criteria('gperm_itemid', $id));
         //Instead of calling groupperm handler and get objects, we will save some memory and do it our way
-        $db    = XoopsDatabaseFactory::getDatabaseConnection();
+        $db    = \XoopsDatabaseFactory::getDatabaseConnection();
         $limit = $start = 0;
         $sql   = 'SELECT gperm_groupid FROM ' . $db->prefix('group_permission');
         if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
@@ -107,7 +107,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
             $criteria2->add(new Criteria('gperm_groupid', $gid), 'OR');
         }
         $criteria->add($criteria2);
-        $db     = XoopsDatabaseFactory::getDatabaseConnection();
+        $db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql    = 'SELECT gperm_itemid FROM ' . $db->prefix('group_permission');
         $sql    .= ' ' . $criteria->renderWhere();
         $result = $db->query($sql, 0, 0);

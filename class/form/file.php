@@ -27,7 +27,9 @@ require_once dirname(dirname(__DIR__)) . '/include/common.php';
 
 xoops_load('XoopsFormLoader');
 //todo: move to admin?
-xoops_loadLanguage('main', 'publisher');
+//xoops_loadLanguage('main', 'publisher');
+$helper = publisher\Helper::getInstance();
+$helper->loadLanguage('main');
 
 /**
  * Class PublisherFileForm

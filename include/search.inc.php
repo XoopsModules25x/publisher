@@ -87,7 +87,7 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
         }
     }
     xoops_load('XoopsUserUtility');
-    $usersNames = XoopsUserUtility::getUnameFromIds($usersIds, $helper->getConfig('format_realname'), true);
+    $usersNames = \XoopsUserUtility::getUnameFromIds($usersIds, $helper->getConfig('format_realname'), true);
     foreach ($ret as $key => $item) {
         if ('' == $item['author']) {
             $ret[$key]['author'] = isset($usersNames[$item['uid']]) ? $usersNames[$item['uid']] : '';

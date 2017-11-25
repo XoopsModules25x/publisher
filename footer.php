@@ -21,6 +21,9 @@
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
+require_once __DIR__ . '/include/common.php';
+
+
 $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
 //$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');

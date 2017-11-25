@@ -18,16 +18,18 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+
+use Xoopsmodules\publisher;
+
 require_once __DIR__ . '/../../../include/cp_header.php';
 //require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
-//require_once __DIR__ . '/../include/common.php';
-
-require_once __DIR__ . '/../class/utility.php';
+require_once __DIR__ . '/../include/common.php';
+//require_once __DIR__ . '/../class/utility.php';
 require_once __DIR__ . '/../include/config.php';
 
 $moduleDirName = basename(dirname(__DIR__));
-$helper = \Xmf\Module\Helper::getHelper($moduleDirName);
+$helper = publisher\Helper::getInstance();
 $adminObject = \Xmf\Module\Admin::getInstance();
 
 $pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);

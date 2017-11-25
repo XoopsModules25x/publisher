@@ -50,11 +50,11 @@ function publisher_pagewrap_upload(&$errors)
     $maxImageWidth  = $helper->getConfig('maximum_image_width');
     $maxImageHeight = $helper->getConfig('maximum_image_height');
 
-    if (!is_dir(PublisherUtility::getUploadDir(true, 'content'))) {
-        mkdir(PublisherUtility::getUploadDir(true, 'content'), 0757);
+    if (!is_dir(publisher\Utility::getUploadDir(true, 'content'))) {
+        mkdir(publisher\Utility::getUploadDir(true, 'content'), 0757);
     }
     $allowedMimeTypes = ['text/html', 'text/plain', 'application/xhtml+xml'];
-    $uploader         = new XoopsMediaUploader(PublisherUtility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
+    $uploader         = new XoopsMediaUploader(publisher\Utility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
     if ($uploader->fetchMedia($postField)) {
         $uploader->setTargetFileName($uploader->getMediaName());
         if ($uploader->upload()) {

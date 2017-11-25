@@ -18,8 +18,10 @@
 //  E-Mail: lusopoemas@gmail.com
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 require_once dirname(__DIR__) . '/header.php';
+$helper = publisher\Helper::getInstance();
 
 error_reporting(0);
 $xoopsLogger->activated = false;
@@ -31,7 +33,7 @@ header('Pragma: nocache');
 $rating = Request::getInt('rating', 0, 'GET');
 $itemid = Request::getInt('itemid', 0, 'GET');
 
-xoops_loadLanguage('main', PUBLISHER_DIRNAME);
+$helper->loadLanguage('main');
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 /* @var $gpermHandler XoopsGroupPermHandler */
 $gpermHandler = $helper->getHandler('groupperm');

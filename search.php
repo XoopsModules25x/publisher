@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 require_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');

@@ -14,6 +14,7 @@
  * @since           2.5.9
  * @author          Michael Beck (aka Mamba)
  */
+use Xoopsmodules\publisher;
 
 require_once __DIR__ . '/../../../mainfile.php';
 
@@ -29,8 +30,11 @@ switch ($op) {
 
 function loadSampleData()
 {
-    $moduleDirName = basename(dirname(__DIR__));
-    xoops_loadLanguage('admin', $moduleDirName);
+//    $moduleDirName = basename(dirname(__DIR__));
+//    xoops_loadLanguage('admin', $moduleDirName);
+    $helper = publisher\Helper::getInstance();
+    $helper->loadLanguage('admin');
+
     $items = \Xmf\Yaml::readWrapped('item-data.yml');
     $cat   = \Xmf\Yaml::readWrapped('cat-data.yml');
 

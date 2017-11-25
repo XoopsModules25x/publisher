@@ -19,9 +19,12 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 require_once __DIR__ . '/header.php';
-xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
+$helper = publisher\Helper::getInstance();
+$helper->loadLanguage('admin');
+//xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
 $op     = Request::getString('op', Request::getString('op', '', 'GET'), 'POST');
 $fileid = Request::getInt('fileid', Request::getInt('fileid', 0, 'GET'), 'POST');
@@ -42,7 +45,7 @@ if (!$fileObj) {
 $itemObj = $helper->getHandler('item')->get($fileObj->getVar('itemid'));
 
 // if the user does not have permission to modify this file, exit
-if (!(PublisherUtility::userIsAdmin() || PublisherUtility::userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
+if (!(publisher\Utility::userIsAdmin() || publisher\Utility::userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
     redirect_header('index.php', 1, _NOPERM);
     //    exit();
 }
@@ -97,7 +100,7 @@ switch ($op) {
         }
 
         if (!$helper->getHandler('file')->insert($fileObj)) {
-            redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . PublisherUtility::formatErrors($fileObj->getErrors()));
+            redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . publisher\Utility::formatErrors($fileObj->getErrors()));
             //            exit;
         }
 

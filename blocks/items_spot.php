@@ -56,7 +56,7 @@ function publisher_items_spot_show($options)
                 $category['name']        = $cat->name();
                 $category['categoryurl'] = $cat->getCategoryUrl();
                 if ('blank.png' !== $cat->getImage()) {
-                    $category['image_path'] = PublisherUtility::getImageDir('category', false) . $cat->getImage();
+                    $category['image_path'] = publisher\Utility::getImageDir('category', false) . $cat->getImage();
                 } else {
                     $category['image_path'] = '';
                 }
@@ -91,7 +91,7 @@ function publisher_items_spot_show($options)
                 }
                 if ($optTruncate > 0) {
                     $block['truncate'] = true;
-                    $item['summary']   = PublisherUtility::truncateTagSafe($item['summary'], $optTruncate);
+                    $item['summary']   = publisher\Utility::truncateTagSafe($item['summary'], $optTruncate);
                 }
                 $block['items'][] = $item;
                 ++$i;
@@ -126,7 +126,7 @@ function publisher_items_spot_edit($options)
     $form      = new PublisherBlockForm();
     $autoEle   = new XoopsFormRadioYN(_MB_PUBLISHER_AUTO_LAST_ITEMS, 'options[0]', $options[0]);
     $countEle  = new XoopsFormText(_MB_PUBLISHER_LAST_ITEMS_COUNT, 'options[1]', 2, 255, $options[1]);
-    $catEle    = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, PublisherUtility::createCategorySelect($options[2], 0, true, 'options[2]'));
+    $catEle    = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[2], 0, true, 'options[2]'));
     $helper = publisher\Helper::getInstance();
     $criteria  = new CriteriaCompo();
     $criteria->setSort('datesub');

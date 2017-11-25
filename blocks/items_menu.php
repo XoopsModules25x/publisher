@@ -84,7 +84,7 @@ function publisher_items_menu_edit($options)
 
     $form = new PublisherBlockForm();
 
-    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, PublisherUtility::createCategorySelect($options[0], 0, true, 'options[0]'));
+    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray([
                                   'datesub' => _MB_PUBLISHER_DATE,

@@ -19,34 +19,30 @@
  * @return bool
  */
 
+use Xoopsmodules\publisher;
+
+require_once __DIR__ . '/../class/Utility.php';
+
 /**
  * @param  XoopsModule $xoopsModule
  * @return bool
  */
 function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
 {
-    $moduleDirName = basename(dirname(__DIR__));
-    /** @var PublisherUtility $utilityClass */
-    $utilityClass = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($utilityClass)) {
-        xoops_load('utility', $moduleDirName);
-    }
-    //check for minimum XOOPS version
-    if (!$utilityClass::checkVerXoops($xoopsModule)) {
-        return false;
-    }
+    include __DIR__ . '/../preloads/autoloader.php';
+    /** @var \Utility $utility */
+    $utility = new \Xoopsmodules\publisher\Utility();
 
-    // check for minimum PHP version
-    if (!$utilityClass::checkVerPhp($xoopsModule)) {
-        return false;
-    }
+    $xoopsSuccess = publisher\Utility::checkVerXoops($module);
+    $phpSuccess   = publisher\Utility::checkVerPhp($module);
 
-    $modTables =& $xoopsModule->getInfo('tables');
-    foreach ($modTables as $table) {
-        $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
+    if (false !== $xoopsSuccess && false !==  $phpSuccess) {
+        $moduleTables =& $module->getInfo('tables');
+        foreach ($moduleTables as $table) {
+            $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
+        }
     }
-
-    return true;
+    return $xoopsSuccess && $phpSuccess;
 }
 
 /**
@@ -66,12 +62,9 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
     $helper->loadLanguage('admin');
     $helper->loadLanguage('modinfo');
 
-    $configurator = new PublisherConfigurator();
-    /** @var PublisherUtility $utilityClass */
-    $utilityClass = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($utilityClass)) {
-        xoops_load('utility', $moduleDirName);
-    }
+    $configurator = new publisher\Configurator();
+    /** @var \Utility $utility */
+    $utility = new publisher\Utility();
 
     //    $moduleDirName = $xoopsModule->getVar('dirname');
     //    require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
@@ -80,7 +73,7 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
     if (count($configurator->uploadFolders) > 0) {
         //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
         foreach (array_keys($configurator->uploadFolders) as $i) {
-            $utilityClass::createFolder($configurator->uploadFolders[$i]);
+            publisher\Utility::createFolder($configurator->uploadFolders[$i]);
         }
     }
 
@@ -89,19 +82,19 @@ function xoops_module_install_publisher(XoopsModule $xoopsModule)
         $file = __DIR__ . '/../assets/images/blank.png';
         foreach (array_keys($configurator->blankFiles) as $i) {
             $dest = $configurator->blankFiles[$i] . '/blank.png';
-            $utilityClass::copyFile($file, $dest);
+            publisher\Utility::copyFile($file, $dest);
         }
     }
 
     /*
         foreach (array_keys($uploadFolders) as $i) {
-            PublisherUtility::createFolder($uploadFolders[$i]);
+            publisher\Utility::createFolder($uploadFolders[$i]);
         }
 
         $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
         foreach (array_keys($blankFiles) as $i) {
             $dest = $blankFiles[$i] . '/blank.png';
-            PublisherUtility::copyFile($file, $dest);
+            publisher\Utility::copyFile($file, $dest);
         }
     */
 

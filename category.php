@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 require_once __DIR__ . '/header.php';
 
@@ -223,7 +224,7 @@ $xoopsTpl->assign('module_dirname', $helper->getDirname());
 $xoopsTpl->assign('lang_category_summary', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY, $categoryObj->name()));
 $xoopsTpl->assign('lang_category_summary_info', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY_INFO, $categoryObj->name()));
 $xoopsTpl->assign('lang_items_title', sprintf(_MD_PUBLISHER_ITEMS_TITLE, $categoryObj->name()));
-$xoopsTpl->assign('module_home', PublisherUtility::moduleHome($helper->getConfig('format_linked_path')));
+$xoopsTpl->assign('module_home', publisher\Utility::moduleHome($helper->getConfig('format_linked_path')));
 $xoopsTpl->assign('categoryPath', '<li>' . $category['categoryPath'] . '</li>');
 $xoopsTpl->assign('selected_category', $categoryid);
 

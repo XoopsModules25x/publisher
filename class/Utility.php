@@ -1,4 +1,4 @@
-<?php
+<?php namespace Xoopsmodules\publisher;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -22,16 +22,25 @@
 
 use Xmf\Request;
 use Xoopsmodules\publisher;
+use Xoopsmodules\publisher\common;
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/common/VersionChecks.php';
+require_once __DIR__ . '/common/ServerStats.php';
+require_once __DIR__ . '/common/FilesManagement.php';
 
-//namespace Publisher;
 
 /**
- * Class PublisherUtility
+ * Class Utility
  */
-class PublisherUtility
+class Utility
 {
+    use common\VersionChecks; //checkVerXoops, checkVerPhp Traits
+
+    use common\ServerStats; // getServerStats Trait
+
+    use common\FilesManagement; // Files Management Trait
+
+    //--------------- Custom module methods -----------------------------
 
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
@@ -172,10 +181,10 @@ class PublisherUtility
     }
 
     /**
-     * @param PublisherCategory $categoryObj
+     * @param \PublisherCategory $categoryObj
      * @param int               $level
      */
-    public static function displayCategory(PublisherCategory $categoryObj, $level = 0)
+    public static function displayCategory(\PublisherCategory $categoryObj, $level = 0)
     {
         $helper = publisher\Helper::getInstance();
 
@@ -879,13 +888,13 @@ class PublisherUtility
     }
 
     /**
-     * @param  null|PublisherCategory $categoryObj
+     * @param  null|\PublisherCategory $categoryObj
      * @param  int|array              $selectedid
      * @param  int                    $level
      * @param  string                 $ret
      * @return string
      */
-    public static function addCategoryOption(PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
+    public static function addCategoryOption(\PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
     {
         $helper = publisher\Helper::getInstance();
 
@@ -1227,7 +1236,7 @@ class PublisherUtility
         $ratingUnitWidth = 30;
         $units           = 5;
 
-        $criteria   = new Criteria('itemid', $itemId);
+        $criteria   = new \Criteria('itemid', $itemId);
         $ratingObjs = $helper->getHandler('rating')->getObjects($criteria);
         unset($criteria);
 
@@ -1257,7 +1266,7 @@ class PublisherUtility
         /* @var $gpermHandler XoopsGroupPermHandler */
         $gpermHandler = $helper->getHandler('groupperm');
 
-        if (!$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
+        if (!$gpermHandler->checkRight('global', \PublisherConstants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
             $staticRater   = [];
             $staticRater[] .= "\n" . '<div class="publisher_ratingblock">';
             $staticRater[] .= '<div id="unit_long' . $itemId . '">';
@@ -1308,7 +1317,7 @@ class PublisherUtility
         $ret    = [];
         $nohtml = false;
         xoops_load('XoopsEditorHandler');
-        $editorHandler = XoopsEditorHandler::getInstance();
+        $editorHandler = \XoopsEditorHandler::getInstance();
         $editors       = array_flip($editorHandler->getList());//$editorHandler->getList($nohtml);
         foreach ($editors as $name => $title) {
             $key = static::stringToInt($name);
@@ -1369,16 +1378,16 @@ class PublisherUtility
      *
      * Verifies XOOPS version meets minimum requirements for this module
      * @static
-     * @param XoopsModule $module
+     * @param \XoopsModule $module
      *
      * @param null|string $requiredVer
      * @return bool true if meets requirements, false if not
      */
-    public static function checkVerXoops(XoopsModule $module = null, $requiredVer = null)
+    public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
     {
         $moduleDirName = basename(dirname(__DIR__));
         if (null === $module) {
-            $module = XoopsModule::getByDirname($moduleDirName);
+            $module = \XoopsModule::getByDirname($moduleDirName);
         }
         xoops_loadLanguage('admin', $moduleDirName);
 

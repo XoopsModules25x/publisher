@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
@@ -33,9 +34,9 @@ $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 if ('start' === $op) {
     xoops_load('XoopsFormLoader');
 
-    PublisherUtility::cpHeader();
+    publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    PublisherUtility::openCollapsableBar('xnewsimport', 'xnewsimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
+    publisher\Utility::openCollapsableBar('xnewsimport', 'xnewsimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('nw_topics'));
     list($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
@@ -153,15 +154,15 @@ if ('start' === $op) {
         }
     }
 
-    PublisherUtility::closeCollapsableBar('xnewsimport', 'xnewsimporticon');
+    publisher\Utility::closeCollapsableBar('xnewsimport', 'xnewsimporticon');
     xoops_cp_footer();
 }
 
 if ('go' === $op) {
-    PublisherUtility::cpHeader();
+    publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     require_once dirname(dirname(__DIR__)) . '/include/common.php';
-    PublisherUtility::openCollapsableBar('xnewsimportgo', 'xnewsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
+    publisher\Utility::openCollapsableBar('xnewsimportgo', 'xnewsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /* @var  $moduleHandler XoopsModuleHandler */
     $moduleHandler   = xoops_getHandler('module');
     $moduleObj       = $moduleHandler->getByDirname('xnews');
@@ -262,7 +263,7 @@ if ('go' === $op) {
         //copy all images to Image Manager
         $src = $GLOBALS['xoops']->path('uploads/xnews/topics/');
         $dst = $GLOBALS['xoops']->path('uploads');
-        PublisherUtility::recurseCopy($src, $dst);
+        publisher\Utility::recurseCopy($src, $dst);
 
         //populate the Image Manager with images from xNews articles (by Bleekk)
 
@@ -382,12 +383,12 @@ if ('go' === $op) {
 
         // Saving category permissions
         $groupsIds = $gpermHandler->getGroupIds('nw_view', $arrCat['topic_id'], $xnews_module_id);
-        PublisherUtility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
+        publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
         $groupsIds = $gpermHandler->getGroupIds('nw_submit', $arrCat['topic_id'], $xnews_module_id);
-        PublisherUtility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
+        publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         $groupsIds = $gpermHandler->getGroupIds('nw_approve', $arrCat['topic_id'], $xnews_module_id);
-        PublisherUtility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_moderation');
+        publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_moderation');
 
         $newCatArray[$newCat['oldid']] = $newCat;
         unset($newCat);
@@ -437,6 +438,6 @@ if ('go' === $op) {
     echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br>';
     echo "<br><a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br>';
 
-    PublisherUtility::closeCollapsableBar('xnewsimportgo', 'xnewsimportgoicon');
+    publisher\Utility::closeCollapsableBar('xnewsimportgo', 'xnewsimportgoicon');
     xoops_cp_footer();
 }

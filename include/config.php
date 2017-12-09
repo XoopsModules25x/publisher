@@ -33,7 +33,6 @@ if (!defined($capsDirName . '_DIRNAME')) {
     define($capsDirName . '_ROOT_PATH',  constant($capsDirName . '_PATH'));
     define($capsDirName . '_AUTHOR_LOGOIMG', constant($capsDirName . '_URL') . '/assets/images/logoModule.png');
 
-
     define($capsDirName . '_IMAGES_URL', constant($capsDirName . '_URL') . '/assets/images');
     define($capsDirName . '_ADMIN_URL', constant($capsDirName . '_URL') . '/admin');
     define($capsDirName . '_ADMIN_PATH', constant($capsDirName . '_PATH') . '/admin/index.php');

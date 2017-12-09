@@ -13,10 +13,6 @@
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author          luciorota <lucio.rota@gmail.com>
- *
- * @param $xoopsModule
- *
- * @return bool
  */
 
 use Xoopsmodules\publisher;
@@ -24,13 +20,13 @@ use Xoopsmodules\publisher;
 require_once __DIR__ . '/../class/Utility.php';
 
 /**
- * @param  XoopsModule $xoopsModule
+ * @param  \XoopsModule $module
  * @return bool
  */
-function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
+function xoops_module_pre_install_publisher(\XoopsModule $module)
 {
     include __DIR__ . '/../preloads/autoloader.php';
-    /** @var \Utility $utility */
+        /** @var \Xoopsmodules\publisher\Utility $utility */
     $utility = new \Xoopsmodules\publisher\Utility();
 
     $xoopsSuccess = publisher\Utility::checkVerXoops($module);
@@ -46,27 +42,28 @@ function xoops_module_pre_install_publisher(XoopsModule $xoopsModule)
 }
 
 /**
- * @param $xoopsModule
+ * @param \XoopsModule $module
  *
  * @return bool|string
  */
-function xoops_module_install_publisher(XoopsModule $xoopsModule)
+function xoops_module_install_publisher(\XoopsModule $module)
 {
     require_once __DIR__ . '/../../../mainfile.php';
     require_once __DIR__ . '/../include/config.php';
 
     $moduleDirName = basename(dirname(__DIR__));
-    $helper = \Xmf\Module\Helper::getHelper($moduleDirName);
+//    $helper = \Xmf\Module\Helper::getHelper($moduleDirName);
+    $helper = \Xoopsmodules\publisher\Helper::getInstance();
 
     // Load language files
     $helper->loadLanguage('admin');
     $helper->loadLanguage('modinfo');
 
     $configurator = new publisher\Configurator();
-    /** @var \Utility $utility */
+    /** @var \Xoopsmodules\publisher\Utility $utility */
     $utility = new publisher\Utility();
 
-    //    $moduleDirName = $xoopsModule->getVar('dirname');
+    //    $moduleDirName = $module->getVar('dirname');
     //    require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
 
     //  ---  CREATE FOLDERS ---------------

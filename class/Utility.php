@@ -741,7 +741,7 @@ class Utility
     /**
      * Saves permissions for the selected category
      *
-     * @param  array   $groups     : group with granted permission
+     * @param  null|array   $groups     : group with granted permission
      * @param  integer $categoryId : categoryid on which we are setting permissions
      * @param  string  $permName   : name of the permission
      * @return boolean : TRUE if the no errors occured
@@ -1410,11 +1410,11 @@ class Utility
      *
      * Verifies PHP version meets minimum requirements for this module
      * @static
-     * @param XoopsModule $module
+     * @param \XoopsModule $module
      *
      * @return bool true if meets requirements, false if not
      */
-    public static function checkVerPhp(XoopsModule $module)
+    public static function checkVerPhp(\XoopsModule $module)
     {
         xoops_loadLanguage('admin', $module->dirname());
         // check for minimum PHP version

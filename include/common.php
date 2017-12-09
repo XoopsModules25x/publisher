@@ -26,6 +26,7 @@ $moduleDirName = basename(dirname(__DIR__));
 
 require_once __DIR__ . '/../class/Helper.php';
 require_once __DIR__ . '/../class/Utility.php';
+require_once __DIR__ . '/../class/Configurator.php';
 
 $db = \XoopsDatabaseFactory::getDatabase();
 
@@ -96,7 +97,6 @@ $icons = [
     'delete'  => "<img src='" . $pathIcon16 . "/delete.png' alt='" . _DELETE . "' align='middle'>",
     'clone'   => "<img src='" . $pathIcon16 . "/editcopy.png' alt='" . _CLONE . "' align='middle'>",
     'preview' => "<img src='" . $pathIcon16 . "/view.png' alt='" . _PREVIEW . "' align='middle'>",
-
     'print' => "<img src='" . $pathIcon16 . "/printer.png' alt='" . _CLONE . "' align='middle'>",
     'pdf'   => "<img src='" . $pathIcon16 . "/pdf.png' alt='" . _CLONE . "' align='middle'>",
     //    'add'     => "<img src='" . $pathIcon16 . "/add.png' alt='" . _ADD . "' align='middle'>",
@@ -108,7 +108,7 @@ $debug = false;
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)) {
     require_once $GLOBALS['xoops']->path('class/template.php');
-    $xoopsTpl = new \XoopsTpl();
+    $GLOBALS['xoopsTpl'] = new \XoopsTpl();
 }
 
 $GLOBALS['xoopsTpl']->assign('mod_url', XOOPS_URL . '/modules/' . $moduleDirName);

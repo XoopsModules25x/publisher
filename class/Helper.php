@@ -19,25 +19,30 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
+defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+
+/**
+ * Class Helper
+ */
 class Helper extends \Xmf\Module\Helper
 {
-    public $debugArray = [];
+    public $debug;
 
     /**
      * @internal param $debug
+     * @param bool $debug
      */
-    protected function __construct()
+    protected function __construct($debug = false)
     {
-        //        $this->debug   = $debug;
+        $this->debug   = $debug;
         $this->dirname = basename(dirname(__DIR__));
     }
 
     /**
      * @param bool $debug
      *
-     * @return \Xoopsmodules\publisher\Helper
+     * @return \Helper
      */
     public static function getInstance($debug = false)
     {
@@ -48,6 +53,7 @@ class Helper extends \Xmf\Module\Helper
 
         return $instance;
     }
+
 
     /**
      * @param null|string $name

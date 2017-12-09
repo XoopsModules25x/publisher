@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
@@ -53,9 +54,9 @@ $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 if ('start' === $op) {
     xoops_load('XoopsFormLoader');
 
-    PublisherUtility::cpHeader();
+    publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    PublisherUtility::openCollapsableBar('cjaycontentimport', 'cjaycontentimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
+    publisher\Utility::openCollapsableBar('cjaycontentimport', 'cjaycontentimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('cjaycontent'));
     list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
@@ -78,15 +79,15 @@ if ('start' === $op) {
     }
     //    }
 
-    PublisherUtility::closeCollapsableBar('cjaycontentimport', 'cjaycontentimporticon');
+    publisher\Utility::closeCollapsableBar('cjaycontentimport', 'cjaycontentimporticon');
     xoops_cp_footer();
 }
 
 if ('go' === $op) {
-    PublisherUtility::cpHeader();
+    publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     require_once dirname(dirname(__DIR__)) . '/include/common.php';
-    PublisherUtility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
+    publisher\Utility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /* @var  $moduleHandler XoopsModuleHandler */
     $moduleHandler         = xoops_getHandler('module');
     $moduleObj             = $moduleHandler->getByDirname('cjaycontent');
@@ -105,7 +106,7 @@ if ('go' === $op) {
     while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
         // insert article
         /** @var PublisherItem $itemObj */
-        $itemObj = $publisher->getHandler('item')->create();
+        $itemObj = $helper->getHandler('item')->create();
         $itemObj->setVar('itemid', $arrArticle['id']);
         //      $itemObj->setVar('categoryid', $categoryObj->categoryid());
         $itemObj->setVar('title', $arrArticle['title']);
@@ -158,7 +159,7 @@ if ('go' === $op) {
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
 
-    $publisher_module_id = $publisher->getModule()->mid();
+    $publisher_module_id = $helper->getModule()->mid();
     /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
@@ -182,6 +183,6 @@ if ('go' === $op) {
     echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br>';
     echo "<br><a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br>';
 
-    PublisherUtility::closeCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon');
+    publisher\Utility::closeCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon');
     xoops_cp_footer();
 }

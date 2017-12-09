@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
@@ -33,9 +34,9 @@ $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 if ('start' === $op) {
     xoops_load('XoopsFormLoader');
 
-    PublisherUtility::cpHeader();
+    publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    PublisherUtility::openCollapsableBar('xfsectionimport', 'xfsectionimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
+    publisher\Utility::openCollapsableBar('xfsectionimport', 'xfsectionimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_category'));
     list($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
@@ -87,14 +88,14 @@ if ('start' === $op) {
         }
     }
 
-    PublisherUtility::closeCollapsableBar('xfsectionimport', 'xfsectionimporticon');
+    publisher\Utility::closeCollapsableBar('xfsectionimport', 'xfsectionimporticon');
     xoops_cp_footer();
 }
 
 if ('go' === $op) {
-    PublisherUtility::cpHeader();
+    publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    PublisherUtility::openCollapsableBar('xfsectionimportgo', 'xfsectionimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
+    publisher\Utility::openCollapsableBar('xfsectionimportgo', 'xfsectionimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
@@ -108,7 +109,7 @@ if ('go' === $op) {
     $newCatArray = [];
     while (false !== ($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat))) {
         /* @var  $categoryObj PublisherCategory */
-        $categoryObj = $publisher->getHandler('category')->create();
+        $categoryObj = $helper->getHandler('category')->create();
 
         $newCat = [];
 
@@ -137,8 +138,8 @@ if ('go' === $op) {
 
         $newCat['newid'] = $categoryObj->categoryid();
         // Saving category permissions
-        PublisherUtility::saveCategoryPermissions($categoryObj->getGroupsRead(), $categoryObj->categoryid(), 'category_read');
-        PublisherUtility::saveCategoryPermissions($categoryObj->getGroupsSubmit(), $categoryObj->categoryid(), 'item_submit');
+        publisher\Utility::saveCategoryPermissions($categoryObj->getGroupsRead(), $categoryObj->categoryid(), 'category_read');
+        publisher\Utility::saveCategoryPermissions($categoryObj->getGroupsSubmit(), $categoryObj->categoryid(), 'item_submit');
 
         ++$cnt_imported_cat;
 
@@ -149,7 +150,7 @@ if ('go' === $op) {
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
             /** @var PublisherItem $itemObj */
-            $itemObj = $publisher->getHandler('item')->create();
+            $itemObj = $helper->getHandler('item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
             $itemObj->setVar('title', $arrArticle['title']);
@@ -196,7 +197,7 @@ if ('go' === $op) {
                     if (file_exists($filename)) {
                         if (copy($filename, PUBLISHER_UPLOAD_PATH . '/' . $arrFile['filerealname'])) {
                             /** @var PublisherFile $fileObj */
-                            $fileObj = $publisher->getHandler('file')->create();
+                            $fileObj = $helper->getHandler('file')->create();
                             $fileObj->setVar('name', $arrFile['fileshowname']);
                             $fileObj->setVar('description', $arrFile['filedescript']);
                             $fileObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
@@ -233,7 +234,7 @@ if ('go' === $op) {
         } else {
             $newpid = $newCatArray[$oldpid]['newid'];
         }
-        $publisher->getHandler('category')->updateAll('parentid', $newpid, $criteria);
+        $helper->getHandler('category')->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
     unset($oldid, $newCat);
@@ -245,7 +246,7 @@ if ('go' === $op) {
     $moduleObj      = $moduleHandler->getByDirname('xfsection');
     $news_module_id = $moduleObj->getVar('mid');
 
-    $publisher_module_id = $publisher->getModule()->mid();
+    $publisher_module_id = $helper->getModule()->mid();
     /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new CriteriaCompo();
@@ -269,6 +270,6 @@ if ('go' === $op) {
     echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br>';
     echo "<br><a href='" . PUBLISHER_URL . "'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br>';
 
-    PublisherUtility::closeCollapsableBar('xfsectionimportgo', 'xfsectionimportgoicon');
+    publisher\Utility::closeCollapsableBar('xfsectionimportgo', 'xfsectionimportgoicon');
     xoops_cp_footer();
 }

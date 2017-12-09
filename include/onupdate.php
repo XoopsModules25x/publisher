@@ -16,6 +16,14 @@
  *
  */
 
+use Xoopsmodules\publisher;
+
+if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)
+    || !$GLOBALS['xoopsUser']->IsAdmin()
+) {
+    exit('Restricted access' . PHP_EOL);
+}
+
 /**
  *
  * Prepares system prior to attempting to install module
@@ -26,24 +34,13 @@
 function xoops_module_pre_update_publisher(XoopsModule $module)
 {
     $moduleDirName = basename(dirname(__DIR__));
+    /** @var \Utility $utility */
+    $utility = new publisher\Utility();
 
-    $className = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($className)) {
-        xoops_load('utility', $moduleDirName);
-    }
-    //check for minimum XOOPS version
-    if (!$className::checkVerXoops($module)) {
-        return false;
-    }
-
-    // check for minimum PHP version
-    if (!$className::checkVerPhp($module)) {
-        return false;
-    }
-
-    return true;
+    $xoopsSuccess = publisher\Utility::checkVerXoops($module);
+    $phpSuccess   = publisher\Utility::checkVerPhp($module);
+    return $xoopsSuccess && $phpSuccess;
 }
-
 /**
  *
  * Performs tasks required during update of the module
@@ -60,23 +57,19 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
     require_once __DIR__ . '/../include/config.php';
 
     $moduleDirName = basename(dirname(__DIR__));
+    $helper      = \Xmf\Module\Helper::getHelper($moduleDirName);
+    /** @var \Utility $utility */
+    $utility = new \Xoopsmodules\publisher\Utility();
 
-    if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
-    } else {
-        $moduleHelper = Xmf\Module\Helper::getHelper('system');
-    }
 
     // Load language files
-    $moduleHelper->loadLanguage('admin');
-    $moduleHelper->loadLanguage('modinfo');
+    $helper->loadLanguage('admin');
+    $helper->loadLanguage('modinfo');
 
     xoops_load('configurator', $moduleDirName);
-    $configurator = new PublisherConfigurator();
-    /** @var PublisherUtility $utilityClass */
-    $utilityClass = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($utilityClass)) {
-        xoops_load('utility', $moduleDirName);
-    }
+    $configurator = new publisher\Configurator();
+    /** @var \Utility $utility */
+    $utility = new publisher\Utility();
 
     //delete .html entries from the tpl table
     $sql = 'DELETE FROM ' . $xoopsDB->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
@@ -95,11 +88,8 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
         $xoopsDB->queryF($sql);
         $sql = '    ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' MODIFY `meta_description` TEXT NULL';
         $xoopsDB->queryF($sql);
-        /** @var PublisherUtility $utilityClass */
-        $utilityClass = ucfirst($moduleDirName) . 'Utility';
-        if (!class_exists($utilityClass)) {
-            xoops_load('utility', $moduleDirName);
-        }
+        /** @var \Utility $utility */
+        $utility = new publisher\Utility();
 
         //delete old HTML templates
         if (count($configurator->templateFolders) > 0) {
@@ -137,7 +127,7 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
             foreach (array_keys($configurator->oldFolders) as $i) {
                 $tempFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator->oldFolders[$i]);
                 /** @var XoopsObjectHandler $folderHandler */
-                $folderHandler = XoopsFile::getHandler('folder', $tempFolder);
+                $folderHandler = \XoopsFile::getHandler('folder', $tempFolder);
                 $folderHandler->delete($tempFolder);
             }
         }
@@ -146,7 +136,7 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
         if (count($configurator->uploadFolders) > 0) {
             //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
             foreach (array_keys($configurator->uploadFolders) as $i) {
-                $utilityClass::createFolder($configurator->uploadFolders[$i]);
+                publisher\Utility::createFolder($configurator->uploadFolders[$i]);
             }
         }
 
@@ -155,7 +145,7 @@ function xoops_module_update_publisher(XoopsModule $module, $previousVersion = n
             $file = __DIR__ . '/../assets/images/blank.png';
             foreach (array_keys($configurator->blankFiles) as $i) {
                 $dest = $configurator->blankFiles[$i] . '/blank.png';
-                $utilityClass::copyFile($file, $dest);
+                publisher\Utility::copyFile($file, $dest);
             }
         }
 

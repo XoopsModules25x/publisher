@@ -19,6 +19,9 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
+
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -31,14 +34,14 @@ class PublisherPermissionHandler extends XoopsObjectHandler
      * @var Publisher
      * @access public
      */
-    public $publisher;
+    public $helper;
 
     /**
      *
      */
     public function __construct()
     {
-        $this->publisher = Publisher::getInstance();
+        $this->publisher = publisher\Helper::getInstance();
     }
 
     /**
@@ -61,7 +64,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
         $criteria->add(new Criteria('gperm_name', $gpermName));
         $criteria->add(new Criteria('gperm_itemid', $id));
         //Instead of calling groupperm handler and get objects, we will save some memory and do it our way
-        $db    = XoopsDatabaseFactory::getDatabaseConnection();
+        $db    = \XoopsDatabaseFactory::getDatabaseConnection();
         $limit = $start = 0;
         $sql   = 'SELECT gperm_groupid FROM ' . $db->prefix('group_permission');
         if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
@@ -104,7 +107,7 @@ class PublisherPermissionHandler extends XoopsObjectHandler
             $criteria2->add(new Criteria('gperm_groupid', $gid), 'OR');
         }
         $criteria->add($criteria2);
-        $db     = XoopsDatabaseFactory::getDatabaseConnection();
+        $db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql    = 'SELECT gperm_itemid FROM ' . $db->prefix('group_permission');
         $sql    .= ' ' . $criteria->renderWhere();
         $result = $db->query($sql, 0, 0);

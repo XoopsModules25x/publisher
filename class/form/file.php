@@ -19,13 +19,17 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
 require_once dirname(dirname(__DIR__)) . '/include/common.php';
 
 xoops_load('XoopsFormLoader');
 //todo: move to admin?
-xoops_loadLanguage('main', 'publisher');
+//xoops_loadLanguage('main', 'publisher');
+$helper = publisher\Helper::getInstance();
+$helper->loadLanguage('main');
 
 /**
  * Class PublisherFileForm
@@ -36,7 +40,7 @@ class PublisherFileForm extends XoopsThemeForm
      * @var Publisher
      * @access public
      */
-    public $publisher;
+    public $helper;
 
     public $targetObject;
 
@@ -45,7 +49,7 @@ class PublisherFileForm extends XoopsThemeForm
      */
     public function __construct(&$target)
     {
-        $this->publisher    = Publisher::getInstance();
+        $this->publisher    = publisher\Helper::getInstance();
         $this->targetObject =& $target;
 
         parent::__construct(_AM_PUBLISHER_UPLOAD_FILE, 'form', xoops_getenv('PHP_SELF'), 'post', true);

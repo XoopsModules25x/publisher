@@ -16,6 +16,9 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
+
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
@@ -35,7 +38,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_search($queryArray, $andor, $limit, $offset, $userid, $categories = [], $sortby = 0, $searchin = '', $extra = '')
 {
-    $publisher = Publisher::getInstance();
+    $helper = publisher\Helper::getInstance();
     $ret       = $item = [];
     if ('' == $queryArray || 0 == count($queryArray)) {
         $hightlightKey = '';
@@ -43,8 +46,8 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
         $keywords      = implode('+', $queryArray);
         $hightlightKey = '&amp;keywords=' . $keywords;
     }
-    $itemsObjs        = $publisher->getHandler('item')->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
-    $withCategoryPath = $publisher->getConfig('search_cat_path');
+    $itemsObjs        = $helper->getHandler('item')->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
+    $withCategoryPath = $helper->getConfig('search_cat_path');
     //xoops_load("xoopslocal");
     $usersIds = [];
     if (0 !== count($itemsObjs)) {
@@ -67,7 +70,7 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
 
             if ('' != $queryArray[0] && count($queryArray) > 0) {
                 foreach ($queryArray as $query) {
-                    $pos           = strpos($textLower, strtolower($query)); //xoops_local("strpos", $textLower, strtolower($query));
+                    $pos           = stripos($textLower, $query); //xoops_local("strpos", $textLower, strtolower($query));
                     $start         = max($pos - 100, 0);
                     $length        = strlen($query) + 200; //xoops_local("strlen", $query) + 200;
                     $context       = $obj->highlight(xoops_substr($text, $start, $length, ' [...]'), $query);
@@ -77,14 +80,14 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
             //End of highlight
             $item['text']          = $sanitizedText;
             $item['author']        = $obj->author_alias();
-            $item['datesub']       = $obj->getDatesub($publisher->getConfig('format_date'));
+            $item['datesub']       = $obj->getDatesub($helper->getConfig('format_date'));
             $usersIds[$obj->uid()] = $obj->uid();
             $ret[]                 = $item;
             unset($item, $sanitizedText);
         }
     }
     xoops_load('XoopsUserUtility');
-    $usersNames = XoopsUserUtility::getUnameFromIds($usersIds, $publisher->getConfig('format_realname'), true);
+    $usersNames = \XoopsUserUtility::getUnameFromIds($usersIds, $helper->getConfig('format_realname'), true);
     foreach ($ret as $key => $item) {
         if ('' == $item['author']) {
             $ret[$key]['author'] = isset($usersNames[$item['uid']]) ? $usersNames[$item['uid']] : '';

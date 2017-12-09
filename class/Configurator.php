@@ -1,4 +1,5 @@
-<?php
+<?php namespace Xoopsmodules\publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -19,14 +20,15 @@
  *
  */
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
+require_once __DIR__ . '/../include/config.php';
 
 //namespace Publisher;
 
 /**
- * Class PublisherConfigurator
+ * Class Configurator
  */
-class PublisherConfigurator
+class Configurator
 {
     public $uploadFolders   = [];
     public $blankFiles      = [];
@@ -36,7 +38,7 @@ class PublisherConfigurator
     public $name;
 
     /**
-     * PublisherConfigurator constructor.
+     * Configurator constructor.
      */
     public function __construct()
     {

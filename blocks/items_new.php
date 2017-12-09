@@ -19,6 +19,8 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
@@ -30,7 +32,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_items_new_show($options)
 {
-    $publisher = Publisher::getInstance();
+    $helper = publisher\Helper::getInstance();
 
     $selectedcatids = explode(',', $options[0]);
 
@@ -41,7 +43,7 @@ function publisher_items_new_show($options)
     }
 
     $sort  = $options[1];
-    $order = PublisherUtility::getOrderBy($sort);
+    $order = publisher\Utility::getOrderBy($sort);
     $limit = $options[3];
     $start = 0;
     $image = $options[5];
@@ -53,7 +55,7 @@ function publisher_items_new_show($options)
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
     }
-    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
+    $itemsObj = $helper->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
 
     $totalitems = count($itemsObj);
     if ($itemsObj && $totalitems > 0) {
@@ -139,7 +141,7 @@ function publisher_items_new_edit($options)
 
     $form = new PublisherBlockForm();
 
-    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, PublisherUtility::createCategorySelect($options[0], 0, true, 'options[0]'));
+    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray([
                                   'datesub'  => _MB_PUBLISHER_DATE,

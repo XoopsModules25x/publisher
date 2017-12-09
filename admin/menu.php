@@ -20,19 +20,17 @@
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
+use Xoopsmodules\publisher;
+
+require_once __DIR__ . '/../class/Helper.php';
+//require_once __DIR__ . '/../include/common.php';
+
 $moduleDirName = basename(dirname(__DIR__));
 
-if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
-} else {
-    $moduleHelper = Xmf\Module\Helper::getHelper('system');
-}
+$helper = \Xoopsmodules\publisher\Helper::getInstance();
 
-
-$pathIcon32    = \Xmf\Module\Admin::menuIconPath('');
-$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
-
-$moduleHelper->loadLanguage('modinfo');
-$moduleHelper->loadLanguage('admin');
+$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
 require_once dirname(__DIR__) . '/include/config.php';
 

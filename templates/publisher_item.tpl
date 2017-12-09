@@ -194,12 +194,12 @@
 
 <script type="text/javascript">
     <!--//<![CDATA[
-    $publisher(document).ready(function () {
+    $helper(document).ready(function () {
         var options = {
             caption: 'permanent'
         };
 
-        $publisher('#ppy3').popeye(options);
+        $helper('#ppy3').popeye(options);
     });
     //]]>-->
 </script>

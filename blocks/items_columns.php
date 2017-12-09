@@ -19,6 +19,8 @@
  * @author          Bandit-x
  */
 
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
@@ -33,7 +35,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_columns_show($options)
 {
     //    global $xoTheme;
-    $publisher = Publisher::getInstance();
+    $helper = publisher\Helper::getInstance();
 
     //Column Settings
     $optNumColumns  = isset($options[0]) ? (int)$options[0] : '2';
@@ -49,7 +51,7 @@ function publisher_items_columns_show($options)
     $selCategoriesObj = [];
 
     //get permited categories only once
-    $categoriesObj = $publisher->getHandler('category')->getCategories(0, 0, -1);
+    $categoriesObj = $helper->getHandler('category')->getCategories(0, 0, -1);
 
     //if not selected 'all', let's get the selected ones
     if (!in_array(0, $selCategories)) {
@@ -77,7 +79,7 @@ function publisher_items_columns_show($options)
     $columns = $mainItem = $subItem = [];
 
     foreach ($selCategoriesObj as $categoryId => $mainItemCatObj) {
-        $categoryItemsObj = $publisher->getHandler('item')->getAllPublished($optCatItems, 0, $categoryId);
+        $categoryItemsObj = $helper->getHandler('item')->getAllPublished($optCatItems, 0, $categoryId);
         $scount           = count($categoryItemsObj);
         if ($scount > 0 && is_array($categoryItemsObj)) {
             reset($categoryItemsObj);
@@ -157,7 +159,7 @@ function publisher_items_columns_edit($options)
                                 '4' => 4,
                                 '5' => 5
                             ]);
-    $catEle      = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, PublisherUtility::createCategorySelect($options[1], 0, true, 'options[1]'));
+    $catEle      = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[1], 0, true, 'options[1]'));
     $cItemsEle   = new XoopsFormText(_MB_PUBLISHER_NUMBER_ITEMS_CAT, 'options[2]', 4, 255, $options[2]);
     $truncateEle = new XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[3]', 4, 255, $options[3]);
 

@@ -18,14 +18,16 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use Xoopsmodules\publisher;
+
 require_once __DIR__ . '/admin_header.php';
 
-PublisherUtility::cpHeader();
+publisher\Utility::cpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_ITEMS . " > " . _AM_PUBLISHER_PAGEWRAP);
 
-PublisherUtility::openCollapsableBar('pagewraptable', 'pagewrapicon', _AM_PUBLISHER_PAGEWRAP, _AM_PUBLISHER_PAGEWRAPDSC);
+publisher\Utility::openCollapsableBar('pagewraptable', 'pagewrapicon', _AM_PUBLISHER_PAGEWRAP, _AM_PUBLISHER_PAGEWRAPDSC);
 
-$dir = PublisherUtility::getUploadDir(true, 'content');
+$dir = publisher\Utility::getUploadDir(true, 'content');
 
 if (false !== strpos(decoct(fileperms($dir)), '777')) {
     echo "<span style='color:#ff0000;'><h4>" . _AM_PUBLISHER_PERMERROR . '</h4></span>';
@@ -43,7 +45,7 @@ echo '</form>';
 // Delete File
 $form = new XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
 
-$pWrapSelect = new XoopsFormSelect(PublisherUtility::getUploadDir(true, 'content'), 'address');
+$pWrapSelect = new XoopsFormSelect(publisher\Utility::getUploadDir(true, 'content'), 'address');
 $folder      = dir($dir);
 while ($file == $folder->read()) {
     if ('.' !== $file && '..' !== $file) {
@@ -59,6 +61,6 @@ $submit = new XoopsFormButton('', 'submit', _AM_PUBLISHER_BUTTON_DELETE, 'submit
 $form->addElement($submit);
 $form->display();
 
-PublisherUtility::closeCollapsableBar('pagewraptable', 'pagewrapicon');
+publisher\Utility::closeCollapsableBar('pagewraptable', 'pagewrapicon');
 
 require_once __DIR__ . '/admin_footer.php';

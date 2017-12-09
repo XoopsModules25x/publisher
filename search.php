@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 require_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
@@ -33,10 +34,10 @@ if (empty($xoopsConfigSearch['enable_search'])) {
 
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $gpermHandler = xoops_getModuleHandler('groupperm', PUBLISHER_DIRNAME);
-$module_id    = $publisher->getModule()->mid();
+$module_id    = $helper->getModule()->mid();
 
 //Checking permissions
-if (!$publisher->getConfig('perm_search') || !$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_SEARCH, $groups, $module_id)) {
+if (!$helper->getConfig('perm_search') || !$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_SEARCH, $groups, $module_id)) {
     redirect_header(PUBLISHER_URL, 2, _NOPERM);
     //    exit();
 }
@@ -45,10 +46,10 @@ $GLOBALS['xoopsConfig']['module_cache'][$module_id] = 0;
 $GLOBALS['xoopsOption']['template_main']            = 'publisher_search.tpl';
 include $GLOBALS['xoops']->path('header.php');
 
-$module_info_search = $publisher->getModule()->getInfo('search');
+$module_info_search = $helper->getModule()->getInfo('search');
 require_once PUBLISHER_ROOT_PATH . '/' . $module_info_search['file'];
 
-$limit    = 10; //$publisher->getConfig('idxcat_perpage');
+$limit    = 10; //$helper->getConfig('idxcat_perpage');
 $uid      = 0;
 $queries  = [];
 $andor    = Request::getString('andor', '', 'POST');
@@ -120,9 +121,8 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     $next_search['sortby']   = $sortby;
     $next_search['searchin'] = implode('|', $searchin);
 
+    $extra = '';
     if (!empty($time)) {
-        $extra = '';
-    } else {
         $extra = '';
     }
 
@@ -197,7 +197,7 @@ $typeSelect .= '>' . _SR_EXACT . '</option>';
 $typeSelect .= '</select>';
 
 /* category */
-$categories = $publisher->getHandler('category')->getCategoriesForSearch();
+$categories = $helper->getHandler('category')->getCategoriesForSearch();
 
 $categorySelect = '<select name="category[]" size="5" multiple="multiple">';
 $categorySelect .= '<option value="all"';
@@ -279,8 +279,8 @@ $xoopsTpl->assign('sortby_select', $sortbySelect);
 $xoopsTpl->assign('search_term', htmlspecialchars($term, ENT_QUOTES));
 $xoopsTpl->assign('search_user', $username);
 
-$xoopsTpl->assign('modulename', $publisher->getModule()->name());
-$xoopsTpl->assign('module_dirname', $publisher->getDirname());
+$xoopsTpl->assign('modulename', $helper->getModule()->name());
+$xoopsTpl->assign('module_dirname', $helper->getDirname());
 
 if ($xoopsConfigSearch['keyword_min'] > 0) {
     $xoopsTpl->assign('search_rule', sprintf(_SR_KEYIGNORE, $xoopsConfigSearch['keyword_min']));

@@ -30,8 +30,16 @@ if (!defined($capsDirName . '_DIRNAME')) {
     define($capsDirName . '_PATH', XOOPS_ROOT_PATH . '/modules/' . constant($capsDirName . '_DIRNAME'));
     define($capsDirName . '_URL', XOOPS_URL . '/modules/' . constant($capsDirName . '_DIRNAME'));
     define($capsDirName . '_ADMIN', constant($capsDirName . '_URL') . '/admin/index.php');
-    define($capsDirName . '_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . constant($capsDirName . '_DIRNAME'));
+    define($capsDirName . '_ROOT_PATH',  constant($capsDirName . '_PATH'));
     define($capsDirName . '_AUTHOR_LOGOIMG', constant($capsDirName . '_URL') . '/assets/images/logoModule.png');
+
+    define($capsDirName . '_IMAGES_URL', constant($capsDirName . '_URL') . '/assets/images');
+    define($capsDirName . '_ADMIN_URL', constant($capsDirName . '_URL') . '/admin');
+    define($capsDirName . '_ADMIN_PATH', constant($capsDirName . '_PATH') . '/admin/index.php');
+
+    define($capsDirName . '_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . constant($capsDirName . '_DIRNAME')); // WITHOUT Trailing slash
+    define($capsDirName . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . constant($capsDirName . '_DIRNAME')); // WITHOUT Trailing slash
+    
 }
 
 // Define here the place where main upload path

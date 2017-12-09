@@ -19,6 +19,8 @@
  * @return string sort_url for the article
  */
 
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once __DIR__ . '/common.php';
@@ -109,16 +111,16 @@ class PublisherSeo
      */
     public static function generateUrl($op, $id, $shortUrl = '')
     {
-        $publisher = Publisher::getInstance();
-        if ('none' !== $publisher->getConfig('seo_url_rewrite')) {
+        $helper = publisher\Helper::getInstance();
+        if ('none' !== $helper->getConfig('seo_url_rewrite')) {
             if (!empty($shortUrl)) {
                 $shortUrl .= '.html';
             }
 
-            if ('htaccess' === $publisher->getConfig('seo_url_rewrite')) {
+            if ('htaccess' === $helper->getConfig('seo_url_rewrite')) {
                 // generate SEO url using htaccess
-                return XOOPS_URL . '/' . $publisher->getConfig('seo_module_name') . ".${op}.${id}/${shortUrl}";
-            } elseif ('path-info' === $publisher->getConfig('seo_url_rewrite')) {
+                return XOOPS_URL . '/' . $helper->getConfig('seo_module_name') . ".${op}.${id}/${shortUrl}";
+            } elseif ('path-info' === $helper->getConfig('seo_url_rewrite')) {
                 // generate SEO url using path-info
                 return PUBLISHER_URL . "/index.php/${op}.${id}/${shortUrl}";
             } else {

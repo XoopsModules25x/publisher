@@ -20,6 +20,8 @@
  * @author          Mowaffak
  */
 
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
@@ -33,8 +35,10 @@ function publisher_latest_news_show($options)
 {
     $block = [];
 
-    xoops_loadLanguage('main', 'publisher');
-    $publisher = Publisher::getInstance();
+    $helper = publisher\Helper::getInstance();
+    $helper->loadLanguage('main');
+//    xoops_loadLanguage('main', 'publisher');
+
 
     $start           = $options[0]; // You can show articles from specified range
     $limit           = $options[1];
@@ -42,7 +46,7 @@ function publisher_latest_news_show($options)
     $letters         = $options[3];
     $selectedStories = $options[4];
     $sort            = $options[9];
-    $order           = PublisherUtility::getOrderBy($sort);
+    $order           = publisher\Utility::getOrderBy($sort);
     $imgWidth        = $options[11];
     $imgHeight       = $options[12];
     $border          = $options[13];
@@ -72,7 +76,7 @@ function publisher_latest_news_show($options)
         $criteria->add(new Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
     }
 
-    $itemsObj = $publisher->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
+    $itemsObj = $helper->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);
 
@@ -198,7 +202,7 @@ function publisher_latest_news_show($options)
         }
 
         $item['pdf'] = '';
-        if ($publisher->getConfig('display_pdf')) {
+        if ($helper->getConfig('display_pdf')) {
             if (1 == $options[25]) {
                 $item['pdf'] = "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $itemObj->itemid() . "' rel='nofollow'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif' title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "'></a>&nbsp;";
             }
@@ -207,7 +211,7 @@ function publisher_latest_news_show($options)
         if (1 == $options[26] && xoops_isActiveModule('tellafriend')) {
             $subject  = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
             $subject  = $itemObj->convertForJapanese($subject);
-            $maillink = PublisherUtility::tellAFriend($subject);
+            $maillink = publisher\Utility::tellAFriend($subject);
 
             $item['email'] = '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '"></a>&nbsp;';
         }
@@ -391,7 +395,7 @@ function publisher_latest_news_edit($options)
     //Select Which Categories To Show
     $form .= $tabletag3 . _MB_PUBLISHER_TOPICSCONFIG . $tabletag4; // Topics Options
     $form .= $tabletag1 . _MB_PUBLISHER_TOPICSDISPLAY . $tabletag2;
-    $form .= PublisherUtility::createCategorySelect($options[29], 0, true, 'options[29]');
+    $form .= publisher\Utility::createCategorySelect($options[29], 0, true, 'options[29]');
     $form .= '</td></tr>';
 
     $form .= '</table>';

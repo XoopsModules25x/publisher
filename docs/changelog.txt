@@ -1,3 +1,12 @@
+<h5>1.06 Beta 2       [NOT RELEASED]</h5>
+<hr>
+- addded missing common traits (goffy/mamba)
+
+<h5>1.06 Beta 1       [NOT RELEASED]</h5>
+<hr>
+- namespaces (mamba)
+- work in progress
+
 <h5>1.05 FINAL       [2017-11-22]</h5>
 <hr>
 

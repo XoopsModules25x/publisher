@@ -21,6 +21,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
@@ -93,9 +94,9 @@ class PublisherItemForm extends PublisherThemeTabForm
      */
     public function isGranted($item)
     {
-        $publisher = Publisher::getInstance();
+        $helper = publisher\Helper::getInstance();
         $ret       = false;
-        if (!$this->checkperm || $publisher->getHandler('permission')->isGranted('form_view', $item)) {
+        if (!$this->checkperm || $helper->getHandler('permission')->isGranted('form_view', $item)) {
             $ret = true;
         }
 
@@ -131,9 +132,9 @@ class PublisherItemForm extends PublisherThemeTabForm
      */
     public function createElements($obj)
     {
-        $publisher = Publisher::getInstance();
+        $helper = publisher\Helper::getInstance();
 
-        $allowedEditors = PublisherUtility::getEditors($publisher->getHandler('permission')->getGrantedItems('editors'));
+        $allowedEditors = publisher\Utility::getEditors($helper->getHandler('permission')->getGrantedItems('editors'));
 
         if (!is_object($GLOBALS['xoopsUser'])) {
             $group = [XOOPS_GROUP_ANONYMOUS];
@@ -148,7 +149,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         // Category
         $categoryFormSelect = new XoopsFormSelect(_CO_PUBLISHER_CATEGORY, 'categoryid', $obj->getVar('categoryid', 'e'));
         $categoryFormSelect->setDescription(_CO_PUBLISHER_CATEGORY_DSC);
-        $categoryFormSelect->addOptionArray($publisher->getHandler('category')->getCategoriesForSubmit());
+        $categoryFormSelect->addOptionArray($helper->getHandler('category')->getCategoriesForSubmit());
         $this->addElement($categoryFormSelect);
 
         // ITEM TITLE
@@ -180,27 +181,27 @@ class PublisherItemForm extends PublisherThemeTabForm
         } elseif (count($allowedEditors) > 0) {
             $editor = Request::getString('editor', '', 'POST');
             if (!empty($editor)) {
-                PublisherUtility::setCookieVar('publisher_editor', $editor);
+                publisher\Utility::setCookieVar('publisher_editor', $editor);
             } else {
-                $editor = PublisherUtility::getCookieVar('publisher_editor');
+                $editor = publisher\Utility::getCookieVar('publisher_editor');
                 if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
                     //                    $editor = @ $GLOBALS['xoopsUser']->getVar('publisher_editor'); // Need set through user profile
                     $editor = (null !== $GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
-            $editor = (empty($editor) || !in_array($editor, $allowedEditors)) ? $publisher->getConfig('submit_editor') : $editor;
+            $editor = (empty($editor) || !in_array($editor, $allowedEditors)) ? $helper->getConfig('submit_editor') : $editor;
 
             $formEditor = new XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowedEditors);
             $this->addElement($formEditor);
         } else {
-            $editor = $publisher->getConfig('submit_editor');
+            $editor = $helper->getConfig('submit_editor');
         }
 
         $editorConfigs           = [];
-        $editorConfigs['rows']   = !$publisher->getConfig('submit_editor_rows') ? 35 : $publisher->getConfig('submit_editor_rows');
-        $editorConfigs['cols']   = !$publisher->getConfig('submit_editor_cols') ? 60 : $publisher->getConfig('submit_editor_cols');
-        $editorConfigs['width']  = !$publisher->getConfig('submit_editor_width') ? '100%' : $publisher->getConfig('submit_editor_width');
-        $editorConfigs['height'] = !$publisher->getConfig('submit_editor_height') ? '400px' : $publisher->getConfig('submit_editor_height');
+        $editorConfigs['rows']   = !$helper->getConfig('submit_editor_rows') ? 35 : $helper->getConfig('submit_editor_rows');
+        $editorConfigs['cols']   = !$helper->getConfig('submit_editor_cols') ? 60 : $helper->getConfig('submit_editor_cols');
+        $editorConfigs['width']  = !$helper->getConfig('submit_editor_width') ? '100%' : $helper->getConfig('submit_editor_width');
+        $editorConfigs['height'] = !$helper->getConfig('submit_editor_height') ? '400px' : $helper->getConfig('submit_editor_height');
 
         // SUMMARY
         if ($this->isGranted(PublisherConstants::PUBLISHER_SUMMARY)) {
@@ -250,7 +251,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // Available pages to wrap
         if ($this->isGranted(PublisherConstants::PUBLISHER_AVAILABLE_PAGE_WRAP)) {
-            $wrapPages              = XoopsLists::getHtmlListAsArray(PublisherUtility::getUploadDir(true, 'content'));
+            $wrapPages              = \XoopsLists::getHtmlListAsArray(publisher\Utility::getUploadDir(true, 'content'));
             $availableWrapPagesText = [];
             foreach ($wrapPages as $page) {
                 $availableWrapPagesText[] = "<span onclick='publisherPageWrap(\"body\", \"[pagewrap=$page] \");' onmouseover='style.cursor=\"pointer\"'>$page</span>";
@@ -398,18 +399,18 @@ class PublisherItemForm extends PublisherThemeTabForm
             $js_data  = new XoopsFormLabel('', '
 
 <script type= "text/javascript">
-$publisher(document).ready(function () {
-    var button = $publisher("#publisher_upload_button"), interval;
+$helper(document).ready(function () {
+    var button = $helper("#publisher_upload_button"), interval;
     new AjaxUpload(button,{
         action: "' . PUBLISHER_URL . '/include/ajax_upload.php", // I disabled uploads in this example for security reasons
         responseType: "text/html",
         name: "publisher_upload_file",
         onSubmit : function (file, ext) {
             // change button text, when user selects file
-            $publisher("#publisher_upload_message").html(" ");
+            $helper("#publisher_upload_message").html(" ");
             button.html("<img src=\'' . PUBLISHER_URL . '/assets/images/loadingbar.gif\'>"); this.setData({
-                "image_nicename": $publisher("#image_nicename").val(),
-                "imgcat_id" : $publisher("#imgcat_id").val()
+                "image_nicename": $helper("#image_nicename").val(),
+                "imgcat_id" : $helper("#imgcat_id").val()
             });
             // If you want to allow uploading only 1 file at time,
             // you can disable upload button
@@ -425,11 +426,11 @@ $publisher(document).ready(function () {
             // add file to the list
             var result = eval(response);
             if ("success" == result[0]) {
-                 $publisher("#image_item").append("<option value=\'" + result[1] + "\' selected=\'selected\'>" + result[2] + "</option>");
+                 $helper("#image_item").append("<option value=\'" + result[1] + "\' selected=\'selected\'>" + result[2] + "</option>");
                  publisher_updateSelectOption(\'image_item\', \'image_featured\');
                  showImgSelected(\'image_display\', \'image_item\', \'uploads/\', \'\', \'' . XOOPS_URL . '\')
             } else {
-                 $publisher("#publisher_upload_message").html("<div class=\'errorMsg\'>" + result[1] + "</div>");
+                 $helper("#publisher_upload_message").html("<div class=\'errorMsg\'>" + result[1] + "</div>");
             }
         }
     });
@@ -521,7 +522,7 @@ $publisher(document).ready(function () {
             unset($fileBox);
 
             if (!$obj->isNew()) {
-                $filesObj = $publisher->getHandler('file')->getAllFiles($obj->itemid());
+                $filesObj = $helper->getHandler('file')->getAllFiles($obj->itemid());
                 if (count($filesObj) > 0) {
                     $table = '';
                     $table .= "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";

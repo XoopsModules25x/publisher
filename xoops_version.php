@@ -24,13 +24,13 @@ use Xmf\Request;
 
 $moduleDirName = basename(__DIR__);
 xoops_load('xoopseditorhandler');
-$editorHandler = XoopsEditorHandler::getInstance();
+$editorHandler = \XoopsEditorHandler::getInstance();
 $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = [
-    'version'             => '1.05',
-    'module_status'       => 'Final',
-    'release_date'        => '2017/11/22',
+    'version'             => '1.06',
+    'module_status'       => 'Beta 2',
+    'release_date'        => '2017/12/09',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -257,74 +257,23 @@ $modversion['blocks'][] = [
 // ------------------- Templates -------------------
 
 $modversion['templates'] = [
-    [
-        'file'        => 'publisher_header.tpl',
-        'description' => '_MI_PUBLISHER_HEADER_DSC'
-    ],
-    [
-        'file'        => 'publisher_footer.tpl',
-        'description' => '_MI_PUBLISHER_FOOTER_DSC'
-    ],
-    [
-        'file'        => 'publisher_singleitem.tpl',
-        'description' => '_MI_PUBLISHER_SINGLEITEM_DSC'
-    ],
-    [
-        'file'        => 'publisher_categories_table.tpl',
-        'description' => '_MI_PUBLISHER_CATEGORIES_TABLE_DSC'
-    ],
-    [
-        'file'        => 'publisher_display_list.tpl',
-        'description' => '_MI_PUBLISHER_DISPLAY_LIST_DSC'
-    ],
-    [
-        'file'        => 'publisher_display_summary.tpl',
-        'description' => '_MI_PUBLISHER_DISPLAY_SUMMARY_DSC'
-    ],
-    [
-        'file'        => 'publisher_display_full.tpl',
-        'description' => '_MI_PUBLISHER_DISPLAY_FULL_DSC'
-    ],
-    [
-        'file'        => 'publisher_display_wfsection.tpl',
-        'description' => '_MI_PUBLISHER_DISPLAY_WFSECTION_DSC'
-    ],
-    [
-        'file'        => 'publisher_item.tpl',
-        'description' => '_MI_PUBLISHER_ITEM_DSC'
-    ],
-    [
-        'file'        => 'publisher_submit.tpl',
-        'description' => '_MI_PUBLISHER_SUBMIT_DSC'
-    ],
-    [
-        'file'        => 'publisher_singleitem_block.tpl',
-        'description' => '_MI_PUBLISHER_SINGLEITEM_BLOCK_DSC'
-    ],
-    [
-        'file'        => 'publisher_print.tpl',
-        'description' => '_MI_PUBLISHER_PRINT_DSC'
-    ],
-    [
-        'file'        => 'publisher_rss.tpl',
-        'description' => '_MI_PUBLISHER_RSS_DSC'
-    ],
-    [
-        'file'        => 'publisher_addfile.tpl',
-        'description' => '_MI_PUBLISHER_ADDFILE_DSC'
-    ],
-    [
-        'file'        => 'publisher_search.tpl',
-        'description' => '_MI_PUBLISHER_SEARCH_DSC'
-    ],
-    [
-        'file'        => 'publisher_author_items.tpl',
-        'description' => '_MI_PUBLISHER_AUTHOR_ITEMS_DSC'
-    ],
-    [
-        'file'        => 'publisher_archive.tpl',
-        'description' => '_MI_PUBLISHER_ARCHIVE__DSC'
-    ]
+    ['file' => 'publisher_header.tpl', 'description' => '_MI_PUBLISHER_HEADER_DSC'],
+    ['file' => 'publisher_footer.tpl', 'description' => '_MI_PUBLISHER_FOOTER_DSC'],
+    ['file' => 'publisher_singleitem.tpl', 'description' => '_MI_PUBLISHER_SINGLEITEM_DSC'],
+    ['file' => 'publisher_categories_table.tpl', 'description' => '_MI_PUBLISHER_CATEGORIES_TABLE_DSC'],
+    ['file' => 'publisher_display_list.tpl', 'description' => '_MI_PUBLISHER_DISPLAY_LIST_DSC'],
+    ['file' => 'publisher_display_summary.tpl', 'description' => '_MI_PUBLISHER_DISPLAY_SUMMARY_DSC'],
+    ['file' => 'publisher_display_full.tpl', 'description' => '_MI_PUBLISHER_DISPLAY_FULL_DSC'],
+    ['file' => 'publisher_display_wfsection.tpl', 'description' => '_MI_PUBLISHER_DISPLAY_WFSECTION_DSC'],
+    ['file' => 'publisher_item.tpl', 'description' => '_MI_PUBLISHER_ITEM_DSC'],
+    ['file' => 'publisher_submit.tpl', 'description' => '_MI_PUBLISHER_SUBMIT_DSC'],
+    ['file' => 'publisher_singleitem_block.tpl', 'description' => '_MI_PUBLISHER_SINGLEITEM_BLOCK_DSC'],
+    ['file' => 'publisher_print.tpl', 'description' => '_MI_PUBLISHER_PRINT_DSC'],
+    ['file' => 'publisher_rss.tpl', 'description' => '_MI_PUBLISHER_RSS_DSC'],
+    ['file' => 'publisher_addfile.tpl', 'description' => '_MI_PUBLISHER_ADDFILE_DSC'],
+    ['file' => 'publisher_search.tpl', 'description' => '_MI_PUBLISHER_SEARCH_DSC'],
+    ['file' => 'publisher_author_items.tpl', 'description' => '_MI_PUBLISHER_AUTHOR_ITEMS_DSC'],
+    ['file' => 'publisher_archive.tpl', 'description' => '_MI_PUBLISHER_ARCHIVE__DSC']
 ];
 
 // Config categories
@@ -958,7 +907,7 @@ $modversion['config'][] = [
 ];
 
 xoops_load('XoopsEditorHandler');
-$editorHandler = XoopsEditorHandler::getInstance();
+$editorHandler = \XoopsEditorHandler::getInstance();
 
 $modversion['config'][] = [
     'name'        => 'submit_editor',

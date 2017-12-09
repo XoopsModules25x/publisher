@@ -19,16 +19,19 @@
  * @author       Mage, Mamba
  */
 
+use Xoopsmodules\publisher;
+
 require_once __DIR__ . '/admin_header.php';
-require_once dirname(__DIR__) . '/class/utility.php';
+//require_once dirname(__DIR__) . '/class/utility.php';
 
 xoops_cp_header();
-xoops_loadLanguage('main', PUBLISHER_DIRNAME);
+$helper = publisher\Helper::getInstance();
+$helper->loadLanguage('main');
 $adminObject = \Xmf\Module\Admin::getInstance();
 
 /*
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    PublisherUtility::createFolder($uploadFolders[$i]);
+    publisher\Utility::createFolder($uploadFolders[$i]);
     $adminObject->addConfigBoxLine($uploadFolders[$i], 'folder');
     //    $adminObject->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
@@ -37,7 +40,7 @@ foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
 $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
 foreach (array_keys($copyFiles) as $i) {
     $dest = $copyFiles[$i] . '/blank.png';
-    PublisherUtility::copyFile($file, $dest);
+    publisher\Utility::copyFile($file, $dest);
 }
 */
 
@@ -48,7 +51,7 @@ if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.p
 $adminObject->displayNavigation(basename(__FILE__));
 
 //------------- Test Data ----------------------------
-if ($publisher->getConfig('displaySampleButton')) {
+if ($helper->getConfig('displaySampleButton')) {
     xoops_loadLanguage('admin/modulesadmin', 'system');
     require_once __DIR__ . '/../testdata/index.php';
     $adminObject->addItemButton(_AM_SYSTEM_MODULES_INSTALL_TESTDATA, '__DIR__ . /../../testdata/index.php?op=load', 'add');
@@ -57,4 +60,7 @@ if ($publisher->getConfig('displaySampleButton')) {
 //------------- End Test Data ----------------------------
 
 $adminObject->displayIndex();
+
+echo publisher\Utility::getServerStats();
+
 require_once __DIR__ . '/admin_footer.php';

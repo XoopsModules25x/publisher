@@ -31,10 +31,10 @@ $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GRO
 $gpermHandler = xoops_getModuleHandler('groupperm');
 /* @var $configHandler XoopsConfigHandler */
 $configHandler = xoops_getHandler('config');
-$module_id     = $publisher->getModule()->getVar('mid');
+$module_id     = $helper->getModule()->getVar('mid');
 
 //Checking permissions
-if (!$publisher->getConfig('perm_rating') || !$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_RATE, $groups, $module_id)) {
+if (!$helper->getConfig('perm_rating') || !$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_RATE, $groups, $module_id)) {
     redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _NOPERM);
     //    exit();
 }
@@ -45,7 +45,7 @@ if ($rating > 5 || $rating < 1) {
 }
 
 $criteria   = new Criteria('itemid', $itemid);
-$ratingObjs = $publisher->getHandler('rating')->getObjects($criteria);
+$ratingObjs = $helper->getHandler('rating')->getObjects($criteria);
 
 $uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
 $count          = count($ratingObjs);
@@ -66,19 +66,19 @@ if ($voted) {
     //    exit();
 }
 
-$newRatingObj = $publisher->getHandler('rating')->create();
+$newRatingObj = $helper->getHandler('rating')->create();
 $newRatingObj->setVar('itemid', $itemid);
 $newRatingObj->setVar('ip', $ip);
 $newRatingObj->setVar('uid', $uid);
 $newRatingObj->setVar('rate', $rating);
 $newRatingObj->setVar('date', time());
-$publisher->getHandler('rating')->insert($newRatingObj);
+$helper->getHandler('rating')->insert($newRatingObj);
 
 $current_rating += $rating;
 ++$count;
 
-$publisher->getHandler('item')->updateAll('rating', number_format($current_rating / $count, 4), $criteria, true);
-$publisher->getHandler('item')->updateAll('votes', $count, $criteria, true);
+$helper->getHandler('item')->updateAll('rating', number_format($current_rating / $count, 4), $criteria, true);
+$helper->getHandler('item')->updateAll('votes', $count, $criteria, true);
 
 redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _MD_PUBLISHER_VOTE_THANKS);
 //exit();

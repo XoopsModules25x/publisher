@@ -19,6 +19,8 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use Xoopsmodules\publisher;
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once dirname(__DIR__) . '/include/common.php';
@@ -31,7 +33,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_date_to_date_show($options)
 {
     $myts      = MyTextSanitizer::getInstance();
-    $publisher = Publisher::getInstance();
+    $helper = publisher\Helper::getInstance();
 
     $block = $newItems = [];
 
@@ -42,7 +44,7 @@ function publisher_date_to_date_show($options)
     $criteria->setOrder('DESC');
 
     // creating the ITEM objects that belong to the selected category
-    $itemsObj   = $publisher->getHandler('item')->getObjects($criteria);
+    $itemsObj   = $helper->getHandler('item')->getObjects($criteria);
     $totalItems = count($itemsObj);
 
     if ($itemsObj) {
@@ -62,9 +64,9 @@ function publisher_date_to_date_show($options)
         $block['lang_category']         = _MB_PUBLISHER_CATEGORY;
         $block['lang_poster']           = _MB_PUBLISHER_POSTEDBY;
         $block['lang_date']             = _MB_PUBLISHER_DATE;
-        $moduleName                     = $myts->displayTarea($publisher->getModule()->getVar('name'));
+        $moduleName                     = $myts->displayTarea($helper->getModule()->getVar('name'));
         $block['lang_visitItem']        = _MB_PUBLISHER_VISITITEM . ' ' . $moduleName;
-        $block['lang_articles_from_to'] = sprintf(_MB_PUBLISHER_ARTICLES_FROM_TO, $options[0], $options[1]);
+        $block['lang_articles_from_to'] = sprintf(_MB_PUBLISHER_ARTICLES_FROM_TO, $options[0], isset($options[1]) ? $options[1] : 0);
     }
 
     return $block;

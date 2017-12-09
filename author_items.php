@@ -35,7 +35,7 @@ if (!is_object($thisuser)) {
     //    exit();
 }
 
-if (!$publisher->getConfig('perm_author_items')) {
+if (!$helper->getConfig('perm_author_items')) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
     //mb    exit();
 }
@@ -49,15 +49,15 @@ require_once PUBLISHER_ROOT_PATH . '/footer.php';
 $criteria = new CriteriaCompo(new Criteria('datesub', time(), '<='));
 $criteria->add(new Criteria('uid', $uid));
 
-$items = $publisher->getHandler('item')->getItems($limit = 0, $start = 0, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, 'datesub', 'DESC', '', true, $criteria);
+$items = $helper->getHandler('item')->getItems($limit = 0, $start = 0, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, 'datesub', 'DESC', '', true, $criteria);
 unset($criteria);
 $count = count($items);
 
 $xoopsTpl->assign('total_items', $count);
-$xoopsTpl->assign('permRating', $publisher->getConfig('perm_rating'));
+$xoopsTpl->assign('permRating', $helper->getConfig('perm_rating'));
 
 xoops_load('XoopsUserUtility');
-$author_name = XoopsUserUtility::getUnameFromId($uid, $publisher->getConfig('format_realname'), true);
+$author_name = \XoopsUserUtility::getUnameFromId($uid, $helper->getConfig('format_realname'), true);
 $xoopsTpl->assign('author_name_with_link', $author_name);
 $xoopsTpl->assign('user_avatarurl', XOOPS_URL . '/uploads/' . $thisuser->getVar('user_avatar'));
 //$xoopsLocal = new XoopsLocal();

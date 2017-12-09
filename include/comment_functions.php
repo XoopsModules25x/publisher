@@ -24,7 +24,7 @@
 function publisher_com_update($itemId, $totalNum)
 {
     global $module;
-    $db  = XoopsDatabaseFactory::getDatabaseConnection();
+    $db  = \XoopsDatabaseFactory::getDatabaseConnection();
     $sql = 'UPDATE ' . $db->prefix($module->getVar('dirname', 'n') . '_items') . ' SET comments = ' . $totalNum . ' WHERE itemid = ' . $itemId;
     $db->query($sql);
 }

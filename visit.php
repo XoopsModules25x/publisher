@@ -26,13 +26,13 @@ require_once __DIR__ . '/header.php';
 $fileid = Request::getInt('fileid', 0, 'GET');
 
 // Creating the item object for the selected item
-$fileObj = $publisher->getHandler('file')->get($fileid);
+$fileObj = $helper->getHandler('file')->get($fileid);
 
 if ($fileObj->getVar('status' !== PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE)) {
     redirect_header('javascript:history.go(-1)', 1, _NOPERM);
 }
 
-$itemObj = $publisher->getHandler('item')->get($fileObj->getVar('itemid'));
+$itemObj = $helper->getHandler('item')->get($fileObj->getVar('itemid'));
 
 // Check user permissions to access this file
 if (!$itemObj->accessGranted()) {

@@ -22,9 +22,7 @@
 
 use Xmf\Request;
 use Xoopsmodules\publisher;
-use Xoopsmodules\publisher\common;
-
-
+use Xoopsmodules\publisher\commmon;
 
 /**
  * Class Utility
@@ -693,6 +691,7 @@ class Utility
      */
     public static function userIsAdmin()
     {
+        /** @var publisher\Helper $helper */
         $helper = publisher\Helper::getInstance();
 
         static $publisherIsAdmin;

@@ -24,7 +24,7 @@ use Xoopsmodules\publisher;
 require_once __DIR__ . '/admin_header.php';
 require_once $GLOBALS['xoops']->path('class/xoopslists.php');
 require_once $GLOBALS['xoops']->path('class/pagenav.php');
-//require_once __DIR__ . '/../class/utility.php';
+//require_once __DIR__ . '/../class/Utility.php';
 require_once __DIR__ . '/../include/common.php';
 
 $itemid = Request::getInt('itemid', 0, 'POST');
@@ -350,7 +350,7 @@ if ($numrows > 0) {
 }
 echo "</table>\n";
 echo "<span style=\"color: #567; margin: 3px 0 18px 0; font-size: small; display: block; \">$status_explaination</span>";
-$pagenav = new XoopsPageNav($numrows, $helper->getConfig('idxcat_perpage'), $startentry, 'startentry', "statussel=$statussel&amp;sortsel=$sortsel&amp;ordersel=$ordersel");
+$pagenav = new \XoopsPageNav($numrows, $helper->getConfig('idxcat_perpage'), $startentry, 'startentry', "statussel=$statussel&amp;sortsel=$sortsel&amp;ordersel=$ordersel");
 
 if (1 == $helper->getConfig('format_image_nav')) {
     echo '<div style="text-align:right; background-color: white; margin: 10px 0;">' . $pagenav->renderImageNav() . '</div>';

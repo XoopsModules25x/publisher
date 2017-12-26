@@ -62,57 +62,57 @@ class PublisherFileForm extends XoopsThemeForm
     public function createElements()
     {
         // NAME
-        $nameText = new XoopsFormText(_CO_PUBLISHER_FILENAME, 'name', 50, 255, $this->targetObject->name());
+        $nameText = new \XoopsFormText(_CO_PUBLISHER_FILENAME, 'name', 50, 255, $this->targetObject->name());
         $nameText->setDescription(_CO_PUBLISHER_FILE_NAME_DSC);
         $this->addElement($nameText, true);
 
         // DESCRIPTION
-        $descriptionText = new XoopsFormTextArea(_CO_PUBLISHER_FILE_DESCRIPTION, 'description', $this->targetObject->description());
+        $descriptionText = new \XoopsFormTextArea(_CO_PUBLISHER_FILE_DESCRIPTION, 'description', $this->targetObject->description());
         $descriptionText->setDescription(_CO_PUBLISHER_FILE_DESCRIPTION_DSC);
         $this->addElement($descriptionText);
 
         // FILE TO UPLOAD
         //if (!$this->targetObject->fileid()) {
-        $fileBox = new XoopsFormFile(_CO_PUBLISHER_FILE_TO_UPLOAD, 'item_upload_file', 0);
+        $fileBox = new \XoopsFormFile(_CO_PUBLISHER_FILE_TO_UPLOAD, 'item_upload_file', 0);
         $fileBox->setExtra("size ='50'");
         $this->addElement($fileBox);
         //}
 
-        $statusSelect = new XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'file_status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
+        $statusSelect = new \XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'file_status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
         $statusSelect->setDescription(_CO_PUBLISHER_FILE_STATUS_DSC);
         $this->addElement($statusSelect);
 
         // fileid
-        $this->addElement(new XoopsFormHidden('fileid', $this->targetObject->fileid()));
+        $this->addElement(new \XoopsFormHidden('fileid', $this->targetObject->fileid()));
 
         // itemid
-        $this->addElement(new XoopsFormHidden('itemid', $this->targetObject->itemid()));
+        $this->addElement(new \XoopsFormHidden('itemid', $this->targetObject->itemid()));
     }
 
     public function createButtons()
     {
-        $filesButtonTray = new XoopsFormElementTray('', '');
-        $filesHidden     = new XoopsFormHidden('op', 'uploadfile');
+        $filesButtonTray = new \XoopsFormElementTray('', '');
+        $filesHidden     = new \XoopsFormHidden('op', 'uploadfile');
         $filesButtonTray->addElement($filesHidden);
 
         if (!$this->targetObject->fileid()) {
-            $filesButtonCreate = new XoopsFormButton('', '', _MD_PUBLISHER_UPLOAD, 'submit');
+            $filesButtonCreate = new \XoopsFormButton('', '', _MD_PUBLISHER_UPLOAD, 'submit');
             $filesButtonCreate->setExtra('onclick="this.form.elements.op.value=\'uploadfile\'"');
             $filesButtonTray->addElement($filesButtonCreate);
 
-            $filesButtonAnother = new XoopsFormButton('', '', _CO_PUBLISHER_FILE_UPLOAD_ANOTHER, 'submit');
+            $filesButtonAnother = new \XoopsFormButton('', '', _CO_PUBLISHER_FILE_UPLOAD_ANOTHER, 'submit');
             $filesButtonAnother->setExtra('onclick="this.form.elements.op.value=\'uploadanother\'"');
             $filesButtonTray->addElement($filesButtonAnother);
         } else {
-            $filesButtonCreate = new XoopsFormButton('', '', _MD_PUBLISHER_MODIFY, 'submit');
+            $filesButtonCreate = new \XoopsFormButton('', '', _MD_PUBLISHER_MODIFY, 'submit');
             $filesButtonCreate->setExtra('onclick="this.form.elements.op.value=\'modify\'"');
             $filesButtonTray->addElement($filesButtonCreate);
         }
 
-        $filesButtonClear = new XoopsFormButton('', '', _MD_PUBLISHER_CLEAR, 'reset');
+        $filesButtonClear = new \XoopsFormButton('', '', _MD_PUBLISHER_CLEAR, 'reset');
         $filesButtonTray->addElement($filesButtonClear);
 
-        $buttonCancel = new XoopsFormButton('', '', _MD_PUBLISHER_CANCEL, 'button');
+        $buttonCancel = new \XoopsFormButton('', '', _MD_PUBLISHER_CANCEL, 'button');
         $buttonCancel->setExtra('onclick="history.go(-1)"');
         $filesButtonTray->addElement($buttonCancel);
 

@@ -33,7 +33,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_recent_show($options)
 {
     $helper = publisher\Helper::getInstance();
-    $myts      = MyTextSanitizer::getInstance();
+    $myts      = \MyTextSanitizer::getInstance();
 
     $block = $newItems = [];
 
@@ -53,8 +53,8 @@ function publisher_items_recent_show($options)
     if ($allcats) {
         $criteria = null;
     } else {
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
     }
     $itemsObj = $helper->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
 
@@ -97,15 +97,15 @@ function publisher_items_recent_edit($options)
 
     $form = new PublisherBlockForm();
 
-    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
-    $orderEle = new XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
+    $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray([
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
                                   'weight'  => _MB_PUBLISHER_WEIGHT
                               ]);
-    $dispEle  = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
-    $charsEle = new XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);
+    $dispEle  = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
+    $charsEle = new \XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);
 
     $form->addElement($catEle);
     $form->addElement($orderEle);

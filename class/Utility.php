@@ -24,9 +24,6 @@ use Xmf\Request;
 use Xoopsmodules\publisher;
 use Xoopsmodules\publisher\common;
 
-require_once __DIR__ . '/common/VersionChecks.php';
-require_once __DIR__ . '/common/ServerStats.php';
-require_once __DIR__ . '/common/FilesManagement.php';
 
 
 /**
@@ -302,7 +299,7 @@ class Utility
             static::openCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = Request::getInt('startitem');
             // Get the total number of published ITEMS
-            $totalitems = $helper->getHandler('item')->getItemsCount($selCat, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
+            $totalitems = $helper->getHandler('item')->getItemsCount($selCat, [\PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
             $itemsObj         = $helper->getHandler('item')->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
             $totalitemsOnPage = count($itemsObj);
@@ -349,7 +346,7 @@ class Utility
             $parentid         = Request::getInt('parentid', 0, 'GET');
             $pagenavExtraArgs = "op=mod&categoryid=$selCat&parentid=$parentid";
             xoops_load('XoopsPageNav');
-            $pagenav = new XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $startitem, 'startitem', $pagenavExtraArgs);
+            $pagenav = new \XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $startitem, 'startitem', $pagenavExtraArgs);
             echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
             echo "<input type='button' name='button' onclick=\"location='item.php?op=mod&categoryid=" . $selCat . "'\" value='" . _AM_PUBLISHER_CREATEITEM . "'>&nbsp;&nbsp;";
             echo '</div>';

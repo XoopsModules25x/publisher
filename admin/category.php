@@ -89,7 +89,7 @@ switch ($op) {
                 }
 
                 xoops_load('XoopsMediaUploader');
-                $uploader = new XoopsMediaUploader(publisher\Utility::getImageDir('category'), $allowed_mimetypes, $max_size, $max_imgwidth, $max_imgheight);
+                $uploader = new \XoopsMediaUploader(publisher\Utility::getImageDir('category'), $allowed_mimetypes, $max_size, $max_imgwidth, $max_imgheight);
                 if ($uploader->fetchMedia($filename) && $uploader->upload()) {
                     $categoryObj->setVar('image', $uploader->getSavedFileName());
                 } else {
@@ -225,7 +225,7 @@ switch ($op) {
         }
         echo "</table>\n";
         require_once $GLOBALS['xoops']->path('class/pagenav.php');
-        $pagenav = new XoopsPageNav($totalCategories, $helper->getConfig('idxcat_perpage'), $startcategory, 'startcategory');
+        $pagenav = new \XoopsPageNav($totalCategories, $helper->getConfig('idxcat_perpage'), $startcategory, 'startcategory');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
         echo '<br>';
         publisher\Utility::closeCollapsableBar('createdcategories', 'createdcategoriesicon');

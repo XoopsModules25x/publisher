@@ -21,7 +21,7 @@
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 if ('none' !== $helper->getConfig('seo_url_rewrite')) {
     require_once PUBLISHER_ROOT_PATH . '/include/seo.inc.php';

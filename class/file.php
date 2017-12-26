@@ -100,7 +100,7 @@ class PublisherFile extends XoopsObject
         $maxfilewidth  = $this->publisher->getConfig('maximum_image_width');
         $maxfileheight = $this->publisher->getConfig('maximum_image_height');
         xoops_load('XoopsMediaUploader');
-        $uploader = new XoopsMediaUploader(publisher\Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        $uploader = new \XoopsMediaUploader(publisher\Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
             return true;
         } else {
@@ -130,7 +130,7 @@ class PublisherFile extends XoopsObject
             mkdir(publisher\Utility::getUploadDir(), 0757);
         }
         xoops_load('XoopsMediaUploader');
-        $uploader = new XoopsMediaUploader(publisher\Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        $uploader = new \XoopsMediaUploader(publisher\Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
             $uploader->setTargetFileName($itemid . '_' . $uploader->getMediaName());
             if ($uploader->upload()) {
@@ -299,7 +299,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
     /**
      * @param null|XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         $this->publisher = publisher\Helper::getInstance();
         parent::__construct($db, 'publisher_files', 'PublisherFile', 'fileid', 'name');
@@ -313,7 +313,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
      *
      * @return bool FALSE if failed.
      */
-    public function delete(XoopsObject $file, $force = false) //delete(&$file, $force = false)
+    public function delete(\XoopsObject $file, $force = false) //delete(&$file, $force = false)
     {
         $ret = false;
         // Delete the actual file
@@ -331,7 +331,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
      *
      * @return bool
      */
-    public function deleteItemFiles(XoopsObject $itemObj)
+    public function deleteItemFiles(\XoopsObject $itemObj)
     {
         if ('publisheritem' !== strtolower(get_class($itemObj))) {
             return false;
@@ -372,27 +372,27 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
             $this->field_object = 'itemid';
             $this->field_link   = 'itemid';
             $hasStatusCriteria  = false;
-            $criteriaStatus     = new CriteriaCompo();
+            $criteriaStatus     = new \CriteriaCompo();
             if (is_array($status)) {
                 $hasStatusCriteria = true;
                 foreach ($status as $v) {
-                    $criteriaStatus->add(new Criteria('o.status', $v), 'OR');
+                    $criteriaStatus->add(new \Criteria('o.status', $v), 'OR');
                 }
             } elseif ($status != -1) {
                 $hasStatusCriteria = true;
-                $criteriaStatus->add(new Criteria('o.status', $status), 'OR');
+                $criteriaStatus->add(new \Criteria('o.status', $status), 'OR');
             }
             $hasCategoryCriteria = false;
-            $criteriaCategory    = new CriteriaCompo();
+            $criteriaCategory    = new \CriteriaCompo();
             $category            = (array)$category;
             if (isset($category[0]) && 0 != $category[0] && count($category) > 0) {
                 $hasCategoryCriteria = true;
                 foreach ($category as $cat) {
-                    $criteriaCategory->add(new Criteria('l.categoryid', $cat), 'OR');
+                    $criteriaCategory->add(new \Criteria('l.categoryid', $cat), 'OR');
                 }
             }
-            $criteriaItemid = new Criteria('o.itemid', $itemid);
-            $criteria       = new CriteriaCompo();
+            $criteriaItemid = new \Criteria('o.itemid', $itemid);
+            $criteria       = new \CriteriaCompo();
             if (0 != $itemid) {
                 $criteria->add($criteriaItemid);
             }

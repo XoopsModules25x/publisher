@@ -151,7 +151,7 @@ function publisher_items_columns_edit($options)
     xoops_load('XoopsFormLoader');
 
     $form   = new PublisherBlockForm();
-    $colEle = new XoopsFormSelect(_MB_PUBLISHER_NUMBER_COLUMN_VIEW, 'options[0]', $options[0]);
+    $colEle = new \XoopsFormSelect(_MB_PUBLISHER_NUMBER_COLUMN_VIEW, 'options[0]', $options[0]);
     $colEle->addOptionArray([
                                 '1' => 1,
                                 '2' => 2,
@@ -159,11 +159,11 @@ function publisher_items_columns_edit($options)
                                 '4' => 4,
                                 '5' => 5
                             ]);
-    $catEle      = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[1], 0, true, 'options[1]'));
-    $cItemsEle   = new XoopsFormText(_MB_PUBLISHER_NUMBER_ITEMS_CAT, 'options[2]', 4, 255, $options[2]);
-    $truncateEle = new XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[3]', 4, 255, $options[3]);
+    $catEle      = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[1], 0, true, 'options[1]'));
+    $cItemsEle   = new \XoopsFormText(_MB_PUBLISHER_NUMBER_ITEMS_CAT, 'options[2]', 4, 255, $options[2]);
+    $truncateEle = new \XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[3]', 4, 255, $options[3]);
 
-    $tempEle = new XoopsFormSelect(_MB_PUBLISHER_TEMPLATE, 'options[4]', $options[4]);
+    $tempEle = new \XoopsFormSelect(_MB_PUBLISHER_TEMPLATE, 'options[4]', $options[4]);
     $tempEle->addOptionArray([
                                  'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
                                  'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED

@@ -206,14 +206,14 @@ $xoopsTpl->assign('indexpage', true);
 
 require_once $GLOBALS['xoops']->path('class/pagenav.php');
 // Category Navigation Bar
-$pagenav = new XoopsPageNav($totalCategories, $helper->getConfig('idxcat_cat_perpage'), $catstart, 'catstart', '');
+$pagenav = new \XoopsPageNav($totalCategories, $helper->getConfig('idxcat_cat_perpage'), $catstart, 'catstart', '');
 if (1 == $helper->getConfig('format_image_nav')) {
     $xoopsTpl->assign('catnavbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {
     $xoopsTpl->assign('catnavbar', '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>');
 }
 // ITEM Navigation Bar
-$pagenav = new XoopsPageNav($real_total_items, $helper->getConfig('idxcat_index_perpage'), $start, 'start', '');
+$pagenav = new \XoopsPageNav($real_total_items, $helper->getConfig('idxcat_index_perpage'), $start, 'start', '');
 if (1 == $helper->getConfig('format_image_nav')) {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {

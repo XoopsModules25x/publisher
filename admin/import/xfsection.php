@@ -23,7 +23,7 @@ use Xmf\Request;
 use Xoopsmodules\publisher;
 
 require_once dirname(__DIR__) . '/admin_header.php';
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'XF-Section ' . Request::getString('xfs_version', '', 'POST');
 
@@ -54,7 +54,7 @@ if ('start' === $op) {
         } else {
             echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat) . '</span>';
 
-            $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
+            $form = new \XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
             // Categories to be imported
             $sql              = 'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_category') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('xfs_article') . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
@@ -65,24 +65,24 @@ if ('start' === $op) {
                 $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }
-            $cat_label = new XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $cat_cbox_options));
+            $cat_label = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $cat_cbox_options));
             $cat_label->setDescription(_AM_PUBLISHER_IMPORT_CATEGORIES_DSC);
             $form->addElement($cat_label);
 
             // SmartFAQ parent category
-            $mytree = new XoopsTree($GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories'), 'categoryid', 'parentid');
+            $mytree = new \XoopsTree($GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories'), 'categoryid', 'parentid');
             ob_start();
             $mytree->makeMySelBox('name', 'weight', $preset_id = 0, $none = 1, $sel_name = 'parent_category');
 
-            $parent_cat_sel = new XoopsFormLabel(_AM_PUBLISHER_IMPORT_PARENT_CATEGORY, ob_get_contents());
+            $parent_cat_sel = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_PARENT_CATEGORY, ob_get_contents());
             $parent_cat_sel->setDescription(_AM_PUBLISHER_IMPORT_PARENT_CATEGORY_DSC);
             $form->addElement($parent_cat_sel);
             ob_end_clean();
 
-            $form->addElement(new XoopsFormHidden('op', 'go'));
-            $form->addElement(new XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
+            $form->addElement(new \XoopsFormHidden('op', 'go'));
+            $form->addElement(new \XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
 
-            $form->addElement(new XoopsFormHidden('from_module_version', Request::getString('from_module_version', '', 'POST')));
+            $form->addElement(new \XoopsFormHidden('from_module_version', Request::getString('from_module_version', '', 'POST')));
 
             $form->display();
         }
@@ -226,8 +226,8 @@ if ('go' === $op) {
     }
     // Looping through cat to change the pid to the new pid
     foreach ($newCatArray as $oldid => $newCat) {
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('categoryid', $newCat['newid']));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('categoryid', $newCat['newid']));
         $oldpid = $newCat['oldpid'];
         if (0 == $oldpid) {
             $newpid = $parentId;
@@ -249,8 +249,8 @@ if ('go' === $op) {
     $publisher_module_id = $helper->getModule()->mid();
     /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
-    $criteria       = new CriteriaCompo();
-    $criteria->add(new Criteria('com_modid', $news_module_id));
+    $criteria       = new \CriteriaCompo();
+    $criteria->add(new \Criteria('com_modid', $news_module_id));
     /** @var XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {

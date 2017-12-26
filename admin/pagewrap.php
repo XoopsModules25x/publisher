@@ -43,9 +43,9 @@ echo '</table>';
 echo '</form>';
 
 // Delete File
-$form = new XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
+$form = new \XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
 
-$pWrapSelect = new XoopsFormSelect(publisher\Utility::getUploadDir(true, 'content'), 'address');
+$pWrapSelect = new \XoopsFormSelect(publisher\Utility::getUploadDir(true, 'content'), 'address');
 $folder      = dir($dir);
 while ($file == $folder->read()) {
     if ('.' !== $file && '..' !== $file) {
@@ -56,8 +56,8 @@ $folder->close();
 $form->addElement($pWrapSelect);
 
 $delfile = 'delfile';
-$form->addElement(new XoopsFormHidden('op', $delfile));
-$submit = new XoopsFormButton('', 'submit', _AM_PUBLISHER_BUTTON_DELETE, 'submit');
+$form->addElement(new \XoopsFormHidden('op', $delfile));
+$submit = new \XoopsFormButton('', 'submit', _AM_PUBLISHER_BUTTON_DELETE, 'submit');
 $form->addElement($submit);
 $form->display();
 

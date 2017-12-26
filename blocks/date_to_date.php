@@ -32,14 +32,14 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_date_to_date_show($options)
 {
-    $myts      = MyTextSanitizer::getInstance();
+    $myts      = \MyTextSanitizer::getInstance();
     $helper = publisher\Helper::getInstance();
 
     $block = $newItems = [];
 
-    $criteria = new CriteriaCompo();
-    $criteria->add(new Criteria('datesub', strtotime($options[0]), '>'));
-    $criteria->add(new Criteria('datesub', isset($options[1]) ? strtotime($options[1]) : '', '<'));
+    $criteria = new \CriteriaCompo();
+    $criteria->add(new \Criteria('datesub', strtotime($options[0]), '>'));
+    $criteria->add(new \Criteria('datesub', isset($options[1]) ? strtotime($options[1]) : '', '<'));
     $criteria->setSort('datesub');
     $criteria->setOrder('DESC');
 
@@ -84,9 +84,9 @@ function publisher_date_to_date_edit($options)
     xoops_load('XoopsFormTextDateSelect');
 
     $form    = new PublisherBlockForm();
-    $fromEle = new XoopsFormTextDateSelect(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));
+    $fromEle = new \XoopsFormTextDateSelect(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));
     //    $fromEle->setNocolspan();
-    $untilEle = new XoopsFormTextDateSelect(_MB_PUBLISHER_UNTIL, 'options[1]', 15, isset($options[1]) ? strtotime($options[1]) : '');
+    $untilEle = new \XoopsFormTextDateSelect(_MB_PUBLISHER_UNTIL, 'options[1]', 15, isset($options[1]) ? strtotime($options[1]) : '');
     //    $untilEle->setNocolspan();
 
     $form->addElement($fromEle);

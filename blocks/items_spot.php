@@ -124,11 +124,11 @@ function publisher_items_spot_edit($options)
     require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
     $form      = new PublisherBlockForm();
-    $autoEle   = new XoopsFormRadioYN(_MB_PUBLISHER_AUTO_LAST_ITEMS, 'options[0]', $options[0]);
-    $countEle  = new XoopsFormText(_MB_PUBLISHER_LAST_ITEMS_COUNT, 'options[1]', 2, 255, $options[1]);
-    $catEle    = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[2], 0, true, 'options[2]'));
+    $autoEle   = new \XoopsFormRadioYN(_MB_PUBLISHER_AUTO_LAST_ITEMS, 'options[0]', $options[0]);
+    $countEle  = new \XoopsFormText(_MB_PUBLISHER_LAST_ITEMS_COUNT, 'options[1]', 2, 255, $options[1]);
+    $catEle    = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[2], 0, true, 'options[2]'));
     $helper = publisher\Helper::getInstance();
-    $criteria  = new CriteriaCompo();
+    $criteria  = new \CriteriaCompo();
     $criteria->setSort('datesub');
     $criteria->setOrder('DESC');
     $itemsObj = $helper->getHandler('item')->getList($criteria);
@@ -139,17 +139,17 @@ function publisher_items_spot_edit($options)
     } else {
         $selItems = explode(',', $options[3]);
     }
-    $itemEle = new XoopsFormSelect(_MB_PUBLISHER_SELECT_ITEMS, 'options[3]', $selItems, 10, true);
+    $itemEle = new \XoopsFormSelect(_MB_PUBLISHER_SELECT_ITEMS, 'options[3]', $selItems, 10, true);
     $itemEle->addOptionArray($itemsObj);
-    $whoEle  = new XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_WHO_AND_WHEN, 'options[4]', $options[4]);
-    $comEle  = new XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_COMMENTS, 'options[5]', $options[5]);
-    $typeEle = new XoopsFormSelect(_MB_PUBLISHER_DISPLAY_TYPE, 'options[6]', $options[6]);
+    $whoEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_WHO_AND_WHEN, 'options[4]', $options[4]);
+    $comEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_COMMENTS, 'options[5]', $options[5]);
+    $typeEle = new \XoopsFormSelect(_MB_PUBLISHER_DISPLAY_TYPE, 'options[6]', $options[6]);
     $typeEle->addOptionArray([
                                  'block'  => _MB_PUBLISHER_DISPLAY_TYPE_BLOCK,
                                  'bullet' => _MB_PUBLISHER_DISPLAY_TYPE_BULLET
                              ]);
-    $truncateEle = new XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[7]', 4, 255, $options[7]);
-    $imageEle    = new XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_CATIMAGE, 'options[8]', $options[8]);
+    $truncateEle = new \XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[7]', 4, 255, $options[7]);
+    $imageEle    = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_CATIMAGE, 'options[8]', $options[8]);
     $form->addElement($autoEle);
     $form->addElement($countEle);
     $form->addElement($catEle);

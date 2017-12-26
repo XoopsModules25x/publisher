@@ -406,7 +406,7 @@ class PublisherMimetypesUtility
         if (Request::getString('deleteMimes', '', 'POST')) {
             $aMimes = Request::getArray('mimes', [], 'POST');
 
-            $crit = new Criteria('mime_id', '(' . implode($aMimes, ',') . ')', 'IN');
+            $crit = new \Criteria('mime_id', '(' . implode($aMimes, ',') . ')', 'IN');
 
             if ($helper->getHandler('mimetype')->deleteAll($crit)) {
                 header('Location: ' . PUBLISHER_ADMIN_URL . "/mimetypes.php?limit=$limit&start=$start");
@@ -428,7 +428,7 @@ class PublisherMimetypesUtility
         publisher\Utility::cpHeader();
         ////publisher_adminMenu(4, _AM_PUBLISHER_MIMETYPES);
         publisher\Utility::openCollapsableBar('mimemanagetable', 'mimemanageicon', _AM_PUBLISHER_MIME_MANAGE_TITLE, _AM_PUBLISHER_MIME_INFOTEXT);
-        $crit  = new CriteriaCompo();
+        $crit  = new \CriteriaCompo();
         $order = Request::getString('order', 'ASC', 'POST');
         $sort  = Request::getString('sort', 'mime_ext', 'POST');
 
@@ -438,7 +438,7 @@ class PublisherMimetypesUtility
         $crit->setSort($sort);
         $mimetypes = $helper->getHandler('mimetype')->getObjects($crit); // Retrieve a list of all mimetypes
         $mimeCount = $helper->getHandler('mimetype')->getCount();
-        $nav       = new XoopsPageNav($mimeCount, $limit, $start, 'start', "op=manage&amp;limit=$limit");
+        $nav       = new \XoopsPageNav($mimeCount, $limit, $start, 'start', "op=manage&amp;limit=$limit");
 
         echo "<table width='100%' cellspacing='1' class='outer'>";
         echo "<tr><td colspan='6' align='right'>";
@@ -548,7 +548,7 @@ class PublisherMimetypesUtility
         if (Request::getString('deleteMimes', '', 'POST')) {
             $aMimes = Request::getArray('mimes', [], 'POST');
 
-            $crit = new Criteria('mime_id', '(' . implode($aMimes, ',') . ')', 'IN');
+            $crit = new \Criteria('mime_id', '(' . implode($aMimes, ',') . ')', 'IN');
 
             if ($helper->getHandler('mimetype')->deleteAll($crit)) {
                 header('Location: ' . PUBLISHER_ADMIN_URL . "/mimetypes.php?limit=$limit&start=$start");
@@ -601,14 +601,14 @@ class PublisherMimetypesUtility
             $searchField = isset($aSearchBy[$searchField]) ? $searchField : 'mime_ext';
             $searchText  = Request::getString('search_text', '');
 
-            $crit = new Criteria($searchField, '%' . $GLOBALS['xoopsDB']->escape($searchText) . '%', 'LIKE');
+            $crit = new \Criteria($searchField, '%' . $GLOBALS['xoopsDB']->escape($searchText) . '%', 'LIKE');
             $crit->setSort($sort);
             $crit->setOrder($order);
             $crit->setLimit($limit);
             $crit->setStart($start);
             $mimeCount = $helper->getHandler('mimetype')->getCount($crit);
             $mimetypes = $helper->getHandler('mimetype')->getObjects($crit);
-            $nav       = new XoopsPageNav($mimeCount, $limit, $start, 'start', "op=search&amp;limit=$limit&amp;order=$order&amp;sort=$sort&amp;mime_search=1&amp;search_by=$searchField&amp;search_text=" . htmlentities($searchText, ENT_QUOTES));
+            $nav       = new \XoopsPageNav($mimeCount, $limit, $start, 'start', "op=search&amp;limit=$limit&amp;order=$order&amp;sort=$sort&amp;mime_search=1&amp;search_by=$searchField&amp;search_text=" . htmlentities($searchText, ENT_QUOTES));
             // Display results
             echo '<script type="text/javascript" src="' . PUBLISHER_URL . '/include/functions.js"></script>';
 

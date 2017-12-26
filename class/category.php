@@ -373,7 +373,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     /**
      * @param null|XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         $this->publisher = publisher\Helper::getInstance();
         parent::__construct($db, 'publisher_categories', 'PublisherCategory', 'categoryid', 'name');
@@ -407,7 +407,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      * @param  bool        $force
      * @return bool        FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function insert(XoopsObject $category, $force = false) //insert(&$category, $force = false)
+    public function insert(\XoopsObject $category, $force = false) //insert(&$category, $force = false)
     {
         // Auto create meta tags if empty
         if (!$category->meta_keywords() || !$category->meta_description()) {
@@ -436,10 +436,10 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      *
      * @return bool FALSE if failed.
      */
-    public function delete(XoopsObject $category, $force = false) //delete(&$category, $force = false)
+    public function delete(\XoopsObject $category, $force = false) //delete(&$category, $force = false)
     {
         // Deleting this category ITEMs
-        $criteria = new Criteria('categoryid', $category->categoryid());
+        $criteria = new \Criteria('categoryid', $category->categoryid());
         $this->publisher->getHandler('item')->deleteAll($criteria);
         unset($criteria);
         // Deleting the sub categories
@@ -498,21 +498,21 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     public function &getCategories($limit = 0, $start = 0, $parentid = 0, $sort = 'weight', $order = 'ASC', $idAsKey = true)
     {
         //        global $publisherIsAdmin;
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort($sort);
         $criteria->setOrder($order);
         if ($parentid != -1) {
-            $criteria->add(new Criteria('parentid', $parentid));
+            $criteria->add(new \Criteria('parentid', $parentid));
         }
         if (!$GLOBALS['publisherIsAdmin']) {
             $categoriesGranted = $this->publisher->getHandler('permission')->getGrantedItems('category_read');
             if (count($categoriesGranted) > 0) {
-                $criteria->add(new Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
+                $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
             } else {
                 return [];
             }
             if (is_object($GLOBALS['xoopsUser'])) {
-                $criteria->add(new Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
+                $criteria->add(new \Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
             }
         }
         $criteria->setStart($start);
@@ -551,18 +551,18 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     {
         global $publisherIsAdmin, $theresult;
         $ret      = [];
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('name');
         $criteria->setOrder('ASC');
         if (!$publisherIsAdmin) {
             $categoriesGranted = $this->publisher->getHandler('permission')->getGrantedItems('item_submit');
             if (count($categoriesGranted) > 0) {
-                $criteria->add(new Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
+                $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
             } else {
                 return $ret;
             }
             if (is_object($GLOBALS['xoopsUser'])) {
-                $criteria->add(new Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
+                $criteria->add(new \Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
             }
         }
         $categories = $this->getAll($criteria, ['categoryid', 'parentid', 'name'], false, false);
@@ -593,18 +593,18 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     {
         global $publisherIsAdmin, $theresult;
         $ret      = [];
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('name');
         $criteria->setOrder('ASC');
         if (!$publisherIsAdmin) {
             $categoriesGranted = $this->publisher->getHandler('permission')->getGrantedItems('category_read');
             if (count($categoriesGranted) > 0) {
-                $criteria->add(new Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
+                $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
             } else {
                 return $ret;
             }
             if (is_object($GLOBALS['xoopsUser'])) {
-                $criteria->add(new Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
+                $criteria->add(new \Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
             }
         }
         $categories = $this->getAll($criteria, ['categoryid', 'parentid', 'name'], false, false);
@@ -639,18 +639,18 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
         if ($parentid == -1) {
             return $this->getCount();
         }
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         if (isset($parentid) && ($parentid != -1)) {
-            $criteria->add(new criteria('parentid', $parentid));
+            $criteria->add(new \Criteria('parentid', $parentid));
             if (!$GLOBALS['publisherIsAdmin']) {
                 $categoriesGranted = $this->publisher->getHandler('permission')->getGrantedItems('category_read');
                 if (count($categoriesGranted) > 0) {
-                    $criteria->add(new Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
+                    $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
                 } else {
                     return 0;
                 }
                 if (is_object($GLOBALS['xoopsUser'])) {
-                    $criteria->add(new Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
+                    $criteria->add(new \Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
                 }
             }
         }
@@ -668,18 +668,18 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
     public function getSubCats($categories)
     {
         //        global $publisherIsAdmin;
-        $criteria = new CriteriaCompo(new Criteria('parentid', '(' . implode(',', array_keys($categories)) . ')', 'IN'));
+        $criteria = new \CriteriaCompo(new \Criteria('parentid', '(' . implode(',', array_keys($categories)) . ')', 'IN'));
         $ret      = [];
         if (!$GLOBALS['publisherIsAdmin']) {
             $categoriesGranted = $this->publisher->getHandler('permission')->getGrantedItems('category_read');
             if (count($categoriesGranted) > 0) {
-                $criteria->add(new Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
+                $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
             } else {
                 return $ret;
             }
 
             if (is_object($GLOBALS['xoopsUser'])) {
-                $criteria->add(new Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
+                $criteria->add(new \Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
             }
         }
         $criteria->setSort('weight');

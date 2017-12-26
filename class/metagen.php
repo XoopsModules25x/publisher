@@ -79,7 +79,7 @@ class PublisherMetagen
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
         $this->publisher = publisher\Helper::getInstance();
-        $this->myts      = MyTextSanitizer::getInstance();
+        $this->myts      = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
         $this->setTitle($title);
         $this->setDescription($description);

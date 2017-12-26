@@ -23,7 +23,7 @@ use Xmf\Request;
 use Xoopsmodules\publisher;
 
 require_once dirname(__DIR__) . '/admin_header.php';
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'AMS ' . Request::getString('ams_version', '', 'POST');
 
@@ -54,7 +54,7 @@ if ('start' === $op) {
         } else {
             echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat) . '</span>';
 
-            $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
+            $form = new \XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
             //---------- mb ------------------
             // add 'publisher' category to 'imagecategory' table
@@ -130,24 +130,24 @@ if ('start' === $op) {
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }
 
-            $cat_label = new XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $cat_cbox_options));
+            $cat_label = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $cat_cbox_options));
             $cat_label->setDescription(_AM_PUBLISHER_IMPORT_CATEGORIES_DSC);
             $form->addElement($cat_label);
 
             // Publisher parent category
-            $mytree = new XoopsTree($GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories'), 'categoryid', 'parentid');
+            $mytree = new \XoopsTree($GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories'), 'categoryid', 'parentid');
             ob_start();
             $mytree->makeMySelBox('name', 'weight', $preset_id = 0, $none = 1, $sel_name = 'parent_category');
 
-            $parent_cat_sel = new XoopsFormLabel(_AM_PUBLISHER_IMPORT_PARENT_CATEGORY, ob_get_contents());
+            $parent_cat_sel = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_PARENT_CATEGORY, ob_get_contents());
             $parent_cat_sel->setDescription(_AM_PUBLISHER_IMPORT_PARENT_CATEGORY_DSC);
             $form->addElement($parent_cat_sel);
             ob_end_clean();
 
-            $form->addElement(new XoopsFormHidden('op', 'go'));
-            $form->addElement(new XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
+            $form->addElement(new \XoopsFormHidden('op', 'go'));
+            $form->addElement(new \XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
 
-            $form->addElement(new XoopsFormHidden('from_module_version', Request::getString('ams_version', '', 'POST')));
+            $form->addElement(new \XoopsFormHidden('from_module_version', Request::getString('ams_version', '', 'POST')));
 
             $form->display();
         }
@@ -183,24 +183,24 @@ if ('go' === $op) {
     $newArticleArray = [];
 
     $imageCategoryHandler = xoops_getHandler('imagecategory');
-    //    $criteria = new criteriaCombo;
+    //    $criteria = new \CriteriaCombo;
 
     //  get the total number of subcats for this category
-    // $criteria = new CriteriaCompo();
-    // $criteria->add(new Criteria('imagecategory', $catObj->getVar('cid'), '='));
+    // $criteria = new \CriteriaCompo();
+    // $criteria->add(new \Criteria('imagecategory', $catObj->getVar('cid'), '='));
     // $childCount = (int)($mylinksCatHandler->getCount($criteria));
 
-    $criteria        = new Criteria('imgcat_name', PUBLISHER_DIRNAME);
+    $criteria        = new \Criteria('imgcat_name', PUBLISHER_DIRNAME);
     $imageCategoryId = $imageCategoryHandler->getObjects($criteria);
 
-    //    $criteria = new CriteriaCompo();
-    //    $criteria->add(new Criteria('imagecategory', PUBLISHER_DIRNAME, '='));
+    //    $criteria = new \CriteriaCompo();
+    //    $criteria->add(new \Criteria('imagecategory', PUBLISHER_DIRNAME, '='));
 
     //    $newid = $imageCategoryId->getVar('imgcat_id');
     $newid = $imageCategoryId[0]->vars['imgcat_id']['value'];
     //    $newid = $imageCategoryId[0]->vars['imgcat_id'];
 
-    //    $select_form = new XoopsFormSelect('', $name_current, array(), 1);
+    //    $select_form = new \XoopsFormSelect('', $name_current, array(), 1);
     //    $select_form->addOption('', _SELECT);
     //    $select_form->addOptionArray($writerHandler->getList($criteria));
 
@@ -314,7 +314,7 @@ if ('go' === $op) {
 
             $imgHandler = xoops_getHandler('image');
 
-            //            $criteria = new Criteria('image_name', $arrArticle['picture']);
+            //            $criteria = new \Criteria('image_name', $arrArticle['picture']);
             $imageId    = $imgHandler->getObjects($criteria);
             $newImageId = $imageId[0]->vars['image_id']['value'];
             $itemObj->setVar('image', $newImageId);
@@ -398,8 +398,8 @@ if ('go' === $op) {
 
     // Looping through category to change the parentID to the new parentID
     foreach ($newCatArray as $oldid => $newCat) {
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('categoryid', $newCat['newid']));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('categoryid', $newCat['newid']));
         $oldpid = $newCat['oldpid'];
         if (0 == $oldpid) {
             $newpid = $parentId;
@@ -418,8 +418,8 @@ if ('go' === $op) {
 
     /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
-    $criteria       = new CriteriaCompo();
-    $criteria->add(new Criteria('com_modid', $ams_module_id));
+    $criteria       = new \CriteriaCompo();
+    $criteria->add(new \Criteria('com_modid', $ams_module_id));
     $comments = $commentHandler->getObjects($criteria);
     /** @var XoopsComment $comment */
     foreach ($comments as $comment) {

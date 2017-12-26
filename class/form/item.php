@@ -147,22 +147,22 @@ class PublisherItemForm extends PublisherThemeTabForm
         $this->startTab(_CO_PUBLISHER_TAB_MAIN);
 
         // Category
-        $categoryFormSelect = new XoopsFormSelect(_CO_PUBLISHER_CATEGORY, 'categoryid', $obj->getVar('categoryid', 'e'));
+        $categoryFormSelect = new \XoopsFormSelect(_CO_PUBLISHER_CATEGORY, 'categoryid', $obj->getVar('categoryid', 'e'));
         $categoryFormSelect->setDescription(_CO_PUBLISHER_CATEGORY_DSC);
         $categoryFormSelect->addOptionArray($helper->getHandler('category')->getCategoriesForSubmit());
         $this->addElement($categoryFormSelect);
 
         // ITEM TITLE
-        $this->addElement(new XoopsFormText(_CO_PUBLISHER_TITLE, 'title', 50, 255, $obj->getVar('title', 'e')), true);
+        $this->addElement(new \XoopsFormText(_CO_PUBLISHER_TITLE, 'title', 50, 255, $obj->getVar('title', 'e')), true);
 
         // SUBTITLE
         if ($this->isGranted(PublisherConstants::PUBLISHER_SUBTITLE)) {
-            $this->addElement(new XoopsFormText(_CO_PUBLISHER_SUBTITLE, 'subtitle', 50, 255, $obj->getVar('subtitle', 'e')));
+            $this->addElement(new \XoopsFormText(_CO_PUBLISHER_SUBTITLE, 'subtitle', 50, 255, $obj->getVar('subtitle', 'e')));
         }
 
         // SHORT URL
         if ($this->isGranted(PublisherConstants::PUBLISHER_ITEM_SHORT_URL)) {
-            $textShortUrl = new XoopsFormText(_CO_PUBLISHER_ITEM_SHORT_URL, 'item_short_url', 50, 255, $obj->short_url('e'));
+            $textShortUrl = new \XoopsFormText(_CO_PUBLISHER_ITEM_SHORT_URL, 'item_short_url', 50, 255, $obj->short_url('e'));
             $textShortUrl->setDescription(_CO_PUBLISHER_ITEM_SHORT_URL_DSC);
             $this->addElement($textShortUrl);
         }
@@ -191,7 +191,7 @@ class PublisherItemForm extends PublisherThemeTabForm
             }
             $editor = (empty($editor) || !in_array($editor, $allowedEditors)) ? $helper->getConfig('submit_editor') : $editor;
 
-            $formEditor = new XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowedEditors);
+            $formEditor = new \XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowedEditors);
             $this->addElement($formEditor);
         } else {
             $editor = $helper->getConfig('submit_editor');
@@ -206,10 +206,10 @@ class PublisherItemForm extends PublisherThemeTabForm
         // SUMMARY
         if ($this->isGranted(PublisherConstants::PUBLISHER_SUMMARY)) {
             // Description
-            //$summaryText = new XoopsFormTextArea(_CO_PUBLISHER_SUMMARY, 'summary', $obj->getVar('summary', 'e'), 7, 60);
+            //$summaryText = new \XoopsFormTextArea(_CO_PUBLISHER_SUMMARY, 'summary', $obj->getVar('summary', 'e'), 7, 60);
             $editorConfigs['name']  = 'summary';
             $editorConfigs['value'] = $obj->getVar('summary', 'e');
-            $summaryText            = new XoopsFormEditor(_CO_PUBLISHER_SUMMARY, $editor, $editorConfigs, $nohtml, $onfailure = null);
+            $summaryText            = new \XoopsFormEditor(_CO_PUBLISHER_SUMMARY, $editor, $editorConfigs, $nohtml, $onfailure = null);
             $summaryText->setDescription(_CO_PUBLISHER_SUMMARY_DSC);
             $this->addElement($summaryText);
         }
@@ -217,7 +217,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         // BODY
         $editorConfigs['name']  = 'body';
         $editorConfigs['value'] = $obj->getVar('body', 'e');
-        $bodyText               = new XoopsFormEditor(_CO_PUBLISHER_BODY, $editor, $editorConfigs, $nohtml, $onfailure = null);
+        $bodyText               = new \XoopsFormEditor(_CO_PUBLISHER_BODY, $editor, $editorConfigs, $nohtml, $onfailure = null);
         $bodyText->setDescription(_CO_PUBLISHER_BODY_DSC);
         $this->addElement($bodyText);
 
@@ -228,23 +228,23 @@ class PublisherItemForm extends PublisherThemeTabForm
             || $this->isGranted(PublisherConstants::PUBLISHER_DOIMAGE)
             || $this->isGranted(PublisherConstants::PUBLISHER_DOLINEBREAK)) {
             if ($this->isGranted(PublisherConstants::PUBLISHER_DOHTML)) {
-                $html_radio = new XoopsFormRadioYN(_CO_PUBLISHER_DOHTML, 'dohtml', $obj->dohtml(), _YES, _NO);
+                $html_radio = new \XoopsFormRadioYN(_CO_PUBLISHER_DOHTML, 'dohtml', $obj->dohtml(), _YES, _NO);
                 $this->addElement($html_radio);
             }
             if ($this->isGranted(PublisherConstants::PUBLISHER_DOSMILEY)) {
-                $smiley_radio = new XoopsFormRadioYN(_CO_PUBLISHER_DOSMILEY, 'dosmiley', $obj->dosmiley(), _YES, _NO);
+                $smiley_radio = new \XoopsFormRadioYN(_CO_PUBLISHER_DOSMILEY, 'dosmiley', $obj->dosmiley(), _YES, _NO);
                 $this->addElement($smiley_radio);
             }
             if ($this->isGranted(PublisherConstants::PUBLISHER_DOXCODE)) {
-                $xcode_radio = new XoopsFormRadioYN(_CO_PUBLISHER_DOXCODE, 'doxcode', $obj->doxcode(), _YES, _NO);
+                $xcode_radio = new \XoopsFormRadioYN(_CO_PUBLISHER_DOXCODE, 'doxcode', $obj->doxcode(), _YES, _NO);
                 $this->addElement($xcode_radio);
             }
             if ($this->isGranted(PublisherConstants::PUBLISHER_DOIMAGE)) {
-                $image_radio = new XoopsFormRadioYN(_CO_PUBLISHER_DOIMAGE, 'doimage', $obj->doimage(), _YES, _NO);
+                $image_radio = new \XoopsFormRadioYN(_CO_PUBLISHER_DOIMAGE, 'doimage', $obj->doimage(), _YES, _NO);
                 $this->addElement($image_radio);
             }
             if ($this->isGranted(PublisherConstants::PUBLISHER_DOLINEBREAK)) {
-                $linebreak_radio = new XoopsFormRadioYN(_CO_PUBLISHER_DOLINEBREAK, 'dolinebreak', $obj->dobr(), _YES, _NO);
+                $linebreak_radio = new \XoopsFormRadioYN(_CO_PUBLISHER_DOLINEBREAK, 'dolinebreak', $obj->dobr(), _YES, _NO);
                 $this->addElement($linebreak_radio);
             }
         }
@@ -256,13 +256,13 @@ class PublisherItemForm extends PublisherThemeTabForm
             foreach ($wrapPages as $page) {
                 $availableWrapPagesText[] = "<span onclick='publisherPageWrap(\"body\", \"[pagewrap=$page] \");' onmouseover='style.cursor=\"pointer\"'>$page</span>";
             }
-            $availableWrapPages = new XoopsFormLabel(_CO_PUBLISHER_AVAILABLE_PAGE_WRAP, implode(', ', $availableWrapPagesText));
+            $availableWrapPages = new \XoopsFormLabel(_CO_PUBLISHER_AVAILABLE_PAGE_WRAP, implode(', ', $availableWrapPagesText));
             $availableWrapPages->setDescription(_CO_PUBLISHER_AVAILABLE_PAGE_WRAP_DSC);
             $this->addElement($availableWrapPages);
         }
 
         if ($this->isGranted(PublisherConstants::PUBLISHER_UID)) {
-            $this->addElement(new XoopsFormSelectUser(_CO_PUBLISHER_UID, 'uid', false, $obj->uid(), 1, false), false);
+            $this->addElement(new \XoopsFormSelectUser(_CO_PUBLISHER_UID, 'uid', false, $obj->uid(), 1, false), false);
         }
 
         // Uid
@@ -272,7 +272,7 @@ class PublisherItemForm extends PublisherThemeTabForm
         // Trabis : well, maybe is because you are getting 6000 objects into memory , no??? LOL
         /*
         if ($this->isGranted(PublisherConstants::PUBLISHER_UID)) {
-            $uidSelect = new XoopsFormSelect(_CO_PUBLISHER_UID, 'uid', $obj->uid(), 1, false);
+            $uidSelect = new \XoopsFormSelect(_CO_PUBLISHER_UID, 'uid', $obj->uid(), 1, false);
             $uidSelect->setDescription(_CO_PUBLISHER_UID_DSC);
             $sql           = 'SELECT uid, uname FROM ' . $obj->db->prefix('users') . ' ORDER BY uname ASC';
             $result        = $obj->db->query($sql);
@@ -287,14 +287,14 @@ class PublisherItemForm extends PublisherThemeTabForm
         */
 
         /* else {
-        $hidden = new XoopsFormHidden('uid', $obj->uid());
+        $hidden = new \XoopsFormHidden('uid', $obj->uid());
         $this->addElement($hidden);
         unset($hidden);
         }*/
 
         // Author ALias
         if ($this->isGranted(PublisherConstants::PUBLISHER_AUTHOR_ALIAS)) {
-            $element = new XoopsFormText(_CO_PUBLISHER_AUTHOR_ALIAS, 'author_alias', 50, 255, $obj->getVar('author_alias', 'e'));
+            $element = new \XoopsFormText(_CO_PUBLISHER_AUTHOR_ALIAS, 'author_alias', 50, 255, $obj->getVar('author_alias', 'e'));
             $element->setDescription(_CO_PUBLISHER_AUTHOR_ALIAS_DSC);
             $this->addElement($element);
             unset($element);
@@ -308,7 +308,7 @@ class PublisherItemForm extends PublisherThemeTabForm
                 PublisherConstants::PUBLISHER_STATUS_OFFLINE   => _CO_PUBLISHER_OFFLINE,
                 PublisherConstants::PUBLISHER_STATUS_REJECTED  => _CO_PUBLISHER_REJECTED
             ];
-            $statusSelect = new XoopsFormSelect(_CO_PUBLISHER_STATUS, 'status', $obj->getVar('status'));
+            $statusSelect = new \XoopsFormSelect(_CO_PUBLISHER_STATUS, 'status', $obj->getVar('status'));
             $statusSelect->addOptionArray($options);
             $statusSelect->setDescription(_CO_PUBLISHER_STATUS_DSC);
             $this->addElement($statusSelect);
@@ -323,7 +323,7 @@ class PublisherItemForm extends PublisherThemeTabForm
                 $datesub = (0 == $obj->getVar('datesub')) ? time() : $obj->getVar('datesub');
             }
             $datesub_datetime = new PublisherFormDateTime(_CO_PUBLISHER_DATESUB, 'datesub', $size = 15, $datesub, true, true);
-            // $datesub_datetime = new XoopsFormDateTime(_CO_PUBLISHER_DATESUB, 'datesub', $size = 15, $datesub, true, true);
+            // $datesub_datetime = new \XoopsFormDateTime(_CO_PUBLISHER_DATESUB, 'datesub', $size = 15, $datesub, true, true);
 
             $datesub_datetime->setDescription(_CO_PUBLISHER_DATESUB_DSC);
             $this->addElement($datesub_datetime);
@@ -331,7 +331,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // NOTIFY ON PUBLISH
         if ($this->isGranted(PublisherConstants::PUBLISHER_NOTIFY)) {
-            $notify_radio = new XoopsFormRadioYN(_CO_PUBLISHER_NOTIFY, 'notify', $obj->notifypub(), _YES, _NO);
+            $notify_radio = new \XoopsFormRadioYN(_CO_PUBLISHER_NOTIFY, 'notify', $obj->notifypub(), _YES, _NO);
             $this->addElement($notify_radio);
         }
 
@@ -360,8 +360,8 @@ class PublisherItemForm extends PublisherThemeTabForm
             $imageObjs = [];
             if (!empty($catids)) {
                 $imageHandler = xoops_getHandler('image');
-                $criteria     = new CriteriaCompo(new Criteria('imgcat_id', '(' . implode(',', $catids) . ')', 'IN'));
-                $criteria->add(new Criteria('image_display', 1));
+                $criteria     = new \CriteriaCompo(new \Criteria('imgcat_id', '(' . implode(',', $catids) . ')', 'IN'));
+                $criteria->add(new \Criteria('image_display', 1));
                 $criteria->setSort('image_nicename');
                 $criteria->setOrder('ASC');
                 $imageObjs = $imageHandler->getObjects($criteria, true);
@@ -374,29 +374,29 @@ class PublisherItemForm extends PublisherThemeTabForm
 
             $image_array = array_diff($image_array, $objimage_array);
 
-            $imageSelect = new XoopsFormSelect('', 'image_notused', '', 5);
+            $imageSelect = new \XoopsFormSelect('', 'image_notused', '', 5);
             $imageSelect->addOptionArray($image_array);
             $imageSelect->setExtra("onchange='showImgSelected(\"image_display\", \"image_notused\", \"uploads/\", \"\", \"" . XOOPS_URL . "\")'");
             //$imageSelect->setExtra( "onchange='appendMySelectOption(\"image_notused\", \"image_item\")'");
             unset($image_array);
 
-            $imageSelect2 = new XoopsFormSelect('', 'image_item', '', 5, true);
+            $imageSelect2 = new \XoopsFormSelect('', 'image_item', '', 5, true);
             $imageSelect2->addOptionArray($objimage_array);
             $imageSelect2->setExtra("onchange='publisher_updateSelectOption(\"image_item\", \"image_featured\"), showImgSelected(\"image_display\", \"image_item\", \"uploads/\", \"\", \"" . XOOPS_URL . "\")'");
 
-            $buttonadd = new XoopsFormButton('', 'buttonadd', _CO_PUBLISHER_ADD);
+            $buttonadd = new \XoopsFormButton('', 'buttonadd', _CO_PUBLISHER_ADD);
             $buttonadd->setExtra("onclick='publisher_appendSelectOption(\"image_notused\", \"image_item\"), publisher_updateSelectOption(\"image_item\", \"image_featured\")'");
 
-            $buttonremove = new XoopsFormButton('', 'buttonremove', _CO_PUBLISHER_REMOVE);
+            $buttonremove = new \XoopsFormButton('', 'buttonremove', _CO_PUBLISHER_REMOVE);
             $buttonremove->setExtra("onclick='publisher_appendSelectOption(\"image_item\", \"image_notused\"), publisher_updateSelectOption(\"image_item\", \"image_featured\")'");
 
-            $opentable  = new XoopsFormLabel('', '<table><tr><td>');
-            $addcol     = new XoopsFormLabel('', '</td><td>');
-            $addbreak   = new XoopsFormLabel('', '<br>');
-            $closetable = new XoopsFormLabel('', '</td></tr></table>');
+            $opentable  = new \XoopsFormLabel('', '<table><tr><td>');
+            $addcol     = new \XoopsFormLabel('', '</td><td>');
+            $addbreak   = new \XoopsFormLabel('', '<br>');
+            $closetable = new \XoopsFormLabel('', '</td></tr></table>');
 
             $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ajaxupload.3.9.js');
-            $js_data  = new XoopsFormLabel('', '
+            $js_data  = new \XoopsFormLabel('', '
 
 <script type= "text/javascript">
 $helper(document).ready(function () {
@@ -438,9 +438,9 @@ $helper(document).ready(function () {
 </script>
 
 ');
-            $messages = new XoopsFormLabel('', "<div id='publisher_upload_message'></div>");
-            $button   = new XoopsFormLabel('', "<div id='publisher_upload_button'>" . _CO_PUBLISHER_IMAGE_UPLOAD_NEW . '</div>');
-            $nicename = new XoopsFormText('', 'image_nicename', 30, 30, _CO_PUBLISHER_IMAGE_NICENAME);
+            $messages = new \XoopsFormLabel('', "<div id='publisher_upload_message'></div>");
+            $button   = new \XoopsFormLabel('', "<div id='publisher_upload_button'>" . _CO_PUBLISHER_IMAGE_UPLOAD_NEW . '</div>');
+            $nicename = new \XoopsFormText('', 'image_nicename', 30, 30, _CO_PUBLISHER_IMAGE_NICENAME);
 
             $imgcatHandler = xoops_getHandler('imagecategory');
             if (method_exists($imgcatHandler, 'getListByPermission')) {
@@ -448,10 +448,10 @@ $helper(document).ready(function () {
             } else {
                 $catlist = $imgcatHandler->getList($group, 'imgcat_read', 1);
             }
-            $imagecat = new XoopsFormSelect('', 'imgcat_id', '', 1);
+            $imagecat = new \XoopsFormSelect('', 'imgcat_id', '', 1);
             $imagecat->addOptionArray($catlist);
 
-            $imageUploadTray = new XoopsFormElementTray(_CO_PUBLISHER_IMAGE_UPLOAD, '');
+            $imageUploadTray = new \XoopsFormElementTray(_CO_PUBLISHER_IMAGE_UPLOAD, '');
             $imageUploadTray->addElement($js_data);
             $imageUploadTray->addElement($messages);
             $imageUploadTray->addElement($opentable);
@@ -463,7 +463,7 @@ $helper(document).ready(function () {
             $imageUploadTray->addElement($closetable);
             $this->addElement($imageUploadTray);
 
-            $imageTray = new XoopsFormElementTray(_CO_PUBLISHER_IMAGE_ITEMS, '');
+            $imageTray = new \XoopsFormElementTray(_CO_PUBLISHER_IMAGE_ITEMS, '');
             $imageTray->addElement($opentable);
 
             $imageTray->addElement($imageSelect);
@@ -483,13 +483,13 @@ $helper(document).ready(function () {
             $imagename    = is_object($objimages['main']) ? $objimages['main']->getVar('image_name') : '';
             $imageforpath = ('' != $imagename) ? $imagename : 'blank.gif';
 
-            $imageSelect3 = new XoopsFormSelect(_CO_PUBLISHER_IMAGE_ITEM, 'image_featured', $imagename, 1);
+            $imageSelect3 = new \XoopsFormSelect(_CO_PUBLISHER_IMAGE_ITEM, 'image_featured', $imagename, 1);
             $imageSelect3->addOptionArray($objimage_array);
             $imageSelect3->setExtra("onchange='showImgSelected(\"image_display\", \"image_featured\", \"uploads/\", \"\", \"" . XOOPS_URL . "\")'");
             $imageSelect3->setDescription(_CO_PUBLISHER_IMAGE_ITEM_DSC);
             $this->addElement($imageSelect3);
 
-            $image_preview = new XoopsFormLabel(_CO_PUBLISHER_IMAGE_PREVIEW, "<img src='" . XOOPS_URL . '/uploads/' . $imageforpath . "' name='image_display' id='image_display' alt=''>");
+            $image_preview = new \XoopsFormLabel(_CO_PUBLISHER_IMAGE_PREVIEW, "<img src='" . XOOPS_URL . '/uploads/' . $imageforpath . "' name='image_display' id='image_display' alt=''>");
             $this->addElement($image_preview);
         }
 
@@ -499,23 +499,23 @@ $helper(document).ready(function () {
         // File upload UPLOAD
         if ($this->isGranted(PublisherConstants::PUBLISHER_ITEM_UPLOAD_FILE)) {
             // NAME
-            $nameText = new XoopsFormText(_CO_PUBLISHER_FILENAME, 'item_file_name', 50, 255, '');
+            $nameText = new \XoopsFormText(_CO_PUBLISHER_FILENAME, 'item_file_name', 50, 255, '');
             $nameText->setDescription(_CO_PUBLISHER_FILE_NAME_DSC);
             $this->addElement($nameText);
             unset($nameText);
 
             // DESCRIPTION
-            $descriptionText = new XoopsFormTextArea(_CO_PUBLISHER_FILE_DESCRIPTION, 'item_file_description', '');
+            $descriptionText = new \XoopsFormTextArea(_CO_PUBLISHER_FILE_DESCRIPTION, 'item_file_description', '');
             $descriptionText->setDescription(_CO_PUBLISHER_FILE_DESCRIPTION_DSC);
             $this->addElement($descriptionText);
             unset($descriptionText);
 
-            $statusSelect = new XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'item_file_status', 1); //1 - active
+            $statusSelect = new \XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'item_file_status', 1); //1 - active
             $statusSelect->setDescription(_CO_PUBLISHER_FILE_STATUS_DSC);
             $this->addElement($statusSelect);
             unset($statusSelect);
 
-            $fileBox = new XoopsFormFile(_CO_PUBLISHER_ITEM_UPLOAD_FILE, 'item_upload_file', 0);
+            $fileBox = new \XoopsFormFile(_CO_PUBLISHER_ITEM_UPLOAD_FILE, 'item_upload_file', 0);
             $fileBox->setDescription(_CO_PUBLISHER_ITEM_UPLOAD_FILE_DSC);
             $fileBox->setExtra("size ='50'");
             $this->addElement($fileBox);
@@ -553,7 +553,7 @@ $helper(document).ready(function () {
                     }
                     $table .= '</table>';
 
-                    $files_box = new XoopsFormLabel(_CO_PUBLISHER_FILES_LINKED, $table);
+                    $files_box = new \XoopsFormLabel(_CO_PUBLISHER_FILES_LINKED, $table);
                     $this->addElement($files_box);
                     unset($files_box, $filesObj, $fileObj);
                 }
@@ -566,14 +566,14 @@ $helper(document).ready(function () {
         //$this->startTab(_CO_PUBLISHER_TAB_META);
         // Meta Keywords
         if ($this->isGranted(PublisherConstants::PUBLISHER_ITEM_META_KEYWORDS)) {
-            $text_meta_keywords = new XoopsFormTextArea(_CO_PUBLISHER_ITEM_META_KEYWORDS, 'item_meta_keywords', $obj->meta_keywords('e'), 7, 60);
+            $text_meta_keywords = new \XoopsFormTextArea(_CO_PUBLISHER_ITEM_META_KEYWORDS, 'item_meta_keywords', $obj->meta_keywords('e'), 7, 60);
             $text_meta_keywords->setDescription(_CO_PUBLISHER_ITEM_META_KEYWORDS_DSC);
             $this->addElement($text_meta_keywords);
         }
 
         // Meta Description
         if ($this->isGranted(PublisherConstants::PUBLISHER_ITEM_META_DESCRIPTION)) {
-            $text_meta_description = new XoopsFormTextArea(_CO_PUBLISHER_ITEM_META_DESCRIPTION, 'item_meta_description', $obj->meta_description('e'), 7, 60);
+            $text_meta_description = new \XoopsFormTextArea(_CO_PUBLISHER_ITEM_META_DESCRIPTION, 'item_meta_description', $obj->meta_description('e'), 7, 60);
             $text_meta_description->setDescription(_CO_PUBLISHER_ITEM_META_DESCRIPTION_DSC);
             $this->addElement($text_meta_description);
         }
@@ -582,37 +582,37 @@ $helper(document).ready(function () {
 
         // COMMENTS
         if ($this->isGranted(PublisherConstants::PUBLISHER_ALLOWCOMMENTS)) {
-            $addcomments_radio = new XoopsFormRadioYN(_CO_PUBLISHER_ALLOWCOMMENTS, 'allowcomments', $obj->cancomment(), _YES, _NO);
+            $addcomments_radio = new \XoopsFormRadioYN(_CO_PUBLISHER_ALLOWCOMMENTS, 'allowcomments', $obj->cancomment(), _YES, _NO);
             $this->addElement($addcomments_radio);
         }
 
         // WEIGHT
         if ($this->isGranted(PublisherConstants::PUBLISHER_WEIGHT)) {
-            $this->addElement(new XoopsFormText(_CO_PUBLISHER_WEIGHT, 'weight', 5, 5, $obj->weight()));
+            $this->addElement(new \XoopsFormText(_CO_PUBLISHER_WEIGHT, 'weight', 5, 5, $obj->weight()));
         }
 
         $this->endTabs();
 
         //COMMON TO ALL TABS
 
-        $button_tray = new XoopsFormElementTray('', '');
+        $button_tray = new \XoopsFormElementTray('', '');
 
         if (!$obj->isNew()) {
-            $button_tray->addElement(new XoopsFormButton('', 'additem', _SUBMIT, 'submit')); //orclone
+            $button_tray->addElement(new \XoopsFormButton('', 'additem', _SUBMIT, 'submit')); //orclone
         } else {
-            $button_tray->addElement(new XoopsFormButton('', 'additem', _CO_PUBLISHER_CREATE, 'submit'));
-            $button_tray->addElement(new XoopsFormButton('', '', _CO_PUBLISHER_CLEAR, 'reset'));
+            $button_tray->addElement(new \XoopsFormButton('', 'additem', _CO_PUBLISHER_CREATE, 'submit'));
+            $button_tray->addElement(new \XoopsFormButton('', '', _CO_PUBLISHER_CLEAR, 'reset'));
         }
 
-        $button_tray->addElement(new XoopsFormButton('', 'preview', _CO_PUBLISHER_PREVIEW, 'submit'));
+        $button_tray->addElement(new \XoopsFormButton('', 'preview', _CO_PUBLISHER_PREVIEW, 'submit'));
 
-        $butt_cancel = new XoopsFormButton('', '', _CO_PUBLISHER_CANCEL, 'button');
+        $butt_cancel = new \XoopsFormButton('', '', _CO_PUBLISHER_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');
         $button_tray->addElement($butt_cancel);
 
         $this->addElement($button_tray);
 
-        $hidden = new XoopsFormHidden('itemid', $obj->itemid());
+        $hidden = new \XoopsFormHidden('itemid', $obj->itemid());
         $this->addElement($hidden);
         unset($hidden);
 

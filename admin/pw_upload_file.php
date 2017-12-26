@@ -54,7 +54,7 @@ function publisher_pagewrap_upload(&$errors)
         mkdir(publisher\Utility::getUploadDir(true, 'content'), 0757);
     }
     $allowedMimeTypes = ['text/html', 'text/plain', 'application/xhtml+xml'];
-    $uploader         = new XoopsMediaUploader(publisher\Utility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
+    $uploader         = new \XoopsMediaUploader(publisher\Utility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
     if ($uploader->fetchMedia($postField)) {
         $uploader->setTargetFileName($uploader->getMediaName());
         if ($uploader->upload()) {

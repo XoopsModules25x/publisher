@@ -114,7 +114,7 @@ class PublisherThemeTabForm extends XoopsForm
         $this->method  = $method;
         $this->summary = $summary;
         if (false !== $addtoken) {
-            $this->addElement(new XoopsFormHiddenToken());
+            $this->addElement(new \XoopsFormHiddenToken());
         }
     }
 
@@ -123,7 +123,7 @@ class PublisherThemeTabForm extends XoopsForm
     /**
      * @param XoopsTpl $tpl
      */
-    public function assign(XoopsTpl $tpl)
+    public function assign(\XoopsTpl $tpl)
     {
         $i        = -1;
         $tab      = -1;
@@ -480,7 +480,7 @@ class PublisherThemeTabForm extends XoopsForm
      *
      * @param XoopsFormElement $formElement reference to a {@link XoopsFormElement}
      */
-    public function setRequired(XoopsFormElement $formElement)
+    public function setRequired(\XoopsFormElement $formElement)
     {
         $this->required[] =& $formElement;
     }

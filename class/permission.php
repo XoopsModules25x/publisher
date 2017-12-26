@@ -59,10 +59,10 @@ class PublisherPermissionHandler extends XoopsObjectHandler
             return $items[$gpermName][$id];
         }
         $groups   = [];
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('gperm_modid', $this->publisher->getModule()->getVar('mid')));
-        $criteria->add(new Criteria('gperm_name', $gpermName));
-        $criteria->add(new Criteria('gperm_itemid', $id));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('gperm_modid', $this->publisher->getModule()->getVar('mid')));
+        $criteria->add(new \Criteria('gperm_name', $gpermName));
+        $criteria->add(new \Criteria('gperm_itemid', $id));
         //Instead of calling groupperm handler and get objects, we will save some memory and do it our way
         $db    = \XoopsDatabaseFactory::getDatabaseConnection();
         $limit = $start = 0;
@@ -97,14 +97,14 @@ class PublisherPermissionHandler extends XoopsObjectHandler
 
         $ret = [];
         //Instead of calling groupperm handler and get objects, we will save some memory and do it our way
-        $criteria = new CriteriaCompo(new Criteria('gperm_name', $gpermName));
-        $criteria->add(new Criteria('gperm_modid', $this->publisher->getModule()->getVar('mid')));
+        $criteria = new \CriteriaCompo(new \Criteria('gperm_name', $gpermName));
+        $criteria->add(new \Criteria('gperm_modid', $this->publisher->getModule()->getVar('mid')));
 
         //Get user's groups
         $groups    = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
-        $criteria2 = new CriteriaCompo();
+        $criteria2 = new \CriteriaCompo();
         foreach ($groups as $gid) {
-            $criteria2->add(new Criteria('gperm_groupid', $gid), 'OR');
+            $criteria2->add(new \Criteria('gperm_groupid', $gid), 'OR');
         }
         $criteria->add($criteria2);
         $db     = \XoopsDatabaseFactory::getDatabaseConnection();

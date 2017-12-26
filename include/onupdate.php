@@ -31,7 +31,7 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof XoopsUse
  *
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_update_publisher(XoopsModule $module)
+function xoops_module_pre_update_publisher(\XoopsModule $module)
 {
     $moduleDirName = basename(dirname(__DIR__));
     /** @var \Utility $utility */
@@ -50,7 +50,7 @@ function xoops_module_pre_update_publisher(XoopsModule $module)
  * @return bool true if update successful, false if not
  */
 
-function xoops_module_update_publisher(XoopsModule $module, $previousVersion = null)
+function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = null)
 {
     global $xoopsDB;
     require_once __DIR__ . '/../../../mainfile.php';

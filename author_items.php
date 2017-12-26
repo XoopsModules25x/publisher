@@ -40,14 +40,14 @@ if (!$helper->getConfig('perm_author_items')) {
     //mb    exit();
 }
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_author_items.tpl';
 require_once $GLOBALS['xoops']->path('header.php');
 require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
-$criteria = new CriteriaCompo(new Criteria('datesub', time(), '<='));
-$criteria->add(new Criteria('uid', $uid));
+$criteria = new \CriteriaCompo(new \Criteria('datesub', time(), '<='));
+$criteria->add(new \Criteria('uid', $uid));
 
 $items = $helper->getHandler('item')->getItems($limit = 0, $start = 0, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, 'datesub', 'DESC', '', true, $criteria);
 unset($criteria);
@@ -60,7 +60,7 @@ xoops_load('XoopsUserUtility');
 $author_name = \XoopsUserUtility::getUnameFromId($uid, $helper->getConfig('format_realname'), true);
 $xoopsTpl->assign('author_name_with_link', $author_name);
 $xoopsTpl->assign('user_avatarurl', XOOPS_URL . '/uploads/' . $thisuser->getVar('user_avatar'));
-//$xoopsLocal = new XoopsLocal();
+//$xoopsLocal = new \XoopsLocal();
 $categories = [];
 if ($count > 0) {
     /** @var PublisherItem $item */

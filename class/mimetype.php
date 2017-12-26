@@ -54,7 +54,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     /**
      * @param XoopsDatabase $db
      */
-    public function init(XoopsDatabase $db)
+    public function init(\XoopsDatabase $db)
     {
         $this->db = $db;
     }
@@ -91,7 +91,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
     {
         $id = (int)$id;
         if ($id > 0) {
-            $sql = $this->selectQuery(new Criteria($this->idfield, $id));
+            $sql = $this->selectQuery(new \Criteria($this->idfield, $id));
             if (!$result = $this->db->query($sql)) {
                 return false;
             }
@@ -152,7 +152,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      *
      * @return bool|void
      */
-    public function insert(XoopsObject $obj, $force = false)// insert($obj, $force = false)
+    public function insert(\XoopsObject $obj, $force = false)// insert($obj, $force = false)
     {
         // Make sure object is of correct type
         if (0 != strcasecmp($this->className, get_class($obj))) {
@@ -246,7 +246,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      * @return bool deletion successful?
      * @access public
      */
-    public function delete(XoopsObject $obj, $force = false) //delete($obj, $force = false)
+    public function delete(\XoopsObject $obj, $force = false) //delete($obj, $force = false)
     {
         if (0 != strcasecmp($this->className, get_class($obj))) {
             return false;
@@ -350,7 +350,7 @@ class PublisherBaseObjectHandler extends XoopsPersistableObjectHandler
      * @return XoopsObject {@link pagesCategoryHandler}
      * @access public
      */
-    public function getInstance(XoopsDatabase $db)
+    public function getInstance(\XoopsDatabase $db)
     {
         static $instance;
         if (null === $instance) {
@@ -403,7 +403,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
      *
      * @param null|XoopsDatabase $db reference to a xoopsDB object
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::init($db);
         $this->className = 'publishermimetype';
@@ -422,7 +422,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
     {
         $id = (int)$id;
         if ($id > 0) {
-            $sql = $this->selectQuery(new Criteria('mime_id', $id));
+            $sql = $this->selectQuery(new \Criteria('mime_id', $id));
             if (!$result = $this->db->query($sql)) {
                 return false;
             }
@@ -487,15 +487,15 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
         $ret = [];
         if ($GLOBALS['xoopsUser'] && !$GLOBALS['publisherIsAdmin']) {
             // For user uploading
-            $crit = new CriteriaCompo(new Criteria('mime_user', 1)); //$sql = sprintf("SELECT * FROM %s WHERE mime_user=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
+            $crit = new \CriteriaCompo(new \Criteria('mime_user', 1)); //$sql = sprintf("SELECT * FROM %s WHERE mime_user=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
         } elseif ($GLOBALS['xoopsUser'] && $GLOBALS['publisherIsAdmin']) {
             // For admin uploading
-            $crit = new CriteriaCompo(new Criteria('mime_admin', 1)); //$sql = sprintf("SELECT * FROM %s WHERE mime_admin=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
+            $crit = new \CriteriaCompo(new \Criteria('mime_admin', 1)); //$sql = sprintf("SELECT * FROM %s WHERE mime_admin=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
         } else {
             return $ret;
         }
         if ($mimeExt) {
-            $crit->add(new Criteria('mime_ext', $mimeExt));
+            $crit->add(new \Criteria('mime_ext', $mimeExt));
         }
         $result = $this->getObjects($crit);
         // if no records from db, return empty array

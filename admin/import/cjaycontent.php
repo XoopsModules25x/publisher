@@ -23,7 +23,7 @@ use Xmf\Request;
 use Xoopsmodules\publisher;
 
 require_once dirname(__DIR__) . '/admin_header.php';
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'cjaycontent ' . Request::getString('cjaycontent_version', '', 'POST');
 
@@ -66,14 +66,14 @@ if ('start' === $op) {
     } else {
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat) . '</span>';
 
-        $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
+        $form = new \XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
         ob_end_clean();
 
-        $form->addElement(new XoopsFormHidden('op', 'go'));
-        $form->addElement(new XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
+        $form->addElement(new \XoopsFormHidden('op', 'go'));
+        $form->addElement(new \XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
 
-        $form->addElement(new XoopsFormHidden('from_module_version', Request::getString('cjaycontent_version', '', 'POST')));
+        $form->addElement(new \XoopsFormHidden('from_module_version', Request::getString('cjaycontent_version', '', 'POST')));
 
         $form->display();
     }
@@ -162,8 +162,8 @@ if ('go' === $op) {
     $publisher_module_id = $helper->getModule()->mid();
     /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
-    $criteria       = new CriteriaCompo();
-    $criteria->add(new Criteria('com_modid', $cjaycontent_module_id));
+    $criteria       = new \CriteriaCompo();
+    $criteria->add(new \Criteria('com_modid', $cjaycontent_module_id));
     /** @var XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {

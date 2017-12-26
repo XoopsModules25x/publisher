@@ -103,6 +103,11 @@ $adminmenu = [
         'icon'  => $pathModIcon32 . '/editcopy.png'
     ],
 
+//    [
+//        'title' => _MI_PUBLISHER_MENU_HISTORY,
+//        'link'  => 'admin/history.php',
+//        'icon'  => $pathModIcon32 . '/editcopy.png'
+//    ],
     //About
     [
         'title' => _MI_PUBLISHER_ABOUT,

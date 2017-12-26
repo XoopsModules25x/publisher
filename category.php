@@ -192,7 +192,7 @@ if (count($itemsObj) > 0) {
         }
     }
     $memberHandler = xoops_getHandler('member');
-    //$users = $memberHandler->getUsers(new Criteria('uid', "(" . implode(',', array_keys($userids)) . ")", "IN"), true);
+    //$users = $memberHandler->getUsers(new \Criteria('uid', "(" . implode(',', array_keys($userids)) . ")", "IN"), true);
     */
     // Adding the items of the selected category
 
@@ -230,7 +230,7 @@ $xoopsTpl->assign('selected_category', $categoryid);
 
 // The Navigation Bar
 require_once $GLOBALS['xoops']->path('class/pagenav.php');
-$pagenav = new XoopsPageNav($thiscategory_itemcount, $helper->getConfig('idxcat_index_perpage'), $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
+$pagenav = new \XoopsPageNav($thiscategory_itemcount, $helper->getConfig('idxcat_index_perpage'), $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
 if (1 == $helper->getConfig('format_image_nav')) {
     $navbar = '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>';
 } else {

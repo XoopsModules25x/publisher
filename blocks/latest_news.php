@@ -65,15 +65,15 @@ function publisher_latest_news_show($options)
     if ($allcats) {
         $criteria = null;
     } else {
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('categoryid', '(' . $options[29] . ')', 'IN'));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('categoryid', '(' . $options[29] . ')', 'IN'));
     }
 
     // Use specific ITEMS
     if (0 != $selectedStories) {
         unset($criteria); //removes category option
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
     }
 
     $itemsObj = $helper->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');

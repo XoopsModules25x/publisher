@@ -25,7 +25,7 @@ require_once __DIR__ . '/../../../include/cp_header.php';
 //require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
 require_once __DIR__ . '/../include/common.php';
-//require_once __DIR__ . '/../class/utility.php';
+//require_once __DIR__ . '/../class/Utility.php';
 require_once __DIR__ . '/../include/config.php';
 
 $moduleDirName = basename(dirname(__DIR__));
@@ -48,9 +48,9 @@ $imagearray = [
     'offline'   => "<img src='" . PUBLISHER_IMAGES_URL . "/off.png' alt='" . _AM_PUBLISHER_ICO_OFFLINE . "' align='middle'>"
 ];
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
     require_once $GLOBALS['xoops']->path('class/template.php');
-    $GLOBALS['xoopsTpl'] = new XoopsTpl();
+    $GLOBALS['xoopsTpl'] = new \XoopsTpl();
 }

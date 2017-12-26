@@ -223,7 +223,7 @@ switch ($op) {
         echo "</table>\n";
         echo "<br>\n";
 
-        $pagenav = new XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $submittedstartitem, 'submittedstartitem');
+        $pagenav = new \XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $submittedstartitem, 'submittedstartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 
         publisher\Utility::closeCollapsableBar('submiteditemstable', 'submiteditemsicon');
@@ -275,7 +275,7 @@ switch ($op) {
         echo "</table>\n";
         echo "<br>\n";
 
-        $pagenav = new XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $publishedstartitem, 'publishedstartitem');
+        $pagenav = new \XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $publishedstartitem, 'publishedstartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 
         publisher\Utility::closeCollapsableBar('item_publisheditemstable', 'item_publisheditemsicon');
@@ -327,7 +327,7 @@ switch ($op) {
         echo "</table>\n";
         echo "<br>\n";
 
-        $pagenav = new XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $offlinestartitem, 'offlinestartitem');
+        $pagenav = new \XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $offlinestartitem, 'offlinestartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 
         publisher\Utility::closeCollapsableBar('offlineitemstable', 'offlineitemsicon');
@@ -377,7 +377,7 @@ switch ($op) {
         echo "</table>\n";
         echo "<br>\n";
 
-        $pagenav = new XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $rejectedstartitem, 'rejectedstartitem');
+        $pagenav = new \XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $rejectedstartitem, 'rejectedstartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 
         publisher\Utility::closeCollapsableBar('Rejecteditemstable', 'rejecteditemsicon');
@@ -397,7 +397,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     xoops_load('XoopsFormLoader');
 
-    $formTpl = new XoopsTpl();
+    $formTpl = new \XoopsTpl();
     //publisher_submit.html
 
     // if there is a parameter, and the id exists, retrieve data: we're editing a item
@@ -528,9 +528,9 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     echo '</form>';
 
     // Delete File
-    $form = new XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
+    $form = new \XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
 
-    $pWrapSelect = new XoopsFormSelect(publisher\Utility::getUploadDir(true, 'content'), 'address');
+    $pWrapSelect = new \XoopsFormSelect(publisher\Utility::getUploadDir(true, 'content'), 'address');
     $folder      = dir($dir);
     while (false !== ($file = $folder->read())) {
         if ('.' !== $file && '..' !== $file) {
@@ -541,11 +541,11 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     $form->addElement($pWrapSelect);
 
     $delfile = 'delfile';
-    $form->addElement(new XoopsFormHidden('op', $delfile));
-    $submit = new XoopsFormButton('', 'submit', _AM_PUBLISHER_BUTTON_DELETE, 'submit');
+    $form->addElement(new \XoopsFormHidden('op', $delfile));
+    $submit = new \XoopsFormButton('', 'submit', _AM_PUBLISHER_BUTTON_DELETE, 'submit');
     $form->addElement($submit);
 
-    $form->addElement(new XoopsFormHidden('backto', $publisherCurrentPage));
+    $form->addElement(new \XoopsFormHidden('backto', $publisherCurrentPage));
     $form->display();
 
     publisher\Utility::closeCollapsableBar('pagewraptable', 'pagewrapicon');

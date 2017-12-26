@@ -44,7 +44,7 @@ class PublisherFormDateTime extends XoopsFormElementTray
         }
         $datetime = getdate($value);
 
-        $this->addElement(new XoopsFormTextDateSelect('', $name . '[date]', $size, $value, $showtime));
+        $this->addElement(new \XoopsFormTextDateSelect('', $name . '[date]', $size, $value, $showtime));
         $timearray = [];
         for ($i = 0; $i < 24; ++$i) {
             for ($j = 0; $j < 60; $j += 10) {
@@ -53,7 +53,7 @@ class PublisherFormDateTime extends XoopsFormElementTray
             }
         }
         ksort($timearray);
-        $timeselect = new XoopsFormSelect('', $name . '[time]', $datetime['hours'] * 3600 + 600 * floor($datetime['minutes'] / 10));
+        $timeselect = new \XoopsFormSelect('', $name . '[time]', $datetime['hours'] * 3600 + 600 * floor($datetime['minutes'] / 10));
         $timeselect->addOptionArray($timearray);
         $this->addElement($timeselect);
     }

@@ -79,7 +79,7 @@ try {
     echo $output;
 }
 
-$criteria   = new Criteria('itemid', $itemid);
+$criteria   = new \Criteria('itemid', $itemid);
 $ratingObjs = $helper->getHandler('rating')->getObjects($criteria);
 
 $uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;

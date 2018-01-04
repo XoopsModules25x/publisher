@@ -20,7 +20,7 @@
  * @author          Mowaffak
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
@@ -35,7 +35,7 @@ function publisher_latest_news_show($options)
 {
     $block = [];
 
-    $helper = publisher\Helper::getInstance();
+    $helper = Publisher\Helper::getInstance();
     $helper->loadLanguage('main');
 //    xoops_loadLanguage('main', 'publisher');
 
@@ -46,7 +46,7 @@ function publisher_latest_news_show($options)
     $letters         = $options[3];
     $selectedStories = $options[4];
     $sort            = $options[9];
-    $order           = publisher\Utility::getOrderBy($sort);
+    $order           = Publisher\Utility::getOrderBy($sort);
     $imgWidth        = $options[11];
     $imgHeight       = $options[12];
     $border          = $options[13];
@@ -211,7 +211,7 @@ function publisher_latest_news_show($options)
         if (1 == $options[26] && xoops_isActiveModule('tellafriend')) {
             $subject  = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
             $subject  = $itemObj->convertForJapanese($subject);
-            $maillink = publisher\Utility::tellAFriend($subject);
+            $maillink = Publisher\Utility::tellAFriend($subject);
 
             $item['email'] = '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '"></a>&nbsp;';
         }
@@ -395,7 +395,7 @@ function publisher_latest_news_edit($options)
     //Select Which Categories To Show
     $form .= $tabletag3 . _MB_PUBLISHER_TOPICSCONFIG . $tabletag4; // Topics Options
     $form .= $tabletag1 . _MB_PUBLISHER_TOPICSDISPLAY . $tabletag2;
-    $form .= publisher\Utility::createCategorySelect($options[29], 0, true, 'options[29]');
+    $form .= Publisher\Utility::createCategorySelect($options[29], 0, true, 'options[29]');
     $form .= '</td></tr>';
 
     $form .= '</table>';

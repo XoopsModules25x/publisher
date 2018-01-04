@@ -21,7 +21,7 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
@@ -94,7 +94,7 @@ class PublisherItemForm extends PublisherThemeTabForm
      */
     public function isGranted($item)
     {
-        $helper = publisher\Helper::getInstance();
+        $helper = Publisher\Helper::getInstance();
         $ret       = false;
         if (!$this->checkperm || $helper->getHandler('permission')->isGranted('form_view', $item)) {
             $ret = true;
@@ -132,9 +132,9 @@ class PublisherItemForm extends PublisherThemeTabForm
      */
     public function createElements($obj)
     {
-        $helper = publisher\Helper::getInstance();
+        $helper = Publisher\Helper::getInstance();
 
-        $allowedEditors = publisher\Utility::getEditors($helper->getHandler('permission')->getGrantedItems('editors'));
+        $allowedEditors = Publisher\Utility::getEditors($helper->getHandler('permission')->getGrantedItems('editors'));
 
         if (!is_object($GLOBALS['xoopsUser'])) {
             $group = [XOOPS_GROUP_ANONYMOUS];
@@ -181,9 +181,9 @@ class PublisherItemForm extends PublisherThemeTabForm
         } elseif (count($allowedEditors) > 0) {
             $editor = Request::getString('editor', '', 'POST');
             if (!empty($editor)) {
-                publisher\Utility::setCookieVar('publisher_editor', $editor);
+                Publisher\Utility::setCookieVar('publisher_editor', $editor);
             } else {
-                $editor = publisher\Utility::getCookieVar('publisher_editor');
+                $editor = Publisher\Utility::getCookieVar('publisher_editor');
                 if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
                     //                    $editor = @ $GLOBALS['xoopsUser']->getVar('publisher_editor'); // Need set through user profile
                     $editor = (null !== $GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
@@ -251,7 +251,7 @@ class PublisherItemForm extends PublisherThemeTabForm
 
         // Available pages to wrap
         if ($this->isGranted(PublisherConstants::PUBLISHER_AVAILABLE_PAGE_WRAP)) {
-            $wrapPages              = \XoopsLists::getHtmlListAsArray(publisher\Utility::getUploadDir(true, 'content'));
+            $wrapPages              = \XoopsLists::getHtmlListAsArray(Publisher\Utility::getUploadDir(true, 'content'));
             $availableWrapPagesText = [];
             foreach ($wrapPages as $page) {
                 $availableWrapPagesText[] = "<span onclick='publisherPageWrap(\"body\", \"[pagewrap=$page] \");' onmouseover='style.cursor=\"pointer\"'>$page</span>";

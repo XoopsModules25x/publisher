@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
@@ -32,7 +32,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_items_recent_show($options)
 {
-    $helper = publisher\Helper::getInstance();
+    $helper = Publisher\Helper::getInstance();
     $myts      = \MyTextSanitizer::getInstance();
 
     $block = $newItems = [];
@@ -45,7 +45,7 @@ function publisher_items_recent_show($options)
     }
 
     $sort  = $options[1];
-    $order = publisher\Utility::getOrderBy($sort);
+    $order = Publisher\Utility::getOrderBy($sort);
     $limit = $options[2];
     $start = 0;
 
@@ -97,7 +97,7 @@ function publisher_items_recent_edit($options)
 
     $form = new PublisherBlockForm();
 
-    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray([
                                   'datesub' => _MB_PUBLISHER_DATE,

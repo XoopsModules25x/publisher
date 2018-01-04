@@ -19,17 +19,19 @@
  */
 
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once __DIR__ . '/../../../include/cp_header.php';
 //require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
-require_once __DIR__ . '/../include/common.php';
-//require_once __DIR__ . '/../class/Utility.php';
-require_once __DIR__ . '/../include/config.php';
+include __DIR__ . '/../preloads/autoloader.php';
+
 
 $moduleDirName = basename(dirname(__DIR__));
-$helper = publisher\Helper::getInstance();
+
+/** @var Publisher\Helper $helper */
+$helper = Publisher\Helper::getInstance();
+/** @var Xmf\Module\Admin $adminObject */
 $adminObject = \Xmf\Module\Admin::getInstance();
 
 $pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);

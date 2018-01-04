@@ -17,7 +17,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
@@ -44,7 +44,7 @@ class PublisherFile extends XoopsObject
      */
     public function __construct($id = null)
     {
-        $this->publisher = publisher\Helper::getInstance();
+        $this->publisher = Publisher\Helper::getInstance();
         $this->db        = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('fileid', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('itemid', XOBJ_DTYPE_INT, null, true);
@@ -100,7 +100,7 @@ class PublisherFile extends XoopsObject
         $maxfilewidth  = $this->publisher->getConfig('maximum_image_width');
         $maxfileheight = $this->publisher->getConfig('maximum_image_height');
         xoops_load('XoopsMediaUploader');
-        $uploader = new \XoopsMediaUploader(publisher\Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
             return true;
         } else {
@@ -126,11 +126,11 @@ class PublisherFile extends XoopsObject
         $maxfilesize   = $this->publisher->getConfig('maximum_filesize');
         $maxfilewidth  = $this->publisher->getConfig('maximum_image_width');
         $maxfileheight = $this->publisher->getConfig('maximum_image_height');
-        if (!is_dir(publisher\Utility::getUploadDir())) {
-            mkdir(publisher\Utility::getUploadDir(), 0757);
+        if (!is_dir(Publisher\Utility::getUploadDir())) {
+            mkdir(Publisher\Utility::getUploadDir(), 0757);
         }
         xoops_load('XoopsMediaUploader');
-        $uploader = new \XoopsMediaUploader(publisher\Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
             $uploader->setTargetFileName($itemid . '_' . $uploader->getMediaName());
             if ($uploader->upload()) {
@@ -206,7 +206,7 @@ class PublisherFile extends XoopsObject
      */
     public function getFileUrl()
     {
-        return publisher\Utility::getUploadDir(false) . $this->filename();
+        return Publisher\Utility::getUploadDir(false) . $this->filename();
     }
 
     /**
@@ -214,7 +214,7 @@ class PublisherFile extends XoopsObject
      */
     public function getFilePath()
     {
-        return publisher\Utility::getUploadDir() . $this->filename();
+        return Publisher\Utility::getUploadDir() . $this->filename();
     }
 
     /**
@@ -301,7 +301,7 @@ class PublisherFileHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        $this->publisher = publisher\Helper::getInstance();
+        $this->publisher = Publisher\Helper::getInstance();
         parent::__construct($db, 'publisher_files', 'PublisherFile', 'fileid', 'name');
     }
 

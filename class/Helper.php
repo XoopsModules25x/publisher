@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\publisher;
+<?php namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -30,7 +30,8 @@ class Helper extends \Xmf\Module\Helper
     public $debug;
 
     /**
-     * @internal param $debug
+     * Constructor
+     *
      * @param bool $debug
      */
     protected function __construct($debug = false)

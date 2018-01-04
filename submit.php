@@ -20,7 +20,7 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once __DIR__ . '/header.php';
 $helper->loadLanguage('admin');
@@ -42,11 +42,11 @@ if (0 != $itemId) {
     // We are editing or deleting an article
     /* @var  $itemObj PublisherItem */
     $itemObj = $helper->getHandler('item')->get($itemId);
-    if (!(publisher\Utility::userIsAdmin() || publisher\Utility::userIsAuthor($itemObj) || publisher\Utility::userIsModerator($itemObj))) {
+    if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($itemObj) || Publisher\Utility::userIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
         //        exit();
     }
-    if (!publisher\Utility::userIsAdmin() || !publisher\Utility::userIsModerator($itemObj)) {
+    if (!Publisher\Utility::userIsAdmin() || !Publisher\Utility::userIsModerator($itemObj)) {
         if ('del' === Request::getString('op', '', 'GET') && !$helper->getConfig('perm_delete')) {
             redirect_header('index.php', 1, _NOPERM);
             //            exit();
@@ -60,7 +60,7 @@ if (0 != $itemId) {
 } else {
     // we are submitting a new article
     // if the user is not admin AND we don't allow user submission, exit
-    if (!(publisher\Utility::userIsAdmin() || (1 == $helper->getConfig('perm_submit') && (is_object($GLOBALS['xoopsUser']) || (1 == $helper->getConfig('perm_anon_submit')))))) {
+    if (!(Publisher\Utility::userIsAdmin() || (1 == $helper->getConfig('perm_submit') && (is_object($GLOBALS['xoopsUser']) || (1 == $helper->getConfig('perm_anon_submit')))))) {
         redirect_header('index.php', 1, _NOPERM);
         //        exit();
     }
@@ -96,7 +96,7 @@ if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
 
 $op = Request::getString('op', Request::getString('op', $op, 'POST'), 'GET');
 
-$allowedEditors = publisher\Utility::getEditors($gpermHandler->getItemIds('editors', $groups, $moduleId));
+$allowedEditors = Publisher\Utility::getEditors($gpermHandler->getItemIds('editors', $groups, $moduleId));
 $formView       = $gpermHandler->getItemIds('form_view', $groups, $moduleId);
 
 // This code makes sure permissions are not manipulated
@@ -140,7 +140,7 @@ switch ($op) {
 
         if ($confirm) {
             if (!$helper->getHandler('item')->delete($itemObj)) {
-                redirect_header('index.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . publisher\Utility::formatErrors($itemObj->getErrors()));
+                redirect_header('index.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . Publisher\Utility::formatErrors($itemObj->getErrors()));
                 //                exit();
             }
             redirect_header('index.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
@@ -177,7 +177,7 @@ switch ($op) {
         $xoopsTpl->assign('item', $item);
 
         $xoopsTpl->assign('op', 'preview');
-        $xoopsTpl->assign('module_home', publisher\Utility::moduleHome());
+        $xoopsTpl->assign('module_home', Publisher\Utility::moduleHome());
 
         if ($itemId) {
             $xoopsTpl->assign('categoryPath', _MD_PUBLISHER_EDIT_ARTICLE);
@@ -215,7 +215,7 @@ switch ($op) {
 
         // attach file if any
         if ($itemUploadFile && '' != $itemUploadFile['name']) {
-            $fileUploadResult = publisher\Utility::uploadFile(false, true, $itemObj);
+            $fileUploadResult = Publisher\Utility::uploadFile(false, true, $itemObj);
             if (true !== $fileUploadResult) {
                 redirect_header('javascript:history.go(-1)', 3, $fileUploadResult);
             }
@@ -262,7 +262,7 @@ switch ($op) {
 
         //mb        $itemObj->setVarsFromRequest();
 
-        $xoopsTpl->assign('module_home', publisher\Utility::moduleHome());
+        $xoopsTpl->assign('module_home', Publisher\Utility::moduleHome());
         if ('clone' === Request::getString('op', '', 'GET')) {
             $xoopsTpl->assign('categoryPath', _CO_PUBLISHER_CLONE);
             $xoopsTpl->assign('langIntroTitle', _CO_PUBLISHER_CLONE);

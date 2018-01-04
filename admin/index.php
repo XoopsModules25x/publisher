@@ -19,19 +19,21 @@
  * @author       Mage, Mamba
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
+use XoopsModules\Publisher\Common;
 
 require_once __DIR__ . '/admin_header.php';
 //require_once dirname(__DIR__) . '/class/Utility.php';
 
 xoops_cp_header();
-$helper = publisher\Helper::getInstance();
+$helper = Publisher\Helper::getInstance();
 $helper->loadLanguage('main');
 $adminObject = \Xmf\Module\Admin::getInstance();
+$utility = new Publisher\Utility();
 
 /*
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    publisher\Utility::createFolder($uploadFolders[$i]);
+    Publisher\Utility::createFolder($uploadFolders[$i]);
     $adminObject->addConfigBoxLine($uploadFolders[$i], 'folder');
     //    $adminObject->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
@@ -40,7 +42,7 @@ foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
 $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
 foreach (array_keys($copyFiles) as $i) {
     $dest = $copyFiles[$i] . '/blank.png';
-    publisher\Utility::copyFile($file, $dest);
+    Publisher\Utility::copyFile($file, $dest);
 }
 */
 
@@ -61,6 +63,6 @@ if ($helper->getConfig('displaySampleButton')) {
 
 $adminObject->displayIndex();
 
-echo publisher\Utility::getServerStats();
+echo $utility::getServerStats();
 
 require_once __DIR__ . '/admin_footer.php';

@@ -19,7 +19,7 @@
  * @return string sort_url for the article
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
@@ -111,7 +111,7 @@ class PublisherSeo
      */
     public static function generateUrl($op, $id, $shortUrl = '')
     {
-        $helper = publisher\Helper::getInstance();
+        $helper = Publisher\Helper::getInstance();
         if ('none' !== $helper->getConfig('seo_url_rewrite')) {
             if (!empty($shortUrl)) {
                 $shortUrl .= '.html';

@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
@@ -33,7 +33,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_date_to_date_show($options)
 {
     $myts      = \MyTextSanitizer::getInstance();
-    $helper = publisher\Helper::getInstance();
+    $helper = Publisher\Helper::getInstance();
 
     $block = $newItems = [];
 

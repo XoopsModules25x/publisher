@@ -19,7 +19,7 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -36,10 +36,10 @@ switch ($op) {
     default:
         $importfile = 'none';
 
-        publisher\Utility::cpHeader();
+        Publisher\Utility::cpHeader();
         //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
 
-        publisher\Utility::openCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
+        Publisher\Utility::openCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
 
         xoops_load('XoopsFormLoader');
         /* @var  $moduleHandler XoopsModuleHandler */
@@ -174,7 +174,7 @@ switch ($op) {
 
         // End of collapsable bar
 
-        publisher\Utility::closeCollapsableBar('import', 'importicon');
+        Publisher\Utility::closeCollapsableBar('import', 'importicon');
 
         break;
 }

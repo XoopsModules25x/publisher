@@ -17,7 +17,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
@@ -38,7 +38,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_search($queryArray, $andor, $limit, $offset, $userid, $categories = [], $sortby = 0, $searchin = '', $extra = '')
 {
-    $helper = publisher\Helper::getInstance();
+    $helper = Publisher\Helper::getInstance();
     $ret       = $item = [];
     if ('' == $queryArray || 0 == count($queryArray)) {
         $hightlightKey = '';

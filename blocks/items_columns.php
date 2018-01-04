@@ -19,7 +19,7 @@
  * @author          Bandit-x
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
@@ -35,7 +35,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_columns_show($options)
 {
     //    global $xoTheme;
-    $helper = publisher\Helper::getInstance();
+    $helper = Publisher\Helper::getInstance();
 
     //Column Settings
     $optNumColumns  = isset($options[0]) ? (int)$options[0] : '2';
@@ -159,7 +159,7 @@ function publisher_items_columns_edit($options)
                                 '4' => 4,
                                 '5' => 5
                             ]);
-    $catEle      = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[1], 0, true, 'options[1]'));
+    $catEle      = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[1], 0, true, 'options[1]'));
     $cItemsEle   = new \XoopsFormText(_MB_PUBLISHER_NUMBER_ITEMS_CAT, 'options[2]', 4, 255, $options[2]);
     $truncateEle = new \XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[3]', 4, 255, $options[3]);
 

@@ -20,7 +20,7 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once __DIR__ . '/header.php';
 
@@ -196,7 +196,7 @@ $xoopsTpl->assign('title_and_welcome', $helper->getConfig('index_title_and_welco
 $xoopsTpl->assign('lang_mainintro', $myts->displayTarea($helper->getConfig('index_welcome_msg'), 1));
 $xoopsTpl->assign('sectionname', $helper->getModule()->getVar('name'));
 $xoopsTpl->assign('whereInSection', $helper->getModule()->getVar('name'));
-$xoopsTpl->assign('module_home', publisher\Utility::moduleHome(false));
+$xoopsTpl->assign('module_home', Publisher\Utility::moduleHome(false));
 $xoopsTpl->assign('indexfooter', $myts->displayTarea($helper->getConfig('index_footer'), 1));
 
 $xoopsTpl->assign('lang_category_summary', _MD_PUBLISHER_INDEX_CATEGORIES_SUMMARY);

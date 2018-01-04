@@ -17,7 +17,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
@@ -44,7 +44,7 @@ class PublisherCategory extends XoopsObject
      */
     public function __construct()
     {
-        $this->publisher = publisher\Helper::getInstance();
+        $this->publisher = Publisher\Helper::getInstance();
         $this->initVar('categoryid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('parentid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('name', XOBJ_DTYPE_TXTBOX, null, true, 100);
@@ -297,7 +297,7 @@ class PublisherCategory extends XoopsObject
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
         if ('blank.png' !== $this->getImage()) {
-            $category['image_path'] = publisher\Utility::getImageDir('category', false) . $this->getImage();
+            $category['image_path'] = Publisher\Utility::getImageDir('category', false) . $this->getImage();
         } else {
             $category['image_path'] = '';
         }
@@ -322,7 +322,7 @@ class PublisherCategory extends XoopsObject
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
         if ('blank.png' !== $this->getImage()) {
-            $category['image_path'] = publisher\Utility::getImageDir('category', false) . $this->getImage();
+            $category['image_path'] = Publisher\Utility::getImageDir('category', false) . $this->getImage();
         } else {
             $category['image_path'] = '';
         }
@@ -375,7 +375,7 @@ class PublisherCategoryHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        $this->publisher = publisher\Helper::getInstance();
+        $this->publisher = Publisher\Helper::getInstance();
         parent::__construct($db, 'publisher_categories', 'PublisherCategory', 'categoryid', 'name');
     }
 

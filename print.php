@@ -20,7 +20,7 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once __DIR__ . '/header.php';
 require_once $GLOBALS['xoops']->path('class/template.php');
@@ -62,7 +62,7 @@ if ('' != $mainImage['image_path']) {
     $item['image'] = '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '">';
 }
 $xoopsTpl->assign('item', $item);
-$xoopsTpl->assign('printtitle', $GLOBALS['xoopsConfig']['sitename'] . ' - ' . publisher\Utility::html2text($categoryObj->getCategoryPath()) . ' > ' . $myts->displayTarea($itemObj->getTitle()));
+$xoopsTpl->assign('printtitle', $GLOBALS['xoopsConfig']['sitename'] . ' - ' . Publisher\Utility::html2text($categoryObj->getCategoryPath()) . ' > ' . $myts->displayTarea($itemObj->getTitle()));
 $xoopsTpl->assign('printlogourl', $helper->getConfig('print_logourl'));
 $xoopsTpl->assign('printheader', $myts->displayTarea($helper->getConfig('print_header'), 1));
 $xoopsTpl->assign('lang_category', _CO_PUBLISHER_CATEGORY);

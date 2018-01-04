@@ -18,10 +18,10 @@
 //  E-Mail: lusopoemas@gmail.com
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once dirname(__DIR__) . '/header.php';
-$helper = publisher\Helper::getInstance();
+$helper = Publisher\Helper::getInstance();
 
 error_reporting(0);
 $xoopsLogger->activated = false;

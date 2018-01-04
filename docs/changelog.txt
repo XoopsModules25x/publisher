@@ -1,6 +1,8 @@
-<h5>1.06 Beta 2       [NOT RELEASED]</h5>
+<h5>1.06 Beta 2       [NOT RELEASED]</h5>  Dev: Xoops 2.5.9, PHP 7.2.0
 <hr>
 - addded missing common traits (goffy/mamba)
+- fix for page styling in categories (liomj/mamba)
+
 
 <h5>1.06 Beta 1       [NOT RELEASED]</h5>
 <hr>

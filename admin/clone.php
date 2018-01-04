@@ -18,13 +18,13 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once __DIR__ . '/admin_header.php';
 
-publisher\Utility::cpHeader();
+Publisher\Utility::cpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_CLONE);
-publisher\Utility::openCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
+Publisher\Utility::openCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
 
 if ('submit' === Request::getString('op', '', 'POST')) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -79,7 +79,7 @@ if ('submit' === Request::getString('op', '', 'POST')) {
 }
 
 // End of collapsable bar
-publisher\Utility::closeCollapsableBar('clone', 'cloneicon');
+Publisher\Utility::closeCollapsableBar('clone', 'cloneicon');
 
 require_once __DIR__ . '/admin_footer.php';
 

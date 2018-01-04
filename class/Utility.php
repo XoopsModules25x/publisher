@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\publisher;
+<?php namespace XoopsModules\Publisher;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -21,8 +21,8 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
-use Xoopsmodules\publisher\commmon;
+use XoopsModules\Publisher;
+use XoopsModules\Publisher\commmon;
 
 /**
  * Class Utility
@@ -181,7 +181,7 @@ class Utility
      */
     public static function displayCategory(\PublisherCategory $categoryObj, $level = 0)
     {
-        $helper = publisher\Helper::getInstance();
+        $helper = Publisher\Helper::getInstance();
 
         $description = $categoryObj->description();
         if (!XOOPS_USE_MULTIBYTES) {
@@ -222,7 +222,7 @@ class Utility
      */
     public static function editCategory($showmenu = false, $categoryId = 0, $nbSubCats = 4, $categoryObj = null)
     {
-        $helper = publisher\Helper::getInstance();
+        $helper = Publisher\Helper::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
         /* @var  $categoryObj PublisherCategory */
@@ -499,7 +499,7 @@ class Utility
      */
     public static function moduleHome($withLink = true)
     {
-        $helper = publisher\Helper::getInstance();
+        $helper = Publisher\Helper::getInstance();
 
         if (!$helper->getConfig('format_breadcrumb_modname')) {
             return '';
@@ -691,8 +691,8 @@ class Utility
      */
     public static function userIsAdmin()
     {
-        /** @var publisher\Helper $helper */
-        $helper = publisher\Helper::getInstance();
+        /** @var Publisher\Helper $helper */
+        $helper = Publisher\Helper::getInstance();
 
         static $publisherIsAdmin;
 
@@ -728,7 +728,7 @@ class Utility
      */
     public static function userIsModerator($itemObj)
     {
-        $helper         = publisher\Helper::getInstance();
+        $helper         = Publisher\Helper::getInstance();
         $categoriesGranted = $helper->getHandler('permission')->getGrantedItems('category_moderation');
 
         return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted));
@@ -744,7 +744,7 @@ class Utility
      */
     public static function saveCategoryPermissions($groups, $categoryId, $permName)
     {
-        $helper = publisher\Helper::getInstance();
+        $helper = Publisher\Helper::getInstance();
 
         $result = true;
 
@@ -892,7 +892,7 @@ class Utility
      */
     public static function addCategoryOption(\PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
     {
-        $helper = publisher\Helper::getInstance();
+        $helper = Publisher\Helper::getInstance();
 
         $spaces = '';
         for ($j = 0; $j < $level; ++$j) {
@@ -927,7 +927,7 @@ class Utility
      */
     public static function createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[0]')
     {
-        $helper = publisher\Helper::getInstance();
+        $helper = Publisher\Helper::getInstance();
 
         $selectedid = explode(',', $selectedid);
 
@@ -961,7 +961,7 @@ class Utility
      */
     public static function createCategoryOptions($selectedid = 0, $parentcategory = 0, $allCatOption = true)
     {
-        $helper = publisher\Helper::getInstance();
+        $helper = Publisher\Helper::getInstance();
 
         $ret = '';
         if ($allCatOption) {
@@ -1067,7 +1067,7 @@ class Utility
 //        require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
         //    global $publisherIsAdmin;
-        $helper = publisher\Helper::getInstance();
+        $helper = Publisher\Helper::getInstance();
 
         $itemId  = Request::getInt('itemid', 0, 'POST');
         $uid     = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
@@ -1228,7 +1228,7 @@ class Utility
      */
     public static function ratingBar($itemId)
     {
-        $helper       = publisher\Helper::getInstance();
+        $helper       = Publisher\Helper::getInstance();
         $ratingUnitWidth = 30;
         $units           = 5;
 

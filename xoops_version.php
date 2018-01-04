@@ -19,6 +19,8 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Publisher;
+use XoopsModules\Publisher\commmon;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 

@@ -15,9 +15,9 @@
  * @author          luciorota <lucio.rota@gmail.com>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
+use XoopsModules\Publisher\Common;
 
-require_once __DIR__ . '/../class/Utility.php';
 
 /**
  * @param  \XoopsModule $module
@@ -26,11 +26,14 @@ require_once __DIR__ . '/../class/Utility.php';
 function xoops_module_pre_install_publisher(\XoopsModule $module)
 {
     include __DIR__ . '/../preloads/autoloader.php';
-        /** @var \Xoopsmodules\publisher\Utility $utility */
-    $utility = new \Xoopsmodules\publisher\Utility();
+    /** @var Publisher\Utility $utility */
+    $utility      = new Publisher\Utility();
 
-    $xoopsSuccess = publisher\Utility::checkVerXoops($module);
-    $phpSuccess   = publisher\Utility::checkVerPhp($module);
+        //check for minimum XOOPS version
+    $xoopsSuccess = $utility::checkVerXoops($module);
+    
+    // check for minimum PHP version
+    $phpSuccess   = $utility::checkVerPhp($module);
 
     if (false !== $xoopsSuccess && false !==  $phpSuccess) {
         $moduleTables =& $module->getInfo('tables');
@@ -48,52 +51,55 @@ function xoops_module_pre_install_publisher(\XoopsModule $module)
  */
 function xoops_module_install_publisher(\XoopsModule $module)
 {
-    require_once __DIR__ . '/../../../mainfile.php';
-    require_once __DIR__ . '/../include/config.php';
+    include __DIR__ . '/../preloads/autoloader.php';
 
     $moduleDirName = basename(dirname(__DIR__));
-//    $helper = \Xmf\Module\Helper::getHelper($moduleDirName);
-    $helper = \Xoopsmodules\publisher\Helper::getInstance();
+
+    
+    /** @var Publisher\Helper $helper */
+    /** @var Publisher\Utility $utility */
+   /** @var common\Configurator $configurator */
+    $helper       = Publisher\Helper::getInstance();
+    $utility      = new Publisher\Utility();
+     $configurator = new common\Configurator();
 
     // Load language files
     $helper->loadLanguage('admin');
     $helper->loadLanguage('modinfo');
 
-    $configurator = new publisher\Configurator();
-    /** @var \Xoopsmodules\publisher\Utility $utility */
-    $utility = new publisher\Utility();
-
-    //    $moduleDirName = $module->getVar('dirname');
-    //    require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
 
     //  ---  CREATE FOLDERS ---------------
     if (count($configurator->uploadFolders) > 0) {
         //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
         foreach (array_keys($configurator->uploadFolders) as $i) {
-            publisher\Utility::createFolder($configurator->uploadFolders[$i]);
+            $utility::createFolder($configurator->uploadFolders[$i]);
         }
     }
 
     //  ---  COPY blank.png FILES ---------------
-    if (count($configurator->blankFiles) > 0) {
+    if (count($configurator->copyBlankFiles) > 0) {
         $file = __DIR__ . '/../assets/images/blank.png';
-        foreach (array_keys($configurator->blankFiles) as $i) {
-            $dest = $configurator->blankFiles[$i] . '/blank.png';
-            publisher\Utility::copyFile($file, $dest);
+        foreach (array_keys($configurator->copyBlankFiles) as $i) {
+            $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
+            $utility::copyFile($file, $dest);
         }
     }
 
-    /*
-        foreach (array_keys($uploadFolders) as $i) {
-            publisher\Utility::createFolder($uploadFolders[$i]);
+
+        //  ---  COPY test folder files ---------------
+    if (count($configurator->copyTestFolders) > 0) {
+        //        $file = __DIR__ . '/../testdata/images/';
+        foreach (array_keys($configurator->copyTestFolders) as $i) {
+            $src  = $configurator->copyTestFolders[$i][0];
+            $dest = $configurator->copyTestFolders[$i][1];
+            $utility::xcopy($src, $dest);
+        }
         }
 
-        $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
-        foreach (array_keys($blankFiles) as $i) {
-            $dest = $blankFiles[$i] . '/blank.png';
-            publisher\Utility::copyFile($file, $dest);
-        }
-    */
+
+    //delete .html entries from the tpl table
+    $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
+    $GLOBALS['xoopsDB']->queryF($sql);
 
     return true;
 }

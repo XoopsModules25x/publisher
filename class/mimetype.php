@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
@@ -576,7 +576,7 @@ class PublisherMimetypeHandler extends PublisherBaseObjectHandler
                 throw new RuntimeException('no need for join...');
             }
         } catch (Exception $e) {
-            $helper = publisher\Helper::getInstance();
+            $helper = Publisher\Helper::getInstance();
             $helper->addLog($e);
             echo 'no need for join...';
         }

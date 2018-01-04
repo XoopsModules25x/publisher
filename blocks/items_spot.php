@@ -18,7 +18,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
@@ -32,7 +32,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_spot_show($options)
 {
     //    global $xoTheme;
-    $helper         = publisher\Helper::getInstance();
+    $helper         = Publisher\Helper::getInstance();
     $optDisplayLast    = $options[0];
     $optItemsCount     = $options[1];
     $optCategoryId     = $options[2];
@@ -56,7 +56,7 @@ function publisher_items_spot_show($options)
                 $category['name']        = $cat->name();
                 $category['categoryurl'] = $cat->getCategoryUrl();
                 if ('blank.png' !== $cat->getImage()) {
-                    $category['image_path'] = publisher\Utility::getImageDir('category', false) . $cat->getImage();
+                    $category['image_path'] = Publisher\Utility::getImageDir('category', false) . $cat->getImage();
                 } else {
                     $category['image_path'] = '';
                 }
@@ -91,7 +91,7 @@ function publisher_items_spot_show($options)
                 }
                 if ($optTruncate > 0) {
                     $block['truncate'] = true;
-                    $item['summary']   = publisher\Utility::truncateTagSafe($item['summary'], $optTruncate);
+                    $item['summary']   = Publisher\Utility::truncateTagSafe($item['summary'], $optTruncate);
                 }
                 $block['items'][] = $item;
                 ++$i;
@@ -126,8 +126,8 @@ function publisher_items_spot_edit($options)
     $form      = new PublisherBlockForm();
     $autoEle   = new \XoopsFormRadioYN(_MB_PUBLISHER_AUTO_LAST_ITEMS, 'options[0]', $options[0]);
     $countEle  = new \XoopsFormText(_MB_PUBLISHER_LAST_ITEMS_COUNT, 'options[1]', 2, 255, $options[1]);
-    $catEle    = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[2], 0, true, 'options[2]'));
-    $helper = publisher\Helper::getInstance();
+    $catEle    = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[2], 0, true, 'options[2]'));
+    $helper = Publisher\Helper::getInstance();
     $criteria  = new \CriteriaCompo();
     $criteria->setSort('datesub');
     $criteria->setOrder('DESC');

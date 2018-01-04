@@ -9,7 +9,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 /**
- * animal module for xoops
+ * Publisher module for XOOPS
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GPL 2.0 or later
@@ -19,50 +19,43 @@
  * @author          XOOPS Development Team - ( https://xoops.org )
  */
 
-require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-//require_once __DIR__ . '/../class/configurator.php';
-
 $moduleDirName = basename(dirname(__DIR__));
-$capsDirName   = strtoupper($moduleDirName);
-
-if (!defined($capsDirName . '_DIRNAME')) {
-    define($capsDirName . '_DIRNAME', $moduleDirName);
-    define($capsDirName . '_PATH', XOOPS_ROOT_PATH . '/modules/' . constant($capsDirName . '_DIRNAME'));
-    define($capsDirName . '_URL', XOOPS_URL . '/modules/' . constant($capsDirName . '_DIRNAME'));
-    define($capsDirName . '_ADMIN', constant($capsDirName . '_URL') . '/admin/index.php');
-    define($capsDirName . '_ROOT_PATH',  constant($capsDirName . '_PATH'));
-    define($capsDirName . '_AUTHOR_LOGOIMG', constant($capsDirName . '_URL') . '/assets/images/logoModule.png');
-
-    define($capsDirName . '_IMAGES_URL', constant($capsDirName . '_URL') . '/assets/images');
-    define($capsDirName . '_ADMIN_URL', constant($capsDirName . '_URL') . '/admin');
-    define($capsDirName . '_ADMIN_PATH', constant($capsDirName . '_PATH') . '/admin/index.php');
-
-    define($capsDirName . '_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . constant($capsDirName . '_DIRNAME')); // WITHOUT Trailing slash
-    define($capsDirName . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . constant($capsDirName . '_DIRNAME')); // WITHOUT Trailing slash
-    
-}
-
-// Define here the place where main upload path
-
-//$img_dir = $GLOBALS['xoopsModuleConfig']['uploaddir'];
-
-//define($capsDirName . '_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . constant($capsDirName . '_DIRNAME')); // WITHOUT Trailing slash
-defined($capsDirName . '_UPLOAD_PATH') || define($capsDirName . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . constant($capsDirName . '_DIRNAME')); // WITHOUT Trailing slash
+$moduleDirNameUpper = strtoupper($moduleDirName);
 
 //Configurator
 return (object)[
-    'name'           => 'Module Configurator',
-    'uploadFolders'  => [
-        constant($capsDirName . '_UPLOAD_PATH'),
-        constant($capsDirName . '_UPLOAD_PATH') . '/content',
-        constant($capsDirName . '_UPLOAD_PATH') . '/images',
-        constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
-        constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
+    'name'           => strtoupper($moduleDirName) . ' Module Configurator',
+    'paths'          => [
+        'dirname'    => $moduleDirName,
+        'admin'      => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
+        'modPath'    => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
+        'modUrl'     => XOOPS_URL . '/modules/' . $moduleDirName,
+        'uploadPath' => XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+        'uploadUrl'  => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
     ],
-    'blankFiles' => [
-        constant($capsDirName . '_UPLOAD_PATH'),
-        constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
-        constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
+    'uploadFolders'  => [
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/content',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/category',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/thumbnails',
+    ],
+    'copyBlankFiles' => [
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/category',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/thumbnails',
+    ],
+
+    'copyTestFolders' => [
+
+        [
+            XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/images',
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
+        ],
+        [
+            XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/thumbs',
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/thumbs',
+        ]
     ],
 
     'templateFolders' => [
@@ -86,4 +79,7 @@ return (object)[
         '/js',
         '/tcpdf',
     ],
+        'modCopyright'    => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
+                     <img src='" . XOOPS_URL . '/modules/' . $moduleDirName  . '_AUTHOR_LOGOIMG' . '\' alt=\'XOOPS Project\' /></a>',
+
 ];

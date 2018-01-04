@@ -20,7 +20,7 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once __DIR__ . '/header.php';
 
@@ -178,7 +178,7 @@ $filesObj     = $itemObj->getFiles();
 
 // check if user has permission to modify files
 $hasFilePermissions = true;
-if (!(publisher\Utility::userIsAdmin() || publisher\Utility::userIsModerator($itemObj))) {
+if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsModerator($itemObj))) {
     $hasFilePermissions = false;
 }
 if (null !== $filesObj) {
@@ -218,7 +218,7 @@ $xoopsTpl->assign('mail_link', 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITE
 $xoopsTpl->assign('itemid', $itemObj->itemId());
 $xoopsTpl->assign('sectionname', $helper->getModule()->getVar('name'));
 $xoopsTpl->assign('module_dirname', $helper->getDirname());
-$xoopsTpl->assign('module_home', publisher\Utility::moduleHome($helper->getConfig('format_linked_path')));
+$xoopsTpl->assign('module_home', Publisher\Utility::moduleHome($helper->getConfig('format_linked_path')));
 $xoopsTpl->assign('categoryPath', '<li>' . $item['categoryPath'] . '</li><li> ' . $item['title'] . '</li>');
 $xoopsTpl->assign('commentatarticlelevel', $helper->getConfig('perm_com_art_level'));
 $xoopsTpl->assign('com_rule', $helper->getConfig('com_rule'));
@@ -253,7 +253,7 @@ if ((0 <> $helper->getConfig('com_rule')) && ((1 == $itemObj->cancomment()) || !
 // Include support for AJAX rating
 if ($helper->getConfig('perm_rating')) {
     $xoopsTpl->assign('rating_enabled', true);
-    $item['ratingbar'] = publisher\Utility::ratingBar($itemId);
+    $item['ratingbar'] = Publisher\Utility::ratingBar($itemId);
     $xoTheme->addScript(PUBLISHER_URL . '/assets/js/behavior.js');
     $xoTheme->addScript(PUBLISHER_URL . '/assets/js/rating.js');
 }

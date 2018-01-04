@@ -18,21 +18,17 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use XoopsModules\Publisher;
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
-
-use Xoopsmodules\publisher;
-
-require_once __DIR__ . '/../class/Helper.php';
-//require_once __DIR__ . '/../include/common.php';
+include __DIR__ . '/../preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 
-$helper = \Xoopsmodules\publisher\Helper::getInstance();
+$helper = Publisher\Helper::getInstance();
 
+// get path to icons
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
 $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
-
-require_once dirname(__DIR__) . '/include/config.php';
 
 $adminmenu = [
     [

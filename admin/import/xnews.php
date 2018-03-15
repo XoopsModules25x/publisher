@@ -21,6 +21,7 @@
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
@@ -161,7 +162,7 @@ if ('start' === $op) {
 if ('go' === $op) {
     Publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    require_once dirname(dirname(__DIR__)) . '/include/common.php';
+    require_once __DIR__ . '/../../include/common.php';
     Publisher\Utility::openCollapsableBar('xnewsimportgo', 'xnewsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /* @var  $moduleHandler XoopsModuleHandler */
     $moduleHandler   = xoops_getHandler('module');
@@ -216,8 +217,8 @@ if ('go' === $op) {
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
 
-        /* @var  $categoryObj PublisherCategory */
-        $categoryObj = $helper->getHandler('category')->create();
+        /* @var  $categoryObj Publisher\Category */
+        $categoryObj = $helper->getHandler('Category')->create();
 
         $categoryObj->setVar('parentid', $arrCat['topic_pid']);
         $categoryObj->setVar('image', $arrCat['topic_imgurl']);
@@ -255,7 +256,7 @@ if ('go' === $op) {
             }
         }
 
-        if (!$helper->getHandler('category')->insert($categoryObj)) {
+        if (!$helper->getHandler('Category')->insert($categoryObj)) {
             echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_ERROR, $arrCat['topic_title']) . '<br>';
             continue;
         }
@@ -291,8 +292,8 @@ if ('go' === $op) {
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
 
-            /** @var PublisherItem $itemObj */
-            $itemObj = $helper->getHandler('item')->create();
+            /** @var  Publisher\Item $itemObj */
+            $itemObj = $helper->getHandler('Item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
             $itemObj->setVar('title', $arrArticle['title']);
@@ -304,7 +305,7 @@ if ('go' === $op) {
             $itemObj->setVar('dohtml', !$arrArticle['nohtml']);
             $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
             $itemObj->setVar('weight', 0);
-            $itemObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_PUBLISHED);
+            $itemObj->setVar('status', Constants::PUBLISHER_STATUS_PUBLISHED);
 
             $itemObj->setVar('dobr', !$arrArticle['dobr']);
             $itemObj->setVar('item_tag', $arrArticle['tags']);
@@ -353,11 +354,11 @@ if ('go' === $op) {
                     $filename = $GLOBALS['xoops']->path('uploads/xnews/attached/' . $arrFile['downloadname']);
                     if (file_exists($filename)) {
                         if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
-                            /* @var  $fileObj PublisherFile */
-                            $fileObj = $helper->getHandler('file')->create();
+                            /* @var  $fileObj File */
+                            $fileObj = $helper->getHandler('File')->create();
                             $fileObj->setVar('name', $arrFile['filerealname']);
                             $fileObj->setVar('description', $arrFile['filerealname']);
-                            $fileObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
+                            $fileObj->setVar('status', Constants::PUBLISHER_STATUS_FILE_ACTIVE);
                             $fileObj->setVar('uid', $arrArticle['uid']);
                             $fileObj->setVar('itemid', $itemObj->itemid());
                             $fileObj->setVar('mimetype', $arrFile['mimetype']);
@@ -405,7 +406,7 @@ if ('go' === $op) {
         } else {
             $newpid = $newCatArray[$oldpid]['newid'];
         }
-        $helper->getHandler('category')->updateAll('parentid', $newpid, $criteria);
+        $helper->getHandler('Category')->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
     unset($oldid, $newCat);

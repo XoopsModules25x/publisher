@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Publisher\Form;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -20,10 +20,11 @@
  */
 
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
-require_once dirname(dirname(__DIR__)) . '/include/common.php';
+require_once __DIR__ . '/../../include/common.php';
 
 xoops_load('XoopsFormLoader');
 //todo: move to admin?
@@ -32,9 +33,9 @@ $helper = Publisher\Helper::getInstance();
 $helper->loadLanguage('main');
 
 /**
- * Class PublisherFileForm
+ * Class FileForm
  */
-class PublisherFileForm extends XoopsThemeForm
+class FileForm extends \XoopsThemeForm
 {
     /**
      * @var Publisher
@@ -49,7 +50,7 @@ class PublisherFileForm extends XoopsThemeForm
      */
     public function __construct(&$target)
     {
-        $this->publisher    = Publisher\Helper::getInstance();
+        $this->helper    = Publisher\Helper::getInstance();
         $this->targetObject =& $target;
 
         parent::__construct(_AM_PUBLISHER_UPLOAD_FILE, 'form', xoops_getenv('PHP_SELF'), 'post', true);
@@ -78,7 +79,7 @@ class PublisherFileForm extends XoopsThemeForm
         $this->addElement($fileBox);
         //}
 
-        $statusSelect = new \XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'file_status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
+        $statusSelect = new \XoopsFormRadioYN(_CO_PUBLISHER_FILE_STATUS, 'file_status', Constants::PUBLISHER_STATUS_FILE_ACTIVE);
         $statusSelect->setDescription(_CO_PUBLISHER_FILE_STATUS_DSC);
         $this->addElement($statusSelect);
 

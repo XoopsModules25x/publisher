@@ -20,10 +20,11 @@
  */
 
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
  * @param $options
@@ -55,7 +56,7 @@ function publisher_items_new_show($options)
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
     }
-    $itemsObj = $helper->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
+    $itemsObj = $helper->getHandler('Item')->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
 
     $totalitems = count($itemsObj);
     if ($itemsObj && $totalitems > 0) {
@@ -136,10 +137,10 @@ function publisher_items_new_show($options)
  */
 function publisher_items_new_edit($options)
 {
-    require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
+    // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form = new PublisherBlockForm();
+    $form = new Publisher\BlockForm();
 
     $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);

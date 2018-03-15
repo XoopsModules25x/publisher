@@ -20,10 +20,11 @@
  */
 
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
  * @param $options
@@ -49,7 +50,7 @@ function publisher_latest_files_show($options)
     $directDownload = $options[3];
 
     // creating the files objects
-    $filesObj = $helper->getHandler('file')->getAllFiles(0, PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE, $limit, 0, $sort, $order, explode(',', $options[0]));
+    $filesObj = $helper->getHandler('File')->getAllFiles(0, Constants::PUBLISHER_STATUS_FILE_ACTIVE, $limit, 0, $sort, $order, explode(',', $options[0]));
     foreach ($filesObj as $fileObj) {
         $aFile         = [];
         $aFile['link'] = $directDownload ? $fileObj->getFileLink() : $fileObj->getItemLink();
@@ -73,10 +74,10 @@ function publisher_latest_files_show($options)
  */
 function publisher_latest_files_edit($options)
 {
-    require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
+    // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form = new PublisherBlockForm();
+    $form = new Publisher\BlockForm();
 
     $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);

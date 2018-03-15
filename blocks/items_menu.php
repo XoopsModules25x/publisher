@@ -22,9 +22,9 @@
 use Xmf\Request;
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
  * @param $options
@@ -38,7 +38,7 @@ function publisher_items_menu_show($options)
     $helper = Publisher\Helper::getInstance();
 
     // Getting all top cats
-    $blockCategoriesObj = $helper->getHandler('category')->getCategories(0, 0, 0);
+    $blockCategoriesObj = $helper->getHandler('Category')->getCategories(0, 0, 0);
 
     if (0 == count($blockCategoriesObj)) {
         return $block;
@@ -79,10 +79,10 @@ function publisher_items_menu_show($options)
  */
 function publisher_items_menu_edit($options)
 {
-    require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
+    // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form = new PublisherBlockForm();
+    $form = new Publisher\BlockForm();
 
     $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);

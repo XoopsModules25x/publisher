@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /** Get item fields: title, content, time, link, uid, uname, tags *
  *
@@ -36,9 +36,12 @@ function publisher_tag_iteminfo(&$items)
             $itemsId[] = (int)$itemId;
         }
     }
-    $itemHandler = xoops_getModuleHandler('item', 'publisher');
-    $criteria    = new \Criteria('itemid', '(' . implode(', ', $itemsId) . ')', 'IN');
-    $itemsObj    = $itemHandler->getObjects($criteria, 'itemid');
+
+    /** @var \XoopsModules\Publisher\ItemHandler $itemHandler */
+    $itemHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('Item');
+
+    $criteria        = new \Criteria('itemid', '(' . implode(', ', $itemsId) . ')', 'IN');
+    $itemsObj        = $itemHandler->getObjects($criteria, 'itemid');
 
     foreach (array_keys($items) as $catId) {
         foreach (array_keys($items[$catId]) as $itemId) {

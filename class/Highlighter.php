@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Publisher;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -16,7 +16,7 @@
  * @author          Aidan Lister <aidan@php.net>
  * @link            http://aidanlister.com/2004/04/highlighting-a-search-string-in-html-text/
  */
-class PublisherHighlighter
+class Highlighter
 {
     /**
      * Perform a simple text replace

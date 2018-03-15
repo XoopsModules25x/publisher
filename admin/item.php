@@ -21,6 +21,7 @@
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -46,7 +47,7 @@ $rejectedstartitem  = Request::getInt('rejectedstartitem', Request::getInt('subm
 switch ($op) {
     case 'clone':
         if (0 == $itemid) {
-            $totalcategories = $helper->getHandler('category')->getCategoriesCount(-1);
+            $totalcategories = $helper->getHandler('Category')->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
                 //                exit();
@@ -58,7 +59,7 @@ switch ($op) {
 
     case 'mod':
         if (0 == $itemid) {
-            $totalcategories = $helper->getHandler('category')->getCategoriesCount(-1);
+            $totalcategories = $helper->getHandler('Category')->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
                 //                exit();
@@ -73,46 +74,46 @@ switch ($op) {
         $redirect_msg = $error_msg = '';
         // Creating the item object
         if (0 != $itemid) {
-            $itemObj = $helper->getHandler('item')->get($itemid);
+            $itemObj = $helper->getHandler('Item')->get($itemid);
         } else {
-            $itemObj = $helper->getHandler('item')->create();
+            $itemObj = $helper->getHandler('Item')->create();
         }
 
         $itemObj->setVarsFromRequest();
 
         $old_status = $itemObj->status();
-        $newStatus  = Request::getInt('status', PublisherConstants::PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
+        $newStatus  = Request::getInt('status', Constants::PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
 
         switch ($newStatus) {
-            case PublisherConstants::PUBLISHER_STATUS_SUBMITTED:
+            case Constants::PUBLISHER_STATUS_SUBMITTED:
                 $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
-                if ($old_status == PublisherConstants::PUBLISHER_STATUS_NOTSET) {
+                if ($old_status == Constants::PUBLISHER_STATUS_NOTSET) {
                     $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 }
                 $redirect_msg = _AM_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
                 break;
 
-            case PublisherConstants::PUBLISHER_STATUS_PUBLISHED:
-                if (($old_status == PublisherConstants::PUBLISHER_STATUS_NOTSET) || ($old_status == PublisherConstants::PUBLISHER_STATUS_SUBMITTED)) {
+            case Constants::PUBLISHER_STATUS_PUBLISHED:
+                if (($old_status == Constants::PUBLISHER_STATUS_NOTSET) || ($old_status == Constants::PUBLISHER_STATUS_SUBMITTED)) {
                     $redirect_msg = _AM_PUBLISHER_SUBMITTED_APPROVE_SUCCESS;
-                    $notifToDo    = [PublisherConstants::PUBLISHER_NOTIFY_ITEM_PUBLISHED];
+                    $notifToDo    = [Constants::PUBLISHER_NOTIFY_ITEM_PUBLISHED];
                 } else {
                     $redirect_msg = _AM_PUBLISHER_PUBLISHED_MOD_SUCCESS;
                 }
                 $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 break;
 
-            case PublisherConstants::PUBLISHER_STATUS_OFFLINE:
+            case Constants::PUBLISHER_STATUS_OFFLINE:
                 $redirect_msg = _AM_PUBLISHER_OFFLINE_MOD_SUCCESS;
-                if ($old_status == PublisherConstants::PUBLISHER_STATUS_NOTSET) {
+                if ($old_status == Constants::PUBLISHER_STATUS_NOTSET) {
                     $redirect_msg = _AM_PUBLISHER_OFFLINE_CREATED_SUCCESS;
                 }
                 $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 break;
 
-            case PublisherConstants::PUBLISHER_STATUS_REJECTED:
+            case Constants::PUBLISHER_STATUS_REJECTED:
                 $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
-                if ($old_status == PublisherConstants::PUBLISHER_STATUS_NOTSET) {
+                if ($old_status == Constants::PUBLISHER_STATUS_NOTSET) {
                     $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 }
                 $redirect_msg = _AM_PUBLISHER_ITEM_REJECTED;
@@ -145,11 +146,11 @@ switch ($op) {
         break;
 
     case 'del':
-        $itemObj = $helper->getHandler('item')->get($itemid);
+        $itemObj = $helper->getHandler('Item')->get($itemid);
         $confirm = Request::getInt('confirm', 0, 'POST');
 
         if ($confirm) {
-            if (!$helper->getHandler('item')->delete($itemObj)) {
+            if (!$helper->getHandler('Item')->delete($itemObj)) {
                 redirect_header('item.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . Publisher\Utility::formatErrors($itemObj->getErrors()));
                 //                exit();
             }
@@ -181,9 +182,9 @@ switch ($op) {
         Publisher\Utility::openCollapsableBar('submiteditemstable', 'submiteditemsicon', _AM_PUBLISHER_SUBMISSIONSMNGMT, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of submitted ITEM
-        $totalitems = $helper->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_SUBMITTED]);
+        $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_SUBMITTED]);
 
-        $itemsObj = $helper->getHandler('item')->getAllSubmitted($helper->getConfig('idxcat_perpage'), $submittedstartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj = $helper->getHandler('Item')->getAllSubmitted($helper->getConfig('idxcat_perpage'), $submittedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -232,9 +233,9 @@ switch ($op) {
         Publisher\Utility::openCollapsableBar('item_publisheditemstable', 'item_publisheditemsicon', _AM_PUBLISHER_PUBLISHEDITEMS, _AM_PUBLISHER_PUBLISHED_DSC);
 
         // Get the total number of published ITEM
-        $totalitems = $helper->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
+        $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_PUBLISHED]);
 
-        $itemsObj = $helper->getHandler('item')->getAllPublished($helper->getConfig('idxcat_perpage'), $publishedstartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $publishedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -283,9 +284,9 @@ switch ($op) {
         // Display Offline articles
         Publisher\Utility::openCollapsableBar('offlineitemstable', 'offlineitemsicon', _AM_PUBLISHER_ITEMS . ' ' . _CO_PUBLISHER_OFFLINE, _AM_PUBLISHER_OFFLINE_EXP);
 
-        $totalitems = $helper->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_OFFLINE]);
+        $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_OFFLINE]);
 
-        $itemsObj = $helper->getHandler('item')->getAllOffline($helper->getConfig('idxcat_perpage'), $offlinestartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj = $helper->getHandler('Item')->getAllOffline($helper->getConfig('idxcat_perpage'), $offlinestartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -336,8 +337,8 @@ switch ($op) {
         Publisher\Utility::openCollapsableBar('Rejecteditemstable', 'rejecteditemsicon', _AM_PUBLISHER_REJECTED_ITEM, _AM_PUBLISHER_REJECTED_ITEM_EXP, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of Rejected ITEM
-        $totalitems = $helper->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_REJECTED]);
-        $itemsObj   = $helper->getHandler('item')->getAllRejected($helper->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
+        $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_REJECTED]);
+        $itemsObj   = $helper->getHandler('Item')->getAllRejected($helper->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -404,7 +405,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     if (0 != $itemid) {
         // Creating the ITEM object
-        $itemObj = $helper->getHandler('item')->get($itemid);
+        $itemObj = $helper->getHandler('Item')->get($itemid);
 
         if (!$itemObj) {
             redirect_header('item.php', 1, _AM_PUBLISHER_NOITEMSELECTED);
@@ -414,52 +415,52 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
         if ($clone) {
             $itemObj->setNew();
             $itemObj->setVar('itemid', 0);
-            $itemObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_NOTSET);
+            $itemObj->setVar('status', Constants::PUBLISHER_STATUS_NOTSET);
             $itemObj->setVar('datesub', time());
         }
 
         switch ($itemObj->status()) {
-            case PublisherConstants::PUBLISHER_STATUS_SUBMITTED:
+            case Constants::PUBLISHER_STATUS_SUBMITTED:
                 $breadcrumbAction1 = _CO_PUBLISHER_SUBMITTED;
                 $breadcrumbAction2 = _AM_PUBLISHER_APPROVING;
                 $pageTitle         = _AM_PUBLISHER_SUBMITTED_TITLE;
                 $pageInfo          = _AM_PUBLISHER_SUBMITTED_INFO;
                 $buttonCaption     = _AM_PUBLISHER_APPROVE;
-                $newStatus         = PublisherConstants::PUBLISHER_STATUS_PUBLISHED;
+                $newStatus         = Constants::PUBLISHER_STATUS_PUBLISHED;
                 break;
 
-            case PublisherConstants::PUBLISHER_STATUS_PUBLISHED:
+            case Constants::PUBLISHER_STATUS_PUBLISHED:
                 $breadcrumbAction1 = _CO_PUBLISHER_PUBLISHED;
                 $breadcrumbAction2 = _AM_PUBLISHER_EDITING;
                 $pageTitle         = _AM_PUBLISHER_PUBLISHEDEDITING;
                 $pageInfo          = _AM_PUBLISHER_PUBLISHEDEDITING_INFO;
                 $buttonCaption     = _AM_PUBLISHER_MODIFY;
-                $newStatus         = PublisherConstants::PUBLISHER_STATUS_PUBLISHED;
+                $newStatus         = Constants::PUBLISHER_STATUS_PUBLISHED;
                 break;
 
-            case PublisherConstants::PUBLISHER_STATUS_OFFLINE:
+            case Constants::PUBLISHER_STATUS_OFFLINE:
                 $breadcrumbAction1 = _CO_PUBLISHER_OFFLINE;
                 $breadcrumbAction2 = _AM_PUBLISHER_EDITING;
                 $pageTitle         = _AM_PUBLISHER_OFFLINEEDITING;
                 $pageInfo          = _AM_PUBLISHER_OFFLINEEDITING_INFO;
                 $buttonCaption     = _AM_PUBLISHER_MODIFY;
-                $newStatus         = PublisherConstants::PUBLISHER_STATUS_OFFLINE;
+                $newStatus         = Constants::PUBLISHER_STATUS_OFFLINE;
                 break;
 
-            case PublisherConstants::PUBLISHER_STATUS_REJECTED:
+            case Constants::PUBLISHER_STATUS_REJECTED:
                 $breadcrumbAction1 = _CO_PUBLISHER_REJECTED;
                 $breadcrumbAction2 = _AM_PUBLISHER_REJECTED;
                 $pageTitle         = _AM_PUBLISHER_REJECTED_EDIT;
                 $pageInfo          = _AM_PUBLISHER_REJECTED_EDIT_INFO;
                 $buttonCaption     = _AM_PUBLISHER_MODIFY;
-                $newStatus         = PublisherConstants::PUBLISHER_STATUS_REJECTED;
+                $newStatus         = Constants::PUBLISHER_STATUS_REJECTED;
                 break;
 
-            case PublisherConstants::PUBLISHER_STATUS_NOTSET: // Then it's a clone...
+            case Constants::PUBLISHER_STATUS_NOTSET: // Then it's a clone...
                 $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;
                 $breadcrumbAction2 = _AM_PUBLISHER_CLONE_NEW;
                 $buttonCaption     = _AM_PUBLISHER_CREATE;
-                $newStatus         = PublisherConstants::PUBLISHER_STATUS_PUBLISHED;
+                $newStatus         = Constants::PUBLISHER_STATUS_PUBLISHED;
                 $pageTitle         = _AM_PUBLISHER_ITEM_DUPLICATING;
                 $pageInfo          = _AM_PUBLISHER_ITEM_DUPLICATING_DSC;
                 break;
@@ -471,7 +472,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
                 $pageTitle         = _AM_PUBLISHER_PUBLISHEDEDITING;
                 $pageInfo          = _AM_PUBLISHER_PUBLISHEDEDITING_INFO;
                 $buttonCaption     = _AM_PUBLISHER_MODIFY;
-                $newStatus         = PublisherConstants::PUBLISHER_STATUS_PUBLISHED;
+                $newStatus         = Constants::PUBLISHER_STATUS_PUBLISHED;
                 break;
         }
 
@@ -488,14 +489,14 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     } else {
         // there's no parameter, so we're adding an item
 
-        $itemObj = $helper->getHandler('item')->create();
+        $itemObj = $helper->getHandler('Item')->create();
         $itemObj->setVarsFromRequest();
 
-        $categoryObj       = $helper->getHandler('category')->create();
+        $categoryObj       = $helper->getHandler('Category')->create();
         $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;
         $breadcrumbAction2 = _AM_PUBLISHER_CREATINGNEW;
         $buttonCaption     = _AM_PUBLISHER_CREATE;
-        $newStatus         = PublisherConstants::PUBLISHER_STATUS_PUBLISHED;
+        $newStatus         = Constants::PUBLISHER_STATUS_PUBLISHED;
 
         $categoryObj->setVar('categoryid', Request::getInt('categoryid', 0, 'GET'));
 

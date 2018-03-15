@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -18,12 +19,12 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
- * Interface PublisherConstants
+ * class Constants
  */
-interface PublisherConstants
+class Constants
 {
     // ITEM status
     const PUBLISHER_STATUS_NOTSET = -1;

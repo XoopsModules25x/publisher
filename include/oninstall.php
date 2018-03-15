@@ -58,10 +58,10 @@ function xoops_module_install_publisher(\XoopsModule $module)
     
     /** @var Publisher\Helper $helper */
     /** @var Publisher\Utility $utility */
-   /** @var common\Configurator $configurator */
+   /** @var Common\Configurator $configurator */
     $helper       = Publisher\Helper::getInstance();
     $utility      = new Publisher\Utility();
-     $configurator = new common\Configurator();
+     $configurator = new Common\Configurator();
 
     // Load language files
     $helper->loadLanguage('admin');

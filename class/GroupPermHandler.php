@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Publisher;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -19,16 +19,16 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 require_once $GLOBALS['xoops']->path('kernel/groupperm.php');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
- * Class PublisherGroupPermHandler
+ * Class GroupPermHandler
  */
-class PublisherGroupPermHandler extends XoopsGroupPermHandler
+class GrouppermHandler extends \XoopsGroupPermHandler
 {
     /**
      * Check permission

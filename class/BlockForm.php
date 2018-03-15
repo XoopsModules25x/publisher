@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Publisher;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -19,7 +19,9 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+use XoopsModules\Publisher;
+
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 xoops_load('XoopsForm');
 
@@ -28,7 +30,7 @@ xoops_load('XoopsForm');
  *
  * No styles and no JavaScript to check for required fields.
  */
-class PublisherBlockForm extends XoopsForm
+class BlockForm extends \XoopsForm
 {
     /**
      *

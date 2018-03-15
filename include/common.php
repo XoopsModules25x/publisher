@@ -52,9 +52,9 @@ $helper->loadLanguage('common');
 
 if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
     define($moduleDirNameUpper . '_DIRNAME', basename(dirname(__DIR__)));
-    define($moduleDirNameUpper . '_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/');
-    define($moduleDirNameUpper . '_PATH', XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/');
-    define($moduleDirNameUpper . '_URL', XOOPS_URL . '/modules/' . $moduleDirName . '/');
+    define($moduleDirNameUpper . '_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . $moduleDirName);
+    define($moduleDirNameUpper . '_PATH', XOOPS_ROOT_PATH . '/modules/' . $moduleDirName);
+    define($moduleDirNameUpper . '_URL', XOOPS_URL . '/modules/' . $moduleDirName );
     define($moduleDirNameUpper . '_IMAGES_URL', constant($moduleDirNameUpper . '_URL') . '/assets/images/');
     define($moduleDirNameUpper . '_IMAGES_PATH', constant($moduleDirNameUpper . '_ROOT_PATH') . '/assets/images/');
     define($moduleDirNameUpper . '_ADMIN_URL', constant($moduleDirNameUpper . '_URL') . '/admin/');
@@ -70,30 +70,30 @@ if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
 }
 
 
-if (!defined('PUBLISHER_DIRNAME')) {
-    define('PUBLISHER_DIRNAME', basename(dirname(__DIR__)));
-    define('PUBLISHER_URL', XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME);
-    define('PUBLISHER_PATH', XOOPS_ROOT_PATH . '/modules/' . PUBLISHER_DIRNAME);
-    define('PUBLISHER_IMAGES_URL', PUBLISHER_URL . '/assets/images');
-    define('PUBLISHER_ADMIN_URL', PUBLISHER_URL . '/admin');
-    define('PUBLISHER_ADMIN_PATH', PUBLISHER_PATH . '/admin/index.php');
-    define('PUBLISHER_ROOT_PATH', $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME));
-    define('PUBLISHER_AUTHOR_LOGOIMG', PUBLISHER_URL . '/assets/images/logo.png');
-    define('PUBLISHER_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
-    define('PUBLISHER_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
-}
+//if (!defined('PUBLISHER_DIRNAME')) {
+//    define('PUBLISHER_DIRNAME', basename(dirname(__DIR__)));
+//    define('PUBLISHER_URL', XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME);
+//    define('PUBLISHER_PATH', XOOPS_ROOT_PATH . '/modules/' . PUBLISHER_DIRNAME);
+//    define('PUBLISHER_IMAGES_URL', PUBLISHER_URL . '/assets/images');
+//    define('PUBLISHER_ADMIN_URL', PUBLISHER_URL . '/admin');
+//    define('PUBLISHER_ADMIN_PATH', PUBLISHER_PATH . '/admin/index.php');
+//    define('PUBLISHER_ROOT_PATH', $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME));
+//    define('PUBLISHER_AUTHOR_LOGOIMG', PUBLISHER_URL . '/assets/images/logo.png');
+//    define('PUBLISHER_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
+//    define('PUBLISHER_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PUBLISHER_DIRNAME); // WITHOUT Trailing slash
+//}
 
 //require_once PUBLISHER_ROOT_PATH . '/include/functions.php';
 //require_once PUBLISHER_ROOT_PATH . '/include/constants.php';
-require_once PUBLISHER_ROOT_PATH . '/include/seo_functions.php';
-require_once PUBLISHER_ROOT_PATH . '/class/metagen.php';
-require_once PUBLISHER_ROOT_PATH . '/class/session.php';
+//require_once PUBLISHER_ROOT_PATH . '/include/seo_functions.php';
+//require_once PUBLISHER_ROOT_PATH . '/class/metagen.php';
+//require_once PUBLISHER_ROOT_PATH . '/class/session.php';
 //require_once PUBLISHER_ROOT_PATH . '/class/request.php';
 
 
 
 
-xoops_load('constants', PUBLISHER_DIRNAME);
+//xoops_load('Constants', PUBLISHER_DIRNAME);
 
 //This is needed or it will not work in blocks.
 global $publisherIsAdmin;

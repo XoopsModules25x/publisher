@@ -35,7 +35,7 @@ if (function_exists('mb_http_output')) {
 $categoryid = Request::getInt('categoryid', -1, 'GET');
 
 if ($categoryid != -1) {
-    $categoryObj = $helper->getHandler('category')->get($categoryid);
+    $categoryObj = $helper->getHandler('Category')->get($categoryid);
 }
 
 header('Content-Type:text/xml; charset=' . _CHARSET);
@@ -80,7 +80,7 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     }
     $tpl->assign('image_width', $width);
     $tpl->assign('image_height', $height);
-    $sarray = $helper->getHandler('item')->getAllPublished(10, 0, $categoryid);
+    $sarray = $helper->getHandler('Item')->getAllPublished(10, 0, $categoryid);
     if (!empty($sarray) && is_array($sarray)) {
         $count = $sarray;
         foreach ($sarray as $item) {

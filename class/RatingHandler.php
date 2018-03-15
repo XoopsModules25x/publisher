@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Publisher;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -8,21 +8,29 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 /**
+ *  Publisher class
+ *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @package         Publisher
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
-require_once __DIR__ . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
-$myts = \MyTextSanitizer::getInstance();
-
-if ('none' !== $helper->getConfig('seo_url_rewrite')) {
-   require_once PUBLISHER_ROOT_PATH . '/include/seo.inc.php';
+/**
+ * Class RatingHandler
+ */
+class RatingHandler extends \XoopsPersistableObjectHandler
+{
+    /**
+     * @param null|\XoopsDatabase $db
+     */
+    public function __construct(\XoopsDatabase $db)
+    {
+        parent::__construct($db, 'publisher_rating', Rating::class, 'ratingid', 'itemid');
+    }
 }

@@ -19,6 +19,8 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
 require_once __DIR__ . '/header.php';
 
@@ -49,7 +51,7 @@ require_once PUBLISHER_ROOT_PATH . '/footer.php';
 $criteria = new \CriteriaCompo(new \Criteria('datesub', time(), '<='));
 $criteria->add(new \Criteria('uid', $uid));
 
-$items = $helper->getHandler('item')->getItems($limit = 0, $start = 0, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, 'datesub', 'DESC', '', true, $criteria);
+$items = $helper->getHandler('Item')->getItems($limit = 0, $start = 0, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, 'datesub', 'DESC', '', true, $criteria);
 unset($criteria);
 $count = count($items);
 
@@ -63,7 +65,7 @@ $xoopsTpl->assign('user_avatarurl', XOOPS_URL . '/uploads/' . $thisuser->getVar(
 //$xoopsLocal = new \XoopsLocal();
 $categories = [];
 if ($count > 0) {
-    /** @var PublisherItem $item */
+    /** @var  Publisher\Item $item */
     foreach ($items as $item) {
         $catid = $item->categoryid();
         if (!isset($categories[$catid])) {
@@ -95,7 +97,7 @@ $title = _MD_PUBLISHER_ITEMS_SAME_AUTHOR . ' - ' . $author_name;
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new PublisherMetagen($title, '', $title);
+$publisherMetagen = new Publisher\Metagen($title, '', $title);
 $publisherMetagen->createMetaTags();
 
 require_once $GLOBALS['xoops']->path('footer.php');

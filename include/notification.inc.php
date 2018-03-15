@@ -19,9 +19,11 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+use XoopsModules\Publisher;
 
-require_once __DIR__ . '/seo_functions.php';
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
+//require_once __DIR__ . '/seo_functions.php';
 
 /**
  * @param $category
@@ -45,7 +47,7 @@ function publisher_notify_iteminfo($category, $itemId)
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
         $resultArray  = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $resultArray['name'];
-        $item['url']  = PublisherSeo::generateUrl('category', $itemId, $resultArray['short_url']);
+        $item['url']  = Publisher\Seo::generateUrl('category', $itemId, $resultArray['short_url']);
 
         return $item;
     }
@@ -56,7 +58,7 @@ function publisher_notify_iteminfo($category, $itemId)
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
         $resultArray  = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $resultArray['title'];
-        $item['url']  = PublisherSeo::generateUrl('item', $itemId, $resultArray['short_url']);
+        $item['url']  = Publisher\Seo::generateUrl('item', $itemId, $resultArray['short_url']);
 
         return $item;
     }

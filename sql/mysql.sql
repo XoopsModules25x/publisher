@@ -13,7 +13,6 @@
 #
 # Creation: Mar 16, 2004 at 11:14 AM
 # Last update: Mar 16, 2004 at 12:31 PM
-#
 
 CREATE TABLE `publisher_categories` (
   `categoryid`       INT(11)      NOT NULL AUTO_INCREMENT,

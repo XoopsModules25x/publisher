@@ -22,18 +22,19 @@
 
 use Xmf\Request;
 use XoopsModules\Publisher;
-use XoopsModules\Publisher\commmon;
+use XoopsModules\Publisher\Common;
+use XoopsModules\Publisher\Constants;
 
 /**
  * Class Utility
  */
 class Utility
 {
-    use common\VersionChecks; //checkVerXoops, checkVerPhp Traits
+    use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
 
-    use common\ServerStats; // getServerStats Trait
+    use Common\ServerStats; // getServerStats Trait
 
-    use common\FilesManagement; // Files Management Trait
+    use Common\FilesManagement; // Files Management Trait
 
     //--------------- Custom module methods -----------------------------
 
@@ -48,7 +49,7 @@ class Utility
     {
         try {
             if (!file_exists($folder)) {
-                if (!mkdir($folder) && !is_dir($folder)) {
+                if (!is_dir($folder) && !mkdir($folder) && !is_dir($folder)) {
                     throw new \RuntimeException(sprintf('Unable to create the %s directory', $folder));
                 } else {
                     file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
@@ -176,10 +177,10 @@ class Utility
     }
 
     /**
-     * @param \PublisherCategory $categoryObj
+     * @param Publisher\Category $categoryObj
      * @param int               $level
      */
-    public static function displayCategory(\PublisherCategory $categoryObj, $level = 0)
+    public static function displayCategory(Publisher\Category $categoryObj, $level = 0)
     {
         $helper = Publisher\Helper::getInstance();
 
@@ -203,7 +204,7 @@ class Utility
         echo "<td class='even' align='center'>" . $categoryObj->weight() . '</td>';
         echo "<td class='even' align='center'> $modify $delete </td>";
         echo '</tr>';
-        $subCategoriesObj = $helper->getHandler('category')->getCategories(0, 0, $categoryObj->categoryid());
+        $subCategoriesObj = $helper->getHandler('Category')->getCategories(0, 0, $categoryObj->categoryid());
         if (count($subCategoriesObj) > 0) {
             ++$level;
             foreach ($subCategoriesObj as $key => $thiscat) {
@@ -225,17 +226,17 @@ class Utility
         $helper = Publisher\Helper::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
-        /* @var  $categoryObj PublisherCategory */
+        /* @var  $categoryObj Publisher\Category */
         if (0 != $categoryId) {
             // Creating the category object for the selected category
-            $categoryObj = $helper->getHandler('category')->get($categoryId);
+            $categoryObj = $helper->getHandler('Category')->get($categoryId);
             if ($categoryObj->notLoaded()) {
                 redirect_header('category.php', 1, _AM_PUBLISHER_NOCOLTOEDIT);
                 //            exit();
             }
         } else {
             if (!$categoryObj) {
-                $categoryObj = $helper->getHandler('category')->create();
+                $categoryObj = $helper->getHandler('Category')->create();
             }
         }
 
@@ -261,10 +262,10 @@ class Utility
 
             static::openCollapsableBar('subcatstable', 'subcatsicon', _AM_PUBLISHER_SUBCAT_CAT, _AM_PUBLISHER_SUBCAT_CAT_DSC);
             // Get the total number of sub-categories
-            $categoriesObj = $helper->getHandler('category')->get($selCat);
-            $totalsubs     = $helper->getHandler('category')->getCategoriesCount($selCat);
+            $categoriesObj = $helper->getHandler('Category')->get($selCat);
+            $totalsubs     = $helper->getHandler('Category')->getCategoriesCount($selCat);
             // creating the categories objects that are published
-            $subcatsObj    = $helper->getHandler('category')->getCategories(0, 0, $categoriesObj->categoryid());
+            $subcatsObj    = $helper->getHandler('Category')->getCategories(0, 0, $categoriesObj->categoryid());
             $totalSCOnPage = count($subcatsObj);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
@@ -297,11 +298,11 @@ class Utility
             static::openCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = Request::getInt('startitem');
             // Get the total number of published ITEMS
-            $totalitems = $helper->getHandler('item')->getItemsCount($selCat, [\PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
+            $totalitems = $helper->getHandler('Item')->getItemsCount($selCat, [Constants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
-            $itemsObj         = $helper->getHandler('item')->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
+            $itemsObj         = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
             $totalitemsOnPage = count($itemsObj);
-            $allcats          = $helper->getHandler('category')->getObjects(null, true);
+            $allcats          = $helper->getHandler('Category')->getObjects(null, true);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
             echo "<td width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . '</strong></td>';
@@ -729,7 +730,7 @@ class Utility
     public static function userIsModerator($itemObj)
     {
         $helper         = Publisher\Helper::getInstance();
-        $categoriesGranted = $helper->getHandler('permission')->getGrantedItems('category_moderation');
+        $categoriesGranted = $helper->getHandler('Permission')->getGrantedItems('category_moderation');
 
         return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted));
     }
@@ -884,13 +885,13 @@ class Utility
     }
 
     /**
-     * @param  null|\PublisherCategory $categoryObj
+     * @param  null|Publisher\Category $categoryObj
      * @param  int|array              $selectedid
      * @param  int                    $level
      * @param  string                 $ret
      * @return string
      */
-    public static function addCategoryOption(\PublisherCategory $categoryObj, $selectedid = 0, $level = 0, $ret = '')
+    public static function addCategoryOption(Publisher\Category $categoryObj, $selectedid = 0, $level = 0, $ret = '')
     {
         $helper = Publisher\Helper::getInstance();
 
@@ -907,7 +908,7 @@ class Utility
         }
         $ret .= '>' . $spaces . $categoryObj->name() . "</option>\n";
 
-        $subCategoriesObj = $helper->getHandler('category')->getCategories(0, 0, $categoryObj->categoryid());
+        $subCategoriesObj = $helper->getHandler('Category')->getCategories(0, 0, $categoryObj->categoryid());
         if (count($subCategoriesObj) > 0) {
             ++$level;
             foreach ($subCategoriesObj as $catID => $subCategoryObj) {
@@ -941,7 +942,7 @@ class Utility
         }
 
         // Creating category objects
-        $categoriesObj = $helper->getHandler('category')->getCategories(0, 0, $parentcategory);
+        $categoriesObj = $helper->getHandler('Category')->getCategories(0, 0, $parentcategory);
 
         if (count($categoriesObj) > 0) {
             foreach ($categoriesObj as $catID => $categoryObj) {
@@ -970,7 +971,7 @@ class Utility
         }
 
         // Creating category objects
-        $categoriesObj = $helper->getHandler('category')->getCategories(0, 0, $parentcategory);
+        $categoriesObj = $helper->getHandler('Category')->getCategories(0, 0, $parentcategory);
         if (count($categoriesObj) > 0) {
             foreach ($categoriesObj as $catID => $categoryObj) {
                 $ret .= static::addCategoryOption($categoryObj, $selectedid);
@@ -1071,7 +1072,7 @@ class Utility
 
         $itemId  = Request::getInt('itemid', 0, 'POST');
         $uid     = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
-        $session = PublisherSession::getInstance();
+        $session = Session::getInstance();
         $session->set('publisher_file_filename', Request::getString('item_file_name', '', 'POST'));
         $session->set('publisher_file_description', Request::getString('item_file_description', '', 'POST'));
         $session->set('publisher_file_status', Request::getInt('item_file_status', 1, 'POST'));
@@ -1079,10 +1080,10 @@ class Utility
         $session->set('publisher_file_itemid', $itemId);
 
         if (!is_object($itemObj)) {
-            $itemObj = $helper->getHandler('item')->get($itemId);
+            $itemObj = $helper->getHandler('Item')->get($itemId);
         }
 
-        $fileObj = $helper->getHandler('file')->create();
+        $fileObj = $helper->getHandler('File')->create();
         $fileObj->setVar('name', Request::getString('item_file_name', '', 'POST'));
         $fileObj->setVar('description', Request::getString('item_file_description', '', 'POST'));
         $fileObj->setVar('status', Request::getInt('item_file_status', 1, 'POST'));
@@ -1091,7 +1092,7 @@ class Utility
         $fileObj->setVar('datesub', time());
 
         // Get available mimetypes for file uploading
-        $allowedMimetypes = $helper->getHandler('mimetype')->getArrayByType();
+        $allowedMimetypes = $helper->getHandler('Mimetype')->getArrayByType();
         // TODO : display the available mimetypes to the user
         $errors = [];
         if ($helper->getConfig('perm_upload') && is_uploaded_file($_FILES['item_upload_file']['tmp_name'])) {
@@ -1233,7 +1234,7 @@ class Utility
         $units           = 5;
 
         $criteria   = new \Criteria('itemid', $itemId);
-        $ratingObjs = $helper->getHandler('rating')->getObjects($criteria);
+        $ratingObjs = $helper->getHandler('Rating')->getObjects($criteria);
         unset($criteria);
 
         $uid           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
@@ -1262,7 +1263,7 @@ class Utility
         /* @var $gpermHandler XoopsGroupPermHandler */
         $gpermHandler = $helper->getHandler('groupperm');
 
-        if (!$gpermHandler->checkRight('global', \PublisherConstants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
+        if (!$gpermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
             $staticRater   = [];
             $staticRater[] .= "\n" . '<div class="publisher_ratingblock">';
             $staticRater[] .= '<div id="unit_long' . $itemId . '">';
@@ -1425,5 +1426,110 @@ class Utility
         }
 
         return $success;
+    }
+
+    /**
+     * truncateHtml can truncate a string up to a number of characters while preserving whole words and HTML tags
+     * www.gsdesign.ro/blog/cut-html-string-without-breaking-the-tags
+     * www.cakephp.org
+     *
+     * @param string  $text         String to truncate.
+     * @param integer $length       Length of returned string, including ellipsis.
+     * @param string  $ending       Ending to be appended to the trimmed string.
+     * @param boolean $exact        If false, $text will not be cut mid-word
+     * @param boolean $considerHtml If true, HTML tags would be handled correctly
+     *
+     * @return string Trimmed string.
+     */
+    public static function truncateHtml($text, $length = 100, $ending = '...', $exact = false, $considerHtml = true)
+    {
+        if ($considerHtml) {
+            // if the plain text is shorter than the maximum length, return the whole text
+            if (strlen(preg_replace('/<.*?' . '>/', '', $text)) <= $length) {
+                return $text;
+            }
+            // splits all html-tags to scanable lines
+            preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
+            $total_length = strlen($ending);
+            $open_tags    = [];
+            $truncate     = '';
+            foreach ($lines as $line_matchings) {
+                // if there is any html-tag in this line, handle it and add it (uncounted) to the output
+                if (!empty($line_matchings[1])) {
+                    // if it's an "empty element" with or without xhtml-conform closing slash
+                    if (preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $line_matchings[1])) {
+                        // do nothing
+                        // if tag is a closing tag
+                    } elseif (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
+                        // delete tag from $open_tags list
+                        $pos = array_search($tag_matchings[1], $open_tags);
+                        if (false !== $pos) {
+                            unset($open_tags[$pos]);
+                        }
+                        // if tag is an opening tag
+                    } elseif (preg_match('/^<\s*([^\s>!]+).*?' . '>$/s', $line_matchings[1], $tag_matchings)) {
+                        // add tag to the beginning of $open_tags list
+                        array_unshift($open_tags, strtolower($tag_matchings[1]));
+                    }
+                    // add html-tag to $truncate'd text
+                    $truncate .= $line_matchings[1];
+                }
+                // calculate the length of the plain text part of the line; handle entities as one character
+                $content_length = strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
+                if ($total_length + $content_length > $length) {
+                    // the number of characters which are left
+                    $left            = $length - $total_length;
+                    $entities_length = 0;
+                    // search for html entities
+                    if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) {
+                        // calculate the real length of all entities in the legal range
+                        foreach ($entities[0] as $entity) {
+                            if ($entity[1] + 1 - $entities_length <= $left) {
+                                $left--;
+                                $entities_length += strlen($entity[0]);
+                            } else {
+                                // no more characters left
+                                break;
+                            }
+                        }
+                    }
+                    $truncate .= substr($line_matchings[2], 0, $left + $entities_length);
+                    // maximum lenght is reached, so get off the loop
+                    break;
+                } else {
+                    $truncate     .= $line_matchings[2];
+                    $total_length += $content_length;
+                }
+                // if the maximum length is reached, get off the loop
+                if ($total_length >= $length) {
+                    break;
+                }
+            }
+        } else {
+            if (strlen($text) <= $length) {
+                return $text;
+            } else {
+                $truncate = substr($text, 0, $length - strlen($ending));
+            }
+        }
+        // if the words shouldn't be cut in the middle...
+        if (!$exact) {
+            // ...search the last occurance of a space...
+            $spacepos = strrpos($truncate, ' ');
+            if (isset($spacepos)) {
+                // ...and cut the text in this position
+                $truncate = substr($truncate, 0, $spacepos);
+            }
+        }
+        // add the defined ending to the text
+        $truncate .= $ending;
+        if ($considerHtml) {
+            // close all unclosed html-tags
+            foreach ($open_tags as $tag) {
+                $truncate .= '</' . $tag . '>';
+            }
+        }
+
+        return $truncate;
     }
 }

@@ -79,12 +79,12 @@ if (is_object($GLOBALS['xoopsUser'])) {
 $criteria = new \CriteriaCompo();
 $criteria->add(new \Criteria('status', 2), 'AND');
 $criteria->add(new \Criteria('datesub', time(), '<='), 'AND');
-$categoriesGranted = $helper->getHandler('permission')->getGrantedItems('category_read');
+$categoriesGranted = $helper->getHandler('Permission')->getGrantedItems('category_read');
 $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
 $criteria->setSort('datesub');
 $criteria->setOrder('DESC');
 //Get all articles dates as an array to save memory
-$items      = $helper->getHandler('item')->getAll($criteria, ['datesub'], false);
+$items      = $helper->getHandler('Item')->getAll($criteria, ['datesub'], false);
 $itemsCount = count($items);
 
 if (!($itemsCount > 0)) {
@@ -171,12 +171,12 @@ if (0 != $fromyear && 0 != $frommonth) {
 
     $count = 0;
 
-    $itemHandler               = $helper->getHandler('item');
+    $itemHandler               = $helper->getHandler('Item');
     $itemHandler->table_link   = $GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_categories');
     $itemHandler->field_link   = 'categoryid';
     $itemHandler->field_object = 'categoryid';
     // Categories for which user has access
-    $categoriesGranted = $helper->getHandler('permission')->getGrantedItems('category_read');
+    $categoriesGranted = $helper->getHandler('Permission')->getGrantedItems('category_read');
     $grantedCategories = new \Criteria('l.categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
     $criteria          = new \CriteriaCompo();
     $criteria->add($grantedCategories, 'AND');

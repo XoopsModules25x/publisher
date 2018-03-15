@@ -20,11 +20,12 @@
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
 require_once __DIR__ . '/admin_header.php';
 require_once $GLOBALS['xoops']->path('class/xoopslists.php');
 require_once $GLOBALS['xoops']->path('class/pagenav.php');
-//require_once __DIR__ . '/../class/Utility.php';
+// require_once __DIR__ . '/../class/Utility.php';
 require_once __DIR__ . '/../include/common.php';
 
 $itemid = Request::getInt('itemid', 0, 'POST');
@@ -47,22 +48,22 @@ Publisher\Utility::cpHeader();
 //publisher_adminMenu(0, _AM_PUBLISHER_INDEX);
 
 // Total ITEMs -- includes everything on the table
-$totalitems = $helper->getHandler('item')->getItemsCount();
+$totalitems = $helper->getHandler('Item')->getItemsCount();
 
 // Total categories
-$totalcategories = $helper->getHandler('category')->getCategoriesCount(-1);
+$totalcategories = $helper->getHandler('Category')->getCategoriesCount(-1);
 
 // Total submitted ITEMs
-$totalsubmitted = $helper->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_SUBMITTED]);
+$totalsubmitted = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_SUBMITTED]);
 
 // Total published ITEMs
-$totalpublished = $helper->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
+$totalpublished = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_PUBLISHED]);
 
 // Total offline ITEMs
-$totaloffline = $helper->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_OFFLINE]);
+$totaloffline = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_OFFLINE]);
 
 // Total rejected
-$totalrejected = $helper->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_REJECTED]);
+$totalrejected = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_REJECTED]);
 
 // Check Path Configuration
 if ((Publisher\Utility::getPathStatus('root', true) < 0)
@@ -160,38 +161,38 @@ switch ($ordersel) {
 }
 
 switch ($statussel) {
-    case PublisherConstants::PUBLISHER_STATUS_ALL:
+    case Constants::PUBLISHER_STATUS_ALL:
         $selectedtxt0        = 'selected';
         $caption             = _AM_PUBLISHER_ALL;
         $cond                = '';
         $status_explaination = _AM_PUBLISHER_ALL_EXP;
         break;
 
-    case PublisherConstants::PUBLISHER_STATUS_SUBMITTED:
+    case Constants::PUBLISHER_STATUS_SUBMITTED:
         $selectedtxt1        = 'selected';
         $caption             = _CO_PUBLISHER_SUBMITTED;
-        $cond                = ' WHERE status = ' . PublisherConstants::PUBLISHER_STATUS_SUBMITTED . ' ';
+        $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_SUBMITTED . ' ';
         $status_explaination = _AM_PUBLISHER_SUBMITTED_EXP;
         break;
 
-    case PublisherConstants::PUBLISHER_STATUS_PUBLISHED:
+    case Constants::PUBLISHER_STATUS_PUBLISHED:
         $selectedtxt2        = 'selected';
         $caption             = _CO_PUBLISHER_PUBLISHED;
-        $cond                = ' WHERE status = ' . PublisherConstants::PUBLISHER_STATUS_PUBLISHED . ' ';
+        $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_PUBLISHED . ' ';
         $status_explaination = _AM_PUBLISHER_PUBLISHED_EXP;
         break;
 
-    case PublisherConstants::PUBLISHER_STATUS_OFFLINE:
+    case Constants::PUBLISHER_STATUS_OFFLINE:
         $selectedtxt3        = 'selected';
         $caption             = _CO_PUBLISHER_OFFLINE;
-        $cond                = ' WHERE status = ' . PublisherConstants::PUBLISHER_STATUS_OFFLINE . ' ';
+        $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_OFFLINE . ' ';
         $status_explaination = _AM_PUBLISHER_OFFLINE_EXP;
         break;
 
-    case PublisherConstants::PUBLISHER_STATUS_REJECTED:
+    case Constants::PUBLISHER_STATUS_REJECTED:
         $selectedtxt4        = 'selected';
         $caption             = _CO_PUBLISHER_REJECTED;
-        $cond                = ' WHERE status = ' . PublisherConstants::PUBLISHER_STATUS_REJECTED . ' ';
+        $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_REJECTED . ' ';
         $status_explaination = _AM_PUBLISHER_REJECTED_ITEM_EXP;
         break;
 }
@@ -236,10 +237,10 @@ echo "
 // Get number of entries in the selected state
 $statusSelected = (0 == $statussel) ? -1 : $statussel;
 
-$numrows = $helper->getHandler('item')->getItemsCount(-1, $statusSelected);
+$numrows = $helper->getHandler('Item')->getItemsCount(-1, $statusSelected);
 
 // creating the Q&As objects
-$itemsObj = $helper->getHandler('item')->getItems($helper->getConfig('idxcat_perpage'), $startentry, $statusSelected, -1, $sortsel, $ordersel);
+$itemsObj = $helper->getHandler('Item')->getItems($helper->getConfig('idxcat_perpage'), $startentry, $statusSelected, -1, $sortsel, $ordersel);
 
 $totalItemsOnPage = count($itemsObj);
 
@@ -252,7 +253,7 @@ if ($numrows > 0) {
         $approve     = '';
         switch ($itemsObj[$i]->status()) {
 
-            case PublisherConstants::PUBLISHER_STATUS_SUBMITTED:
+            case Constants::PUBLISHER_STATUS_SUBMITTED:
                 $statustxt = _CO_PUBLISHER_SUBMITTED;
                 $approve   = "<a href='item.php?op=mod&itemid="
                              . $itemsObj[$i]->itemid()
@@ -270,7 +271,7 @@ if ($numrows > 0) {
                 $modify    = '';
                 break;
 
-            case PublisherConstants::PUBLISHER_STATUS_PUBLISHED:
+            case Constants::PUBLISHER_STATUS_PUBLISHED:
                 $statustxt = _CO_PUBLISHER_PUBLISHED;
                 $approve   = '';
 
@@ -279,7 +280,7 @@ if ($numrows > 0) {
                 $clone  = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>&nbsp;";
                 break;
 
-            case PublisherConstants::PUBLISHER_STATUS_OFFLINE:
+            case Constants::PUBLISHER_STATUS_OFFLINE:
                 $statustxt = _CO_PUBLISHER_OFFLINE;
                 $approve   = '';
                 $modify    = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_ITEM_EDIT . "' alt='" . _AM_PUBLISHER_ITEM_EDIT . "'></a>&nbsp;";
@@ -288,7 +289,7 @@ if ($numrows > 0) {
                     "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>&nbsp;";
                 break;
 
-            case PublisherConstants::PUBLISHER_STATUS_REJECTED:
+            case Constants::PUBLISHER_STATUS_REJECTED:
                 $statustxt = _CO_PUBLISHER_REJECTED;
                 $approve   = '';
                 $modify    = "<a href='item.php?op=mod&itemid="

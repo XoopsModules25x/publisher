@@ -21,9 +21,9 @@
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /***
  * Function To Show Publisher Items From Categories In Their Own Columns
@@ -51,7 +51,7 @@ function publisher_items_columns_show($options)
     $selCategoriesObj = [];
 
     //get permited categories only once
-    $categoriesObj = $helper->getHandler('category')->getCategories(0, 0, -1);
+    $categoriesObj = $helper->getHandler('Category')->getCategories(0, 0, -1);
 
     //if not selected 'all', let's get the selected ones
     if (!in_array(0, $selCategories)) {
@@ -79,7 +79,7 @@ function publisher_items_columns_show($options)
     $columns = $mainItem = $subItem = [];
 
     foreach ($selCategoriesObj as $categoryId => $mainItemCatObj) {
-        $categoryItemsObj = $helper->getHandler('item')->getAllPublished($optCatItems, 0, $categoryId);
+        $categoryItemsObj = $helper->getHandler('Item')->getAllPublished($optCatItems, 0, $categoryId);
         $scount           = count($categoryItemsObj);
         if ($scount > 0 && is_array($categoryItemsObj)) {
             reset($categoryItemsObj);
@@ -147,10 +147,10 @@ function publisher_items_columns_show($options)
  */
 function publisher_items_columns_edit($options)
 {
-    require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
+    // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form   = new PublisherBlockForm();
+    $form   = new Publisher\BlockForm();
     $colEle = new \XoopsFormSelect(_MB_PUBLISHER_NUMBER_COLUMN_VIEW, 'options[0]', $options[0]);
     $colEle->addOptionArray([
                                 '1' => 1,

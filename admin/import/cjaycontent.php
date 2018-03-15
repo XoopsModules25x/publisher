@@ -21,6 +21,7 @@
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
@@ -86,7 +87,7 @@ if ('start' === $op) {
 if ('go' === $op) {
     Publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    require_once dirname(dirname(__DIR__)) . '/include/common.php';
+    require_once __DIR__ . '/../../include/common.php';
     Publisher\Utility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /* @var  $moduleHandler XoopsModuleHandler */
     $moduleHandler         = xoops_getHandler('module');
@@ -105,8 +106,8 @@ if ('go' === $op) {
     $resultArticles = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
         // insert article
-        /** @var PublisherItem $itemObj */
-        $itemObj = $helper->getHandler('item')->create();
+        /** @var  Publisher\Item $itemObj */
+        $itemObj = $helper->getHandler('Item')->create();
         $itemObj->setVar('itemid', $arrArticle['id']);
         //      $itemObj->setVar('categoryid', $categoryObj->categoryid());
         $itemObj->setVar('title', $arrArticle['title']);
@@ -118,7 +119,7 @@ if ('go' === $op) {
         //            $itemObj->setVar('dohtml', !$arrArticle['nohtml']);
         //            $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
         $itemObj->setVar('weight', $arrArticle['weight']);
-        $itemObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_PUBLISHED);
+        $itemObj->setVar('status', Constants::PUBLISHER_STATUS_PUBLISHED);
 
         //            $itemObj->setVar('dobr', !$arrArticle['dobr']);
         //            $itemObj->setVar('item_tag', $arrArticle['tags']);
@@ -160,11 +161,11 @@ if ('go' === $op) {
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
 
     $publisher_module_id = $helper->getModule()->mid();
-    /** @var XoopsCommentHandler $commentHandler */
+    /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
     $criteria->add(new \Criteria('com_modid', $cjaycontent_module_id));
-    /** @var XoopsComment $comment */
+    /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);

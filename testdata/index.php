@@ -36,7 +36,7 @@ function loadSampleData()
         $moduleDirName = basename(dirname(__DIR__));
         $helper       = Publisher\Helper::getInstance();
         $utility      = new Publisher\Utility();
-        $configurator = new common\Configurator();
+        $configurator = new Common\Configurator();
        // Load language files
         $helper->loadLanguage('admin');
         $helper->loadLanguage('modinfo');

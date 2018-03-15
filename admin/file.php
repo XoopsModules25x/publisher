@@ -38,7 +38,7 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
     // if there is a parameter, and the id exists, retrieve data: we're editing a file
     if (0 != $fileid) {
         // Creating the File object
-        $fileObj = $helper->getHandler('file')->get($fileid);
+        $fileObj = $helper->getHandler('File')->get($fileid);
 
         if ($fileObj->notLoaded()) {
             redirect_header('javascript:history.go(-1)', 1, _AM_PUBLISHER_NOFILESELECTED);
@@ -51,7 +51,7 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
         Publisher\Utility::openCollapsableBar('editfile', 'editfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
     } else {
         // there's no parameter, so we're adding an item
-        $fileObj = $helper->getHandler('file')->create();
+        $fileObj = $helper->getHandler('File')->create();
         $fileObj->setVar('itemid', $itemid);
         echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_ADDING . '</span>';
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_FILE_ADDING_DSC . '</span>';
@@ -101,9 +101,9 @@ switch ($op) {
 
         // Creating the file object
         if (0 != $fileid) {
-            $fileObj = $helper->getHandler('file')->get($fileid);
+            $fileObj = $helper->getHandler('File')->get($fileid);
         } else {
-            $fileObj = $helper->getHandler('file')->create();
+            $fileObj = $helper->getHandler('File')->create();
         }
 
         // Putting the values in the file object
@@ -125,13 +125,13 @@ switch ($op) {
         $fileid = Request::getInt('fileid', 0, 'POST');
         $fileid = Request::getInt('fileid', $fileid, 'GET');
 
-        $fileObj = $helper->getHandler('file')->get($fileid);
+        $fileObj = $helper->getHandler('File')->get($fileid);
 
         $confirm = Request::getInt('confirm', 0, 'POST');
         $title   = Request::getString('title', '', 'POST');
 
         if ($confirm) {
-            if (!$helper->getHandler('file')->delete($fileObj)) {
+            if (!$helper->getHandler('File')->delete($fileObj)) {
                 redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 2, _AM_PUBLISHER_FILE_DELETE_ERROR);
                 //                exit;
             }

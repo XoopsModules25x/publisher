@@ -21,12 +21,13 @@
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
 require_once __DIR__ . '/header.php';
 $helper->loadLanguage('admin');
 
 // Get the total number of categories
-$categoriesArray = $helper->getHandler('category')->getCategoriesForSubmit();
+$categoriesArray = $helper->getHandler('Category')->getCategoriesForSubmit();
 
 if (!$categoriesArray) {
     redirect_header('index.php', 1, _MD_PUBLISHER_NEED_CATEGORY_ITEM);
@@ -34,14 +35,15 @@ if (!$categoriesArray) {
 }
 
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-$gpermHandler = xoops_getModuleHandler('groupperm');
+/* @var $gpermHandler XoopsGroupPermHandler */
+$gpermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('Groupperm'); //xoops_getModuleHandler('groupperm');
 $moduleId     = $helper->getModule()->getVar('mid');
 
 $itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
 if (0 != $itemId) {
     // We are editing or deleting an article
-    /* @var  $itemObj PublisherItem */
-    $itemObj = $helper->getHandler('item')->get($itemId);
+    /* @var  $itemObj Item */
+    $itemObj = $helper->getHandler('Item')->get($itemId);
     if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($itemObj) || Publisher\Utility::userIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
         //        exit();
@@ -55,7 +57,7 @@ if (0 != $itemId) {
             //            exit();
         }
     }
-    /* @var  $categoryObj PublisherCategory */
+    /* @var  $categoryObj Publisher\Category */
     $categoryObj = $itemObj->getCategory();
 } else {
     // we are submitting a new article
@@ -64,10 +66,10 @@ if (0 != $itemId) {
         redirect_header('index.php', 1, _NOPERM);
         //        exit();
     }
-    /* @var  $itemObj PublisherItem */
-    $itemObj     = $helper->getHandler('item')->create();
-    /* @var  $categoryObj PublisherCategory */
-    $categoryObj = $helper->getHandler('category')->create();
+    /* @var  $itemObj Item */
+    $itemObj     = $helper->getHandler('Item')->create();
+    /* @var  $categoryObj Publisher\Category */
+    $categoryObj = $helper->getHandler('Category')->create();
 }
 
 if ('clone' === Request::getString('op', '', 'GET')) {
@@ -124,7 +126,9 @@ $elements = [
     'author_alias'
 ];
 foreach ($elements as $element) {
-    if (Request::hasVar($element, 'POST') && !in_array(constant('PublisherConstants::PUBLISHER_' . strtoupper($element)), $formView)) {
+    $classname = '\XoopsModules\Publisher\Constants';
+    if (Request::hasVar($element, 'POST') && !in_array(constant($classname .'::'. 'PUBLISHER_' . strtoupper($element)), $formView)) {
+
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
         //        exit();
     }
@@ -139,7 +143,7 @@ switch ($op) {
         $confirm = Request::getInt('confirm', '', 'POST');
 
         if ($confirm) {
-            if (!$helper->getHandler('item')->delete($itemObj)) {
+            if (!$helper->getHandler('Item')->delete($itemObj)) {
                 redirect_header('index.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . Publisher\Utility::formatErrors($itemObj->getErrors()));
                 //                exit();
             }
@@ -167,7 +171,7 @@ switch ($op) {
         $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
         require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
-        $categoryObj = $helper->getHandler('category')->get(Request::getInt('categoryid', 0, 'POST'));
+        $categoryObj = $helper->getHandler('Category')->get(Request::getInt('categoryid', 0, 'POST'));
 
         $item                 = $itemObj->toArraySimple();
         $item['summary']      = $itemObj->body();
@@ -223,11 +227,11 @@ switch ($op) {
 
         // if autoapprove_submitted. This does not apply if we are editing an article
         if (!$itemId) {
-            if ($itemObj->getVar('status') == PublisherConstants::PUBLISHER_STATUS_PUBLISHED /*$helper->getConfig('perm_autoapprove'] ==  1*/) {
+            if ($itemObj->getVar('status') == Constants::PUBLISHER_STATUS_PUBLISHED /*$helper->getConfig('perm_autoapprove'] ==  1*/) {
                 // We do not not subscribe user to notification on publish since we publish it right away
 
                 // Send notifications
-                $itemObj->sendNotifications([PublisherConstants::PUBLISHER_NOTIFY_ITEM_PUBLISHED]);
+                $itemObj->sendNotifications([Constants::PUBLISHER_NOTIFY_ITEM_PUBLISHED]);
 
                 $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_AND_PUBLISHED;
                 redirect_header($itemObj->getItemUrl(), 2, $redirect_msg);
@@ -239,7 +243,7 @@ switch ($op) {
                     $notificationHandler->subscribe('item', $itemObj->itemid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
-                $itemObj->sendNotifications([PublisherConstants::PUBLISHER_NOTIFY_ITEM_SUBMITTED]);
+                $itemObj->sendNotifications([Constants::PUBLISHER_NOTIFY_ITEM_SUBMITTED]);
 
                 $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
             }

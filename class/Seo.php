@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Publisher;
+
 /*
  * $Id
  * Module: Publisher
@@ -21,14 +22,14 @@
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
- * Class PublisherSeo
+ * Class Seo
  */
-class PublisherSeo
+class Seo
 {
     /**
      * @param string $title

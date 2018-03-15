@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Publisher\Form;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -24,15 +24,15 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
-require_once dirname(dirname(__DIR__)) . '/include/common.php';
+require_once __DIR__ . '/../../include/common.php';
 
 xoops_load('XoopsFormLoader');
 require_once $GLOBALS['xoops']->path('class/tree.php');
 
 /**
- * Class PublisherCategoryForm
+ * Class Publisher\CategoryForm
  */
-class PublisherCategoryForm extends XoopsThemeForm
+class CategoryForm extends \XoopsThemeForm
 {
     /**
      * @var Publisher
@@ -52,7 +52,7 @@ class PublisherCategoryForm extends XoopsThemeForm
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
-        $this->publisher = Publisher\Helper::getInstance();
+        $this->helper = Publisher\Helper::getInstance();
 
         $this->targetObject =& $target;
         $this->subCatsCount = $subCatsCount;
@@ -69,12 +69,12 @@ class PublisherCategoryForm extends XoopsThemeForm
 
     public function createElements()
     {
-        require_once dirname(dirname(__DIR__)) . '/include/common.php';
+        require_once __DIR__ . '/../../include/common.php';
         // Category
         $criteria = new \Criteria(null);
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
-        $myTree        = new \XoopsObjectTree($this->publisher->getHandler('category')->getObjects($criteria), 'categoryid', 'parentid');
+        $myTree        = new \XoopsObjectTree($this->helper->getHandler('Category')->getObjects($criteria), 'categoryid', 'parentid');
         $moduleDirName = basename(dirname(__DIR__));
         $module        = \XoopsModule::getByDirname($moduleDirName);
         if (Publisher\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
@@ -93,8 +93,8 @@ class PublisherCategoryForm extends XoopsThemeForm
 
         // EDITOR
         $groups         = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $gpermHandler   = $this->publisher->getHandler('groupperm');
-        $moduleId       = $this->publisher->getModule()->mid();
+        $gpermHandler   = $this->helper->getHandler('groupperm');
+        $moduleId       = $this->helper->getModule()->mid();
         $allowedEditors = Publisher\Utility::getEditors($gpermHandler->getItemIds('editors', $groups, $moduleId));
         $nohtml         = false;
         if (count($allowedEditors) > 0) {
@@ -107,18 +107,18 @@ class PublisherCategoryForm extends XoopsThemeForm
                     $editor = (null !== $GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
-            $editor     = (empty($editor) || !in_array($editor, $allowedEditors)) ? $this->publisher->getConfig('submit_editor') : $editor;
+            $editor     = (empty($editor) || !in_array($editor, $allowedEditors)) ? $this->helper->getConfig('submit_editor') : $editor;
             $formEditor = new \XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowedEditors);
             $this->addElement($formEditor);
         } else {
-            $editor = $this->publisher->getConfig('submit_editor');
+            $editor = $this->helper->getConfig('submit_editor');
         }
 
         $editorConfigs           = [];
-        $editorConfigs['rows']   = '' == $this->publisher->getConfig('submit_editor_rows') ? 35 : $this->publisher->getConfig('submit_editor_rows');
-        $editorConfigs['cols']   = '' == $this->publisher->getConfig('submit_editor_cols') ? 60 : $this->publisher->getConfig('submit_editor_cols');
-        $editorConfigs['width']  = '' == $this->publisher->getConfig('submit_editor_width') ? '100%' : $this->publisher->getConfig('submit_editor_width');
-        $editorConfigs['height'] = '' == $this->publisher->getConfig('submit_editor_height') ? '400px' : $this->publisher->getConfig('submit_editor_height');
+        $editorConfigs['rows']   = '' == $this->helper->getConfig('submit_editor_rows') ? 35 : $this->helper->getConfig('submit_editor_rows');
+        $editorConfigs['cols']   = '' == $this->helper->getConfig('submit_editor_cols') ? 60 : $this->helper->getConfig('submit_editor_cols');
+        $editorConfigs['width']  = '' == $this->helper->getConfig('submit_editor_width') ? '100%' : $this->helper->getConfig('submit_editor_width');
+        $editorConfigs['height'] = '' == $this->helper->getConfig('submit_editor_height') ? '400px' : $this->helper->getConfig('submit_editor_height');
 
         $editorConfigs['name']  = 'header';
         $editorConfigs['value'] = $this->targetObject->header('e');

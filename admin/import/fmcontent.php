@@ -22,6 +22,7 @@
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
@@ -93,7 +94,7 @@ if ('start' === $op) {
 
             // Publisher parent category
             xoops_load('tree');
-            $categoryHdlr  = $helper->getHandler('category');
+            $categoryHdlr  = $helper->getHandler('Category');
             $catObjs       = $categoryHdlr->getAll();
             $myObjTree     = new \XoopsObjectTree($catObjs, 'categoryid', 'parentid');
             $moduleDirName = basename(dirname(__DIR__));
@@ -158,8 +159,8 @@ if ('go' === $op) {
         ++$cnt_imported_cat; //count category if there was content to import
 
         // create Publsher category to hold FmContent Content items with no Topic (content_topic=0)
-        /* @var  $categoryObj PublisherCategory */
-        $categoryObj = $helper->getHandler('category')->create();
+        /* @var  $categoryObj Publisher\Category */
+        $categoryObj = $helper->getHandler('Category')->create();
         $categoryObj->setVars([
                                   'parentid'    => $parentId,
                                   'name'        => _AM_PUBLISHER_IMPORT_FMCONTENT_NAME,
@@ -177,7 +178,7 @@ if ('go' === $op) {
 
         // insert articles for this category
         foreach ($fmContentObjs as $thisFmContentObj) {
-            $itemObj = $helper->getHandler('item')->create();
+            $itemObj = $helper->getHandler('Item')->create();
             $itemObj->setVars([
                                   'categoryid'       => $categoryObj->categoryid(),
                                   'title'            => $thisFmContentObj->getVar('content_title'),
@@ -191,7 +192,7 @@ if ('go' === $op) {
                                   'doimage'          => $thisFmContentObj->getVar('doimage'),
                                   'dobr'             => $thisFmContentObj->getVar('dobr'),
                                   'weight'           => $thisFmContentObj->getVar('content_order'),
-                                  'status'           => $thisFmContentObj->getVar('content_status') ? PublisherConstants::PUBLISHER_STATUS_PUBLISHED : PublisherConstants::PUBLISHER_STATUS_OFFLINE,
+                                  'status'           => $thisFmContentObj->getVar('content_status') ? Constants::PUBLISHER_STATUS_PUBLISHED : Constants::PUBLISHER_STATUS_OFFLINE,
                                   'counter'          => $thisFmContentObj->getVar('content_hits'),
                                   'rating'           => 0,
                                   'votes'            => 0,
@@ -241,7 +242,7 @@ if ('go' === $op) {
             'oldpid' => $thisFmTopicObj->getVar('topic_pid')
         ];
 
-        $categoryObj = $helper->getHandler('category')->create();
+        $categoryObj = $helper->getHandler('Category')->create();
 
         $categoryObj->setVars([
                                   'parentid'    => $thisFmTopicObj->getVar('topic_pid'),
@@ -256,7 +257,7 @@ if ('go' === $op) {
                 $categoryObj->setVar('image', $thisFmTopicObj->getVar('topic_img'));
             }
         }
-        if (!$helper->getHandler('category')->insert($categoryObj)) {
+        if (!$helper->getHandler('Category')->insert($categoryObj)) {
             echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_ERROR, $thisFmTopicObj->getVar('topic_title')) . "<br>\n";
             continue;
         }
@@ -273,9 +274,9 @@ if ('go' === $op) {
         $fmContentObjs = $fmContentHdlr->getAll($criteria);
 
         // insert articles for this category
-        /** @var PublisherItem $itemObj */
+        /** @var Publisher\Item $itemObj */
         foreach ($fmContentObjs as $thisFmContentObj) {
-            $itemObj = $helper->getHandler('item')->create();
+            $itemObj = $helper->getHandler('Item')->create();
             $itemObj->setVars([
                                   'categoryid'       => $CatIds['newid'],
                                   'title'            => $thisFmContentObj->getVar('content_title'),
@@ -290,7 +291,7 @@ if ('go' === $op) {
                                   'doimage'          => $thisFmContentObj->getVar('doimage'),
                                   'dobr'             => $thisFmContentObj->getVar('dobr'),
                                   'weight'           => $thisFmContentObj->getVar('content_order'),
-                                  'status'           => $thisFmContentObj->getVar('content_status') ? PublisherConstants::PUBLISHER_STATUS_PUBLISHED : PublisherConstants::PUBLISHER_STATUS_OFFLINE,
+                                  'status'           => $thisFmContentObj->getVar('content_status') ? Constants::PUBLISHER_STATUS_PUBLISHED : Constants::PUBLISHER_STATUS_OFFLINE,
                                   'rating'           => 0,
                                   'votes'            => 0,
                                   'comments'         => $thisFmContentObj->getVar('content_comments'),
@@ -331,7 +332,7 @@ if ('go' === $op) {
         $criteria->add(new \Criteria('categoryid', $CatIds['newid']));
         $oldpid = $CatIds['oldpid'];
         $newpid = (0 == $oldpid) ? $parentId : $newCatArray[$oldpid]['newid'];
-        $helper->getHandler('category')->updateAll('parentid', $newpid, $criteria);
+        $helper->getHandler('Category')->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
     unset($oldid, $CatIds);
@@ -340,11 +341,11 @@ if ('go' === $op) {
     echo _AM_PUBLISHER_IMPORT_COMMENTS . "<br>\n";
 
     $publisher_module_id = $helper->getModule()->mid();
-    /** @var XoopsCommentHandler $commentHandler */
+    /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
     $criteria->add(new \Criteria('com_modid', $fm_module_id));
-    /** @var XoopsComment $comment */
+    /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);

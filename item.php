@@ -33,7 +33,7 @@ if (0 == $itemId) {
 }
 
 // Creating the item object for the selected item
-$itemObj = $helper->getHandler('item')->get($itemId);
+$itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected item was not found, exit
 if (!$itemObj) {
@@ -55,7 +55,7 @@ require_once $GLOBALS['xoops']->path('header.php');
 require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
 // Creating the category object that holds the selected item
-$categoryObj = $helper->getHandler('category')->get($itemObj->categoryid());
+$categoryObj = $helper->getHandler('Category')->get($itemObj->categoryid());
 
 // Check user permissions to access that category of the selected item
 if (!$itemObj->accessGranted()) {
@@ -116,8 +116,8 @@ if ('previous_next' === $helper->getConfig('item_other_items_type')) {
     $nextItemLink     = '';
     $nextItemUrl      = '';
 
-    $previousObj = $helper->getHandler('item')->getPreviousPublished($itemObj);
-    $nextObj     = $helper->getHandler('item')->getNextPublished($itemObj);
+    $previousObj = $helper->getHandler('Item')->getPreviousPublished($itemObj);
+    $nextObj     = $helper->getHandler('Item')->getNextPublished($itemObj);
     if (is_object($previousObj)) {
         $previousItemLink = $previousObj->getItemLink();
         $previousItemUrl  = $previousObj->getItemUrl();
@@ -136,7 +136,7 @@ if ('previous_next' === $helper->getConfig('item_other_items_type')) {
 
 //CAREFUL!! with many items this will exhaust memory
 if ('all' === $helper->getConfig('item_other_items_type')) {
-    $itemsObj = $helper->getHandler('item')->getAllPublished(0, 0, $categoryObj->categoryid(), $sort, $order, '', true, true);
+    $itemsObj = $helper->getHandler('Item')->getAllPublished(0, 0, $categoryObj->categoryid(), $sort, $order, '', true, true);
     $items    = [];
     foreach ($itemsObj[''] as $theItemObj) {
         $theItem              = [];
@@ -235,7 +235,7 @@ if (xoops_isActiveModule('tag')) {
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new PublisherMetagen($itemObj->getVar('title'), $itemObj->getVar('meta_keywords', 'n'), $itemObj->getVar('meta_description', 'n'), $itemObj->getCategoryPath());
+$publisherMetagen = new Publisher\Metagen($itemObj->getVar('title'), $itemObj->getVar('meta_keywords', 'n'), $itemObj->getVar('meta_description', 'n'), $itemObj->getCategoryPath());
 $publisherMetagen->createMetaTags();
 
 // Include the comments if the selected ITEM supports comments

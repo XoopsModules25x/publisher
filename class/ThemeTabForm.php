@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Publisher;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -18,9 +18,9 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @author          John Neill <catzwolf@xoosla.com>
  */
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
  * XoopsThemeTabForm
@@ -30,7 +30,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  * @copyright Copyright (c) 2009
  * @access    public
  */
-class PublisherThemeTabForm extends XoopsForm
+class ThemeTabForm extends \XoopsForm
 {
     public $formTabs = [];
 
@@ -281,7 +281,7 @@ class PublisherThemeTabForm extends XoopsForm
     /**
      * Add an element to the form
      *
-     * @param string|XoopsFormElement $formElement reference to a {@link XoopsFormElement}
+     * @param string|\XoopsFormElement $formElement reference to a {@link XoopsFormElement}
      * @param bool                    $required    is this a "required" element?
      */
     public function addElement($formElement, $required = false)
@@ -347,7 +347,7 @@ class PublisherThemeTabForm extends XoopsForm
      *
      * @param string $name "name" attribute assigned to a {@link XoopsFormElement}
      *
-     * @return bool|XoopsFormElement reference to a {@link XoopsFormElement}, false if not found
+     * @return bool|\XoopsFormElement reference to a {@link XoopsFormElement}, false if not found
      */
     public function &getElementByName($name)
     {

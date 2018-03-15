@@ -34,11 +34,11 @@ $categoryid    = Request::getInt('categoryid');
 
 switch ($op) {
     case 'del':
-        $categoryObj = $helper->getHandler('category')->get($categoryid);
+        $categoryObj = $helper->getHandler('Category')->get($categoryid);
         $confirm     = Request::getInt('confirm', '', 'POST');
         $name        = Request::getString('name', '', 'POST');
         if ($confirm) {
-            if (!$helper->getHandler('category')->delete($categoryObj)) {
+            if (!$helper->getHandler('Category')->delete($categoryObj)) {
                 redirect_header('category.php', 1, _AM_PUBLISHER_DELETE_CAT_ERROR);
                 //                exit();
             }
@@ -66,9 +66,9 @@ switch ($op) {
 
         $parentid = Request::getInt('parentid');
         if (0 != $categoryid) {
-            $categoryObj = $helper->getHandler('category')->get($categoryid);
+            $categoryObj = $helper->getHandler('Category')->get($categoryid);
         } else {
-            $categoryObj = $helper->getHandler('category')->create();
+            $categoryObj = $helper->getHandler('Category')->create();
         }
 
         // Uploading the image, if any
@@ -144,7 +144,7 @@ switch ($op) {
         for ($i = 0; $i < $sizeof; ++$i) {
             $temp = Request::getArray('scname', [], 'POST');
             if ('' != $temp[$i]) {
-                $categoryObj = $helper->getHandler('category')->create();
+                $categoryObj = $helper->getHandler('Category')->create();
                 $temp2       = Request::getArray('scname', [], 'POST');
                 $categoryObj->setVar('name', $temp2[$i]);
                 $categoryObj->setVar('parentid', $parentCat);
@@ -170,7 +170,7 @@ switch ($op) {
         $categoryid = 0;
         $nb_subcats = Request::getInt('nb_subcats', 0, 'POST') + Request::getInt('nb_sub_yet', 0, 'POST');
 
-        $categoryObj = $helper->getHandler('category')->create();
+        $categoryObj = $helper->getHandler('Category')->create();
         $categoryObj->setVar('name', Request::getString('name', '', 'POST'));
         $categoryObj->setVar('description', Request::getString('description', '', 'POST'));
         $categoryObj->setVar('weight', Request::getInt('weight', 0, 'POST'));
@@ -200,7 +200,7 @@ switch ($op) {
         echo '</div></form>';
 
         // Creating the objects for top categories
-        $categoriesObj = $helper->getHandler('category')->getCategories($helper->getConfig('idxcat_perpage'), $startcategory, 0);
+        $categoriesObj = $helper->getHandler('Category')->getCategories($helper->getConfig('idxcat_perpage'), $startcategory, 0);
 
         Publisher\Utility::openCollapsableBar('createdcategories', 'createdcategoriesicon', _AM_PUBLISHER_CATEGORIES_TITLE, _AM_PUBLISHER_CATEGORIES_DSC);
 
@@ -211,7 +211,7 @@ switch ($op) {
         echo "<th width='60' class='bg3' width='65' align='center'><strong>" . _CO_PUBLISHER_WEIGHT . '</strong></td>';
         echo "<th width='60' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . '</strong></td>';
         echo '</tr>';
-        $totalCategories = $helper->getHandler('category')->getCategoriesCount(0);
+        $totalCategories = $helper->getHandler('Category')->getCategoriesCount(0);
         if (count($categoriesObj) > 0) {
             foreach ($categoriesObj as $key => $thiscat) {
                 Publisher\Utility::displayCategory($thiscat);

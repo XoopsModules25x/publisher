@@ -19,7 +19,7 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /** Get item fields: title, content, time, link, uid, uname, tags *
  *

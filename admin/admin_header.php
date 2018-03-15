@@ -25,7 +25,7 @@ require_once __DIR__ . '/../../../include/cp_header.php';
 //require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
 include __DIR__ . '/../preloads/autoloader.php';
-
+require_once __DIR__ . '/../include/common.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 

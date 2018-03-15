@@ -21,10 +21,11 @@
  */
 
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
  * @param $options
@@ -76,7 +77,7 @@ function publisher_latest_news_show($options)
         $criteria->add(new \Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
     }
 
-    $itemsObj = $helper->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
+    $itemsObj = $helper->getHandler('Item')->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);
 
@@ -198,7 +199,7 @@ function publisher_latest_news_show($options)
 
         $item['print'] = '';
         if (1 == $options[24]) {
-            $item['print'] = '<a href="' . PublisherSeo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '"></a>&nbsp;';
+            $item['print'] = '<a href="' . Publisher\Seo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '"></a>&nbsp;';
         }
 
         $item['pdf'] = '';

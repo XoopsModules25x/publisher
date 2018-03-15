@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Publisher;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -8,44 +8,50 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 /**
+ *  Publisher class
+ *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @package         Publisher
- * @subpackage      Blocks
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 require_once __DIR__ . '/../include/common.php';
 
+
 /**
- * @param $options
+ * Mimetype class
  *
- * @return array
+ * @author  Eric Juden <ericj@epcusa.com>
+ * @access  public
+ * @package publisher
  */
-function publisher_items_random_item_show($options)
+class Mimetype extends \XoopsObject
 {
-    $block     = [];
-    $helper = Publisher\Helper::getInstance();
-    // creating the ITEM object
-    $itemsObj = $helper->getHandler('Item')->getRandomItem('', [Constants::PUBLISHER_STATUS_PUBLISHED]);
-
-    if (!is_object($itemsObj)) {
-        return $block;
+    /**
+     * @param null|int|array $id
+     */
+    public function __construct($id = null)
+    {
+        $this->initVar('mime_id', XOBJ_DTYPE_INT, null, false);
+        $this->initVar('mime_ext', XOBJ_DTYPE_TXTBOX, null, true, 60);
+        $this->initVar('mime_types', XOBJ_DTYPE_TXTAREA, null, false, 1024);
+        $this->initVar('mime_name', XOBJ_DTYPE_TXTBOX, null, true, 255);
+        $this->initVar('mime_admin', XOBJ_DTYPE_INT, null, false);
+        $this->initVar('mime_user', XOBJ_DTYPE_INT, null, false);
+        if (isset($id)) {
+            if (is_array($id)) {
+                $this->assignVars($id);
+            }
+        } else {
+            $this->setNew();
+        }
     }
-
-    $block['content']       = $itemsObj->getBlockSummary(300, true); //show complete summary  but truncate to 300 if only body available
-    $block['id']            = $itemsObj->itemid();
-    $block['url']           = $itemsObj->getItemUrl();
-    $block['lang_fullitem'] = _MB_PUBLISHER_FULLITEM;
-
-    return $block;
 }

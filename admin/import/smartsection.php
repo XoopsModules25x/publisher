@@ -122,8 +122,8 @@ if ('go' === $op) {
         $newCat           = [];
         $newCat['oldid']  = $arrCat['categoryid'];
         $newCat['oldpid'] = $arrCat['parentid'];
-        /* @var  $categoryObj PublisherCategory */
-        $categoryObj = $helper->getHandler('category')->create();
+        /* @var  $categoryObj Publisher\Category */
+        $categoryObj = $helper->getHandler('Category')->create();
 
         $categoryObj->setVars($arrCat);
         $categoryObj->setVar('categoryid', 0);
@@ -133,7 +133,7 @@ if ('go' === $op) {
             copy($GLOBALS['xoops']->path('uploads/smartsection/images/category/' . $arrCat['image']), $GLOBALS['xoops']->path('uploads/publisher/images/category/' . $arrCat['image']));
         }
 
-        if (!$helper->getHandler('category')->insert($categoryObj)) {
+        if (!$helper->getHandler('Category')->insert($categoryObj)) {
             echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_ERROR, $arrCat['name']) . '<br>';
             continue;
         }
@@ -148,8 +148,8 @@ if ('go' === $op) {
 
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
-            /** @var PublisherItem $itemObj */
-            $itemObj = $helper->getHandler('item')->create();
+            /** @var  Publisher\Item $itemObj */
+            $itemObj = $helper->getHandler('Item')->create();
 
             $itemObj->setVars($arrArticle);
             $itemObj->setVar('itemid', 0);
@@ -183,8 +183,8 @@ if ('go' === $op) {
                     $filename = $GLOBALS['xoops']->path('uploads/smartsection/' . $arrFile['filename']);
                     if (file_exists($filename)) {
                         if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filename']))) {
-                            /** @var PublisherFile $fileObj */
-                            $fileObj = $helper->getHandler('file')->create();
+                            /** @var  Publisher\File $fileObj */
+                            $fileObj = $helper->getHandler('File')->create();
                             $fileObj->setVars($arrFile);
                             $fileObj->setVar('fileid', 0);
 
@@ -222,7 +222,7 @@ if ('go' === $op) {
         } else {
             $newpid = $newCatArray[$oldpid]['newid'];
         }
-        $helper->getHandler('category')->updateAll('parentid', $newpid, $criteria);
+        $helper->getHandler('Category')->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
     unset($oldid, $newCat);
@@ -231,11 +231,11 @@ if ('go' === $op) {
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
 
     $publisher_module_id = $helper->getModule()->mid();
-    /** @var XoopsCommentHandler $commentHandler */
+    /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
     $criteria->add(new \Criteria('com_modid', $smartsection_module_id));
-    /** @var XoopsComment $comment */
+    /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);

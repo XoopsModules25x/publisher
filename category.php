@@ -27,7 +27,7 @@ require_once __DIR__ . '/header.php';
 $categoryid = Request::getInt('categoryid', 0, 'GET');
 
 // Creating the category object for the selected category
-$categoryObj = $helper->getHandler('category')->get($categoryid);
+$categoryObj = $helper->getHandler('Category')->get($categoryid);
 
 // if the selected category was not found, exit
 if (!is_object($categoryObj) || $categoryObj->notLoaded()) {
@@ -46,7 +46,7 @@ $start = Request::getInt('start', 0, 'GET');
 
 $item_page_id = Request::getInt('page', -1, 'GET');
 
-$totalItems = $helper->getHandler('category')->publishedItemsCount();
+$totalItems = $helper->getHandler('Category')->publishedItemsCount();
 
 // if there is no Item under this categories or the sub-categories, exit
 // why?
@@ -104,7 +104,7 @@ switch ($helper->getConfig('format_order_by')) {
         break;
 }
 
-$itemsObj = $helper->getHandler('item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, $categoryid, $sort, $order);
+$itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, $categoryid, $sort, $order);
 
 $totalItemOnPage = 0;
 if ($itemsObj) {
@@ -123,12 +123,12 @@ $category['categoryPath'] = $categoryObj->getCategoryPath($helper->getConfig('fo
 
 if (1 == $helper->getConfig('idxcat_display_last_item')) {
     // Get the last smartitem
-    $lastItemObj = $helper->getHandler('item')->getLastPublishedByCat([[$categoryObj]]);
+    $lastItemObj = $helper->getHandler('Item')->getLastPublishedByCat([[$categoryObj]]);
 }
 $lastitemsize = (int)$helper->getConfig('idxcat_last_item_size');
 
 // Creating the sub-categories objects that belong to the selected category
-$subcatsObj    = $helper->getHandler('category')->getCategories(0, 0, $categoryid);
+$subcatsObj    = $helper->getHandler('Category')->getCategories(0, 0, $categoryid);
 $total_subcats = count($subcatsObj);
 
 $total_items = 0;
@@ -199,7 +199,7 @@ if (count($itemsObj) > 0) {
     for ($i = 0; $i < $totalItemOnPage; ++$i) {
         $item                 = $itemsObj[$i]->toArraySimple('default', $helper->getConfig('item_title_size'));
         $item['categoryname'] = $categoryObj->name();
-        $item['categorylink'] = "<a href='" . PublisherSeo::generateUrl('category', $itemsObj[$i]->categoryid(), $categoryObj->short_url()) . "'>" . $categoryObj->name() . '</a>';
+        $item['categorylink'] = "<a href='" . Publisher\Seo::generateUrl('category', $itemsObj[$i]->categoryid(), $categoryObj->short_url()) . "'>" . $categoryObj->name() . '</a>';
         $item['who_when']     = $itemsObj[$i]->getWhoAndWhen();
         $xoopsTpl->append('items', $item);
     }
@@ -241,7 +241,7 @@ $xoopsTpl->assign('navbar', $navbar);
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new PublisherMetagen($categoryObj->getVar('name'), $categoryObj->getVar('meta_keywords', 'n'), $categoryObj->getVar('meta_description', 'n'), $categoryObj->getCategoryPathForMetaTitle());
+$publisherMetagen = new Publisher\Metagen($categoryObj->getVar('name'), $categoryObj->getVar('meta_keywords', 'n'), $categoryObj->getVar('meta_description', 'n'), $categoryObj->getCategoryPathForMetaTitle());
 $publisherMetagen->createMetaTags();
 
 // RSS Link

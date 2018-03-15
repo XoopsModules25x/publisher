@@ -21,6 +21,7 @@
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
@@ -108,8 +109,8 @@ if ('go' === $op) {
 
     $newCatArray = [];
     while (false !== ($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat))) {
-        /* @var  $categoryObj PublisherCategory */
-        $categoryObj = $helper->getHandler('category')->create();
+        /* @var  $categoryObj Publisher\Category */
+        $categoryObj = $helper->getHandler('Category')->create();
 
         $newCat = [];
 
@@ -149,8 +150,8 @@ if ('go' === $op) {
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
-            /** @var PublisherItem $itemObj */
-            $itemObj = $helper->getHandler('item')->create();
+            /** @var  Publisher\Item $itemObj */
+            $itemObj = $helper->getHandler('Item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
             $itemObj->setVar('title', $arrArticle['title']);
@@ -166,9 +167,9 @@ if ('go' === $op) {
             $itemObj->setGroupsRead(explode(' ', trim($arrArticle['groupid'])));
 
             // status
-            $status = PublisherConstants::PUBLISHER_STATUS_PUBLISHED;
+            $status = Constants::PUBLISHER_STATUS_PUBLISHED;
             if ($arrArticle['offline']) {
-                $status = PublisherConstants::PUBLISHER_STATUS_OFFLINE;
+                $status = Constants::PUBLISHER_STATUS_OFFLINE;
             }
             $itemObj->setVar('status', $status);
 
@@ -196,11 +197,11 @@ if ('go' === $op) {
                     $filename = $GLOBALS['xoops']->path('modules/xfsection/cache/uploaded/' . $arrFile['filerealname']);
                     if (file_exists($filename)) {
                         if (copy($filename, PUBLISHER_UPLOAD_PATH . '/' . $arrFile['filerealname'])) {
-                            /** @var PublisherFile $fileObj */
-                            $fileObj = $helper->getHandler('file')->create();
+                            /** @var  Publisher\File $fileObj */
+                            $fileObj = $helper->getHandler('File')->create();
                             $fileObj->setVar('name', $arrFile['fileshowname']);
                             $fileObj->setVar('description', $arrFile['filedescript']);
-                            $fileObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_FILE_ACTIVE);
+                            $fileObj->setVar('status', Constants::PUBLISHER_STATUS_FILE_ACTIVE);
                             $fileObj->setVar('uid', $arrArticle['uid']);
                             $fileObj->setVar('itemid', $itemObj->itemid());
                             $fileObj->setVar('mimetype', $arrFile['minetype']);
@@ -234,7 +235,7 @@ if ('go' === $op) {
         } else {
             $newpid = $newCatArray[$oldpid]['newid'];
         }
-        $helper->getHandler('category')->updateAll('parentid', $newpid, $criteria);
+        $helper->getHandler('Category')->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
     unset($oldid, $newCat);
@@ -247,11 +248,11 @@ if ('go' === $op) {
     $news_module_id = $moduleObj->getVar('mid');
 
     $publisher_module_id = $helper->getModule()->mid();
-    /** @var XoopsCommentHandler $commentHandler */
+    /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
     $criteria->add(new \Criteria('com_modid', $news_module_id));
-    /** @var XoopsComment $comment */
+    /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);

@@ -18,14 +18,14 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 error_reporting(0);
 include dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 require_once __DIR__ . '/common.php';
 
 $GLOBALS['xoopsLogger']->activated = false;
-$helper = publisher\Helper::getInstance();
+$helper = Publisher\Helper::getInstance();
 $helper->loadLanguage('common');
 
 if (!is_object($GLOBALS['xoopsUser'])) {
@@ -64,7 +64,7 @@ if (!is_object($imgcat)) {
 
 if (false === $error) {
     xoops_load('XoopsMediaUploader');
-    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'], $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
+    $uploader = new \XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'], $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
     $uploader->setPrefix('img');
     if ($uploader->fetchMedia('publisher_upload_file')) {
         if (!$uploader->upload()) {
@@ -97,9 +97,9 @@ if (false === $error) {
     }
 }
 
-$arr = ['success', $image->getVar('image_name'), publisher\Utility::convertCharset($image->getVar('image_nicename'))];
+$arr = ['success', $image->getVar('image_name'), Publisher\Utility::convertCharset($image->getVar('image_nicename'))];
 if (false !== $error) {
-    $arr = ['error', publisher\Utility::convertCharset($error)];
+    $arr = ['error', Publisher\Utility::convertCharset($error)];
 }
 
 echo json_encode($arr);

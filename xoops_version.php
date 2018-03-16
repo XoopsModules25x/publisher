@@ -19,8 +19,13 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Publisher;
+use XoopsModules\Publisher\Common;
+use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
+require_once __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName = basename(__DIR__);
 xoops_load('xoopseditorhandler');
@@ -30,7 +35,7 @@ $xoops_url     = parse_url(XOOPS_URL);
 $modversion = [
     'version'             => '1.06',
     'module_status'       => 'Beta 2',
-    'release_date'        => '2017/12/09',
+    'release_date'        => '2018/03/14',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -978,12 +983,12 @@ $modversion['config'][] = [
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'options'     => [
-        _MI_PUBLISHER_SUBMITTED => PublisherConstants::PUBLISHER_STATUS_SUBMITTED,
-        _MI_PUBLISHER_PUBLISHED => PublisherConstants::PUBLISHER_STATUS_PUBLISHED,
-        _MI_PUBLISHER_OFFLINE   => PublisherConstants::PUBLISHER_STATUS_OFFLINE,
-        _MI_PUBLISHER_REJECTED  => PublisherConstants::PUBLISHER_STATUS_REJECTED
+        _MI_PUBLISHER_SUBMITTED => Constants::PUBLISHER_STATUS_SUBMITTED,
+        _MI_PUBLISHER_PUBLISHED => Constants::PUBLISHER_STATUS_PUBLISHED,
+        _MI_PUBLISHER_OFFLINE   => Constants::PUBLISHER_STATUS_OFFLINE,
+        _MI_PUBLISHER_REJECTED  => Constants::PUBLISHER_STATUS_REJECTED
     ],
-    'default'     => PublisherConstants::PUBLISHER_STATUS_SUBMITTED,
+    'default'     => Constants::PUBLISHER_STATUS_SUBMITTED,
     'category'    => 'submit'
 ];
 

@@ -20,11 +20,12 @@
  * @author          Mowaffak
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
  * @param $options
@@ -35,7 +36,7 @@ function publisher_latest_news_show($options)
 {
     $block = [];
 
-    $helper = publisher\Helper::getInstance();
+    $helper = Publisher\Helper::getInstance();
     $helper->loadLanguage('main');
 //    xoops_loadLanguage('main', 'publisher');
 
@@ -46,7 +47,7 @@ function publisher_latest_news_show($options)
     $letters         = $options[3];
     $selectedStories = $options[4];
     $sort            = $options[9];
-    $order           = publisher\Utility::getOrderBy($sort);
+    $order           = Publisher\Utility::getOrderBy($sort);
     $imgWidth        = $options[11];
     $imgHeight       = $options[12];
     $border          = $options[13];
@@ -65,18 +66,18 @@ function publisher_latest_news_show($options)
     if ($allcats) {
         $criteria = null;
     } else {
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('categoryid', '(' . $options[29] . ')', 'IN'));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('categoryid', '(' . $options[29] . ')', 'IN'));
     }
 
     // Use specific ITEMS
     if (0 != $selectedStories) {
         unset($criteria); //removes category option
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
     }
 
-    $itemsObj = $helper->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
+    $itemsObj = $helper->getHandler('Item')->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);
 
@@ -198,7 +199,7 @@ function publisher_latest_news_show($options)
 
         $item['print'] = '';
         if (1 == $options[24]) {
-            $item['print'] = '<a href="' . PublisherSeo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '"></a>&nbsp;';
+            $item['print'] = '<a href="' . Publisher\Seo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '"></a>&nbsp;';
         }
 
         $item['pdf'] = '';
@@ -211,7 +212,7 @@ function publisher_latest_news_show($options)
         if (1 == $options[26] && xoops_isActiveModule('tellafriend')) {
             $subject  = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
             $subject  = $itemObj->convertForJapanese($subject);
-            $maillink = publisher\Utility::tellAFriend($subject);
+            $maillink = Publisher\Utility::tellAFriend($subject);
 
             $item['email'] = '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '"></a>&nbsp;';
         }
@@ -395,7 +396,7 @@ function publisher_latest_news_edit($options)
     //Select Which Categories To Show
     $form .= $tabletag3 . _MB_PUBLISHER_TOPICSCONFIG . $tabletag4; // Topics Options
     $form .= $tabletag1 . _MB_PUBLISHER_TOPICSDISPLAY . $tabletag2;
-    $form .= publisher\Utility::createCategorySelect($options[29], 0, true, 'options[29]');
+    $form .= Publisher\Utility::createCategorySelect($options[29], 0, true, 'options[29]');
     $form .= '</td></tr>';
 
     $form .= '</table>';

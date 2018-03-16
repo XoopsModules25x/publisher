@@ -20,7 +20,8 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
 require_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
@@ -37,7 +38,7 @@ $gpermHandler = xoops_getModuleHandler('groupperm', PUBLISHER_DIRNAME);
 $module_id    = $helper->getModule()->mid();
 
 //Checking permissions
-if (!$helper->getConfig('perm_search') || !$gpermHandler->checkRight('global', PublisherConstants::PUBLISHER_SEARCH, $groups, $module_id)) {
+if (!$helper->getConfig('perm_search') || !$gpermHandler->checkRight('global', Constants::PUBLISHER_SEARCH, $groups, $module_id)) {
     redirect_header(PUBLISHER_URL, 2, _NOPERM);
     //    exit();
 }
@@ -197,7 +198,7 @@ $typeSelect .= '>' . _SR_EXACT . '</option>';
 $typeSelect .= '</select>';
 
 /* category */
-$categories = $helper->getHandler('category')->getCategoriesForSearch();
+$categories = $helper->getHandler('Category')->getCategoriesForSearch();
 
 $categorySelect = '<select name="category[]" size="5" multiple="multiple">';
 $categorySelect .= '<option value="all"';

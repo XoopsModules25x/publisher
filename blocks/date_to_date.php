@@ -19,11 +19,11 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
  * @param $options
@@ -32,19 +32,19 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_date_to_date_show($options)
 {
-    $myts      = MyTextSanitizer::getInstance();
-    $helper = publisher\Helper::getInstance();
+    $myts      = \MyTextSanitizer::getInstance();
+    $helper = Publisher\Helper::getInstance();
 
     $block = $newItems = [];
 
-    $criteria = new CriteriaCompo();
-    $criteria->add(new Criteria('datesub', strtotime($options[0]), '>'));
-    $criteria->add(new Criteria('datesub', isset($options[1]) ? strtotime($options[1]) : '', '<'));
+    $criteria = new \CriteriaCompo();
+    $criteria->add(new \Criteria('datesub', strtotime($options[0]), '>'));
+    $criteria->add(new \Criteria('datesub', isset($options[1]) ? strtotime($options[1]) : '', '<'));
     $criteria->setSort('datesub');
     $criteria->setOrder('DESC');
 
     // creating the ITEM objects that belong to the selected category
-    $itemsObj   = $helper->getHandler('item')->getObjects($criteria);
+    $itemsObj   = $helper->getHandler('Item')->getObjects($criteria);
     $totalItems = count($itemsObj);
 
     if ($itemsObj) {
@@ -79,14 +79,14 @@ function publisher_date_to_date_show($options)
  */
 function publisher_date_to_date_edit($options)
 {
-    require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
+    // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
     xoops_load('XoopsFormTextDateSelect');
 
-    $form    = new PublisherBlockForm();
-    $fromEle = new XoopsFormTextDateSelect(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));
+    $form    = new Publisher\BlockForm();
+    $fromEle = new \XoopsFormTextDateSelect(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));
     //    $fromEle->setNocolspan();
-    $untilEle = new XoopsFormTextDateSelect(_MB_PUBLISHER_UNTIL, 'options[1]', 15, isset($options[1]) ? strtotime($options[1]) : '');
+    $untilEle = new \XoopsFormTextDateSelect(_MB_PUBLISHER_UNTIL, 'options[1]', 15, isset($options[1]) ? strtotime($options[1]) : '');
     //    $untilEle->setNocolspan();
 
     $form->addElement($fromEle);

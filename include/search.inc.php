@@ -17,11 +17,11 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/common.php';
 
 /**
  * @param string|array $queryArray
@@ -38,7 +38,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_search($queryArray, $andor, $limit, $offset, $userid, $categories = [], $sortby = 0, $searchin = '', $extra = '')
 {
-    $helper = publisher\Helper::getInstance();
+    $helper = Publisher\Helper::getInstance();
     $ret       = $item = [];
     if ('' == $queryArray || 0 == count($queryArray)) {
         $hightlightKey = '';
@@ -46,7 +46,7 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
         $keywords      = implode('+', $queryArray);
         $hightlightKey = '&amp;keywords=' . $keywords;
     }
-    $itemsObjs        = $helper->getHandler('item')->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
+    $itemsObjs        = $helper->getHandler('Item')->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
     $withCategoryPath = $helper->getConfig('search_cat_path');
     //xoops_load("xoopslocal");
     $usersIds = [];

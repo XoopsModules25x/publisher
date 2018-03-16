@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Publisher;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -17,16 +17,16 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
- * Class PublisherMetagen
+ * Class Metagen
  */
-class PublisherMetagen
+class Metagen
 {
     /**
      * @var Publisher
@@ -78,8 +78,8 @@ class PublisherMetagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        $this->publisher = publisher\Helper::getInstance();
-        $this->myts      = MyTextSanitizer::getInstance();
+        $this->helper = Publisher\Helper::getInstance();
+        $this->myts      = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
         $this->setTitle($title);
         $this->setDescription($description);
@@ -97,7 +97,7 @@ class PublisherMetagen
         $this->title         = $this->html2text($title);
         $this->originalTitle = $this->title;
         $titleTag            = [];
-        $titleTag['module']  = $this->publisher->getModule()->getVar('name');
+        $titleTag['module']  = $this->helper->getModule()->getVar('name');
         if (isset($this->title) && ('' != $this->title) && (strtoupper($this->title) != strtoupper($titleTag['module']))) {
             $titleTag['title'] = $this->title;
         }
@@ -210,7 +210,7 @@ class PublisherMetagen
     public function createMetaKeywords()
     {
         $keywords       = $this->findMetaKeywords($this->originalTitle . ' ' . $this->description, $this->minChar);
-        $moduleKeywords = $this->publisher->getConfig('seo_meta_keywords');
+        $moduleKeywords = $this->helper->getConfig('seo_meta_keywords');
         if ('' != $moduleKeywords) {
             $moduleKeywords = explode(',', $moduleKeywords);
             $keywords       = array_merge($keywords, array_map('trim', $moduleKeywords));
@@ -337,7 +337,7 @@ class PublisherMetagen
         $repPat  = ['-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o'];
         $title   = str_replace($pattern, $repPat, $title);
         $tableau = explode('-', $title); // Transforms the string in table //Transforme la chaine de caractères en tableau
-        $tableau = array_filter($tableau, ['PublisherMetagen', 'emptyString']); // Remove empty strings of the table //Supprime les chaines vides du tableau
+        $tableau = array_filter($tableau, ['Metagen', 'emptyString']); // Remove empty strings of the table //Supprime les chaines vides du tableau
         $title   = implode('-', $tableau); // Transforms a character string in table separated by a hyphen //Transforme un tableau en chaine de caractères séparé par un tiret
         if (count($title) > 0) {
             if ($withExt) {

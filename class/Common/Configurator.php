@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\publisher;
+<?php namespace XoopsModules\Publisher\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -20,8 +20,8 @@
  *
  */
 
-require_once __DIR__ . '/../include/common.php';
-require_once __DIR__ . '/../include/config.php';
+require_once __DIR__ . '/../../include/common.php';
+require_once __DIR__ . '/../../include/config.php';
 
 //namespace Publisher;
 
@@ -42,7 +42,7 @@ class Configurator
      */
     public function __construct()
     {
-        $moduleDirName       = basename(dirname(__DIR__));
+        $moduleDirName       = basename(dirname(dirname(__DIR__)));
         $capsDirName         = strtoupper($moduleDirName);
         $this->name          = 'Module Configurator';
         $this->uploadFolders = [

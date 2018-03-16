@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Publisher;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -17,11 +17,11 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 // File status
 //define("_PUBLISHER_STATUS_FILE_NOTSET", -1);
@@ -29,12 +29,12 @@ require_once dirname(__DIR__) . '/include/common.php';
 //define("_PUBLISHER_STATUS_FILE_INACTIVE", 2);
 
 /**
- * Class PublisherFile
+ * Class File
  */
-class PublisherFile extends XoopsObject
+class File extends \XoopsObject
 {
     /**
-     * @var Publisher
+     * @var Helper
      * @access public
      */
     public $helper;
@@ -44,7 +44,7 @@ class PublisherFile extends XoopsObject
      */
     public function __construct($id = null)
     {
-        $this->publisher = publisher\Helper::getInstance();
+        $this->helper = Publisher\Helper::getInstance();
         $this->db        = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('fileid', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('itemid', XOBJ_DTYPE_INT, null, true);
@@ -58,7 +58,7 @@ class PublisherFile extends XoopsObject
         $this->initVar('notifypub', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('counter', XOBJ_DTYPE_INT, null, false);
         if (isset($id)) {
-            $file = $this->publisher->getHandler('file')->get($id);
+            $file = $this->helper->getHandler('File')->get($id);
             foreach ($file->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
             }
@@ -88,19 +88,19 @@ class PublisherFile extends XoopsObject
     public function checkUpload($postField, $allowedMimetypes = [], &$errors)
     {
         $errors = [];
-        if (!$this->publisher->getHandler('mimetype')->checkMimeTypes($postField)) {
+        if (!$this->helper->getHandler('Mimetype')->checkMimeTypes($postField)) {
             $errors[] = _CO_PUBLISHER_MESSAGE_WRONG_MIMETYPE;
 
             return false;
         }
         if (0 === count($allowedMimetypes)) {
-            $allowedMimetypes = $this->publisher->getHandler('mimetype')->getArrayByType();
+            $allowedMimetypes = $this->helper->getHandler('Mimetype')->getArrayByType();
         }
-        $maxfilesize   = $this->publisher->getConfig('maximum_filesize');
-        $maxfilewidth  = $this->publisher->getConfig('maximum_image_width');
-        $maxfileheight = $this->publisher->getConfig('maximum_image_height');
+        $maxfilesize   = $this->helper->getConfig('maximum_filesize');
+        $maxfilewidth  = $this->helper->getConfig('maximum_image_width');
+        $maxfileheight = $this->helper->getConfig('maximum_image_height');
         xoops_load('XoopsMediaUploader');
-        $uploader = new XoopsMediaUploader(publisher\Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
             return true;
         } else {
@@ -121,16 +121,16 @@ class PublisherFile extends XoopsObject
     {
         $itemid = $this->getVar('itemid');
         if (0 === count($allowedMimetypes)) {
-            $allowedMimetypes = $this->publisher->getHandler('mimetype')->getArrayByType();
+            $allowedMimetypes = $this->helper->getHandler('Mimetype')->getArrayByType();
         }
-        $maxfilesize   = $this->publisher->getConfig('maximum_filesize');
-        $maxfilewidth  = $this->publisher->getConfig('maximum_image_width');
-        $maxfileheight = $this->publisher->getConfig('maximum_image_height');
-        if (!is_dir(publisher\Utility::getUploadDir())) {
-            mkdir(publisher\Utility::getUploadDir(), 0757);
+        $maxfilesize   = $this->helper->getConfig('maximum_filesize');
+        $maxfilewidth  = $this->helper->getConfig('maximum_image_width');
+        $maxfileheight = $this->helper->getConfig('maximum_image_height');
+        if (!is_dir(Publisher\Utility::getUploadDir())) {
+            @mkdir(Publisher\Utility::getUploadDir(), 0757);
         }
         xoops_load('XoopsMediaUploader');
-        $uploader = new XoopsMediaUploader(publisher\Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
             $uploader->setTargetFileName($itemid . '_' . $uploader->getMediaName());
             if ($uploader->upload()) {
@@ -177,7 +177,7 @@ class PublisherFile extends XoopsObject
             }
         }
 
-        return $this->publisher->getHandler('file')->insert($this, $force);
+        return $this->helper->getHandler('File')->insert($this, $force);
     }
 
     /**
@@ -206,7 +206,7 @@ class PublisherFile extends XoopsObject
      */
     public function getFileUrl()
     {
-        return publisher\Utility::getUploadDir(false) . $this->filename();
+        return Publisher\Utility::getUploadDir(false) . $this->filename();
     }
 
     /**
@@ -214,7 +214,7 @@ class PublisherFile extends XoopsObject
      */
     public function getFilePath()
     {
-        return publisher\Utility::getUploadDir() . $this->filename();
+        return Publisher\Utility::getUploadDir() . $this->filename();
     }
 
     /**
@@ -268,149 +268,13 @@ class PublisherFile extends XoopsObject
     }
 
     /**
-     * @return PublisherFileForm
+     * @return FileForm
      */
     public function getForm()
     {
-        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/file.php');
-        $form = new PublisherFileForm($this);
+//        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/file.php');
+        $form = new Publisher\Form\FileForm($this);
 
         return $form;
-    }
-}
-
-/**
- * Files handler class.
- * This class is responsible for providing data access mechanisms to the data source
- * of File class objects.
- *
- * @author  marcan <marcan@notrevie.ca>
- * @package Publisher
- */
-class PublisherFileHandler extends XoopsPersistableObjectHandler
-{
-    public $table_link   = '';
-    /**
-     * @var Publisher
-     * @access public
-     */
-    public $helper;
-
-    /**
-     * @param null|XoopsDatabase $db
-     */
-    public function __construct(XoopsDatabase $db)
-    {
-        $this->publisher = publisher\Helper::getInstance();
-        parent::__construct($db, 'publisher_files', 'PublisherFile', 'fileid', 'name');
-    }
-
-    /**
-     * delete a file from the database
-     *
-     * @param XoopsObject $file reference to the file to delete
-     * @param bool        $force
-     *
-     * @return bool FALSE if failed.
-     */
-    public function delete(XoopsObject $file, $force = false) //delete(&$file, $force = false)
-    {
-        $ret = false;
-        // Delete the actual file
-        if (is_file($file->getFilePath()) && unlink($file->getFilePath())) {
-            $ret = parent::delete($file, $force);
-        }
-
-        return $ret;
-    }
-
-    /**
-     * delete files related to an item from the database
-     *
-     * @param XoopsObject $itemObj reference to the item which files to delete
-     *
-     * @return bool
-     */
-    public function deleteItemFiles(XoopsObject $itemObj)
-    {
-        if ('publisheritem' !== strtolower(get_class($itemObj))) {
-            return false;
-        }
-        $files  = $this->getAllFiles($itemObj->itemid());
-        $result = true;
-        foreach ($files as $file) {
-            if (!$this->delete($file)) {
-                $result = false;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * retrieve all files
-     *
-     * @param int       $itemid
-     * @param int|array $status
-     * @param int       $limit
-     * @param int       $start
-     * @param string    $sort
-     * @param string    $order
-     * @param array     $category
-     *
-     * @return array array of {@link PublisherFile} objects
-     */
-    public function getAllFiles($itemid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = [])
-    {
-        $files = [];
-
-        $this->table_link = $this->db->prefix($this->publisher->getDirname() . '_items');
-
-        $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $this->db->prefix($this->publisher->getDirname() . '_files'));
-        list($count) = $GLOBALS['xoopsDB']->fetchRow($result);
-        if ($count > 0) {
-            $this->field_object = 'itemid';
-            $this->field_link   = 'itemid';
-            $hasStatusCriteria  = false;
-            $criteriaStatus     = new CriteriaCompo();
-            if (is_array($status)) {
-                $hasStatusCriteria = true;
-                foreach ($status as $v) {
-                    $criteriaStatus->add(new Criteria('o.status', $v), 'OR');
-                }
-            } elseif ($status != -1) {
-                $hasStatusCriteria = true;
-                $criteriaStatus->add(new Criteria('o.status', $status), 'OR');
-            }
-            $hasCategoryCriteria = false;
-            $criteriaCategory    = new CriteriaCompo();
-            $category            = (array)$category;
-            if (isset($category[0]) && 0 != $category[0] && count($category) > 0) {
-                $hasCategoryCriteria = true;
-                foreach ($category as $cat) {
-                    $criteriaCategory->add(new Criteria('l.categoryid', $cat), 'OR');
-                }
-            }
-            $criteriaItemid = new Criteria('o.itemid', $itemid);
-            $criteria       = new CriteriaCompo();
-            if (0 != $itemid) {
-                $criteria->add($criteriaItemid);
-            }
-            if ($hasStatusCriteria) {
-                $criteria->add($criteriaStatus);
-            }
-            if ($hasCategoryCriteria) {
-                $criteria->add($criteriaCategory);
-            }
-            $criteria->setSort($sort);
-            $criteria->setOrder($order);
-            $criteria->setLimit($limit);
-            $criteria->setStart($start);
-            $files =& $this->getByLink($criteria, ['o.*'], true);
-
-            //            return $files;
-        }
-
-        return $files;
     }
 }

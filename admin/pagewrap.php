@@ -18,16 +18,16 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once __DIR__ . '/admin_header.php';
 
-publisher\Utility::cpHeader();
+Publisher\Utility::cpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_ITEMS . " > " . _AM_PUBLISHER_PAGEWRAP);
 
-publisher\Utility::openCollapsableBar('pagewraptable', 'pagewrapicon', _AM_PUBLISHER_PAGEWRAP, _AM_PUBLISHER_PAGEWRAPDSC);
+Publisher\Utility::openCollapsableBar('pagewraptable', 'pagewrapicon', _AM_PUBLISHER_PAGEWRAP, _AM_PUBLISHER_PAGEWRAPDSC);
 
-$dir = publisher\Utility::getUploadDir(true, 'content');
+$dir = Publisher\Utility::getUploadDir(true, 'content');
 
 if (false !== strpos(decoct(fileperms($dir)), '777')) {
     echo "<span style='color:#ff0000;'><h4>" . _AM_PUBLISHER_PERMERROR . '</h4></span>';
@@ -43,9 +43,9 @@ echo '</table>';
 echo '</form>';
 
 // Delete File
-$form = new XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
+$form = new \XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
 
-$pWrapSelect = new XoopsFormSelect(publisher\Utility::getUploadDir(true, 'content'), 'address');
+$pWrapSelect = new \XoopsFormSelect(Publisher\Utility::getUploadDir(true, 'content'), 'address');
 $folder      = dir($dir);
 while ($file == $folder->read()) {
     if ('.' !== $file && '..' !== $file) {
@@ -56,11 +56,11 @@ $folder->close();
 $form->addElement($pWrapSelect);
 
 $delfile = 'delfile';
-$form->addElement(new XoopsFormHidden('op', $delfile));
-$submit = new XoopsFormButton('', 'submit', _AM_PUBLISHER_BUTTON_DELETE, 'submit');
+$form->addElement(new \XoopsFormHidden('op', $delfile));
+$submit = new \XoopsFormButton('', 'submit', _AM_PUBLISHER_BUTTON_DELETE, 'submit');
 $form->addElement($submit);
 $form->display();
 
-publisher\Utility::closeCollapsableBar('pagewraptable', 'pagewrapicon');
+Publisher\Utility::closeCollapsableBar('pagewraptable', 'pagewrapicon');
 
 require_once __DIR__ . '/admin_footer.php';

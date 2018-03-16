@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Publisher;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -17,14 +17,14 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
- * Class PublisherRating
+ * Class Rating
  */
-class PublisherRating extends XoopsObject
+class Rating extends \XoopsObject
 {
     /**
      * constructor
@@ -37,19 +37,5 @@ class PublisherRating extends XoopsObject
         $this->initVar('rate', XOBJ_DTYPE_INT, null, false);
         $this->initVar('ip', XOBJ_DTYPE_TXTAREA, null, false);
         $this->initVar('date', XOBJ_DTYPE_INT, null, false);
-    }
-}
-
-/**
- * Class PublisherRatingHandler
- */
-class PublisherRatingHandler extends XoopsPersistableObjectHandler
-{
-    /**
-     * @param null|XoopsDatabase $db
-     */
-    public function __construct(XoopsDatabase $db)
-    {
-        parent::__construct($db, 'publisher_rating', 'PublisherRating', 'ratingid', 'itemid');
     }
 }

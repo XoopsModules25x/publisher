@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Publisher;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -20,14 +20,14 @@
  */
 //namespace Publisher;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
- * Class PublisherSession
+ * Class Session
  */
-class PublisherSession
+class Session
 {
     /**
      * Session constructor<br>
@@ -97,7 +97,7 @@ class PublisherSession
     }
 
     /**
-     * @return PublisherSession
+     * @return Session
      */
     public static function getInstance()
     {

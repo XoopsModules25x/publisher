@@ -1,6 +1,15 @@
-<h5>1.06 Beta 2       [NOT RELEASED]</h5>
+<h5>1.06 Beta 3       [2018-03-15]</h5>  Dev: Xoops 2.5.9, PHP 7.2.3
+<hr>
+- added Constants (mamba)
+- added truncateHTML (mamba)
+- replaced truncateTagSafe with truncateHTML (mamba)
+
+
+<h5>1.06 Beta 2       [2017-12-09]</h5>  Dev: Xoops 2.5.9, PHP 7.2.1
 <hr>
 - addded missing common traits (goffy/mamba)
+- fix for page styling in categories (liomj/mamba)
+
 
 <h5>1.06 Beta 1       [NOT RELEASED]</h5>
 <hr>
@@ -166,7 +175,7 @@
 - added extra columns in Admin's Summary view (mamba)
 - remove non-existent XoopsFormCalendar in blocks (mamba)
 - replace XoopsLocal::formatTimestamp() with formatTimestamp() so we have User local time (mamba/geekwright)
-- replaced hard-coded GMT date in PublisherFormDateTime with formatTimestamp (mamba) (TODO: do the same for XoopsFormDateTime)
+- replaced hard-coded GMT date in FormDateTime with formatTimestamp (mamba) (TODO: do the same for XoopsFormDateTime)
 - adjusted apostrophes to prevent the define translation errors (slider84)
 - bug #6: Array to string conversion (cesagonchu/mamba)
 - fixed bug: not able to delete category (Dante7237/mamba)

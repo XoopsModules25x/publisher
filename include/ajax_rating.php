@@ -18,10 +18,10 @@
 //  E-Mail: lusopoemas@gmail.com
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once dirname(__DIR__) . '/header.php';
-$helper = publisher\Helper::getInstance();
+$helper = Publisher\Helper::getInstance();
 
 error_reporting(0);
 $xoopsLogger->activated = false;
@@ -36,7 +36,7 @@ $itemid = Request::getInt('itemid', 0, 'GET');
 $helper->loadLanguage('main');
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 /* @var $gpermHandler XoopsGroupPermHandler */
-$gpermHandler = $helper->getHandler('groupperm');
+$gpermHandler = $helper->getHandler('Groupperm');
 /* @var $configHandler XoopsConfigHandler */
 $configHandler = xoops_getHandler('config');
 $module_id     = $helper->getModule()->getVar('mid');
@@ -79,8 +79,8 @@ try {
     echo $output;
 }
 
-$criteria   = new Criteria('itemid', $itemid);
-$ratingObjs = $helper->getHandler('rating')->getObjects($criteria);
+$criteria   = new \Criteria('itemid', $itemid);
+$ratingObjs = $helper->getHandler('Rating')->getObjects($criteria);
 
 $uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
 $count          = count($ratingObjs);
@@ -112,19 +112,19 @@ try {
     echo $output;
 }
 
-$newRatingObj = $helper->getHandler('rating')->create();
+$newRatingObj = $helper->getHandler('Rating')->create();
 $newRatingObj->setVar('itemid', $itemid);
 $newRatingObj->setVar('ip', $ip);
 $newRatingObj->setVar('uid', $uid);
 $newRatingObj->setVar('rate', $rating);
 $newRatingObj->setVar('date', time());
-$helper->getHandler('rating')->insert($newRatingObj);
+$helper->getHandler('Rating')->insert($newRatingObj);
 
 $current_rating += $rating;
 ++$count;
 
-$helper->getHandler('item')->updateAll('rating', number_format($current_rating / $count, 4), $criteria, true);
-$helper->getHandler('item')->updateAll('votes', $count, $criteria, true);
+$helper->getHandler('Item')->updateAll('rating', number_format($current_rating / $count, 4), $criteria, true);
+$helper->getHandler('Item')->updateAll('votes', $count, $criteria, true);
 
 $tense = 1 == $count ? _MD_PUBLISHER_VOTE_VOTE : _MD_PUBLISHER_VOTE_VOTES; //plural form votes/vote
 

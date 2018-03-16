@@ -18,11 +18,12 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
  * @param $options
@@ -31,11 +32,11 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_category_items_sel_show($options)
 {
-    $helper = publisher\Helper::getInstance();
+    $helper = Publisher\Helper::getInstance();
 
     $block = $item = [];
 
-    $categories = $helper->getHandler('category')->getCategories(0, 0, -1);
+    $categories = $helper->getHandler('Category')->getCategories(0, 0, -1);
 
     if (0 === count($categories)) {
         return $block;
@@ -43,7 +44,7 @@ function publisher_category_items_sel_show($options)
 
     $selectedcatids = explode(',', $options[0]);
     $sort           = $options[1];
-    $order          = publisher\Utility::getOrderBy($sort);
+    $order          = Publisher\Utility::getOrderBy($sort);
     $limit          = $options[2];
     $start          = 0;
 
@@ -54,8 +55,8 @@ function publisher_category_items_sel_show($options)
             continue;
         }
 
-        $criteria = new Criteria('categoryid', $catID);
-        $items    = $helper->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
+        $criteria = new \Criteria('categoryid', $catID);
+        $items    = $helper->getHandler('Item')->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
         unset($criteria);
 
         if (0 === count($items)) {
@@ -90,20 +91,20 @@ function publisher_category_items_sel_show($options)
  */
 function publisher_category_items_sel_edit($options)
 {
-    require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
+    // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form = new PublisherBlockForm();
+    $form = new Publisher\BlockForm();
 
-    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[0]), 'options[0]');
-    $orderEle = new XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0]), 'options[0]');
+    $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray([
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
                                   'weight'  => _MB_PUBLISHER_WEIGHT
                               ]);
-    $dispEle  = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
-    $charsEle = new XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);
+    $dispEle  = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
+    $charsEle = new \XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);
 
     $form->addElement($catEle);
     $form->addElement($orderEle);

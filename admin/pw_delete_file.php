@@ -20,7 +20,7 @@
 
 use Xmf\Assert;
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -29,7 +29,7 @@ if ('delfileok' === Request::getString('op', '', 'POST')) {
         redirect_header(XOOPS_URL . '/modules/publisher/admin/item.php', 3, _AM_PUBLISHER_FILE_DELETE_ERROR);
     }
 
-    $dir        = publisher\Utility::getUploadDir(true, 'content');
+    $dir        = Publisher\Utility::getUploadDir(true, 'content');
     $check_path = realpath($dir);
 
     $filename  = Request::getString('address', '', 'POST');

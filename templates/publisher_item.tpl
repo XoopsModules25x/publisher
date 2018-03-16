@@ -189,9 +189,10 @@
         <{/if}>
     </tr>
     <{/foreach}> <!-- End item loop -->
-    </table><{/if}><{if $rating_enabled}>
-    <small><{$item.ratingbar}></small><{/if}><{include file='db:publisher_footer.tpl'}>
-
+    </table><{/if}>
+    <{if $rating_enabled}>
+    <small><{$item.ratingbar}></small><{/if}>
+    <{include file='db:publisher_footer.tpl'}>
 <script type="text/javascript">
     <!--//<![CDATA[
     $helper(document).ready(function () {

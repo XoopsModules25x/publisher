@@ -20,14 +20,14 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once __DIR__ . '/header.php';
 
 $categoryid = Request::getInt('categoryid', 0, 'GET');
 
 // Creating the category object for the selected category
-$categoryObj = $helper->getHandler('category')->get($categoryid);
+$categoryObj = $helper->getHandler('Category')->get($categoryid);
 
 // if the selected category was not found, exit
 if (!is_object($categoryObj) || $categoryObj->notLoaded()) {
@@ -46,7 +46,7 @@ $start = Request::getInt('start', 0, 'GET');
 
 $item_page_id = Request::getInt('page', -1, 'GET');
 
-$totalItems = $helper->getHandler('category')->publishedItemsCount();
+$totalItems = $helper->getHandler('Category')->publishedItemsCount();
 
 // if there is no Item under this categories or the sub-categories, exit
 // why?
@@ -104,7 +104,7 @@ switch ($helper->getConfig('format_order_by')) {
         break;
 }
 
-$itemsObj = $helper->getHandler('item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, $categoryid, $sort, $order);
+$itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, $categoryid, $sort, $order);
 
 $totalItemOnPage = 0;
 if ($itemsObj) {
@@ -123,12 +123,12 @@ $category['categoryPath'] = $categoryObj->getCategoryPath($helper->getConfig('fo
 
 if (1 == $helper->getConfig('idxcat_display_last_item')) {
     // Get the last smartitem
-    $lastItemObj = $helper->getHandler('item')->getLastPublishedByCat([[$categoryObj]]);
+    $lastItemObj = $helper->getHandler('Item')->getLastPublishedByCat([[$categoryObj]]);
 }
 $lastitemsize = (int)$helper->getConfig('idxcat_last_item_size');
 
 // Creating the sub-categories objects that belong to the selected category
-$subcatsObj    = $helper->getHandler('category')->getCategories(0, 0, $categoryid);
+$subcatsObj    = $helper->getHandler('Category')->getCategories(0, 0, $categoryid);
 $total_subcats = count($subcatsObj);
 
 $total_items = 0;
@@ -192,14 +192,14 @@ if (count($itemsObj) > 0) {
         }
     }
     $memberHandler = xoops_getHandler('member');
-    //$users = $memberHandler->getUsers(new Criteria('uid', "(" . implode(',', array_keys($userids)) . ")", "IN"), true);
+    //$users = $memberHandler->getUsers(new \Criteria('uid', "(" . implode(',', array_keys($userids)) . ")", "IN"), true);
     */
     // Adding the items of the selected category
 
     for ($i = 0; $i < $totalItemOnPage; ++$i) {
         $item                 = $itemsObj[$i]->toArraySimple('default', $helper->getConfig('item_title_size'));
         $item['categoryname'] = $categoryObj->name();
-        $item['categorylink'] = "<a href='" . PublisherSeo::generateUrl('category', $itemsObj[$i]->categoryid(), $categoryObj->short_url()) . "'>" . $categoryObj->name() . '</a>';
+        $item['categorylink'] = "<a href='" . Publisher\Seo::generateUrl('category', $itemsObj[$i]->categoryid(), $categoryObj->short_url()) . "'>" . $categoryObj->name() . '</a>';
         $item['who_when']     = $itemsObj[$i]->getWhoAndWhen();
         $xoopsTpl->append('items', $item);
     }
@@ -224,13 +224,13 @@ $xoopsTpl->assign('module_dirname', $helper->getDirname());
 $xoopsTpl->assign('lang_category_summary', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY, $categoryObj->name()));
 $xoopsTpl->assign('lang_category_summary_info', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY_INFO, $categoryObj->name()));
 $xoopsTpl->assign('lang_items_title', sprintf(_MD_PUBLISHER_ITEMS_TITLE, $categoryObj->name()));
-$xoopsTpl->assign('module_home', publisher\Utility::moduleHome($helper->getConfig('format_linked_path')));
+$xoopsTpl->assign('module_home', Publisher\Utility::moduleHome($helper->getConfig('format_linked_path')));
 $xoopsTpl->assign('categoryPath', '<li>' . $category['categoryPath'] . '</li>');
 $xoopsTpl->assign('selected_category', $categoryid);
 
 // The Navigation Bar
 require_once $GLOBALS['xoops']->path('class/pagenav.php');
-$pagenav = new XoopsPageNav($thiscategory_itemcount, $helper->getConfig('idxcat_index_perpage'), $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
+$pagenav = new \XoopsPageNav($thiscategory_itemcount, $helper->getConfig('idxcat_index_perpage'), $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
 if (1 == $helper->getConfig('format_image_nav')) {
     $navbar = '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>';
 } else {
@@ -241,7 +241,7 @@ $xoopsTpl->assign('navbar', $navbar);
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new PublisherMetagen($categoryObj->getVar('name'), $categoryObj->getVar('meta_keywords', 'n'), $categoryObj->getVar('meta_description', 'n'), $categoryObj->getCategoryPathForMetaTitle());
+$publisherMetagen = new Publisher\Metagen($categoryObj->getVar('name'), $categoryObj->getVar('meta_keywords', 'n'), $categoryObj->getVar('meta_description', 'n'), $categoryObj->getCategoryPathForMetaTitle());
 $publisherMetagen->createMetaTags();
 
 // RSS Link

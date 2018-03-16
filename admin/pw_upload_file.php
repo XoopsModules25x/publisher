@@ -19,7 +19,7 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -43,18 +43,18 @@ function publisher_pagewrap_upload(&$errors)
     //    require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
     xoops_load('XoopsMediaUploader');
 
-    $helper = publisher\Helper::getInstance();
+    $helper = Publisher\Helper::getInstance();
     $postField = 'fileupload';
 
     $maxFileSize    = $helper->getConfig('maximum_filesize');
     $maxImageWidth  = $helper->getConfig('maximum_image_width');
     $maxImageHeight = $helper->getConfig('maximum_image_height');
 
-    if (!is_dir(publisher\Utility::getUploadDir(true, 'content'))) {
-        mkdir(publisher\Utility::getUploadDir(true, 'content'), 0757);
+    if (!is_dir(Publisher\Utility::getUploadDir(true, 'content'))) {
+        mkdir(Publisher\Utility::getUploadDir(true, 'content'), 0757);
     }
     $allowedMimeTypes = ['text/html', 'text/plain', 'application/xhtml+xml'];
-    $uploader         = new XoopsMediaUploader(publisher\Utility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
+    $uploader         = new \XoopsMediaUploader(Publisher\Utility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
     if ($uploader->fetchMedia($postField)) {
         $uploader->setTargetFileName($uploader->getMediaName());
         if ($uploader->upload()) {

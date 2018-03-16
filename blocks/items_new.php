@@ -19,11 +19,12 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
  * @param $options
@@ -32,7 +33,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_items_new_show($options)
 {
-    $helper = publisher\Helper::getInstance();
+    $helper = Publisher\Helper::getInstance();
 
     $selectedcatids = explode(',', $options[0]);
 
@@ -43,7 +44,7 @@ function publisher_items_new_show($options)
     }
 
     $sort  = $options[1];
-    $order = publisher\Utility::getOrderBy($sort);
+    $order = Publisher\Utility::getOrderBy($sort);
     $limit = $options[3];
     $start = 0;
     $image = $options[5];
@@ -52,10 +53,10 @@ function publisher_items_new_show($options)
     if ($allcats) {
         $criteria = null;
     } else {
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
     }
-    $itemsObj = $helper->getHandler('item')->getItems($limit, $start, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
+    $itemsObj = $helper->getHandler('Item')->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
 
     $totalitems = count($itemsObj);
     if ($itemsObj && $totalitems > 0) {
@@ -136,13 +137,13 @@ function publisher_items_new_show($options)
  */
 function publisher_items_new_edit($options)
 {
-    require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
+    // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form = new PublisherBlockForm();
+    $form = new Publisher\BlockForm();
 
-    $catEle   = new XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
-    $orderEle = new XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
+    $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray([
                                   'datesub'  => _MB_PUBLISHER_DATE,
                                   'counter'  => _MB_PUBLISHER_HITS,
@@ -152,11 +153,11 @@ function publisher_items_new_edit($options)
                                   'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS
                               ]);
 
-    $showEle  = new XoopsFormRadioYN(_MB_PUBLISHER_ORDER_SHOW, 'options[2]', $options[2]);
-    $dispEle  = new XoopsFormText(_MB_PUBLISHER_DISP, 'options[3]', 10, 255, $options[3]);
-    $charsEle = new XoopsFormText(_MB_PUBLISHER_CHARS, 'options[4]', 10, 255, $options[4]);
+    $showEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_ORDER_SHOW, 'options[2]', $options[2]);
+    $dispEle  = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[3]', 10, 255, $options[3]);
+    $charsEle = new \XoopsFormText(_MB_PUBLISHER_CHARS, 'options[4]', 10, 255, $options[4]);
 
-    $imageEle = new XoopsFormSelect(_MB_PUBLISHER_IMAGE_TO_DISPLAY, 'options[5]', $options[5]);
+    $imageEle = new \XoopsFormSelect(_MB_PUBLISHER_IMAGE_TO_DISPLAY, 'options[5]', $options[5]);
     $imageEle->addOptionArray([
                                   'none'     => _NONE,
                                   'article'  => _MB_PUBLISHER_IMAGE_ARTICLE,

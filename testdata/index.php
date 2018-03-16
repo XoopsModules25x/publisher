@@ -14,9 +14,12 @@
  * @since           2.5.9
  * @author          Michael Beck (aka Mamba)
  */
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
+use XoopsModules\Publisher\Common;
 
 require_once __DIR__ . '/../../../mainfile.php';
+
+include __DIR__ . '/../preloads/autoloader.php';
 
 $op = \Xmf\Request::getCmd('op', '');
 
@@ -30,10 +33,14 @@ switch ($op) {
 
 function loadSampleData()
 {
-//    $moduleDirName = basename(dirname(__DIR__));
-//    xoops_loadLanguage('admin', $moduleDirName);
-    $helper = publisher\Helper::getInstance();
-    $helper->loadLanguage('admin');
+        $moduleDirName = basename(dirname(__DIR__));
+        $helper       = Publisher\Helper::getInstance();
+        $utility      = new Publisher\Utility();
+        $configurator = new Common\Configurator();
+       // Load language files
+        $helper->loadLanguage('admin');
+        $helper->loadLanguage('modinfo');
+        $helper->loadLanguage('common');
 
     $items = \Xmf\Yaml::readWrapped('item-data.yml');
     $cat   = \Xmf\Yaml::readWrapped('cat-data.yml');

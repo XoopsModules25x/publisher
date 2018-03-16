@@ -19,10 +19,10 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
 require_once __DIR__ . '/header.php';
-$helper = publisher\Helper::getInstance();
+$helper = Publisher\Helper::getInstance();
 $helper->loadLanguage('admin');
 //xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
@@ -34,7 +34,7 @@ if (0 == $fileid) {
     //    exit();
 }
 
-$fileObj = $helper->getHandler('file')->get($fileid);
+$fileObj = $helper->getHandler('File')->get($fileid);
 
 // if the selected item was not found, exit
 if (!$fileObj) {
@@ -42,10 +42,10 @@ if (!$fileObj) {
     //    exit();
 }
 
-$itemObj = $helper->getHandler('item')->get($fileObj->getVar('itemid'));
+$itemObj = $helper->getHandler('Item')->get($fileObj->getVar('itemid'));
 
 // if the user does not have permission to modify this file, exit
-if (!(publisher\Utility::userIsAdmin() || publisher\Utility::userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
+if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
     redirect_header('index.php', 1, _NOPERM);
     //    exit();
 }
@@ -67,7 +67,7 @@ switch ($op) {
 
         // Creating the file object
         if (0 != $fileid) {
-            $fileObj = $helper->getHandler('file')->get($fileid);
+            $fileObj = $helper->getHandler('File')->get($fileid);
         } else {
             redirect_header('index.php', 1, _NOPERM);
             //            exit();
@@ -84,7 +84,7 @@ switch ($op) {
             $oldfile = $fileObj->getFilePath();
 
             // Get available mimetypes for file uploading
-            $allowed_mimetypes = $helper->getHandler('mimetype')->getArrayByType();
+            $allowed_mimetypes = $helper->getHandler('Mimetype')->getArrayByType();
             // TODO : display the available mimetypes to the user
             $errors = [];
 
@@ -99,8 +99,8 @@ switch ($op) {
             }
         }
 
-        if (!$helper->getHandler('file')->insert($fileObj)) {
-            redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . publisher\Utility::formatErrors($fileObj->getErrors()));
+        if (!$helper->getHandler('File')->insert($fileObj)) {
+            redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . Publisher\Utility::formatErrors($fileObj->getErrors()));
             //            exit;
         }
 
@@ -116,7 +116,7 @@ switch ($op) {
         $confirm = Request::getInt('confirm', '', 'POST');
 
         if ($confirm) {
-            if (!$helper->getHandler('file')->delete($fileObj)) {
+            if (!$helper->getHandler('File')->delete($fileObj)) {
                 redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, _AM_PUBLISHER_FILE_DELETE_ERROR);
                 //                exit;
             }

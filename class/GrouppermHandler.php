@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Publisher;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -19,16 +19,16 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 require_once $GLOBALS['xoops']->path('kernel/groupperm.php');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
- * Class PublisherGroupPermHandler
+ * Class GroupPermHandler
  */
-class PublisherGroupPermHandler extends XoopsGroupPermHandler
+class GrouppermHandler extends \XoopsGroupPermHandler
 {
     /**
      * Check permission
@@ -44,20 +44,20 @@ class PublisherGroupPermHandler extends XoopsGroupPermHandler
      */
     public function checkRight($gpermName, $gpermItemId, $gpermGroupId, $gpermModId = 1, $trueifadmin = true) //checkRight($gpermName, $gpermItemId, $gpermGroupId, $gpermModId = 1)
     {
-        $criteria = new CriteriaCompo(new Criteria('gperm_modid', $gpermModId));
-        $criteria->add(new Criteria('gperm_name', $gpermName));
+        $criteria = new \CriteriaCompo(new \Criteria('gperm_modid', $gpermModId));
+        $criteria->add(new \Criteria('gperm_name', $gpermName));
         $gpermItemId = (int)$gpermItemId;
         if ($gpermItemId > 0) {
-            $criteria->add(new Criteria('gperm_itemid', $gpermItemId));
+            $criteria->add(new \Criteria('gperm_itemid', $gpermItemId));
         }
         if (is_array($gpermGroupId)) {
-            $criteria2 = new CriteriaCompo();
+            $criteria2 = new \CriteriaCompo();
             foreach ($gpermGroupId as $gid) {
-                $criteria2->add(new Criteria('gperm_groupid', $gid), 'OR');
+                $criteria2->add(new \Criteria('gperm_groupid', $gid), 'OR');
             }
             $criteria->add($criteria2);
         } else {
-            $criteria->add(new Criteria('gperm_groupid', $gpermGroupId));
+            $criteria->add(new \Criteria('gperm_groupid', $gpermGroupId));
         }
 
         return $this->getCount($criteria) > 0;

@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Publisher;
+
 /*
  * $Id
  * Module: Publisher
@@ -19,16 +20,16 @@
  * @return string sort_url for the article
  */
 
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
- * Class PublisherSeo
+ * Class Seo
  */
-class PublisherSeo
+class Seo
 {
     /**
      * @param string $title
@@ -42,7 +43,7 @@ class PublisherSeo
         /**
          * if XOOPS ML is present, let's sanitize the title with the current language
          */
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         if (method_exists($myts, 'formatForML')) {
             $title = $myts->formatForML($title);
         }
@@ -111,7 +112,7 @@ class PublisherSeo
      */
     public static function generateUrl($op, $id, $shortUrl = '')
     {
-        $helper = publisher\Helper::getInstance();
+        $helper = Publisher\Helper::getInstance();
         if ('none' !== $helper->getConfig('seo_url_rewrite')) {
             if (!empty($shortUrl)) {
                 $shortUrl .= '.html';

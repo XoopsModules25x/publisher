@@ -20,10 +20,11 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
 require_once dirname(__DIR__) . '/admin_header.php';
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'cjaycontent ' . Request::getString('cjaycontent_version', '', 'POST');
 
@@ -54,9 +55,9 @@ $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 if ('start' === $op) {
     xoops_load('XoopsFormLoader');
 
-    publisher\Utility::cpHeader();
+    Publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    publisher\Utility::openCollapsableBar('cjaycontentimport', 'cjaycontentimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
+    Publisher\Utility::openCollapsableBar('cjaycontentimport', 'cjaycontentimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('cjaycontent'));
     list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
@@ -66,28 +67,28 @@ if ('start' === $op) {
     } else {
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND, $importFromModuleName, $totalArticles, $totalCat) . '</span>';
 
-        $form = new XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
+        $form = new \XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
         ob_end_clean();
 
-        $form->addElement(new XoopsFormHidden('op', 'go'));
-        $form->addElement(new XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
+        $form->addElement(new \XoopsFormHidden('op', 'go'));
+        $form->addElement(new \XoopsFormButton('', 'import', _AM_PUBLISHER_IMPORT, 'submit'));
 
-        $form->addElement(new XoopsFormHidden('from_module_version', Request::getString('cjaycontent_version', '', 'POST')));
+        $form->addElement(new \XoopsFormHidden('from_module_version', Request::getString('cjaycontent_version', '', 'POST')));
 
         $form->display();
     }
     //    }
 
-    publisher\Utility::closeCollapsableBar('cjaycontentimport', 'cjaycontentimporticon');
+    Publisher\Utility::closeCollapsableBar('cjaycontentimport', 'cjaycontentimporticon');
     xoops_cp_footer();
 }
 
 if ('go' === $op) {
-    publisher\Utility::cpHeader();
+    Publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    require_once dirname(dirname(__DIR__)) . '/include/common.php';
-    publisher\Utility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
+    require_once __DIR__ . '/../../include/common.php';
+    Publisher\Utility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /* @var  $moduleHandler XoopsModuleHandler */
     $moduleHandler         = xoops_getHandler('module');
     $moduleObj             = $moduleHandler->getByDirname('cjaycontent');
@@ -105,8 +106,8 @@ if ('go' === $op) {
     $resultArticles = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
         // insert article
-        /** @var PublisherItem $itemObj */
-        $itemObj = $helper->getHandler('item')->create();
+        /** @var  Publisher\Item $itemObj */
+        $itemObj = $helper->getHandler('Item')->create();
         $itemObj->setVar('itemid', $arrArticle['id']);
         //      $itemObj->setVar('categoryid', $categoryObj->categoryid());
         $itemObj->setVar('title', $arrArticle['title']);
@@ -118,7 +119,7 @@ if ('go' === $op) {
         //            $itemObj->setVar('dohtml', !$arrArticle['nohtml']);
         //            $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
         $itemObj->setVar('weight', $arrArticle['weight']);
-        $itemObj->setVar('status', PublisherConstants::PUBLISHER_STATUS_PUBLISHED);
+        $itemObj->setVar('status', Constants::PUBLISHER_STATUS_PUBLISHED);
 
         //            $itemObj->setVar('dobr', !$arrArticle['dobr']);
         //            $itemObj->setVar('item_tag', $arrArticle['tags']);
@@ -160,11 +161,11 @@ if ('go' === $op) {
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
 
     $publisher_module_id = $helper->getModule()->mid();
-    /** @var XoopsCommentHandler $commentHandler */
+    /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
-    $criteria       = new CriteriaCompo();
-    $criteria->add(new Criteria('com_modid', $cjaycontent_module_id));
-    /** @var XoopsComment $comment */
+    $criteria       = new \CriteriaCompo();
+    $criteria->add(new \Criteria('com_modid', $cjaycontent_module_id));
+    /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
@@ -183,6 +184,6 @@ if ('go' === $op) {
     echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br>';
     echo "<br><a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br>';
 
-    publisher\Utility::closeCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon');
+    Publisher\Utility::closeCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon');
     xoops_cp_footer();
 }

@@ -20,7 +20,8 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\publisher;
+use XoopsModules\Publisher;
+use XoopsModules\Publisher\Constants;
 
 require_once __DIR__ . '/header.php';
 
@@ -31,7 +32,7 @@ $catstart = Request::getInt('catstart', 0, 'GET');
 $start = Request::getInt('start', 0, 'GET');
 
 // Number of categories at the top level
-$totalCategories = $helper->getHandler('category')->getCategoriesCount(0);
+$totalCategories = $helper->getHandler('Category')->getCategoriesCount(0);
 
 // if there ain't no category to display, let's get out of here
 if (0 == $totalCategories) {
@@ -46,7 +47,7 @@ require_once PUBLISHER_ROOT_PATH . '/footer.php';
 $gpermHandler = xoops_getHandler('groupperm');
 
 // Creating the top categories objects
-$categoriesObj = $helper->getHandler('category')->getCategories($helper->getConfig('idxcat_cat_perpage'), $catstart);
+$categoriesObj = $helper->getHandler('Category')->getCategories($helper->getConfig('idxcat_cat_perpage'), $catstart);
 
 // if no categories are found, exit
 $totalCategoriesOnPage = count($categoriesObj);
@@ -56,17 +57,17 @@ if (0 == $totalCategoriesOnPage) {
 }
 
 // Get subcats of the top categories
-$subcats = $helper->getHandler('category')->getSubCats($categoriesObj);
+$subcats = $helper->getHandler('Category')->getSubCats($categoriesObj);
 
 // Count of items within each top categories
-$totalItems = $helper->getHandler('category')->publishedItemsCount();
+$totalItems = $helper->getHandler('Category')->publishedItemsCount();
 
 // real total count of items
-$real_total_items = $helper->getHandler('item')->getItemsCount(-1, [PublisherConstants::PUBLISHER_STATUS_PUBLISHED]);
+$real_total_items = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_PUBLISHED]);
 
 if (1 == $helper->getConfig('idxcat_display_last_item')) {
     // Get the last item in each category
-    $lastItemObj = $helper->getHandler('item')->getLastPublishedByCat(array_merge([$categoriesObj], $subcats));
+    $lastItemObj = $helper->getHandler('Item')->getLastPublishedByCat(array_merge([$categoriesObj], $subcats));
 }
 
 // Max size of the title in the last item column
@@ -177,7 +178,7 @@ if ($helper->getConfig('index_display_last_items')) {
     }
 
     // Creating the last ITEMs
-    $itemsObj   = $helper->getHandler('item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, -1, $sort, $order);
+    $itemsObj   = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, -1, $sort, $order);
     $itemsCount = count($itemsObj);
 
     //todo: make config for summary size
@@ -196,7 +197,7 @@ $xoopsTpl->assign('title_and_welcome', $helper->getConfig('index_title_and_welco
 $xoopsTpl->assign('lang_mainintro', $myts->displayTarea($helper->getConfig('index_welcome_msg'), 1));
 $xoopsTpl->assign('sectionname', $helper->getModule()->getVar('name'));
 $xoopsTpl->assign('whereInSection', $helper->getModule()->getVar('name'));
-$xoopsTpl->assign('module_home', publisher\Utility::moduleHome(false));
+$xoopsTpl->assign('module_home', Publisher\Utility::moduleHome(false));
 $xoopsTpl->assign('indexfooter', $myts->displayTarea($helper->getConfig('index_footer'), 1));
 
 $xoopsTpl->assign('lang_category_summary', _MD_PUBLISHER_INDEX_CATEGORIES_SUMMARY);
@@ -206,14 +207,14 @@ $xoopsTpl->assign('indexpage', true);
 
 require_once $GLOBALS['xoops']->path('class/pagenav.php');
 // Category Navigation Bar
-$pagenav = new XoopsPageNav($totalCategories, $helper->getConfig('idxcat_cat_perpage'), $catstart, 'catstart', '');
+$pagenav = new \XoopsPageNav($totalCategories, $helper->getConfig('idxcat_cat_perpage'), $catstart, 'catstart', '');
 if (1 == $helper->getConfig('format_image_nav')) {
     $xoopsTpl->assign('catnavbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {
     $xoopsTpl->assign('catnavbar', '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>');
 }
 // ITEM Navigation Bar
-$pagenav = new XoopsPageNav($real_total_items, $helper->getConfig('idxcat_index_perpage'), $start, 'start', '');
+$pagenav = new \XoopsPageNav($real_total_items, $helper->getConfig('idxcat_index_perpage'), $start, 'start', '');
 if (1 == $helper->getConfig('format_image_nav')) {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {
@@ -226,7 +227,7 @@ $xoopsTpl->assign('displaylastitems', $helper->getConfig('index_display_last_ite
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new PublisherMetagen($helper->getModule()->getVar('name'));
+$publisherMetagen = new Publisher\Metagen($helper->getModule()->getVar('name'));
 $publisherMetagen->createMetaTags();
 
 // RSS Link

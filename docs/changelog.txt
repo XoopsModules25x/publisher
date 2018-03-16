@@ -1,10 +1,14 @@
-<h5>1.06 Beta 2       [2018-03-15]</h5>  Dev: Xoops 2.5.9, PHP 7.2.3
+<h5>1.06 Beta 3       [2018-03-15]</h5>  Dev: Xoops 2.5.9, PHP 7.2.3
 <hr>
-- addded missing common traits (goffy/mamba)
-- fix for page styling in categories (liomj/mamba)
 - added Constants (mamba)
 - added truncateHTML (mamba)
 - replaced truncateTagSafe with truncateHTML (mamba)
+
+
+<h5>1.06 Beta 2       [2017-12-09]</h5>  Dev: Xoops 2.5.9, PHP 7.2.1
+<hr>
+- addded missing common traits (goffy/mamba)
+- fix for page styling in categories (liomj/mamba)
 
 
 <h5>1.06 Beta 1       [NOT RELEASED]</h5>

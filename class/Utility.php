@@ -1261,7 +1261,7 @@ class Utility
         }
         $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         /* @var $gpermHandler XoopsGroupPermHandler */
-        $gpermHandler = $helper->getHandler('GroupPerm');
+        $gpermHandler = $helper->getHandler('Groupperm');
 
         if (!$gpermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
             $staticRater   = [];

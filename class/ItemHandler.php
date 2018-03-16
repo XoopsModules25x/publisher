@@ -136,7 +136,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function delete(\XoopsObject $item, $force = false)
     {
         // Deleting the files
-        if (!$this->helper->getHandler('file')->deleteItemFiles($item)) {
+        if (!$this->helper->getHandler('File')->deleteItemFiles($item)) {
             $item->setErrors(_AM_PUBLISHER_FILE_DELETE_ERROR);
         }
         if (!parent::delete($item, $force)) {
@@ -252,7 +252,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      * @param  string|array        $status
      * @param  string        $notNullFields
      * @param                $criteriaPermissions
-     * @return CriteriaCompo
+     * @return \CriteriaCompo
      */
     private function getItemsCriteria($categoryid = -1, $status = '', $notNullFields = '', $criteriaPermissions)
     {
@@ -261,7 +261,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //        if (!$publisherIsAdmin) {
         //            $criteriaPermissions = new \CriteriaCompo();
         //            // Categories for which user has access
-        //            $categoriesGranted = $this->helper->getHandler('permission')->getGrantedItems('category_read');
+        //            $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
         //            if (!empty($categoriesGranted)) {
         //                $grantedCategories = new \Criteria('categoryid', "(" . implode(',', $categoriesGranted) . ")", 'IN');
         //                $criteriaPermissions->add($grantedCategories, 'AND');
@@ -309,7 +309,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (!$GLOBALS['publisherIsAdmin']) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
-            $categoriesGranted = $this->helper->getHandler('permission')->getGrantedItems('category_read');
+            $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
             if (!empty($categoriesGranted)) {
                 $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
                 $criteriaPermissions->add($grantedCategories, 'AND');
@@ -475,7 +475,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (!$GLOBALS['publisherIsAdmin']) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
-            $categoriesGranted = $this->helper->getHandler('permission')->getGrantedItems('category_read');
+            $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
             if (!empty($categoriesGranted)) {
                 $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
                 $criteriaPermissions->add($grantedCategories, 'AND');

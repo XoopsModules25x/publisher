@@ -101,7 +101,7 @@ class Category extends \XoopsObject
         if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->getVar('uid') == $this->moderator()) {
             return true;
         }
-        $categoriesGranted = $this->helper->getHandler('permission')->getGrantedItems('category_read');
+        $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
         if (in_array($this->categoryid(), $categoriesGranted)) {
             $ret = true;
         }
@@ -204,7 +204,7 @@ class Category extends \XoopsObject
      */
     public function getGroupsRead()
     {
-        return $this->helper->getHandler('permission')->getGrantedGroupsById('category_read', $this->categoryid());
+        return $this->helper->getHandler('Permission')->getGrantedGroupsById('category_read', $this->categoryid());
     }
 
     /**
@@ -212,7 +212,7 @@ class Category extends \XoopsObject
      */
     public function getGroupsSubmit()
     {
-        return $this->helper->getHandler('permission')->getGrantedGroupsById('item_submit', $this->categoryid());
+        return $this->helper->getHandler('Permission')->getGrantedGroupsById('item_submit', $this->categoryid());
     }
 
     /**
@@ -220,7 +220,7 @@ class Category extends \XoopsObject
      */
     public function getGroupsModeration()
     {
-        return $this->helper->getHandler('permission')->getGrantedGroupsById('category_moderation', $this->categoryid());
+        return $this->helper->getHandler('Permission')->getGrantedGroupsById('category_moderation', $this->categoryid());
     }
 
     /**

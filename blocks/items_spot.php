@@ -91,7 +91,7 @@ function publisher_items_spot_show($options)
                 }
                 if ($optTruncate > 0) {
                     $block['truncate'] = true;
-                    $item['summary']   = Publisher\Utility::truncateTagSafe($item['summary'], $optTruncate);
+                    $item['summary']   = Publisher\Utility::truncateHtml($item['summary'], $optTruncate);
                 }
                 $block['items'][] = $item;
                 ++$i;

@@ -172,7 +172,7 @@ class Item extends \XoopsObject
                 if (strlen($ret) >= $maxLength) {
                     //$ret = Publisher\Utility::substr($ret , 0, $maxLength);
                     //                    $ret = Publisher\Utility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
-                    $ret =  Publisher\Utility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
+                    $ret =  Publisher\Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
             }
         }
@@ -274,7 +274,7 @@ class Item extends \XoopsObject
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
                     //$ret = Publisher\Utility::substr($ret , 0, $maxLength);
-                    $ret = Publisher\Utility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
+                    $ret = Publisher\Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
             }
         }
@@ -429,7 +429,7 @@ class Item extends \XoopsObject
      */
     public function getFiles()
     {
-        return $this->helper->getHandler('file')->getAllFiles($this->itemid(), Constants::PUBLISHER_STATUS_FILE_ACTIVE);
+        return $this->helper->getHandler('File')->getAllFiles($this->itemid(), Constants::PUBLISHER_STATUS_FILE_ACTIVE);
     }
 
     /**
@@ -440,7 +440,7 @@ class Item extends \XoopsObject
         $adminLinks = '';
         if (is_object($GLOBALS['xoopsUser'])
             && (Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($this)
-                || $this->helper->getHandler('permission')->isGranted('item_submit', $this->categoryid()))) {
+                || $this->helper->getHandler('Permission')->isGranted('item_submit', $this->categoryid()))) {
             if (Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($this) || Publisher\Utility::userIsModerator($this)) {
                 if ($this->helper->getConfig('perm_edit') || Publisher\Utility::userIsModerator($this) || Publisher\Utility::userIsAdmin()) {
                     // Edit button
@@ -968,7 +968,7 @@ class Item extends \XoopsObject
             return false;
         }
         // Do we have access to the parent category
-        if ($this->helper->getHandler('permission')->isGranted('category_read', $this->categoryid())) {
+        if ($this->helper->getHandler('Permission')->isGranted('category_read', $this->categoryid())) {
             return true;
         }
 

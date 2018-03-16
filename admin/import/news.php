@@ -198,7 +198,7 @@ if ('go' === $op) {
                  $sql = 'SELECT * FROM '.$GLOBALS['xoopsDB']->prefix('wfs_files').' WHERE articleid=' . $arrArticle['articleid'];
                  $resultFiles = $GLOBALS['xoopsDB']->query ($sql);
                  $allowed_mimetypes = '';
-                 while ($arrFile = $GLOBALS['xoopsDB']->fetchArray ($resultFiles)) {
+                 while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray ($resultFiles))) {
 
                  $filename = $GLOBALS['xoops']->path('modules/wfsection/cache/uploaded/' . $arrFile['filerealname']);
                  if (file_exists($filename)) {

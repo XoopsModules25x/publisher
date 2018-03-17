@@ -880,7 +880,7 @@ class Item extends \XoopsObject
         if (0 !== strpos($color, '#')) {
             $color = '#' . $color;
         }
-        require_once __DIR__ . '/highlighter.php';
+        require_once __DIR__ . '/Highlighter.php';
         $highlighter = new Highlighter();
         $highlighter->setReplacementString('<span style="font-weight: bolder; background-color: ' . $color . ';">\1</span>');
 

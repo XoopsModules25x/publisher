@@ -737,7 +737,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
 
         $sql = "SELECT categoryid, MAX(datesub) as date FROM " . $this->db->prefix($this->helper->getDirname() . '_items') . " WHERE status IN (" . implode(',', $status) . ") GROUP BY categoryid";
         $result = $this->db->query($sql);
-        while ($row = $this->db->fetchArray($result)) {
+        while (false !== ($row = $this->db->fetchArray($result))) {
             $cat[$row['categoryid']] = $row['date'];
         }
         if (count($cat) == 0) return $ret;
@@ -751,7 +751,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         }
         $sql .= " " . $criteriaBig->renderWhere();
         $result = $this->db->query($sql);
-        while ($row = $this->db->fetchArray($result)) {
+        while (false !== ($row = $this->db->fetchArray($result))) {
             $item = new Item();
             $item->assignVars($row);
             $ret[$row['categoryid']] = $item;
@@ -830,7 +830,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
 
             return $catsCount;
         }
-        //        while ($row = $this->db->fetchArray($result)) {
+        //        while (false !== ($row = $this->db->fetchArray($result))) {
         while (false !== ($row = $this->db->fetchArray($result))) {
             $catsCount[$row['parentid']][$row['categoryid']] = $row['count'];
         }

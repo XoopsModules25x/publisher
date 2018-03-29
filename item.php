@@ -159,7 +159,7 @@ $item = $itemObj->toArraySimple($itemPageId);
 $xoopsTpl->assign('show_subtitle', $helper->getConfig('item_disp_subtitle'));
 
 if ($itemObj->pagescount() > 0) {
-    if ($itemPageId == -1) {
+    if (-1 == $itemPageId) {
         $itemPageId = 0;
     }
     require_once $GLOBALS['xoops']->path('class/pagenav.php');

@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -128,7 +129,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
                 foreach ($status as $v) {
                     $criteriaStatus->add(new \Criteria('o.status', $v), 'OR');
                 }
-            } elseif ($status != -1) {
+            } elseif (-1 != $status) {
                 $hasStatusCriteria = true;
                 $criteriaStatus->add(new \Criteria('o.status', $status), 'OR');
             }

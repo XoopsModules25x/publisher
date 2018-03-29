@@ -137,7 +137,7 @@ switch ($op) {
             }
 
             redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 2, sprintf(_AM_PUBLISHER_FILEISDELETED, $fileObj->name()));
-            //            exit();
+        //            exit();
         } else {
             // no confirm: show deletion condition
             $fileid = Request::getInt('fileid', 0, 'GET');

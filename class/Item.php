@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -305,7 +306,7 @@ class Item extends \XoopsObject
     public function posterName($realName = -1)
     {
         xoops_load('XoopsUserUtility');
-        if ($realName == -1) {
+        if (-1 == $realName) {
             $realName = $this->helper->getConfig('format_realname');
         }
         $ret = $this->author_alias();
@@ -572,7 +573,7 @@ class Item extends \XoopsObject
      */
     public function notLoaded()
     {
-        return $this->getVar('itemid') == -1;
+        return -1 == $this->getVar('itemid');
     }
 
     /**
@@ -662,7 +663,7 @@ class Item extends \XoopsObject
             return $this->plainMaintext($body);
         }
         $ret = '';
-        if ($itemPageId == -1) {
+        if (-1 == $itemPageId) {
             $ret .= trim($bodyParts[0]);
 
             return $ret;
@@ -1052,7 +1053,7 @@ class Item extends \XoopsObject
             $gmtTimestamp = $localTimestamp - $offset;
             $this->setVar('datesub', $gmtTimestamp);
 
-            //            }
+        //            }
         } elseif ($this->isNew()) {
             $this->setVar('datesub', time());
         }

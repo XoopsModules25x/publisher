@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -164,7 +165,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      *                                       objects
      */
 
-    public function &getObjects (\CriteriaElement $criteria = null, $idKey = 'none', $as_object = true, $notNullFields = null)
+    public function &getObjects(\CriteriaElement $criteria = null, $idKey = 'none', $as_object = true, $notNullFields = null)
     {
         $limit = $start = 0;
         $ret = [];
@@ -222,7 +223,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      *
      * @return int count of items
      */
-    public function getCount (\CriteriaElement $criteria = null, $notNullFields = '')
+    public function getCount(\CriteriaElement $criteria = null, $notNullFields = '')
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
         if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
@@ -269,7 +270,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //                return $ret;
         //            }
         //        }
-        if (isset($categoryid) && $categoryid != -1) {
+        if (isset($categoryid) && -1 != $categoryid) {
             $criteriaCategory = new \Criteria('categoryid', $categoryid);
         }
         $criteriaStatus = new \CriteriaCompo();
@@ -277,7 +278,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             foreach ($status as $v) {
                 $criteriaStatus->add(new \Criteria('status', $v), 'OR');
             }
-        } elseif (!empty($status) && $status != -1) {
+        } elseif (!empty($status) && -1 != $status) {
             $criteriaStatus->add(new \Criteria('status', $status), 'OR');
         }
         $criteria = new \CriteriaCompo();
@@ -557,7 +558,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      * @param  bool           $asObject
      * @return bool FALSE if deletion failed
      */
-    public function deleteAll (\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
+    public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
         //todo resource consuming, use get list instead?
         $items =& $this->getObjects($criteria);

@@ -122,7 +122,7 @@ switch ($op) {
             }
 
             redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, sprintf(_AM_PUBLISHER_FILEISDELETED, $fileObj->name()));
-            //            exit();
+        //            exit();
         } else {
             // no confirm: show deletion condition
 

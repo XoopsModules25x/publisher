@@ -174,7 +174,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $criteria = new \CriteriaCompo();
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        if ($parentid != -1) {
+        if (-1 != $parentid) {
             $criteria->add(new \Criteria('parentid', $parentid));
         }
         if (!$GLOBALS['publisherIsAdmin']) {
@@ -309,11 +309,11 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function getCategoriesCount($parentid = 0)
     {
         //        global $publisherIsAdmin;
-        if ($parentid == -1) {
+        if (-1 == $parentid) {
             return $this->getCount();
         }
         $criteria = new \CriteriaCompo();
-        if (isset($parentid) && ($parentid != -1)) {
+        if (isset($parentid) && (-1 != $parentid)) {
             $criteria->add(new \Criteria('parentid', $parentid));
             if (!$GLOBALS['publisherIsAdmin']) {
                 $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
@@ -374,7 +374,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * @param  bool           $asObject
      * @return bool FALSE if deletion failed
      */
-    public function deleteAll (\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
+    public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
         $categories =& $this->getObjects($criteria);
         foreach ($categories as $category) {

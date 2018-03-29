@@ -595,7 +595,7 @@ class Timthumb
         }
         $html = '<ul>';
         foreach ($this->errors as $err) {
-            $html .= '<li>' . htmlentities($err) . '</li>';
+            $html .= '<li>' . htmlentities($err, ENT_QUOTES | ENT_HTML5) . '</li>';
         }
         $html .= '</ul>';
         echo '<h1>A TimThumb error has occured</h1>The following error(s) occured:<br>' . $html . '<br>';
@@ -927,7 +927,7 @@ class Timthumb
             $exec = OPTIPNG_PATH;
             $this->debug(3, "optipng'ing $tempfile");
             $presize = filesize($tempfile);
-            $out     = `$exec -o1 $tempfile`; //you can use up to -o7 but it really slows things down
+            $out     = shell_exec("\$exec -o1 \$tempfile"); //you can use up to -o7 but it really slows things down
             clearstatcache();
             $aftersize = filesize($tempfile);
             $sizeDrop  = $presize - $aftersize;
@@ -942,7 +942,7 @@ class Timthumb
             $exec      = PNGCRUSH_PATH;
             $tempfile2 = tempnam($this->cacheDirectory, 'timthumb_tmpimg_');
             $this->debug(3, "pngcrush'ing $tempfile to $tempfile2");
-            $out   = `$exec $tempfile $tempfile2`;
+            $out   = shell_exec("\$exec \$tempfile \$tempfile2");
             $todel = '';
             if (is_file($tempfile2)) {
                 $sizeDrop = filesize($tempfile) - filesize($tempfile2);
@@ -1169,7 +1169,7 @@ class Timthumb
             $command = "$xv --server-args=\"-screen 0, {$screenX}x{$screenY}x{$colDepth}\" $cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
         }
         $this->debug(3, "Executing command: $command");
-        $out = `$command`;
+        $out = shell_exec("\$command");
         $this->debug(3, "Received output: $out");
         if (!is_file($tempfile)) {
             $this->set404();

@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -118,7 +119,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      * @return array array of objects
      * @access  public
      */
-    public function &getObjects (\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
+    public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
     {
         $ret   = [];
         $limit = $start = 0;
@@ -224,7 +225,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      * @return int count of objects
      * @access public
      */
-    public function getCount (\CriteriaElement $criteria = null) //getCount($criteria = null)
+    public function getCount(\CriteriaElement $criteria = null) //getCount($criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->dbtable);
         if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
@@ -275,7 +276,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      * @return bool FALSE if deletion failed
      * @access    public
      */
-    public function deleteAll (\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
+    public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
         $sql = 'DELETE FROM ' . $this->db->prefix($this->dbtable);
         if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {

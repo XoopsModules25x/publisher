@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -83,7 +84,7 @@ class MimetypeHandler extends BaseObjectHandler
      *                                  objects
      * @access    public
      */
-    public function &getObjects (\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
+    public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
     {
         $ret   = [];
         $limit = $start = 0;
@@ -196,7 +197,7 @@ class MimetypeHandler extends BaseObjectHandler
      * @return string string SQL query
      * @access    private
      */
-    private function selectQuery (\CriteriaElement $criteria = null, $join = false)
+    private function selectQuery(\CriteriaElement $criteria = null, $join = false)
     {
         //        if (!$join) {
         //            $sql = sprintf('SELECT * FROM %s', $this->db->prefix($this->dbtable));
@@ -209,7 +210,7 @@ class MimetypeHandler extends BaseObjectHandler
             if ($join) {
                 throw new RuntimeException('no need for join...');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $helper = Publisher\Helper::getInstance();
             $helper->addLog($e);
             echo 'no need for join...';

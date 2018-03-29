@@ -85,7 +85,7 @@ class Category extends \XoopsObject
      */
     public function notLoaded()
     {
-        return ($this->getVar('categoryid') == -1);
+        return (-1 == $this->getVar('categoryid'));
     }
 
     /**
@@ -157,7 +157,7 @@ class Category extends \XoopsObject
                     if ($parentObj->notLoaded()) {
                         throw new RuntimeException(_NOPERM);
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->helper->addLog($e);
                     //                    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
                 }
@@ -187,7 +187,7 @@ class Category extends \XoopsObject
                 if ($parentObj->notLoaded()) {
                     throw new RuntimeException('NOT LOADED');
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->helper->addLog($e);
                 //                    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
             }

@@ -79,7 +79,7 @@ if ('start' === $op) {
             try {
                 $imageCategoryHandler->insert($imagecategory);
                 // exit();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 echo "Caught exception: : couldn't insert Image Category " . $e->getMessage() . 'n';
             }
 

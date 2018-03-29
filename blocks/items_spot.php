@@ -51,7 +51,7 @@ function publisher_items_spot_show($options)
         $i          = 1;
         $itemsCount = count($itemsObj);
         if ($itemsObj) {
-            if ($optCategoryId != -1 && $optCatImage) {
+            if (-1 != $optCategoryId && $optCatImage) {
                 $cat                     = $helper->getHandler('Category')->get($optCategoryId);
                 $category['name']        = $cat->name();
                 $category['categoryurl'] = $cat->getCategoryUrl();

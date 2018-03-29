@@ -89,7 +89,7 @@ $itemsCount = count($items);
 
 if (!($itemsCount > 0)) {
     redirect_header(XOOPS_URL, 2, _MD_PUBLISHER_NO_TOP_PERMISSIONS);
-    //mb    exit;
+//mb    exit;
 } else {
     $years  = [];
     $months = [];

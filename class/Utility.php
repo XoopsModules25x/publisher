@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -55,7 +56,7 @@ class Utility
                     file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), "\n", '<br>';
         }
     }
@@ -74,7 +75,7 @@ class Utility
         //            } else {
         //                return copy($file, $folder);
         //            }
-        //        } catch (Exception $e) {
+        //        } catch (\Exception $e) {
         //            echo 'Caught exception: ', $e->getMessage(), "\n", "<br>";
         //        }
         //        return false;
@@ -1002,10 +1003,10 @@ class Utility
             foreach ($errArray as $key => $error) {
                 if (is_array($error)) {
                     foreach ($error as $err) {
-                        echo '<li><a href="#' . $key . '" onclick="var e = xoopsGetElementById(\'' . $key . '\'); e.focus();">' . htmlspecialchars($err) . '</a></li>';
+                        echo '<li><a href="#' . $key . '" onclick="var e = xoopsGetElementById(\'' . $key . '\'); e.focus();">' . htmlspecialchars($err, ENT_QUOTES | ENT_HTML5) . '</a></li>';
                     }
                 } else {
-                    echo '<li><a href="#' . $key . '" onclick="var e = xoopsGetElementById(\'' . $key . '\'); e.focus();">' . htmlspecialchars($error) . '</a></li>';
+                    echo '<li><a href="#' . $key . '" onclick="var e = xoopsGetElementById(\'' . $key . '\'); e.focus();">' . htmlspecialchars($error, ENT_QUOTES | ENT_HTML5) . '</a></li>';
                 }
             }
             echo '</ul></div><br>';
@@ -1118,7 +1119,7 @@ class Utility
                 if ($withRedirect) {
                     throw new RuntimeException(_CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $helper->addLog($e);
                 redirect_header('file.php?op=mod&itemid=' . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
             }

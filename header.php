@@ -24,5 +24,5 @@ require_once __DIR__ . '/include/common.php';
 $myts = \MyTextSanitizer::getInstance();
 
 if ('none' !== $helper->getConfig('seo_url_rewrite')) {
-   require_once PUBLISHER_ROOT_PATH . '/include/seo.inc.php';
+    require_once PUBLISHER_ROOT_PATH . '/include/seo.inc.php';
 }

@@ -53,17 +53,16 @@ function xoops_module_pre_update_publisher(\XoopsModule $module)
 
 function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = null)
 {
-
     global $xoopsDB;
     $moduleDirName = basename(dirname(__DIR__));
     $moduleDirNameUpper = strtoupper($moduleDirName);
     
     /** @var Publisher\Helper $helper */
     /** @var Publisher\Utility $utility */
-   /** @var Publisher\Common\Configurator $configurator */
+    /** @var Publisher\Common\Configurator $configurator */
     $helper       = Publisher\Helper::getInstance();
     $utility      = new Publisher\Utility();
-     $configurator = new Publisher\Common\Configurator();
+    $configurator = new Publisher\Common\Configurator();
 
     $helper->loadLanguage('common');
 
@@ -150,9 +149,9 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
         $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
         $GLOBALS['xoopsDB']->queryF($sql);
         
-            /** @var XoopsGroupPermHandler $gpermHandler */
-    $gpermHandler = xoops_getHandler('groupperm');
-    return $gpermHandler->deleteByModule($module->getVar('mid'), 'item_read');
+        /** @var XoopsGroupPermHandler $gpermHandler */
+        $gpermHandler = xoops_getHandler('groupperm');
+        return $gpermHandler->deleteByModule($module->getVar('mid'), 'item_read');
     }
     return true;
 }

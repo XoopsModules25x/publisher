@@ -18,7 +18,6 @@
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Common;
 
-
 /**
  * @param  \XoopsModule $module
  * @return bool
@@ -29,7 +28,7 @@ function xoops_module_pre_install_publisher(\XoopsModule $module)
     /** @var Publisher\Utility $utility */
     $utility      = new Publisher\Utility();
 
-        //check for minimum XOOPS version
+    //check for minimum XOOPS version
     $xoopsSuccess = $utility::checkVerXoops($module);
     
     // check for minimum PHP version
@@ -58,10 +57,10 @@ function xoops_module_install_publisher(\XoopsModule $module)
     
     /** @var Publisher\Helper $helper */
     /** @var Publisher\Utility $utility */
-   /** @var Common\Configurator $configurator */
+    /** @var Common\Configurator $configurator */
     $helper       = Publisher\Helper::getInstance();
     $utility      = new Publisher\Utility();
-     $configurator = new Common\Configurator();
+    $configurator = new Common\Configurator();
 
     // Load language files
     $helper->loadLanguage('admin');
@@ -86,7 +85,7 @@ function xoops_module_install_publisher(\XoopsModule $module)
     }
 
 
-        //  ---  COPY test folder files ---------------
+    //  ---  COPY test folder files ---------------
     if (count($configurator->copyTestFolders) > 0) {
         //        $file = __DIR__ . '/../testdata/images/';
         foreach (array_keys($configurator->copyTestFolders) as $i) {
@@ -94,7 +93,7 @@ function xoops_module_install_publisher(\XoopsModule $module)
             $dest = $configurator->copyTestFolders[$i][1];
             $utility::xcopy($src, $dest);
         }
-        }
+    }
 
 
     //delete .html entries from the tpl table

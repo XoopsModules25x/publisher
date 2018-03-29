@@ -51,7 +51,7 @@ if (0 != $itemId) {
     if (!Publisher\Utility::userIsAdmin() || !Publisher\Utility::userIsModerator($itemObj)) {
         if ('del' === Request::getString('op', '', 'GET') && !$helper->getConfig('perm_delete')) {
             redirect_header('index.php', 1, _NOPERM);
-            //            exit();
+        //            exit();
         } elseif (!$helper->getConfig('perm_edit')) {
             redirect_header('index.php', 1, _NOPERM);
             //            exit();
@@ -128,7 +128,6 @@ $elements = [
 foreach ($elements as $element) {
     $classname = '\XoopsModules\Publisher\Constants';
     if (Request::hasVar($element, 'POST') && !in_array(constant($classname .'::'. 'PUBLISHER_' . strtoupper($element)), $formView)) {
-
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
         //        exit();
     }
@@ -148,7 +147,7 @@ switch ($op) {
                 //                exit();
             }
             redirect_header('index.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
-            //            exit();
+        //            exit();
         } else {
             require_once $GLOBALS['xoops']->path('header.php');
             xoops_confirm(

@@ -157,13 +157,13 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
         $next            = $start + $limit;
         $queries         = implode(',', $queries);
         $search_url_next = $search_url . "&start={$next}";
-        $search_next     = '<a href="' . htmlspecialchars($search_url_next) . '">' . _SR_NEXT . '</a>';
+        $search_next     = '<a href="' . htmlspecialchars($search_url_next, ENT_QUOTES | ENT_HTML5) . '">' . _SR_NEXT . '</a>';
         $xoopsTpl->assign('search_next', $search_next);
     }
     if ($start > 0) {
         $prev            = $start - $limit;
         $search_url_prev = $search_url . "&start={$prev}";
-        $search_prev     = '<a href="' . htmlspecialchars($search_url_prev) . '">' . _SR_PREVIOUS . '</a>';
+        $search_prev     = '<a href="' . htmlspecialchars($search_url_prev, ENT_QUOTES | ENT_HTML5) . '">' . _SR_PREVIOUS . '</a>';
         $xoopsTpl->assign('search_prev', $search_prev);
     }
 

@@ -52,7 +52,7 @@ try {
     if (!$helper->getConfig('perm_rating') || !$gpermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
         throw new RuntimeException(_NOPERM);
     }
-} catch (Exception $e) {
+} catch (\Exception $e) {
     $helper->addLog($e);
     //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _NOPERM . "\n";
@@ -72,7 +72,7 @@ try {
     if ($rating > 5 || $rating < 1) {
         throw new RuntimeException(_MD_PUBLISHER_VOTE_BAD);
     }
-} catch (Exception $e) {
+} catch (\Exception $e) {
     $helper->addLog($e);
     //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_BAD . "\n";
@@ -105,7 +105,7 @@ try {
     if ($voted) {
         throw new RuntimeException(_MD_PUBLISHER_VOTE_ALREADY);
     }
-} catch (Exception $e) {
+} catch (\Exception $e) {
     $helper->addLog($e);
     //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_ALREADY . "\n";

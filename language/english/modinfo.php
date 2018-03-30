@@ -330,26 +330,26 @@ define('_MI_PUBLISHER_SHOW_SAMPLE_BUTTON_DESC', 'If yes, the "Add Sample Data" b
 define('_MI_PUBLISHER_MENU_HISTORY', 'History');
 
 //Categories:
-define('_MI_PUBLISHER_CONFCAT_SEO', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">---SEO ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SEO_DSC', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">---Preferences for rewriting methods, meta data, etc ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_INDEXCAT', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">---Index and category pages ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_INDEXCAT_DSC', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_CATEGORY', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">---Category page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_CATEGORY_DSC', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_ITEM', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">---Article page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_ITEM_DSC', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_FORMAT', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">---Format ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_FORMAT_DSC', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_PRINT', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">---Print page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_PRINT_DSC', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_OTHERS', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">---Others ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_OTHERS_DSC', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_PERMISSIONS', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">---Permissions ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_PERMISSIONS_DSC', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_SEO', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---SEO ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_SEO_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Preferences for rewriting methods, meta data, etc ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_INDEXCAT', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Index and category pages ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_INDEXCAT_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_CATEGORY', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Category page ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_CATEGORY_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_ITEM', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Article page ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_ITEM_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_FORMAT', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Format ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_FORMAT_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_PRINT', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Print page ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_PRINT_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_OTHERS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Others ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_OTHERS_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_PERMISSIONS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Permissions ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_PERMISSIONS_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
 
-define('_MI_PUBLISHER_CONFCAT_INDEX', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">---Index page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_INDEX_DSC', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SUBMIT', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">---Submit article ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SUBMIT_DSC', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">---Submit article layout and form default values ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SEARCH', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">---Search page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SEARCH_DSC', '<span style="color: #FF0000; font-size: Medium;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_INDEX', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Index page ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_INDEX_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_SUBMIT', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Submit article ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_SUBMIT_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Submit article layout and form default values ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_SEARCH', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Search page ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_SEARCH_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');

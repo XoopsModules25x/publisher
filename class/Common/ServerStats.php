@@ -36,7 +36,7 @@ trait ServerStats
         //        list($meta) = $GLOBALS['xoopsDB']->fetchRow($query);
         
         $html .= '<fieldset>';
-        $html .= "<legend style='font-weight: bold; color: #900;'>" . constant('CO_' . $moduleDirNameUpper . '_IMAGEINFO') . "</legend>";
+        $html .= "<legend style='font-weight: bold; color: #900;'>" . constant('CO_' . $moduleDirNameUpper . '_IMAGEINFO') . '</legend>';
         
         $html .= "<div style='padding: 8px;'>";
         
@@ -44,8 +44,8 @@ trait ServerStats
         //        $html .= "<br>";
         //        $html .= "<br>";
         
-        $html .= '<div>' . constant('CO_' . $moduleDirNameUpper . '_SPHPINI') . "</div>";
-        $html .= "<ul>";
+        $html .= '<div>' . constant('CO_' . $moduleDirNameUpper . '_SPHPINI') . '</div>';
+        $html .= '<ul>';
         
         
         $gdlib = function_exists('gd_info') ? '<span style="color: green;">' . constant('CO_' . $moduleDirNameUpper . '_GDON') . '</span>' : '<span style="color: red;">' . constant('CO_' . $moduleDirNameUpper . '_GDOFF') . '</span>';
@@ -66,15 +66,15 @@ trait ServerStats
         $downloads = ini_get('file_uploads') ? '<span style="color: green;">' . constant('CO_' . $moduleDirNameUpper . '_ON') . '</span>' : '<span style="color: red;">' . constant('CO_' . $moduleDirNameUpper . '_OFF') . '</span>';
         $html      .= '<li>' . constant('CO_' . $moduleDirNameUpper . '_SERVERUPLOADSTATUS') . $downloads;
 
-        $html .= '<li>' . constant('CO_' . $moduleDirNameUpper . '_MAXUPLOADSIZE') . ' <b><span style="color: blue;">' . ini_get('upload_max_filesize') . "</span></b>";
-        $html .= '<li>' . constant('CO_' . $moduleDirNameUpper . '_MAXPOSTSIZE') . ' <b><span style="color: blue;">' . ini_get('post_max_size') . "</span></b>";
-        $html .= '<li>' . constant('CO_' . $moduleDirNameUpper . '_MEMORYLIMIT') . ' <b><span style="color: blue;">' . ini_get('memory_limit') . "</span></b>";
-        $html .= "</ul>";
-        $html .= "<ul>";
-        $html .= '<li>' . constant('CO_' . $moduleDirNameUpper . '_SERVERPATH') . ' <b>' . XOOPS_ROOT_PATH . "</b>";
-        $html .= "</ul>";
-        $html .= "<br>";
-        $html .= constant('CO_' . $moduleDirNameUpper . '_UPLOADPATHDSC') . "";
+        $html .= '<li>' . constant('CO_' . $moduleDirNameUpper . '_MAXUPLOADSIZE') . ' <b><span style="color: blue;">' . ini_get('upload_max_filesize') . '</span></b>';
+        $html .= '<li>' . constant('CO_' . $moduleDirNameUpper . '_MAXPOSTSIZE') . ' <b><span style="color: blue;">' . ini_get('post_max_size') . '</span></b>';
+        $html .= '<li>' . constant('CO_' . $moduleDirNameUpper . '_MEMORYLIMIT') . ' <b><span style="color: blue;">' . ini_get('memory_limit') . '</span></b>';
+        $html .= '</ul>';
+        $html .= '<ul>';
+        $html .= '<li>' . constant('CO_' . $moduleDirNameUpper . '_SERVERPATH') . ' <b>' . XOOPS_ROOT_PATH . '</b>';
+        $html .= '</ul>';
+        $html .= '<br>';
+        $html .= constant('CO_' . $moduleDirNameUpper . '_UPLOADPATHDSC') . '';
         $html .= '</div>';
         $html .= '</fieldset><br>';
 

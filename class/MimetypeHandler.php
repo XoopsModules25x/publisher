@@ -75,13 +75,13 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param CriteriaElement $criteria {@link CriteriaElement}
-     *                                  conditions to be met
+     * @param \CriteriaElement $criteria {@link CriteriaElement}
+     *                                   conditions to be met
      *
-     * @param  bool           $idAsKey
-     * @param  bool           $asObject
+     * @param  bool            $idAsKey
+     * @param  bool            $asObject
      * @return array array of <a href='psi_element://Mimetype'>Mimetype</a> objects
-     *                                  objects
+     *                                   objects
      * @access    public
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
@@ -122,10 +122,10 @@ class MimetypeHandler extends BaseObjectHandler
         $ret = [];
         if ($GLOBALS['xoopsUser'] && !$GLOBALS['publisherIsAdmin']) {
             // For user uploading
-            $crit = new \CriteriaCompo(new \Criteria('mime_user', 1)); //$sql = sprintf("SELECT * FROM %s WHERE mime_user=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
+            $crit = new \CriteriaCompo(new \Criteria('mime_user', 1)); //$sql = sprintf("SELECT * FROM `%s` WHERE mime_user=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
         } elseif ($GLOBALS['xoopsUser'] && $GLOBALS['publisherIsAdmin']) {
             // For admin uploading
-            $crit = new \CriteriaCompo(new \Criteria('mime_admin', 1)); //$sql = sprintf("SELECT * FROM %s WHERE mime_admin=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
+            $crit = new \CriteriaCompo(new \Criteria('mime_admin', 1)); //$sql = sprintf("SELECT * FROM `%s` WHERE mime_admin=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
         } else {
             return $ret;
         }
@@ -191,8 +191,9 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param null|CriteriaElement $criteria {@link CriteriaElement} to match
-     * @param bool                 $join
+     * @param \CriteriaElement $criteria {@link CriteriaElement}
+     *                                   to match
+     * @param bool             $join
      *
      * @return string string SQL query
      * @access    private
@@ -200,7 +201,7 @@ class MimetypeHandler extends BaseObjectHandler
     private function selectQuery(\CriteriaElement $criteria = null, $join = false)
     {
         //        if (!$join) {
-        //            $sql = sprintf('SELECT * FROM %s', $this->db->prefix($this->dbtable));
+        //            $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
         //        } else {
         //            echo "no need for join...";
         //            exit;
@@ -216,7 +217,7 @@ class MimetypeHandler extends BaseObjectHandler
             echo 'no need for join...';
         }
 
-        $sql = sprintf('SELECT * FROM %s', $this->db->prefix($this->dbtable));
+        $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
 
         if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
@@ -278,7 +279,7 @@ class MimetypeHandler extends BaseObjectHandler
      */
     protected function deleteQuery($obj)
     {
-        $sql = sprintf('DELETE FROM %s WHERE mime_id = %u', $this->db->prefix($this->dbtable), $obj->getVar('mime_id'));
+        $sql = sprintf('DELETE FROM `%s` WHERE mime_id = %u', $this->db->prefix($this->dbtable), $obj->getVar('mime_id'));
 
         return $sql;
     }

@@ -54,7 +54,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     protected $idfield = 'id';
 
     /**
-     * @param XoopsDatabase $db
+     * @param \XoopsDatabase $db
      */
     public function init(\XoopsDatabase $db)
     {
@@ -111,11 +111,11 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param CriteriaElement $criteria {@link CriteriaElement}
-     *                                  conditions to be met
-     * @param bool            $idAsKey  Should the department ID be used as array key
+     * @param \CriteriaElement $criteria {@link CriteriaElement}
+     *                                   conditions to be met
+     * @param bool             $idAsKey  Should the department ID be used as array key
      *
-     * @param  bool           $asObject
+     * @param  bool            $asObject
      * @return array array of objects
      * @access  public
      */
@@ -149,8 +149,8 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param XoopsObject $obj
-     * @param bool        $force
+     * @param \XoopsObject $obj
+     * @param bool         $force
      *
      * @return bool|void
      */
@@ -205,7 +205,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      */
     private function selectQuery($criteria = null)
     {
-        $sql = sprintf('SELECT * FROM %s', $this->db->prefix($this->dbtable));
+        $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
         if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
@@ -220,7 +220,8 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * count objects matching a criteria
      *
-     * @param CriteriaElement $criteria {@link CriteriaElement} to match
+     * @param \CriteriaElement $criteria {@link CriteriaElement}
+     *                                   to match
      *
      * @return int count of objects
      * @access public
@@ -242,8 +243,9 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * delete object based on id
      *
-     * @param XoopsObject $obj   {@link XoopsObject} to delete
-     * @param bool        $force override XOOPS delete protection
+     * @param \XoopsObject $obj   {@link XoopsObject}
+     *                            to delete
+     * @param bool         $force override XOOPS delete protection
      *
      * @return bool deletion successful?
      * @access public
@@ -269,10 +271,10 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * delete department matching a set of conditions
      *
-     * @param CriteriaElement $criteria {@link CriteriaElement}
+     * @param \CriteriaElement $criteria {@link CriteriaElement}
      *
-     * @param  bool           $force
-     * @param  bool           $asObject
+     * @param  bool            $force
+     * @param  bool            $asObject
      * @return bool FALSE if deletion failed
      * @access    public
      */
@@ -347,7 +349,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Singleton - prevent multiple instances of this class
      *
-     * @param XoopsDatabase $db
+     * @param \XoopsDatabase $db
      *
      * @return XoopsObject {@link pagesCategoryHandler}
      * @access public

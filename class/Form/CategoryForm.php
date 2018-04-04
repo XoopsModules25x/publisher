@@ -94,9 +94,9 @@ class CategoryForm extends \XoopsThemeForm
 
         // EDITOR
         $groups         = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $gpermHandler   = $this->helper->getHandler('Groupperm');
+        $grouppermHandler   = $this->helper->getHandler('Groupperm');
         $moduleId       = $this->helper->getModule()->mid();
-        $allowedEditors = Publisher\Utility::getEditors($gpermHandler->getItemIds('editors', $groups, $moduleId));
+        $allowedEditors = Publisher\Utility::getEditors($grouppermHandler->getItemIds('editors', $groups, $moduleId));
         $nohtml         = false;
         if (count($allowedEditors) > 0) {
             $editor = Request::getString('editor', '', 'POST');

@@ -153,15 +153,15 @@ class PermissionHandler extends \XoopsObjectHandler
     {
         $result   = true;
         $moduleId = $this->helper->getModule()->getVar('mid');
-        /* @var  $gpermHandler XoopsGroupPermHandler */
-        $gpermHandler = xoops_getHandler('groupperm');
+        /* @var  $grouppermHandler XoopsGroupPermHandler */
+        $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
-        $gpermHandler->deleteByModule($moduleId, $permName, $itemId);
+        $grouppermHandler->deleteByModule($moduleId, $permName, $itemId);
         // Save the new permissions
         if (count($groups) > 0) {
             foreach ($groups as $groupId) {
                 echo $groupId . '-';
-                echo $gpermHandler->addRight($permName, $itemId, $groupId, $moduleId);
+                echo $grouppermHandler->addRight($permName, $itemId, $groupId, $moduleId);
             }
         }
 
@@ -180,8 +180,8 @@ class PermissionHandler extends \XoopsObjectHandler
     public function deletePermissions($itemId, $gpermName)
     {
         $result       = true;
-        $gpermHandler = xoops_getHandler('groupperm');
-        $gpermHandler->deleteByModule($this->helper->getModule()->getVar('mid'), $gpermName, $itemId);
+        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler->deleteByModule($this->helper->getModule()->getVar('mid'), $gpermName, $itemId);
 
         return $result;
     }

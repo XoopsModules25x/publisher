@@ -43,8 +43,8 @@ if (0 == $totalCategories) {
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
 require_once $GLOBALS['xoops']->path('header.php');
 require_once PUBLISHER_ROOT_PATH . '/footer.php';
-/* @var  $gpermHandler XoopsGroupPermHandler */
-$gpermHandler = xoops_getHandler('groupperm');
+/* @var  $grouppermHandler XoopsGroupPermHandler */
+$grouppermHandler = xoops_getHandler('groupperm');
 
 // Creating the top categories objects
 $categoriesObj = $helper->getHandler('Category')->getCategories($helper->getConfig('idxcat_cat_perpage'), $catstart);

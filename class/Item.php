@@ -940,7 +940,7 @@ class Item extends \XoopsObject
      * @param string $title
      * @param bool   $checkperm
      *
-     * @return ItemForm
+     * @return \XoopsModules\Publisher\Form\ItemForm
      */
     public function getForm($title = 'default', $checkperm = true)
     {

@@ -36,8 +36,8 @@ $sortsel   = Request::getString('sortsel', Request::getString('sortsel', 'itemid
 $ordersel  = Request::getString('ordersel', Request::getString('ordersel', 'DESC', 'GET'), 'POST');
 
 $module_id = $helper->getModule()->mid();
-/* @var  $gpermHandler XoopsGroupPermHandler */
-$gpermHandler = xoops_getHandler('groupperm');
+/* @var  $grouppermHandler XoopsGroupPermHandler */
+$grouppermHandler = xoops_getHandler('groupperm');
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
 // Code for the page

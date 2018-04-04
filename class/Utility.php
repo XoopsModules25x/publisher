@@ -751,15 +751,15 @@ class Utility
         $result = true;
 
         $moduleId = $helper->getModule()->getVar('mid');
-        /* @var  $gpermHandler XoopsGroupPermHandler */
-        $gpermHandler = xoops_getHandler('groupperm');
+        /* @var  $grouppermHandler XoopsGroupPermHandler */
+        $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
-        $gpermHandler->deleteByModule($moduleId, $permName, $categoryId);
+        $grouppermHandler->deleteByModule($moduleId, $permName, $categoryId);
 
         // Save the new permissions
         if (count($groups) > 0) {
             foreach ($groups as $groupId) {
-                $gpermHandler->addRight($permName, $categoryId, $groupId, $moduleId);
+                $grouppermHandler->addRight($permName, $categoryId, $groupId, $moduleId);
             }
         }
 
@@ -1261,10 +1261,10 @@ class Utility
             $rating2     = number_format($currentRating / $count, 2);
         }
         $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        /* @var $gpermHandler XoopsGroupPermHandler */
-        $gpermHandler = $helper->getHandler('Groupperm');
+        /* @var $grouppermHandler XoopsGroupPermHandler */
+        $grouppermHandler = $helper->getHandler('Groupperm');
 
-        if (!$gpermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
+        if (!$grouppermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
             $staticRater   = [];
             $staticRater[] .= "\n" . '<div class="publisher_ratingblock">';
             $staticRater[] .= '<div id="unit_long' . $itemId . '">';

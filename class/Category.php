@@ -344,7 +344,7 @@ class Category extends \XoopsObject
     /**
      * @param int $subCatsCount
      *
-     * @return Publisher\CategoryForm
+     * @return \XoopsModules\Publisher\Form\CategoryForm
      */
     public function getForm($subCatsCount = 4)
     {

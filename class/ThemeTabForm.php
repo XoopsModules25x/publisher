@@ -122,7 +122,7 @@ class ThemeTabForm extends \XoopsForm
     //function render() {}
 
     /**
-     * @param XoopsTpl $tpl
+     * @param \XoopsTpl $tpl
      */
     public function assign(\XoopsTpl $tpl)
     {
@@ -479,7 +479,7 @@ class ThemeTabForm extends \XoopsForm
     /**
      * make an element "required"
      *
-     * @param XoopsFormElement $formElement reference to a {@link XoopsFormElement}
+     * @param \XoopsFormElement $formElement reference to a {@link XoopsFormElement}
      */
     public function setRequired(\XoopsFormElement $formElement)
     {

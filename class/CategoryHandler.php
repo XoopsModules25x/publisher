@@ -75,7 +75,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * insert a new category in the database
      *
-     * @param  XoopsObject $category reference to the {@link Publisher\Category}
+     * @param \XoopsObject $category reference to the {@link Publisher\Category}
      * @param  bool        $force
      * @return bool        FALSE if failed, TRUE if already present and unchanged or successful
      */
@@ -103,8 +103,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * delete a category from the database
      *
-     * @param XoopsObject $category reference to the category to delete
-     * @param bool        $force
+     * @param \XoopsObject $category reference to the category to delete
+     * @param bool         $force
      *
      * @return bool FALSE if failed.
      */
@@ -368,10 +368,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * delete categories matching a set of conditions
      *
-     * @param CriteriaElement $criteria {@link CriteriaElement}
+     * @param \CriteriaElement $criteria {@link CriteriaElement}
      *
-     * @param  bool           $force
-     * @param  bool           $asObject
+     * @param  bool            $force
+     * @param  bool            $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)

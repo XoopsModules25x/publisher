@@ -59,8 +59,8 @@ class FileHandler extends \XoopsPersistableObjectHandler
     /**
      * delete a file from the database
      *
-     * @param XoopsObject $file reference to the file to delete
-     * @param bool        $force
+     * @param \XoopsObject $file reference to the file to delete
+     * @param bool         $force
      *
      * @return bool FALSE if failed.
      */
@@ -78,7 +78,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
     /**
      * delete files related to an item from the database
      *
-     * @param XoopsObject $itemObj reference to the item which files to delete
+     * @param \XoopsObject $itemObj reference to the item which files to delete
      *
      * @return bool
      */

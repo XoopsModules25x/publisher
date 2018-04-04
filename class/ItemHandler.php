@@ -59,7 +59,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * @param bool $isNew
      *
-     * @return XoopsObject
+     * @return \XoopsObject
      */
     public function create($isNew = true)
     {
@@ -93,8 +93,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * insert a new item in the database
      *
-     * @param XoopsObject $item reference to the {@link Item} object
-     * @param bool        $force
+     * @param \XoopsObject $item reference to the {@link Item}
+     *                           object
+     * @param bool         $force
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
@@ -129,8 +130,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * delete an item from the database
      *
-     * @param XoopsObject $item reference to the ITEM to delete
-     * @param bool        $force
+     * @param \XoopsObject $item reference to the ITEM to delete
+     * @param bool         $force
      *
      * @return bool FALSE if failed.
      */
@@ -157,7 +158,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve items from the database
      *
-     * @param  CriteriaElement $criteria     {@link CriteriaElement} conditions to be met
+     * @param \CriteriaElement $criteria     {@link CriteriaElement}
+    conditions to be met
      * @param  bool|string     $idKey        what shall we use as array key ? none, itemid, categoryid
      * @param  bool            $as_object
      * @param  string          $notNullFields
@@ -218,8 +220,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * count items matching a condition
      *
-     * @param CriteriaElement $criteria {@link CriteriaElement} to match
-     * @param string          $notNullFields
+     * @param \CriteriaElement $criteria {@link CriteriaElement}
+    to match
+     * @param string           $notNullFields
      *
      * @return int count of items
      */
@@ -552,10 +555,10 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * delete Items matching a set of conditions
      *
-     * @param CriteriaElement $criteria {@link CriteriaElement}
+     * @param \CriteriaElement $criteria {@link CriteriaElement}
      *
-     * @param  bool           $force
-     * @param  bool           $asObject
+     * @param  bool            $force
+     * @param  bool            $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
@@ -624,8 +627,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     {
         //        global $publisherIsAdmin;
         $ret = [];
-        /* @var  $gpermHandler XoopsGroupPermHandler */
-        $gpermHandler = xoops_getHandler('groupperm');
+        /* @var  $grouppermHandler XoopsGroupPermHandler */
+        $grouppermHandler = xoops_getHandler('groupperm');
         $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $searchin     = empty($searchin) ? ['title', 'body', 'summary'] : (is_array($searchin) ? $searchin : [$searchin]);
         if (in_array('all', $searchin) || 0 == count($searchin)) {
@@ -670,7 +673,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (!$GLOBALS['publisherIsAdmin'] && (count($categories) > 0)) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
-            $categoriesGranted = $gpermHandler->getItemIds('category_read', $groups, $this->helper->getModule()->getVar('mid'));
+            $categoriesGranted = $grouppermHandler->getItemIds('category_read', $groups, $this->helper->getModule()->getVar('mid'));
             if (count($categories) > 0) {
                 $categoriesGranted = array_intersect($categoriesGranted, $categories);
             }

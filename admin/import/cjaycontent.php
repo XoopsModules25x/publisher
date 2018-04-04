@@ -93,8 +93,8 @@ if ('go' === $op) {
     $moduleHandler         = xoops_getHandler('module');
     $moduleObj             = $moduleHandler->getByDirname('cjaycontent');
     $cjaycontent_module_id = $moduleObj->getVar('mid');
-    /* @var  $gpermHandler XoopsGroupPermHandler */
-    $gpermHandler = xoops_getHandler('groupperm');
+    /* @var  $grouppermHandler XoopsGroupPermHandler */
+    $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_articles = 0;
 

@@ -75,9 +75,8 @@ trait FilesManagement
      * @author      Aidan Lister <aidan@php.net>
      * @version     1.0.1
      * @link        http://aidanlister.com/2004/04/recursively-copying-directories-in-php/
-     * @param       string   $source    Source path
-     * @param       string   $dest      Destination path
-     * @param       int      $permissions New folder creation permissions
+     * @param       string $source Source path
+     * @param       string $dest   Destination path
      * @return      bool     Returns true on success, false on failure
      */
     public static function xcopy($source, $dest)

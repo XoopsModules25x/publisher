@@ -269,7 +269,7 @@ class File extends \XoopsObject
     }
 
     /**
-     * @return FileForm
+     * @return \XoopsModules\Publisher\Form\FileForm
      */
     public function getForm()
     {

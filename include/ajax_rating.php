@@ -35,21 +35,21 @@ $itemid = Request::getInt('itemid', 0, 'GET');
 
 $helper->loadLanguage('main');
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var $gpermHandler XoopsGroupPermHandler */
-$gpermHandler = $helper->getHandler('Groupperm');
+/* @var $grouppermHandler XoopsGroupPermHandler */
+$grouppermHandler = $helper->getHandler('Groupperm');
 /* @var $configHandler XoopsConfigHandler */
 $configHandler = xoops_getHandler('config');
 $module_id     = $helper->getModule()->getVar('mid');
 
 //Checking permissions
-//if (!$helper->getConfig('perm_rating') || !$gpermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
+//if (!$helper->getConfig('perm_rating') || !$grouppermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
 //    $output = "unit_long$itemid|" . _NOPERM . "\n";
 //    echo $output;
 //    exit();
 //}
 
 try {
-    if (!$helper->getConfig('perm_rating') || !$gpermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
+    if (!$helper->getConfig('perm_rating') || !$grouppermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
         throw new RuntimeException(_NOPERM);
     }
 } catch (\Exception $e) {

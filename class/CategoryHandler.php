@@ -190,7 +190,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         }
         $criteria->setStart($start);
         $criteria->setLimit($limit);
-        $ret =& $this->getObjects($criteria, $idAsKey);
+        $ret = $this->getObjects($criteria, $idAsKey);
 
         return $ret;
     }
@@ -357,7 +357,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         }
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
-        $subcats =& $this->getObjects($criteria, true);
+        $subcats = $this->getObjects($criteria, true);
         foreach ($subcats as $subcat) {
             $ret[$subcat->getVar('parentid')][$subcat->getVar('categoryid')] = $subcat;
         }
@@ -376,7 +376,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
-        $categories =& $this->getObjects($criteria);
+        $categories = $this->getObjects($criteria);
         foreach ($categories as $category) {
             if (!$this->delete($category)) {
                 return false;

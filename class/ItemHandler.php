@@ -521,7 +521,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $criteria->setStart($start);
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $ret =& $this->getObjects($criteria, $idKey, $notNullFields);
+        $ret = $this->getObjects($criteria, $idKey, $notNullFields);
 
         return $ret;
     }
@@ -564,7 +564,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
         //todo resource consuming, use get list instead?
-        $items =& $this->getObjects($criteria);
+        $items = $this->getObjects($criteria);
         foreach ($items as $item) {
             $this->delete($item);
         }
@@ -713,7 +713,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $order = 'DESC';
         }
         $criteria->setOrder($order);
-        $ret =& $this->getObjects($criteria);
+        $ret = $this->getObjects($criteria);
 
         return $ret;
     }

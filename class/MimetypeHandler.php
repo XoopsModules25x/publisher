@@ -132,7 +132,7 @@ class MimetypeHandler extends BaseObjectHandler
         if ($mimeExt) {
             $crit->add(new \Criteria('mime_ext', $mimeExt));
         }
-        $result =& $this->getObjects($crit);
+        $result = $this->getObjects($crit);
         // if no records from db, return empty array
         if (!$result) {
             return $ret;

@@ -479,7 +479,7 @@ class Timthumb
 
             return false;
         }
-        if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+       if (\Xmf\Request::hasVar('HTTP_IF_MODIFIED_SINCE', 'SERVER')) {
             $this->debug(3, 'Got a conditional get');
             $mtime = false;
             //We've already checked if the real file exists in the constructor

@@ -241,7 +241,7 @@ class MimetypeHandler extends BaseObjectHandler
             ${$k} = $v;
         }
         $sql = sprintf(
-            'INSERT INTO %s (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
+            'INSERT INTO `%s` (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
             (%u, %s, %s, %s, %u, %u)',
             $this->db->prefix($this->dbtable),
             $obj->getVar('mime_id'),
@@ -266,7 +266,7 @@ class MimetypeHandler extends BaseObjectHandler
         foreach ($obj->cleanVars as $k => $v) {
             ${$k} = $v;
         }
-        $sql = sprintf('UPDATE %s SET mime_ext = %s, mime_types = %s, mime_name = %s, mime_admin = %u, mime_user = %u WHERE
+        $sql = sprintf('UPDATE `%s` SET mime_ext = %s, mime_types = %s, mime_name = %s, mime_admin = %u, mime_user = %u WHERE
             mime_id = %u', $this->db->prefix($this->dbtable), $this->db->quoteString($obj->getVar('mime_ext')), $this->db->quoteString($obj->getVar('mime_types')), $this->db->quoteString($obj->getVar('mime_name')), $obj->getVar('mime_admin'), $obj->getVar('mime_user'), $obj->getVar('mime_id'));
 
         return $sql;

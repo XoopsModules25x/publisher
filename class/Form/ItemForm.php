@@ -27,7 +27,7 @@ use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
-require_once __DIR__ . '/../../include/common.php';
+require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
 xoops_load('XoopsFormLoader');
 xoops_load('XoopsLists');

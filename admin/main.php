@@ -25,8 +25,8 @@ use XoopsModules\Publisher\Constants;
 require_once __DIR__ . '/admin_header.php';
 require_once $GLOBALS['xoops']->path('class/xoopslists.php');
 require_once $GLOBALS['xoops']->path('class/pagenav.php');
-// require_once __DIR__ . '/../class/Utility.php';
-require_once __DIR__ . '/../include/common.php';
+// require_once  dirname(__DIR__) . '/class/Utility.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 $itemid = Request::getInt('itemid', 0, 'POST');
 

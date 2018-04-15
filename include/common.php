@@ -31,8 +31,8 @@ $moduleDirNameUpper = strtoupper($moduleDirName);
 /** @var Publisher\Utility $utility */
 
 $db     = \XoopsDatabaseFactory::getDatabaseConnection();
-$helper = Publisher\Helper::getInstance();
-$utility = new Publisher\Utility();
+$helper = \XoopsModules\Publisher\Helper::getInstance();
+$utility = new \XoopsModules\Publisher\Utility();
 //$configurator = new Publisher\Common\Configurator();
 
 $helper->loadLanguage('common');

@@ -211,7 +211,7 @@ class Utility
             foreach ($subCategoriesObj as $key => $thiscat) {
                 self::displayCategory($thiscat, $level);
             }
-            unset($key, $thiscat);
+            unset($key);
         }
         //        unset($categoryObj);
     }
@@ -698,7 +698,7 @@ class Utility
 
         static $publisherIsAdmin;
 
-        if (isset($publisherIsAdmin)) {
+        if (null !== $publisherIsAdmin) {
             return $publisherIsAdmin;
         }
 
@@ -825,7 +825,7 @@ class Utility
      */
     public static function setCookieVar($name, $value, $time = 0)
     {
-        if (0 == $time) {
+        if (0 === $time) {
             $time = time() + 3600 * 24 * 365;
         }
         setcookie($name, $value, $time, '/');

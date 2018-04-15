@@ -25,7 +25,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /**
  * BaseObjectHandler class
@@ -152,7 +152,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      * @param \XoopsObject $obj
      * @param bool         $force
      *
-     * @return bool|void
+     * @return bool
      */
     public function insert(\XoopsObject $obj, $force = false)// insert($obj, $force = false)
     {
@@ -198,12 +198,12 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param CriteriaElement $criteria {@link CriteriaElement} to match
+     * @param \CriteriaElement $criteria {@link \CriteriaElement} to match
      *
      * @return string SQL query
      * @access private
      */
-    private function selectQuery($criteria = null)
+    private function selectQuery(\CriteriaElement $criteria = null)
     {
         $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
         if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {

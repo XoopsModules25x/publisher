@@ -22,7 +22,7 @@ use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
 require_once __DIR__ . '/admin_header.php';
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 require_once $GLOBALS['xoops']->path('class/xoopsform/grouppermform.php');
 $myts = \MyTextSanitizer::getInstance();
 

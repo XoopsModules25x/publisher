@@ -25,7 +25,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
-require_once __DIR__ . '/../../include/common.php';
+require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
 xoops_load('XoopsFormLoader');
 require_once $GLOBALS['xoops']->path('class/tree.php');
@@ -70,7 +70,7 @@ class CategoryForm extends \XoopsThemeForm
 
     public function createElements()
     {
-        require_once __DIR__ . '/../../include/common.php';
+        require_once  dirname(dirname(__DIR__)) . '/include/common.php';
         // Category
         $criteria = new \Criteria(null);
         $criteria->setSort('weight');

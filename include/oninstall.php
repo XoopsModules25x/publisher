@@ -24,7 +24,7 @@ use XoopsModules\Publisher\Common;
  */
 function xoops_module_pre_install_publisher(\XoopsModule $module)
 {
-    include __DIR__ . '/../preloads/autoloader.php';
+    include  dirname(__DIR__) . '/preloads/autoloader.php';
     /** @var Publisher\Utility $utility */
     $utility      = new Publisher\Utility();
 
@@ -50,7 +50,7 @@ function xoops_module_pre_install_publisher(\XoopsModule $module)
  */
 function xoops_module_install_publisher(\XoopsModule $module)
 {
-    include __DIR__ . '/../preloads/autoloader.php';
+    include  dirname(__DIR__) . '/preloads/autoloader.php';
 
     $moduleDirName = basename(dirname(__DIR__));
 
@@ -77,7 +77,7 @@ function xoops_module_install_publisher(\XoopsModule $module)
 
     //  ---  COPY blank.png FILES ---------------
     if (count($configurator->copyBlankFiles) > 0) {
-        $file = __DIR__ . '/../assets/images/blank.png';
+        $file =  dirname(__DIR__) . '/assets/images/blank.png';
         foreach (array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
             $utility::copyFile($file, $dest);
@@ -87,7 +87,7 @@ function xoops_module_install_publisher(\XoopsModule $module)
 
     //  ---  COPY test folder files ---------------
     if (count($configurator->copyTestFolders) > 0) {
-        //        $file = __DIR__ . '/../testdata/images/';
+        //        $file =  dirname(__DIR__) . '/testdata/images/';
         foreach (array_keys($configurator->copyTestFolders) as $i) {
             $src  = $configurator->copyTestFolders[$i][0];
             $dest = $configurator->copyTestFolders[$i][1];

@@ -238,6 +238,7 @@ switch ($op) {
                 // Subscribe the user to On Published notification, if requested
                 if ($itemObj->getVar('notifypub')) {
                     require_once $GLOBALS['xoops']->path('include/notification_constants.php');
+                    /** @var \XoopsNotificationHandler $notificationHandler */
                     $notificationHandler = xoops_getHandler('notification');
                     $notificationHandler->subscribe('item', $itemObj->itemid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }

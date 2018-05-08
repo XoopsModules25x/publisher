@@ -26,6 +26,7 @@ require_once __DIR__ . '/admin_header.php';
 //require_once dirname(__DIR__) . '/class/Utility.php';
 
 xoops_cp_header();
+/** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 $helper->loadLanguage('main');
 $adminObject = \Xmf\Module\Admin::getInstance();

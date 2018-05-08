@@ -22,7 +22,7 @@ use Xmf\Request;
 use XoopsModules\Publisher;
 
 require_once __DIR__ . '/header.php';
-$helper = Publisher\Helper::getInstance();
+
 $helper->loadLanguage('admin');
 //xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 

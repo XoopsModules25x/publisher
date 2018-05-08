@@ -33,6 +33,7 @@ require_once  dirname(__DIR__) . '/include/common.php';
  */
 function publisher_latest_files_show($options)
 {
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
 
     /**

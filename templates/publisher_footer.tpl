@@ -1,5 +1,6 @@
 <{if $isAdmin == 1}>
-    <div class="publisher_adminlinks"><{$publisher_adminpage}></div><{/if}>
+    <div class="publisher_adminlinks"><{$publisher_adminpage}></div>
+<{/if}>
 
 <{if ($commentatarticlelevel && $item.cancomment) || $com_rule != 0}>
     <table border="0" width="100%" cellspacing="1" cellpadding="0" align="center">
@@ -12,9 +13,12 @@
             </div>
         </td>
     </tr>
-    </table><{/if}>
+    </table>
+<{/if}>
 
 <{if $rssfeed_link != ""}>
-    <div id="publisher_rpublisher_feed"><{$rssfeed_link}></div><{/if}>
+    <div id="publisher_rpublisher_feed"><{$rssfeed_link}></div>
+<{/if}>
 
 <{include file='db:system_notification_select.tpl'}>
+

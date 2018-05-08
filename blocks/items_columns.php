@@ -35,6 +35,7 @@ require_once  dirname(__DIR__) . '/include/common.php';
 function publisher_items_columns_show($options)
 {
     //    global $xoTheme;
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
 
     //Column Settings

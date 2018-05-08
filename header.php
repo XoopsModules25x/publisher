@@ -18,10 +18,15 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
+use XoopsModules\Publisher;
+
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
 $myts = \MyTextSanitizer::getInstance();
+
+/** @var Publisher\Helper $helper */
+$helper = Publisher\Helper::getInstance();
 
 if ('none' !== $helper->getConfig('seo_url_rewrite')) {
     require_once PUBLISHER_ROOT_PATH . '/include/seo.inc.php';

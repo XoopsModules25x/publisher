@@ -21,6 +21,7 @@ use Xmf\Request;
 use XoopsModules\Publisher;
 
 require_once dirname(__DIR__) . '/header.php';
+/** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 
 error_reporting(0);

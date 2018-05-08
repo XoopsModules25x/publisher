@@ -28,6 +28,7 @@ $myts = \MyTextSanitizer::getInstance();
 
 Publisher\Utility::cpHeader();
 //publisher_adminMenu(3, _AM_PUBLISHER_PERMISSIONS);
+/** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 
 // View Categories permissions

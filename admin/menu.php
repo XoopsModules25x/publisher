@@ -25,6 +25,7 @@ include  dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 
+/** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 
 // get path to icons

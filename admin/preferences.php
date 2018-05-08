@@ -23,7 +23,8 @@ use XoopsModules\Publisher;
 
 require_once __DIR__ . '/admin_header.php';
 
-$helper      = Publisher\Helper::getInstance();
+/** @var Publisher\Helper $helper */
+$helper = Publisher\Helper::getInstance();
 
 $module  = $helper->getModule();
 $modId     = $module->mid();

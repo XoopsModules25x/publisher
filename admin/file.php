@@ -32,6 +32,7 @@ $op = Request::getString('op');
  */
 function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
 {
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 

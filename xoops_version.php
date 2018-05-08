@@ -34,8 +34,8 @@ $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = [
     'version'             => '1.06',
-    'module_status'       => 'Beta 2',
-    'release_date'        => '2018/03/14',
+    'module_status'       => 'Beta 4',
+    'release_date'        => '2018/05/07',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -122,7 +122,8 @@ $modversion['hasSearch']      = 1;
 $modversion['search']['file'] = 'include/search.inc.php';
 $modversion['search']['func'] = 'publisher_search';
 
-if (is_object($GLOBALS['xoopsModule']) && $GLOBALS['xoopsModule']->getVar('dirname') == $modversion['dirname']) {
+global $xoopsModule;
+if (is_object($xoopsModule) && $xoopsModule->dirname() == $modversion['dirname'] && $xoopsModule->isactive()) {
     $isAdmin = false;
     if (is_object($GLOBALS['xoopsUser'])) {
         $isAdmin = $GLOBALS['xoopsUser']->isAdmin($GLOBALS['xoopsModule']->getVar('mid'));
@@ -1301,17 +1302,17 @@ $modversion['notification']['lookup_file'] = 'include/notification.inc.php';
 $modversion['notification']['lookup_func'] = 'publisher_notify_iteminfo';
 
 $modversion['notification']['category'][] = [
-    'name'           => 'global_item',
+    'name'           => 'global',
     'title'          => _MI_PUBLISHER_GLOBAL_ITEM_NOTIFY,
     'description'    => _MI_PUBLISHER_GLOBAL_ITEM_NOTIFY_DSC,
-    'subscribe_from' => "array('index.php', 'category.php', 'item.php')"
+    'subscribe_from' => ['index.php', 'category.php', 'item.php']
 ];
 
 $modversion['notification']['category'][] = [
-    'name'           => 'category_item',
+    'name'           => 'category',
     'title'          => _MI_PUBLISHER_CATEGORY_ITEM_NOTIFY,
     'description'    => _MI_PUBLISHER_CATEGORY_ITEM_NOTIFY_DSC,
-    'subscribe_from' => "array('index.php', 'category.php', 'item.php')",
+    'subscribe_from' => ['index.php', 'category.php', 'item.php'],
     'item_name'      => 'categoryid',
     'allow_bookmark' => 1
 ];
@@ -1319,14 +1320,14 @@ $modversion['notification']['category'][] = [
     'name'           => 'item',
     'title'          => _MI_PUBLISHER_ITEM_NOTIFY,
     'description'    => _MI_PUBLISHER_ITEM_NOTIFY_DSC,
-    'subscribe_from' => "array('item.php')",
+    'subscribe_from' => ['item.php'],
     'item_name'      => 'itemid',
     'allow_bookmark' => 1
 ];
 
 $modversion['notification']['event'][] = [
     'name'          => 'category_created',
-    'category'      => 'global_item',
+    'category'      => 'global',
     'title'         => _MI_PUBLISHER_GLOBAL_ITEM_CATEGORY_CREATED_NOTIFY,
     'caption'       => _MI_PUBLISHER_GLOBAL_ITEM_CATEGORY_CREATED_NOTIFY_CAP,
     'description'   => _MI_PUBLISHER_GLOBAL_ITEM_CATEGORY_CREATED_NOTIFY_DSC,
@@ -1335,7 +1336,7 @@ $modversion['notification']['event'][] = [
 ];
 $modversion['notification']['event'][] = [
     'name'          => 'submitted',
-    'category'      => 'global_item',
+    'category'      => 'global',
     'admin_only'    => 1,
     'title'         => _MI_PUBLISHER_GLOBAL_ITEM_SUBMITTED_NOTIFY,
     'caption'       => _MI_PUBLISHER_GLOBAL_ITEM_SUBMITTED_NOTIFY_CAP,
@@ -1345,7 +1346,7 @@ $modversion['notification']['event'][] = [
 ];
 $modversion['notification']['event'][] = [
     'name'          => 'published',
-    'category'      => 'global_item',
+    'category'      => 'global',
     'title'         => _MI_PUBLISHER_GLOBAL_ITEM_PUBLISHED_NOTIFY,
     'caption'       => _MI_PUBLISHER_GLOBAL_ITEM_PUBLISHED_NOTIFY_CAP,
     'description'   => _MI_PUBLISHER_GLOBAL_ITEM_PUBLISHED_NOTIFY_DSC,
@@ -1354,7 +1355,7 @@ $modversion['notification']['event'][] = [
 ];
 $modversion['notification']['event'][] = [
     'name'          => 'submitted',
-    'category'      => 'category_item',
+    'category'      => 'category',
     'admin_only'    => 1,
     'title'         => _MI_PUBLISHER_CATEGORY_ITEM_SUBMITTED_NOTIFY,
     'caption'       => _MI_PUBLISHER_CATEGORY_ITEM_SUBMITTED_NOTIFY_CAP,
@@ -1364,7 +1365,7 @@ $modversion['notification']['event'][] = [
 ];
 $modversion['notification']['event'][] = [
     'name'          => 'published',
-    'category'      => 'category_item',
+    'category'      => 'category',
     'title'         => _MI_PUBLISHER_CATEGORY_ITEM_PUBLISHED_NOTIFY,
     'caption'       => _MI_PUBLISHER_CATEGORY_ITEM_PUBLISHED_NOTIFY_CAP,
     'description'   => _MI_PUBLISHER_CATEGORY_ITEM_PUBLISHED_NOTIFY_DSC,

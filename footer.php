@@ -19,10 +19,14 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use XoopsModules\Publisher;
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 require_once __DIR__ . '/include/common.php';
 
+/** @var Publisher\Helper $helper */
+$helper = Publisher\Helper::getInstance();
 
 $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');

@@ -36,6 +36,7 @@ function publisher_latest_news_show($options)
 {
     $block = [];
 
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     $helper->loadLanguage('main');
 //    xoops_loadLanguage('main', 'publisher');

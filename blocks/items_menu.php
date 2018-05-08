@@ -35,6 +35,7 @@ function publisher_items_menu_show($options)
 {
     $block = [];
 
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
 
     // Getting all top cats

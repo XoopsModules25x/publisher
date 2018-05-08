@@ -32,6 +32,7 @@ require_once  dirname(__DIR__) . '/include/common.php';
  */
 function publisher_category_items_sel_show($options)
 {
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
 
     $block = $item = [];

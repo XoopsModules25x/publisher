@@ -393,6 +393,7 @@ require_once __DIR__ . '/admin_footer.php';
  */
 function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 {
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     global $publisherCurrentPage;
 

@@ -32,6 +32,9 @@ if (0 == $itemId) {
     //    exit();
 }
 
+/** @var Publisher\Helper $helper */
+$helper = Publisher\Helper::getInstance();
+
 // Creating the item object for the selected item
 $itemObj = $helper->getHandler('Item')->get($itemId);
 
@@ -51,6 +54,7 @@ require_once $GLOBALS['xoops']->path('header.php');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
+
 
 require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
@@ -259,10 +263,4 @@ if ($helper->getConfig('perm_rating')) {
 }
 
 $xoopsTpl->assign('item', $item);
-require_once $GLOBALS['xoops']->path('footer.php');
-?>
-<!--<script type="text/javascript">-->
-<!--    $(document).ready(function () {-->
-<!--        $("img").addClass("img-responsive");-->
-<!--    });-->
-<!--</script>-->
+require_once XOOPS_ROOT_PATH . '/footer.php';

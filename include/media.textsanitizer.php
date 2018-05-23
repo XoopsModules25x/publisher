@@ -88,7 +88,7 @@ class MyTextSanitizerExtension
         $rp .= "<param name='QUALITY' value='high'>";
         $rp .= "<PARAM NAME='bgcolor' VALUE='#FFFFFF'>";
         $rp .= "<param name='wmode' value='transparent'>";
-        $rp .= "<embed src='{$url}' width='{$width}' height='{$height}' quality='high' bgcolor='#FFFFFF' wmode='transparent'  pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash'></embed>";
+        $rp .= "<embed src='{$url}' width='{$width}' height='{$height}' quality='high' bgcolor='#FFFFFF' wmode='transparent'  pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash'>";
         $rp .= '</object>';
 
         return $rp;

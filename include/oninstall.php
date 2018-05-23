@@ -68,7 +68,7 @@ function xoops_module_install_publisher(\XoopsModule $module)
 
 
     //  ---  CREATE FOLDERS ---------------
-    if (count($configurator->uploadFolders) > 0) {
+    if (is_array($configurator->uploadFolders) && count($configurator->uploadFolders) > 0) {
         //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
         foreach (array_keys($configurator->uploadFolders) as $i) {
             $utility::createFolder($configurator->uploadFolders[$i]);
@@ -76,7 +76,7 @@ function xoops_module_install_publisher(\XoopsModule $module)
     }
 
     //  ---  COPY blank.png FILES ---------------
-    if (count($configurator->copyBlankFiles) > 0) {
+    if (is_array($configurator->copyBlankFiles) && count($configurator->copyBlankFiles) > 0) {
         $file =  dirname(__DIR__) . '/assets/images/blank.png';
         foreach (array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
@@ -86,7 +86,7 @@ function xoops_module_install_publisher(\XoopsModule $module)
 
 
     //  ---  COPY test folder files ---------------
-    if (count($configurator->copyTestFolders) > 0) {
+    if (is_array($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
         //        $file =  dirname(__DIR__) . '/testdata/images/';
         foreach (array_keys($configurator->copyTestFolders) as $i) {
             $src  = $configurator->copyTestFolders[$i][0];

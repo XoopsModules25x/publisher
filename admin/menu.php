@@ -21,7 +21,7 @@
 use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
-include  dirname(__DIR__) . '/preloads/autoloader.php';
+require_once dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 
@@ -64,6 +64,13 @@ $adminmenu = [
         'title' => _MI_PUBLISHER_ADMENU4,
         'link'  => 'admin/permissions.php',
         'icon'  => $pathIcon32 . '/permissions.png'
+    ],
+
+// Blocks Admin
+    [
+        'title' => _MI_PUBLISHER_ADMENU5,
+        'link'  => 'admin/blocksadmin.php',
+        'icon'  => $pathIcon32 . '/block.png'
     ],
 
     // Mimetypes

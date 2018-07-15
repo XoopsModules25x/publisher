@@ -22,7 +22,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -32,7 +32,8 @@ require_once __DIR__ . '/../include/common.php';
 function publisher_items_spot_show($options)
 {
     //    global $xoTheme;
-    $helper         = Publisher\Helper::getInstance();
+    /** @var Publisher\Helper $helper */
+    $helper = Publisher\Helper::getInstance();
     $optDisplayLast    = $options[0];
     $optItemsCount     = $options[1];
     $optCategoryId     = $options[2];
@@ -51,7 +52,7 @@ function publisher_items_spot_show($options)
         $i          = 1;
         $itemsCount = count($itemsObj);
         if ($itemsObj) {
-            if ($optCategoryId != -1 && $optCatImage) {
+            if (-1 != $optCategoryId && $optCatImage) {
                 $cat                     = $helper->getHandler('Category')->get($optCategoryId);
                 $category['name']        = $cat->name();
                 $category['categoryurl'] = $cat->getCategoryUrl();
@@ -127,6 +128,7 @@ function publisher_items_spot_edit($options)
     $autoEle   = new \XoopsFormRadioYN(_MB_PUBLISHER_AUTO_LAST_ITEMS, 'options[0]', $options[0]);
     $countEle  = new \XoopsFormText(_MB_PUBLISHER_LAST_ITEMS_COUNT, 'options[1]', 2, 255, $options[1]);
     $catEle    = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[2], 0, true, 'options[2]'));
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     $criteria  = new \CriteriaCompo();
     $criteria->setSort('datesub');

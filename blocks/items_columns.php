@@ -23,7 +23,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /***
  * Function To Show Publisher Items From Categories In Their Own Columns
@@ -35,6 +35,7 @@ require_once __DIR__ . '/../include/common.php';
 function publisher_items_columns_show($options)
 {
     //    global $xoTheme;
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
 
     //Column Settings

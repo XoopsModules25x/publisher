@@ -102,8 +102,8 @@ if ('go' === $op) {
     $moduleHandler          = xoops_getHandler('module');
     $moduleObj              = $moduleHandler->getByDirname('smartsection');
     $smartsection_module_id = $moduleObj->getVar('mid');
-    /* @var  $gpermHandler XoopsGroupPermHandler */
-    $gpermHandler = xoops_getHandler('groupperm');
+    /* @var  $grouppermHandler XoopsGroupPermHandler */
+    $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
@@ -202,9 +202,9 @@ if ('go' === $op) {
         }
 
         // Saving category permissions
-        $groupsIds = $gpermHandler->getGroupIds('category_read', $arrCat['categoryid'], $smartsection_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('category_read', $arrCat['categoryid'], $smartsection_module_id);
         Publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
-        $groupsIds = $gpermHandler->getGroupIds('item_submit', $arrCat['categoryid'], $smartsection_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('item_submit', $arrCat['categoryid'], $smartsection_module_id);
         Publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         $newCatArray[$newCat['oldid']] = $newCat;

@@ -163,3 +163,31 @@ define('CO_' . $moduleDirNameUpper . '_OVERVIEW', 'Overview');
 define('CO_' . $moduleDirNameUpper . '_DISCLAIMER', 'Disclaimer');
 define('CO_' . $moduleDirNameUpper . '_LICENSE', 'License');
 define('CO_' . $moduleDirNameUpper . '_SUPPORT', 'Support');
+
+
+//Sample Data
+define('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA', 'Import Sample Data (will delete ALL current data)');
+define('CO_' . $moduleDirNameUpper . '_' . 'SAMPLEDATA_SUCCESS', 'Sample Date uploaded successfully');
+define('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA', 'Export Tables to YAML');
+define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON', 'Show Sample Button?');
+define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC', 'If yes, the "Add Sample Data" button will be visible to the Admin. It is Yes as a default for first installation.');
+define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA', 'Export DB Schema to YAML');
+define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS', 'Export DB Schema to YAML was a success');
+define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR', 'ERROR: Export of DB Schema to YAML failed');
+
+// block defines
+define('CO_' . $moduleDirNameUpper . '_' . 'ACCESSRIGHTS', 'Access Rights');
+define('CO_' . $moduleDirNameUpper . '_' . 'ACTION', 'Action');
+define('CO_' . $moduleDirNameUpper . '_' . 'ACTIVERIGHTS', 'Active Rights');
+define('CO_' . $moduleDirNameUpper . '_' . 'BADMIN', 'Block Administration');
+define('CO_' . $moduleDirNameUpper . '_' . 'BLKDESC', 'Description');
+define('CO_' . $moduleDirNameUpper . '_' . 'CBCENTER', 'Center Middle');
+define('CO_' . $moduleDirNameUpper . '_' . 'CBLEFT', 'Center Left');
+define('CO_' . $moduleDirNameUpper . '_' . 'CBRIGHT', 'Center Right');
+define('CO_' . $moduleDirNameUpper . '_' . 'SBLEFT', 'Left');
+define('CO_' . $moduleDirNameUpper . '_' . 'SBRIGHT', 'Right');
+define('CO_' . $moduleDirNameUpper . '_' . 'SIDE', 'Alignment');
+define('CO_' . $moduleDirNameUpper . '_' . 'TITLE', 'Title');
+define('CO_' . $moduleDirNameUpper . '_' . 'VISIBLE', 'Visible');
+define('CO_' . $moduleDirNameUpper . '_' . 'VISIBLEIN', 'Visible In');
+define('CO_' . $moduleDirNameUpper . '_' . 'WEIGHT', 'Weight');

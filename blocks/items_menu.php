@@ -24,7 +24,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -35,6 +35,7 @@ function publisher_items_menu_show($options)
 {
     $block = [];
 
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
 
     // Getting all top cats

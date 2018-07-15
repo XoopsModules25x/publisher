@@ -21,6 +21,7 @@ use Xmf\Request;
 use XoopsModules\Publisher;
 
 require_once dirname(__DIR__) . '/header.php';
+/** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 
 error_reporting(0);
@@ -35,24 +36,24 @@ $itemid = Request::getInt('itemid', 0, 'GET');
 
 $helper->loadLanguage('main');
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var $gpermHandler XoopsGroupPermHandler */
-$gpermHandler = $helper->getHandler('Groupperm');
+/* @var $grouppermHandler GroupPermHandler */
+$grouppermHandler = $helper->getHandler('GroupPerm');
 /* @var $configHandler XoopsConfigHandler */
 $configHandler = xoops_getHandler('config');
 $module_id     = $helper->getModule()->getVar('mid');
 
 //Checking permissions
-//if (!$helper->getConfig('perm_rating') || !$gpermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
+//if (!$helper->getConfig('perm_rating') || !$grouppermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
 //    $output = "unit_long$itemid|" . _NOPERM . "\n";
 //    echo $output;
 //    exit();
 //}
 
 try {
-    if (!$helper->getConfig('perm_rating') || !$gpermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
+    if (!$helper->getConfig('perm_rating') || !$grouppermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
         throw new RuntimeException(_NOPERM);
     }
-} catch (Exception $e) {
+} catch (\Exception $e) {
     $helper->addLog($e);
     //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _NOPERM . "\n";
@@ -72,7 +73,7 @@ try {
     if ($rating > 5 || $rating < 1) {
         throw new RuntimeException(_MD_PUBLISHER_VOTE_BAD);
     }
-} catch (Exception $e) {
+} catch (\Exception $e) {
     $helper->addLog($e);
     //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_BAD . "\n";
@@ -105,7 +106,7 @@ try {
     if ($voted) {
         throw new RuntimeException(_MD_PUBLISHER_VOTE_ALREADY);
     }
-} catch (Exception $e) {
+} catch (\Exception $e) {
     $helper->addLog($e);
     //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_ALREADY . "\n";

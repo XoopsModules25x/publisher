@@ -33,19 +33,21 @@ if (empty($xoopsConfigSearch['enable_search'])) {
     //    exit();
 }
 
+/** @var \XoopsModules\Publisher\Helper $helper */
+$helper = \XoopsModules\Publisher\Helper::getInstance();
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-$gpermHandler = xoops_getModuleHandler('groupperm', PUBLISHER_DIRNAME);
+$grouppermHandler = $helper->getHandler('GroupPerm');
 $module_id    = $helper->getModule()->mid();
 
 //Checking permissions
-if (!$helper->getConfig('perm_search') || !$gpermHandler->checkRight('global', Constants::PUBLISHER_SEARCH, $groups, $module_id)) {
+if (!$helper->getConfig('perm_search') || !$grouppermHandler->checkRight('global', Constants::PUBLISHER_SEARCH, $groups, $module_id)) {
     redirect_header(PUBLISHER_URL, 2, _NOPERM);
     //    exit();
 }
 
 $GLOBALS['xoopsConfig']['module_cache'][$module_id] = 0;
 $GLOBALS['xoopsOption']['template_main']            = 'publisher_search.tpl';
-include $GLOBALS['xoops']->path('header.php');
+require_once $GLOBALS['xoops']->path('header.php');
 
 $module_info_search = $helper->getModule()->getInfo('search');
 require_once PUBLISHER_ROOT_PATH . '/' . $module_info_search['file'];
@@ -157,13 +159,13 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
         $next            = $start + $limit;
         $queries         = implode(',', $queries);
         $search_url_next = $search_url . "&start={$next}";
-        $search_next     = '<a href="' . htmlspecialchars($search_url_next) . '">' . _SR_NEXT . '</a>';
+        $search_next     = '<a href="' . htmlspecialchars($search_url_next, ENT_QUOTES | ENT_HTML5) . '">' . _SR_NEXT . '</a>';
         $xoopsTpl->assign('search_next', $search_next);
     }
     if ($start > 0) {
         $prev            = $start - $limit;
         $search_url_prev = $search_url . "&start={$prev}";
-        $search_prev     = '<a href="' . htmlspecialchars($search_url_prev) . '">' . _SR_PREVIOUS . '</a>';
+        $search_prev     = '<a href="' . htmlspecialchars($search_url_prev, ENT_QUOTES | ENT_HTML5) . '">' . _SR_PREVIOUS . '</a>';
         $xoopsTpl->assign('search_prev', $search_prev);
     }
 
@@ -287,4 +289,4 @@ if ($xoopsConfigSearch['keyword_min'] > 0) {
     $xoopsTpl->assign('search_rule', sprintf(_SR_KEYIGNORE, $xoopsConfigSearch['keyword_min']));
 }
 
-include $GLOBALS['xoops']->path('footer.php');
+require $GLOBALS['xoops']->path('footer.php');

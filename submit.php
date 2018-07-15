@@ -35,8 +35,8 @@ if (!$categoriesArray) {
 }
 
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var $gpermHandler XoopsGroupPermHandler */
-$gpermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('Groupperm'); //xoops_getModuleHandler('groupperm');
+/* @var $grouppermHandler GroupPermHandler */
+$grouppermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
 $moduleId     = $helper->getModule()->getVar('mid');
 
 $itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
@@ -51,7 +51,7 @@ if (0 != $itemId) {
     if (!Publisher\Utility::userIsAdmin() || !Publisher\Utility::userIsModerator($itemObj)) {
         if ('del' === Request::getString('op', '', 'GET') && !$helper->getConfig('perm_delete')) {
             redirect_header('index.php', 1, _NOPERM);
-            //            exit();
+        //            exit();
         } elseif (!$helper->getConfig('perm_edit')) {
             redirect_header('index.php', 1, _NOPERM);
             //            exit();
@@ -98,8 +98,8 @@ if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
 
 $op = Request::getString('op', Request::getString('op', $op, 'POST'), 'GET');
 
-$allowedEditors = Publisher\Utility::getEditors($gpermHandler->getItemIds('editors', $groups, $moduleId));
-$formView       = $gpermHandler->getItemIds('form_view', $groups, $moduleId);
+$allowedEditors = Publisher\Utility::getEditors($grouppermHandler->getItemIds('editors', $groups, $moduleId));
+$formView       = $grouppermHandler->getItemIds('form_view', $groups, $moduleId);
 
 // This code makes sure permissions are not manipulated
 $elements = [
@@ -126,9 +126,8 @@ $elements = [
     'author_alias'
 ];
 foreach ($elements as $element) {
-    $classname = '\XoopsModules\Publisher\Constants';
+    $classname = Constants::class;
     if (Request::hasVar($element, 'POST') && !in_array(constant($classname .'::'. 'PUBLISHER_' . strtoupper($element)), $formView)) {
-
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
         //        exit();
     }
@@ -148,7 +147,7 @@ switch ($op) {
                 //                exit();
             }
             redirect_header('index.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
-            //            exit();
+        //            exit();
         } else {
             require_once $GLOBALS['xoops']->path('header.php');
             xoops_confirm(
@@ -239,6 +238,7 @@ switch ($op) {
                 // Subscribe the user to On Published notification, if requested
                 if ($itemObj->getVar('notifypub')) {
                     require_once $GLOBALS['xoops']->path('include/notification_constants.php');
+                    /** @var \XoopsNotificationHandler $notificationHandler */
                     $notificationHandler = xoops_getHandler('notification');
                     $notificationHandler->subscribe('item', $itemObj->itemid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }

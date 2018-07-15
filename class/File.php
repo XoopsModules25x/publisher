@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -21,7 +22,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 // File status
 //define("_PUBLISHER_STATUS_FILE_NOTSET", -1);
@@ -44,6 +45,7 @@ class File extends \XoopsObject
      */
     public function __construct($id = null)
     {
+        /** @var Publisher\Helper $this->helper */
         $this->helper = Publisher\Helper::getInstance();
         $this->db        = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('fileid', XOBJ_DTYPE_INT, 0, false);
@@ -268,7 +270,7 @@ class File extends \XoopsObject
     }
 
     /**
-     * @return FileForm
+     * @return \XoopsModules\Publisher\Form\FileForm
      */
     public function getForm()
     {

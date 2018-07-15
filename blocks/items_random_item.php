@@ -24,7 +24,7 @@ use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -34,6 +34,7 @@ require_once __DIR__ . '/../include/common.php';
 function publisher_items_random_item_show($options)
 {
     $block     = [];
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     // creating the ITEM object
     $itemsObj = $helper->getHandler('Item')->getRandomItem('', [Constants::PUBLISHER_STATUS_PUBLISHED]);

@@ -101,7 +101,7 @@ if ('start' === $op) {
             $module        = \XoopsModule::getByDirname($moduleDirName);
             if (Publisher\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
                 $catSelBox = $myObjTree->makeSelectElement('parent_category', 'name', '-', 0, true, 0, '', '')->render();
-                //$form->addElement($catSelBox);
+            //$form->addElement($catSelBox);
             } else {
                 $catSelBox = $myObjTree->makeSelBox('parent_category', 'name', '-', 0, true);
             }
@@ -139,8 +139,8 @@ if ('go' === $op) {
     $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('fmcontent');
     $fm_module_id  = $moduleObj->getVar('mid');
-    /* @var  $gpermHandler XoopsGroupPermHandler */
-    $gpermHandler = xoops_getHandler('groupperm');
+    /* @var  $grouppermHandler XoopsGroupPermHandler */
+    $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
@@ -219,9 +219,9 @@ if ('go' === $op) {
         }
 
         // Saving category permissions
-        $groupsIds = $gpermHandler->getGroupIds('fmcontent_view', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('fmcontent_view', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
         Publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
-        $groupsIds = $gpermHandler->getGroupIds('fmcontent_submit', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('fmcontent_submit', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
         Publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         unset($fmContentObjs, $itemObj, $categoryObj, $thisFmContentObj);
@@ -315,9 +315,9 @@ if ('go' === $op) {
         }
 
         // Saving category permissions
-        $groupsIds = $gpermHandler->getGroupIds('fmcontent_view', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('fmcontent_view', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
         Publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
-        $groupsIds = $gpermHandler->getGroupIds('fmcontent_submit', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('fmcontent_submit', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
         Publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         $newCatArray[$CatIds['oldid']] = $CatIds;

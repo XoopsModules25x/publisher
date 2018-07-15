@@ -35,8 +35,7 @@ trait FilesManagement
 
                 file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
             }
-        }
-        catch (Exception $e) {
+        } catch (\Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), '<br>';
         }
     }
@@ -58,16 +57,18 @@ trait FilesManagement
     public static function recurseCopy($src, $dst)
     {
         $dir = opendir($src);
-                @mkdir($dst);
-            while (false !== ($file = readdir($dir))) {
-                if (('.' !== $file) && ('..' !== $file)) {
-                    if (is_dir($src . '/' . $file)) {
-                        self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
-                    } else {
-                        copy($src . '/' . $file, $dst . '/' . $file);
-                    }
+        if (!mkdir($dst) && !is_dir($dst)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dst));
+        }
+        while (false !== ($file = readdir($dir))) {
+            if (('.' !== $file) && ('..' !== $file)) {
+                if (is_dir($src . '/' . $file)) {
+                    self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
+                } else {
+                    copy($src . '/' . $file, $dst . '/' . $file);
                 }
             }
+        }
         closedir($dir);
     }
 
@@ -76,9 +77,8 @@ trait FilesManagement
      * @author      Aidan Lister <aidan@php.net>
      * @version     1.0.1
      * @link        http://aidanlister.com/2004/04/recursively-copying-directories-in-php/
-     * @param       string   $source    Source path
-     * @param       string   $dest      Destination path
-     * @param       int      $permissions New folder creation permissions
+     * @param       string $source Source path
+     * @param       string $dest   Destination path
      * @return      bool     Returns true on success, false on failure
      */
     public static function xcopy($source, $dest)
@@ -94,8 +94,8 @@ trait FilesManagement
         }
 
         // Make destination directory
-        if (!is_dir($dest)) {
-            mkdir($dest);
+        if (!is_dir($dest) && !mkdir($dest) && !is_dir($dest)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $dest));
         }
 
         // Loop through the folder
@@ -105,7 +105,7 @@ trait FilesManagement
                 // Skip pointers
                 if ('.' === $entry || '..' === $entry) {
                     continue;
-        }
+                }
                 // Deep copy directories
                 self::xcopy("$source/$entry", "$dest/$entry");
             }

@@ -1,11 +1,28 @@
-<h5>1.06 Beta 3       [2018-03-15]</h5>  Dev: Xoops 2.5.9, PHP 7.2.3
+<h5>1.06 RC 1       [2018-07-15]</h5>  Dev: XOOPS 2.5.9, PHP 7.2.7
+<hr>
+- fix countable in install (mamba)
+- improved FilesManagement (mamba)
+- fix Configurator (mamba)
+- css shortcuts (mamba)
+- added blocks admin (mamba)
+- include to require (mamba)
+- other cosmetics (mamba)
+
+
+<h5>1.06 Beta 4       [2018-05-07]</h5>  Dev: XOOPS 2.5.9, PHP 7.2.5
+<hr>
+- fixed notifications bug (mamba)
+- added responsive image (mamba)
+
+
+<h5>1.06 Beta 3       [2018-03-15]</h5>  Dev: XOOPS 2.5.9, PHP 7.2.3
 <hr>
 - added Constants (mamba)
 - added truncateHTML (mamba)
 - replaced truncateTagSafe with truncateHTML (mamba)
 
 
-<h5>1.06 Beta 2       [2017-12-09]</h5>  Dev: Xoops 2.5.9, PHP 7.2.1
+<h5>1.06 Beta 2       [2017-12-09]</h5>  Dev: XOOPS 2.5.9, PHP 7.2.1
 <hr>
 - addded missing common traits (goffy/mamba)
 - fix for page styling in categories (liomj/mamba)
@@ -254,8 +271,8 @@ TODO:
 - Fixed : preview function was not working correctly (trabis)
 - Improved : removed fpdf libray and added tcpdf library (trabis)
 - Added : ajax rating (trabis)
-- Added : Xoops 2.3 editors and access permissions (trabis)
-- Added : easy module cloning from admin area with auto logo generation (trabis/Xoops French Team)
+- Added : XOOPS 2.3 editors and access permissions (trabis)
+- Added : easy module cloning from admin area with auto logo generation (trabis/XOOPS French Team)
 - Added : Second title (subtitle) for articles (Shiva)
 - Fixed : english errors in language files (AEIOU)
 - Added : module preferences separated by categories (trabis)

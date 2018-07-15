@@ -24,7 +24,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -34,7 +34,8 @@ require_once __DIR__ . '/../include/common.php';
 function publisher_search_show($options)
 {
     $block      = [];
-    $helper  = Publisher\Helper::getInstance();
+    /** @var Publisher\Helper $helper */
+    $helper = Publisher\Helper::getInstance();
     $categories = $helper->getHandler('Category')->getCategoriesForSearch();
     if (0 == count($categories)) {
         return $block;

@@ -18,5 +18,5 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-include dirname(dirname(__DIR__)) . '/mainfile.php';
+require dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once $GLOBALS['xoops']->path('include/comment_post.php');

@@ -94,6 +94,7 @@ class MimetypesUtility
 {
     public static function add()
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
         global $limit, $start;
         $error = [];
@@ -237,6 +238,7 @@ class MimetypesUtility
 
     public static function delete()
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
         global $start, $limit;
         $mimeId = 0;
@@ -255,6 +257,7 @@ class MimetypesUtility
 
     public static function edit()
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
         global $start, $limit;
         $mimeId    = 0;
@@ -398,6 +401,7 @@ class MimetypesUtility
 
     public static function manage()
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
         /** @var Publisher\Utility $utility */
         $utility = new Publisher\Utility();
@@ -542,6 +546,7 @@ class MimetypesUtility
 
     public static function search()
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
         global $limit, $start, $imagearray, $aSearchBy, $aOrderBy, $aLimitBy, $aSortBy;
 
@@ -734,7 +739,8 @@ class MimetypesUtility
             'limit' => Request::getInt('limit', 15, 'GET'),
         ];
 
-        $helper   = Publisher\Helper::getInstance();
+        /** @var Publisher\Helper $helper */
+        $helper = Publisher\Helper::getInstance();
         $mimeTypeObj = $helper->getHandler('Mimetype')->get($hiddens['id']);
         if (Request::hasVar('mime_admin')) {
             $hiddens['mime_admin'] = Request::getInt('mime_admin', 0, 'GET');
@@ -753,6 +759,7 @@ class MimetypesUtility
 
     public static function confirmUpdateMimeValue()
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
         $limit  = Request::getInt('limit', 0, 'POST');

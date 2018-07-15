@@ -479,7 +479,7 @@ class Timthumb
 
             return false;
         }
-        if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+       if (\Xmf\Request::hasVar('HTTP_IF_MODIFIED_SINCE', 'SERVER')) {
             $this->debug(3, 'Got a conditional get');
             $mtime = false;
             //We've already checked if the real file exists in the constructor
@@ -595,7 +595,7 @@ class Timthumb
         }
         $html = '<ul>';
         foreach ($this->errors as $err) {
-            $html .= '<li>' . htmlentities($err) . '</li>';
+            $html .= '<li>' . htmlentities($err, ENT_QUOTES | ENT_HTML5) . '</li>';
         }
         $html .= '</ul>';
         echo '<h1>A TimThumb error has occured</h1>The following error(s) occured:<br>' . $html . '<br>';
@@ -927,7 +927,7 @@ class Timthumb
             $exec = OPTIPNG_PATH;
             $this->debug(3, "optipng'ing $tempfile");
             $presize = filesize($tempfile);
-            $out     = `$exec -o1 $tempfile`; //you can use up to -o7 but it really slows things down
+            $out     = shell_exec('$exec -o1 $tempfile'); //you can use up to -o7 but it really slows things down
             clearstatcache();
             $aftersize = filesize($tempfile);
             $sizeDrop  = $presize - $aftersize;
@@ -942,7 +942,7 @@ class Timthumb
             $exec      = PNGCRUSH_PATH;
             $tempfile2 = tempnam($this->cacheDirectory, 'timthumb_tmpimg_');
             $this->debug(3, "pngcrush'ing $tempfile to $tempfile2");
-            $out   = `$exec $tempfile $tempfile2`;
+            $out   = shell_exec('$exec $tempfile $tempfile2');
             $todel = '';
             if (is_file($tempfile2)) {
                 $sizeDrop = filesize($tempfile) - filesize($tempfile2);
@@ -1003,14 +1003,14 @@ class Timthumb
         }
         if (!isset($docRoot)) {
             $this->debug(3, 'DOCUMENT_ROOT is not set. This is probably windows. Starting search 1.');
-            if (isset($_SERVER['SCRIPT_FILENAME'])) {
+            if (\Xmf\Request::hasVar('SCRIPT_FILENAME', 'SERVER')) {
                 $docRoot = str_replace('\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - strlen($_SERVER['PHP_SELF'])));
                 $this->debug(3, "Generated docRoot using SCRIPT_FILENAME and PHP_SELF as: $docRoot");
             }
         }
         if (!isset($docRoot)) {
             $this->debug(3, 'DOCUMENT_ROOT still is not set. Starting search 2.');
-            if (isset($_SERVER['PATH_TRANSLATED'])) {
+            if (\Xmf\Request::hasVar('PATH_TRANSLATED', 'SERVER')) {
                 $docRoot = str_replace('\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - strlen($_SERVER['PHP_SELF'])));
                 $this->debug(3, "Generated docRoot using PATH_TRANSLATED and PHP_SELF as: $docRoot");
             }
@@ -1169,7 +1169,7 @@ class Timthumb
             $command = "$xv --server-args=\"-screen 0, {$screenX}x{$screenY}x{$colDepth}\" $cuty $proxy --max-wait=$timeout --user-agent=\"$ua\" --javascript=$jsOn --java=$javaOn --plugins=$pluginsOn --js-can-open-windows=off --url=\"$url\" --out-format=$format --out=$tempfile";
         }
         $this->debug(3, "Executing command: $command");
-        $out = `$command`;
+        $out = shell_exec('$command');
         $this->debug(3, "Received output: $out");
         if (!is_file($tempfile)) {
             $this->set404();

@@ -32,6 +32,7 @@ $op = Request::getString('op');
  */
 function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
 {
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
@@ -137,7 +138,7 @@ switch ($op) {
             }
 
             redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 2, sprintf(_AM_PUBLISHER_FILEISDELETED, $fileObj->name()));
-            //            exit();
+        //            exit();
         } else {
             // no confirm: show deletion condition
             $fileid = Request::getInt('fileid', 0, 'GET');

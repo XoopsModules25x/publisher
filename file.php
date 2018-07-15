@@ -22,7 +22,7 @@ use Xmf\Request;
 use XoopsModules\Publisher;
 
 require_once __DIR__ . '/header.php';
-$helper = Publisher\Helper::getInstance();
+
 $helper->loadLanguage('admin');
 //xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
@@ -122,7 +122,7 @@ switch ($op) {
             }
 
             redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, sprintf(_AM_PUBLISHER_FILEISDELETED, $fileObj->name()));
-            //            exit();
+        //            exit();
         } else {
             // no confirm: show deletion condition
 

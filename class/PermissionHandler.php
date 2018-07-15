@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -23,7 +24,7 @@
 use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class PermissionHandler
@@ -41,6 +42,7 @@ class PermissionHandler extends \XoopsObjectHandler
      */
     public function __construct()
     {
+        /** @var Publisher\Helper $this->helper */
         $this->helper = Publisher\Helper::getInstance();
     }
 
@@ -152,15 +154,15 @@ class PermissionHandler extends \XoopsObjectHandler
     {
         $result   = true;
         $moduleId = $this->helper->getModule()->getVar('mid');
-        /* @var  $gpermHandler XoopsGroupPermHandler */
-        $gpermHandler = xoops_getHandler('groupperm');
+        /* @var  $grouppermHandler XoopsGroupPermHandler */
+        $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
-        $gpermHandler->deleteByModule($moduleId, $permName, $itemId);
+        $grouppermHandler->deleteByModule($moduleId, $permName, $itemId);
         // Save the new permissions
         if (count($groups) > 0) {
             foreach ($groups as $groupId) {
                 echo $groupId . '-';
-                echo $gpermHandler->addRight($permName, $itemId, $groupId, $moduleId);
+                echo $grouppermHandler->addRight($permName, $itemId, $groupId, $moduleId);
             }
         }
 
@@ -179,8 +181,8 @@ class PermissionHandler extends \XoopsObjectHandler
     public function deletePermissions($itemId, $gpermName)
     {
         $result       = true;
-        $gpermHandler = xoops_getHandler('groupperm');
-        $gpermHandler->deleteByModule($this->helper->getModule()->getVar('mid'), $gpermName, $itemId);
+        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler->deleteByModule($this->helper->getModule()->getVar('mid'), $gpermName, $itemId);
 
         return $result;
     }

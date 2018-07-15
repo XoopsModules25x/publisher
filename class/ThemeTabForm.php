@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -20,7 +21,7 @@
  */
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /**
  * XoopsThemeTabForm
@@ -121,7 +122,7 @@ class ThemeTabForm extends \XoopsForm
     //function render() {}
 
     /**
-     * @param XoopsTpl $tpl
+     * @param \XoopsTpl $tpl
      */
     public function assign(\XoopsTpl $tpl)
     {
@@ -478,7 +479,7 @@ class ThemeTabForm extends \XoopsForm
     /**
      * make an element "required"
      *
-     * @param XoopsFormElement $formElement reference to a {@link XoopsFormElement}
+     * @param \XoopsFormElement $formElement reference to a {@link XoopsFormElement}
      */
     public function setRequired(\XoopsFormElement $formElement)
     {

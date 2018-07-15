@@ -17,9 +17,9 @@
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Common;
 
-require_once __DIR__ . '/../../../mainfile.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
-include __DIR__ . '/../preloads/autoloader.php';
+require dirname(__DIR__) . '/preloads/autoloader.php';
 
 $op = \Xmf\Request::getCmd('op', '');
 
@@ -33,14 +33,15 @@ switch ($op) {
 
 function loadSampleData()
 {
-        $moduleDirName = basename(dirname(__DIR__));
-        $helper       = Publisher\Helper::getInstance();
-        $utility      = new Publisher\Utility();
-        $configurator = new Common\Configurator();
-       // Load language files
-        $helper->loadLanguage('admin');
-        $helper->loadLanguage('modinfo');
-        $helper->loadLanguage('common');
+    $moduleDirName = basename(dirname(__DIR__));
+    /** @var \XoopsModules\Publisher\Helper $helper */
+    $helper       = \XoopsModules\Publisher\Helper::getInstance();
+    $utility      = new Publisher\Utility();
+    $configurator = new Common\Configurator();
+    // Load language files
+    $helper->loadLanguage('admin');
+    $helper->loadLanguage('modinfo');
+    $helper->loadLanguage('common');
 
     $items = \Xmf\Yaml::readWrapped('item-data.yml');
     $cat   = \Xmf\Yaml::readWrapped('cat-data.yml');

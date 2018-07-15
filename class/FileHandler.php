@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -21,7 +22,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 // File status
 //define("_PUBLISHER_STATUS_FILE_NOTSET", -1);
@@ -49,8 +50,9 @@ class FileHandler extends \XoopsPersistableObjectHandler
     /**
      * @param null|\XoopsDatabase $db
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db = null)
     {
+        /** @var Publisher\Helper $this->helper */
         $this->helper = Publisher\Helper::getInstance();
         parent::__construct($db, 'publisher_files', File::class, 'fileid', 'name');
     }
@@ -58,8 +60,8 @@ class FileHandler extends \XoopsPersistableObjectHandler
     /**
      * delete a file from the database
      *
-     * @param XoopsObject $file reference to the file to delete
-     * @param bool        $force
+     * @param \XoopsObject $file reference to the file to delete
+     * @param bool         $force
      *
      * @return bool FALSE if failed.
      */
@@ -77,7 +79,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
     /**
      * delete files related to an item from the database
      *
-     * @param XoopsObject $itemObj reference to the item which files to delete
+     * @param \XoopsObject $itemObj reference to the item which files to delete
      *
      * @return bool
      */
@@ -128,7 +130,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
                 foreach ($status as $v) {
                     $criteriaStatus->add(new \Criteria('o.status', $v), 'OR');
                 }
-            } elseif ($status != -1) {
+            } elseif (-1 != $status) {
                 $hasStatusCriteria = true;
                 $criteriaStatus->add(new \Criteria('o.status', $status), 'OR');
             }

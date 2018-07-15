@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -23,12 +24,12 @@
 
 require_once $GLOBALS['xoops']->path('kernel/groupperm.php');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class GroupPermHandler
  */
-class GrouppermHandler extends \XoopsGroupPermHandler
+class GroupPermHandler extends \XoopsGroupPermHandler
 {
     /**
      * Check permission

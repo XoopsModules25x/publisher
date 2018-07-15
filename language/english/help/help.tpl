@@ -12,7 +12,7 @@
         extract the module folder into the ../modules directory. Install the
         module through Admin -> System Module -> Modules.<br> <br>
         Detailed instructions on installing modules are available in the
-        <a target="_blank" href="https://www.gitbook.com/book/xoops/xoops-operations-guide/details">XOOPS Operations Manual</a></p>
+        <a target="_blank" href="https://xoops.gitbook.io/xoops-operations-guide/details">XOOPS Operations Manual</a></p>
 
     <p class="even"><strong>2) PDF in XOOPS 2.5.8 </strong><br> <br>
     If you want to use the PDF feature in Publisher, you will need to copy the TCPDF library to your XOOPS folder:<br> <br>
@@ -34,7 +34,7 @@
 
     ii) download the latest full release from <a target="_blank" href="https://github.com/tecnickcom/TCPDF/releases">TCPDF on GitHub</a> <br> <br>
 
-    iii) If you feel comfortable with <a target="_blank" href="https://www.gitbook.com/book/xoops/xoops-operations-guide/details">Composer</a>,
+    iii) If you feel comfortable with <a target="_blank" href="https://xoops.gitbook.io/xoops-operations-guide/details">Composer</a>,
         add this line to your "composer.js" file located in /class/libraries/:<br> <br>
 
     <strong>"tecnickcom/tcpdf":"6.*"</strong><br> <br>
@@ -50,16 +50,16 @@
     <p class="even">
     This module and its operations are very simple.<br> <br>
     Detailed instructions on configuring the access rights for user groups are available in the
-    <a target="_blank" href="https://www.gitbook.com/book/xoops/xoops-operations-guide/details">XOOPS Operations Manual</a>, and more detailed information about Publisher itself is in the Publisher
+    <a target="_blank" href="https://xoops.gitbook.io/xoops-operations-guide/details">XOOPS Operations Manual</a>, and more detailed information about Publisher itself is in the Publisher
     Tutorial (see below)<br> <br>
     </p>
 
     <h4 class="odd">TUTORIAL</h4>
 
     <p class="even">
-        Tutorial has been started, but we might need your help! Please check out the status of the tutorial <a href="https://www.gitbook.com/book/xoops/publisher-tutorial/" target="_blank">here </a>.
+        Tutorial has been started, but we might need your help! Please check out the status of the tutorial <a href="https://xoops.gitbook.io/publisher-tutorial/" target="_blank">here </a>.
         <br><br>To contribute to this Tutorial, <a href="https://github.com/XoopsDocs/publisher-tutorial/" target="_blank">please fork it on GitHub</a>.
-        <br> This document describes our <a href="https://www.gitbook.com/book/xoops/xoops-documentation-process/details/" target="_blank">Documentation Process</a> and it will help you to understand how to contribute.
+        <br> This document describes our <a href="https://xoops.gitbook.io/xoops-documentation-process/details/" target="_blank">Documentation Process</a> and it will help you to understand how to contribute.
         <br><br>
         There are more XOOPS Tutorials, so check them out in our <a href="https://www.gitbook.com/@xoops/" target="_blank">XOOPS Tutorial Repository on GitBook</a>.
     </p>

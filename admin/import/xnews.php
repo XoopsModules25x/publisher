@@ -79,7 +79,7 @@ if ('start' === $op) {
             try {
                 $imageCategoryHandler->insert($imagecategory);
                 // exit();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 echo "Caught exception: : couldn't insert Image Category " . $e->getMessage() . 'n';
             }
 
@@ -162,14 +162,14 @@ if ('start' === $op) {
 if ('go' === $op) {
     Publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    require_once __DIR__ . '/../../include/common.php';
+    // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
     Publisher\Utility::openCollapsableBar('xnewsimportgo', 'xnewsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /* @var  $moduleHandler XoopsModuleHandler */
     $moduleHandler   = xoops_getHandler('module');
     $moduleObj       = $moduleHandler->getByDirname('xnews');
     $xnews_module_id = $moduleObj->getVar('mid');
-    /* @var  $gpermHandler XoopsGroupPermHandler */
-    $gpermHandler = xoops_getHandler('groupperm');
+    /* @var  $grouppermHandler XoopsGroupPermHandler */
+    $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
@@ -383,12 +383,12 @@ if ('go' === $op) {
         }
 
         // Saving category permissions
-        $groupsIds = $gpermHandler->getGroupIds('nw_view', $arrCat['topic_id'], $xnews_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('nw_view', $arrCat['topic_id'], $xnews_module_id);
         Publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
-        $groupsIds = $gpermHandler->getGroupIds('nw_submit', $arrCat['topic_id'], $xnews_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('nw_submit', $arrCat['topic_id'], $xnews_module_id);
         Publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
-        $groupsIds = $gpermHandler->getGroupIds('nw_approve', $arrCat['topic_id'], $xnews_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('nw_approve', $arrCat['topic_id'], $xnews_module_id);
         Publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_moderation');
 
         $newCatArray[$newCat['oldid']] = $newCat;

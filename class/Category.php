@@ -22,7 +22,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Publisher\Category
@@ -45,6 +45,7 @@ class Category extends \XoopsObject
      */
     public function __construct()
     {
+        /** @var Publisher\Helper $this->helper */
         $this->helper = Publisher\Helper::getInstance();
         $this->initVar('categoryid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('parentid', XOBJ_DTYPE_INT, null, false);
@@ -85,7 +86,7 @@ class Category extends \XoopsObject
      */
     public function notLoaded()
     {
-        return ($this->getVar('categoryid') == -1);
+        return (-1 == $this->getVar('categoryid'));
     }
 
     /**
@@ -157,7 +158,7 @@ class Category extends \XoopsObject
                     if ($parentObj->notLoaded()) {
                         throw new RuntimeException(_NOPERM);
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->helper->addLog($e);
                     //                    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
                 }
@@ -187,7 +188,7 @@ class Category extends \XoopsObject
                 if ($parentObj->notLoaded()) {
                     throw new RuntimeException('NOT LOADED');
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->helper->addLog($e);
                 //                    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
             }
@@ -344,7 +345,7 @@ class Category extends \XoopsObject
     /**
      * @param int $subCatsCount
      *
-     * @return Publisher\CategoryForm
+     * @return \XoopsModules\Publisher\Form\CategoryForm
      */
     public function getForm($subCatsCount = 4)
     {

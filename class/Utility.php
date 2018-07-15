@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -55,7 +56,7 @@ class Utility
                     file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), "\n", '<br>';
         }
     }
@@ -74,7 +75,7 @@ class Utility
         //            } else {
         //                return copy($file, $folder);
         //            }
-        //        } catch (Exception $e) {
+        //        } catch (\Exception $e) {
         //            echo 'Caught exception: ', $e->getMessage(), "\n", "<br>";
         //        }
         //        return false;
@@ -182,6 +183,7 @@ class Utility
      */
     public static function displayCategory(Publisher\Category $categoryObj, $level = 0)
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
         $description = $categoryObj->description();
@@ -210,7 +212,7 @@ class Utility
             foreach ($subCategoriesObj as $key => $thiscat) {
                 self::displayCategory($thiscat, $level);
             }
-            unset($key, $thiscat);
+            unset($key);
         }
         //        unset($categoryObj);
     }
@@ -223,6 +225,7 @@ class Utility
      */
     public static function editCategory($showmenu = false, $categoryId = 0, $nbSubCats = 4, $categoryObj = null)
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
@@ -500,6 +503,7 @@ class Utility
      */
     public static function moduleHome($withLink = true)
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
         if (!$helper->getConfig('format_breadcrumb_modname')) {
@@ -530,8 +534,8 @@ class Utility
         }
 
         // Make destination directory
-        if (!is_dir($dest)) {
-            mkdir($dest);
+        if (!is_dir($dest) && !mkdir($dest) && !is_dir($dest)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dest));
         }
 
         // Loop through the folder
@@ -697,7 +701,7 @@ class Utility
 
         static $publisherIsAdmin;
 
-        if (isset($publisherIsAdmin)) {
+        if (null !== $publisherIsAdmin) {
             return $publisherIsAdmin;
         }
 
@@ -729,7 +733,8 @@ class Utility
      */
     public static function userIsModerator($itemObj)
     {
-        $helper         = Publisher\Helper::getInstance();
+        /** @var Publisher\Helper $helper */
+        $helper = Publisher\Helper::getInstance();
         $categoriesGranted = $helper->getHandler('Permission')->getGrantedItems('category_moderation');
 
         return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted));
@@ -745,20 +750,21 @@ class Utility
      */
     public static function saveCategoryPermissions($groups, $categoryId, $permName)
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
         $result = true;
 
         $moduleId = $helper->getModule()->getVar('mid');
-        /* @var  $gpermHandler XoopsGroupPermHandler */
-        $gpermHandler = xoops_getHandler('groupperm');
+        /* @var  $grouppermHandler XoopsGroupPermHandler */
+        $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
-        $gpermHandler->deleteByModule($moduleId, $permName, $categoryId);
+        $grouppermHandler->deleteByModule($moduleId, $permName, $categoryId);
 
         // Save the new permissions
         if (count($groups) > 0) {
             foreach ($groups as $groupId) {
-                $gpermHandler->addRight($permName, $categoryId, $groupId, $moduleId);
+                $grouppermHandler->addRight($permName, $categoryId, $groupId, $moduleId);
             }
         }
 
@@ -824,7 +830,7 @@ class Utility
      */
     public static function setCookieVar($name, $value, $time = 0)
     {
-        if (0 == $time) {
+        if (0 === $time) {
             $time = time() + 3600 * 24 * 365;
         }
         setcookie($name, $value, $time, '/');
@@ -893,6 +899,7 @@ class Utility
      */
     public static function addCategoryOption(Publisher\Category $categoryObj, $selectedid = 0, $level = 0, $ret = '')
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
         $spaces = '';
@@ -928,6 +935,7 @@ class Utility
      */
     public static function createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[0]')
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
         $selectedid = explode(',', $selectedid);
@@ -962,6 +970,7 @@ class Utility
      */
     public static function createCategoryOptions($selectedid = 0, $parentcategory = 0, $allCatOption = true)
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
         $ret = '';
@@ -1002,10 +1011,10 @@ class Utility
             foreach ($errArray as $key => $error) {
                 if (is_array($error)) {
                     foreach ($error as $err) {
-                        echo '<li><a href="#' . $key . '" onclick="var e = xoopsGetElementById(\'' . $key . '\'); e.focus();">' . htmlspecialchars($err) . '</a></li>';
+                        echo '<li><a href="#' . $key . '" onclick="var e = xoopsGetElementById(\'' . $key . '\'); e.focus();">' . htmlspecialchars($err, ENT_QUOTES | ENT_HTML5) . '</a></li>';
                     }
                 } else {
-                    echo '<li><a href="#' . $key . '" onclick="var e = xoopsGetElementById(\'' . $key . '\'); e.focus();">' . htmlspecialchars($error) . '</a></li>';
+                    echo '<li><a href="#' . $key . '" onclick="var e = xoopsGetElementById(\'' . $key . '\'); e.focus();">' . htmlspecialchars($error, ENT_QUOTES | ENT_HTML5) . '</a></li>';
                 }
             }
             echo '</ul></div><br>';
@@ -1068,6 +1077,7 @@ class Utility
 //        require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
         //    global $publisherIsAdmin;
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
         $itemId  = Request::getInt('itemid', 0, 'POST');
@@ -1118,7 +1128,7 @@ class Utility
                 if ($withRedirect) {
                     throw new RuntimeException(_CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $helper->addLog($e);
                 redirect_header('file.php?op=mod&itemid=' . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
             }
@@ -1229,7 +1239,8 @@ class Utility
      */
     public static function ratingBar($itemId)
     {
-        $helper       = Publisher\Helper::getInstance();
+        /** @var Publisher\Helper $helper */
+        $helper = Publisher\Helper::getInstance();
         $ratingUnitWidth = 30;
         $units           = 5;
 
@@ -1260,10 +1271,10 @@ class Utility
             $rating2     = number_format($currentRating / $count, 2);
         }
         $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        /* @var $gpermHandler XoopsGroupPermHandler */
-        $gpermHandler = $helper->getHandler('Groupperm');
+        /* @var $grouppermHandler GroupPermHandler */
+        $grouppermHandler = $helper->getHandler('GroupPerm');
 
-        if (!$gpermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
+        if (!$grouppermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
             $staticRater   = [];
             $staticRater[] .= "\n" . '<div class="publisher_ratingblock">';
             $staticRater[] .= '<div id="unit_long' . $itemId . '">';

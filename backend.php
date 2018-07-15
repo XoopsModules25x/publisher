@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Publisher;
 
 require_once __DIR__ . '/header.php';
 //xoops_load('XoopsLocal'); //mb
@@ -34,7 +35,7 @@ if (function_exists('mb_http_output')) {
 
 $categoryid = Request::getInt('categoryid', -1, 'GET');
 
-if ($categoryid != -1) {
+if (-1 != $categoryid) {
     $categoryObj = $helper->getHandler('Category')->get($categoryid);
 }
 
@@ -61,11 +62,11 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     $tpl->assign('channel_webmaster', $GLOBALS['xoopsConfig']['adminmail']);
     $tpl->assign('channel_editor', $GLOBALS['xoopsConfig']['adminmail']);
 
-    if ($categoryid != -1) {
+    if (-1 != $categoryid) {
         $channel_category .= ' > ' . $categoryObj->name();
     }
 
-    $tpl->assign('channel_category', htmlspecialchars($channel_category));
+    $tpl->assign('channel_category', htmlspecialchars($channel_category, ENT_QUOTES | ENT_HTML5));
     $tpl->assign('channel_generator', $helper->getModule()->name());
     $tpl->assign('channel_language', _LANGCODE);
     $tpl->assign('image_url', XOOPS_URL . '/images/logo.gif');
@@ -88,7 +89,7 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
                 'title'       => htmlspecialchars($item->getTitle(), ENT_QUOTES),
                 'link'        => $item->getItemUrl(),
                 'guid'        => $item->getItemUrl(),
-                //mb                'pubdate'     => XoopsLocal::formatTimestamp($item->getVar('datesub'), 'rss'),
+//mb            'pubdate'     => XoopsLocal::formatTimestamp($item->getVar('datesub'), 'rss'),
                 'pubdate'     => formatTimestamp($item->getVar('datesub'), 'rss'),
                 'description' => htmlspecialchars($item->getBlockSummary(300, true), ENT_QUOTES)
             ]);

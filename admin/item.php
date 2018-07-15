@@ -155,7 +155,7 @@ switch ($op) {
                 //                exit();
             }
             redirect_header('item.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
-            //            exit();
+        //            exit();
         } else {
             xoops_cp_header();
             xoops_confirm(['op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()], 'item.php', _AM_PUBLISHER_DELETETHISITEM . " <br>'" . $itemObj->getTitle() . "'. <br> <br>", _AM_PUBLISHER_DELETE);
@@ -393,6 +393,7 @@ require_once __DIR__ . '/admin_footer.php';
  */
 function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 {
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     global $publisherCurrentPage;
 

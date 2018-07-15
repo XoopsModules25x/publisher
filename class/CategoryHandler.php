@@ -23,7 +23,7 @@ use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 
 /**
@@ -45,8 +45,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * @param null|\XoopsDatabase $db
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db = null)
     {
+        /** @var Publisher\Helper $this->helper */
         $this->helper = Publisher\Helper::getInstance();
         parent::__construct($db, 'publisher_categories', Category::class, 'categoryid', 'name');
     }
@@ -75,7 +76,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * insert a new category in the database
      *
-     * @param  XoopsObject $category reference to the {@link Publisher\Category}
+     * @param \XoopsObject $category reference to the {@link Publisher\Category}
      * @param  bool        $force
      * @return bool        FALSE if failed, TRUE if already present and unchanged or successful
      */
@@ -103,8 +104,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * delete a category from the database
      *
-     * @param XoopsObject $category reference to the category to delete
-     * @param bool        $force
+     * @param \XoopsObject $category reference to the category to delete
+     * @param bool         $force
      *
      * @return bool FALSE if failed.
      */
@@ -174,7 +175,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $criteria = new \CriteriaCompo();
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        if ($parentid != -1) {
+        if (-1 != $parentid) {
             $criteria->add(new \Criteria('parentid', $parentid));
         }
         if (!$GLOBALS['publisherIsAdmin']) {
@@ -190,7 +191,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         }
         $criteria->setStart($start);
         $criteria->setLimit($limit);
-        $ret =& $this->getObjects($criteria, $idAsKey);
+        $ret = $this->getObjects($criteria, $idAsKey);
 
         return $ret;
     }
@@ -309,11 +310,11 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function getCategoriesCount($parentid = 0)
     {
         //        global $publisherIsAdmin;
-        if ($parentid == -1) {
+        if (-1 == $parentid) {
             return $this->getCount();
         }
         $criteria = new \CriteriaCompo();
-        if (isset($parentid) && ($parentid != -1)) {
+        if (isset($parentid) && (-1 != $parentid)) {
             $criteria->add(new \Criteria('parentid', $parentid));
             if (!$GLOBALS['publisherIsAdmin']) {
                 $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
@@ -357,7 +358,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         }
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
-        $subcats =& $this->getObjects($criteria, true);
+        $subcats = $this->getObjects($criteria, true);
         foreach ($subcats as $subcat) {
             $ret[$subcat->getVar('parentid')][$subcat->getVar('categoryid')] = $subcat;
         }
@@ -368,15 +369,15 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * delete categories matching a set of conditions
      *
-     * @param CriteriaElement $criteria {@link CriteriaElement}
+     * @param \CriteriaElement $criteria {@link CriteriaElement}
      *
-     * @param  bool           $force
-     * @param  bool           $asObject
+     * @param  bool            $force
+     * @param  bool            $asObject
      * @return bool FALSE if deletion failed
      */
-    public function deleteAll (\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
+    public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
-        $categories =& $this->getObjects($criteria);
+        $categories = $this->getObjects($criteria);
         foreach ($categories as $category) {
             if (!$this->delete($category)) {
                 return false;

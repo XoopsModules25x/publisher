@@ -19,11 +19,16 @@
  * @author          XOOPS Development Team - ( https://xoops.org )
  */
 
-$moduleDirName = basename(dirname(__DIR__));
-$moduleDirNameUpper = strtoupper($moduleDirName);
 
+require __DIR__ . '/common.php';
+
+/**
+ * @return object
+ */
 function getConfig()
 {
+    $moduleDirName = basename(dirname(__DIR__));
+    $moduleDirNameUpper = strtoupper($moduleDirName);
     return (object)[
         'name'           => strtoupper($moduleDirName) . ' Module Configurator',
         'paths'          => [
@@ -70,8 +75,8 @@ function getConfig()
             '/class/registry.php',
             '/class/utilities.php',
             '/class/util.php',
-            '/include/constants.php',
-            '/include/functions.php',
+            // '/include/constants.php',
+            // '/include/functions.php',
             '/ajaxrating.txt'
         ],
         'oldFolders'      => [
@@ -81,7 +86,7 @@ function getConfig()
             '/tcpdf',
         ],
         'modCopyright'    => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . XOOPS_URL . '/modules/' . $moduleDirName . '_AUTHOR_LOGOIMG' . '\' alt=\'XOOPS Project\' /></a>',
+                     <img src='" . constant($moduleDirNameUpper . '_AUTHOR_LOGOIMG') . '\' alt=\'XOOPS Project\' /></a>',
 
     ];
 }

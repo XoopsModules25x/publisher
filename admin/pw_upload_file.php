@@ -43,6 +43,7 @@ function publisher_pagewrap_upload(&$errors)
     //    require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
     xoops_load('XoopsMediaUploader');
 
+    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     $postField = 'fileupload';
 

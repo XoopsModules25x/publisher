@@ -22,12 +22,13 @@ use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
 require_once __DIR__ . '/admin_header.php';
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 require_once $GLOBALS['xoops']->path('class/xoopsform/grouppermform.php');
 $myts = \MyTextSanitizer::getInstance();
 
 Publisher\Utility::cpHeader();
 //publisher_adminMenu(3, _AM_PUBLISHER_PERMISSIONS);
+/** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 
 // View Categories permissions

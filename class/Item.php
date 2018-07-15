@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -24,7 +25,7 @@ use XoopsModules\Publisher;
 //namespace Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Item
@@ -49,6 +50,7 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
+        /** @var Publisher\Helper $this->helper */
         $this->helper = Publisher\Helper::getInstance();
         $this->db        = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', XOBJ_DTYPE_INT, 0);
@@ -213,7 +215,7 @@ class Item extends \XoopsObject
         if (file_exists($page)) {
             // this page uses smarty template
             ob_start();
-            include $page;
+            require $page;
             $content = ob_get_contents();
             ob_end_clean();
             // Cleaning the content
@@ -305,7 +307,7 @@ class Item extends \XoopsObject
     public function posterName($realName = -1)
     {
         xoops_load('XoopsUserUtility');
-        if ($realName == -1) {
+        if (-1 == $realName) {
             $realName = $this->helper->getConfig('format_realname');
         }
         $ret = $this->author_alias();
@@ -499,6 +501,7 @@ class Item extends \XoopsObject
      */
     public function sendNotifications($notifications = [])
     {
+        /** @var \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = xoops_getHandler('notification');
         $tags                = [];
 
@@ -572,7 +575,7 @@ class Item extends \XoopsObject
      */
     public function notLoaded()
     {
-        return $this->getVar('itemid') == -1;
+        return -1 == $this->getVar('itemid');
     }
 
     /**
@@ -662,7 +665,7 @@ class Item extends \XoopsObject
             return $this->plainMaintext($body);
         }
         $ret = '';
-        if ($itemPageId == -1) {
+        if (-1 == $itemPageId) {
             $ret .= trim($bodyParts[0]);
 
             return $ret;
@@ -939,7 +942,7 @@ class Item extends \XoopsObject
      * @param string $title
      * @param bool   $checkperm
      *
-     * @return ItemForm
+     * @return \XoopsModules\Publisher\Form\ItemForm
      */
     public function getForm($title = 'default', $checkperm = true)
     {
@@ -1052,7 +1055,7 @@ class Item extends \XoopsObject
             $gmtTimestamp = $localTimestamp - $offset;
             $this->setVar('datesub', $gmtTimestamp);
 
-            //            }
+        //            }
         } elseif ($this->isNew()) {
             $this->setVar('datesub', time());
         }

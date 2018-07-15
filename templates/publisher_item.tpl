@@ -190,17 +190,19 @@
     </tr>
     <{/foreach}> <!-- End item loop -->
     </table><{/if}>
-    <{if $rating_enabled}>
-    <small><{$item.ratingbar}></small><{/if}>
-    <{include file='db:publisher_footer.tpl'}>
+<{if $rating_enabled}>
+    <small><{$item.ratingbar}></small>
+<{/if}>
+<{include file='db:publisher_footer.tpl'}>
+
 <script type="text/javascript">
     <!--//<![CDATA[
-    $helper(document).ready(function () {
+    $publisher(document).ready(function () {
         var options = {
             caption: 'permanent'
         };
 
-        $helper('#ppy3').popeye(options);
+        $publisher('#ppy3').popeye(options);
     });
     //]]>-->
 </script>

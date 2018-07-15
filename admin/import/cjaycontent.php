@@ -87,14 +87,14 @@ if ('start' === $op) {
 if ('go' === $op) {
     Publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    require_once __DIR__ . '/../../include/common.php';
+    // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
     Publisher\Utility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /* @var  $moduleHandler XoopsModuleHandler */
     $moduleHandler         = xoops_getHandler('module');
     $moduleObj             = $moduleHandler->getByDirname('cjaycontent');
     $cjaycontent_module_id = $moduleObj->getVar('mid');
-    /* @var  $gpermHandler XoopsGroupPermHandler */
-    $gpermHandler = xoops_getHandler('groupperm');
+    /* @var  $grouppermHandler XoopsGroupPermHandler */
+    $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_articles = 0;
 

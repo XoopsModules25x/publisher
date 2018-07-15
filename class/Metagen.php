@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -21,7 +22,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Metagen
@@ -78,6 +79,7 @@ class Metagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
+        /** @var Publisher\Helper $this->helper */
         $this->helper = Publisher\Helper::getInstance();
         $this->myts      = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);

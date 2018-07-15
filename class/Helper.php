@@ -20,8 +20,11 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+//defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
+/**
+ * Class Helper
+ */
 /**
  * Class Helper
  */
@@ -30,20 +33,20 @@ class Helper extends \Xmf\Module\Helper
     public $debug;
 
     /**
-     * Constructor
-     *
+     * @internal param $debug
      * @param bool $debug
      */
-    protected function __construct($debug = false)
+    public function __construct($debug = false)
     {
         $this->debug   = $debug;
-        $this->dirname = basename(dirname(__DIR__));
+        $moduleDirName = basename(dirname(__DIR__));
+        parent::__construct($moduleDirName);
     }
 
     /**
      * @param bool $debug
      *
-     * @return \Xmf\Module\Helper
+     * @return \XoopsModules\Publisher\Helper
      */
     public static function getInstance($debug = false)
     {
@@ -53,24 +56,6 @@ class Helper extends \Xmf\Module\Helper
         }
 
         return $instance;
-    }
-
-
-    /**
-     * @param null|string $name
-     * @param null|string $value
-     *
-     * @return mixed
-     */
-    public function setConfig($name = null, $value = null)
-    {
-        if (null === $this->configs) {
-            $this->initConfig();
-        }
-        $this->configs[$name] = $value;
-        $this->addLog("Setting config '{$name}' : " . $this->configs[$name]);
-
-        return $this->configs[$name];
     }
 
     /**
@@ -97,5 +82,4 @@ class Helper extends \Xmf\Module\Helper
         return $ret;
     }
 }
-
-
+//require_once __DIR__ . '/../../mainfile.php';

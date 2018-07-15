@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Publisher\Form;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -24,10 +25,9 @@ use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
-
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
-require_once __DIR__ . '/../../include/common.php';
+// require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
 xoops_load('XoopsFormLoader');
 xoops_load('XoopsLists');
@@ -96,6 +96,7 @@ class ItemForm extends Publisher\ThemeTabForm
      */
     public function isGranted($item)
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
         $ret       = false;
         if (!$this->checkperm || $helper->getHandler('Permission')->isGranted('form_view', $item)) {
@@ -134,6 +135,7 @@ class ItemForm extends Publisher\ThemeTabForm
      */
     public function createElements($obj)
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
         $allowedEditors = Publisher\Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));

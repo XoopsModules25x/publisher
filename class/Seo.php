@@ -24,7 +24,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Seo
@@ -112,6 +112,7 @@ class Seo
      */
     public static function generateUrl($op, $id, $shortUrl = '')
     {
+        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
         if ('none' !== $helper->getConfig('seo_url_rewrite')) {
             if (!empty($shortUrl)) {

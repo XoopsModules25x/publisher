@@ -11,7 +11,6 @@ use XoopsModules\Publisher;
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/header.php';
-$helper = Publisher\Helper::getInstance();
 
 $itemid       = Request::getInt('itemid', 0, 'GET');
 $item_page_id = Request::getInt('page', -1, 'GET');

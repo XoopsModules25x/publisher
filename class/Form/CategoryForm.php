@@ -25,7 +25,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
-require_once  dirname(dirname(__DIR__)) . '/include/common.php';
+// require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
 xoops_load('XoopsFormLoader');
 require_once $GLOBALS['xoops']->path('class/tree.php');
@@ -53,6 +53,7 @@ class CategoryForm extends \XoopsThemeForm
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
+        /** @var Publisher\Helper $this->helper */
         $this->helper = Publisher\Helper::getInstance();
 
         $this->targetObject =& $target;
@@ -70,7 +71,7 @@ class CategoryForm extends \XoopsThemeForm
 
     public function createElements()
     {
-        require_once  dirname(dirname(__DIR__)) . '/include/common.php';
+        // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
         // Category
         $criteria = new \Criteria(null);
         $criteria->setSort('weight');
@@ -94,7 +95,7 @@ class CategoryForm extends \XoopsThemeForm
 
         // EDITOR
         $groups         = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $grouppermHandler   = $this->helper->getHandler('Groupperm');
+        $grouppermHandler   = $this->helper->getHandler('GroupPerm');
         $moduleId       = $this->helper->getModule()->mid();
         $allowedEditors = Publisher\Utility::getEditors($grouppermHandler->getItemIds('editors', $groups, $moduleId));
         $nohtml         = false;

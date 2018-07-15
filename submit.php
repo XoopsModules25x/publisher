@@ -35,8 +35,8 @@ if (!$categoriesArray) {
 }
 
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var $grouppermHandler XoopsGroupPermHandler */
-$grouppermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('Groupperm'); //xoops_getModuleHandler('groupperm');
+/* @var $grouppermHandler GroupPermHandler */
+$grouppermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
 $moduleId     = $helper->getModule()->getVar('mid');
 
 $itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');

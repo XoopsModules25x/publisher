@@ -19,7 +19,7 @@ use XoopsModules\Publisher\Common;
 
 require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
-include  dirname(__DIR__) . '/preloads/autoloader.php';
+require dirname(__DIR__) . '/preloads/autoloader.php';
 
 $op = \Xmf\Request::getCmd('op', '');
 
@@ -34,7 +34,8 @@ switch ($op) {
 function loadSampleData()
 {
     $moduleDirName = basename(dirname(__DIR__));
-    $helper       = Publisher\Helper::getInstance();
+    /** @var \XoopsModules\Publisher\Helper $helper */
+    $helper       = \XoopsModules\Publisher\Helper::getInstance();
     $utility      = new Publisher\Utility();
     $configurator = new Common\Configurator();
     // Load language files

@@ -1003,14 +1003,14 @@ class Timthumb
         }
         if (!isset($docRoot)) {
             $this->debug(3, 'DOCUMENT_ROOT is not set. This is probably windows. Starting search 1.');
-            if (isset($_SERVER['SCRIPT_FILENAME'])) {
+            if (\Xmf\Request::hasVar('SCRIPT_FILENAME', 'SERVER')) {
                 $docRoot = str_replace('\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - strlen($_SERVER['PHP_SELF'])));
                 $this->debug(3, "Generated docRoot using SCRIPT_FILENAME and PHP_SELF as: $docRoot");
             }
         }
         if (!isset($docRoot)) {
             $this->debug(3, 'DOCUMENT_ROOT still is not set. Starting search 2.');
-            if (isset($_SERVER['PATH_TRANSLATED'])) {
+            if (\Xmf\Request::hasVar('PATH_TRANSLATED', 'SERVER')) {
                 $docRoot = str_replace('\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - strlen($_SERVER['PHP_SELF'])));
                 $this->debug(3, "Generated docRoot using PATH_TRANSLATED and PHP_SELF as: $docRoot");
             }

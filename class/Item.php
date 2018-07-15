@@ -50,6 +50,7 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
+        /** @var Publisher\Helper $this->helper */
         $this->helper = Publisher\Helper::getInstance();
         $this->db        = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', XOBJ_DTYPE_INT, 0);
@@ -214,7 +215,7 @@ class Item extends \XoopsObject
         if (file_exists($page)) {
             // this page uses smarty template
             ob_start();
-            include $page;
+            require $page;
             $content = ob_get_contents();
             ob_end_clean();
             // Cleaning the content

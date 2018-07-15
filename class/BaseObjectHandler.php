@@ -54,9 +54,9 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     protected $idfield = 'id';
 
     /**
-     * @param \XoopsDatabase $db
+     * @param \XoopsDatabase|null $db
      */
-    public function init(\XoopsDatabase $db)
+    public function init(\XoopsDatabase $db = null)
     {
         $this->db = $db;
     }
@@ -349,12 +349,12 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Singleton - prevent multiple instances of this class
      *
-     * @param \XoopsDatabase $db
+     * @param \XoopsDatabase|null $db
      *
      * @return XoopsObject {@link pagesCategoryHandler}
      * @access public
      */
-    public function getInstance(\XoopsDatabase $db)
+    public function getInstance(\XoopsDatabase $db = null)
     {
         static $instance;
         if (null === $instance) {

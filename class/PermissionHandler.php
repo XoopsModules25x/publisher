@@ -42,6 +42,7 @@ class PermissionHandler extends \XoopsObjectHandler
      */
     public function __construct()
     {
+        /** @var Publisher\Helper $this->helper */
         $this->helper = Publisher\Helper::getInstance();
     }
 

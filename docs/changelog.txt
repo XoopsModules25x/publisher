@@ -2,6 +2,9 @@
 <hr>
 - fixed notifications bug (mamba)
 - added responsive image (mamba)
+- added blocks admin (mamba)
+- include to require (mamba)
+- other cosmetics (mamba)
 
 
 <h5>1.06 Beta 3       [2018-03-15]</h5>  Dev: Xoops 2.5.9, PHP 7.2.3

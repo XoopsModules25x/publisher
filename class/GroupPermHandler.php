@@ -29,7 +29,7 @@ require_once  dirname(__DIR__) . '/include/common.php';
 /**
  * Class GroupPermHandler
  */
-class GrouppermHandler extends \XoopsGroupPermHandler
+class GroupPermHandler extends \XoopsGroupPermHandler
 {
     /**
      * Check permission

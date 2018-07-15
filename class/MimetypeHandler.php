@@ -38,7 +38,7 @@ class MimetypeHandler extends BaseObjectHandler
      *
      * @param null|\XoopsDatabase $db reference to a xoopsDB object
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db = null)
     {
         parent::init($db);
         $this->className = Mimetype::class;
@@ -212,6 +212,7 @@ class MimetypeHandler extends BaseObjectHandler
                 throw new RuntimeException('no need for join...');
             }
         } catch (\Exception $e) {
+            /** @var Publisher\Helper $helper */
             $helper = Publisher\Helper::getInstance();
             $helper->addLog($e);
             echo 'no need for join...';

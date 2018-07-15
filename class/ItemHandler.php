@@ -50,8 +50,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * @param null|\XoopsDatabase $db
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db = null)
     {
+        /** @var Publisher\Helper $this->helper */
         parent::__construct($db, 'publisher_items', Item::class, 'itemid', 'title');
         $this->helper = Publisher\Helper::getInstance();
     }

@@ -353,3 +353,5 @@ define('_MI_PUBLISHER_CONFCAT_SUBMIT', '<span style="color: #FF0000; font-size: 
 define('_MI_PUBLISHER_CONFCAT_SUBMIT_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Submit article layout and form default values ---</span> ');
 define('_MI_PUBLISHER_CONFCAT_SEARCH', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Search page ---</span> ');
 define('_MI_PUBLISHER_CONFCAT_SEARCH_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+
+define('_MI_PUBLISHER_ADMENU5', 'Blocks Admin');

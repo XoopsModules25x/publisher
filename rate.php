@@ -29,8 +29,8 @@ $rating = Request::getInt('rating', 0, 'GET');
 $itemid = Request::getInt('itemid', 0, 'GET');
 
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var $grouppermHandler XoopsGroupPermHandler */
-$grouppermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('Groupperm');//xoops_getModuleHandler('groupperm');
+/* @var $grouppermHandler GroupPermHandler */
+$grouppermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('GroupPerm');//xoops_getModuleHandler('groupperm');
 /* @var $configHandler XoopsConfigHandler */
 $configHandler = xoops_getHandler('config');
 $module_id     = $helper->getModule()->getVar('mid');

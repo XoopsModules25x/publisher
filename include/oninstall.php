@@ -24,7 +24,7 @@ use XoopsModules\Publisher\Common;
  */
 function xoops_module_pre_install_publisher(\XoopsModule $module)
 {
-    include  dirname(__DIR__) . '/preloads/autoloader.php';
+    require dirname(__DIR__) . '/preloads/autoloader.php';
     /** @var Publisher\Utility $utility */
     $utility      = new Publisher\Utility();
 
@@ -50,7 +50,7 @@ function xoops_module_pre_install_publisher(\XoopsModule $module)
  */
 function xoops_module_install_publisher(\XoopsModule $module)
 {
-    include  dirname(__DIR__) . '/preloads/autoloader.php';
+    require dirname(__DIR__) . '/preloads/autoloader.php';
 
     $moduleDirName = basename(dirname(__DIR__));
 
@@ -91,7 +91,7 @@ function xoops_module_install_publisher(\XoopsModule $module)
         foreach (array_keys($configurator->copyTestFolders) as $i) {
             $src  = $configurator->copyTestFolders[$i][0];
             $dest = $configurator->copyTestFolders[$i][1];
-            $utility::xcopy($src, $dest);
+            $utility::rcopy($src, $dest);
         }
     }
 

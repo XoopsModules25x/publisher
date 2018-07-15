@@ -20,6 +20,8 @@
  */
 
 
+require __DIR__ . '/common.php';
+
 /**
  * @return object
  */

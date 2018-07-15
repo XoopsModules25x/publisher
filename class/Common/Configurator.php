@@ -20,6 +20,8 @@
  *
  */
 
+use XoopsModules\Publisher;
+
 /**
  * Class Configurator
  */
@@ -40,11 +42,13 @@ class Configurator
      */
     public function __construct()
     {
-        $moduleDirName = basename(dirname(dirname(__DIR__)));
-        $capsDirName   = strtoupper($moduleDirName);
+        $moduleDirName = basename(dirname(__DIR__));
+        $capsDirName         = strtoupper($moduleDirName);
 
-        require dirname(dirname(__DIR__)) . '/include/config.php';
-        $config = getConfig();
+        $this->templateFolders = [
+            '/templates/',
+            '/templates/blocks/',
+            '/templates/admin/'
 
         $this->name            = $config->name;
         $this->paths           = $config->paths;

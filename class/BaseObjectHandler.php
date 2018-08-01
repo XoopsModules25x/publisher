@@ -197,7 +197,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param \CriteriaElement $criteria {@link \CriteriaElement} to match
+     * @param \CriteriaElement|\CriteriaCompo $criteria {@link \CriteriaElement} to match
      *
      * @return string SQL query
      */
@@ -218,7 +218,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * count objects matching a criteria
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
      *                                   to match
      *
      * @return int count of objects
@@ -267,7 +267,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * delete department matching a set of conditions
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
      *
      * @param  bool            $force
      * @param  bool            $asObject
@@ -291,7 +291,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      *
      * @param string           $fieldname
      * @param string           $fieldvalue
-     * @param \CriteriaElement $criteria {@link \CriteriaElement}
+     * @param \CriteriaElement|\CriteriaCompo $criteria {@link \CriteriaElement}
      *
      * @param  bool            $force
      * @return bool FALSE if update failed

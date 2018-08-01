@@ -159,11 +159,11 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve items from the database
      *
-     * @param \CriteriaElement $criteria     {@link CriteriaElement}
+     * @param \CriteriaElement|\CriteriaCompo $criteria     {@link CriteriaElement}
      *                                       conditions to be met
      * @param  bool|string     $idKey        what shall we use as array key ? none, itemid, categoryid
      * @param  bool            $as_object
-     * @param  string          $notNullFields
+     * @param  string|bool          $notNullFields
      * @return array           array of <a href='psi_element://Item'>Item</a> objects
      *                                       objects
      */
@@ -221,7 +221,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * count items matching a condition
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
      *                                   to match
      * @param string           $notNullFields
      *
@@ -253,7 +253,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param  int           $categoryid
+     * @param  int      $categoryid
      * @param  string|array  $status
      * @param  string        $notNullFields
      * @param                $criteriaPermissions
@@ -274,7 +274,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //                return $ret;
         //            }
         //        }
-        if (null !== $categoryid && -1 != $categoryid) {
+        if (isset($categoryid) && -1 != $categoryid) {
             $criteriaCategory = new \Criteria('categoryid', $categoryid);
         }
         $criteriaStatus = new \CriteriaCompo();
@@ -615,9 +615,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      * @param string       $andor
      * @param int          $limit
      * @param int          $offset
-     * @param int          $userid
+     * @param int|array    $userid
      * @param array        $categories
-     * @param int          $sortby
+     * @param int|string   $sortby
      * @param string|array $searchin
      * @param string       $extra
      *

@@ -315,7 +315,7 @@ class ThemeTabForm extends \XoopsForm
         if (!$recurse) {
             return $this->elements;
         }
-        $ret   = [];
+        $ret = [];
         foreach ($this->elements as $i => $iValue) {
             if (is_object($this->elements[$i])) {
                 $ret[] = &$this->elements[$i];

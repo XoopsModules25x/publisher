@@ -91,6 +91,7 @@ $current_rating = 0;
 $voted          = false;
 $ip             = getenv('REMOTE_ADDR');
 
+/** @var Publisher\Rating $ratingObj */
 foreach ($ratingObjs as $ratingObj) {
     $current_rating += $ratingObj->getVar('rate');
     if ($ratingObj->getVar('ip') == $ip || ($uid > 0 && $uid == $ratingObj->getVar('uid'))) {

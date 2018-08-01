@@ -404,7 +404,7 @@ class Utility
      * @param  string $trimMarker
      * @return string
      */
-    public static function mb_substr($str, $start, $length, $trimMarker = '...')
+    public static function substr($str, $start, $length, $trimMarker = '...')
     {
         // if the string is empty, let's get out ;-)
         if ('' == $str) {

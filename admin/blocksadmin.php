@@ -54,7 +54,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
         $moduleDirName      = basename(dirname(__DIR__));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
-        $db                 = \XoopsDatabaseFactory::getDatabaseConnection();
+        $db = \XoopsDatabaseFactory::getDatabaseConnection();
         xoops_loadLanguage('admin', 'system');
         xoops_loadLanguage('admin/blocksadmin', 'system');
         xoops_loadLanguage('admin/groups', 'system');
@@ -332,13 +332,13 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     }
 
     /**
-     * @param int $bid
-     * @param string $bside
-     * @param int $bweight
-     * @param bool $bvisible
-     * @param int $bcachetime
-     * @param array $bmodule
-     * @param null|array $options
+     * @param int               $bid
+     * @param string            $bside
+     * @param int               $bweight
+     * @param bool              $bvisible
+     * @param int               $bcachetime
+     * @param array             $bmodule
+     * @param null|array|string $options
      */
     function isBlockCloned($bid, $bside, $bweight, $bvisible, $bcachetime, $bmodule, $options = null)
     {

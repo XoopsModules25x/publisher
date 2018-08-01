@@ -128,7 +128,7 @@ class Item extends \XoopsObject
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (mb_strlen($ret) >= $maxLength) {
-                    $ret = Publisher\Utility::mb_substr($ret, 0, $maxLength);
+                    $ret = Publisher\Utility::substr($ret, 0, $maxLength);
                 }
             }
         }

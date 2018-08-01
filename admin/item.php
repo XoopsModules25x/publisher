@@ -31,7 +31,7 @@ if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
 }
 
 $itemid = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
-$op = ($itemid > 0 || Request::getString('editor', '', 'POST')) ? 'mod' : '';
+$op     = ($itemid > 0 || Request::getString('editor', '', 'POST')) ? 'mod' : '';
 //$op     = Request::getString('op', $op, 'GET');
 
 $op = Request::getString('op', Request::getString('op', $op, 'POST'), 'GET');

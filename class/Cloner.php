@@ -3,10 +3,12 @@
 namespace XoopsModules\Publisher;
 
 use XoopsModules\Publisher;
+
 /**
  * Class Cloner
  */
-class Cloner {
+class Cloner
+{
     // recursive cloning script
     /**
      * @param $path

@@ -24,12 +24,12 @@ trait VersionChecks
      * @static
      * @param \XoopsModule $module
      *
-     * @param null|string $requiredVer
+     * @param null|string  $requiredVer
      * @return bool true if meets requirements, false if not
      */
     public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
     {
-        $moduleDirName = basename(dirname(dirname(__DIR__)));
+        $moduleDirName      = basename(dirname(dirname(__DIR__)));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
@@ -60,13 +60,13 @@ trait VersionChecks
      */
     public static function checkVerPhp(\XoopsModule $module)
     {
-        $moduleDirName = basename(dirname(dirname(__DIR__)));
+        $moduleDirName      = basename(dirname(dirname(__DIR__)));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         xoops_loadLanguage('admin', $module->dirname());
         // check for minimum PHP version
         $success = true;
-        $verNum = PHP_VERSION;
-        $reqVer = $module->getInfo('min_php');
+        $verNum  = PHP_VERSION;
+        $reqVer  = $module->getInfo('min_php');
         if (false !== $reqVer && '' !== $reqVer) {
             if (version_compare($verNum, $reqVer, '<')) {
                 $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_PHP'), $reqVer, $verNum));

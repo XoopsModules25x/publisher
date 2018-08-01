@@ -21,6 +21,7 @@ namespace XoopsModules\Publisher;
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
+
 use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');

@@ -190,7 +190,7 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
      *                                   to match
      * @param bool             $join
      *

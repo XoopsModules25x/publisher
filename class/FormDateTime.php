@@ -33,7 +33,7 @@ class FormDateTime extends \XoopsFormElementTray
      * @param      $caption
      * @param      $name
      * @param int  $size
-     * @param int  $value
+     * @param int|bool  $value
      * @param bool $showtime
      * @param bool $formatTimestamp
      */

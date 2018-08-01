@@ -14,10 +14,11 @@
  * @since           2.5.9
  * @author          Michael Beck (aka Mamba)
  */
+
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Common;
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 require dirname(__DIR__) . '/preloads/autoloader.php';
 

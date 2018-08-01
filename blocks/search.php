@@ -24,7 +24,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -33,12 +33,12 @@ require_once  dirname(__DIR__) . '/include/common.php';
  */
 function publisher_search_show($options)
 {
-    $block      = [];
+    $block = [];
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     /** @var Publisher\CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');
-    $categories = $categoryHandler->getCategoriesForSearch();
+    $categories      = $categoryHandler->getCategoriesForSearch();
     if (0 === count($categories)) {
         return $block;
     }
@@ -68,8 +68,8 @@ function publisher_search_show($options)
         $category = array_map('intval', $category);
     }
 
-    $andor  = in_array(strtoupper($andor), ['OR', 'AND', 'EXACT']) ? strtoupper($andor) : 'OR';
-    $sortby = in_array(strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid']) ? strtolower($sortby) : 'itemid';
+    $andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT']) ? mb_strtoupper($andor) : 'OR';
+    $sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid']) ? mb_strtolower($sortby) : 'itemid';
 
     /* type */
     $typeSelect = '<select name="andor">';

@@ -74,7 +74,7 @@ if ($count > 0) {
                 'count_items' => 0,
                 'count_hits'  => 0,
                 'title'       => $item->getCategoryName(),
-                'link'        => $item->getCategoryLink()
+                'link'        => $item->getCategoryLink(),
             ];
         }
 
@@ -86,7 +86,7 @@ if ($count > 0) {
             'link'      => $item->getItemLink(),
             'published' => $item->getDatesub(_SHORTDATESTRING),
             //'rating'    => $xoopsLocal->number_format((float)$item->rating())
-            'rating'    => $item->rating()
+            'rating'    => $item->rating(),
         ];
     }
 }

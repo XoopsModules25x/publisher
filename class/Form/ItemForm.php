@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher\Form;
+<?php
+
+namespace XoopsModules\Publisher\Form;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -45,7 +47,7 @@ class ItemForm extends Publisher\ThemeTabForm
         _CO_PUBLISHER_TAB_MAIN   => 'mainTab',
         _CO_PUBLISHER_TAB_IMAGES => 'imagesTab',
         _CO_PUBLISHER_TAB_FILES  => 'filesTab',
-        _CO_PUBLISHER_TAB_OTHERS => 'othersTab'
+        _CO_PUBLISHER_TAB_OTHERS => 'othersTab',
     ];
 
     public $mainTab = [
@@ -63,22 +65,22 @@ class ItemForm extends Publisher\ThemeTabForm
         Constants::PUBLISHER_AUTHOR_ALIAS,
         Constants::PUBLISHER_NOTIFY,
         Constants::PUBLISHER_AVAILABLE_PAGE_WRAP,
-        Constants::PUBLISHER_UID
+        Constants::PUBLISHER_UID,
     ];
 
     public $imagesTab = [
-        Constants::PUBLISHER_IMAGE_ITEM
+        Constants::PUBLISHER_IMAGE_ITEM,
     ];
 
     public $filesTab = [
-        Constants::PUBLISHER_ITEM_UPLOAD_FILE
+        Constants::PUBLISHER_ITEM_UPLOAD_FILE,
     ];
 
     public $othersTab = [
         Constants::PUBLISHER_ITEM_META_KEYWORDS,
         Constants::PUBLISHER_ITEM_META_DESCRIPTION,
         Constants::PUBLISHER_WEIGHT,
-        Constants::PUBLISHER_ALLOWCOMMENTS
+        Constants::PUBLISHER_ALLOWCOMMENTS,
     ];
 
     /**
@@ -98,7 +100,7 @@ class ItemForm extends Publisher\ThemeTabForm
     {
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
-        $ret       = false;
+        $ret    = false;
         if (!$this->checkperm || $helper->getHandler('Permission')->isGranted('form_view', $item)) {
             $ret = true;
         }
@@ -310,7 +312,7 @@ class ItemForm extends Publisher\ThemeTabForm
                 Constants::PUBLISHER_STATUS_SUBMITTED => _CO_PUBLISHER_SUBMITTED,
                 Constants::PUBLISHER_STATUS_PUBLISHED => _CO_PUBLISHER_PUBLISHED,
                 Constants::PUBLISHER_STATUS_OFFLINE   => _CO_PUBLISHER_OFFLINE,
-                Constants::PUBLISHER_STATUS_REJECTED  => _CO_PUBLISHER_REJECTED
+                Constants::PUBLISHER_STATUS_REJECTED  => _CO_PUBLISHER_REJECTED,
             ];
             $statusSelect = new \XoopsFormSelect(_CO_PUBLISHER_STATUS, 'status', $obj->getVar('status'));
             $statusSelect->addOptionArray($options);

@@ -31,7 +31,7 @@ if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
 }
 
 $itemid = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
-$op     = ($itemid > 0 || Request::getString('editor', '', 'POST')) ? 'mod' : '';
+$op = ($itemid > 0 || Request::getString('editor', '', 'POST')) ? 'mod' : '';
 //$op     = Request::getString('op', $op, 'GET');
 
 $op = Request::getString('op', Request::getString('op', $op, 'POST'), 'GET');
@@ -88,7 +88,7 @@ switch ($op) {
         switch ($newStatus) {
             case Constants::PUBLISHER_STATUS_SUBMITTED:
                 $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
-                if ($old_status == Constants::PUBLISHER_STATUS_NOTSET) {
+                if (Constants::PUBLISHER_STATUS_NOTSET == $old_status) {
                     $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 }
                 $redirect_msg = _AM_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
@@ -106,7 +106,7 @@ switch ($op) {
 
             case Constants::PUBLISHER_STATUS_OFFLINE:
                 $redirect_msg = _AM_PUBLISHER_OFFLINE_MOD_SUCCESS;
-                if ($old_status == Constants::PUBLISHER_STATUS_NOTSET) {
+                if (Constants::PUBLISHER_STATUS_NOTSET == $old_status) {
                     $redirect_msg = _AM_PUBLISHER_OFFLINE_CREATED_SUCCESS;
                 }
                 $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
@@ -114,7 +114,7 @@ switch ($op) {
 
             case Constants::PUBLISHER_STATUS_REJECTED:
                 $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
-                if ($old_status == Constants::PUBLISHER_STATUS_NOTSET) {
+                if (Constants::PUBLISHER_STATUS_NOTSET == $old_status) {
                     $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 }
                 $redirect_msg = _AM_PUBLISHER_ITEM_REJECTED;
@@ -156,7 +156,7 @@ switch ($op) {
                 //                exit();
             }
             redirect_header('item.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
-        //            exit();
+            //            exit();
         } else {
             xoops_cp_header();
             xoops_confirm(['op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()], 'item.php', _AM_PUBLISHER_DELETETHISITEM . " <br>'" . $itemObj->getTitle() . "'. <br> <br>", _AM_PUBLISHER_DELETE);

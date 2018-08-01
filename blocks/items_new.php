@@ -24,7 +24,7 @@ use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -63,16 +63,16 @@ function publisher_items_new_show($options)
 
     $totalitems = count($itemsObj);
     if ($totalitems > 0) {
-        for ($i = 0; $i < $totalitems; ++$i) {
+        foreach ($itemsObj as $iValue) {
             $item           = [];
-            $item['link']   = $itemsObj[$i]->getItemLink(false, isset($options[4]) ? $options[4] : 65);
-            $item['id']     = $itemsObj[$i]->itemid();
-            $item['poster'] = $itemsObj[$i]->posterName(); // for make poster name linked, use getLinkedPosterName() instead of posterName()
+            $item['link']   = $iValue->getItemLink(false, isset($options[4]) ? $options[4] : 65);
+            $item['id']     = $iValue->itemid();
+            $item['poster'] = $iValue->posterName(); // for make poster name linked, use getLinkedPosterName() instead of posterName()
 
             if ('article' === $image) {
                 $item['image']      = XOOPS_URL . '/uploads/blank.gif';
                 $item['image_name'] = '';
-                $images             = $itemsObj[$i]->getImages();
+                $images             = $iValue->getImages();
                 if (is_object($images['main'])) {
                     // check to see if GD function exist
                     if (!function_exists('imagecreatetruecolor')) {
@@ -83,12 +83,12 @@ function publisher_items_new_show($options)
                     $item['image_name'] = $images['main']->getVar('image_nicename');
                 }
             } elseif ('category' === $image) {
-                $item['image']      = $itemsObj[$i]->getCategoryImagePath();
-                $item['image_name'] = $itemsObj[$i]->getCategoryName();
+                $item['image']      = $iValue->getCategoryImagePath();
+                $item['image_name'] = $iValue->getCategoryName();
             } elseif ('avatar' === $image) {
-                if ('0' == $itemsObj[$i]->uid()) {
+                if ('0' == $iValue->uid()) {
                     $item['image'] = XOOPS_URL . '/uploads/blank.gif';
-                    $images        = $itemsObj[$i]->getImages();
+                    $images        = $iValue->getImages();
                     if (is_object($images['main'])) {
                         // check to see if GD function exist
                         if (!function_exists('imagecreatetruecolor')) {
@@ -100,28 +100,28 @@ function publisher_items_new_show($options)
                 } else {
                     // check to see if GD function exist
                     if (!function_exists('imagecreatetruecolor')) {
-                        $item['image'] = XOOPS_URL . '/uploads/' . $itemsObj[$i]->posterAvatar();
+                        $item['image'] = XOOPS_URL . '/uploads/' . $iValue->posterAvatar();
                     } else {
-                        $item['image'] = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $itemsObj[$i]->posterAvatar() . '&amp;w=50';
+                        $item['image'] = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $iValue->posterAvatar() . '&amp;w=50';
                     }
                 }
-                $item['image_name'] = $itemsObj[$i]->posterName();
+                $item['image_name'] = $iValue->posterName();
             }
 
-            $item['title'] = $itemsObj[$i]->getTitle();
+            $item['title'] = $iValue->getTitle();
 
             if ('datesub' === $sort) {
-                $item['new'] = $itemsObj[$i]->getDatesub();
+                $item['new'] = $iValue->getDatesub();
             } elseif ('counter' === $sort) {
-                $item['new'] = $itemsObj[$i]->counter();
+                $item['new'] = $iValue->counter();
             } elseif ('weight' === $sort) {
-                $item['new'] = $itemsObj[$i]->weight();
+                $item['new'] = $iValue->weight();
             } elseif ('rating' === $sort) {
-                $item['new'] = $itemsObj[$i]->rating();
+                $item['new'] = $iValue->rating();
             } elseif ('votes' === $sort) {
-                $item['new'] = $itemsObj[$i]->votes();
+                $item['new'] = $iValue->votes();
             } elseif ('comments' === $sort) {
-                $item['new'] = $itemsObj[$i]->comments();
+                $item['new'] = $iValue->comments();
             }
 
             $block['newitems'][] = $item;
@@ -153,7 +153,7 @@ function publisher_items_new_edit($options)
                                   'weight'   => _MB_PUBLISHER_WEIGHT,
                                   'rating'   => _MI_PUBLISHER_ORDERBY_RATING,
                                   'votes'    => _MI_PUBLISHER_ORDERBY_VOTES,
-                                  'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS
+                                  'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS,
                               ]);
 
     $showEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_ORDER_SHOW, 'options[2]', $options[2]);
@@ -165,7 +165,7 @@ function publisher_items_new_edit($options)
                                   'none'     => _NONE,
                                   'article'  => _MB_PUBLISHER_IMAGE_ARTICLE,
                                   'category' => _MB_PUBLISHER_IMAGE_CATEGORY,
-                                  'avatar'   => _MB_PUBLISHER_IMAGE_AVATAR
+                                  'avatar'   => _MB_PUBLISHER_IMAGE_AVATAR,
                               ]);
 
     $form->addElement($catEle);

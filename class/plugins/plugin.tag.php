@@ -40,8 +40,8 @@ function publisher_tag_iteminfo(&$items)
     /** @var \XoopsModules\Publisher\ItemHandler $itemHandler */
     $itemHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('Item');
 
-    $criteria        = new \Criteria('itemid', '(' . implode(', ', $itemsId) . ')', 'IN');
-    $itemsObj        = $itemHandler->getObjects($criteria, 'itemid');
+    $criteria = new \Criteria('itemid', '(' . implode(', ', $itemsId) . ')', 'IN');
+    $itemsObj = $itemHandler->getObjects($criteria, 'itemid');
 
     foreach (array_keys($items) as $catId) {
         foreach (array_keys($items[$catId]) as $itemId) {
@@ -52,7 +52,7 @@ function publisher_tag_iteminfo(&$items)
                 'link'    => "item.php?itemid={$itemId}",
                 'time'    => $itemObj->getVar('datesub'),
                 'tags'    => tag_parse_tag($itemObj->getVar('item_tag', 'n')), // optional
-                'content' => ''
+                'content' => '',
             ];
         }
     }

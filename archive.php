@@ -47,7 +47,7 @@ $monthsArray = [
     9  => _CAL_SEPTEMBER,
     10 => _CAL_OCTOBER,
     11 => _CAL_NOVEMBER,
-    12 => _CAL_DECEMBER
+    12 => _CAL_DECEMBER,
 ];
 $fromyear    = Request::getInt('year');
 $frommonth   = Request::getInt('month');

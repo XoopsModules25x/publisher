@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -25,7 +27,7 @@ use XoopsModules\Publisher;
 //namespace Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Item
@@ -34,14 +36,12 @@ class Item extends \XoopsObject
 {
     /**
      * @var Publisher\Helper
-     * @access public
      */
     public $helper;
     public $groupsRead = [];
 
     /**
      * @var Publisher\Category
-     * @access public
      */
     public $category;
 
@@ -52,7 +52,7 @@ class Item extends \XoopsObject
     {
         /** @var Publisher\Helper $this->helper */
         $this->helper = Publisher\Helper::getInstance();
-        $this->db        = \XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('title', XOBJ_DTYPE_TXTBOX, '', true, 255);
@@ -83,7 +83,7 @@ class Item extends \XoopsObject
         $this->initVar('item_tag', XOBJ_DTYPE_TXTAREA, '', false);
         // Non consistent values
         $this->initVar('pagescount', XOBJ_DTYPE_INT, 0, false);
-        if (isset($id)) {
+        if (null !== $id) {
             $item = $this->helper->getHandler('Item')->get($id);
             foreach ($item->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
@@ -109,7 +109,7 @@ class Item extends \XoopsObject
      */
     public function getCategory()
     {
-        if (!isset($this->category)) {
+        if (null === $this->category) {
             $this->category = $this->helper->getHandler('Category')->get($this->getVar('categoryid'));
         }
 
@@ -127,7 +127,7 @@ class Item extends \XoopsObject
         $ret = $this->getVar('title', $format);
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (strlen($ret) >= $maxLength) {
+                if (mb_strlen($ret) >= $maxLength) {
                     $ret = Publisher\Utility::substr($ret, 0, $maxLength);
                 }
             }
@@ -147,7 +147,7 @@ class Item extends \XoopsObject
         $ret = $this->getVar('subtitle', $format);
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (strlen($ret) >= $maxLength) {
+                if (mb_strlen($ret) >= $maxLength) {
                     $ret = Publisher\Utility::substr($ret, 0, $maxLength);
                 }
             }
@@ -171,10 +171,10 @@ class Item extends \XoopsObject
         }
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (strlen($ret) >= $maxLength) {
+                if (mb_strlen($ret) >= $maxLength) {
                     //$ret = Publisher\Utility::substr($ret , 0, $maxLength);
                     //                    $ret = Publisher\Utility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
-                    $ret =  Publisher\Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
+                    $ret = Publisher\Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
             }
         }
@@ -219,10 +219,10 @@ class Item extends \XoopsObject
             $content = ob_get_contents();
             ob_end_clean();
             // Cleaning the content
-            $bodyStartPos = strpos($content, '<body>');
+            $bodyStartPos = mb_strpos($content, '<body>');
             if ($bodyStartPos) {
-                $bodyEndPos = strpos($content, '</body>', $bodyStartPos);
-                $content    = substr($content, $bodyStartPos + strlen('<body>'), $bodyEndPos - strlen('<body>') - $bodyStartPos);
+                $bodyEndPos = mb_strpos($content, '</body>', $bodyStartPos);
+                $content    = mb_substr($content, $bodyStartPos + mb_strlen('<body>'), $bodyEndPos - mb_strlen('<body>') - $bodyStartPos);
             }
             // Check if ML Hack is installed, and if yes, parse the $content in formatForML
             $myts = \MyTextSanitizer::getInstance();
@@ -246,17 +246,17 @@ class Item extends \XoopsObject
     public function getBody($maxLength = 0, $format = 'S', $stripTags = '')
     {
         $ret     = $this->getVar('body', $format);
-        $wrapPos = strpos($ret, '[pagewrap=');
+        $wrapPos = mb_strpos($ret, '[pagewrap=');
         if (!(false === $wrapPos)) {
             $wrapPages      = [];
-            $wrapCodeLength = strlen('[pagewrap=');
+            $wrapCodeLength = mb_strlen('[pagewrap=');
             while (!(false === $wrapPos)) {
-                $endWrapPos = strpos($ret, ']', $wrapPos);
+                $endWrapPos = mb_strpos($ret, ']', $wrapPos);
                 if ($endWrapPos) {
-                    $wrap_page_name = substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
+                    $wrap_page_name = mb_substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
                     $wrapPages[]    = $wrap_page_name;
                 }
-                $wrapPos = strpos($ret, '[pagewrap=', $endWrapPos - 1);
+                $wrapPos = mb_strpos($ret, '[pagewrap=', $endWrapPos - 1);
             }
             foreach ($wrapPages as $page) {
                 $wrapPageContent = $this->wrapPage($page);
@@ -274,7 +274,7 @@ class Item extends \XoopsObject
         }
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (strlen($ret) >= $maxLength) {
+                if (mb_strlen($ret) >= $maxLength) {
                     //$ret = Publisher\Utility::substr($ret , 0, $maxLength);
                     $ret = Publisher\Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
@@ -366,7 +366,7 @@ class Item extends \XoopsObject
         if (!$this->helper->getHandler('Item')->insert($this, $force)) {
             return false;
         }
-        if ($isNew && $this->status() == Constants::PUBLISHER_STATUS_PUBLISHED) {
+        if ($isNew && Constants::PUBLISHER_STATUS_PUBLISHED == $this->status()) {
             // Increment user posts
             $userHandler   = xoops_getHandler('user');
             $memberHandler = xoops_getHandler('member');
@@ -596,9 +596,8 @@ class Item extends \XoopsObject
     {
         if ($class) {
             return '<a class=' . $class . ' href="' . $this->getItemUrl() . '">' . $this->getTitle($maxsize) . '</a>';
-        } else {
-            return '<a href="' . $this->getItemUrl() . '">' . $this->getTitle($maxsize) . '</a>';
         }
+        return '<a href="' . $this->getItemUrl() . '">' . $this->getTitle($maxsize) . '</a>';
     }
 
     /**
@@ -880,7 +879,7 @@ class Item extends \XoopsObject
     public function highlight($content, $keywords)
     {
         $color = $this->helper->getConfig('format_highlight_color');
-        if (0 !== strpos($color, '#')) {
+        if (0 !== mb_strpos($color, '#')) {
             $color = '#' . $color;
         }
         require_once __DIR__ . '/Highlighter.php';
@@ -919,11 +918,11 @@ class Item extends \XoopsObject
         $os      = '';
         $browser = '';
         //        if (preg_match("/Win/i", $agent)) {
-        if (false !== stripos($agent, 'Win')) {
+        if (false !== mb_stripos($agent, 'Win')) {
             $os = 'win';
         }
         //        if (preg_match("/MSIE/i", $agent)) {
-        if (false !== stripos($agent, 'MSIE')) {
+        if (false !== mb_stripos($agent, 'MSIE')) {
             $browser = 'msie';
         }
         // if msie
@@ -946,7 +945,7 @@ class Item extends \XoopsObject
      */
     public function getForm($title = 'default', $checkperm = true)
     {
-//        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/item.php');
+        //        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/item.php');
         $form = new Publisher\Form\ItemForm($title, 'form', xoops_getenv('PHP_SELF'), 'post', true);
         $form->setCheckPermissions($checkperm);
         $form->createElements($this);
@@ -960,14 +959,14 @@ class Item extends \XoopsObject
      * permission as well.
      * Also, the item needs to be Published
      *
-     * @return boolean : TRUE if the no errors occured
+     * @return bool : TRUE if the no errors occured
      */
     public function accessGranted()
     {
         if (Publisher\Utility::userIsAdmin()) {
             return true;
         }
-        if ($this->status() != Constants::PUBLISHER_STATUS_PUBLISHED) {
+        if (Constants::PUBLISHER_STATUS_PUBLISHED != $this->status()) {
             return false;
         }
         // Do we have access to the parent category
@@ -1055,7 +1054,7 @@ class Item extends \XoopsObject
             $gmtTimestamp = $localTimestamp - $offset;
             $this->setVar('datesub', $gmtTimestamp);
 
-        //            }
+            //            }
         } elseif ($this->isNew()) {
             $this->setVar('datesub', time());
         }

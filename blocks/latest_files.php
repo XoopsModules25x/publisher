@@ -24,7 +24,7 @@ use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -87,7 +87,7 @@ function publisher_latest_files_edit($options)
     $orderEle->addOptionArray([
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT
+                                  'weight'  => _MB_PUBLISHER_WEIGHT,
                               ]);
     $dispEle   = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $directEle = new \XoopsFormRadioYN(_MB_PUBLISHER_DIRECTDOWNLOAD, 'options[3]', $options[3]);

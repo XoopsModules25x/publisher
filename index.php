@@ -75,7 +75,7 @@ $lastitemsize = (int)$helper->getConfig('idxcat_last_item_size');
 
 // Hide sub categories in main page only - hacked by Mowaffak
 if ('nomain' === $helper->getConfig('idxcat_show_subcats')) {
-//    $GLOBALS['xoopsModuleConfig']->setConfig('idxcat_show_subcats', 'no');
+    //    $GLOBALS['xoopsModuleConfig']->setConfig('idxcat_show_subcats', 'no');
     $GLOBALS['xoopsModuleConfig']['idxcat_show_subcats'] = 'no';
 }
 

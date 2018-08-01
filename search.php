@@ -34,10 +34,10 @@ if (empty($xoopsConfigSearch['enable_search'])) {
 }
 
 /** @var \XoopsModules\Publisher\Helper $helper */
-$helper = \XoopsModules\Publisher\Helper::getInstance();
-$groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+$helper           = \XoopsModules\Publisher\Helper::getInstance();
+$groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $grouppermHandler = $helper->getHandler('GroupPerm');
-$module_id    = $helper->getModule()->mid();
+$module_id        = $helper->getModule()->mid();
 
 //Checking permissions
 if (!$helper->getConfig('perm_search') || !$grouppermHandler->checkRight('global', Constants::PUBLISHER_SEARCH, $groups, $module_id)) {
@@ -70,8 +70,8 @@ if (empty($category) || (is_array($category) && in_array('all', $category))) {
     $category = array_map('intval', $category);
 }
 
-$andor  = in_array(strtoupper($andor), ['OR', 'AND', 'EXACT']) ? strtoupper($andor) : 'OR';
-$sortby = in_array(strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid']) ? strtolower($sortby) : 'itemid';
+$andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT']) ? mb_strtoupper($andor) : 'OR';
+$sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid']) ? mb_strtolower($sortby) : 'itemid';
 
 if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     $next_search['category'] = implode(',', $category);
@@ -84,7 +84,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
         $temp_queries    = preg_split("/[\s,]+/", $query);
         foreach ($temp_queries as $q) {
             $q = trim($q);
-            if (strlen($q) >= $xoopsConfigSearch['keyword_min']) {
+            if (mb_strlen($q) >= $xoopsConfigSearch['keyword_min']) {
                 $queries[] = $myts->addSlashes($q);
             } else {
                 $ignored_queries[] = $myts->addSlashes($q);
@@ -96,7 +96,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
             //            exit();
         }
     } else {
-        if (strlen($query) < $xoopsConfigSearch['keyword_min']) {
+        if (mb_strlen($query) < $xoopsConfigSearch['keyword_min']) {
             redirect_header(PUBLISHER_URL . '/search.php', 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch['keyword_min']));
             //            exit();
         }

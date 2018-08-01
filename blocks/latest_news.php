@@ -25,7 +25,7 @@ use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -41,8 +41,7 @@ function publisher_latest_news_show($options)
     $helper->loadLanguage('main');
     /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
-//    xoops_loadLanguage('main', 'publisher');
-
+    //    xoops_loadLanguage('main', 'publisher');
 
     $start           = $options[0]; // You can show articles from specified range
     $limit           = $options[1];
@@ -385,7 +384,7 @@ function publisher_latest_news_edit($options)
         'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED,
         'ticker'   => _MB_PUBLISHER_TEMPLATE_TICKER,
         'slider1'  => _MB_PUBLISHER_TEMPLATE_SLIDER1,
-        'slider2'  => _MB_PUBLISHER_TEMPLATE_SLIDER2
+        'slider2'  => _MB_PUBLISHER_TEMPLATE_SLIDER2,
     ];
     foreach ($templates as $key => $value) {
         $form .= "<option value='{$key}'";

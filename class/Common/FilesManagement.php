@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher\Common;
+<?php
+
+namespace XoopsModules\Publisher\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -22,7 +24,6 @@ trait FilesManagement
      *
      * @param string $folder The full path of the directory to check
      *
-     * @return void
      * @throws \RuntimeException
      */
     public static function createFolder($folder)
@@ -35,7 +36,8 @@ trait FilesManagement
 
                 file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
             }
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), '<br>';
         }
     }
@@ -95,7 +97,7 @@ trait FilesManagement
 
         // Make destination directory
         if (!is_dir($dest) && !mkdir($dest) && !is_dir($dest)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $dest));
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dest));
         }
 
         // Loop through the folder
@@ -115,9 +117,7 @@ trait FilesManagement
         return true;
     }
 
-
     /**
-     *
      * Remove files and (sub)directories
      *
      * @param string $src source directory to delete
@@ -166,7 +166,6 @@ trait FilesManagement
     }
 
     /**
-     *
      * Recursively remove directory
      *
      * @todo currently won't remove directories with hidden files, should it?

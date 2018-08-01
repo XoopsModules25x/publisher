@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -21,7 +23,7 @@
  */
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * XoopsThemeTabForm
@@ -29,7 +31,6 @@ require_once  dirname(__DIR__) . '/include/common.php';
  * @package
  * @author    John
  * @copyright Copyright (c) 2009
- * @access    public
  */
 class ThemeTabForm extends \XoopsForm
 {
@@ -276,14 +277,14 @@ class ThemeTabForm extends \XoopsForm
      */
     public function getMethod()
     {
-        return ('get' === strtolower($this->method)) ? 'get' : 'post';
+        return ('get' === mb_strtolower($this->method)) ? 'get' : 'post';
     }
 
     /**
      * Add an element to the form
      *
      * @param string|\XoopsFormElement $formElement reference to a {@link XoopsFormElement}
-     * @param bool                    $required    is this a "required" element?
+     * @param bool                     $required    is this a "required" element?
      */
     public function addElement($formElement, $required = false)
     {
@@ -313,17 +314,16 @@ class ThemeTabForm extends \XoopsForm
     {
         if (!$recurse) {
             return $this->elements;
-        } else {
-            $ret   = [];
-            $count = count($this->elements);
-            for ($i = 0; $i < $count; ++$i) {
-                if (is_object($this->elements[$i])) {
-                    $ret[] =& $this->elements[$i];
-                }
-            }
-
-            return $ret;
         }
+        $ret   = [];
+        $count = count($this->elements);
+        foreach ($this->elements as $i => $iValue) {
+            if (is_object($this->elements[$i])) {
+                $ret[] = &$this->elements[$i];
+            }
+        }
+
+        return $ret;
     }
 
     /**
@@ -336,8 +336,8 @@ class ThemeTabForm extends \XoopsForm
         $ret      = [];
         $elements = &$this->getElements(true);
         $count    = count($elements);
-        for ($i = 0; $i < $count; ++$i) {
-            $ret[] = $elements[$i]->getName();
+        foreach ($elements as $iValue) {
+            $ret[] = $iValue->getName();
         }
 
         return $ret;
@@ -354,8 +354,8 @@ class ThemeTabForm extends \XoopsForm
     {
         $elements =& $this->getElements(true);
         $count    = count($elements);
-        for ($i = 0; $i < $count; ++$i) {
-            if ($name == $elements[$i]->getName(false)) {
+        foreach ($elements as $i => $iValue) {
+            if ($name == $iValue->getName(false)) {
                 return $elements[$i];
             }
         }
@@ -389,10 +389,10 @@ class ThemeTabForm extends \XoopsForm
             // will not use getElementByName() for performance..
             $elements =& $this->getElements(true);
             $count    = count($elements);
-            for ($i = 0; $i < $count; ++$i) {
-                $name = $elements[$i]->getName(false);
+            foreach ($elements as $i => $iValue) {
+                $name = $iValue->getName(false);
                 if ($name && isset($values[$name]) && method_exists($elements[$i], 'setValue')) {
-                    $elements[$i]->setValue($values[$name]);
+                    $iValue->setValue($values[$name]);
                 }
             }
         }
@@ -429,10 +429,10 @@ class ThemeTabForm extends \XoopsForm
         $elements =& $this->getElements(true);
         $count    = count($elements);
         $values   = [];
-        for ($i = 0; $i < $count; ++$i) {
-            $name = $elements[$i]->getName(false);
+        foreach ($elements as $i => $iValue) {
+            $name = $iValue->getName(false);
             if ($name && method_exists($elements[$i], 'getValue')) {
-                $values[$name] = $elements[$i]->getValue($encode);
+                $values[$name] = $iValue->getValue($encode);
             }
         }
 
@@ -544,7 +544,7 @@ class ThemeTabForm extends \XoopsForm
      * }
      * </code>
      *
-     * @param boolean $withtags Include the < javascript > tags in the returned string
+     * @param bool $withtags Include the < javascript > tags in the returned string
      *
      * @return string
      */

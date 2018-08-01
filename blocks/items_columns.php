@@ -23,7 +23,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /***
  * Function To Show Publisher Items From Categories In Their Own Columns
@@ -54,7 +54,7 @@ function publisher_items_columns_show($options)
     //get permited categories only once
     /** @var Publisher\CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');
-    $categoriesObj = $categoryHandler->getCategories(0, 0, -1);
+    $categoriesObj   = $categoryHandler->getCategories(0, 0, -1);
 
     //if not selected 'all', let's get the selected ones
     if (!in_array(0, $selCategories)) {
@@ -111,7 +111,8 @@ function publisher_items_columns_show($options)
             //The Rest
             if ($scount > 1) {
                 //                while ((list($itemid, $thisitem) = each($categoryItemsObj)) !== false) {
-                foreach ($categoryItemsObj as $itemid => $thisitem) { //TODO do I need to start with 2nd element?
+                foreach ($categoryItemsObj as $itemid => $thisitem) {
+                    //TODO do I need to start with 2nd element?
                     $subItem['title']      = $thisitem->getTitle();
                     $subItem['cleantitle'] = strip_tags($thisitem->getTitle());
                     $subItem['link']       = $thisitem->getItemLink();
@@ -160,7 +161,7 @@ function publisher_items_columns_edit($options)
                                 '2' => 2,
                                 '3' => 3,
                                 '4' => 4,
-                                '5' => 5
+                                '5' => 5,
                             ]);
     $catEle      = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[1], 0, true, 'options[1]'));
     $cItemsEle   = new \XoopsFormText(_MB_PUBLISHER_NUMBER_ITEMS_CAT, 'options[2]', 4, 255, $options[2]);
@@ -169,7 +170,7 @@ function publisher_items_columns_edit($options)
     $tempEle = new \XoopsFormSelect(_MB_PUBLISHER_TEMPLATE, 'options[4]', $options[4]);
     $tempEle->addOptionArray([
                                  'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
-                                 'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED
+                                 'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED,
                              ]);
 
     $form->addElement($colEle);

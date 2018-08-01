@@ -47,19 +47,19 @@ if ('submit' === Request::getString('op', '', 'POST')) {
     }
 
     $patterns = [
-        strtolower(PUBLISHER_DIRNAME)          => strtolower($clone),
-        strtoupper(PUBLISHER_DIRNAME)          => strtoupper($clone),
-        ucfirst(strtolower(PUBLISHER_DIRNAME)) => ucfirst(strtolower($clone))
+        mb_strtolower(PUBLISHER_DIRNAME)          => mb_strtolower($clone),
+        mb_strtoupper(PUBLISHER_DIRNAME)          => mb_strtoupper($clone),
+        ucfirst(mb_strtolower(PUBLISHER_DIRNAME)) => ucfirst(mb_strtolower($clone)),
     ];
 
     $patKeys   = array_keys($patterns);
     $patValues = array_values($patterns);
     PublisherClone::cloneFileFolder(PUBLISHER_ROOT_PATH);
-    $logocreated = PublisherClone::createLogo(strtolower($clone));
+    $logocreated = PublisherClone::createLogo(mb_strtolower($clone));
 
     $msg = '';
-    if (is_dir($GLOBALS['xoops']->path('modules/' . strtolower($clone)))) {
-        $msg .= sprintf(_AM_PUBLISHER_CLONE_CONGRAT, "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin'>" . ucfirst(strtolower($clone)) . '</a>') . "<br>\n";
+    if (is_dir($GLOBALS['xoops']->path('modules/' . mb_strtolower($clone)))) {
+        $msg .= sprintf(_AM_PUBLISHER_CLONE_CONGRAT, "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin'>" . ucfirst(mb_strtolower($clone)) . '</a>') . "<br>\n";
         if (!$logocreated) {
             $msg .= _AM_PUBLISHER_CLONE_IMAGEFAIL;
         }
@@ -114,12 +114,14 @@ class PublisherClone
 
         if (is_dir($path)) {
             // create new dir
-            mkdir($newPath);
+            if (!mkdir($newPath) && !is_dir($newPath)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $newPath));
+            }
 
             // check all files in dir, and process it
             if ($handle = opendir($path)) {
                 while (false !== ($file = readdir($handle))) {
-                    if (0 !== strpos($file, '.')) {
+                    if (0 !== mb_strpos($file, '.')) {
                         self::cloneFileFolder("{$path}/{$file}");
                     }
                 }
@@ -127,7 +129,7 @@ class PublisherClone
             }
         } else {
             $noChangeExtensions = ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ttf'];
-            if (in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), $noChangeExtensions)) {
+            if (in_array(mb_strtolower(pathinfo($path, PATHINFO_EXTENSION)), $noChangeExtensions, true)) {
                 // image
                 copy($path, $newPath);
             } else {
@@ -148,24 +150,23 @@ class PublisherClone
     {
         if (!extension_loaded('gd')) {
             return false;
-        } else {
-            $requiredFunctions = [
-                'imagecreatefrompng',
-                'imagecolorallocate',
-                'imagefilledrectangle',
-                'imagepng',
-                'imagedestroy',
-                'imagefttext',
-                'imagealphablending',
-                'imagesavealpha'
-            ];
-            foreach ($requiredFunctions as $func) {
-                if (!function_exists($func)) {
-                    return false;
-                }
-            }
-            //            unset($func);
         }
+        $requiredFunctions = [
+            'imagecreatefrompng',
+            'imagecolorallocate',
+            'imagefilledrectangle',
+            'imagepng',
+            'imagedestroy',
+            'imagefttext',
+            'imagealphablending',
+            'imagesavealpha',
+        ];
+        foreach ($requiredFunctions as $func) {
+            if (!function_exists($func)) {
+                return false;
+            }
+        }
+        //            unset($func);
 
         if (!file_exists($imageBase = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/logoModule.png'))
             || !file_exists($font = $GLOBALS['xoops']->path('modules/' . $dirname . '/assets/images/VeraBd.ttf'))) {
@@ -183,7 +184,7 @@ class PublisherClone
 
         // Write text
         $textColor     = imagecolorallocate($imageModule, 0, 0, 0);
-        $spaceToBorder = (80 - strlen($dirname) * 6.5) / 2;
+        $spaceToBorder = (80 - mb_strlen($dirname) * 6.5) / 2;
         imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, ucfirst($dirname), []);
 
         // Set transparency color

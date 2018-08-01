@@ -19,7 +19,6 @@
  * @author          XOOPS Development Team - ( https://xoops.org )
  */
 
-
 require __DIR__ . '/common.php';
 
 /**
@@ -27,10 +26,10 @@ require __DIR__ . '/common.php';
  */
 function getConfig()
 {
-    $moduleDirName = basename(dirname(__DIR__));
-    $moduleDirNameUpper = strtoupper($moduleDirName);
+    $moduleDirName      = basename(dirname(__DIR__));
+    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
     return (object)[
-        'name'           => strtoupper($moduleDirName) . ' Module Configurator',
+        'name'           => mb_strtoupper($moduleDirName) . ' Module Configurator',
         'paths'          => [
             'dirname'    => $moduleDirName,
             'admin'      => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
@@ -61,14 +60,13 @@ function getConfig()
             [
                 XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/thumbs',
                 XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/thumbs',
-            ]
+            ],
         ],
 
         'templateFolders' => [
             '/templates/',
             '/templates/blocks/',
-            '/templates/admin/'
-
+            '/templates/admin/',
         ],
         'oldFiles'        => [
             '/class/request.php',
@@ -77,7 +75,7 @@ function getConfig()
             '/class/util.php',
             // '/include/constants.php',
             // '/include/functions.php',
-            '/ajaxrating.txt'
+            '/ajaxrating.txt',
         ],
         'oldFolders'      => [
             '/images',

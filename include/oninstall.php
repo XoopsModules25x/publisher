@@ -26,15 +26,15 @@ function xoops_module_pre_install_publisher(\XoopsModule $module)
 {
     require dirname(__DIR__) . '/preloads/autoloader.php';
     /** @var Publisher\Utility $utility */
-    $utility      = new Publisher\Utility();
+    $utility = new Publisher\Utility();
 
     //check for minimum XOOPS version
     $xoopsSuccess = $utility::checkVerXoops($module);
 
     // check for minimum PHP version
-    $phpSuccess   = $utility::checkVerPhp($module);
+    $phpSuccess = $utility::checkVerPhp($module);
 
-    if (false !== $xoopsSuccess && false !==  $phpSuccess) {
+    if (false !== $xoopsSuccess && false !== $phpSuccess) {
         $moduleTables =& $module->getInfo('tables');
         foreach ($moduleTables as $table) {
             $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
@@ -54,7 +54,6 @@ function xoops_module_install_publisher(\XoopsModule $module)
 
     $moduleDirName = basename(dirname(__DIR__));
 
-
     /** @var Publisher\Helper $helper */
     /** @var Publisher\Utility $utility */
     /** @var Common\Configurator $configurator */
@@ -66,7 +65,6 @@ function xoops_module_install_publisher(\XoopsModule $module)
     $helper->loadLanguage('admin');
     $helper->loadLanguage('modinfo');
 
-
     //  ---  CREATE FOLDERS ---------------
     if (is_array($configurator->uploadFolders) && count($configurator->uploadFolders) > 0) {
         //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
@@ -77,13 +75,12 @@ function xoops_module_install_publisher(\XoopsModule $module)
 
     //  ---  COPY blank.png FILES ---------------
     if (is_array($configurator->copyBlankFiles) && count($configurator->copyBlankFiles) > 0) {
-        $file =  dirname(__DIR__) . '/assets/images/blank.png';
+        $file = dirname(__DIR__) . '/assets/images/blank.png';
         foreach (array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
             $utility::copyFile($file, $dest);
         }
     }
-
 
     //  ---  COPY test folder files ---------------
     if (is_array($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
@@ -94,7 +91,6 @@ function xoops_module_install_publisher(\XoopsModule $module)
             $utility::rcopy($src, $dest);
         }
     }
-
 
     //delete .html entries from the tpl table
     $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";

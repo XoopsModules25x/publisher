@@ -174,31 +174,30 @@ if ('go' === $op) {
             if (!$itemObj->store()) {
                 echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $arrArticle['title']) . '<br>';
                 continue;
-            } else {
-                // Linkes files
-                $sql               = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('smartsection_files') . ' WHERE itemid=' . $arrArticle['itemid'];
-                $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
-                $allowed_mimetypes = null;
-                while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
-                    $filename = $GLOBALS['xoops']->path('uploads/smartsection/' . $arrFile['filename']);
-                    if (file_exists($filename)) {
-                        if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filename']))) {
-                            /** @var  Publisher\File $fileObj */
-                            $fileObj = $helper->getHandler('File')->create();
-                            $fileObj->setVars($arrFile);
-                            $fileObj->setVar('fileid', 0);
+            }
+            // Linkes files
+            $sql               = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('smartsection_files') . ' WHERE itemid=' . $arrArticle['itemid'];
+            $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
+            $allowed_mimetypes = null;
+            while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
+                $filename = $GLOBALS['xoops']->path('uploads/smartsection/' . $arrFile['filename']);
+                if (file_exists($filename)) {
+                    if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filename']))) {
+                        /** @var  Publisher\File $fileObj */
+                        $fileObj = $helper->getHandler('File')->create();
+                        $fileObj->setVars($arrFile);
+                        $fileObj->setVar('fileid', 0);
 
-                            if ($fileObj->store($allowed_mimetypes, true, false)) {
-                                echo '&nbsp;&nbsp;&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE_FILE, $arrFile['filename']) . '<br>';
-                            }
+                        if ($fileObj->store($allowed_mimetypes, true, false)) {
+                            echo '&nbsp;&nbsp;&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE_FILE, $arrFile['filename']) . '<br>';
                         }
                     }
                 }
-
-                $newArticleArray[$arrArticle['itemid']] = $itemObj->itemid();
-                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br>';
-                ++$cnt_imported_articles;
             }
+
+            $newArticleArray[$arrArticle['itemid']] = $itemObj->itemid();
+            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br>';
+            ++$cnt_imported_articles;
         }
 
         // Saving category permissions

@@ -192,39 +192,38 @@ if ('go' === $op) {
             if (!$itemObj->store()) {
                 echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $arrArticle['title']) . '<br>';
                 continue;
-            } else {
-                /*
-                 // Linkes files
-                 $sql = 'SELECT * FROM '.$GLOBALS['xoopsDB']->prefix('wfs_files').' WHERE articleid=' . $arrArticle['articleid'];
-                 $resultFiles = $GLOBALS['xoopsDB']->query ($sql);
-                 $allowed_mimetypes = '';
-                 while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray ($resultFiles))) {
-
-                 $filename = $GLOBALS['xoops']->path('modules/wfsection/cache/uploaded/' . $arrFile['filerealname']);
-                 if (file_exists($filename)) {
-                 if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
-                 $fileObj = $publisher_fileHandler->create();
-                 $fileObj->setVar('name', $arrFile['fileshowname']);
-                 $fileObj->setVar('description', $arrFile['filedescript']);
-                 $fileObj->setVar('status', Constants::PUBLISHER_STATUS_FILE_ACTIVE);
-                 $fileObj->setVar('uid', $arrArticle['uid']);
-                 $fileObj->setVar('itemid', $itemObj->itemid());
-                 $fileObj->setVar('mimetype', $arrFile['minetype']);
-                 $fileObj->setVar('datesub', $arrFile['date']);
-                 $fileObj->setVar('counter', $arrFile['counter']);
-                 $fileObj->setVar('filename', $arrFile['filerealname']);
-
-                 if ($fileObj->store($allowed_mimetypes, true, false)) {
-                 echo '&nbsp;&nbsp;&nbsp;&nbsp;'  . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE_FILE, $arrFile['filerealname']) . '<br>';
-                 }
-                 }
-                 }
-                 }
-                 */
-                $newArticleArray[$arrArticle['storyid']] = $itemObj->itemid();
-                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br>';
-                ++$cnt_imported_articles;
             }
+            /*
+             // Linkes files
+             $sql = 'SELECT * FROM '.$GLOBALS['xoopsDB']->prefix('wfs_files').' WHERE articleid=' . $arrArticle['articleid'];
+             $resultFiles = $GLOBALS['xoopsDB']->query ($sql);
+             $allowed_mimetypes = '';
+             while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray ($resultFiles))) {
+
+             $filename = $GLOBALS['xoops']->path('modules/wfsection/cache/uploaded/' . $arrFile['filerealname']);
+             if (file_exists($filename)) {
+             if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
+             $fileObj = $publisher_fileHandler->create();
+             $fileObj->setVar('name', $arrFile['fileshowname']);
+             $fileObj->setVar('description', $arrFile['filedescript']);
+             $fileObj->setVar('status', Constants::PUBLISHER_STATUS_FILE_ACTIVE);
+             $fileObj->setVar('uid', $arrArticle['uid']);
+             $fileObj->setVar('itemid', $itemObj->itemid());
+             $fileObj->setVar('mimetype', $arrFile['minetype']);
+             $fileObj->setVar('datesub', $arrFile['date']);
+             $fileObj->setVar('counter', $arrFile['counter']);
+             $fileObj->setVar('filename', $arrFile['filerealname']);
+
+             if ($fileObj->store($allowed_mimetypes, true, false)) {
+             echo '&nbsp;&nbsp;&nbsp;&nbsp;'  . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE_FILE, $arrFile['filerealname']) . '<br>';
+             }
+             }
+             }
+             }
+             */
+            $newArticleArray[$arrArticle['storyid']] = $itemObj->itemid();
+            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br>';
+            ++$cnt_imported_articles;
         }
 
         // Saving category permissions

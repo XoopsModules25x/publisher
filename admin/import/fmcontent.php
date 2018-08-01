@@ -101,7 +101,7 @@ if ('start' === $op) {
             $module        = \XoopsModule::getByDirname($moduleDirName);
             if (Publisher\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
                 $catSelBox = $myObjTree->makeSelectElement('parent_category', 'name', '-', 0, true, 0, '', '')->render();
-            //$form->addElement($catSelBox);
+                //$form->addElement($catSelBox);
             } else {
                 $catSelBox = $myObjTree->makeSelBox('parent_category', 'name', '-', 0, true);
             }
@@ -211,11 +211,10 @@ if ('go' === $op) {
             if (!$itemObj->store()) {
                 echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $thisFmContentObj->getVar('title')) . "<br>\n";
                 continue;
-            } else {
-                $newArticleArray[$thisFmContentObj->getVar('storyid')] = $itemObj->itemid();
-                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . "<br>\n";
-                ++$cnt_imported_articles;
             }
+            $newArticleArray[$thisFmContentObj->getVar('storyid')] = $itemObj->itemid();
+            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . "<br>\n";
+            ++$cnt_imported_articles;
         }
 
         // Saving category permissions
@@ -307,11 +306,10 @@ if ('go' === $op) {
             if (!$itemObj->store()) {
                 echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $thisFmContentObj->getVar('title')) . "<br>\n";
                 continue;
-            } else {
-                $newArticleArray[$thisFmContentObj->getVar('storyid')] = $itemObj->itemid();
-                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . "<br>\n";
-                ++$cnt_imported_articles;
             }
+            $newArticleArray[$thisFmContentObj->getVar('storyid')] = $itemObj->itemid();
+            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . "<br>\n";
+            ++$cnt_imported_articles;
         }
 
         // Saving category permissions

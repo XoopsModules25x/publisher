@@ -56,7 +56,7 @@ class MyTextSanitizerExtension
         $rp             = "<object classid=\"clsid:6BF52A52-394A-11D3-B153-00C04F79FAA6\" id=\"WindowsMediaPlayer\" width=\"\\2\" height=\"\\3\">\n";
         $rp             .= "<param name=\"URL\" value=\"\\4\">\n";
         $rp             .= "<param name=\"AutoStart\" value=\"0\">\n";
-        $rp             .= "<embed autostart=\"0\" src=\"\\4\" type=\"video/x-ms-wmv\" width=\"\\2\" height=\"\\3\" controls=\"ImageWindow\" console=\"cons\"> </embed>";
+        $rp             .= '<embed autostart="0" src="\\4" type="video/x-ms-wmv" width="\\2" height="\\3" controls="ImageWindow" console="cons"> </embed>';
         $rp             .= "</object>\n";
         $replacements[] = $rp;
     }
@@ -112,7 +112,7 @@ class MyTextSanitizerExtension
     {
         $patterns[]     = "/\[mms=(['\"]?)([^\"']*),([^\"']*)\\1]([^\"]*)\[\/mms\]/sU";
         $rp             = "<OBJECT id=videowindow1 height='\\3' width='\\2' classid='CLSID:6BF52A52-394A-11D3-B153-00C04F79FAA6'>";
-        $rp             .= "<PARAM NAME=\"URL\" VALUE=\"\\4\">";
+        $rp             .= '<PARAM NAME="URL" VALUE="\\4">';
         $rp             .= '<PARAM NAME="rate" VALUE="1">';
         $rp             .= '<PARAM NAME="balance" VALUE="0">';
         $rp             .= '<PARAM NAME="currentPosition" VALUE="0">';
@@ -162,7 +162,7 @@ class MyTextSanitizerExtension
         $rp         .= '<param NAME="CENTER" VALUE="0">';
         $rp         .= '<param NAME="MAINTAINASPECT" VALUE="1">';
         $rp         .= '<param NAME="BACKGROUNDCOLOR" VALUE="#000000">';
-        $rp         .= "<param NAME=\"SRC\" VALUE=\"\\4\">";
+        $rp         .= '<param NAME="SRC" VALUE="\\4">';
         $rp         .= "<embed autostart=\"0\" src=\"\\4\" type=\"audio/x-pn-realaudio-plugin\" HEIGHT='\\3' WIDTH='\\2' controls=\"ImageWindow\" console=\"cons\"> </embed>";
         $rp         .= '</object>';
         $rp         .= "<br><object CLASSID=clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA HEIGHT=32 ID=Player WIDTH='\\2' VIEWASTEXT>";
@@ -179,7 +179,7 @@ class MyTextSanitizerExtension
         $rp         .= '<param NAME="CENTER" VALUE="0">';
         $rp         .= '<param NAME="MAINTAINASPECT" VALUE="0">';
         $rp         .= '<param NAME="BACKGROUNDCOLOR" VALUE="#000000">';
-        $rp         .= "<param NAME=\"SRC\" VALUE=\"\\4\">";
+        $rp         .= '<param NAME="SRC" VALUE="\\4">';
         $rp         .= "<embed autostart=\"0\" src=\"\\4\" type=\"audio/x-pn-realaudio-plugin\" HEIGHT='30' WIDTH='\\2' controls=\"ControlPanel\" console=\"cons\"> </embed>";
         $rp         .= '</object>';
 

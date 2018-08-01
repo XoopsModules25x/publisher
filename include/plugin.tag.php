@@ -37,7 +37,7 @@ function publisher_tag_iteminfo(&$items)
         }
     }
     /** @var \XoopsModules\Publisher\Helper $helper */
-    $helper = \XoopsModules\Publisher\Helper::getInstance();
+    $helper      = \XoopsModules\Publisher\Helper::getInstance();
     $itemHandler = $helper->getHandler('Item');
     $criteria    = new \Criteria('itemid', '(' . implode(', ', $items_id) . ')', 'IN');
     $items_obj   = $itemHandler->getObjects($criteria, 'itemid');
@@ -51,7 +51,7 @@ function publisher_tag_iteminfo(&$items)
                 'link'    => "item.php?itemid={$item_id}",
                 'time'    => $item_obj->getVar('datesub'),
                 'tags'    => tag_parse_tag($item_obj->getVar('item_tag', 'n')), // optional
-                'content' => ''
+                'content' => '',
             ];
         }
     }

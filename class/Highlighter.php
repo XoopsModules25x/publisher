@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits

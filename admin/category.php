@@ -43,7 +43,7 @@ switch ($op) {
                 //                exit();
             }
             redirect_header('category.php', 1, sprintf(_AM_PUBLISHER_COLISDELETED, $name));
-        //            exit();
+            //            exit();
         } else {
             xoops_cp_header();
             xoops_confirm(['op' => 'del', 'categoryid' => $categoryObj->categoryid(), 'confirm' => 1, 'name' => $categoryObj->name()], 'category.php', _AM_PUBLISHER_DELETECOL . " '" . $categoryObj->name() . "'. <br> <br>" . _AM_PUBLISHER_DELETE_CAT_CONFIRM, _AM_PUBLISHER_DELETE);

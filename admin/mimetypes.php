@@ -33,7 +33,7 @@ $aSortBy   = [
     'mime_name'  => _AM_PUBLISHER_MIME_NAME,
     'mime_ext'   => _AM_PUBLISHER_MIME_EXT,
     'mime_admin' => _AM_PUBLISHER_MIME_ADMIN,
-    'mime_user'  => _AM_PUBLISHER_MIME_USER
+    'mime_user'  => _AM_PUBLISHER_MIME_USER,
 ];
 $aOrderBy  = ['ASC' => _AM_PUBLISHER_TEXT_ASCENDING, 'DESC' => _AM_PUBLISHER_TEXT_DESCENDING];
 $aLimitBy  = ['10' => 10, '15' => 15, '20' => 20, '25' => 25, '50' => 50, '100' => 100];
@@ -774,9 +774,9 @@ class MimetypesUtility
         $helper = Publisher\Helper::getInstance();
         /** @var Publisher\MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');
-        $limit  = Request::getInt('limit', 0, 'POST');
-        $start  = Request::getInt('start', 0, 'POST');
-        $mimeId = Request::getInt('id', 0, 'POST');
+        $limit           = Request::getInt('limit', 0, 'POST');
+        $start           = Request::getInt('start', 0, 'POST');
+        $mimeId          = Request::getInt('id', 0, 'POST');
         if (0 === $mimeId) {
             redirect_header(PUBLISHER_ADMIN_URL . '/mimetypes.php', 3, _AM_PUBLISHER_MESSAGE_NO_ID);
         }

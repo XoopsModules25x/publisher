@@ -44,7 +44,7 @@ function publisher_pagewrap_upload(&$errors)
     xoops_load('XoopsMediaUploader');
 
     /** @var Publisher\Helper $helper */
-    $helper = Publisher\Helper::getInstance();
+    $helper    = Publisher\Helper::getInstance();
     $postField = 'fileupload';
 
     $maxFileSize    = $helper->getConfig('maximum_filesize');
@@ -52,7 +52,9 @@ function publisher_pagewrap_upload(&$errors)
     $maxImageHeight = $helper->getConfig('maximum_image_height');
 
     if (!is_dir(Publisher\Utility::getUploadDir(true, 'content'))) {
-        mkdir(Publisher\Utility::getUploadDir(true, 'content'), 0757);
+        if (!mkdir($concurrentDirectory = Publisher\Utility::getUploadDir(true, 'content'), 0757) && !is_dir($concurrentDirectory)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+        }
     }
     $allowedMimeTypes = ['text/html', 'text/plain', 'application/xhtml+xml'];
     $uploader         = new \XoopsMediaUploader(Publisher\Utility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
@@ -60,14 +62,12 @@ function publisher_pagewrap_upload(&$errors)
         $uploader->setTargetFileName($uploader->getMediaName());
         if ($uploader->upload()) {
             return true;
-        } else {
-            $errors = array_merge($errors, $uploader->getErrors(false));
-
-            return false;
         }
-    } else {
         $errors = array_merge($errors, $uploader->getErrors(false));
 
         return false;
     }
+    $errors = array_merge($errors, $uploader->getErrors(false));
+
+    return false;
 }

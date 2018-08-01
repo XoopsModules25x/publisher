@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,7 +20,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**

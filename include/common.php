@@ -22,16 +22,15 @@
 
 use XoopsModules\Publisher;
 
-$moduleDirName = basename(dirname(__DIR__));
-$moduleDirNameUpper = strtoupper($moduleDirName);
-
+$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 /** @var \XoopsDatabase $db */
 /** @var \XoopsModules\Publisher\Helper $helper */
 /** @var \XoopsModules\Publisher\Utility $utility */
 
-$db     = \XoopsDatabaseFactory::getDatabaseConnection();
-$helper = \XoopsModules\Publisher\Helper::getInstance();
+$db      = \XoopsDatabaseFactory::getDatabaseConnection();
+$helper  = \XoopsModules\Publisher\Helper::getInstance();
 $utility = new \XoopsModules\Publisher\Utility();
 //$configurator = new Publisher\Common\Configurator();
 
@@ -47,8 +46,6 @@ $helper->loadLanguage('common');
 //$modifiedfielddataHandler = new Publisher\ModifiedfielddataHandler($db);
 //$modifiedHandler          = new Publisher\ModifiedHandler($db);
 //$ratingHandler            = new Publisher\RatingHandler($db);
-
-
 
 if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
     define($moduleDirNameUpper . '_DIRNAME', basename(dirname(__DIR__)));
@@ -68,7 +65,6 @@ if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
     define($moduleDirNameUpper . '_CACHE_PATH', XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/');
     define($moduleDirNameUpper . '_CONSTANTS_DEFINED', 1);
 }
-
 
 //if (!defined('PUBLISHER_DIRNAME')) {
 //    define('PUBLISHER_DIRNAME', basename(dirname(__DIR__)));
@@ -90,9 +86,6 @@ if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
 //require_once PUBLISHER_ROOT_PATH . '/class/session.php';
 //require_once PUBLISHER_ROOT_PATH . '/class/request.php';
 
-
-
-
 //xoops_load('Constants', PUBLISHER_DIRNAME);
 
 //This is needed or it will not work in blocks.
@@ -106,8 +99,8 @@ if (is_object($helper->getModule())) {
     $publisherCurrentPage = Publisher\Utility::getCurrentPage();
 }
 
-$pathIcon16    = Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32    = Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16 = Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32 = Xmf\Module\Admin::iconUrl('', 32);
 //$pathModIcon16 = $helper->getModule()->getInfo('modicons16');
 //$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 

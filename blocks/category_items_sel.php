@@ -23,7 +23,7 @@ use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -61,7 +61,7 @@ function publisher_category_items_sel_show($options)
         $criteria = new \Criteria('categoryid', $catID);
         /** @var Publisher\ItemHandler $itemHandler */
         $itemHandler = $helper->getHandler('Item');
-        $items    = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
+        $items       = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
         unset($criteria);
 
         if (0 === count($items)) {
@@ -106,7 +106,7 @@ function publisher_category_items_sel_edit($options)
     $orderEle->addOptionArray([
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT
+                                  'weight'  => _MB_PUBLISHER_WEIGHT,
                               ]);
     $dispEle  = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $charsEle = new \XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);

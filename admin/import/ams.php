@@ -69,17 +69,18 @@ if ('start' === $op) {
             //            $imagecategory->setVar('imgcat_name', $imgcat_name);
             $imagecategory->setVar('imgcat_name', PUBLISHER_DIRNAME); //$imgcat_name);
             $imagecategory->setVar('imgcat_maxsize', $GLOBALS['xoopsModuleConfig']['maximum_filesize']); //$imgcat_maxsize);
-            $imagecategory->setVar('imgcat_maxwidth', $GLOBALS['xoopsModuleConfig']['maximum_image_width']);//$imgcat_maxwidth);
-            $imagecategory->setVar('imgcat_maxheight', $GLOBALS['xoopsModuleConfig']['maximum_image_height']);//$imgcat_maxheight);
+            $imagecategory->setVar('imgcat_maxwidth', $GLOBALS['xoopsModuleConfig']['maximum_image_width']); //$imgcat_maxwidth);
+            $imagecategory->setVar('imgcat_maxheight', $GLOBALS['xoopsModuleConfig']['maximum_image_height']); //$imgcat_maxheight);
             //            $imgcat_display = empty($imgcat_display) ? 0 : 1;
-            $imagecategory->setVar('imgcat_display', 1);//$imgcat_display);
-            $imagecategory->setVar('imgcat_weight', 0);//$imgcat_weight);
-            $imagecategory->setVar('imgcat_storetype', 'file');//$imgcat_storetype);
+            $imagecategory->setVar('imgcat_display', 1); //$imgcat_display);
+            $imagecategory->setVar('imgcat_weight', 0); //$imgcat_weight);
+            $imagecategory->setVar('imgcat_storetype', 'file'); //$imgcat_storetype);
             $imagecategory->setVar('imgcat_type', 'C');
             try {
                 $imageCategoryHandler->insert($imagecategory);
                 // exit();
-            } catch (\Exception $e) {
+            }
+            catch (\Exception $e) {
                 echo 'Caught exception: could not insert Image Category' . $e->getMessage() . 'n';
             }
 
@@ -239,8 +240,8 @@ if ('go' === $op) {
                   $imageHandler = xoops_getHandler('image');
                   $image = $imageHandler->create();
                   $image->setVar('image_name', $arrCat['topic_imgurl']);//'images/' . $uploader->getSavedFileName());
-                  $image->setVar('image_nicename', substr($arrCat['topic_imgurl'],-13)); //$image_nicename);
-                  $image->setVar('image_mimetype', 'image/'. substr($arrCat['topic_imgurl'],-3));//$uploader->getMediaType());
+                  $image->setVar('image_nicename', mb_substr($arrCat['topic_imgurl'],-13)); //$image_nicename);
+                  $image->setVar('image_mimetype', 'image/'. mb_substr($arrCat['topic_imgurl'],-3));//$uploader->getMediaType());
   //                $image->setVar('image_created', time());
   //                $image_display = empty($image_display) ? 0 : 1;
                   $image->setVar('image_display', 1); //$image_display);
@@ -347,42 +348,41 @@ if ('go' === $op) {
             if (!$itemObj->store()) {
                 echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $arrArticle['storyid'] . ' ' . $arrArticle['title']) . '<br>';
                 continue;
-            } else {
-                //--------------------------------------------
-                // Linkes files
-                $sql               = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('ams_article_files') . ' WHERE storyid=' . $arrArticle['storyid'];
-                $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
-                $allowed_mimetypes = '';
-                while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
-                    $filename = $GLOBALS['xoops']->path('uploads/AMS/attached/' . $arrFile['downloadname']);
-                    if (file_exists($filename)) {
-                        if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
-                            /** @var Publisher\File $fileObj */
-                            $fileObj = $helper->getHandler('File')->create();
-                            $fileObj->setVar('name', $arrFile['filerealname']);
-                            $fileObj->setVar('description', $arrFile['filerealname']);
-                            $fileObj->setVar('status', Constants::PUBLISHER_STATUS_FILE_ACTIVE);
-                            $fileObj->setVar('uid', $arrArticle['uid']);
-                            $fileObj->setVar('itemid', $itemObj->itemid());
-                            $fileObj->setVar('mimetype', $arrFile['mimetype']);
-                            $fileObj->setVar('datesub', $arrFile['date']);
-                            $fileObj->setVar('counter', $arrFile['counter']);
-                            $fileObj->setVar('filename', $arrFile['filerealname']);
-                            $fileObj->setVar('short_url', $arrFile['filerealname']);
+            }
+            //--------------------------------------------
+            // Linkes files
+            $sql               = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('ams_article_files') . ' WHERE storyid=' . $arrArticle['storyid'];
+            $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
+            $allowed_mimetypes = '';
+            while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
+                $filename = $GLOBALS['xoops']->path('uploads/AMS/attached/' . $arrFile['downloadname']);
+                if (file_exists($filename)) {
+                    if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
+                        /** @var Publisher\File $fileObj */
+                        $fileObj = $helper->getHandler('File')->create();
+                        $fileObj->setVar('name', $arrFile['filerealname']);
+                        $fileObj->setVar('description', $arrFile['filerealname']);
+                        $fileObj->setVar('status', Constants::PUBLISHER_STATUS_FILE_ACTIVE);
+                        $fileObj->setVar('uid', $arrArticle['uid']);
+                        $fileObj->setVar('itemid', $itemObj->itemid());
+                        $fileObj->setVar('mimetype', $arrFile['mimetype']);
+                        $fileObj->setVar('datesub', $arrFile['date']);
+                        $fileObj->setVar('counter', $arrFile['counter']);
+                        $fileObj->setVar('filename', $arrFile['filerealname']);
+                        $fileObj->setVar('short_url', $arrFile['filerealname']);
 
-                            if ($fileObj->store($allowed_mimetypes, true, false)) {
-                                echo '&nbsp;&nbsp;&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE_FILE, $arrFile['filerealname']) . '<br>';
-                            }
+                        if ($fileObj->store($allowed_mimetypes, true, false)) {
+                            echo '&nbsp;&nbsp;&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE_FILE, $arrFile['filerealname']) . '<br>';
                         }
                     }
                 }
-
-                //------------------------
-
-                $newArticleArray[$arrArticle['storyid']] = $itemObj->itemid();
-                echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br>';
-                ++$cnt_imported_articles;
             }
+
+            //------------------------
+
+            $newArticleArray[$arrArticle['storyid']] = $itemObj->itemid();
+            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br>';
+            ++$cnt_imported_articles;
         }
 
         // Saving category permissions

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher\Common;
+<?php
+
+namespace XoopsModules\Publisher\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -24,7 +26,6 @@
  * $breadcrumb->addLink( 'bread 3', 'index3.php' );
  * echo $breadcrumb->render();
  */
-
 defined('XOOPS_ROOT_PATH') || die('XOOPS Root Path not defined');
 
 /**
@@ -35,9 +36,6 @@ class Breadcrumb
     public $dirname;
     private $bread = [];
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->dirname = basename(dirname(dirname(__DIR__)));
@@ -52,14 +50,13 @@ class Breadcrumb
     public function addLink($title = '', $link = '')
     {
         $this->bread[] = [
-            'link'  => $link,
-            'title' => $title
+            'link' => $link,
+            'title' => $title,
         ];
     }
 
     /**
      * Render Pedigree BreadCrumb
-     *
      */
     public function render()
     {

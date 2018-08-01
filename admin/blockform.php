@@ -14,12 +14,10 @@
  * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  */
 
-
-
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-$moduleDirName = basename(dirname(__DIR__));
-$moduleDirNameUpper   = strtoupper($moduleDirName); //$capsDirName
+$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
 $form = new \XoopsThemeForm($block['form_title'], 'blockform', 'blocksadmin.php', 'post', true);
 if (isset($block['name'])) {
@@ -65,7 +63,7 @@ if ($block['is_custom']) {
     $form->addElement($ctype_select);
 } else {
     if ('' !== $block['template']) {
-        /** @var \XoopsTplfileHandler  $tplfileHandler */
+        /** @var \XoopsTplfileHandler $tplfileHandler */
         $tplfileHandler = xoops_getHandler('tplfile');
         $btemplate      = $tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', $block['bid']);
         if (count($btemplate) > 0) {

@@ -27,12 +27,12 @@ require_once __DIR__ . '/admin_header.php';
 $helper = Publisher\Helper::getInstance();
 
 $module  = $helper->getModule();
-$modId     = $module->mid();
+$modId   = $module->mid();
 $modname = $module->name();
 $dirName = $helper->getDirname();
 
 $moduleHandler = xoops_getHandler('module');
-$xoopsModule0        = $moduleHandler->getByDirname(basename(dirname(__DIR__)));
+$xoopsModule0  = $moduleHandler->getByDirname(basename(dirname(__DIR__)));
 global $xoopsModule;
 
 xoops_loadLanguage('admin', 'system');
@@ -65,7 +65,7 @@ if ('showmod' === $op) {
     if (!array_key_exists('others', $config_cats)) {
         $config_cats['others'] = [
             'name'        => _MI_PUBLISHER_CONFCAT_OTHERS,
-            'description' => _MI_PUBLISHER_CONFCAT_OTHERS_DSC
+            'description' => _MI_PUBLISHER_CONFCAT_OTHERS_DSC,
         ];
     }
     $cat_others_used = false;

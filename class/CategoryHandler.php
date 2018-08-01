@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -23,8 +26,7 @@ use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
-
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Categories handler class.
@@ -38,7 +40,6 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
 {
     /**
      * @var Helper
-     * @access public
      */
     public $helper;
 
@@ -55,9 +56,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve an item
      *
-     * @param int|null   $id     itemid of the user
+     * @param int|null $id  itemid of the user
      *
-     * @param  null $fields
+     * @param  null    $fields
      * @return mixed reference to the <a href='psi_element://Publisher\Category'>Publisher\Category</a> object, FALSE if failed
      *                      object, FALSE if failed
      */
@@ -137,9 +138,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * retrieve categories from the database
      *
      * @param \CriteriaElement $criteria {@link CriteriaElement} conditions to be met
-     * @param bool            $idAsKey  use the categoryid as key for the array?
+     * @param bool             $idAsKey  use the categoryid as key for the array?
      *
-     * @param  bool           $as_object
+     * @param  bool            $as_object
      * @return array array of <a href='psi_element://XoopsItem'>XoopsItem</a> objects
      */
 

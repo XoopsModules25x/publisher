@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -22,7 +23,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -35,7 +36,7 @@ function publisher_items_spot_show($options)
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     /** @var Publisher\CategoryHandler $categoryHandler */
-    $categoryHandler = $helper->getHandler('Category');
+    $categoryHandler   = $helper->getHandler('Category');
     $optDisplayLast    = $options[0];
     $optItemsCount     = $options[1];
     $optCategoryId     = $options[2];
@@ -126,15 +127,15 @@ function publisher_items_spot_edit($options)
 {
     // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
-    $form      = new Publisher\BlockForm();
-    $autoEle   = new \XoopsFormRadioYN(_MB_PUBLISHER_AUTO_LAST_ITEMS, 'options[0]', $options[0]);
-    $countEle  = new \XoopsFormText(_MB_PUBLISHER_LAST_ITEMS_COUNT, 'options[1]', 2, 255, $options[1]);
-    $catEle    = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[2], 0, true, 'options[2]'));
+    $form     = new Publisher\BlockForm();
+    $autoEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_AUTO_LAST_ITEMS, 'options[0]', $options[0]);
+    $countEle = new \XoopsFormText(_MB_PUBLISHER_LAST_ITEMS_COUNT, 'options[1]', 2, 255, $options[1]);
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[2], 0, true, 'options[2]'));
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
-    $criteria  = new \CriteriaCompo();
+    $criteria    = new \CriteriaCompo();
     $criteria->setSort('datesub');
     $criteria->setOrder('DESC');
     $itemsObj = $itemHandler->getList($criteria);
@@ -152,7 +153,7 @@ function publisher_items_spot_edit($options)
     $typeEle = new \XoopsFormSelect(_MB_PUBLISHER_DISPLAY_TYPE, 'options[6]', $options[6]);
     $typeEle->addOptionArray([
                                  'block'  => _MB_PUBLISHER_DISPLAY_TYPE_BLOCK,
-                                 'bullet' => _MB_PUBLISHER_DISPLAY_TYPE_BULLET
+                                 'bullet' => _MB_PUBLISHER_DISPLAY_TYPE_BULLET,
                              ]);
     $truncateEle = new \XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[7]', 4, 255, $options[7]);
     $imageEle    = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_CATIMAGE, 'options[8]', $options[8]);

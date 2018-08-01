@@ -30,7 +30,7 @@ xoops_cp_header();
 $helper = Publisher\Helper::getInstance();
 $helper->loadLanguage('main');
 $adminObject = \Xmf\Module\Admin::getInstance();
-$utility = new Publisher\Utility();
+$utility     = new Publisher\Utility();
 
 /*
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
@@ -57,7 +57,7 @@ $adminObject->displayNavigation(basename(__FILE__));
 
 if ($helper->getConfig('displaySampleButton')) {
     xoops_loadLanguage('admin/modulesadmin', 'system');
-    require_once  dirname(__DIR__) . '/testdata/index.php';
+    require_once dirname(__DIR__) . '/testdata/index.php';
 
     $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=load', 'add');
 

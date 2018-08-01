@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher\Form;
+<?php
+
+namespace XoopsModules\Publisher\Form;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -41,7 +43,6 @@ class FileForm extends \XoopsThemeForm
 {
     /**
      * @var Publisher\Helper
-     * @access public
      */
     public $helper;
 
@@ -53,7 +54,7 @@ class FileForm extends \XoopsThemeForm
     public function __construct(&$target)
     {
         /** @var Publisher\Helper $this->helper */
-        $this->helper    = Publisher\Helper::getInstance();
+        $this->helper       = Publisher\Helper::getInstance();
         $this->targetObject =& $target;
 
         parent::__construct(_AM_PUBLISHER_UPLOAD_FILE, 'form', xoops_getenv('PHP_SELF'), 'post', true);

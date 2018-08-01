@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -19,7 +21,6 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-
 use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -33,9 +34,6 @@ xoops_load('XoopsForm');
  */
 class BlockForm extends \XoopsForm
 {
-    /**
-     *
-     */
     public function __construct()
     {
         parent::__construct('', '', '');

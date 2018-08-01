@@ -24,7 +24,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -40,7 +40,7 @@ function publisher_items_menu_show($options)
 
     // Getting all top cats
     /** @var Publisher\CategoryHandler $categoryHandler */
-    $categoryHandler = $helper->getHandler('Category');
+    $categoryHandler    = $helper->getHandler('Category');
     $blockCategoriesObj = $categoryHandler->getCategories(0, 0, 0);
 
     if (0 == count($blockCategoriesObj)) {
@@ -92,7 +92,7 @@ function publisher_items_menu_edit($options)
     $orderEle->addOptionArray([
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT
+                                  'weight'  => _MB_PUBLISHER_WEIGHT,
                               ]);
     $dispEle = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
 

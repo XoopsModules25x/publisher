@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -22,7 +25,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 // File status
 //define("_PUBLISHER_STATUS_FILE_NOTSET", -1);
@@ -36,7 +39,6 @@ class File extends \XoopsObject
 {
     /**
      * @var Helper
-     * @access public
      */
     public $helper;
 
@@ -47,7 +49,7 @@ class File extends \XoopsObject
     {
         /** @var Publisher\Helper $this->helper */
         $this->helper = Publisher\Helper::getInstance();
-        $this->db        = \XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('fileid', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('itemid', XOBJ_DTYPE_INT, null, true);
         $this->initVar('name', XOBJ_DTYPE_TXTBOX, null, true, 255);
@@ -59,7 +61,7 @@ class File extends \XoopsObject
         $this->initVar('status', XOBJ_DTYPE_INT, 1, false);
         $this->initVar('notifypub', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('counter', XOBJ_DTYPE_INT, null, false);
-        if (isset($id)) {
+        if (null !== $id) {
             $file = $this->helper->getHandler('File')->get($id);
             foreach ($file->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
@@ -87,7 +89,7 @@ class File extends \XoopsObject
      *
      * @return bool
      */
-    public function checkUpload($postField, $allowedMimetypes = [], &$errors)
+    public function checkUpload($postField, $allowedMimetypes, &$errors)
     {
         $errors = [];
         if (!$this->helper->getHandler('Mimetype')->checkMimeTypes($postField)) {
@@ -105,11 +107,10 @@ class File extends \XoopsObject
         $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
             return true;
-        } else {
-            $errors = array_merge($errors, $uploader->getErrors(false));
-
-            return false;
         }
+        $errors = array_merge($errors, $uploader->getErrors(false));
+
+        return false;
     }
 
     /**
@@ -119,7 +120,7 @@ class File extends \XoopsObject
      *
      * @return bool
      */
-    public function storeUpload($postField, $allowedMimetypes = [], &$errors)
+    public function storeUpload($postField, $allowedMimetypes, &$errors)
     {
         $itemid = $this->getVar('itemid');
         if (0 === count($allowedMimetypes)) {
@@ -129,7 +130,9 @@ class File extends \XoopsObject
         $maxfilewidth  = $this->helper->getConfig('maximum_image_width');
         $maxfileheight = $this->helper->getConfig('maximum_image_height');
         if (!is_dir(Publisher\Utility::getUploadDir())) {
-            @mkdir(Publisher\Utility::getUploadDir(), 0757);
+            if (!mkdir($concurrentDirectory = Publisher\Utility::getUploadDir(), 0757) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
         }
         xoops_load('XoopsMediaUploader');
         $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
@@ -143,16 +146,14 @@ class File extends \XoopsObject
                 $this->setVar('mimetype', $uploader->getMediaType());
 
                 return true;
-            } else {
-                $errors = array_merge($errors, $uploader->getErrors(false));
-
-                return false;
             }
-        } else {
             $errors = array_merge($errors, $uploader->getErrors(false));
 
             return false;
         }
+        $errors = array_merge($errors, $uploader->getErrors(false));
+
+        return false;
     }
 
     /**
@@ -263,8 +264,8 @@ class File extends \XoopsObject
     public function getNameFromFilename()
     {
         $ret    = $this->filename();
-        $sepPos = strpos($ret, '_');
-        $ret    = substr($ret, $sepPos + 1);
+        $sepPos = mb_strpos($ret, '_');
+        $ret    = mb_substr($ret, $sepPos + 1);
 
         return $ret;
     }
@@ -274,7 +275,7 @@ class File extends \XoopsObject
      */
     public function getForm()
     {
-//        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/file.php');
+        //        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/file.php');
         $form = new Publisher\Form\FileForm($this);
 
         return $form;

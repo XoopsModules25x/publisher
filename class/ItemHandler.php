@@ -462,14 +462,14 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * @param  int    $limit
      * @param  int    $start
-     * @param  string $status
+     * @param  array|string $status
      * @param  int    $categoryid
      * @param  string $sort
      * @param  string $order
      * @param  string $notNullFields
      * @param  bool   $asObject
      * @param  null   $otherCriteria
-     * @param  string $idKey
+     * @param  bool|string $idKey
      * @return array
      * @internal param bool $asObject
      */

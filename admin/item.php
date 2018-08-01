@@ -73,6 +73,7 @@ switch ($op) {
     case 'additem':
         $redirect_msg = $error_msg = '';
         // Creating the item object
+        /** @var Publisher\Item $itemObj */
         if (0 != $itemid) {
             $itemObj = $helper->getHandler('Item')->get($itemid);
         } else {
@@ -404,12 +405,12 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     // if there is a parameter, and the id exists, retrieve data: we're editing a item
 
-    if (0 != $itemid) {
+    if (0 !== $itemid) {
         // Creating the ITEM object
         /** @var \XoopsModules\Publisher\Item $itemObj */
         $itemObj = $helper->getHandler('Item')->get($itemid);
 
-        if (!$itemObj) {
+        if (null === $itemObj) {
             redirect_header('item.php', 1, _AM_PUBLISHER_NOITEMSELECTED);
             //            exit();
         }

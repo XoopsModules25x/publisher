@@ -102,6 +102,7 @@ class Category extends \XoopsObject
         if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->getVar('uid') == $this->moderator()) {
             return true;
         }
+        /** @var Publisher\PermissionHandler $this->helper->getHandler('Permission') */
         $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
         if (in_array($this->categoryid(), $categoriesGranted)) {
             $ret = true;

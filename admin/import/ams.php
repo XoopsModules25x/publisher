@@ -314,6 +314,7 @@ if ('go' === $op) {
             $itemObj->setVar('notifypub', $arrArticle['notifypub']);
             //-------- image
 
+            /** @var \XoopsImageHandler $imgHandler */
             $imgHandler = xoops_getHandler('image');
 
             //            $criteria = new \Criteria('image_name', $arrArticle['picture']);

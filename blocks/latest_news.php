@@ -25,7 +25,7 @@ use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -39,8 +39,9 @@ function publisher_latest_news_show($options)
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     $helper->loadLanguage('main');
-//    xoops_loadLanguage('main', 'publisher');
-
+    /** @var Publisher\ItemHandler $itemHandler */
+    $itemHandler = $helper->getHandler('Item');
+    //    xoops_loadLanguage('main', 'publisher');
 
     $start           = $options[0]; // You can show articles from specified range
     $limit           = $options[1];
@@ -78,7 +79,7 @@ function publisher_latest_news_show($options)
         $criteria->add(new \Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
     }
 
-    $itemsObj = $helper->getHandler('Item')->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
+    $itemsObj = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);
 
@@ -383,7 +384,7 @@ function publisher_latest_news_edit($options)
         'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED,
         'ticker'   => _MB_PUBLISHER_TEMPLATE_TICKER,
         'slider1'  => _MB_PUBLISHER_TEMPLATE_SLIDER1,
-        'slider2'  => _MB_PUBLISHER_TEMPLATE_SLIDER2
+        'slider2'  => _MB_PUBLISHER_TEMPLATE_SLIDER2,
     ];
     foreach ($templates as $key => $value) {
         $form .= "<option value='{$key}'";

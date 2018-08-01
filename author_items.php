@@ -27,19 +27,17 @@ require_once __DIR__ . '/header.php';
 $uid = Request::getInt('uid', 0, 'GET');
 if (0 == $uid) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
-    //   exit();
 }
 
+/** @var \XoopsMemberHandler $memberHandler */
 $memberHandler = xoops_getHandler('member');
 $thisuser      = $memberHandler->getUser($uid);
 if (!is_object($thisuser)) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
-    //    exit();
 }
 
 if (!$helper->getConfig('perm_author_items')) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
-    //mb    exit();
 }
 
 $myts = \MyTextSanitizer::getInstance();
@@ -73,7 +71,7 @@ if ($count > 0) {
                 'count_items' => 0,
                 'count_hits'  => 0,
                 'title'       => $item->getCategoryName(),
-                'link'        => $item->getCategoryLink()
+                'link'        => $item->getCategoryLink(),
             ];
         }
 
@@ -85,7 +83,7 @@ if ($count > 0) {
             'link'      => $item->getItemLink(),
             'published' => $item->getDatesub(_SHORTDATESTRING),
             //'rating'    => $xoopsLocal->number_format((float)$item->rating())
-            'rating'    => $item->rating()
+            'rating'    => $item->rating(),
         ];
     }
 }

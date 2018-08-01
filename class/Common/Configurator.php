@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher\Common;
+<?php
+
+namespace XoopsModules\Publisher\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Configurator Class
  *
@@ -17,7 +20,6 @@
  * @author      XOOPS Development Team
  * @package     Publisher
  * @since       1.05
- *
  */
 
 use XoopsModules\Publisher;
@@ -43,7 +45,7 @@ class Configurator
     public function __construct()
     {
         $moduleDirName = basename(dirname(dirname(__DIR__)));
-        $capsDirName   = strtoupper($moduleDirName);
+        $capsDirName   = mb_strtoupper($moduleDirName);
 
         require dirname(dirname(__DIR__)) . '/include/config.php';
         $config = getConfig();
@@ -57,6 +59,5 @@ class Configurator
         $this->oldFiles        = $config->oldFiles;
         $this->oldFolders      = $config->oldFolders;
         $this->modCopyright    = $config->modCopyright;
-
     }
 }

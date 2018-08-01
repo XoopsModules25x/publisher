@@ -36,7 +36,7 @@ $itemid = Request::getInt('itemid', 0, 'GET');
 
 $helper->loadLanguage('main');
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var $grouppermHandler GroupPermHandler */
+/* @var $grouppermHandler Publisher\GroupPermHandler */
 $grouppermHandler = $helper->getHandler('GroupPerm');
 /* @var $configHandler XoopsConfigHandler */
 $configHandler = xoops_getHandler('config');
@@ -53,7 +53,8 @@ try {
     if (!$helper->getConfig('perm_rating') || !$grouppermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
         throw new RuntimeException(_NOPERM);
     }
-} catch (\Exception $e) {
+}
+catch (\Exception $e) {
     $helper->addLog($e);
     //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _NOPERM . "\n";
@@ -73,7 +74,8 @@ try {
     if ($rating > 5 || $rating < 1) {
         throw new RuntimeException(_MD_PUBLISHER_VOTE_BAD);
     }
-} catch (\Exception $e) {
+}
+catch (\Exception $e) {
     $helper->addLog($e);
     //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_BAD . "\n";
@@ -89,6 +91,7 @@ $current_rating = 0;
 $voted          = false;
 $ip             = getenv('REMOTE_ADDR');
 
+/** @var Publisher\Rating $ratingObj */
 foreach ($ratingObjs as $ratingObj) {
     $current_rating += $ratingObj->getVar('rate');
     if ($ratingObj->getVar('ip') == $ip || ($uid > 0 && $uid == $ratingObj->getVar('uid'))) {
@@ -106,7 +109,8 @@ try {
     if ($voted) {
         throw new RuntimeException(_MD_PUBLISHER_VOTE_ALREADY);
     }
-} catch (\Exception $e) {
+}
+catch (\Exception $e) {
     $helper->addLog($e);
     //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_ALREADY . "\n";

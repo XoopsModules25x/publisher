@@ -148,11 +148,10 @@ if ('go' === $op) {
         if (!$itemObj->store()) {
             echo sprintf('  ' . _AM_PUBLISHER_IMPORT_ARTICLE_ERROR, $arrArticle['title']) . '<br>';
             continue;
-        } else {
-            $newArticleArray[$arrArticle['id']] = $itemObj->itemid();
-            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br>';
-            ++$cnt_imported_articles;
         }
+        $newArticleArray[$arrArticle['id']] = $itemObj->itemid();
+        echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br>';
+        ++$cnt_imported_articles;
     }
 
     echo '<br>';

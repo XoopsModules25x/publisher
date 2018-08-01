@@ -23,7 +23,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -32,7 +32,7 @@ require_once  dirname(__DIR__) . '/include/common.php';
  */
 function publisher_date_to_date_show($options)
 {
-    $myts      = \MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
 
@@ -45,19 +45,21 @@ function publisher_date_to_date_show($options)
     $criteria->setOrder('DESC');
 
     // creating the ITEM objects that belong to the selected category
-    $itemsObj   = $helper->getHandler('Item')->getObjects($criteria);
-    $totalItems = count($itemsObj);
+    /** @var Publisher\ItemHandler $itemHandler */
+    $itemHandler = $helper->getHandler('Item');
+    $itemsObj    = $itemHandler->getObjects($criteria);
+    //    $totalItems = count($itemsObj);
 
-    if ($itemsObj) {
-        for ($i = 0; $i < $totalItems; ++$i) {
-            $newItems['itemid']       = $itemsObj[$i]->itemid();
-            $newItems['title']        = $itemsObj[$i]->getTitle();
-            $newItems['categoryname'] = $itemsObj[$i]->getCategoryName();
-            $newItems['categoryid']   = $itemsObj[$i]->categoryid();
-            $newItems['date']         = $itemsObj[$i]->getDatesub();
-            $newItems['poster']       = $itemsObj[$i]->getLinkedPosterName();
-            $newItems['itemlink']     = $itemsObj[$i]->getItemLink(false, isset($options[3]) ? $options[3] : 65);
-            $newItems['categorylink'] = $itemsObj[$i]->getCategoryLink();
+    if (is_array($itemsObj) && count($itemsObj) > 0) {
+        foreach ($itemsObj as $iValue) {
+            $newItems['itemid']       = $iValue->itemid();
+            $newItems['title']        = $iValue->getTitle();
+            $newItems['categoryname'] = $iValue->getCategoryName();
+            $newItems['categoryid']   = $iValue->categoryid();
+            $newItems['date']         = $iValue->getDatesub();
+            $newItems['poster']       = $iValue->getLinkedPosterName();
+            $newItems['itemlink']     = $iValue->getItemLink(false, isset($options[3]) ? $options[3] : 65);
+            $newItems['categorylink'] = $iValue->getCategoryLink();
             $block['items'][]         = $newItems;
         }
 

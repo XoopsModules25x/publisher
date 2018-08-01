@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -22,7 +25,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Publisher\Category
@@ -30,8 +33,7 @@ require_once  dirname(__DIR__) . '/include/common.php';
 class Category extends \XoopsObject
 {
     /**
-     * @var Publisher
-     * @access public
+     * @var Publisher\Helper
      */
     public $helper;
 
@@ -39,6 +41,20 @@ class Category extends \XoopsObject
      * @var array
      */
     public $categoryPath = false;
+    public $categoryid;
+    public $parentid;
+    public $name;
+    public $description;
+    public $image;
+    public $total;
+    public $weight;
+    public $created;
+    public $template;
+    public $header;
+    public $meta_keywords;
+    public $meta_description;
+    public $short_url;
+    public $moderator;
 
     /**
      * constructor
@@ -99,10 +115,12 @@ class Category extends \XoopsObject
         if ($GLOBALS['publisherIsAdmin']) {
             return true;
         }
-        if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->getVar('uid') == $this->moderator()) {
+        if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->getVar('uid') == $this->moderator) {
             return true;
         }
-        $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
+        /** @var \XoopsModules\Publisher\PermissionHandler $permissionHandler */
+        $permissionHandler = $this->helper->getHandler('Permission');
+        $categoriesGranted = $permissionHandler->getGrantedItems('category_read');
         if (in_array($this->categoryid(), $categoriesGranted)) {
             $ret = true;
         }
@@ -119,9 +137,8 @@ class Category extends \XoopsObject
     {
         if ('' != $this->getVar('image')) {
             return $this->getVar('image', $format);
-        } else {
-            return 'blank.png';
         }
+        return 'blank.png';
     }
 
     /**
@@ -149,16 +166,19 @@ class Category extends \XoopsObject
             }
             $parentid = $this->parentid();
             if (0 != $parentid) {
-                $parentObj = $this->helper->getHandler('Category')->get($parentid);
+                /** @var Publisher\CategoryHandler $categoryHandler */
+                $categoryHandler = $this->helper->getHandler('Category');
+                $parentObj      = $categoryHandler->get($parentid);
                 //                if ($parentObj->notLoaded()) {
                 //                    exit;
                 //                }
 
                 try {
                     if ($parentObj->notLoaded()) {
-                        throw new RuntimeException(_NOPERM);
+                        throw new \RuntimeException(_NOPERM);
                     }
-                } catch (\Exception $e) {
+                }
+                catch (\Exception $e) {
                     $this->helper->addLog($e);
                     //                    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
                 }
@@ -179,16 +199,19 @@ class Category extends \XoopsObject
         $ret      = '';
         $parentid = $this->parentid();
         if (0 != $parentid) {
-            $parentObj = $this->helper->getHandler('Category')->get($parentid);
+            /** @var Publisher\CategoryHandler $categoryHandler */
+            $categoryHandler = $this->helper->getHandler('Category');
+            $parentObj = $categoryHandler->get($parentid);
             //            if ($parentObj->notLoaded()) {
             //                exit('NOT LOADED');
             //            }
 
             try {
                 if ($parentObj->notLoaded()) {
-                    throw new RuntimeException('NOT LOADED');
+                    throw new \RuntimeException('NOT LOADED');
                 }
-            } catch (\Exception $e) {
+            }
+            catch (\Exception $e) {
                 $this->helper->addLog($e);
                 //                    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
             }
@@ -205,7 +228,9 @@ class Category extends \XoopsObject
      */
     public function getGroupsRead()
     {
-        return $this->helper->getHandler('Permission')->getGrantedGroupsById('category_read', $this->categoryid());
+        /** @var Publisher\PermissionHandler $permissionHandler */
+        $permissionHandler = $this->helper->getHandler('Permission');
+        return $permissionHandler->getGrantedGroupsById('category_read', $this->categoryid());
     }
 
     /**
@@ -213,7 +238,9 @@ class Category extends \XoopsObject
      */
     public function getGroupsSubmit()
     {
-        return $this->helper->getHandler('Permission')->getGrantedGroupsById('item_submit', $this->categoryid());
+        /** @var Publisher\PermissionHandler $permissionHandler */
+        $permissionHandler = $this->helper->getHandler('Permission');
+        return $permissionHandler->getGrantedGroupsById('item_submit', $this->categoryid());
     }
 
     /**
@@ -221,7 +248,9 @@ class Category extends \XoopsObject
      */
     public function getGroupsModeration()
     {
-        return $this->helper->getHandler('Permission')->getGrantedGroupsById('category_moderation', $this->categoryid());
+        /** @var Publisher\PermissionHandler $permissionHandler */
+        $permissionHandler = $this->helper->getHandler('Permission');
+        return $permissionHandler->getGrantedGroupsById('category_moderation', $this->categoryid());
     }
 
     /**
@@ -241,9 +270,8 @@ class Category extends \XoopsObject
     {
         if ($class) {
             return "<a class='$class' href='" . $this->getCategoryUrl() . "'>" . $this->name() . '</a>';
-        } else {
-            return "<a href='" . $this->getCategoryUrl() . "'>" . $this->name() . '</a>';
         }
+        return "<a href='" . $this->getCategoryUrl() . "'>" . $this->name() . '</a>';
     }
 
     /**
@@ -272,7 +300,7 @@ class Category extends \XoopsObject
         $tags['MODULE_NAME']   = $this->helper->getModule()->getVar('name');
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = $this->getCategoryUrl();
-        /* @var  $notificationHandler XoopsNotificationHandler */
+        /* @var  $notificationHandler \XoopsNotificationHandler */
         $notificationHandler = xoops_getHandler('notification');
         $notificationHandler->triggerEvent('global_item', 0, 'category_created', $tags);
     }
@@ -333,9 +361,6 @@ class Category extends \XoopsObject
         return $category;
     }
 
-    /**
-     *
-     */
     public function createMetaTags()
     {
         $publisherMetagen = new Publisher\Metagen($this->name(), $this->meta_keywords(), $this->meta_description());
@@ -349,7 +374,7 @@ class Category extends \XoopsObject
      */
     public function getForm($subCatsCount = 4)
     {
-//        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/category.php');
+        //        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/category.php');
         $form = new Publisher\Form\CategoryForm($this, $subCatsCount);
 
         return $form;

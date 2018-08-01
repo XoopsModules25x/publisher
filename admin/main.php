@@ -26,7 +26,7 @@ require_once __DIR__ . '/admin_header.php';
 require_once $GLOBALS['xoops']->path('class/xoopslists.php');
 require_once $GLOBALS['xoops']->path('class/pagenav.php');
 // require_once  dirname(__DIR__) . '/class/Utility.php';
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 $itemid = Request::getInt('itemid', 0, 'POST');
 
@@ -38,7 +38,7 @@ $ordersel  = Request::getString('ordersel', Request::getString('ordersel', 'DESC
 $module_id = $helper->getModule()->mid();
 /* @var  $grouppermHandler XoopsGroupPermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
-$groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+$groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
 // Code for the page
 
@@ -292,17 +292,7 @@ if ($numrows > 0) {
             case Constants::PUBLISHER_STATUS_REJECTED:
                 $statustxt = _CO_PUBLISHER_REJECTED;
                 $approve   = '';
-                $modify    = "<a href='item.php?op=mod&itemid="
-                             . $itemsObj[$i]->itemid()
-                             . "'><img src='"
-                             . XOOPS_URL
-                             . '/modules/'
-                             . $helper->getModule()->dirname()
-                             . "/assets/images/links/edit.gif' title='"
-                             . _AM_PUBLISHER_REJECTED_EDIT
-                             . "' alt='"
-                             . _AM_PUBLISHER_REJECTED_EDIT
-                             . "'></a>&nbsp;";
+                $modify    = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_REJECTED_EDIT . "' alt='" . _AM_PUBLISHER_REJECTED_EDIT . "'></a>&nbsp;";
                 $delete    = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>&nbsp;";
                 $clone     = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>&nbsp;";
                 break;
@@ -312,17 +302,7 @@ if ($numrows > 0) {
                 $statustxt = _AM_PUBLISHER_STATUS0;
                 $approve   = '';
                 $clone     = '';
-                $modify    = "<a href='item.php?op=mod&itemid="
-                             . $itemsObj[$i]->itemid()
-                             . "'><img src='"
-                             . XOOPS_URL
-                             . '/modules/'
-                             . $helper->getModule()->dirname()
-                             . "/assets/images/links/edit.gif' title='"
-                             . _AM_PUBLISHER_REJECTED_EDIT
-                             . "' alt='"
-                             . _AM_PUBLISHER_REJECTED_EDIT
-                             . "'></a>&nbsp;";
+                $modify    = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_REJECTED_EDIT . "' alt='" . _AM_PUBLISHER_REJECTED_EDIT . "'></a>&nbsp;";
                 $delete    = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>";
                 break;
         }

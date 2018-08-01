@@ -23,7 +23,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /***
  * Function To Show Publisher Items From Categories In Their Own Columns
@@ -37,7 +37,10 @@ function publisher_items_columns_show($options)
     //    global $xoTheme;
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
-
+    /** @var Publisher\CategoryHandler $categoryHandler */
+    $categoryHandler = $helper->getHandler('Category');
+    /** @var Publisher\ItemHandler $itemHandler */
+    $itemHandler = $helper->getHandler('Item');
     //Column Settings
     $optNumColumns  = isset($options[0]) ? (int)$options[0] : '2';
     $selCategories  = isset($options[1]) ? explode(',', $options[1]) : [];
@@ -52,7 +55,7 @@ function publisher_items_columns_show($options)
     $selCategoriesObj = [];
 
     //get permited categories only once
-    $categoriesObj = $helper->getHandler('Category')->getCategories(0, 0, -1);
+    $categoriesObj   = $categoryHandler->getCategories(0, 0, -1);
 
     //if not selected 'all', let's get the selected ones
     if (!in_array(0, $selCategories)) {
@@ -80,18 +83,18 @@ function publisher_items_columns_show($options)
     $columns = $mainItem = $subItem = [];
 
     foreach ($selCategoriesObj as $categoryId => $mainItemCatObj) {
-        $categoryItemsObj = $helper->getHandler('Item')->getAllPublished($optCatItems, 0, $categoryId);
+        $categoryItemsObj = $itemHandler->getAllPublished($optCatItems, 0, $categoryId);
         $scount           = count($categoryItemsObj);
         if ($scount > 0 && is_array($categoryItemsObj)) {
             reset($categoryItemsObj);
             //First Item
-            $thisitem = array_values($categoryItemsObj)[0];
+            $thisItem = array_values($categoryItemsObj)[0];
 
-            $mainItem['item_title']      = $thisitem->getTitle();
-            $mainItem['item_cleantitle'] = strip_tags($thisitem->getTitle());
-            $mainItem['item_link']       = $thisitem->itemid();
-            $mainItem['itemurl']         = $thisitem->getItemUrl();
-            $mainImage                   = $thisitem->getMainImage();
+            $mainItem['item_title']      = $thisItem->getTitle();
+            $mainItem['item_cleantitle'] = strip_tags($thisItem->getTitle());
+            $mainItem['item_link']       = $thisItem->itemid();
+            $mainItem['itemurl']         = $thisItem->getItemUrl();
+            $mainImage                   = $thisItem->getMainImage();
 
             // check to see if GD function exist
             $mainItem['item_image'] = $mainImage['image_path'];
@@ -99,7 +102,7 @@ function publisher_items_columns_show($options)
                 $mainItem['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=100';
             }
 
-            $mainItem['item_summary'] = $thisitem->getBlockSummary($optCatTruncate);
+            $mainItem['item_summary'] = $thisItem->getBlockSummary($optCatTruncate);
 
             $mainItem['item_cat_name']        = $mainItemCatObj->name();
             $mainItem['item_cat_description'] = '' !== $mainItemCatObj->description() ? $mainItemCatObj->description() : $mainItemCatObj->name();
@@ -108,19 +111,20 @@ function publisher_items_columns_show($options)
 
             //The Rest
             if ($scount > 1) {
-                //                while ((list($itemid, $thisitem) = each($categoryItemsObj)) !== false) {
-                foreach ($categoryItemsObj as $itemid => $thisitem) { //TODO do I need to start with 2nd element?
-                    $subItem['title']      = $thisitem->getTitle();
-                    $subItem['cleantitle'] = strip_tags($thisitem->getTitle());
-                    $subItem['link']       = $thisitem->getItemLink();
-                    $subItem['itemurl']    = $thisitem->getItemUrl();
-                    $subItem['summary']    = $thisitem->getBlockSummary($optCatTruncate);
+                //                while ((list($itemid, $thisItem) = each($categoryItemsObj)) !== false) {
+                foreach ($categoryItemsObj as $itemid => $thisItem) {
+                    //TODO do I need to start with 2nd element?
+                    $subItem['title']      = $thisItem->getTitle();
+                    $subItem['cleantitle'] = strip_tags($thisItem->getTitle());
+                    $subItem['link']       = $thisItem->getItemLink();
+                    $subItem['itemurl']    = $thisItem->getItemUrl();
+                    $subItem['summary']    = $thisItem->getBlockSummary($optCatTruncate);
                     $mainItem['subitem'][] = $subItem;
                     unset($subItem);
                 }
             }
             $columns[$k][] = $mainItem;
-            unset($thisitem, $mainItem);
+            unset($thisItem, $mainItem);
             ++$k;
 
             if ($k == $optNumColumns) {
@@ -158,7 +162,7 @@ function publisher_items_columns_edit($options)
                                 '2' => 2,
                                 '3' => 3,
                                 '4' => 4,
-                                '5' => 5
+                                '5' => 5,
                             ]);
     $catEle      = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[1], 0, true, 'options[1]'));
     $cItemsEle   = new \XoopsFormText(_MB_PUBLISHER_NUMBER_ITEMS_CAT, 'options[2]', 4, 255, $options[2]);
@@ -167,7 +171,7 @@ function publisher_items_columns_edit($options)
     $tempEle = new \XoopsFormSelect(_MB_PUBLISHER_TEMPLATE, 'options[4]', $options[4]);
     $tempEle->addOptionArray([
                                  'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
-                                 'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED
+                                 'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED,
                              ]);
 
     $form->addElement($colEle);

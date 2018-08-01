@@ -29,55 +29,55 @@ $moduleDirName = basename(dirname(__DIR__));
 $helper = Publisher\Helper::getInstance();
 
 // get path to icons
-$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+$pathIcon32    = \Xmf\Module\Admin::menuIconPath('');
 $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
 $adminmenu = [
     [
         'title' => _MI_PUBLISHER_ADMENU0,
         'link'  => 'admin/index.php',
-        'icon'  => $pathIcon32 . '/home.png'
+        'icon'  => $pathIcon32 . '/home.png',
     ],
 
     [
         'title' => _MI_PUBLISHER_ADMENU1,
         'link'  => 'admin/main.php',
-        'icon'  => $pathIcon32 . '/manage.png'
+        'icon'  => $pathIcon32 . '/manage.png',
     ],
 
     // Category
     [
         'title' => _MI_PUBLISHER_ADMENU2,
         'link'  => 'admin/category.php',
-        'icon'  => $pathIcon32 . '/category.png'
+        'icon'  => $pathIcon32 . '/category.png',
     ],
 
     // Items
     [
         'title' => _MI_PUBLISHER_ADMENU3,
         'link'  => 'admin/item.php',
-        'icon'  => $pathIcon32 . '/content.png'
+        'icon'  => $pathIcon32 . '/content.png',
     ],
 
     // Permissions
     [
         'title' => _MI_PUBLISHER_ADMENU4,
         'link'  => 'admin/permissions.php',
-        'icon'  => $pathIcon32 . '/permissions.png'
+        'icon'  => $pathIcon32 . '/permissions.png',
     ],
 
-// Blocks Admin
+    // Blocks Admin
     [
         'title' => _MI_PUBLISHER_ADMENU5,
         'link'  => 'admin/blocksadmin.php',
-        'icon'  => $pathIcon32 . '/block.png'
+        'icon'  => $pathIcon32 . '/block.png',
     ],
 
     // Mimetypes
     [
         'title' => _MI_PUBLISHER_ADMENU6,
         'link'  => 'admin/mimetypes.php',
-        'icon'  => $pathIcon32 . '/type.png'
+        'icon'  => $pathIcon32 . '/type.png',
     ],
 
     // Preferences
@@ -98,27 +98,27 @@ $adminmenu = [
     [
         'title' => _MI_PUBLISHER_IMPORT,
         'link'  => 'admin/import.php',
-        'icon'  => $pathIcon32 . '/download.png'
+        'icon'  => $pathIcon32 . '/download.png',
     ],
 
     //Clone
     [
         'title' => _MI_PUBLISHER_MENU_CLONE,
         'link'  => 'admin/clone.php',
-        'icon'  => $pathModIcon32 . '/editcopy.png'
+        'icon'  => $pathModIcon32 . '/editcopy.png',
     ],
 
-//    [
-//        'title' => _MI_PUBLISHER_MENU_HISTORY,
-//        'link'  => 'admin/history.php',
-//        'icon'  => $pathModIcon32 . '/editcopy.png'
-//    ],
+    //    [
+    //        'title' => _MI_PUBLISHER_MENU_HISTORY,
+    //        'link'  => 'admin/history.php',
+    //        'icon'  => $pathModIcon32 . '/editcopy.png'
+    //    ],
     //About
     [
         'title' => _MI_PUBLISHER_ABOUT,
         'link'  => 'admin/about.php',
-        'icon'  => $pathIcon32 . '/about.png'
-    ]
+        'icon'  => $pathIcon32 . '/about.png',
+    ],
 ];
 
 $GLOBALS['xoTheme']->addStylesheet('modules/' . $moduleDirName . '/assets/css/style.css');

@@ -50,7 +50,6 @@ switch ($op) {
             $totalcategories = $helper->getHandler('Category')->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
-                //                exit();
             }
         }
         Publisher\Utility::cpHeader();
@@ -62,7 +61,6 @@ switch ($op) {
             $totalcategories = $helper->getHandler('Category')->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
-                //                exit();
             }
         }
 
@@ -73,6 +71,7 @@ switch ($op) {
     case 'additem':
         $redirect_msg = $error_msg = '';
         // Creating the item object
+        /** @var Publisher\Item $itemObj */
         if (0 != $itemid) {
             $itemObj = $helper->getHandler('Item')->get($itemid);
         } else {
@@ -87,7 +86,7 @@ switch ($op) {
         switch ($newStatus) {
             case Constants::PUBLISHER_STATUS_SUBMITTED:
                 $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
-                if ($old_status == Constants::PUBLISHER_STATUS_NOTSET) {
+                if (Constants::PUBLISHER_STATUS_NOTSET == $old_status) {
                     $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 }
                 $redirect_msg = _AM_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
@@ -105,7 +104,7 @@ switch ($op) {
 
             case Constants::PUBLISHER_STATUS_OFFLINE:
                 $redirect_msg = _AM_PUBLISHER_OFFLINE_MOD_SUCCESS;
-                if ($old_status == Constants::PUBLISHER_STATUS_NOTSET) {
+                if (Constants::PUBLISHER_STATUS_NOTSET == $old_status) {
                     $redirect_msg = _AM_PUBLISHER_OFFLINE_CREATED_SUCCESS;
                 }
                 $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
@@ -113,7 +112,7 @@ switch ($op) {
 
             case Constants::PUBLISHER_STATUS_REJECTED:
                 $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
-                if ($old_status == Constants::PUBLISHER_STATUS_NOTSET) {
+                if (Constants::PUBLISHER_STATUS_NOTSET == $old_status) {
                     $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 }
                 $redirect_msg = _AM_PUBLISHER_ITEM_REJECTED;
@@ -124,7 +123,6 @@ switch ($op) {
         // Storing the item
         if (!$itemObj->store()) {
             redirect_header('javascript:history.go(-1)', 3, $error_msg . Publisher\Utility::formatErrors($itemObj->getErrors()));
-            //            exit;
         }
 
         // attach file if any
@@ -132,7 +130,6 @@ switch ($op) {
             $file_upload_result = Publisher\Utility::uploadFile(false, false, $itemObj);
             if (true !== $file_upload_result) {
                 redirect_header('javascript:history.go(-1)', 3, $file_upload_result);
-                //                exit;
             }
         }
 
@@ -152,10 +149,8 @@ switch ($op) {
         if ($confirm) {
             if (!$helper->getHandler('Item')->delete($itemObj)) {
                 redirect_header('item.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . Publisher\Utility::formatErrors($itemObj->getErrors()));
-                //                exit();
             }
             redirect_header('item.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
-        //            exit();
         } else {
             xoops_cp_header();
             xoops_confirm(['op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()], 'item.php', _AM_PUBLISHER_DELETETHISITEM . " <br>'" . $itemObj->getTitle() . "'. <br> <br>", _AM_PUBLISHER_DELETE);
@@ -404,13 +399,13 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     // if there is a parameter, and the id exists, retrieve data: we're editing a item
 
-    if (0 != $itemid) {
+    if (0 !== $itemid) {
         // Creating the ITEM object
+        /** @var \XoopsModules\Publisher\Item $itemObj */
         $itemObj = $helper->getHandler('Item')->get($itemid);
 
-        if (!$itemObj) {
+        if (null === $itemObj) {
             redirect_header('item.php', 1, _AM_PUBLISHER_NOITEMSELECTED);
-            //            exit();
         }
 
         if ($clone) {
@@ -420,7 +415,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
             $itemObj->setVar('datesub', time());
         }
 
-        switch ($itemObj->status()) {
+        switch ($itemObj->getVar('status')) {
             case Constants::PUBLISHER_STATUS_SUBMITTED:
                 $breadcrumbAction1 = _CO_PUBLISHER_SUBMITTED;
                 $breadcrumbAction2 = _AM_PUBLISHER_APPROVING;
@@ -484,12 +479,12 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
         if ($clone) {
             echo '<form><div style="margin-bottom: 10px;">';
-            echo "<input type='button' name='button' onclick=\"location='item.php?op=clone&itemid=" . $itemObj->itemid() . "'\" value='" . _AM_PUBLISHER_CLONE_ITEM . "'>&nbsp;&nbsp;";
+            echo "<input type='button' name='button' onclick=\"location='item.php?op=clone&itemid=" . $itemObj->getVar('itemid') . "'\" value='" . _AM_PUBLISHER_CLONE_ITEM . "'>&nbsp;&nbsp;";
             echo '</div></form>';
         }
     } else {
         // there's no parameter, so we're adding an item
-
+        /** @var \XoopsModules\Publisher\Item $itemObj */
         $itemObj = $helper->getHandler('Item')->create();
         $itemObj->setVarsFromRequest();
 

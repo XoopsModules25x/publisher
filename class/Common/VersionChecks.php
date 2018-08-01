@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher\Common;
+<?php
+
+namespace XoopsModules\Publisher\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,32 +20,31 @@
 trait VersionChecks
 {
     /**
-     *
      * Verifies XOOPS version meets minimum requirements for this module
      * @static
      * @param \XoopsModule $module
      *
-     * @param null|string $requiredVer
+     * @param null|string  $requiredVer
      * @return bool true if meets requirements, false if not
      */
     public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
     {
-        $moduleDirName = basename(dirname(dirname(__DIR__)));
-        $moduleDirNameUpper = strtoupper($moduleDirName);
+        $moduleDirName      = basename(dirname(dirname(__DIR__)));
+        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
         }
         xoops_loadLanguage('admin', $moduleDirName);
 
         //check for minimum XOOPS version
-        $currentVer = substr(XOOPS_VERSION, 6); // get the numeric part of string
+        $currentVer = mb_substr(XOOPS_VERSION, 6); // get the numeric part of string
         if (null === $requiredVer) {
             $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
         }
-        $success     = true;
+        $success = true;
 
         if (version_compare($currentVer, $requiredVer, '<')) {
-            $success     = false;
+            $success = false;
             $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_XOOPS'), $requiredVer, $currentVer));
         }
 
@@ -51,7 +52,6 @@ trait VersionChecks
     }
 
     /**
-     *
      * Verifies PHP version meets minimum requirements for this module
      * @static
      * @param \XoopsModule $module
@@ -61,7 +61,7 @@ trait VersionChecks
     public static function checkVerPhp(\XoopsModule $module)
     {
         $moduleDirName      = basename(dirname(dirname(__DIR__)));
-        $moduleDirNameUpper = strtoupper($moduleDirName);
+        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         xoops_loadLanguage('admin', $module->dirname());
         // check for minimum PHP version
         $success = true;

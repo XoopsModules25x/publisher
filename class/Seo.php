@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  * $Id
@@ -24,7 +26,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Seo
@@ -50,7 +52,7 @@ class Seo
 
         // Transformation de la chaine en minuscule
         // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus
-        $title = rawurlencode(strtolower($title));
+        $title = rawurlencode(mb_strtolower($title));
 
         // Transformation des ponctuations
         $pattern    = [
@@ -81,7 +83,7 @@ class Seo
             '/%7C/', // |
             '/%7D/', // }
             '/%7E/', // ~
-            "/\./" // .
+            "/\./", // .
         ];
         $repPattern = ['-', '-', '', '', '', '-100', '', '-', '', '', '', '-', '', '', '', '-', '', '', '-at-', '', '-', '', '-', '', '-', '', '-', ''];
         $title      = preg_replace($pattern, $repPattern, $title);
@@ -122,23 +124,23 @@ class Seo
             if ('htaccess' === $helper->getConfig('seo_url_rewrite')) {
                 // generate SEO url using htaccess
                 return XOOPS_URL . '/' . $helper->getConfig('seo_module_name') . ".${op}.${id}/${shortUrl}";
-            } elseif ('path-info' === $helper->getConfig('seo_url_rewrite')) {
+            }
+
+            if ('path-info' === $helper->getConfig('seo_url_rewrite')) {
                 // generate SEO url using path-info
                 return PUBLISHER_URL . "/index.php/${op}.${id}/${shortUrl}";
-            } else {
-                exit('Unknown SEO method.');
             }
-        } else {
-            // generate classic url
-            switch ($op) {
-                case 'category':
-                    return PUBLISHER_URL . "/${op}.php?categoryid=${id}";
-                case 'item':
-                case 'print':
-                    return PUBLISHER_URL . "/${op}.php?itemid=${id}";
-                default:
-                    exit('Unknown SEO operation.');
-            }
+            exit('Unknown SEO method.');
+        }
+        // generate classic url
+        switch ($op) {
+            case 'category':
+                return PUBLISHER_URL . "/${op}.php?categoryid=${id}";
+            case 'item':
+            case 'print':
+                return PUBLISHER_URL . "/${op}.php?itemid=${id}";
+            default:
+                exit('Unknown SEO operation.');
         }
     }
 }

@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
  * which is considered copyrighted (c) material of the original comment or credit authors.
@@ -18,10 +17,10 @@ use Xmf\Request;
 
 require __DIR__ . '/admin_header.php';
 
-$moduleDirName = basename(dirname(__DIR__));
-$moduleDirNameUpper   = strtoupper($moduleDirName); //$capsDirName
+$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
-if (!is_object($GLOBALS['xoopsUser']) || !is_object($xoopsModule)
+if (!is_object($xoopsModule) || !is_object($GLOBALS['xoopsUser'])
     || !$GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     exit(constant('CO_' . $moduleDirNameUpper . '_' . 'ERROR403'));
 }
@@ -30,7 +29,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     $op = 'list';
     if (isset($_POST)) {
         foreach ($_POST as $k => $v) {
-            ${$k} =$v;
+            ${$k} = $v;
         }
     }
     /*
@@ -49,15 +48,12 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         $bid = Request::getInt('bid', 0, 'GET');
     }
 
-    /**
-     *
-     */
     function listBlocks()
     {
         global $xoopsModule, $pathIcon16;
         require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
-        $moduleDirName = basename(dirname(__DIR__));
-        $moduleDirNameUpper   = strtoupper($moduleDirName); //$capsDirName
+        $moduleDirName      = basename(dirname(__DIR__));
+        $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
         $db = \XoopsDatabaseFactory::getDatabaseConnection();
         xoops_loadLanguage('admin', 'system');
         xoops_loadLanguage('admin/blocksadmin', 'system');
@@ -79,7 +75,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         echo "
         <h4 style='text-align:left;'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'BADMIN') . '</h4>';
         $moduleHandler = xoops_getHandler('module');
-        echo "<form action='" . $_SERVER['PHP_SELF'] . "' name='blockadmin' method='post'>";
+        echo "<form action='" . \Xmf\Request::getString('PHP_SELF', '', 'SERVER') . "' name='blockadmin' method='post'>";
         echo $GLOBALS['xoopsSecurity']->getTokenHTML();
         echo "<table width='100%' class='outer' cellpadding='4' cellspacing='1'>
         <tr valign='middle'><th align='center'>"
@@ -120,7 +116,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             '86400'   => _DAY,
             '259200'  => sprintf(_DAYS, 3),
             '604800'  => _WEEK,
-            '2592000' => _MONTH
+            '2592000' => _MONTH,
         ];
         foreach ($block_arr as $i) {
             $groups_perms = $grouppermHandler->getGroupIds('block_read', $i->getVar('bid'));
@@ -286,8 +282,14 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     function cloneBlock($bid)
     {
         require_once __DIR__ . '/admin_header.php';
-        //require_once __DIR__ . '/admin_header.php';
+
         xoops_cp_header();
+
+        /** @var \Xmf\Module\Admin $adminObject */
+        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation(basename(__FILE__));
+        $moduleDirName      = basename(dirname(__DIR__));
+        $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
         xoops_loadLanguage('admin', 'system');
         xoops_loadLanguage('admin/blocksadmin', 'system');
@@ -319,10 +321,10 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             'bid'        => $myblock->getVar('bid'),
             'edit_form'  => $myblock->getOptions(),
             'template'   => $myblock->getVar('template'),
-            'options'    => $myblock->getVar('options')
+            'options'    => $myblock->getVar('options'),
         ];
-        echo '<a href="blocksadmin.php">' . _AM_BADMIN . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . _AM_SYSTEM_BLOCKS_CLONEBLOCK . '<br><br>';
-        require_once __DIR__   . '/blockform.php';
+        echo '<a href="blocksadmin.php">' . constant('CO_' . $moduleDirNameUpper . '_' . 'BADMIN') . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . _AM_SYSTEM_BLOCKS_CLONEBLOCK . '<br><br>';
+        require_once __DIR__ . '/blockform.php';
         $form->display();
         //        xoops_cp_footer();
         require_once __DIR__ . '/admin_footer.php';
@@ -330,15 +332,15 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     }
 
     /**
-     * @param $bid
-     * @param $bside
-     * @param $bweight
-     * @param $bvisible
-     * @param $bcachetime
-     * @param $bmodule
-     * @param $options
+     * @param int               $bid
+     * @param string            $bside
+     * @param int               $bweight
+     * @param bool              $bvisible
+     * @param int               $bcachetime
+     * @param array             $bmodule
+     * @param null|array|string $options
      */
-    function isBlockCloned($bid, $bside, $bweight, $bvisible, $bcachetime, $bmodule, $options)
+    function isBlockCloned($bid, $bside, $bweight, $bvisible, $bcachetime, $bmodule, $options = null)
     {
         xoops_loadLanguage('admin', 'system');
         xoops_loadLanguage('admin/blocksadmin', 'system');
@@ -359,7 +361,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         //$clone->setVar('content', $_POST['bcontent']);
         $clone->setVar('title', Request::getString('btitle', '', 'POST'));
         $clone->setVar('bcachetime', $bcachetime);
-        if (isset($options) && (count($options) > 0)) {
+        if (null !== $options && (count($options) > 0)) {
             $options = implode('|', $options);
             $clone->setVar('options', $options);
         }
@@ -426,8 +428,12 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     function xtubeEditBlock($bid)
     {
         require_once __DIR__ . '/admin_header.php';
-        //require_once __DIR__ . '/admin_header.php';
         xoops_cp_header();
+        /** @var \Xmf\Module\Admin $adminObject */
+        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation(basename(__FILE__));
+        $moduleDirName      = basename(dirname(__DIR__));
+        $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
         xoops_loadLanguage('admin', 'system');
         xoops_loadLanguage('admin/blocksadmin', 'system');
@@ -458,10 +464,10 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             'bid'        => $myblock->getVar('bid'),
             'edit_form'  => $myblock->getOptions(),
             'template'   => $myblock->getVar('template'),
-            'options'    => $myblock->getVar('options')
+            'options'    => $myblock->getVar('options'),
         ];
-        echo '<a href="blocksadmin.php">' . _AM_BADMIN . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . _AM_SYSTEM_BLOCKS_EDITBLOCK . '<br><br>';
-        require_once __DIR__   . '/blockform.php';
+        echo '<a href="blocksadmin.php">' . constant('CO_' . $moduleDirNameUpper . '_' . 'BADMIN') . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . _AM_SYSTEM_BLOCKS_EDITBLOCK . '<br><br>';
+        require_once __DIR__ . '/blockform.php';
         $form->display();
         //        xoops_cp_footer();
         require_once __DIR__ . '/admin_footer.php';
@@ -515,7 +521,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
 
     if ('list' === $op) {
         xoops_cp_header();
-        //        mpu_adm_menu();
+        $adminObject->displayNavigation(basename(__FILE__));
         listBlocks();
         require_once __DIR__ . '/admin_footer.php';
         exit();

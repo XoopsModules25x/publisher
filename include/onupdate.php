@@ -19,8 +19,7 @@
 use XoopsModules\Publisher;
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
-    || !$GLOBALS['xoopsUser']->IsAdmin()
-) {
+    || !$GLOBALS['xoopsUser']->IsAdmin()) {
     exit('Restricted access' . PHP_EOL);
 }
 
@@ -33,20 +32,19 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUs
  */
 function xoops_module_pre_update_publisher(\XoopsModule $module)
 {
-    /** @var Publisher\Helper $helper */
+
     /** @var Publisher\Utility $utility */
-    $helper       = Publisher\Helper::getInstance();
-    $utility      = new Publisher\Utility();
+    $utility = new Publisher\Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
     return $xoopsSuccess && $phpSuccess;
 }
+
 /**
- *
  * Performs tasks required during update of the module
  * @param \XoopsModule $module {@link XoopsModule}
- * @param null        $previousVersion
+ * @param null|string         $previousVersion
  *
  * @return bool true if update successful, false if not
  */
@@ -54,18 +52,15 @@ function xoops_module_pre_update_publisher(\XoopsModule $module)
 function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = null)
 {
     global $xoopsDB;
-    $moduleDirName = basename(dirname(__DIR__));
-    $moduleDirNameUpper = strtoupper($moduleDirName);
-    
+    $moduleDirName      = basename(dirname(__DIR__));
+//    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
     /** @var Publisher\Helper $helper */
-    /** @var Publisher\Utility $utility */
     /** @var Publisher\Common\Configurator $configurator */
     $helper       = Publisher\Helper::getInstance();
-    $utility      = new Publisher\Utility();
     $configurator = new Publisher\Common\Configurator();
 
     $helper->loadLanguage('common');
-
 
     //delete .html entries from the tpl table
     $sql = 'DELETE FROM ' . $xoopsDB->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
@@ -138,7 +133,7 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
 
         //  ---  COPY blank.png FILES ---------------
         if (count($configurator->copyBlankFiles) > 0) {
-            $file =  dirname(__DIR__) . '/assets/images/blank.png';
+            $file = dirname(__DIR__) . '/assets/images/blank.png';
             foreach (array_keys($configurator->copyBlankFiles) as $i) {
                 $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
                 $utility::copyFile($file, $dest);
@@ -148,7 +143,7 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
         //delete .html entries from the tpl table
         $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
         $GLOBALS['xoopsDB']->queryF($sql);
-        
+
         /** @var XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         return $grouppermHandler->deleteByModule($module->getVar('mid'), 'item_read');

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -22,7 +25,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Metagen
@@ -30,13 +33,12 @@ require_once  dirname(__DIR__) . '/include/common.php';
 class Metagen
 {
     /**
-     * @var Publisher
-     * @access public
+     * @var Publisher\Helper
      */
     public $helper;
 
     /**
-     * @var MyTextSanitizer
+     * @var \MyTextSanitizer
      */
     public $myts;
 
@@ -67,7 +69,6 @@ class Metagen
 
     /**
      * @var int
-     *
      */
     public $minChar = 4;
 
@@ -81,7 +82,7 @@ class Metagen
     {
         /** @var Publisher\Helper $this->helper */
         $this->helper = Publisher\Helper::getInstance();
-        $this->myts      = \MyTextSanitizer::getInstance();
+        $this->myts   = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
         $this->setTitle($title);
         $this->setDescription($description);
@@ -100,7 +101,7 @@ class Metagen
         $this->originalTitle = $this->title;
         $titleTag            = [];
         $titleTag['module']  = $this->helper->getModule()->getVar('name');
-        if (isset($this->title) && ('' != $this->title) && (strtoupper($this->title) != strtoupper($titleTag['module']))) {
+        if (isset($this->title) && ('' != $this->title) && (mb_strtoupper($this->title) != mb_strtoupper($titleTag['module']))) {
             $titleTag['title'] = $this->title;
         }
         if (isset($this->categoryPath) && ('' != $this->categoryPath)) {
@@ -195,7 +196,7 @@ class Metagen
         foreach ($originalKeywords as $originalKeyword) {
             $secondRoundKeywords = explode("'", $originalKeyword);
             foreach ($secondRoundKeywords as $secondRoundKeyword) {
-                if (strlen($secondRoundKeyword) >= $minChar) {
+                if (mb_strlen($secondRoundKeyword) >= $minChar) {
                     if (!in_array($secondRoundKeyword, $keywords)) {
                         $keywords[] = trim($secondRoundKeyword);
                     }
@@ -260,12 +261,12 @@ class Metagen
      * Return true if the string is length > 0
      *
      * @credit psylove
-     * @var    string $string Chaine de caractère
-     * @return boolean
+     * @param mixed $var
+     * @return bool
      */
     public static function emptyString($var)
     {
-        return (strlen($var) > 0);
+        return (mb_strlen($var) > 0);
     }
 
     /**
@@ -282,7 +283,7 @@ class Metagen
     {
         // Transformation de la chaine en minuscule
         // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus
-        $title = rawurlencode(strtolower($title));
+        $title = rawurlencode(mb_strtolower($title));
         // Transformation des ponctuations
 
         $pattern = [
@@ -313,7 +314,7 @@ class Metagen
             '/%7C/', // |
             '/%7D/', // }
             '/%7E/', // ~
-            "/\./" // .
+            "/\./", // .
         ];
         $repPat  = ['-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-'];
         $title   = str_replace($pattern, $repPat, $title);
@@ -418,14 +419,14 @@ class Metagen
             "'&(iexcl|#161);'i",
             "'&(cent|#162);'i",
             "'&(pound|#163);'i",
-            "'&(copy|#169);'i"
+            "'&(copy|#169);'i",
         ]; // evaluate as php
 
         $replace = [
             '',
             '',
             '',
-            "\\1",
+            '\\1',
             '"',
             '&',
             '<',
@@ -434,7 +435,7 @@ class Metagen
             chr(161),
             chr(162),
             chr(163),
-            chr(169)
+            chr(169),
         ];
 
         $text = preg_replace($search, $replace, $document);

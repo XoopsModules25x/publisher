@@ -9,7 +9,6 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 /**
- *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @author          XOOPS Project <www.xoops.org> <www.xoops.ir>
@@ -28,6 +27,6 @@ class PublisherCorePreload extends \XoopsPreloadItem
      */
     public static function eventCoreIncludeCommonEnd($args)
     {
-        require __DIR__   . '/autoloader.php';
+        require __DIR__ . '/autoloader.php';
     }
 }

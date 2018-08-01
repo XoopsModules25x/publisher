@@ -38,7 +38,6 @@ $itemObj = $helper->getHandler('Item')->get($fileObj->getVar('itemid'));
 // Check user permissions to access this file
 if (!$itemObj->accessGranted()) {
     redirect_header('javascript:history.go(-1)', 1, _NOPERM);
-    //    exit();
 }
 // Creating the category object that holds the selected ITEM
 $categoryObj = $itemObj->getCategory();

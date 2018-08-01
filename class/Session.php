@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -23,7 +25,7 @@
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Session
@@ -46,9 +48,6 @@ class Session
      *
      * @param string $name  name of variable
      * @param mixed  $value value of variable
-     *
-     * @return void
-     * @access public
      */
     public function set($name, $value)
     {
@@ -61,24 +60,19 @@ class Session
      * @param string $name name of variable
      *
      * @return mixed value of session variable
-     * @access public
      */
     public function get($name)
     {
         if (isset($_SESSION[$name])) {
             return $_SESSION[$name];
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
      * Deletes a session variable
      *
      * @param string $name name of variable
-     *
-     * @return void
-     * @access public
      */
     public function del($name)
     {
@@ -87,9 +81,6 @@ class Session
 
     /**
      * Destroys the whole session
-     *
-     * @return void
-     * @access public
      */
     public function destroy()
     {

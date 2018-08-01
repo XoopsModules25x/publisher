@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -40,22 +41,25 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
 {
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
-    $ret       = $item = [];
-    if ('' == $queryArray || 0 == count($queryArray)) {
+    $ret    = $item = [];
+    if ('' == $queryArray || (is_array($queryArray) && 0 === count($queryArray))) {
         $hightlightKey = '';
     } else {
         $keywords      = implode('+', $queryArray);
         $hightlightKey = '&amp;keywords=' . $keywords;
     }
-    $itemsObjs        = $helper->getHandler('Item')->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
+    /** @var Publisher\ItemHandler $itemHandler */
+    $itemHandler      = $helper->getHandler('Item');
+    $itemsObjs        = $itemHandler->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
     $withCategoryPath = $helper->getConfig('search_cat_path');
     //xoops_load("xoopslocal");
     $usersIds = [];
+    /** @var Publisher\Item $obj */
     if (0 !== count($itemsObjs)) {
         foreach ($itemsObjs as $obj) {
             $item['image'] = 'assets/images/item_icon.gif';
             $item['link']  = $obj->getItemUrl();
-            $item['link']  .= (!empty($hightlightKey) && (false === strpos($item['link'], '.php?'))) ? '?' . ltrim($hightlightKey, '&amp;') : $hightlightKey;
+            $item['link']  .= (!empty($hightlightKey) && (false === mb_strpos($item['link'], '.php?'))) ? '?' . ltrim($hightlightKey, '&amp;') : $hightlightKey;
             if ($withCategoryPath) {
                 $item['title'] = $obj->getCategoryPath(false) . ' > ' . $obj->getTitle();
             } else {
@@ -66,14 +70,14 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
             //"Fulltext search/highlight
             $text          = $obj->getBody();
             $sanitizedText = '';
-            $textLower     = strtolower($text);
+            $textLower     = mb_strtolower($text);
             $queryArray    = is_array($queryArray) ? $queryArray : [$queryArray];
 
             if ('' != $queryArray[0] && count($queryArray) > 0) {
                 foreach ($queryArray as $query) {
-                    $pos           = stripos($textLower, $query); //xoops_local("strpos", $textLower, strtolower($query));
+                    $pos           = mb_stripos($textLower, $query); //xoops_local("strpos", $textLower, mb_strtolower($query));
                     $start         = max($pos - 100, 0);
-                    $length        = strlen($query) + 200; //xoops_local("strlen", $query) + 200;
+                    $length        = mb_strlen($query) + 200; //xoops_local("strlen", $query) + 200;
                     $context       = $obj->highlight(xoops_substr($text, $start, $length, ' [...]'), $query);
                     $sanitizedText .= '<p>[...] ' . $context . '</p>';
                 }

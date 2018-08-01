@@ -31,30 +31,26 @@ $categoriesArray = $helper->getHandler('Category')->getCategoriesForSubmit();
 
 if (!$categoriesArray) {
     redirect_header('index.php', 1, _MD_PUBLISHER_NEED_CATEGORY_ITEM);
-    //    exit();
 }
 
-$groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var $grouppermHandler GroupPermHandler */
+$groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+/* @var $grouppermHandler \XoopsModules\Publisher\GroupPermHandler */
 $grouppermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
-$moduleId     = $helper->getModule()->getVar('mid');
+$moduleId         = $helper->getModule()->getVar('mid');
 
 $itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
 if (0 != $itemId) {
     // We are editing or deleting an article
-    /* @var  $itemObj Item */
+    /* @var  $itemObj Publisher\Item */
     $itemObj = $helper->getHandler('Item')->get($itemId);
     if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($itemObj) || Publisher\Utility::userIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
-        //        exit();
     }
     if (!Publisher\Utility::userIsAdmin() || !Publisher\Utility::userIsModerator($itemObj)) {
         if ('del' === Request::getString('op', '', 'GET') && !$helper->getConfig('perm_delete')) {
             redirect_header('index.php', 1, _NOPERM);
-        //            exit();
         } elseif (!$helper->getConfig('perm_edit')) {
             redirect_header('index.php', 1, _NOPERM);
-            //            exit();
         }
     }
     /* @var  $categoryObj Publisher\Category */
@@ -64,10 +60,9 @@ if (0 != $itemId) {
     // if the user is not admin AND we don't allow user submission, exit
     if (!(Publisher\Utility::userIsAdmin() || (1 == $helper->getConfig('perm_submit') && (is_object($GLOBALS['xoopsUser']) || (1 == $helper->getConfig('perm_anon_submit')))))) {
         redirect_header('index.php', 1, _NOPERM);
-        //        exit();
     }
-    /* @var  $itemObj Item */
-    $itemObj     = $helper->getHandler('Item')->create();
+    /* @var  $itemObj Publisher\Item */
+    $itemObj = $helper->getHandler('Item')->create();
     /* @var  $categoryObj Publisher\Category */
     $categoryObj = $helper->getHandler('Category')->create();
 }
@@ -91,7 +86,7 @@ if (Request::getString('additem', '', 'POST')) {
 $tokenError = false;
 if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
     if ('preview' !== $op) {
-        $op = 'preview';
+        $op         = 'preview';
         $tokenError = true;
     }
 }
@@ -123,13 +118,12 @@ $elements = [
     'dolinebreak',
     'notify',
     'subtitle',
-    'author_alias'
+    'author_alias',
 ];
 foreach ($elements as $element) {
     $classname = Constants::class;
-    if (Request::hasVar($element, 'POST') && !in_array(constant($classname .'::'. 'PUBLISHER_' . strtoupper($element)), $formView)) {
+    if (Request::hasVar($element, 'POST') && !in_array(constant($classname . '::' . 'PUBLISHER_' . mb_strtoupper($element)), $formView)) {
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
-        //        exit();
     }
 }
 //unset($element);
@@ -144,18 +138,11 @@ switch ($op) {
         if ($confirm) {
             if (!$helper->getHandler('Item')->delete($itemObj)) {
                 redirect_header('index.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . Publisher\Utility::formatErrors($itemObj->getErrors()));
-                //                exit();
             }
             redirect_header('index.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
-        //            exit();
         } else {
             require_once $GLOBALS['xoops']->path('header.php');
-            xoops_confirm(
-                ['op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()],
-                'submit.php',
-                          _AM_PUBLISHER_DELETETHISITEM . " <br>'" . $itemObj->getTitle() . "'. <br> <br>",
-                _AM_PUBLISHER_DELETE
-            );
+            xoops_confirm(['op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()], 'submit.php', _AM_PUBLISHER_DELETETHISITEM . " <br>'" . $itemObj->getTitle() . "'. <br> <br>", _AM_PUBLISHER_DELETE);
             require_once $GLOBALS['xoops']->path('footer.php');
         }
         exit();
@@ -213,11 +200,10 @@ switch ($op) {
         // Storing the item object in the database
         if (!$itemObj->store()) {
             redirect_header('javascript:history.go(-1)', 2, _MD_PUBLISHER_SUBMIT_ERROR);
-            //            exit();
         }
 
         // attach file if any
-        if ($itemUploadFile && '' != $itemUploadFile['name']) {
+        if (is_array($itemUploadFile) && '' != $itemUploadFile['name']) {
             $fileUploadResult = Publisher\Utility::uploadFile(false, true, $itemObj);
             if (true !== $fileUploadResult) {
                 redirect_header('javascript:history.go(-1)', 3, $fileUploadResult);
@@ -226,7 +212,7 @@ switch ($op) {
 
         // if autoapprove_submitted. This does not apply if we are editing an article
         if (!$itemId) {
-            if ($itemObj->getVar('status') == Constants::PUBLISHER_STATUS_PUBLISHED /*$helper->getConfig('perm_autoapprove'] ==  1*/) {
+            if (Constants::PUBLISHER_STATUS_PUBLISHED == $itemObj->getVar('status') /*$helper->getConfig('perm_autoapprove'] ==  1*/) {
                 // We do not not subscribe user to notification on publish since we publish it right away
 
                 // Send notifications
@@ -252,7 +238,6 @@ switch ($op) {
             redirect_header($itemObj->getItemUrl(), 2, $redirect_msg);
         }
         redirect_header('index.php', 2, $redirect_msg);
-        //        exit();
 
         break;
 

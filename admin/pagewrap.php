@@ -29,7 +29,7 @@ Publisher\Utility::openCollapsableBar('pagewraptable', 'pagewrapicon', _AM_PUBLI
 
 $dir = Publisher\Utility::getUploadDir(true, 'content');
 
-if (false !== strpos(decoct(fileperms($dir)), '777')) {
+if (false !== mb_strpos(decoct(fileperms($dir)), '777')) {
     echo "<span style='color:#ff0000;'><h4>" . _AM_PUBLISHER_PERMERROR . '</h4></span>';
 }
 

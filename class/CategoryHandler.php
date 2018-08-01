@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -19,12 +22,10 @@
  */
 
 use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
-
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Categories handler class.
@@ -38,7 +39,6 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
 {
     /**
      * @var Helper
-     * @access public
      */
     public $helper;
 
@@ -55,9 +55,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve an item
      *
-     * @param int|null   $id     itemid of the user
+     * @param int|null $id  itemid of the user
      *
-     * @param  null $fields
+     * @param  null    $fields
      * @return mixed reference to the <a href='psi_element://Publisher\Category'>Publisher\Category</a> object, FALSE if failed
      *                      object, FALSE if failed
      */
@@ -83,18 +83,19 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function insert(\XoopsObject $category, $force = false) //insert(&$category, $force = false)
     {
         // Auto create meta tags if empty
-        if (!$category->meta_keywords() || !$category->meta_description()) {
-            $publisherMetagen = new Publisher\Metagen($category->name(), $category->getVar('meta_keywords'), $category->getVar('description'));
-            if (!$category->meta_keywords()) {
+        /** @var \XoopsModules\Publisher\Category $category */
+        if (!$category->meta_keywords || !$category->meta_description) {
+            $publisherMetagen = new Publisher\Metagen($category->name, $category->getVar('meta_keywords'), $category->getVar('description'));
+            if (!$category->meta_keywords) {
                 $category->setVar('meta_keywords', $publisherMetagen->keywords);
             }
-            if (!$category->meta_description()) {
+            if (!$category->meta_description) {
                 $category->setVar('meta_description', $publisherMetagen->description);
             }
         }
         // Auto create short_url if empty
-        if (!$category->short_url()) {
-            $category->setVar('short_url', Metagen::generateSeoTitle($category->name('n'), false));
+        if (!$category->short_url) {
+            $category->setVar('short_url', Publisher\Metagen::generateSeoTitle($category->name('n'), false));
         }
         $ret = parent::insert($category, $force);
 
@@ -111,12 +112,13 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function delete(\XoopsObject $category, $force = false) //delete(&$category, $force = false)
     {
+        /** @var \XoopsModules\Publisher\Category $category */
         // Deleting this category ITEMs
-        $criteria = new \Criteria('categoryid', $category->categoryid());
+        $criteria = new \Criteria('categoryid', $category->categoryid);
         $this->helper->getHandler('Item')->deleteAll($criteria);
         unset($criteria);
         // Deleting the sub categories
-        $subcats =& $this->getCategories(0, 0, $category->categoryid());
+        $subcats =& $this->getCategories(0, 0, $category->categoryid);
         foreach ($subcats as $subcat) {
             $this->delete($subcat);
         }
@@ -126,9 +128,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
             return false;
         }
         $moduleId = $this->helper->getModule()->getVar('mid');
-        xoops_groupperm_deletebymoditem($moduleId, 'category_read', $category->categoryid());
-        xoops_groupperm_deletebymoditem($moduleId, 'item_submit', $category->categoryid());
-        xoops_groupperm_deletebymoditem($moduleId, 'category_moderation', $category->categoryid());
+        xoops_groupperm_deletebymoditem($moduleId, 'category_read', $category->categoryid);
+        xoops_groupperm_deletebymoditem($moduleId, 'item_submit', $category->categoryid);
+        xoops_groupperm_deletebymoditem($moduleId, 'category_moderation', $category->categoryid);
 
         return true;
     }
@@ -137,9 +139,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * retrieve categories from the database
      *
      * @param \CriteriaElement $criteria {@link CriteriaElement} conditions to be met
-     * @param bool            $idAsKey  use the categoryid as key for the array?
+     * @param bool             $idAsKey  use the categoryid as key for the array?
      *
-     * @param  bool           $as_object
+     * @param  bool            $as_object
      * @return array array of <a href='psi_element://XoopsItem'>XoopsItem</a> objects
      */
 
@@ -179,7 +181,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('parentid', $parentid));
         }
         if (!$GLOBALS['publisherIsAdmin']) {
-            $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
+            /** @var Publisher\PermissionHandler $permissionHandler */
+            $permissionHandler = $this->helper->getHandler('Permission');
+            $categoriesGranted = $permissionHandler->getGrantedItems('category_read');
             if (count($categoriesGranted) > 0) {
                 $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
             } else {
@@ -405,6 +409,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function itemsCount($catId = 0, $status = '')
     {
-        return $this->helper->getHandler('Item')->getCountsByCat($catId, $status);
+        /** @var Publisher\ItemHandler $itemHandler */
+        $itemHandler = $this->helper->getHandler('Item');
+        return $itemHandler->getCountsByCat($catId, $status);
     }
 }

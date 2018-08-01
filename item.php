@@ -29,7 +29,6 @@ $itemPageId = Request::getInt('page', -1, 'GET');
 
 if (0 == $itemId) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
-    //    exit();
 }
 
 /** @var Publisher\Helper $helper */
@@ -41,7 +40,6 @@ $itemObj = $helper->getHandler('Item')->get($itemId);
 // if the selected item was not found, exit
 if (!$itemObj) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
-    //    exit();
 }
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl';
@@ -55,7 +53,6 @@ require_once $GLOBALS['xoops']->path('header.php');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 
-
 require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
 // Creating the category object that holds the selected item
@@ -64,7 +61,6 @@ $categoryObj = $helper->getHandler('Category')->get($itemObj->categoryid());
 // Check user permissions to access that category of the selected item
 if (!$itemObj->accessGranted()) {
     redirect_header('javascript:history.go(-1)', 1, _NOPERM);
-    //    exit;
 }
 $com_replytitle = $itemObj->getTitle();
 
@@ -195,7 +191,7 @@ if (null !== $filesObj) {
 
         if ('application/x-shockwave-flash' === $fileObj->mimetype()) {
             $file['content'] = $fileObj->displayFlash();
-            if (strpos($item['maintext'], '[flash-' . $fileObj->getVar('fileid') . ']')) {
+            if (mb_strpos($item['maintext'], '[flash-' . $fileObj->getVar('fileid') . ']')) {
                 $item['maintext'] = str_replace('[flash-' . $fileObj->getVar('fileid') . ']', $file['content'], $item['maintext']);
             } else {
                 $embededFiles[] = $file;
@@ -243,7 +239,7 @@ $publisherMetagen = new Publisher\Metagen($itemObj->getVar('title'), $itemObj->g
 $publisherMetagen->createMetaTags();
 
 // Include the comments if the selected ITEM supports comments
-if ((0 <> $helper->getConfig('com_rule')) && ((1 == $itemObj->cancomment()) || !$helper->getConfig('perm_com_art_level'))) {
+if ((0 != $helper->getConfig('com_rule')) && ((1 == $itemObj->cancomment()) || !$helper->getConfig('perm_com_art_level'))) {
     require_once $GLOBALS['xoops']->path('include/comment_view.php');
     // Problem with url_rewrite and posting comments :
     $xoopsTpl->assign([

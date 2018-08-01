@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  *  Publisher class
  *
@@ -24,14 +27,12 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
-
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Mimetype class
  *
  * @author  Eric Juden <ericj@epcusa.com>
- * @access  public
  * @package publisher
  */
 class Mimetype extends \XoopsObject

@@ -47,7 +47,7 @@ $monthsArray = [
     9  => _CAL_SEPTEMBER,
     10 => _CAL_OCTOBER,
     11 => _CAL_NOVEMBER,
-    12 => _CAL_DECEMBER
+    12 => _CAL_DECEMBER,
 ];
 $fromyear    = Request::getInt('year');
 $frommonth   = Request::getInt('month');
@@ -89,7 +89,6 @@ $itemsCount = count($items);
 
 if (!($itemsCount > 0)) {
     redirect_header(XOOPS_URL, 2, _MD_PUBLISHER_NO_TOP_PERMISSIONS);
-//mb    exit;
 } else {
     $years  = [];
     $months = [];

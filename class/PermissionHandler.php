@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  *  Publisher class
  *
@@ -24,7 +27,7 @@
 use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class PermissionHandler
@@ -32,14 +35,10 @@ require_once  dirname(__DIR__) . '/include/common.php';
 class PermissionHandler extends \XoopsObjectHandler
 {
     /**
-     * @var Publisher
-     * @access public
+     * @var Publisher\Helper
      */
     public $helper;
 
-    /**
-     *
-     */
     public function __construct()
     {
         /** @var Publisher\Helper $this->helper */
@@ -69,7 +68,7 @@ class PermissionHandler extends \XoopsObjectHandler
         $db    = \XoopsDatabaseFactory::getDatabaseConnection();
         $limit = $start = 0;
         $sql   = 'SELECT gperm_groupid FROM ' . $db->prefix('group_permission');
-        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql   .= ' ' . $criteria->renderWhere();
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
@@ -135,26 +134,25 @@ class PermissionHandler extends \XoopsObjectHandler
         $permissions = $this->getGrantedItems($gpermName);
         if (!empty($permissions) && isset($permissions[$id])) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
      * Saves permissions for the selected category
      *  saveCategoryPermissions()
      *
-     * @param array   $groups   : group with granted permission
-     * @param integer $itemId   : itemid on which we are setting permissions for Categories and Forums
-     * @param string  $permName : name of the permission
+     * @param array  $groups   : group with granted permission
+     * @param int    $itemId   : itemid on which we are setting permissions for Categories and Forums
+     * @param string $permName : name of the permission
      *
-     * @return boolean : TRUE if the no errors occured
+     * @return bool : TRUE if the no errors occured
      */
     public function saveItemPermissions($groups, $itemId, $permName)
     {
         $result   = true;
         $moduleId = $this->helper->getModule()->getVar('mid');
-        /* @var  $grouppermHandler XoopsGroupPermHandler */
+        /* @var  $grouppermHandler \XoopsGroupPermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $grouppermHandler->deleteByModule($moduleId, $permName, $itemId);
@@ -173,14 +171,14 @@ class PermissionHandler extends \XoopsObjectHandler
      * Delete all permission for a specific item
      *  deletePermissions()
      *
-     * @param integer $itemId : id of the item for which to delete the permissions
-     * @param string  $gpermName
+     * @param int    $itemId : id of the item for which to delete the permissions
+     * @param string $gpermName
      *
-     * @return boolean : TRUE if the no errors occured
+     * @return bool : TRUE if the no errors occured
      */
     public function deletePermissions($itemId, $gpermName)
     {
-        $result       = true;
+        $result           = true;
         $grouppermHandler = xoops_getHandler('groupperm');
         $grouppermHandler->deleteByModule($this->helper->getModule()->getVar('mid'), $gpermName, $itemId);
 

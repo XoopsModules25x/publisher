@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -33,9 +35,6 @@ xoops_load('XoopsForm');
  */
 class BlockForm extends \XoopsForm
 {
-    /**
-     *
-     */
     public function __construct()
     {
         parent::__construct('', '', '');

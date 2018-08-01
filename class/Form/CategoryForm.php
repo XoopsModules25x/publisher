@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher\Form;
+<?php
+
+namespace XoopsModules\Publisher\Form;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -36,8 +38,7 @@ require_once $GLOBALS['xoops']->path('class/tree.php');
 class CategoryForm extends \XoopsThemeForm
 {
     /**
-     * @var Publisher
-     * @access public
+     * @var Publisher\Helper
      */
     public $helper;
 
@@ -94,11 +95,11 @@ class CategoryForm extends \XoopsThemeForm
         $this->addElement(new \XoopsFormTextArea(_AM_PUBLISHER_COLDESCRIPT, 'description', $this->targetObject->description('e'), 7, 60));
 
         // EDITOR
-        $groups         = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $grouppermHandler   = $this->helper->getHandler('GroupPerm');
-        $moduleId       = $this->helper->getModule()->mid();
-        $allowedEditors = Publisher\Utility::getEditors($grouppermHandler->getItemIds('editors', $groups, $moduleId));
-        $nohtml         = false;
+        $groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        $grouppermHandler = $this->helper->getHandler('GroupPerm');
+        $moduleId         = $this->helper->getModule()->mid();
+        $allowedEditors   = Publisher\Utility::getEditors($grouppermHandler->getItemIds('editors', $groups, $moduleId));
+        $nohtml           = false;
         if (count($allowedEditors) > 0) {
             $editor = Request::getString('editor', '', 'POST');
             if (!empty($editor)) {

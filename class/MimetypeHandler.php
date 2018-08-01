@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  *  Publisher class
  *
@@ -24,8 +27,7 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
-
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class MimetypeHandler
@@ -51,7 +53,6 @@ class MimetypeHandler extends BaseObjectHandler
      *
      * @param  null $fields
      * @return bool|Mimetype
-     * @access    public
      */
     public function get($id = null, $fields = null)
     {
@@ -82,14 +83,13 @@ class MimetypeHandler extends BaseObjectHandler
      * @param  bool            $asObject
      * @return array array of <a href='psi_element://Mimetype'>Mimetype</a> objects
      *                                   objects
-     * @access    public
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
     {
         $ret   = [];
         $limit = $start = 0;
         $sql   = $this->selectQuery($criteria);
-        if (isset($criteria)) {
+        if (null !== $criteria) {
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
@@ -153,7 +153,6 @@ class MimetypeHandler extends BaseObjectHandler
      * @param string $postField file being uploaded
      *
      * @return bool false if no permission, return mimetype if has permission
-     * @access public
      */
     public function checkMimeTypes($postField)
     {
@@ -191,12 +190,11 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
      *                                   to match
      * @param bool             $join
      *
      * @return string string SQL query
-     * @access    private
      */
     private function selectQuery(\CriteriaElement $criteria = null, $join = false)
     {
@@ -209,9 +207,10 @@ class MimetypeHandler extends BaseObjectHandler
 
         try {
             if ($join) {
-                throw new RuntimeException('no need for join...');
+                throw new \RuntimeException('no need for join...');
             }
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             /** @var Publisher\Helper $helper */
             $helper = Publisher\Helper::getInstance();
             $helper->addLog($e);
@@ -220,7 +219,7 @@ class MimetypeHandler extends BaseObjectHandler
 
         $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
 
-        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -241,17 +240,9 @@ class MimetypeHandler extends BaseObjectHandler
         foreach ($obj->cleanVars as $k => $v) {
             ${$k} = $v;
         }
-        $sql = sprintf(
-            'INSERT INTO `%s` (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
-            (%u, %s, %s, %s, %u, %u)',
-            $this->db->prefix($this->dbtable),
-            $obj->getVar('mime_id'),
-            $this->db->quoteString($obj->getVar('mime_ext')),
-            $this->db->quoteString($obj->getVar('mime_types')),
-            $this->db->quoteString($obj->getVar('mime_name')),
-            $obj->getVar('mime_admin'),
-                       $obj->getVar('mime_user')
-        );
+        $sql = sprintf('INSERT INTO `%s` (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
+            (%u, %s, %s, %s, %u, %u)', $this->db->prefix($this->dbtable), $obj->getVar('mime_id'), $this->db->quoteString($obj->getVar('mime_ext')), $this->db->quoteString($obj->getVar('mime_types')), $this->db->quoteString($obj->getVar('mime_name')), $obj->getVar('mime_admin'),
+                       $obj->getVar('mime_user'));
 
         return $sql;
     }

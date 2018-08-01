@@ -37,7 +37,6 @@ $totalCategories = $helper->getHandler('Category')->getCategoriesCount(0);
 // if there ain't no category to display, let's get out of here
 if (0 == $totalCategories) {
     redirect_header(XOOPS_URL, 2, _MD_PUBLISHER_NO_TOP_PERMISSIONS);
-    //    exit;
 }
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
@@ -53,7 +52,6 @@ $categoriesObj = $helper->getHandler('Category')->getCategories($helper->getConf
 $totalCategoriesOnPage = count($categoriesObj);
 if (0 == $totalCategoriesOnPage) {
     redirect_header('javascript:history.go(-1)', 2, _MD_PUBLISHER_NO_CAT_EXISTS);
-    //    exit;
 }
 
 // Get subcats of the top categories
@@ -75,7 +73,7 @@ $lastitemsize = (int)$helper->getConfig('idxcat_last_item_size');
 
 // Hide sub categories in main page only - hacked by Mowaffak
 if ('nomain' === $helper->getConfig('idxcat_show_subcats')) {
-//    $GLOBALS['xoopsModuleConfig']->setConfig('idxcat_show_subcats', 'no');
+    //    $GLOBALS['xoopsModuleConfig']->setConfig('idxcat_show_subcats', 'no');
     $GLOBALS['xoopsModuleConfig']['idxcat_show_subcats'] = 'no';
 }
 

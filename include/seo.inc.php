@@ -41,13 +41,13 @@ if ('' == $seoOp && Request::getString('PATH_INFO', '', 'SERVER')) {
     $seoOp    = $seoParts[0];
     $seoArg   = $seoParts[1];
     // for multi-argument modules, where itemid and catid both are required.
-    // $seoArg = substr($data[1], strlen($seoOp) + 1);
+    // $seoArg = mb_substr($data[1], mb_strlen($seoOp) + 1);
 }
 
 $seoMap = [
     'category' => 'category.php',
     'item'     => 'item.php',
-    'print'    => 'print.php'
+    'print'    => 'print.php',
 ];
 
 if (!empty($seoOp) && isset($seoMap[$seoOp])) {

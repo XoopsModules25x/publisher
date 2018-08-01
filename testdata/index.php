@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
  * which is considered copyrighted (c) material of the original comment or credit authors.
@@ -14,10 +13,11 @@
  * @since           2.5.9
  * @author          Michael Beck (aka Mamba)
  */
+
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Common;
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 require dirname(__DIR__) . '/preloads/autoloader.php';
 

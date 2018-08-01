@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Publisher;
+<?php
+
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -22,13 +25,12 @@ use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 // File status
 //define("_PUBLISHER_STATUS_FILE_NOTSET", -1);
 //define("_PUBLISHER_STATUS_FILE_ACTIVE", 1);
 //define("_PUBLISHER_STATUS_FILE_INACTIVE", 2);
-
 
 /**
  * Files handler class.
@@ -40,10 +42,9 @@ require_once  dirname(__DIR__) . '/include/common.php';
  */
 class FileHandler extends \XoopsPersistableObjectHandler
 {
-    public $table_link   = '';
+    public $table_link = '';
     /**
      * @var Publisher\Helper
-     * @access public
      */
     public $helper;
 
@@ -85,7 +86,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
      */
     public function deleteItemFiles(\XoopsObject $itemObj)
     {
-        if ('publisheritem' !== strtolower(get_class($itemObj))) {
+        if ('publisheritem' !== mb_strtolower(get_class($itemObj))) {
             return false;
         }
         $files  = $this->getAllFiles($itemObj->itemid());
@@ -158,7 +159,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
             $criteria->setOrder($order);
             $criteria->setLimit($limit);
             $criteria->setStart($start);
-            $files =& $this->getByLink($criteria, ['o.*'], true);
+            $files = $this->getByLink($criteria, ['o.*'], true);
 
             //            return $files;
         }

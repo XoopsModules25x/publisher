@@ -31,7 +31,6 @@ $fileid = Request::getInt('fileid', Request::getInt('fileid', 0, 'GET'), 'POST')
 
 if (0 == $fileid) {
     redirect_header('index.php', 2, _MD_PUBLISHER_NOITEMSELECTED);
-    //    exit();
 }
 
 $fileObj = $helper->getHandler('File')->get($fileid);
@@ -39,7 +38,6 @@ $fileObj = $helper->getHandler('File')->get($fileid);
 // if the selected item was not found, exit
 if (!$fileObj) {
     redirect_header('index.php', 1, _NOPERM);
-    //    exit();
 }
 
 $itemObj = $helper->getHandler('Item')->get($fileObj->getVar('itemid'));
@@ -47,7 +45,6 @@ $itemObj = $helper->getHandler('Item')->get($fileObj->getVar('itemid'));
 // if the user does not have permission to modify this file, exit
 if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
     redirect_header('index.php', 1, _NOPERM);
-    //    exit();
 }
 
 /* -- Available operations -- */
@@ -70,7 +67,6 @@ switch ($op) {
             $fileObj = $helper->getHandler('File')->get($fileid);
         } else {
             redirect_header('index.php', 1, _NOPERM);
-            //            exit();
         }
 
         // Putting the values in the file object
@@ -101,11 +97,9 @@ switch ($op) {
 
         if (!$helper->getHandler('File')->insert($fileObj)) {
             redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . Publisher\Utility::formatErrors($fileObj->getErrors()));
-            //            exit;
         }
 
         redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, _AM_PUBLISHER_FILE_EDITING_SUCCESS);
-        //        exit();
         break;
 
     case 'clear':
@@ -118,11 +112,9 @@ switch ($op) {
         if ($confirm) {
             if (!$helper->getHandler('File')->delete($fileObj)) {
                 redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, _AM_PUBLISHER_FILE_DELETE_ERROR);
-                //                exit;
             }
 
             redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, sprintf(_AM_PUBLISHER_FILEISDELETED, $fileObj->name()));
-        //            exit();
         } else {
             // no confirm: show deletion condition
 

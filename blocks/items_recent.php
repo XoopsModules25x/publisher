@@ -24,7 +24,7 @@ use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -35,7 +35,9 @@ function publisher_items_recent_show($options)
 {
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
-    $myts      = \MyTextSanitizer::getInstance();
+    /** @var Publisher\ItemHandler $itemHandler */
+    $itemHandler = $helper->getHandler('Item');
+    $myts        = \MyTextSanitizer::getInstance();
 
     $block = $newItems = [];
 
@@ -58,20 +60,20 @@ function publisher_items_recent_show($options)
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
     }
-    $itemsObj = $helper->getHandler('Item')->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
+    $itemsObj = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
 
     $totalItems = count($itemsObj);
 
     if ($itemsObj && $totalItems > 0) {
-        for ($i = 0; $i < $totalItems; ++$i) {
-            $newItems['itemid']       = $itemsObj[$i]->itemid();
-            $newItems['title']        = $itemsObj[$i]->getTitle();
-            $newItems['categoryname'] = $itemsObj[$i]->getCategoryName();
-            $newItems['categoryid']   = $itemsObj[$i]->categoryid();
-            $newItems['date']         = $itemsObj[$i]->getDatesub();
-            $newItems['poster']       = $itemsObj[$i]->getLinkedPosterName();
-            $newItems['itemlink']     = $itemsObj[$i]->getItemLink(false, isset($options[3]) ? $options[3] : 65);
-            $newItems['categorylink'] = $itemsObj[$i]->getCategoryLink();
+        foreach ($itemsObj as $iValue) {
+            $newItems['itemid']       = $iValue->itemid();
+            $newItems['title']        = $iValue->getTitle();
+            $newItems['categoryname'] = $iValue->getCategoryName();
+            $newItems['categoryid']   = $iValue->categoryid();
+            $newItems['date']         = $iValue->getDatesub();
+            $newItems['poster']       = $iValue->getLinkedPosterName();
+            $newItems['itemlink']     = $iValue->getItemLink(false, isset($options[3]) ? $options[3] : 65);
+            $newItems['categorylink'] = $iValue->getCategoryLink();
 
             $block['items'][] = $newItems;
         }
@@ -104,7 +106,7 @@ function publisher_items_recent_edit($options)
     $orderEle->addOptionArray([
                                   'datesub' => _MB_PUBLISHER_DATE,
                                   'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT
+                                  'weight'  => _MB_PUBLISHER_WEIGHT,
                               ]);
     $dispEle  = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $charsEle = new \XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);

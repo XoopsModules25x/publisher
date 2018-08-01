@@ -19,5 +19,5 @@
  */
 
 // todo: Check this file
-require __DIR__   . '/header.php';
+require __DIR__ . '/header.php';
 require $GLOBALS['xoops']->path('modules/tag/list.tag.php');

@@ -22,7 +22,7 @@ use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
 require_once __DIR__ . '/admin_header.php';
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 require_once $GLOBALS['xoops']->path('class/xoopsform/grouppermform.php');
 $myts = \MyTextSanitizer::getInstance();
 
@@ -107,7 +107,7 @@ $form_options = [
     Constants::PUBLISHER_DOLINEBREAK           => _CO_PUBLISHER_DOLINEBREAK,
     Constants::PUBLISHER_NOTIFY                => _AM_PUBLISHER_NOTIFY,
     Constants::PUBLISHER_SUBTITLE              => _CO_PUBLISHER_SUBTITLE,
-    Constants::PUBLISHER_AUTHOR_ALIAS          => _CO_PUBLISHER_AUTHOR_ALIAS
+    Constants::PUBLISHER_AUTHOR_ALIAS          => _CO_PUBLISHER_AUTHOR_ALIAS,
 ];
 $form_submit  = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'form_view', '', 'admin/permissions.php');
 foreach ($form_options as $key => $value) {
@@ -134,7 +134,7 @@ echo "<br>\n";
 Publisher\Utility::openCollapsableBar('permissionstable_global', 'permissionsicon_global', _AM_PUBLISHER_PERMISSIONS_GLOBAL, _AM_PUBLISHER_PERMISSIONS_GLOBAL_DSC);
 $form_options = [
     Constants::PUBLISHER_SEARCH => _AM_PUBLISHER_SEARCH,
-    Constants::PUBLISHER_RATE   => _AM_PUBLISHER_RATE
+    Constants::PUBLISHER_RATE   => _AM_PUBLISHER_RATE,
 ];
 $form_submit  = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'global', '', 'admin/permissions.php');
 foreach ($form_options as $key => $value) {

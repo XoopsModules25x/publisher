@@ -964,14 +964,14 @@ class Timthumb
         $this->debug(3, 'Rewriting image with security header.');
         $tempfile4 = tempnam($this->cacheDirectory, 'timthumb_tmpimg_');
         $context   = stream_context_create();
-        $fp        = fopen($tempfile, 'r', 0, $context);
+        $fp        = fopen($tempfile, 'rb', 0, $context);
         file_put_contents($tempfile4, $this->filePrependSecurityBlock . $imgType . ' ?' . '>'); //6 extra bytes, first 3 being image type
         file_put_contents($tempfile4, $fp, FILE_APPEND);
         fclose($fp);
         @unlink($tempfile);
         $this->debug(3, 'Locking and replacing cache file.');
         $lockFile = $this->cachefile . '.lock';
-        $fh       = fopen($lockFile, 'w');
+        $fh       = fopen($lockFile, 'wb');
         if (!$fh) {
             return $this->error('Could not open the lockfile for writing an image.');
         }
@@ -1494,7 +1494,7 @@ class Timthumb
         $url                = preg_replace('/ /', '%20', $url);
         if (function_exists('curl_init')) {
             $this->debug(3, 'Curl is installed so using it to fetch URL.');
-            self::$curlFH = fopen($tempfile, 'w');
+            self::$curlFH = fopen($tempfile, 'wb');
             if (!self::$curlFH) {
                 $this->error("Could not open $tempfile for writing.");
 

@@ -183,6 +183,7 @@ if ('go' === $op) {
     $newCatArray     = [];
     $newArticleArray = [];
 
+    /** @var \XoopsImagecategoryHandler $imageCategoryHandler */
     $imageCategoryHandler = xoops_getHandler('imagecategory');
     //    $criteria = new \CriteriaCombo;
 

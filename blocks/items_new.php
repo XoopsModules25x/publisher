@@ -35,6 +35,8 @@ function publisher_items_new_show($options)
 {
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
+    /** @var Publisher\ItemHandler $itemHandler */
+    $itemHandler = $helper->getHandler('Item');
 
     $selectedcatids = explode(',', $options[0]);
 
@@ -57,7 +59,7 @@ function publisher_items_new_show($options)
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
     }
-    $itemsObj = $helper->getHandler('Item')->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
+    $itemsObj = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
 
     $totalitems = count($itemsObj);
     if ($itemsObj && $totalitems > 0) {

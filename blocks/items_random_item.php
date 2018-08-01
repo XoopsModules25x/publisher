@@ -36,8 +36,10 @@ function publisher_items_random_item_show($options)
     $block     = [];
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
+    /** @var Publisher\ItemHandler $itemHandler */
+    $itemHandler = $helper->getHandler('Item');
     // creating the ITEM object
-    $itemsObj = $helper->getHandler('Item')->getRandomItem('', [Constants::PUBLISHER_STATUS_PUBLISHED]);
+    $itemsObj = $itemHandler->getRandomItem('', [Constants::PUBLISHER_STATUS_PUBLISHED]);
 
     if (!is_object($itemsObj)) {
         return $block;

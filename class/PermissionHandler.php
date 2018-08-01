@@ -32,7 +32,7 @@ require_once  dirname(__DIR__) . '/include/common.php';
 class PermissionHandler extends \XoopsObjectHandler
 {
     /**
-     * @var Publisher
+     * @var Publisher\Helper
      * @access public
      */
     public $helper;

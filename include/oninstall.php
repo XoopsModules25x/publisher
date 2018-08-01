@@ -30,7 +30,7 @@ function xoops_module_pre_install_publisher(\XoopsModule $module)
 
     //check for minimum XOOPS version
     $xoopsSuccess = $utility::checkVerXoops($module);
-    
+
     // check for minimum PHP version
     $phpSuccess   = $utility::checkVerPhp($module);
 
@@ -54,7 +54,7 @@ function xoops_module_install_publisher(\XoopsModule $module)
 
     $moduleDirName = basename(dirname(__DIR__));
 
-    
+
     /** @var Publisher\Helper $helper */
     /** @var Publisher\Utility $utility */
     /** @var Common\Configurator $configurator */

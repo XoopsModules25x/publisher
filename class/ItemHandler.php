@@ -40,7 +40,7 @@ require_once  dirname(__DIR__) . '/include/common.php';
 class ItemHandler extends \XoopsPersistableObjectHandler
 {
     /**
-     * @var Publisher
+     * @var Publisher\Helper
      * @access public
      */
     public $helper;
@@ -628,7 +628,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     {
         //        global $publisherIsAdmin;
         $ret = [];
-        /* @var  $grouppermHandler XoopsGroupPermHandler */
+        /* @var  $grouppermHandler \XoopsGroupPermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $searchin     = empty($searchin) ? ['title', 'body', 'summary'] : (is_array($searchin) ? $searchin : [$searchin]);

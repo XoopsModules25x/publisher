@@ -30,7 +30,7 @@ require_once  dirname(__DIR__) . '/include/common.php';
 class Category extends \XoopsObject
 {
     /**
-     * @var Publisher
+     * @var Publisher\Helper
      * @access public
      */
     public $helper;
@@ -156,7 +156,7 @@ class Category extends \XoopsObject
 
                 try {
                     if ($parentObj->notLoaded()) {
-                        throw new RuntimeException(_NOPERM);
+                        throw new \RuntimeException(_NOPERM);
                     }
                 } catch (\Exception $e) {
                     $this->helper->addLog($e);
@@ -186,7 +186,7 @@ class Category extends \XoopsObject
 
             try {
                 if ($parentObj->notLoaded()) {
-                    throw new RuntimeException('NOT LOADED');
+                    throw new \RuntimeException('NOT LOADED');
                 }
             } catch (\Exception $e) {
                 $this->helper->addLog($e);
@@ -272,7 +272,7 @@ class Category extends \XoopsObject
         $tags['MODULE_NAME']   = $this->helper->getModule()->getVar('name');
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = $this->getCategoryUrl();
-        /* @var  $notificationHandler XoopsNotificationHandler */
+        /* @var  $notificationHandler \XoopsNotificationHandler */
         $notificationHandler = xoops_getHandler('notification');
         $notificationHandler->triggerEvent('global_item', 0, 'category_created', $tags);
     }

@@ -24,7 +24,7 @@
  * $breadcrumb->addLink( 'bread 3', 'index3.php' );
  * echo $breadcrumb->render();
  */
- 
+
 defined('XOOPS_ROOT_PATH') || die('XOOPS Root Path not defined');
 
 /**

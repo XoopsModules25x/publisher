@@ -406,6 +406,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     if (0 != $itemid) {
         // Creating the ITEM object
+        /** @var \XoopsModules\Publisher\Item $itemObj */
         $itemObj = $helper->getHandler('Item')->get($itemid);
 
         if (!$itemObj) {
@@ -420,7 +421,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
             $itemObj->setVar('datesub', time());
         }
 
-        switch ($itemObj->status()) {
+        switch ($itemObj->getVar('status')) {
             case Constants::PUBLISHER_STATUS_SUBMITTED:
                 $breadcrumbAction1 = _CO_PUBLISHER_SUBMITTED;
                 $breadcrumbAction2 = _AM_PUBLISHER_APPROVING;
@@ -484,12 +485,12 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
         if ($clone) {
             echo '<form><div style="margin-bottom: 10px;">';
-            echo "<input type='button' name='button' onclick=\"location='item.php?op=clone&itemid=" . $itemObj->itemid() . "'\" value='" . _AM_PUBLISHER_CLONE_ITEM . "'>&nbsp;&nbsp;";
+            echo "<input type='button' name='button' onclick=\"location='item.php?op=clone&itemid=" . $itemObj->getVar('itemid') . "'\" value='" . _AM_PUBLISHER_CLONE_ITEM . "'>&nbsp;&nbsp;";
             echo '</div></form>';
         }
     } else {
         // there's no parameter, so we're adding an item
-
+        /** @var \XoopsModules\Publisher\Item $itemObj */
         $itemObj = $helper->getHandler('Item')->create();
         $itemObj->setVarsFromRequest();
 

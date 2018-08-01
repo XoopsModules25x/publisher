@@ -36,7 +36,7 @@ require_once $GLOBALS['xoops']->path('class/tree.php');
 class CategoryForm extends \XoopsThemeForm
 {
     /**
-     * @var Publisher
+     * @var Publisher\Helper
      * @access public
      */
     public $helper;

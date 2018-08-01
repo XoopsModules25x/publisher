@@ -30,13 +30,13 @@ require_once  dirname(__DIR__) . '/include/common.php';
 class Metagen
 {
     /**
-     * @var Publisher
+     * @var Publisher\Helper
      * @access public
      */
     public $helper;
 
     /**
-     * @var MyTextSanitizer
+     * @var \MyTextSanitizer
      */
     public $myts;
 

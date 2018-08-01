@@ -39,6 +39,8 @@ function publisher_latest_news_show($options)
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     $helper->loadLanguage('main');
+    /** @var Publisher\ItemHandler $itemHandler */
+    $itemHandler = $helper->getHandler('Item');
 //    xoops_loadLanguage('main', 'publisher');
 
 
@@ -78,7 +80,7 @@ function publisher_latest_news_show($options)
         $criteria->add(new \Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
     }
 
-    $itemsObj = $helper->getHandler('Item')->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
+    $itemsObj = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);
 

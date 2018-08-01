@@ -191,3 +191,21 @@ define('CO_' . $moduleDirNameUpper . '_' . 'TITLE', 'Title');
 define('CO_' . $moduleDirNameUpper . '_' . 'VISIBLE', 'Visible');
 define('CO_' . $moduleDirNameUpper . '_' . 'VISIBLEIN', 'Visible In');
 define('CO_' . $moduleDirNameUpper . '_' . 'WEIGHT', 'Weight');
+
+define('CO_' . $moduleDirNameUpper . '_' . 'PERMISSIONS', 'Permissions');
+define('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS', 'Blocks Admin');
+define('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS_DESC', 'Blocks/Group Admin');
+
+define('CO_' . $moduleDirNameUpper . '_' .'BLOCKS_MANAGMENT', 'Manage');
+define('CO_' . $moduleDirNameUpper . '_' .'BLOCKS_ADDBLOCK', 'Add a new block');
+define('CO_' . $moduleDirNameUpper . '_' .'BLOCKS_EDITBLOCK', 'Edit a block');
+define('CO_' . $moduleDirNameUpper . '_' .'BLOCKS_CLONEBLOCK', 'Clone a block');
+
+//myblocksadmin
+define('CO_' . $moduleDirNameUpper . '_' . 'AGDS', 'Admin Groups');
+define('CO_' . $moduleDirNameUpper . '_' . 'BCACHETIME', 'Cache Time');
+
+//Template Admin
+define('CO_' . $moduleDirNameUpper . '_' . 'TPLSETS', 'Template Management');
+define('CO_' . $moduleDirNameUpper . '_' . 'GENERATE', 'Generate');
+define('CO_' . $moduleDirNameUpper . '_' . 'FILENAME', 'File Name');

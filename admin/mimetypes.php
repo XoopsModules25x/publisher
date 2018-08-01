@@ -96,6 +96,8 @@ class MimetypesUtility
     {
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
+        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $mimetypeHandler = $helper->getHandler('Mimetype');
         global $limit, $start;
         $error = [];
         if (!Request::getString('add_mime', '', 'POST')) {
@@ -104,7 +106,7 @@ class MimetypesUtility
 
             Publisher\Utility::openCollapsableBar('mimemaddtable', 'mimeaddicon', _AM_PUBLISHER_MIME_ADD_TITLE);
 
-            $session    = Session::getInstance();
+            $session    = Publisher\Session::getInstance();
             $mimeType   = $session->get('publisher_addMime');
             $mimeErrors = $session->get('publisher_addMimeErr');
 
@@ -208,7 +210,7 @@ class MimetypesUtility
             }
 
             if ($hasErrors) {
-                $session            = Session::getInstance();
+                $session            = Publisher\Session::getInstance();
                 $mime               = [];
                 $mime['mime_ext']   = $mimeExt;
                 $mime['mime_name']  = $mimeName;
@@ -220,14 +222,14 @@ class MimetypesUtility
                 header('Location: ' . Publisher\Utility::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', ['op' => 'add'], false));
             }
 
-            $mimeType = $helper->getHandler('Mimetype')->create();
+            $mimeType = $mimetypeHandler->create();
             $mimeType->setVar('mime_ext', $mimeExt);
             $mimeType->setVar('mime_name', $mimeName);
             $mimeType->setVar('mime_types', $mimeTypes);
             $mimeType->setVar('mime_admin', $mimeAdmin);
             $mimeType->setVar('mime_user', $mimeUser);
 
-            if (!$helper->getHandler('Mimetype')->insert($mimeType)) {
+            if (!$mimetypeHandler->insert($mimeType)) {
                 redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage&limit=$limit&start=$start", 3, _AM_PUBLISHER_MESSAGE_ADD_MIME_ERROR);
             } else {
                 self::clearAddSessionVars();
@@ -240,6 +242,8 @@ class MimetypesUtility
     {
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
+        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $mimetypeHandler = $helper->getHandler('Mimetype');
         global $start, $limit;
         $mimeId = 0;
         if (0 == Request::getInt('id', 0, 'GET')) {
@@ -247,8 +251,8 @@ class MimetypesUtility
         } else {
             $mimeId = Request::getInt('id', 0, 'GET');
         }
-        $mimeType = $helper->getHandler('Mimetype')->get($mimeId); // Retrieve mimetype object
-        if (!$helper->getHandler('Mimetype')->delete($mimeType, true)) {
+        $mimeType = $mimetypeHandler->get($mimeId); // Retrieve mimetype object
+        if (!$mimetypeHandler->delete($mimeType, true)) {
             redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage&id=$mimeId&limit=$limit&start=$start", 3, _AM_PUBLISHER_MESSAGE_DELETE_MIME_ERROR);
         } else {
             header('Location: ' . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage&limit=$limit&start=$start");
@@ -259,6 +263,8 @@ class MimetypesUtility
     {
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
+        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $mimetypeHandler = $helper->getHandler('Mimetype');
         global $start, $limit;
         $mimeId    = 0;
         $error     = [];
@@ -268,10 +274,10 @@ class MimetypesUtility
         } else {
             $mimeId = Request::getInt('id', 0, 'GET');
         }
-        $mimeTypeObj = $helper->getHandler('Mimetype')->get($mimeId); // Retrieve mimetype object
+        $mimeTypeObj = $mimetypeHandler->get($mimeId); // Retrieve mimetype object
 
         if (!Request::getString('edit_mime', '', 'POST')) {
-            $session    = Session::getInstance();
+            $session    = Publisher\Session::getInstance();
             $mimeType   = $session->get('publisher_editMime_' . $mimeId);
             $mimeErrors = $session->get('publisher_editMimeErr_' . $mimeId);
 
@@ -372,7 +378,7 @@ class MimetypesUtility
             }
 
             if ($hasErrors) {
-                $session            = Session::getInstance();
+                $session            = Publisher\Session::getInstance();
                 $mime               = [];
                 $mime['mime_ext']   = Request::getString('mime_ext', '', 'POST');
                 $mime['mime_name']  = Request::getString('mime_name', '', 'POST');
@@ -390,7 +396,7 @@ class MimetypesUtility
             $mimeTypeObj->setVar('mime_admin', $mimeAdmin);
             $mimeTypeObj->setVar('mime_user', $mimeUser);
 
-            if (!$helper->getHandler('Mimetype')->insert($mimeTypeObj, true)) {
+            if (!$mimetypeHandler->insert($mimeTypeObj, true)) {
                 redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=edit&id=$mimeId", 3, _AM_PUBLISHER_MESSAGE_EDIT_MIME_ERROR);
             } else {
                 self::clearEditSessionVars($mimeId);
@@ -405,6 +411,8 @@ class MimetypesUtility
         $helper = Publisher\Helper::getInstance();
         /** @var Publisher\Utility $utility */
         $utility = new Publisher\Utility();
+        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $mimetypeHandler = $helper->getHandler('Mimetype');
         global $imagearray, $start, $limit, $aSortBy, $aOrderBy, $aLimitBy, $aSearchBy;
 
         if (Request::getString('deleteMimes', '', 'POST')) {
@@ -412,7 +420,7 @@ class MimetypesUtility
 
             $crit = new \Criteria('mime_id', '(' . implode($aMimes, ',') . ')', 'IN');
 
-            if ($helper->getHandler('Mimetype')->deleteAll($crit)) {
+            if ($mimetypeHandler->deleteAll($crit)) {
                 header('Location: ' . PUBLISHER_ADMIN_URL . "/mimetypes.php?limit=$limit&start=$start");
             } else {
                 redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?limit=$limit&start=$start", 3, _AM_PUBLISHER_MESSAGE_DELETE_MIME_ERROR);
@@ -440,8 +448,8 @@ class MimetypesUtility
         $crit->setStart($start);
         $crit->setLimit($limit);
         $crit->setSort($sort);
-        $mimetypes = $helper->getHandler('Mimetype')->getObjects($crit); // Retrieve a list of all mimetypes
-        $mimeCount = $helper->getHandler('Mimetype')->getCount();
+        $mimetypes = $mimetypeHandler->getObjects($crit); // Retrieve a list of all mimetypes
+        $mimeCount = $mimetypeHandler->getCount();
         $nav       = new \XoopsPageNav($mimeCount, $limit, $start, 'start', "op=manage&amp;limit=$limit");
 
         echo "<table width='100%' cellspacing='1' class='outer'>";
@@ -548,6 +556,8 @@ class MimetypesUtility
     {
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
+        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $mimetypeHandler = $helper->getHandler('Mimetype');
         global $limit, $start, $imagearray, $aSearchBy, $aOrderBy, $aLimitBy, $aSortBy;
 
         if (Request::getString('deleteMimes', '', 'POST')) {
@@ -555,7 +565,7 @@ class MimetypesUtility
 
             $crit = new \Criteria('mime_id', '(' . implode($aMimes, ',') . ')', 'IN');
 
-            if ($helper->getHandler('Mimetype')->deleteAll($crit)) {
+            if ($mimetypeHandler->deleteAll($crit)) {
                 header('Location: ' . PUBLISHER_ADMIN_URL . "/mimetypes.php?limit=$limit&start=$start");
             } else {
                 redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?limit=$limit&start=$start", 3, _AM_PUBLISHER_MESSAGE_DELETE_MIME_ERROR);
@@ -611,8 +621,8 @@ class MimetypesUtility
             $crit->setOrder($order);
             $crit->setLimit($limit);
             $crit->setStart($start);
-            $mimeCount = $helper->getHandler('Mimetype')->getCount($crit);
-            $mimetypes = $helper->getHandler('Mimetype')->getObjects($crit);
+            $mimeCount = $mimetypeHandler->getCount($crit);
+            $mimetypes = $mimetypeHandler->getObjects($crit);
             $nav       = new \XoopsPageNav($mimeCount, $limit, $start, 'start', "op=search&amp;limit=$limit&amp;order=$order&amp;sort=$sort&amp;mime_search=1&amp;search_by=$searchField&amp;search_text=" . htmlentities($searchText, ENT_QUOTES));
             // Display results
             echo '<script type="text/javascript" src="' . PUBLISHER_URL . '/include/functions.js"></script>';
@@ -741,6 +751,7 @@ class MimetypesUtility
 
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
+        /** @var Publisher\MimetypeHandler $mimetypeHandler */
         $mimeTypeObj = $helper->getHandler('Mimetype')->get($hiddens['id']);
         if (Request::hasVar('mime_admin')) {
             $hiddens['mime_admin'] = Request::getInt('mime_admin', 0, 'GET');
@@ -761,7 +772,8 @@ class MimetypesUtility
     {
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
-
+        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $mimetypeHandler = $helper->getHandler('Mimetype');
         $limit  = Request::getInt('limit', 0, 'POST');
         $start  = Request::getInt('start', 0, 'POST');
         $mimeId = Request::getInt('id', 0, 'POST');
@@ -769,7 +781,7 @@ class MimetypesUtility
             redirect_header(PUBLISHER_ADMIN_URL . '/mimetypes.php', 3, _AM_PUBLISHER_MESSAGE_NO_ID);
         }
 
-        $mimeTypeObj = $helper->getHandler('Mimetype')->get($mimeId);
+        $mimeTypeObj = $mimetypeHandler->get($mimeId);
 
         if (-1 !== ($mimeAdmin = Request::getInt('mime_admin', -1, 'POST'))) {
             $mimeAdmin = self::changeMimeValue($mimeAdmin);
@@ -778,7 +790,7 @@ class MimetypesUtility
             $mimeUser = self::changeMimeValue($mimeUser);
             $mimeTypeObj->setVar('mime_user', $mimeUser);
         }
-        if ($helper->getHandler('Mimetype')->insert($mimeTypeObj, true)) {
+        if ($mimetypeHandler->insert($mimeTypeObj, true)) {
             header('Location: ' . PUBLISHER_ADMIN_URL . "/mimetypes.php?limit=$limit&start=$start");
         } else {
             redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?limit=$limit&start=$start", 3);
@@ -803,7 +815,7 @@ class MimetypesUtility
 
     protected static function clearAddSessionVars()
     {
-        $session = Session::getInstance();
+        $session = Publisher\Session::getInstance();
         $session->del('publisher_addMime');
         $session->del('publisher_addMimeErr');
     }
@@ -820,7 +832,7 @@ class MimetypesUtility
     public static function clearEditSessionVars($id)
     {
         $id      = (int)$id;
-        $session = Session::getInstance();
+        $session = Publisher\Session::getInstance();
         $session->del("publisher_editMime_$id");
         $session->del("publisher_editMimeErr_$id");
     }

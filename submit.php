@@ -35,14 +35,14 @@ if (!$categoriesArray) {
 }
 
 $groups       = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var $grouppermHandler GroupPermHandler */
+/* @var $grouppermHandler \XoopsModules\Publisher\GroupPermHandler */
 $grouppermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
 $moduleId     = $helper->getModule()->getVar('mid');
 
 $itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
 if (0 != $itemId) {
     // We are editing or deleting an article
-    /* @var  $itemObj Item */
+    /* @var  $itemObj Publisher\Item */
     $itemObj = $helper->getHandler('Item')->get($itemId);
     if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($itemObj) || Publisher\Utility::userIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
@@ -66,7 +66,7 @@ if (0 != $itemId) {
         redirect_header('index.php', 1, _NOPERM);
         //        exit();
     }
-    /* @var  $itemObj Item */
+    /* @var  $itemObj Publisher\Item */
     $itemObj     = $helper->getHandler('Item')->create();
     /* @var  $categoryObj Publisher\Category */
     $categoryObj = $helper->getHandler('Category')->create();

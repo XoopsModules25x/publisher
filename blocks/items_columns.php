@@ -52,7 +52,9 @@ function publisher_items_columns_show($options)
     $selCategoriesObj = [];
 
     //get permited categories only once
-    $categoriesObj = $helper->getHandler('Category')->getCategories(0, 0, -1);
+    /** @var Publisher\CategoryHandler $categoryHandler */
+    $categoryHandler = $helper->getHandler('Category');
+    $categoriesObj = $categoryHandler->getCategories(0, 0, -1);
 
     //if not selected 'all', let's get the selected ones
     if (!in_array(0, $selCategories)) {

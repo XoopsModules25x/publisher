@@ -34,6 +34,8 @@ function publisher_items_spot_show($options)
     //    global $xoTheme;
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
+    /** @var Publisher\CategoryHandler $categoryHandler */
+    $categoryHandler = $helper->getHandler('Category');
     $optDisplayLast    = $options[0];
     $optItemsCount     = $options[1];
     $optCategoryId     = $options[2];
@@ -53,7 +55,7 @@ function publisher_items_spot_show($options)
         $itemsCount = count($itemsObj);
         if ($itemsObj) {
             if (-1 != $optCategoryId && $optCatImage) {
-                $cat                     = $helper->getHandler('Category')->get($optCategoryId);
+                $cat                     = $categoryHandler->get($optCategoryId);
                 $category['name']        = $cat->name();
                 $category['categoryurl'] = $cat->getCategoryUrl();
                 if ('blank.png' !== $cat->getImage()) {
@@ -130,10 +132,12 @@ function publisher_items_spot_edit($options)
     $catEle    = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[2], 0, true, 'options[2]'));
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
+    /** @var Publisher\ItemHandler $itemHandler */
+    $itemHandler = $helper->getHandler('Item');
     $criteria  = new \CriteriaCompo();
     $criteria->setSort('datesub');
     $criteria->setOrder('DESC');
-    $itemsObj = $helper->getHandler('Item')->getList($criteria);
+    $itemsObj = $itemHandler->getList($criteria);
     $keys     = array_keys($itemsObj);
     unset($criteria);
     if (empty($options[3]) || (0 == $options[3])) {

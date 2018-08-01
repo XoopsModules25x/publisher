@@ -37,7 +37,9 @@ function publisher_category_items_sel_show($options)
 
     $block = $item = [];
 
-    $categories = $helper->getHandler('Category')->getCategories(0, 0, -1);
+    /** @var Publisher\CategoryHandler $categoryHandler */
+    $categoryHandler = $helper->getHandler('Category');
+    $categories      = $categoryHandler->getCategories(0, 0, -1);
 
     if (0 === count($categories)) {
         return $block;
@@ -57,7 +59,9 @@ function publisher_category_items_sel_show($options)
         }
 
         $criteria = new \Criteria('categoryid', $catID);
-        $items    = $helper->getHandler('Item')->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
+        /** @var Publisher\ItemHandler $itemHandler */
+        $itemHandler = $helper->getHandler('Item');
+        $items    = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
         unset($criteria);
 
         if (0 === count($items)) {

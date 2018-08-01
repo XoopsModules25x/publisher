@@ -40,7 +40,7 @@ $helper->loadLanguage('main');
 class FileForm extends \XoopsThemeForm
 {
     /**
-     * @var Publisher
+     * @var Publisher\Helper
      * @access public
      */
     public $helper;

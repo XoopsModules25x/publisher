@@ -39,6 +39,7 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
     // if there is a parameter, and the id exists, retrieve data: we're editing a file
     if (0 != $fileid) {
         // Creating the File object
+        /** @var \XoopsModules\Publisher\File $fileObj */
         $fileObj = $helper->getHandler('File')->get($fileid);
 
         if ($fileObj->notLoaded()) {

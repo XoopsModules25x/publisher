@@ -35,6 +35,8 @@ function publisher_latest_files_show($options)
 {
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
+    /** @var Publisher\FileHandler $fileHandler */
+    $fileHandler = $helper->getHandler('File');
 
     /**
      * $options[0] : Category
@@ -51,7 +53,7 @@ function publisher_latest_files_show($options)
     $directDownload = $options[3];
 
     // creating the files objects
-    $filesObj = $helper->getHandler('File')->getAllFiles(0, Constants::PUBLISHER_STATUS_FILE_ACTIVE, $limit, 0, $sort, $order, explode(',', $options[0]));
+    $filesObj = $fileHandler->getAllFiles(0, Constants::PUBLISHER_STATUS_FILE_ACTIVE, $limit, 0, $sort, $order, explode(',', $options[0]));
     foreach ($filesObj as $fileObj) {
         $aFile         = [];
         $aFile['link'] = $directDownload ? $fileObj->getFileLink() : $fileObj->getItemLink();

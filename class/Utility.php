@@ -717,7 +717,7 @@ class Utility
     /**
      * Check is current user is author of a given article
      *
-     * @param  XoopsObject $itemObj
+     * @param  \XoopsObject $itemObj
      * @return bool
      */
     public static function userIsAuthor($itemObj)
@@ -728,7 +728,7 @@ class Utility
     /**
      * Check is current user is moderator of a given article
      *
-     * @param  XoopsObject $itemObj
+     * @param  \XoopsObject $itemObj
      * @return bool
      */
     public static function userIsModerator($itemObj)
@@ -756,7 +756,7 @@ class Utility
         $result = true;
 
         $moduleId = $helper->getModule()->getVar('mid');
-        /* @var  $grouppermHandler XoopsGroupPermHandler */
+        /* @var  $grouppermHandler \XoopsGroupPermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $grouppermHandler->deleteByModule($moduleId, $permName, $categoryId);
@@ -1082,7 +1082,7 @@ class Utility
 
         $itemId  = Request::getInt('itemid', 0, 'POST');
         $uid     = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
-        $session = Session::getInstance();
+        $session = Publisher\Session::getInstance();
         $session->set('publisher_file_filename', Request::getString('item_file_name', '', 'POST'));
         $session->set('publisher_file_description', Request::getString('item_file_description', '', 'POST'));
         $session->set('publisher_file_status', Request::getInt('item_file_status', 1, 'POST'));
@@ -1126,7 +1126,7 @@ class Utility
             //        }
             try {
                 if ($withRedirect) {
-                    throw new RuntimeException(_CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
+                    throw new \RuntimeException(_CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
                 }
             } catch (\Exception $e) {
                 $helper->addLog($e);

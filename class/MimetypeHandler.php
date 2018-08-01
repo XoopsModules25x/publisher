@@ -209,7 +209,7 @@ class MimetypeHandler extends BaseObjectHandler
 
         try {
             if ($join) {
-                throw new RuntimeException('no need for join...');
+                throw new \RuntimeException('no need for join...');
             }
         } catch (\Exception $e) {
             /** @var Publisher\Helper $helper */

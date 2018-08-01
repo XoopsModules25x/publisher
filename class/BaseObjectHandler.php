@@ -42,7 +42,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Database connection
      *
-     * @var XoopsDatabase
+     * @var \XoopsDatabase
      */
     //mb    public $_db; //mb it is already declared in XoopsObjectHandler
 
@@ -72,7 +72,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      * create a new  object
      *
      * @param  bool $isNew
-     * @return XoopsObject
+     * @return \XoopsObject
      * @access public
      */
     public function create($isNew = true)
@@ -351,7 +351,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      *
      * @param \XoopsDatabase|null $db
      *
-     * @return XoopsObject {@link pagesCategoryHandler}
+     * @return \XoopsObject {@link pagesCategoryHandler}
      * @access public
      */
     public function getInstance(\XoopsDatabase $db = null)

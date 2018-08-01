@@ -39,7 +39,9 @@ function publisher_items_menu_show($options)
     $helper = Publisher\Helper::getInstance();
 
     // Getting all top cats
-    $blockCategoriesObj = $helper->getHandler('Category')->getCategories(0, 0, 0);
+    /** @var Publisher\CategoryHandler $categoryHandler */
+    $categoryHandler = $helper->getHandler('Category');
+    $blockCategoriesObj = $categoryHandler->getCategories(0, 0, 0);
 
     if (0 == count($blockCategoriesObj)) {
         return $block;

@@ -37,6 +37,9 @@ function publisher_items_spot_show($options)
     $helper = Publisher\Helper::getInstance();
     /** @var Publisher\CategoryHandler $categoryHandler */
     $categoryHandler   = $helper->getHandler('Category');
+    /** @var Publisher\ItemHandler $itemHandler */
+    $itemHandler = $helper->getHandler('Item');
+
     $optDisplayLast    = $options[0];
     $optItemsCount     = $options[1];
     $optCategoryId     = $options[2];
@@ -51,11 +54,12 @@ function publisher_items_spot_show($options)
     }
     $block = [];
     if (1 == $optDisplayLast) {
-        $itemsObj   = $helper->getHandler('Item')->getAllPublished($optItemsCount, 0, $optCategoryId, $sort = 'datesub', $order = 'DESC', 'summary');
+        $itemsObj   = $itemHandler->getAllPublished($optItemsCount, 0, $optCategoryId, $sort = 'datesub', $order = 'DESC', 'summary');
         $i          = 1;
         $itemsCount = count($itemsObj);
         if ($itemsObj) {
             if (-1 != $optCategoryId && $optCatImage) {
+                /** @var Publisher\Category $cat */
                 $cat                     = $categoryHandler->get($optCategoryId);
                 $category['name']        = $cat->name();
                 $category['categoryurl'] = $cat->getCategoryUrl();
@@ -84,10 +88,11 @@ function publisher_items_spot_show($options)
         $i          = 1;
         $itemsCount = count($selItems);
         foreach ($selItems as $itemId) {
-            $itemObj = $helper->getHandler('Item')->get($itemId);
+            /** @var Publisher\Item $itemObj */
+            $itemObj = $itemHandler->get($itemId);
             if (!$itemObj->notLoaded()) {
                 $item             = $itemObj->toArraySimple();
-                $item['who_when'] = sprintf(_MB_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemObj->getDatesub());
+                $item['who_when'] = sprintf(_MB_PUBLISHER_WHO_WHEN, $itemObj->posterName, $itemObj->getDatesub);
                 if ($i < $itemsCount) {
                     $item['showline'] = true;
                 } else {

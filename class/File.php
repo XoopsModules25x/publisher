@@ -91,14 +91,16 @@ class File extends \XoopsObject
      */
     public function checkUpload($postField, $allowedMimetypes, &$errors)
     {
-        $errors = [];
-        if (!$this->helper->getHandler('Mimetype')->checkMimeTypes($postField)) {
+        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $mimetypeHandler = $this->helper->getHandler('Mimetype');
+        $errors          = [];
+        if (!$mimetypeHandler->checkMimeTypes($postField)) {
             $errors[] = _CO_PUBLISHER_MESSAGE_WRONG_MIMETYPE;
 
             return false;
         }
         if (0 === count($allowedMimetypes)) {
-            $allowedMimetypes = $this->helper->getHandler('Mimetype')->getArrayByType();
+            $allowedMimetypes = $mimetypeHandler->getArrayByType();
         }
         $maxfilesize   = $this->helper->getConfig('maximum_filesize');
         $maxfilewidth  = $this->helper->getConfig('maximum_image_width');
@@ -122,9 +124,11 @@ class File extends \XoopsObject
      */
     public function storeUpload($postField, $allowedMimetypes, &$errors)
     {
+        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $mimetypeHandler = $this->helper->getHandler('Mimetype');
         $itemid = $this->getVar('itemid');
         if (0 === count($allowedMimetypes)) {
-            $allowedMimetypes = $this->helper->getHandler('Mimetype')->getArrayByType();
+            $allowedMimetypes = $mimetypeHandler->getArrayByType();
         }
         $maxfilesize   = $this->helper->getConfig('maximum_filesize');
         $maxfilewidth  = $this->helper->getConfig('maximum_image_width');

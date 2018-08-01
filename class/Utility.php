@@ -1309,7 +1309,8 @@ class Utility
         $nohtml = false;
         xoops_load('XoopsEditorHandler');
         $editorHandler = \XoopsEditorHandler::getInstance();
-        $editors       = array_flip($editorHandler->getList()); //$editorHandler->getList($nohtml);
+//        $editors       = array_flip($editorHandler->getList()); //$editorHandler->getList($nohtml);
+        $editors       = $editorHandler->getList($nohtml);
         foreach ($editors as $name => $title) {
             $key = static::stringToInt($name);
             if (is_array($allowedEditors)) {

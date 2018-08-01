@@ -113,7 +113,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             }
             // Auto create short_url if empty
             if (!$item->short_url()) {
-                $item->setVar('short_url', mb_substr(Metagen::generateSeoTitle($item->getVar('title', 'n'), false), 0, 254));
+                $item->setVar('short_url', mb_substr(Publisher\Metagen::generateSeoTitle($item->getVar('title', 'n'), false), 0, 254));
             }
         }
         if (!parent::insert($item, $force)) {

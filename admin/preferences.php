@@ -31,6 +31,7 @@ $modId   = $module->mid();
 $modname = $module->name();
 $dirName = $helper->getDirname();
 
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $xoopsModule0  = $moduleHandler->getByDirname(basename(dirname(__DIR__)));
 global $xoopsModule;
@@ -51,6 +52,7 @@ $op = Request::getString('op', $op, 'GET');
 $configcat = Request::getString('configcat', '', 'GET');
 
 if ('showmod' === $op) {
+    /** @var \XoopsConfigHandler $configHandler */
     $configHandler = xoops_getHandler('config');
 
     $config = $configHandler->getConfigs(new \Criteria('conf_modid', $modId));

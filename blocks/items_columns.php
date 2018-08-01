@@ -37,7 +37,10 @@ function publisher_items_columns_show($options)
     //    global $xoTheme;
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
-
+    /** @var Publisher\CategoryHandler $categoryHandler */
+    $categoryHandler = $helper->getHandler('Category');
+    /** @var Publisher\ItemHandler $itemHandler */
+    $itemHandler = $helper->getHandler('Item');
     //Column Settings
     $optNumColumns  = isset($options[0]) ? (int)$options[0] : '2';
     $selCategories  = isset($options[1]) ? explode(',', $options[1]) : [];
@@ -52,8 +55,6 @@ function publisher_items_columns_show($options)
     $selCategoriesObj = [];
 
     //get permited categories only once
-    /** @var Publisher\CategoryHandler $categoryHandler */
-    $categoryHandler = $helper->getHandler('Category');
     $categoriesObj   = $categoryHandler->getCategories(0, 0, -1);
 
     //if not selected 'all', let's get the selected ones
@@ -82,7 +83,7 @@ function publisher_items_columns_show($options)
     $columns = $mainItem = $subItem = [];
 
     foreach ($selCategoriesObj as $categoryId => $mainItemCatObj) {
-        $categoryItemsObj = $helper->getHandler('Item')->getAllPublished($optCatItems, 0, $categoryId);
+        $categoryItemsObj = $itemHandler->getAllPublished($optCatItems, 0, $categoryId);
         $scount           = count($categoryItemsObj);
         if ($scount > 0 && is_array($categoryItemsObj)) {
             reset($categoryItemsObj);

@@ -44,6 +44,7 @@ if ('start' === $op) {
     $moduleObj     = $moduleHandler->getByDirname('fmcontent');
     $fm_module_id  = $moduleObj->getVar('mid');
 
+    /** @var \XoopsPersistableObjectHandler $fmTopicHdlr */
     $fmTopicHdlr  = xoops_getModuleHandler('topic', 'fmcontent');
     $fmTopicCount = $fmTopicHdlr->getCount(new \Criteria('topic_modid', $fm_module_id));
 

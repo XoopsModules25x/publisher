@@ -45,7 +45,9 @@ function publisher_date_to_date_show($options)
     $criteria->setOrder('DESC');
 
     // creating the ITEM objects that belong to the selected category
-    $itemsObj = $helper->getHandler('Item')->getObjects($criteria);
+    /** @var Publisher\ItemHandler $itemHandler */
+    $itemHandler = $helper->getHandler('Item');
+    $itemsObj    = $itemHandler->getObjects($criteria);
     //    $totalItems = count($itemsObj);
 
     if (is_array($itemsObj) && count($itemsObj) > 0) {

@@ -61,6 +61,7 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
     }
 
     // FILES UPLOAD FORM
+    /** @var Publisher\File $fileObj */
     $uploadForm = $fileObj->getForm();
     $uploadForm->display();
 

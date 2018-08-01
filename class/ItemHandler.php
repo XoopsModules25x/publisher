@@ -623,6 +623,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function getItemsFromSearch($queryArray = [], $andor = 'AND', $limit = 0, $offset = 0, $userid = 0, $categories = [], $sortby = 0, $searchin = '', $extra = '')
     {
         //        global $publisherIsAdmin;
+        $count = 0;
         $ret = [];
         /* @var  $grouppermHandler \XoopsGroupPermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
@@ -639,11 +640,11 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $criteriaUser = new \CriteriaCompo();
             $criteriaUser->add(new \Criteria('uid', $userid), 'OR');
         }
-        $count = 0;
-        if (is_array($queryArray)) {
-            $count = count($queryArray);
-        }
-        if (is_array($queryArray) && $count > 0) {
+
+//        if (is_array($queryArray)) {
+//            $count = count($queryArray);
+//        }
+        if (is_array($queryArray) && count($queryArray) > 0) {
             $criteriaKeywords = new \CriteriaCompo();
             foreach ($queryArray as $iValue) {
                 $criteriaKeyword = new \CriteriaCompo();
@@ -670,9 +671,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
             $categoriesGranted = $grouppermHandler->getItemIds('category_read', $groups, $this->helper->getModule()->getVar('mid'));
-            if (count($categories) > 0) {
-                $categoriesGranted = array_intersect($categoriesGranted, $categories);
-            }
+            $categoriesGranted = array_intersect($categoriesGranted, $categories);
             if (0 == count($categoriesGranted)) {
                 return $ret;
             }

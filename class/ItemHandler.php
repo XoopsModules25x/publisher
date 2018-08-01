@@ -20,10 +20,7 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
-use Xmf\Request;
 use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
 
 //namespace Publisher;
 

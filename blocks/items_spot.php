@@ -61,7 +61,7 @@ function publisher_items_spot_show($options)
             if (-1 != $optCategoryId && $optCatImage) {
                 /** @var Publisher\Category $cat */
                 $cat                     = $categoryHandler->get($optCategoryId);
-                $category['name']        = $cat->name();
+                $category['name']        = $cat->name;
                 $category['categoryurl'] = $cat->getCategoryUrl();
                 if ('blank.png' !== $cat->getImage()) {
                     $category['image_path'] = Publisher\Utility::getImageDir('category', false) . $cat->getImage();
@@ -70,8 +70,8 @@ function publisher_items_spot_show($options)
                 }
                 $block['category'] = $category;
             }
-            foreach ($itemsObj as $key => $thisitem) {
-                $item = $thisitem->toArraySimple('default', 0, $optTruncate);
+            foreach ($itemsObj as $key => $thisItem) {
+                $item = $thisItem->toArraySimple('default', 0, $optTruncate);
                 if ($i < $itemsCount) {
                     $item['showline'] = true;
                 } else {
@@ -85,25 +85,26 @@ function publisher_items_spot_show($options)
             }
         }
     } else {
-        $i          = 1;
-        $itemsCount = count($selItems);
-        foreach ($selItems as $itemId) {
-            /** @var Publisher\Item $itemObj */
-            $itemObj = $itemHandler->get($itemId);
-            if (!$itemObj->notLoaded()) {
-                $item             = $itemObj->toArraySimple();
-                $item['who_when'] = sprintf(_MB_PUBLISHER_WHO_WHEN, $itemObj->posterName, $itemObj->getDatesub);
-                if ($i < $itemsCount) {
-                    $item['showline'] = true;
-                } else {
-                    $item['showline'] = false;
+        $i = 1;
+        if (is_array($selItems) && count($selItems) > 0) {
+            foreach ($selItems as $itemId) {
+                /** @var Publisher\Item $itemObj */
+                $itemObj = $itemHandler->get($itemId);
+                if (!$itemObj->notLoaded()) {
+                    $item             = $itemObj->toArraySimple();
+                    $item['who_when'] = sprintf(_MB_PUBLISHER_WHO_WHEN, $itemObj->posterName, $itemObj->getDatesub);
+                    if ($i < $itemsCount) {
+                        $item['showline'] = true;
+                    } else {
+                        $item['showline'] = false;
+                    }
+                    if ($optTruncate > 0) {
+                        $block['truncate'] = true;
+                        $item['summary']   = Publisher\Utility::truncateHtml($item['summary'], $optTruncate);
+                    }
+                    $block['items'][] = $item;
+                    ++$i;
                 }
-                if ($optTruncate > 0) {
-                    $block['truncate'] = true;
-                    $item['summary']   = Publisher\Utility::truncateHtml($item['summary'], $optTruncate);
-                }
-                $block['items'][] = $item;
-                ++$i;
             }
         }
     }

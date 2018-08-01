@@ -50,7 +50,6 @@ switch ($op) {
             $totalcategories = $helper->getHandler('Category')->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
-                //                exit();
             }
         }
         Publisher\Utility::cpHeader();
@@ -62,7 +61,6 @@ switch ($op) {
             $totalcategories = $helper->getHandler('Category')->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
-                //                exit();
             }
         }
 
@@ -125,7 +123,6 @@ switch ($op) {
         // Storing the item
         if (!$itemObj->store()) {
             redirect_header('javascript:history.go(-1)', 3, $error_msg . Publisher\Utility::formatErrors($itemObj->getErrors()));
-            //            exit;
         }
 
         // attach file if any
@@ -133,7 +130,6 @@ switch ($op) {
             $file_upload_result = Publisher\Utility::uploadFile(false, false, $itemObj);
             if (true !== $file_upload_result) {
                 redirect_header('javascript:history.go(-1)', 3, $file_upload_result);
-                //                exit;
             }
         }
 
@@ -153,10 +149,8 @@ switch ($op) {
         if ($confirm) {
             if (!$helper->getHandler('Item')->delete($itemObj)) {
                 redirect_header('item.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . Publisher\Utility::formatErrors($itemObj->getErrors()));
-                //                exit();
             }
             redirect_header('item.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
-            //            exit();
         } else {
             xoops_cp_header();
             xoops_confirm(['op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()], 'item.php', _AM_PUBLISHER_DELETETHISITEM . " <br>'" . $itemObj->getTitle() . "'. <br> <br>", _AM_PUBLISHER_DELETE);
@@ -412,7 +406,6 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
         if (null === $itemObj) {
             redirect_header('item.php', 1, _AM_PUBLISHER_NOITEMSELECTED);
-            //            exit();
         }
 
         if ($clone) {

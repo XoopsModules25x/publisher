@@ -20,13 +20,10 @@ namespace XoopsModules\Publisher;
  * @author      XOOPS Development Team
  * @package     Publisher
  * @since       1.03
- *
  */
 
 use Xmf\Request;
 use XoopsModules\Publisher;
-use XoopsModules\Publisher\Common;
-use XoopsModules\Publisher\Constants;
 
 /**
  * Class Utility
@@ -235,7 +232,6 @@ class Utility
             $categoryObj = $helper->getHandler('Category')->get($categoryId);
             if ($categoryObj->notLoaded()) {
                 redirect_header('category.php', 1, _AM_PUBLISHER_NOCOLTOEDIT);
-                //            exit();
             }
         } else {
             if (!$categoryObj) {
@@ -601,7 +597,7 @@ class Utility
             return false;
         }
 
-        if (static::mkdir(substr($target, 0, strrpos($target, '/')))) {
+        if (static::mkdir(mb_substr($target, 0, mb_strrpos($target, '/')))) {
             if (!file_exists($target)) {
                 $res = mkdir($target, 0777); // crawl back up & create dir tree
                 static::chmod($target);
@@ -1105,7 +1101,6 @@ class Utility
         if (!$fileObj->store($allowedMimetypes)) {
             //        if ($withRedirect) {
             //            redirect_header("file.php?op=mod&itemid=" . $fileObj->itemid(), 3, _CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
-            //            exit;
             //        }
             try {
                 if ($withRedirect) {

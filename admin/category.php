@@ -40,10 +40,8 @@ switch ($op) {
         if ($confirm) {
             if (!$helper->getHandler('Category')->delete($categoryObj)) {
                 redirect_header('category.php', 1, _AM_PUBLISHER_DELETE_CAT_ERROR);
-                //                exit();
             }
             redirect_header('category.php', 1, sprintf(_AM_PUBLISHER_COLISDELETED, $name));
-            //            exit();
         } else {
             xoops_cp_header();
             xoops_confirm(['op' => 'del', 'categoryid' => $categoryObj->categoryid(), 'confirm' => 1, 'name' => $categoryObj->name()], 'category.php', _AM_PUBLISHER_DELETECOL . " '" . $categoryObj->name() . "'. <br> <br>" . _AM_PUBLISHER_DELETE_CAT_CONFIRM, _AM_PUBLISHER_DELETE);
@@ -85,7 +83,6 @@ switch ($op) {
                 $allowed_mimetypes = Publisher\Utility::getAllowedImagesTypes();
                 if (('' == $temp['tmp_name']) || !is_readable($temp['tmp_name'])) {
                     redirect_header('javascript:history.go(-1)', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
-                    //                    exit();
                 }
 
                 xoops_load('XoopsMediaUploader');
@@ -94,7 +91,6 @@ switch ($op) {
                     $categoryObj->setVar('image', $uploader->getSavedFileName());
                 } else {
                     redirect_header('javascript:history.go(-1)', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR . $uploader->getErrors());
-                    //                    exit();
                 }
             }
         } else {
@@ -131,7 +127,6 @@ switch ($op) {
 
         if (!$categoryObj->store()) {
             redirect_header('javascript:history.go(-1)', 3, _AM_PUBLISHER_CATEGORY_SAVE_ERROR . Publisher\Utility::formatErrors($categoryObj->getErrors()));
-            //            exit;
         }
         // TODO : put this function in the category class
         Publisher\Utility::saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
@@ -151,7 +146,6 @@ switch ($op) {
 
                 if (!$categoryObj->store()) {
                     redirect_header('javascript:history.go(-1)', 3, _AM_PUBLISHER_SUBCATEGORY_SAVE_ERROR . Publisher\Utility::formatErrors($categoryObj->getErrors()));
-                    //                                        exit;
                 }
                 // TODO : put this function in the category class
                 Publisher\Utility::saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
@@ -161,7 +155,6 @@ switch ($op) {
         }
         //end of fx2024 code
         redirect_header($redirect_to, 2, $redirect_msg);
-        //        exit();
         break;
 
     //Added by fx2024
@@ -186,7 +179,6 @@ switch ($op) {
 
     case 'cancel':
         redirect_header('category.php', 1, sprintf(_AM_PUBLISHER_BACK2IDX, ''));
-        //        exit();
         break;
     case 'default':
     default:

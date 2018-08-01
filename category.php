@@ -32,13 +32,11 @@ $categoryObj = $helper->getHandler('Category')->get($categoryid);
 // if the selected category was not found, exit
 if (!is_object($categoryObj) || $categoryObj->notLoaded()) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOCATEGORYSELECTED);
-    //    exit();
 }
 
 // Check user permissions to access this category
 if (!$categoryObj->checkPermission()) {
     redirect_header('javascript:history.go(-1)', 1, _NOPERM);
-    //    exit;
 }
 
 // At which record shall we start
@@ -52,7 +50,6 @@ $totalItems = $helper->getHandler('Category')->publishedItemsCount();
 // why?
 if (!isset($totalItems[$categoryid]) || 0 == $totalItems[$categoryid]) {
     //redirect_header("index.php", 1, _MD_PUBLISHER_MAINNOFAQS);
-    //exit;
 }
 
 // Added by skalpa: custom template support
@@ -186,9 +183,9 @@ $category['total']      = $thiscategory_itemcount;
 if (count($itemsObj) > 0) {
     /*$userids = array();
     if ($itemsObj) {
-        foreach ($itemsObj as $key => $thisitem) {
-            $itemids[] = $thisitem->getVar('itemid');
-            $userids[$thisitem->uid()] = 1;
+        foreach ($itemsObj as $key => $thisItem) {
+            $itemids[] = $thisItem->getVar('itemid');
+            $userids[$thisItem->uid()] = 1;
         }
     }
     $memberHandler = xoops_getHandler('member');

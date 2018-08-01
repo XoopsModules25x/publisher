@@ -52,8 +52,6 @@ function xoops_module_install_publisher(\XoopsModule $module)
 {
     require dirname(__DIR__) . '/preloads/autoloader.php';
 
-    $moduleDirName = basename(dirname(__DIR__));
-
     /** @var Publisher\Helper $helper */
     /** @var Publisher\Utility $utility */
     /** @var Common\Configurator $configurator */

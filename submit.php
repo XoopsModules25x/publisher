@@ -31,7 +31,6 @@ $categoriesArray = $helper->getHandler('Category')->getCategoriesForSubmit();
 
 if (!$categoriesArray) {
     redirect_header('index.php', 1, _MD_PUBLISHER_NEED_CATEGORY_ITEM);
-    //    exit();
 }
 
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
@@ -46,15 +45,12 @@ if (0 != $itemId) {
     $itemObj = $helper->getHandler('Item')->get($itemId);
     if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($itemObj) || Publisher\Utility::userIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
-        //        exit();
     }
     if (!Publisher\Utility::userIsAdmin() || !Publisher\Utility::userIsModerator($itemObj)) {
         if ('del' === Request::getString('op', '', 'GET') && !$helper->getConfig('perm_delete')) {
             redirect_header('index.php', 1, _NOPERM);
-            //            exit();
         } elseif (!$helper->getConfig('perm_edit')) {
             redirect_header('index.php', 1, _NOPERM);
-            //            exit();
         }
     }
     /* @var  $categoryObj Publisher\Category */
@@ -64,7 +60,6 @@ if (0 != $itemId) {
     // if the user is not admin AND we don't allow user submission, exit
     if (!(Publisher\Utility::userIsAdmin() || (1 == $helper->getConfig('perm_submit') && (is_object($GLOBALS['xoopsUser']) || (1 == $helper->getConfig('perm_anon_submit')))))) {
         redirect_header('index.php', 1, _NOPERM);
-        //        exit();
     }
     /* @var  $itemObj Publisher\Item */
     $itemObj = $helper->getHandler('Item')->create();
@@ -129,7 +124,6 @@ foreach ($elements as $element) {
     $classname = Constants::class;
     if (Request::hasVar($element, 'POST') && !in_array(constant($classname . '::' . 'PUBLISHER_' . mb_strtoupper($element)), $formView)) {
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
-        //        exit();
     }
 }
 //unset($element);
@@ -144,10 +138,8 @@ switch ($op) {
         if ($confirm) {
             if (!$helper->getHandler('Item')->delete($itemObj)) {
                 redirect_header('index.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . Publisher\Utility::formatErrors($itemObj->getErrors()));
-                //                exit();
             }
             redirect_header('index.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
-            //            exit();
         } else {
             require_once $GLOBALS['xoops']->path('header.php');
             xoops_confirm(['op' => 'del', 'itemid' => $itemObj->itemid(), 'confirm' => 1, 'name' => $itemObj->getTitle()], 'submit.php', _AM_PUBLISHER_DELETETHISITEM . " <br>'" . $itemObj->getTitle() . "'. <br> <br>", _AM_PUBLISHER_DELETE);
@@ -208,11 +200,10 @@ switch ($op) {
         // Storing the item object in the database
         if (!$itemObj->store()) {
             redirect_header('javascript:history.go(-1)', 2, _MD_PUBLISHER_SUBMIT_ERROR);
-            //            exit();
         }
 
         // attach file if any
-        if ($itemUploadFile && '' != $itemUploadFile['name']) {
+        if (is_array($itemUploadFile) && '' != $itemUploadFile['name']) {
             $fileUploadResult = Publisher\Utility::uploadFile(false, true, $itemObj);
             if (true !== $fileUploadResult) {
                 redirect_header('javascript:history.go(-1)', 3, $fileUploadResult);
@@ -247,7 +238,6 @@ switch ($op) {
             redirect_header($itemObj->getItemUrl(), 2, $redirect_msg);
         }
         redirect_header('index.php', 2, $redirect_msg);
-        //        exit();
 
         break;
 

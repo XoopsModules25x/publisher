@@ -29,7 +29,6 @@ Publisher\Utility::openCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE,
 if ('submit' === Request::getString('op', '', 'POST')) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header('clone.php', 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
-        //        exit();
     }
 
     //    $clone = $_POST['clone'];
@@ -38,7 +37,6 @@ if ('submit' === Request::getString('op', '', 'POST')) {
     //check if name is valid
     if (empty($clone) || preg_match('/[^a-zA-Z0-9\_\-]/', $clone)) {
         redirect_header('clone.php', 3, sprintf(_AM_PUBLISHER_CLONE_INVALIDNAME, $clone));
-        //        exit();
     }
 
     // Check wether the cloned module exists or not

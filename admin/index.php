@@ -20,7 +20,6 @@
  */
 
 use XoopsModules\Publisher;
-use XoopsModules\Publisher\Common;
 
 require_once __DIR__ . '/admin_header.php';
 //require_once dirname(__DIR__) . '/class/Utility.php';

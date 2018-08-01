@@ -88,13 +88,13 @@ function publisher_items_columns_show($options)
         if ($scount > 0 && is_array($categoryItemsObj)) {
             reset($categoryItemsObj);
             //First Item
-            $thisitem = array_values($categoryItemsObj)[0];
+            $thisItem = array_values($categoryItemsObj)[0];
 
-            $mainItem['item_title']      = $thisitem->getTitle();
-            $mainItem['item_cleantitle'] = strip_tags($thisitem->getTitle());
-            $mainItem['item_link']       = $thisitem->itemid();
-            $mainItem['itemurl']         = $thisitem->getItemUrl();
-            $mainImage                   = $thisitem->getMainImage();
+            $mainItem['item_title']      = $thisItem->getTitle();
+            $mainItem['item_cleantitle'] = strip_tags($thisItem->getTitle());
+            $mainItem['item_link']       = $thisItem->itemid();
+            $mainItem['itemurl']         = $thisItem->getItemUrl();
+            $mainImage                   = $thisItem->getMainImage();
 
             // check to see if GD function exist
             $mainItem['item_image'] = $mainImage['image_path'];
@@ -102,7 +102,7 @@ function publisher_items_columns_show($options)
                 $mainItem['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=100';
             }
 
-            $mainItem['item_summary'] = $thisitem->getBlockSummary($optCatTruncate);
+            $mainItem['item_summary'] = $thisItem->getBlockSummary($optCatTruncate);
 
             $mainItem['item_cat_name']        = $mainItemCatObj->name();
             $mainItem['item_cat_description'] = '' !== $mainItemCatObj->description() ? $mainItemCatObj->description() : $mainItemCatObj->name();
@@ -111,20 +111,20 @@ function publisher_items_columns_show($options)
 
             //The Rest
             if ($scount > 1) {
-                //                while ((list($itemid, $thisitem) = each($categoryItemsObj)) !== false) {
-                foreach ($categoryItemsObj as $itemid => $thisitem) {
+                //                while ((list($itemid, $thisItem) = each($categoryItemsObj)) !== false) {
+                foreach ($categoryItemsObj as $itemid => $thisItem) {
                     //TODO do I need to start with 2nd element?
-                    $subItem['title']      = $thisitem->getTitle();
-                    $subItem['cleantitle'] = strip_tags($thisitem->getTitle());
-                    $subItem['link']       = $thisitem->getItemLink();
-                    $subItem['itemurl']    = $thisitem->getItemUrl();
-                    $subItem['summary']    = $thisitem->getBlockSummary($optCatTruncate);
+                    $subItem['title']      = $thisItem->getTitle();
+                    $subItem['cleantitle'] = strip_tags($thisItem->getTitle());
+                    $subItem['link']       = $thisItem->getItemLink();
+                    $subItem['itemurl']    = $thisItem->getItemUrl();
+                    $subItem['summary']    = $thisItem->getBlockSummary($optCatTruncate);
                     $mainItem['subitem'][] = $subItem;
                     unset($subItem);
                 }
             }
             $columns[$k][] = $mainItem;
-            unset($thisitem, $mainItem);
+            unset($thisItem, $mainItem);
             ++$k;
 
             if ($k == $optNumColumns) {

@@ -29,7 +29,6 @@ $itemid = Request::getInt('itemid', 0, 'GET');
 
 if (0 == $itemid) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
-    //    exit();
 }
 
 // Creating the ITEM object for the selected ITEM
@@ -38,13 +37,11 @@ $itemObj = $helper->getHandler('Item')->get($itemid);
 // if the selected ITEM was not found, exit
 if ($itemObj->notLoaded()) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
-    //    exit();
 }
 
 // Check user permissions to access that category of the selected ITEM
 if (!$itemObj->accessGranted()) {
     redirect_header('javascript:history.go(-1)', 1, _NOPERM);
-    //    exit;
 }
 
 // Creating the category object that holds the selected ITEM

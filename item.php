@@ -29,7 +29,6 @@ $itemPageId = Request::getInt('page', -1, 'GET');
 
 if (0 == $itemId) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
-    //    exit();
 }
 
 /** @var Publisher\Helper $helper */
@@ -41,7 +40,6 @@ $itemObj = $helper->getHandler('Item')->get($itemId);
 // if the selected item was not found, exit
 if (!$itemObj) {
     redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
-    //    exit();
 }
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl';
@@ -63,7 +61,6 @@ $categoryObj = $helper->getHandler('Category')->get($itemObj->categoryid());
 // Check user permissions to access that category of the selected item
 if (!$itemObj->accessGranted()) {
     redirect_header('javascript:history.go(-1)', 1, _NOPERM);
-    //    exit;
 }
 $com_replytitle = $itemObj->getTitle();
 

@@ -32,9 +32,8 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUs
  */
 function xoops_module_pre_update_publisher(\XoopsModule $module)
 {
-    /** @var Publisher\Helper $helper */
+
     /** @var Publisher\Utility $utility */
-    $helper  = Publisher\Helper::getInstance();
     $utility = new Publisher\Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
@@ -45,7 +44,7 @@ function xoops_module_pre_update_publisher(\XoopsModule $module)
 /**
  * Performs tasks required during update of the module
  * @param \XoopsModule $module {@link XoopsModule}
- * @param null         $previousVersion
+ * @param null|string         $previousVersion
  *
  * @return bool true if update successful, false if not
  */
@@ -54,13 +53,11 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
 {
     global $xoopsDB;
     $moduleDirName      = basename(dirname(__DIR__));
-    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+//    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     /** @var Publisher\Helper $helper */
-    /** @var Publisher\Utility $utility */
     /** @var Publisher\Common\Configurator $configurator */
     $helper       = Publisher\Helper::getInstance();
-    $utility      = new Publisher\Utility();
     $configurator = new Publisher\Common\Configurator();
 
     $helper->loadLanguage('common');

@@ -42,16 +42,19 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     $ret    = $item = [];
-    if ('' == $queryArray || 0 == count($queryArray)) {
+    if ('' == $queryArray || (is_array($queryArray) && 0 === count($queryArray))) {
         $hightlightKey = '';
     } else {
         $keywords      = implode('+', $queryArray);
         $hightlightKey = '&amp;keywords=' . $keywords;
     }
-    $itemsObjs        = $helper->getHandler('Item')->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
+    /** @var Publisher\ItemHandler $itemHandler */
+    $itemHandler      = $helper->getHandler('Item');
+    $itemsObjs        = $itemHandler->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
     $withCategoryPath = $helper->getConfig('search_cat_path');
     //xoops_load("xoopslocal");
     $usersIds = [];
+    /** @var Publisher\Item $obj */
     if (0 !== count($itemsObjs)) {
         foreach ($itemsObjs as $obj) {
             $item['image'] = 'assets/images/item_icon.gif';

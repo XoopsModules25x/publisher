@@ -22,7 +22,6 @@ namespace XoopsModules\Publisher;
  */
 
 use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 

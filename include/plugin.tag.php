@@ -19,6 +19,8 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use XoopsModules\Publisher;
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /** Get item fields: title, content, time, link, uid, uname, tags *
@@ -38,10 +40,12 @@ function publisher_tag_iteminfo(&$items)
     }
     /** @var \XoopsModules\Publisher\Helper $helper */
     $helper      = \XoopsModules\Publisher\Helper::getInstance();
+    /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     $criteria    = new \Criteria('itemid', '(' . implode(', ', $items_id) . ')', 'IN');
     $items_obj   = $itemHandler->getObjects($criteria, 'itemid');
 
+    /** @var Publisher\Item $item_obj */
     foreach (array_keys($items) as $catId) {
         foreach (array_keys($items[$catId]) as $item_id) {
             $item_obj                = $items_obj[$item_id];
@@ -59,7 +63,7 @@ function publisher_tag_iteminfo(&$items)
 }
 
 /** Remove orphan tag-item links *
- * @param $mid
+ * @param int $mid
  */
 function publisher_tag_synchronization($mid)
 {

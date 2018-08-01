@@ -44,7 +44,6 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
 
         if ($fileObj->notLoaded()) {
             redirect_header('javascript:history.go(-1)', 1, _AM_PUBLISHER_NOFILESELECTED);
-            //            exit();
         }
 
         echo "<br>\n";
@@ -90,7 +89,6 @@ switch ($op) {
         $itemid = Request::getInt('itemid', 0, 'GET');
         if ((0 == $fileid) && (0 == $itemid)) {
             redirect_header('javascript:history.go(-1)', 3, _AM_PUBLISHER_NOITEMSELECTED);
-            //            exit();
         }
 
         Publisher\Utility::cpHeader();
@@ -117,11 +115,9 @@ switch ($op) {
         // Storing the file
         if (!$fileObj->store()) {
             redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 3, _AM_PUBLISHER_FILE_EDITING_ERROR . Publisher\Utility::formatErrors($fileObj->getErrors()));
-            //            exit;
         }
 
         redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 2, _AM_PUBLISHER_FILE_EDITING_SUCCESS);
-        //        exit();
         break;
 
     case 'del':
@@ -136,11 +132,9 @@ switch ($op) {
         if ($confirm) {
             if (!$helper->getHandler('File')->delete($fileObj)) {
                 redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 2, _AM_PUBLISHER_FILE_DELETE_ERROR);
-                //                exit;
             }
 
             redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 2, sprintf(_AM_PUBLISHER_FILEISDELETED, $fileObj->name()));
-            //            exit();
         } else {
             // no confirm: show deletion condition
             $fileid = Request::getInt('fileid', 0, 'GET');

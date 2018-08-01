@@ -370,12 +370,10 @@ class MimetypesUtility
         if (Request::getString('add_mime', '', 'POST')) {
             //        header("Location: " . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=add&start=$start&limit=$limit");
             redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=add&start=$start&limit=$limit", 3, _AM_PUBLISHER_MIME_CREATEF);
-            //        exit();
         }
         if (Request::getString('mime_search', '', 'POST')) {
             //        header("Location: " . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=search");
             redirect_header(PUBLISHER_ADMIN_URL . '/mimetypes.php?op=search', 3, _AM_PUBLISHER_MIME_SEARCH);
-            //        exit();
         }
 
         Publisher\Utility::cpHeader();
@@ -515,7 +513,6 @@ class MimetypesUtility
         if (Request::getString('add_mime', '', 'POST')) {
             //        header("Location: " . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=add&start=$start&limit=$limit");
             redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=add&start=$start&limit=$limit", 3, _AM_PUBLISHER_MIME_CREATEF);
-            //        exit();
         }
 
         $order = Request::getString('order', 'ASC');

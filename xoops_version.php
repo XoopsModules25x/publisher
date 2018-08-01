@@ -20,7 +20,6 @@
 
 use Xmf\Request;
 use XoopsModules\Publisher;
-use XoopsModules\Publisher\Common;
 use XoopsModules\Publisher\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');

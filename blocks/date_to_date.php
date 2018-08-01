@@ -46,9 +46,9 @@ function publisher_date_to_date_show($options)
 
     // creating the ITEM objects that belong to the selected category
     $itemsObj   = $helper->getHandler('Item')->getObjects($criteria);
-    $totalItems = count($itemsObj);
+//    $totalItems = count($itemsObj);
 
-    if ($itemsObj) {
+    if (is_array($itemsObj) && count($itemsObj) > 0) {
         foreach ($itemsObj as $iValue) {
             $newItems['itemid']       = $iValue->itemid();
             $newItems['title']        = $iValue->getTitle();

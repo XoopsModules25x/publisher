@@ -325,7 +325,7 @@ class Timthumb
         //Clean the cache before we do anything because we don't want the first visitor after FILE_CACHE_TIME_BETWEEN_CLEANS expires to get a stale image.
         $this->cleanCache();
 
-        $this->myHost = preg_replace('/^www\./i', '', $_SERVER['HTTP_HOST']);
+        $this->myHost = preg_replace('/^www\./i', '', \Xmf\Request::getString('HTTP_HOST', '', 'SERVER'));
         $this->src    = $this->param('src');
         $this->url    = parse_url($this->src);
         $this->src    = preg_replace('/https?:\/\/(?:www\.)?' . $this->myHost . '/i', '', $this->src);

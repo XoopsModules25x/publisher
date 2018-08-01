@@ -1,3 +1,8 @@
+<h5>1.06 Final       [2018-08-01]</h5>  Dev: XOOPS 2.5.9, PHP 7.2.8
+<hr>
+- cosmetics (mamba)
+- fixes (mamba)
+
 <h5>1.06 RC 1       [2018-07-15]</h5>  Dev: XOOPS 2.5.9, PHP 7.2.7
 <hr>
 - fix countable in install (mamba)

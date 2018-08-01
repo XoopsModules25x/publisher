@@ -316,7 +316,6 @@ class ThemeTabForm extends \XoopsForm
             return $this->elements;
         }
         $ret   = [];
-        $count = count($this->elements);
         foreach ($this->elements as $i => $iValue) {
             if (is_object($this->elements[$i])) {
                 $ret[] = &$this->elements[$i];
@@ -335,7 +334,6 @@ class ThemeTabForm extends \XoopsForm
     {
         $ret      = [];
         $elements = &$this->getElements(true);
-        $count    = count($elements);
         foreach ($elements as $iValue) {
             $ret[] = $iValue->getName();
         }
@@ -353,7 +351,6 @@ class ThemeTabForm extends \XoopsForm
     public function &getElementByName($name)
     {
         $elements =& $this->getElements(true);
-        $count    = count($elements);
         foreach ($elements as $i => $iValue) {
             if ($name == $iValue->getName(false)) {
                 return $elements[$i];
@@ -388,7 +385,6 @@ class ThemeTabForm extends \XoopsForm
         if (is_array($values) && !empty($values)) {
             // will not use getElementByName() for performance..
             $elements =& $this->getElements(true);
-            $count    = count($elements);
             foreach ($elements as $i => $iValue) {
                 $name = $iValue->getName(false);
                 if ($name && isset($values[$name]) && method_exists($elements[$i], 'setValue')) {
@@ -427,7 +423,6 @@ class ThemeTabForm extends \XoopsForm
     {
         // will not use getElementByName() for performance..
         $elements =& $this->getElements(true);
-        $count    = count($elements);
         $values   = [];
         foreach ($elements as $i => $iValue) {
             $name = $iValue->getName(false);

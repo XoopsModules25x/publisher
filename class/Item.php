@@ -128,7 +128,7 @@ class Item extends \XoopsObject
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (mb_strlen($ret) >= $maxLength) {
-                    $ret = Publisher\Utility::substr($ret, 0, $maxLength);
+                    $ret = Publisher\Utility::mb_substr($ret, 0, $maxLength);
                 }
             }
         }
@@ -366,7 +366,7 @@ class Item extends \XoopsObject
         if (!$this->helper->getHandler('Item')->insert($this, $force)) {
             return false;
         }
-        if ($isNew && Constants::PUBLISHER_STATUS_PUBLISHED == $this->status()) {
+        if ($isNew && Constants::PUBLISHER_STATUS_PUBLISHED == $this->getVar('status')) {
             // Increment user posts
             $userHandler   = xoops_getHandler('user');
             $memberHandler = xoops_getHandler('member');
@@ -375,12 +375,10 @@ class Item extends \XoopsObject
                 $poster->setVar('posts', $poster->getVar('posts') + 1);
                 if (!$memberHandler->insertUser($poster, true)) {
                     $this->setErrors('Article created but could not increment user posts.');
-
                     return false;
                 }
             }
         }
-
         return true;
     }
 

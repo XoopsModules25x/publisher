@@ -542,7 +542,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $totalItems = $this->getItemsCount($categoryId, $status, $notNullFields);
         if ($totalItems > 0) {
             --$totalItems;
-            mt_srand((float)microtime() * 1000000);
+            mt_srand(microtime() * 1000000);
             $entryNumber = mt_rand(0, $totalItems);
             $item        = $this->getItems(1, $entryNumber, $status, $categoryId, $sort = 'datesub', $order = 'DESC', $notNullFields);
             if ($item) {
@@ -648,7 +648,6 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         }
         if (is_array($queryArray) && $count > 0) {
             $criteriaKeywords = new \CriteriaCompo();
-            $elementCount     = count($queryArray);
             foreach ($queryArray as $iValue) {
                 $criteriaKeyword = new \CriteriaCompo();
                 if (in_array('title', $searchin)) {

@@ -250,10 +250,10 @@ class File extends \XoopsObject
      */
     public function displayFlash()
     {
-        if (!defined('MYTEXTSANITIZER_EXTENDED_MEDIA')) {
-            require_once PUBLISHER_ROOT_PATH . '/include/media.textsanitizer.php';
-        }
-        $mediaTs = MyTextSanitizerExtension::getInstance();
+//        if (!defined('MYTEXTSANITIZER_EXTENDED_MEDIA')) {
+//            require_once PUBLISHER_ROOT_PATH . '/include/media.textsanitizer.php';
+//        }
+        $mediaTs = Publisher\MyTextSanitizerExtension::getInstance();
 
         return $mediaTs->displayFlash($this->getFileUrl());
     }

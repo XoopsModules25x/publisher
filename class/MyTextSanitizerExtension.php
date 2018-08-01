@@ -1,4 +1,7 @@
 <?php
+
+namespace XoopsModules\Publisher;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -18,6 +21,8 @@
  * @author            trabis <lusopoemas@gmail.com>
  * @author            Taiwen Jiang (phppp or D.J.) <php_pp@hotmail.com>
  */
+
+use XoopsModules\Publisher;
 
 define('MYTEXTSANITIZER_EXTENDED_MEDIA', 1);
 
@@ -101,7 +106,7 @@ class MyTextSanitizerExtension
     public function flash(&$patterns, &$replacements)
     {
         $patterns[]     = "/\[(swf|flash)=(['\"]?)([^\"']*),([^\"']*)\\2]([^\"]*)\[\/\\1\]/esU";
-        $replacements[] = "MyTextSanitizerExtension::displayFlash( '\\5', '\\3', '\\4' )";
+        $replacements[] = "Publisher\MyTextSanitizerExtension::displayFlash( '\\5', '\\3', '\\4' )";
     }
 
     /**

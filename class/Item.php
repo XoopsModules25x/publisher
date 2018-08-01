@@ -964,7 +964,7 @@ class Item extends \XoopsObject
         if (Publisher\Utility::userIsAdmin()) {
             return true;
         }
-        if (Constants::PUBLISHER_STATUS_PUBLISHED != $this->status()) {
+        if (Constants::PUBLISHER_STATUS_PUBLISHED != $this->getVar('status')) {
             return false;
         }
         // Do we have access to the parent category

@@ -33,8 +33,8 @@ $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = [
     'version'             => '1.06',
-    'module_status'       => 'RC 1',
-    'release_date'        => '2018/07/14',
+    'module_status'       => 'Final',
+    'release_date'        => '2018/08/01',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -47,9 +47,6 @@ $modversion = [
     'official'            => 1,
     // ------------------- Folders & Files -------------------
     'dirname'             => $moduleDirName,
-    //    'dirmoduleadmin'      => 'Frameworks/moduleclasses',
-    //    'sysIcons16'          => 'Frameworks/moduleclasses/icons/16',
-    //    'sysIcons32'          => 'Frameworks/moduleclasses/icons/32',
     // Local path icons
     'modicons16'          => 'assets/images/icons/16',
     'modicons32'          => 'assets/images/icons/32',
@@ -62,9 +59,9 @@ $modversion = [
     'onInstall'           => 'include/oninstall.php',
     'onUpdate'            => 'include/onupdate.php',
     // ------------------- Min Requirements -------------------
-    'min_php'             => '5.5',
+    'min_php'             => '5.6',
     'min_xoops'           => '2.5.9',
-    'min_admin'           => '1.1',
+    'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],
     // ------------------- Admin Menu -------------------
     'hasAdmin'            => 1,
@@ -86,11 +83,6 @@ $modversion = [
     ],
 ];
 
-//help files
-//$i                                     = 0;
-//$modversion['helpsection'][$i]['name'] = _MI_PUBLISHER_HELP_OVERVIEW;
-//$modversion['helpsection'][$i]['link'] = 'page=help';
-
 // ------------------- Help files ------------------- //
 $modversion['helpsection'] = [
     ['name' => _MI_PUBLISHER_HELP_OVERVIEW, 'link' => 'page=help'],
@@ -101,15 +93,6 @@ $modversion['helpsection'] = [
 
 //require_once $GLOBALS['xoops']->path('modules/' . $modversion['dirname'] . '/include/constants.php');
 xoops_load('constants', $moduleDirName);
-/*
-$logo_filename = $modversion['dirname'] . '_logo.png';
-
-if (file_exists($GLOBALS['xoops']->path('modules/' . $modversion['dirname'] . '/assets/images/' . $logo_filename))) {
-    $modversion['image'] = 'assets/images/{$logo_filename}';
-} else {
-    $modversion['image'] = 'assets/images/logoModule.png';
-}
-*/
 
 $modversion['people']['testers'][] = 'urban, AEIOU, pacho, mariane';
 //$modversion['people']['translaters'][] = '';

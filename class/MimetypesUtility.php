@@ -24,6 +24,9 @@ namespace XoopsModules\Publisher;
  */
 
 use XoopsModules\Publisher;
+use Xmf\Request;
+
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class MimetypesUtility

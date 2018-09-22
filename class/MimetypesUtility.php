@@ -488,7 +488,7 @@ class MimetypesUtility
         Publisher\Utility::closeCollapsableBar('mimemanagetable', 'mimemanageicon');
 
         //        xoops_cp_footer();
-        require_once __DIR__ . '/admin_footer.php';
+        require_once dirname(__DIR__) . '/admin/admin_footer.php';
     }
 
     public static function search()

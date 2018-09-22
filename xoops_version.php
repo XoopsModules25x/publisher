@@ -32,9 +32,9 @@ $editorHandler = \XoopsEditorHandler::getInstance();
 $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = [
-    'version'             => '1.06',
-    'module_status'       => 'Final',
-    'release_date'        => '2018/08/01',
+    'version'             => '1.07',
+    'module_status'       => 'Beta 1',
+    'release_date'        => '2018/09/21',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',

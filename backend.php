@@ -42,7 +42,8 @@ if (-1 != $categoryid) {
 header('Content-Type:text/xml; charset=' . _CHARSET);
 $tpl          = new \XoopsTpl();
 $tpl->caching = 2;
-$tpl->xoops_setCacheTime(0);
+//$tpl->xoops_setCacheTime(0);
+$tpl->cache_lifetime = 0;
 $myts = \MyTextSanitizer::getInstance();
 if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     //    xoops_load('XoopsLocal');
@@ -54,13 +55,13 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
         $channel_category                   = $myts->formatForML($channel_category);
     }
     $tpl->assign('channel_charset', _CHARSET);
-    $tpl->assign('channel_title', htmlspecialchars($GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES));
-    $tpl->assign('channel_link', PUBLISHER_URL);
-    $tpl->assign('channel_desc', htmlspecialchars($GLOBALS['xoopsConfig']['slogan'], ENT_QUOTES));
+    $tpl->assign('channel_title', htmlspecialchars($GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES | ENT_HTML5));
+    $tpl->assign('channel_link', htmlspecialchars(PUBLISHER_URL, ENT_QUOTES | ENT_HTML5));
+    $tpl->assign('channel_desc', htmlspecialchars($GLOBALS['xoopsConfig']['slogan'], ENT_QUOTES | ENT_HTML5));
     //mb    $tpl->assign('channel_lastbuild', XoopsLocal::formatTimestamp(time(), 'rss'));
     $tpl->assign('channel_lastbuild', formatTimestamp(time(), 'rss'));
-    $tpl->assign('channel_webmaster', $GLOBALS['xoopsConfig']['adminmail']);
-    $tpl->assign('channel_editor', $GLOBALS['xoopsConfig']['adminmail']);
+    $tpl->assign('channel_webmaster', $GLOBALS['xoopsConfig']['adminmail'] . "( " . htmlspecialchars($GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES | ENT_HTML5) . " )" );
+    $tpl->assign('channel_editor', $GLOBALS['xoopsConfig']['adminmail'] . "( " . htmlspecialchars($GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES | ENT_HTML5) . " )" );
 
     if (-1 != $categoryid) {
         $channel_category .= ' > ' . $categoryObj->name();
@@ -79,6 +80,7 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
         $dimention[1] = $dimention[1] * $width / $dimention[0];
         $height       = ($dimention[1] > 140) ? $dimention[1] * $dimention[0] / 140 : $dimention[1];
     }
+    $height = round($height, 0, PHP_ROUND_HALF_UP);
     $tpl->assign('image_width', $width);
     $tpl->assign('image_height', $height);
     $sarray = $helper->getHandler('Item')->getAllPublished(10, 0, $categoryid);
@@ -86,12 +88,12 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
         $count = $sarray;
         foreach ($sarray as $item) {
             $tpl->append('items', [
-                'title'       => htmlspecialchars($item->getTitle(), ENT_QUOTES),
-                'link'        => $item->getItemUrl(),
+                'title'       => htmlspecialchars($item->getTitle(), ENT_QUOTES | ENT_HTML5),
+                'link'        => htmlspecialchars($item->getItemUrl(), ENT_QUOTES | ENT_HTML5),
                 'guid'        => $item->getItemUrl(),
                 //mb            'pubdate'     => XoopsLocal::formatTimestamp($item->getVar('datesub'), 'rss'),
                 'pubdate'     => formatTimestamp($item->getVar('datesub'), 'rss'),
-                'description' => htmlspecialchars($item->getBlockSummary(300, true), ENT_QUOTES)
+                'description' => htmlspecialchars($item->getBlockSummary(300, true), ENT_QUOTES | ENT_HTML5)
             ]);
         }
         //        unset($item);

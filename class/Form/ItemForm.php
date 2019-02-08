@@ -405,18 +405,18 @@ class ItemForm extends Publisher\ThemeTabForm
             $js_data  = new \XoopsFormLabel('', '
 
 <script type= "text/javascript">
-$helper(document).ready(function () {
-    var button = $helper("#publisher_upload_button"), interval;
+$publisher(document).ready(function () {
+    var button = $publisher("#publisher_upload_button"), interval;
     new AjaxUpload(button,{
         action: "' . PUBLISHER_URL . '/include/ajax_upload.php", // I disabled uploads in this example for security reasons
         responseType: "text/html",
         name: "publisher_upload_file",
         onSubmit : function (file, ext) {
             // change button text, when user selects file
-            $helper("#publisher_upload_message").html(" ");
+            $publisher("#publisher_upload_message").html(" ");
             button.html("<img src=\'' . PUBLISHER_URL . '/assets/images/loadingbar.gif\'>"); this.setData({
-                "image_nicename": $helper("#image_nicename").val(),
-                "imgcat_id" : $helper("#imgcat_id").val()
+                "image_nicename": $publisher("#image_nicename").val(),
+                "imgcat_id" : $publisher("#imgcat_id").val()
             });
             // If you want to allow uploading only 1 file at time,
             // you can disable upload button
@@ -432,11 +432,11 @@ $helper(document).ready(function () {
             // add file to the list
             var result = eval(response);
             if ("success" == result[0]) {
-                 $helper("#image_item").append("<option value=\'" + result[1] + "\' selected=\'selected\'>" + result[2] + "</option>");
+                 $publisher("#image_item").append("<option value=\'" + result[1] + "\' selected=\'selected\'>" + result[2] + "</option>");
                  publisher_updateSelectOption(\'image_item\', \'image_featured\');
                  showImgSelected(\'image_display\', \'image_item\', \'uploads/\', \'\', \'' . XOOPS_URL . '\')
             } else {
-                 $helper("#publisher_upload_message").html("<div class=\'errorMsg\'>" + result[1] + "</div>");
+                 $publisher("#publisher_upload_message").html("<div class=\'errorMsg\'>" + result[1] + "</div>");
             }
         }
     });

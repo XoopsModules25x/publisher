@@ -171,7 +171,7 @@ if ('go' === $op) {
                                   'weight'      => 1,
                                   'created'     => time(),
                                   'moderator',
-                                  $GLOBALS['xoopsUser']->getVar('uid')
+                                  $GLOBALS['xoopsUser']->getVar('uid'),
                               ]);
         $categoryObj->store();
 
@@ -199,13 +199,13 @@ if ('go' === $op) {
                                   'votes'            => 0,
                                   'comments'         => $thisFmContentObj->getVar('content_comments'),
                                   'meta_keywords'    => $thisFmContentObj->getVar('content_words'),
-                                  'meta_description' => $thisFmContentObj->getVar('content_desc')
+                                  'meta_description' => $thisFmContentObj->getVar('content_desc'),
                               ]);
             $contentImg = $thisFmContentObj->getVar('content_img');
             if (!empty($contentImg)) {
                 $itemObj->setVars([
                                       'images' => 1,
-                                      'image'  => $thisFmContentObj->getVar('content_img')
+                                      'image'  => $thisFmContentObj->getVar('content_img'),
                                   ]);
             }
 
@@ -239,7 +239,7 @@ if ('go' === $op) {
     foreach ($fmTopicObjs as $thisFmTopicObj) {
         $CatIds = [
             'oldid'  => $thisFmTopicObj->getVar('topic_id'),
-            'oldpid' => $thisFmTopicObj->getVar('topic_pid')
+            'oldpid' => $thisFmTopicObj->getVar('topic_pid'),
         ];
 
         $categoryObj = $helper->getHandler('Category')->create();
@@ -248,7 +248,7 @@ if ('go' === $op) {
                                   'parentid'    => $thisFmTopicObj->getVar('topic_pid'),
                                   'weight'      => $thisFmTopicObj->getVar('topic_weight'),
                                   'name'        => $thisFmTopicObj->getVar('topic_title'),
-                                  'description' => $thisFmTopicObj->getVar('topic_desc')
+                                  'description' => $thisFmTopicObj->getVar('topic_desc'),
                               ]);
 
         // Category image
@@ -296,7 +296,7 @@ if ('go' === $op) {
                                   'votes'            => 0,
                                   'comments'         => $thisFmContentObj->getVar('content_comments'),
                                   'meta_keywords'    => $thisFmContentObj->getVar('content_words'),
-                                  'meta_description' => $thisFmContentObj->getVar('content_desc')
+                                  'meta_description' => $thisFmContentObj->getVar('content_desc'),
                               ]);
             $contentImg = $thisFmContentObj->getVar('content_img');
             if (!empty($contentImg)) {

@@ -18,7 +18,6 @@
  * @since           1.03
  * @author          XOOPS Development Team - ( https://xoops.org )
  */
-
 require __DIR__ . '/common.php';
 
 /**
@@ -28,6 +27,7 @@ function getConfig()
 {
     $moduleDirName      = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
     return (object)[
         'name'           => mb_strtoupper($moduleDirName) . ' Module Configurator',
         'paths'          => [
@@ -52,7 +52,6 @@ function getConfig()
         ],
 
         'copyTestFolders' => [
-
             [
                 XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/images',
                 XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
@@ -83,8 +82,9 @@ function getConfig()
             '/js',
             '/tcpdf',
         ],
+        'renameTables'    => [//         'XX_archive'     => 'ZZZZ_archive',
+        ],
         'modCopyright'    => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
                      <img src='" . constant($moduleDirNameUpper . '_AUTHOR_LOGOIMG') . '\' alt=\'XOOPS Project\' /></a>',
-
     ];
 }

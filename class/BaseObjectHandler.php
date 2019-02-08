@@ -219,7 +219,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      * count objects matching a criteria
      *
      * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
-     *                                   to match
+     *                                                  to match
      *
      * @return int count of objects
      */
@@ -269,8 +269,8 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      *
      * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
      *
-     * @param  bool            $force
-     * @param  bool            $asObject
+     * @param  bool                           $force
+     * @param  bool                           $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
@@ -289,11 +289,11 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Assign a value to 1 field for tickets matching a set of conditions
      *
-     * @param string           $fieldname
-     * @param string           $fieldvalue
+     * @param string                          $fieldname
+     * @param string                          $fieldvalue
      * @param \CriteriaElement|\CriteriaCompo $criteria {@link \CriteriaElement}
      *
-     * @param  bool            $force
+     * @param  bool                           $force
      * @return bool FALSE if update failed
      */
     public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null, $force = false) //updateAll($fieldname, $fieldvalue, $criteria = null)

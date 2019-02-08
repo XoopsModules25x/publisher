@@ -39,7 +39,7 @@ function publisher_tag_iteminfo(&$items)
         }
     }
     /** @var \XoopsModules\Publisher\Helper $helper */
-    $helper      = \XoopsModules\Publisher\Helper::getInstance();
+    $helper = \XoopsModules\Publisher\Helper::getInstance();
     /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     $criteria    = new \Criteria('itemid', '(' . implode(', ', $items_id) . ')', 'IN');

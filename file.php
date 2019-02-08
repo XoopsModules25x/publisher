@@ -58,7 +58,6 @@ switch ($op) {
         $uploadForm = $fileObj->getForm();
         $uploadForm->display();
         break;
-
     case 'modify':
         $fileid = Request::getInt('fileid', 0, 'POST');
 
@@ -101,11 +100,9 @@ switch ($op) {
 
         redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, _AM_PUBLISHER_FILE_EDITING_SUCCESS);
         break;
-
     case 'clear':
         //mb        echo 'my time is now ' . now;
         break;
-
     case 'del':
         $confirm = Request::getInt('confirm', '', 'POST');
 

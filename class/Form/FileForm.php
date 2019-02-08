@@ -53,9 +53,9 @@ class FileForm extends \XoopsThemeForm
      */
     public function __construct(&$target)
     {
-        /** @var Publisher\Helper $this->helper */
+        /** @var Publisher\Helper $this ->helper */
         $this->helper       = Publisher\Helper::getInstance();
-        $this->targetObject =& $target;
+        $this->targetObject = &$target;
 
         parent::__construct(_AM_PUBLISHER_UPLOAD_FILE, 'form', xoops_getenv('PHP_SELF'), 'post', true);
         $this->setExtra('enctype="multipart/form-data"');

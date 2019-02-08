@@ -28,7 +28,6 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 /** @var \XoopsDatabase $db */
 /** @var \XoopsModules\Publisher\Helper $helper */
 /** @var \XoopsModules\Publisher\Utility $utility */
-
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
 $helper  = \XoopsModules\Publisher\Helper::getInstance();
 $utility = new \XoopsModules\Publisher\Utility();

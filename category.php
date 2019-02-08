@@ -69,32 +69,26 @@ switch ($helper->getConfig('format_order_by')) {
         $sort  = 'title';
         $order = 'ASC';
         break;
-
     case 'date':
         $sort  = 'datesub';
         $order = 'DESC';
         break;
-
     case 'counter':
         $sort  = 'counter';
         $order = 'DESC';
         break;
-
     case 'rating':
         $sort  = 'rating';
         $order = 'DESC';
         break;
-
     case 'votes':
         $sort  = 'votes';
         $order = 'DESC';
         break;
-
     case 'comments':
         $sort  = 'comments';
         $order = 'DESC';
         break;
-
     default:
         $sort  = 'weight';
         $order = 'ASC';

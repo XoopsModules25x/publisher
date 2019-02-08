@@ -47,7 +47,7 @@ class File extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var Publisher\Helper $this->helper */
+        /** @var Publisher\Helper $this ->helper */
         $this->helper = Publisher\Helper::getInstance();
         $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('fileid', XOBJ_DTYPE_INT, 0, false);
@@ -126,7 +126,7 @@ class File extends \XoopsObject
     {
         /** @var Publisher\MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $this->helper->getHandler('Mimetype');
-        $itemid = $this->getVar('itemid');
+        $itemid          = $this->getVar('itemid');
         if (0 === count($allowedMimetypes)) {
             $allowedMimetypes = $mimetypeHandler->getArrayByType();
         }

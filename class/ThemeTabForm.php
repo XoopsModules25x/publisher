@@ -171,7 +171,7 @@ class ThemeTabForm extends \XoopsForm
             'extra'      => 'onsubmit="return xoopsFormValidate_' . $this->getName() . '();"' . $this->getExtra(),
             'javascript' => $js,
             'tabs'       => $this->formTabs,
-            'elements'   => $elements
+            'elements'   => $elements,
         ]);
     }
 
@@ -289,16 +289,16 @@ class ThemeTabForm extends \XoopsForm
     public function addElement($formElement, $required = false)
     {
         if (is_string($formElement)) {
-            $this->elements[] =& $formElement;
+            $this->elements[] = &$formElement;
         } elseif (is_subclass_of($formElement, 'xoopsformelement')) {
-            $this->elements[] =& $formElement;
+            $this->elements[] = &$formElement;
             if ($required) {
                 if (method_exists($formElement, 'setRequired')) {
                     $formElement->setRequired(true);
                 } else {
                     $formElement->required = true;
                 }
-                $this->required[] =& $formElement;
+                $this->required[] = &$formElement;
             }
         }
     }
@@ -350,7 +350,7 @@ class ThemeTabForm extends \XoopsForm
      */
     public function &getElementByName($name)
     {
-        $elements =& $this->getElements(true);
+        $elements = &$this->getElements(true);
         foreach ($elements as $i => $iValue) {
             if ($name == $iValue->getName(false)) {
                 return $elements[$i];
@@ -369,7 +369,7 @@ class ThemeTabForm extends \XoopsForm
      */
     public function setElementValue($name, $value)
     {
-        $ele =& $this->getElementByName($name);
+        $ele = &$this->getElementByName($name);
         if (is_object($ele) && method_exists($ele, 'setValue')) {
             $ele->setValue($value);
         }
@@ -384,7 +384,7 @@ class ThemeTabForm extends \XoopsForm
     {
         if (is_array($values) && !empty($values)) {
             // will not use getElementByName() for performance..
-            $elements =& $this->getElements(true);
+            $elements = &$this->getElements(true);
             foreach ($elements as $i => $iValue) {
                 $name = $iValue->getName(false);
                 if ($name && isset($values[$name]) && method_exists($elements[$i], 'setValue')) {
@@ -404,7 +404,7 @@ class ThemeTabForm extends \XoopsForm
      */
     public function getElementValue($name, $encode = false)
     {
-        $ele =& $this->getElementByName($name);
+        $ele = &$this->getElementByName($name);
         if (is_object($ele) && method_exists($ele, 'getValue')) {
             return $ele->getValue($encode);
         }
@@ -422,7 +422,7 @@ class ThemeTabForm extends \XoopsForm
     public function getElementValues($encode = false)
     {
         // will not use getElementByName() for performance..
-        $elements =& $this->getElements(true);
+        $elements = &$this->getElements(true);
         $values   = [];
         foreach ($elements as $i => $iValue) {
             $name = $iValue->getName(false);
@@ -478,7 +478,7 @@ class ThemeTabForm extends \XoopsForm
      */
     public function setRequired(\XoopsFormElement $formElement)
     {
-        $this->required[] =& $formElement;
+        $this->required[] = &$formElement;
     }
 
     /**
@@ -551,7 +551,7 @@ class ThemeTabForm extends \XoopsForm
         }
         $formname = $this->getName();
         $js       .= "function xoopsFormValidate_{$formname}() { var myform = window.document.{$formname}; ";
-        $elements =& $this->getElements(true);
+        $elements = &$this->getElements(true);
         foreach ($elements as $elt) {
             if (method_exists($elt, 'renderValidationJS')) {
                 $js .= $elt->renderValidationJS();

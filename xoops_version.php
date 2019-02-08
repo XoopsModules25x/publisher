@@ -32,9 +32,9 @@ $editorHandler = \XoopsEditorHandler::getInstance();
 $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = [
-    'version'             => '1.06',
-    'module_status'       => 'Final',
-    'release_date'        => '2018/08/01',
+    'version'             => '1.07',
+    'module_status'       => 'Beta 1',
+    'release_date'        => '2018/09/21',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -59,7 +59,7 @@ $modversion = [
     'onInstall'           => 'include/oninstall.php',
     'onUpdate'            => 'include/onupdate.php',
     // ------------------- Min Requirements -------------------
-    'min_php'             => '5.6',
+    'min_php'             => '5.5',
     'min_xoops'           => '2.5.9',
     'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],
@@ -350,7 +350,7 @@ $modversion['config'][] = [
     'valuetype'   => 'text',
     'default'     => 'none',
     'options'     => array_merge([_MI_PUBLISHER_URL_REWRITE_NONE => 'none'], [_MI_PUBLISHER_URL_REWRITE_PATHINFO => 'path-info'], // Is performing module install/update?
-                                 ($isModuleAction && in_array(PHP_SAPI, ['apache', 'apache2handler', 'cgi-fcgi', 'fpm-fcgi'])) ? [_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'] : []),
+                                 ($isModuleAction && in_array(PHP_SAPI, ['apache', 'apache2handler', 'cgi-fcgi', 'fpm-fcgi'], true)) ? [_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'] : []),
     'category'    => 'seo',
 ];
 

@@ -52,35 +52,27 @@ switch ($op) {
     case 'add':
         Publisher\MimetypesUtility::add();
         break;
-
     case 'delete':
         Publisher\MimetypesUtility::delete();
         break;
-
     case 'edit':
         Publisher\MimetypesUtility::edit();
         break;
-
     case 'search':
         Publisher\MimetypesUtility::search();
         break;
-
     case 'updateMimeValue':
         Publisher\MimetypesUtility::updateMimeValue();
         break;
-
     case 'confirmUpdateMimeValue':
         Publisher\MimetypesUtility::confirmUpdateMimeValue();
         break;
-
     case 'clearAddSession':
         Publisher\MimetypesUtility::clearAddSession();
         break;
-
     case 'clearEditSession':
         Publisher\MimetypesUtility::clearEditSession();
         break;
-
     case 'manage':
     default:
         Publisher\MimetypesUtility::manage();

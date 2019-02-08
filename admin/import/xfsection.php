@@ -150,7 +150,7 @@ if ('go' === $op) {
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
-            /** @var  Publisher\Item $itemObj */
+            /** @var Publisher\Item $itemObj */
             $itemObj = $helper->getHandler('Item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
@@ -197,7 +197,7 @@ if ('go' === $op) {
                 $filename = $GLOBALS['xoops']->path('modules/xfsection/cache/uploaded/' . $arrFile['filerealname']);
                 if (file_exists($filename)) {
                     if (copy($filename, PUBLISHER_UPLOAD_PATH . '/' . $arrFile['filerealname'])) {
-                        /** @var  Publisher\File $fileObj */
+                        /** @var Publisher\File $fileObj */
                         $fileObj = $helper->getHandler('File')->create();
                         $fileObj->setVar('name', $arrFile['fileshowname']);
                         $fileObj->setVar('description', $arrFile['filedescript']);

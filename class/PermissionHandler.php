@@ -41,7 +41,7 @@ class PermissionHandler extends \XoopsObjectHandler
 
     public function __construct()
     {
-        /** @var Publisher\Helper $this->helper */
+        /** @var Publisher\Helper $this ->helper */
         $this->helper = Publisher\Helper::getInstance();
     }
 
@@ -135,6 +135,7 @@ class PermissionHandler extends \XoopsObjectHandler
         if (!empty($permissions) && isset($permissions[$id])) {
             return true;
         }
+
         return false;
     }
 

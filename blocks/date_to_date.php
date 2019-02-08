@@ -50,7 +50,7 @@ function publisher_date_to_date_show($options)
     $itemsObj    = $itemHandler->getObjects($criteria);
     //    $totalItems = count($itemsObj);
 
-    if (is_array($itemsObj) && count($itemsObj) > 0) {
+    if ($itemsObj && is_array($itemsObj)) {
         foreach ($itemsObj as $iValue) {
             $newItems['itemid']       = $iValue->itemid();
             $newItems['title']        = $iValue->getTitle();

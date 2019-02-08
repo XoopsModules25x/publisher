@@ -47,7 +47,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db = null)
     {
-        /** @var Publisher\Helper $this->helper */
+        /** @var Publisher\Helper $this ->helper */
         $this->helper = Publisher\Helper::getInstance();
         parent::__construct($db, 'publisher_categories', Category::class, 'categoryid', 'name');
     }
@@ -118,7 +118,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $this->helper->getHandler('Item')->deleteAll($criteria);
         unset($criteria);
         // Deleting the sub categories
-        $subcats =& $this->getCategories(0, 0, $category->categoryid);
+        $subcats = &$this->getCategories(0, 0, $category->categoryid);
         foreach ($subcats as $subcat) {
             $this->delete($subcat);
         }
@@ -144,7 +144,6 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * @param  bool            $as_object
      * @return array array of <a href='psi_element://XoopsItem'>XoopsItem</a> objects
      */
-
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $as_object = true) //&getObjects($criteria = null, $idAsKey = false)
     {
         $ret        = [];
@@ -411,6 +410,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     {
         /** @var Publisher\ItemHandler $itemHandler */
         $itemHandler = $this->helper->getHandler('Item');
+
         return $itemHandler->getCountsByCat($catId, $status);
     }
 }

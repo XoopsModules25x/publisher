@@ -670,7 +670,7 @@ class MimetypesUtility
             echo "<div id='pagenav'>" . $nav->renderNav() . '</div>';
         }
         Publisher\Utility::closeCollapsableBar('mimesearchtable', 'mimesearchicon');
-        //        require_once __DIR__ . '/admin_footer.php';
+        //        require_once dirname(__DIR__) . '/admin/admin_footer.php';
         xoops_cp_footer();
     }
 

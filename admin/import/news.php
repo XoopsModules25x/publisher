@@ -65,7 +65,7 @@ if ('start' === $op) {
 
             while (false !== (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result))) {
                 $cat_title              = $myts->displayTarea($cat_title);
-                $cat_cbox_options[$cid] = '$cat_title ($art_count)';
+                $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }
 
             $cat_label = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $cat_cbox_options));
@@ -73,7 +73,7 @@ if ('start' === $op) {
             $form->addElement($cat_label);
 
             // Publisher parent category
-            $mytree = new \XoopsTree($GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories'), 'categoryid', 'parentid');
+            $mytree = new \XoopsTree($GLOBALS['xoopsDB']->prefix($helper->getModule()->getVar('dirname', 'n') . '_categories'), 'categoryid', 'parentid');
             ob_start();
             $mytree->makeMySelBox('name', 'weight', $preset_id = 0, $none = 1, $sel_name = 'parent_category');
 
@@ -159,7 +159,7 @@ if ('go' === $op) {
             $itemObj->setVar('title', $arrArticle['title']);
             $itemObj->setVar('uid', $arrArticle['uid']);
             $itemObj->setVar('summary', $arrArticle['hometext']);
-            $itemObj->setVar('body', $arrArticle['bodytext']);
+            $itemObj->setVar('body', $arrArticle['bodytext'] == '' ? $arrArticle['hometext'] : $arrArticle['bodytext']); /* use hometext if no bodytext is available */
             $itemObj->setVar('counter', $arrArticle['counter']);
             $itemObj->setVar('datesub', $arrArticle['created']);
             $itemObj->setVar('dohtml', !$arrArticle['nohtml']);

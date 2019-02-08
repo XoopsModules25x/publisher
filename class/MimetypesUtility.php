@@ -291,7 +291,7 @@ class MimetypesUtility
             // end of edit form
             Publisher\Utility::closeCollapsableBar('mimeedittable', 'mimeediticon');
             //            xoops_cp_footer();
-            require_once __DIR__ . '/admin_footer.php';
+            require_once dirname(__DIR__) . '/admin/admin_footer.php';
         } else {
             $mimeAdmin = 0;
             $mimeUser  = 0;
@@ -488,7 +488,7 @@ class MimetypesUtility
         Publisher\Utility::closeCollapsableBar('mimemanagetable', 'mimemanageicon');
 
         //        xoops_cp_footer();
-        require_once __DIR__ . '/admin_footer.php';
+        require_once dirname(__DIR__) . '/admin/admin_footer.php';
     }
 
     public static function search()
@@ -670,7 +670,7 @@ class MimetypesUtility
             echo "<div id='pagenav'>" . $nav->renderNav() . '</div>';
         }
         Publisher\Utility::closeCollapsableBar('mimesearchtable', 'mimesearchicon');
-        //        require_once __DIR__ . '/admin_footer.php';
+        //        require_once dirname(__DIR__) . '/admin/admin_footer.php';
         xoops_cp_footer();
     }
 

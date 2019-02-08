@@ -120,31 +120,24 @@ switch ($sortsel) {
     case 'title':
         $sorttxttitle = 'selected';
         break;
-
     case 'datesub':
         $sorttxtcreated = 'selected';
         break;
-
     case 'weight':
         $sorttxtweight = 'selected';
         break;
-
     case 'counter':
         $sorttxthits = 'selected';
         break;
-
     case 'rating':
         $sorttxtrating = 'selected';
         break;
-
     case 'votes':
         $sorttxtvotes = 'selected';
         break;
-
     case 'comments':
         $sorttxtcomments = 'selected';
         break;
-
     default:
         $sorttxtitemid = 'selected';
         break;
@@ -154,7 +147,6 @@ switch ($ordersel) {
     case 'ASC':
         $ordertxtasc = 'selected';
         break;
-
     default:
         $ordertxtdesc = 'selected';
         break;
@@ -167,28 +159,24 @@ switch ($statussel) {
         $cond                = '';
         $status_explaination = _AM_PUBLISHER_ALL_EXP;
         break;
-
     case Constants::PUBLISHER_STATUS_SUBMITTED:
         $selectedtxt1        = 'selected';
         $caption             = _CO_PUBLISHER_SUBMITTED;
         $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_SUBMITTED . ' ';
         $status_explaination = _AM_PUBLISHER_SUBMITTED_EXP;
         break;
-
     case Constants::PUBLISHER_STATUS_PUBLISHED:
         $selectedtxt2        = 'selected';
         $caption             = _CO_PUBLISHER_PUBLISHED;
         $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_PUBLISHED . ' ';
         $status_explaination = _AM_PUBLISHER_PUBLISHED_EXP;
         break;
-
     case Constants::PUBLISHER_STATUS_OFFLINE:
         $selectedtxt3        = 'selected';
         $caption             = _CO_PUBLISHER_OFFLINE;
         $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_OFFLINE . ' ';
         $status_explaination = _AM_PUBLISHER_OFFLINE_EXP;
         break;
-
     case Constants::PUBLISHER_STATUS_REJECTED:
         $selectedtxt4        = 'selected';
         $caption             = _CO_PUBLISHER_REJECTED;
@@ -201,7 +189,7 @@ switch ($statussel) {
 echo "<form name='pick' id='pick' action='" . Request::getString('PHP_SELF', '', 'SERVER') . "' method='POST' style='margin: 0;'>";
 
 echo "
-    <table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-left: 1px solid silver; border-top: 1px solid silver; border-right: 1px solid silver;'>
+    <table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-left: 1px solid #c0c0c0; border-top: 1px solid #c0c0c0; border-right: 1px solid #c0c0c0;'>
         <tr>
             <td><span style='font-weight: bold; font-variant: small-caps;'>" . _AM_PUBLISHER_SHOWING . ' ' . $caption . "</span></td>
             <td align='right'>" . _AM_PUBLISHER_SELECT_SORT . "
@@ -252,7 +240,6 @@ if ($numrows > 0) {
         $categoryObj = $itemsObj[$i]->getCategory();
         $approve     = '';
         switch ($itemsObj[$i]->status()) {
-
             case Constants::PUBLISHER_STATUS_SUBMITTED:
                 $statustxt = _CO_PUBLISHER_SUBMITTED;
                 $approve   = "<a href='item.php?op=mod&itemid="
@@ -270,7 +257,6 @@ if ($numrows > 0) {
                 $delete    = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>";
                 $modify    = '';
                 break;
-
             case Constants::PUBLISHER_STATUS_PUBLISHED:
                 $statustxt = _CO_PUBLISHER_PUBLISHED;
                 $approve   = '';
@@ -279,7 +265,6 @@ if ($numrows > 0) {
                 $delete = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>&nbsp;";
                 $clone  = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>&nbsp;";
                 break;
-
             case Constants::PUBLISHER_STATUS_OFFLINE:
                 $statustxt = _CO_PUBLISHER_OFFLINE;
                 $approve   = '';
@@ -288,7 +273,6 @@ if ($numrows > 0) {
                 $clone     = /** @lang text */
                     "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>&nbsp;";
                 break;
-
             case Constants::PUBLISHER_STATUS_REJECTED:
                 $statustxt = _CO_PUBLISHER_REJECTED;
                 $approve   = '';
@@ -296,7 +280,6 @@ if ($numrows > 0) {
                 $delete    = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>&nbsp;";
                 $clone     = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>&nbsp;";
                 break;
-
             case 'default':
             default:
                 $statustxt = _AM_PUBLISHER_STATUS0;
@@ -334,9 +317,9 @@ echo "<span style=\"color: #567; margin: 3px 0 18px 0; font-size: small; display
 $pagenav = new \XoopsPageNav($numrows, $helper->getConfig('idxcat_perpage'), $startentry, 'startentry', "statussel=$statussel&amp;sortsel=$sortsel&amp;ordersel=$ordersel");
 
 if (1 == $helper->getConfig('format_image_nav')) {
-    echo '<div style="text-align:right; background-color: white; margin: 10px 0;">' . $pagenav->renderImageNav() . '</div>';
+    echo '<div style="text-align:right; background-color: #ffffff; margin: 10px 0;">' . $pagenav->renderImageNav() . '</div>';
 } else {
-    echo '<div style="text-align:right; background-color: white; margin: 10px 0;">' . $pagenav->renderNav() . '</div>';
+    echo '<div style="text-align:right; background-color: #ffffff; margin: 10px 0;">' . $pagenav->renderNav() . '</div>';
 }
 // ENDs code to show active entries
 Publisher\Utility::closeCollapsableBar('allitemstable', 'allitemsicon');

@@ -76,6 +76,7 @@ if ('start' === $op) {
             $imagecategory->setVar('imgcat_weight', 0); //$imgcat_weight);
             $imagecategory->setVar('imgcat_storetype', 'file'); //$imgcat_storetype);
             $imagecategory->setVar('imgcat_type', 'C');
+
             try {
                 $imageCategoryHandler->insert($imagecategory);
             }
@@ -88,7 +89,7 @@ if ('start' === $op) {
             if (!isset($readgroup)) {
                 $readgroup = [];
             }
-            if (!in_array(XOOPS_GROUP_ADMIN, $readgroup)) {
+            if (!in_array(XOOPS_GROUP_ADMIN, $readgroup, true)) {
                 $readgroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($readgroup as $rgroup) {
@@ -105,7 +106,7 @@ if ('start' === $op) {
             if (!isset($writegroup)) {
                 $writegroup = [];
             }
-            if (!in_array(XOOPS_GROUP_ADMIN, $writegroup)) {
+            if (!in_array(XOOPS_GROUP_ADMIN, $writegroup, true)) {
                 $writegroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($writegroup as $wgroup) {
@@ -292,7 +293,7 @@ if ('go' === $op) {
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
 
-            /** @var  Publisher\Item $itemObj */
+            /** @var Publisher\Item $itemObj */
             $itemObj = $helper->getHandler('Item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());

@@ -34,7 +34,6 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 class MimetypeHandler extends BaseObjectHandler
 {
-
     /**
      * Constructor
      *
@@ -191,8 +190,8 @@ class MimetypeHandler extends BaseObjectHandler
      * Create a "select" SQL query
      *
      * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
-     *                                   to match
-     * @param bool             $join
+     *                                                  to match
+     * @param bool                            $join
      *
      * @return string string SQL query
      */

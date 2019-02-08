@@ -22,11 +22,10 @@
 use XoopsModules\Publisher;
 
 require_once __DIR__ . '/admin_header.php';
-//require_once dirname(__DIR__) . '/class/Utility.php';
 
 xoops_cp_header();
-/** @var Publisher\Helper $helper */
-$helper = Publisher\Helper::getInstance();
+/** @var \XoopsModules\Publisher\Helper $helper */
+$helper = \XoopsModules\Publisher\Helper::getInstance();
 $helper->loadLanguage('main');
 $adminObject = \Xmf\Module\Admin::getInstance();
 $utility     = new Publisher\Utility();
@@ -47,10 +46,17 @@ foreach (array_keys($copyFiles) as $i) {
 */
 
 if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-    $adminObject->addConfigBoxLine('<span style="color:red;"><img src="' . $pathIcon16 . '/0.png" alt="!">' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
+    $adminObject->addConfigBoxLine('<span style="color:#ff0000;"><img src="' . $pathIcon16 . '/0.png" alt="!">' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
 }
 
 $adminObject->displayNavigation(basename(__FILE__));
+
+
+//check for latest release
+$newRelease = $utility::checkVerModule($helper);
+if (!empty($newRelease)) {
+    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
+}
 
 //------------- Test Data ----------------------------
 

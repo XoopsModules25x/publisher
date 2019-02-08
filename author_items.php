@@ -63,7 +63,7 @@ $xoopsTpl->assign('user_avatarurl', XOOPS_URL . '/uploads/' . $thisuser->getVar(
 //$xoopsLocal = new \XoopsLocal();
 $categories = [];
 if ($count > 0) {
-    /** @var  Publisher\Item $item */
+    /** @var Publisher\Item $item */
     foreach ($items as $item) {
         $catid = $item->categoryid();
         if (!isset($categories[$catid])) {

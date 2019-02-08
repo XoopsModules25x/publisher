@@ -20,7 +20,6 @@
  * @param $itemId
  * @param $totalNum
  */
-
 function publisher_com_update($itemId, $totalNum)
 {
     global $xoopsModule;

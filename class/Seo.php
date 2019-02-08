@@ -41,7 +41,6 @@ class Seo
      */
     public static function getTitle($title = '', $withExt = true)
     {
-
         /**
          * if XOOPS ML is present, let's sanitize the title with the current language
          */

@@ -54,7 +54,7 @@ function publisher_category_items_sel_show($options)
     // creating the ITEM objects that belong to the selected category
     $block['categories'] = [];
     foreach ($categories as $catID => $catObj) {
-        if (!in_array(0, $selectedcatids) && !in_array($catID, $selectedcatids)) {
+        if (!in_array(0, $selectedcatids, true) && !in_array($catID, $selectedcatids, true)) {
             continue;
         }
 

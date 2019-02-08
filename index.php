@@ -145,17 +145,14 @@ if ($helper->getConfig('index_display_last_items')) {
             $sort  = 'title';
             $order = 'ASC';
             break;
-
         case 'date':
             $sort  = 'datesub';
             $order = 'DESC';
             break;
-
         case 'counter':
             $sort  = 'counter';
             $order = 'DESC';
             break;
-
         case 'rating':
             $sort  = 'rating';
             $order = 'DESC';
@@ -164,12 +161,10 @@ if ($helper->getConfig('index_display_last_items')) {
             $sort  = 'votes';
             $order = 'DESC';
             break;
-
         case 'comments':
             $sort  = 'comments';
             $order = 'DESC';
             break;
-
         default:
             $sort  = 'weight';
             $order = 'ASC';

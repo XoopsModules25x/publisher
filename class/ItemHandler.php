@@ -20,6 +20,7 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
+
 use XoopsModules\Publisher;
 
 //namespace Publisher;
@@ -49,7 +50,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db = null)
     {
-        /** @var Publisher\Helper $this->helper */
+        /** @var Publisher\Helper $this ->helper */
         parent::__construct($db, 'publisher_items', Item::class, 'itemid', 'title');
         $this->helper = Publisher\Helper::getInstance();
     }
@@ -158,15 +159,14 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve items from the database
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria     {@link CriteriaElement}
-     *                                       conditions to be met
-     * @param  bool|string     $idKey        what shall we use as array key ? none, itemid, categoryid
-     * @param  bool            $as_object
-     * @param  string|bool          $notNullFields
+     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
+     *                                                  conditions to be met
+     * @param  bool|string                    $idKey    what shall we use as array key ? none, itemid, categoryid
+     * @param  bool                           $as_object
+     * @param  string|bool                    $notNullFields
      * @return array           array of <a href='psi_element://Item'>Item</a> objects
-     *                                       objects
+     *                                                  objects
      */
-
     public function &getObjects(\CriteriaElement $criteria = null, $idKey = 'none', $as_object = true, $notNullFields = null)
     {
         $limit         = $start = 0;
@@ -221,8 +221,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      * count items matching a condition
      *
      * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
-     *                                   to match
-     * @param string           $notNullFields
+     *                                                  to match
+     * @param string                          $notNullFields
      *
      * @return int count of items
      */
@@ -252,9 +252,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param  int      $categoryid
-     * @param  string|array  $status
-     * @param  string        $notNullFields
+     * @param  int                 $categoryid
+     * @param  string|array        $status
+     * @param  string              $notNullFields
      * @param  null|\CriteriaCompo $criteriaPermissions
      * @return \CriteriaCompo
      */
@@ -307,7 +307,6 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getItemsCount($categoryid = -1, $status = '', $notNullFields = '')
     {
-
         //        global $publisherIsAdmin;
         $criteriaPermissions = '';
         if (!$GLOBALS['publisherIsAdmin']) {
@@ -521,7 +520,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $criteria->setStart($start);
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $ret =& $this->getObjects($criteria, $idKey, $notNullFields);
+        $ret = &$this->getObjects($criteria, $idKey, $notNullFields);
 
         return $ret;
     }
@@ -541,7 +540,6 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $totalItems = $this->getItemsCount($categoryId, $status, $notNullFields);
         if ($totalItems > 0) {
             --$totalItems;
-            mt_srand(mktime());
             $entryNumber = mt_rand(0, $totalItems);
             $item        = $this->getItems(1, $entryNumber, $status, $categoryId, $sort = 'datesub', $order = 'DESC', $notNullFields);
             if ($item) {
@@ -564,7 +562,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
         //todo resource consuming, use get list instead?
-        $items =& $this->getObjects($criteria);
+        $items = &$this->getObjects($criteria);
         foreach ($items as $item) {
             $this->delete($item);
         }
@@ -583,6 +581,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if ($this->db->queryF($sql)) {
             return true;
         }
+
         return false;
     }
 
@@ -626,15 +625,15 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     {
         //        global $publisherIsAdmin;
         $count = 0;
-        $ret = [];
+        $ret   = [];
         /* @var  $grouppermHandler \XoopsGroupPermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         $groups           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $searchin         = empty($searchin) ? ['title', 'body', 'summary'] : (is_array($searchin) ? $searchin : [$searchin]);
-        if (in_array('all', $searchin) || 0 === count($searchin)) {
+        if (in_array('all', $searchin, true) || 0 === count($searchin)) {
             $searchin = ['title', 'subtitle', 'body', 'summary', 'meta_keywords'];
         }
-        if (is_array($userid) && count($userid) > 0) {
+        if ($userid && is_array($userid)) {
             $userid       = array_map('intval', $userid);
             $criteriaUser = new \CriteriaCompo();
             $criteriaUser->add(new \Criteria('uid', '(' . implode(',', $userid) . ')', 'IN'), 'OR');
@@ -643,26 +642,26 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $criteriaUser->add(new \Criteria('uid', $userid), 'OR');
         }
 
-//        if (is_array($queryArray)) {
-//            $count = count($queryArray);
-//        }
-        if (is_array($queryArray) && count($queryArray) > 0) {
+        //        if (is_array($queryArray)) {
+        //            $count = count($queryArray);
+        //        }
+        if ($queryArray && is_array($queryArray)) {
             $criteriaKeywords = new \CriteriaCompo();
             foreach ($queryArray as $iValue) {
                 $criteriaKeyword = new \CriteriaCompo();
-                if (in_array('title', $searchin)) {
+                if (in_array('title', $searchin, true)) {
                     $criteriaKeyword->add(new \Criteria('title', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
-                if (in_array('subtitle', $searchin)) {
+                if (in_array('subtitle', $searchin, true)) {
                     $criteriaKeyword->add(new \Criteria('subtitle', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
-                if (in_array('body', $searchin)) {
+                if (in_array('body', $searchin, true)) {
                     $criteriaKeyword->add(new \Criteria('body', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
-                if (in_array('summary', $searchin)) {
+                if (in_array('summary', $searchin, true)) {
                     $criteriaKeyword->add(new \Criteria('summary', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
-                if (in_array('meta_keywords', $searchin)) {
+                if (in_array('meta_keywords', $searchin, true)) {
                     $criteriaKeyword->add(new \Criteria('meta_keywords', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
                 $criteriaKeywords->add($criteriaKeyword, $andor);
@@ -710,7 +709,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $order = 'DESC';
         }
         $criteria->setOrder($order);
-        $ret =& $this->getObjects($criteria);
+        $ret = &$this->getObjects($criteria);
 
         return $ret;
     }
@@ -806,7 +805,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function getCountsByCat($catId = 0, $status, $inSubCat = false)
+    public function getCountsByCat($catId, $status, $inSubCat = false)
     {
         //        global $resultCatCounts;
 

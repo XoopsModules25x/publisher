@@ -30,12 +30,12 @@ require_once dirname(__DIR__) . '/include/common.php';
 class FormDateTime extends \XoopsFormElementTray
 {
     /**
-     * @param      $caption
-     * @param      $name
-     * @param int  $size
-     * @param int|bool  $value
-     * @param bool $showtime
-     * @param bool $formatTimestamp
+     * @param          $caption
+     * @param          $name
+     * @param int      $size
+     * @param int|bool $value
+     * @param bool     $showtime
+     * @param bool     $formatTimestamp
      */
     public function __construct($caption, $name, $size = 15, $value = 0, $showtime = true, $formatTimestamp = true)
     {

@@ -148,7 +148,7 @@ if ('go' === $op) {
 
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
-            /** @var  Publisher\Item $itemObj */
+            /** @var Publisher\Item $itemObj */
             $itemObj = $helper->getHandler('Item')->create();
 
             $itemObj->setVars($arrArticle);
@@ -183,7 +183,7 @@ if ('go' === $op) {
                 $filename = $GLOBALS['xoops']->path('uploads/smartsection/' . $arrFile['filename']);
                 if (file_exists($filename)) {
                     if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filename']))) {
-                        /** @var  Publisher\File $fileObj */
+                        /** @var Publisher\File $fileObj */
                         $fileObj = $helper->getHandler('File')->create();
                         $fileObj->setVars($arrFile);
                         $fileObj->setVar('fileid', 0);

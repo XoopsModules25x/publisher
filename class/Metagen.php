@@ -80,7 +80,7 @@ class Metagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        /** @var Publisher\Helper $this->helper */
+        /** @var Publisher\Helper $this ->helper */
         $this->helper = Publisher\Helper::getInstance();
         $this->myts   = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
@@ -197,7 +197,7 @@ class Metagen
             $secondRoundKeywords = explode("'", $originalKeyword);
             foreach ($secondRoundKeywords as $secondRoundKeyword) {
                 if (mb_strlen($secondRoundKeyword) >= $minChar) {
-                    if (!in_array($secondRoundKeyword, $keywords)) {
+                    if (!in_array($secondRoundKeyword, $keywords, true)) {
                         $keywords[] = trim($secondRoundKeyword);
                     }
                 }
@@ -266,7 +266,7 @@ class Metagen
      */
     public static function emptyString($var)
     {
-        return (mb_strlen($var) > 0);
+        return ('' !== $var);
     }
 
     /**

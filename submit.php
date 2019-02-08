@@ -122,7 +122,7 @@ $elements = [
 ];
 foreach ($elements as $element) {
     $classname = Constants::class;
-    if (Request::hasVar($element, 'POST') && !in_array(constant($classname . '::' . 'PUBLISHER_' . mb_strtoupper($element)), $formView)) {
+    if (Request::hasVar($element, 'POST') && !in_array(constant($classname . '::' . 'PUBLISHER_' . mb_strtoupper($element)), $formView, true)) {
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
     }
 }
@@ -188,7 +188,6 @@ switch ($op) {
         exit();
 
         break;
-
     case 'post':
         // Putting the values about the ITEM in the ITEM object
         // print_r($itemObj->getVars());
@@ -240,7 +239,6 @@ switch ($op) {
         redirect_header('index.php', 2, $redirect_msg);
 
         break;
-
     case 'add':
     default:
         $GLOBALS['xoopsOption']['template_main'] = 'publisher_submit.tpl';

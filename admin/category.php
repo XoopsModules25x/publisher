@@ -48,7 +48,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         break;
-
     case 'mod':
         //Added by fx2024
         $nb_subcats = Request::getInt('nb_subcats', 0, 'POST');
@@ -58,7 +57,6 @@ switch ($op) {
         Publisher\Utility::cpHeader();
         Publisher\Utility::editCategory(true, $categoryid, $nb_subcats);
         break;
-
     case 'addcategory':
         global $modify;
 
@@ -156,7 +154,6 @@ switch ($op) {
         //end of fx2024 code
         redirect_header($redirect_to, 2, $redirect_msg);
         break;
-
     //Added by fx2024
 
     case 'addsubcats':

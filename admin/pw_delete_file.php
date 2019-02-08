@@ -34,6 +34,7 @@ if ('delfileok' === Request::getString('op', '', 'POST')) {
 
     $filename  = Request::getString('address', '', 'POST');
     $path_file = realpath($dir . '/' . $filename);
+
     try {
         Assert::startsWith($path_file, $check_path, _AM_PUBLISHER_FILE_DELETE_ERROR);
     }

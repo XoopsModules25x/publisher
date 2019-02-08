@@ -100,7 +100,7 @@
             $('#pub_slideshow1-caption h3').tpl($('ul.pub_slideshow1 a:first').find('img').attr('title'));
 //        $('#pub_slideshow1-caption').find('h3').html($('ul.pub_slideshow1 a:first').find('img').attr('title')); //suggested by PhpStorm
 
-            $('#pub_slideshow1-caption p').tpl($('ul.pub_slideshow1 a:first').find('img').attr('alt'));
+            $('#pub_slideshow1-caption p').html($('ul.pub_slideshow1 a:first').find('img').attr('alt'));
 
             //Display the caption
             $('#pub_slideshow1-caption').css({opacity: 0.7, bottom: 0});

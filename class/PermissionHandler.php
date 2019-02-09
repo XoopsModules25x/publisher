@@ -38,11 +38,14 @@ class PermissionHandler extends \XoopsObjectHandler
      * @var Publisher\Helper
      */
     public $helper;
-
-    public function __construct()
+/**
+* @param null|\XoopsDatabase $db
+* @param null|Publisher\Helper $db
+*/
+    public function __construct(\XoopsDatabase $db = null, $helper = null)
     {
-        /** @var Publisher\Helper $this ->helper */
-        $this->helper = Publisher\Helper::getInstance();
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        $this->helper = $helper;
     }
 
     /**
@@ -65,6 +68,7 @@ class PermissionHandler extends \XoopsObjectHandler
         $criteria->add(new \Criteria('gperm_name', $gpermName));
         $criteria->add(new \Criteria('gperm_itemid', $id));
         //Instead of calling groupperm handler and get objects, we will save some memory and do it our way
+        /** @var \XoopsMySQLDatabase $db */
         $db    = \XoopsDatabaseFactory::getDatabaseConnection();
         $limit = $start = 0;
         $sql   = 'SELECT gperm_groupid FROM ' . $db->prefix('group_permission');

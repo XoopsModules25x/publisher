@@ -37,11 +37,14 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Constructor
      *
-     * @param null|\XoopsDatabase $db reference to a xoopsDB object
+     * @param null|\XoopsDatabase $db
+     * @param null|Publisher\Helper $db
      */
-    public function __construct(\XoopsDatabase $db = null)
+    public function __construct(\XoopsDatabase $db = null, $helper = null)
     {
-        parent::init($db);
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        $this->helper = $helper;
+        $this->db = $db;
         $this->className = Mimetype::class;
     }
 

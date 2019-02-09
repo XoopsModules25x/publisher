@@ -50,8 +50,9 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var Publisher\Helper $this ->helper */
-        $this->helper = Publisher\Helper::getInstance();
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+        /** @var \XoopsDatabase $this->db */
         $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', XOBJ_DTYPE_INT, 0, false);

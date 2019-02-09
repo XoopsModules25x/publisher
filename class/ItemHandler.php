@@ -46,8 +46,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     protected $resultCatCounts = [];
 
     /**
-     * @param null|\XoopsDatabase $db
-     * @param null|Publisher\Helper $db
+     * @param \XoopsDatabase $db
+     * @param null           $helper
      */
     public function __construct(\XoopsDatabase $db = null, $helper = null)
     {

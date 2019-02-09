@@ -60,8 +60,8 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     $tpl->assign('channel_desc', htmlspecialchars($GLOBALS['xoopsConfig']['slogan'], ENT_QUOTES | ENT_HTML5));
     //mb    $tpl->assign('channel_lastbuild', XoopsLocal::formatTimestamp(time(), 'rss'));
     $tpl->assign('channel_lastbuild', formatTimestamp(time(), 'rss'));
-    $tpl->assign('channel_webmaster', $GLOBALS['xoopsConfig']['adminmail'] . "( " . htmlspecialchars($GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES | ENT_HTML5) . " )" );
-    $tpl->assign('channel_editor', $GLOBALS['xoopsConfig']['adminmail'] . "( " . htmlspecialchars($GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES | ENT_HTML5) . " )" );
+    $tpl->assign('channel_webmaster', $GLOBALS['xoopsConfig']['adminmail'] . '( ' . htmlspecialchars($GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES | ENT_HTML5) . ' )');
+    $tpl->assign('channel_editor', $GLOBALS['xoopsConfig']['adminmail'] . '( ' . htmlspecialchars($GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES | ENT_HTML5) . ' )');
 
     if (-1 != $categoryid) {
         $channel_category .= ' > ' . $categoryObj->name();

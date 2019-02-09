@@ -33,8 +33,8 @@ $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = [
     'version'             => '1.07',
-    'module_status'       => 'Beta 1',
-    'release_date'        => '2018/09/21',
+    'module_status'       => 'RC1',
+    'release_date'        => '2019/02/09',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',

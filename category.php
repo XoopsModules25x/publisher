@@ -196,7 +196,7 @@ if (count($itemsObj) > 0) {
         $xoopsTpl->append('items', $item);
     }
 
-    if (isset($lastItemObj[$categoryObj->getVar('categoryid')]) && $lastItemObj[$categoryObj->getVar('categoryid')]) {
+    if (!empty($lastItemObj[$categoryObj->getVar('categoryid')])) {
         $category['last_itemid']     = $lastItemObj[$categoryObj->getVar('categoryid')]->getVar('itemid');
         $category['last_title_link'] = $lastItemObj[$categoryObj->getVar('categoryid')]->getItemLink(false, $lastitemsize);
     }

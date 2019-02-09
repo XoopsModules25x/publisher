@@ -365,7 +365,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         //$clone->setVar('content', $_POST['bcontent']);
         $clone->setVar('title', Request::getString('btitle', '', 'POST'));
         $clone->setVar('bcachetime', $bcachetime);
-        if (null !== $options && is_array($options) && count($options) > 0) {
+        if ($options && is_array($options)) {
             $options = implode('|', $options);
             $clone->setVar('options', $options);
         }

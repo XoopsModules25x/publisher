@@ -156,7 +156,7 @@ if ('go' === $op) {
     $criteria->add(new \Criteria('content_topic', 0));
     $fmContentObjs = $fmContentHdlr->getAll($criteria);
 
-    if (is_array($fmContentObjs) && count($fmContentObjs)) {
+    if ($fmContentObjs && is_array($fmContentObjs) ) {
         ++$cnt_imported_cat; //count category if there was content to import
 
         // create Publsher category to hold FmContent Content items with no Topic (content_topic=0)

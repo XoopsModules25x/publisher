@@ -34,6 +34,8 @@ function getConfig()
     /** @var \XoopsModules\Publisher\Helper $helper */
     $helper = \XoopsModules\Publisher\Helper::getInstance();
 
+    /** @var \XoopsModules\Publisher\CategoryHandler $helper->getHandler('Category')  */
+    /** @var \XoopsModules\Publisher\ItemHandler $helper->getHandler('Item')  */
     return (object)[
         'name'           => mb_strtoupper($moduleDirName) . ' Module Configurator',
         'paths'          => [

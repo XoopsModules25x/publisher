@@ -11,9 +11,9 @@ namespace XoopsModules\Publisher\Common;
 
 trait ModuleStats
 {
-    private $db;
-
     /**
+     * @param \XoopsModules\Publisher\Common\Configurator $configurator
+     * @param array $moduleStats
      * @return array
      */
     public static function getModuleStats($configurator, $moduleStats)

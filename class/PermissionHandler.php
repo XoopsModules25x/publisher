@@ -41,7 +41,7 @@ class PermissionHandler extends \XoopsObjectHandler
 
     /**
      * @param \XoopsDatabase $db
-     * @param null           $helper
+     * @param null|\XoopsModules\Publisher\Helper           $helper
      */
     public function __construct(\XoopsDatabase $db = null, $helper = null)
     {

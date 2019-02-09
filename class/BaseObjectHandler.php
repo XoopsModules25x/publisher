@@ -204,7 +204,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     private function selectQuery(\CriteriaElement $criteria = null)
     {
         $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . '
@@ -226,7 +226,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     public function getCount(\CriteriaElement $criteria = null) //getCount($criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->dbtable);
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {
@@ -276,7 +276,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
         $sql = 'DELETE FROM ' . $this->db->prefix($this->dbtable);
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {
@@ -300,7 +300,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     {
         $setClause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql       = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {

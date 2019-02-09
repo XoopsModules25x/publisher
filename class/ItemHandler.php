@@ -174,7 +174,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $notNullFields = (null !== $notNullFields) ?: '';
 
         $sql = 'SELECT * FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
@@ -229,7 +229,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function getCount(\CriteriaElement $criteria = null, $notNullFields = '')
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();

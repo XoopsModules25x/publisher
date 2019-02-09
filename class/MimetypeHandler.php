@@ -218,7 +218,7 @@ class MimetypeHandler extends BaseObjectHandler
 
         $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
 
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();

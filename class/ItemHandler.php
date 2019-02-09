@@ -274,6 +274,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //                return $ret;
         //            }
         //        }
+        $criteriaCategory = null;
         if (isset($categoryid) && -1 != $categoryid) {
             $criteriaCategory = new \Criteria('categoryid', $categoryid);
         }
@@ -309,7 +310,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function getItemsCount($categoryid = -1, $status = '', $notNullFields = '')
     {
         //        global $publisherIsAdmin;
-        $criteriaPermissions = '';
+        $criteriaPermissions = null;
         if (!$GLOBALS['publisherIsAdmin']) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
@@ -475,7 +476,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function getItems($limit = 0, $start = 0, $status = '', $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $otherCriteria = null, $idKey = 'none')
     {
         //        global $publisherIsAdmin;
-        $criteriaPermissions = '';
+        $criteriaPermissions = null;
         if (!$GLOBALS['publisherIsAdmin']) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access

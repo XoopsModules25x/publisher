@@ -286,13 +286,13 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $criteriaStatus->add(new \Criteria('status', $status), 'OR');
         }
         $criteria = new \CriteriaCompo();
-        if (!empty($criteriaCategory)) {
+        if (null !== $criteriaCategory) {
             $criteria->add($criteriaCategory);
         }
-        if (!empty($criteriaPermissions)) {
+        if (null !== $criteriaPermissions) {
             $criteria->add($criteriaPermissions);
         }
-        if (!empty($criteriaStatus)) {
+        if (null !== $criteriaStatus) {
             $criteria->add($criteriaStatus);
         }
 
@@ -687,16 +687,16 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $criteriaItemsStatus = new \CriteriaCompo();
         $criteriaItemsStatus->add(new \Criteria('status', Constants::PUBLISHER_STATUS_PUBLISHED));
         $criteria = new \CriteriaCompo();
-        if (!empty($criteriaUser)) {
+        if (null !== $criteriaUser) {
             $criteria->add($criteriaUser, 'AND');
         }
-        if (!empty($criteriaKeywords)) {
+        if (null !== $criteriaKeywords) {
             $criteria->add($criteriaKeywords, 'AND');
         }
-        if (!empty($criteriaPermissions)) {
+        if (null !== $criteriaPermissions) {
             $criteria->add($criteriaPermissions);
         }
-        if (!empty($criteriaItemsStatus)) {
+        if (null !== $criteriaItemsStatus) {
             $criteria->add($criteriaItemsStatus, 'AND');
         }
         $criteria->setLimit($limit);

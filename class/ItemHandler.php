@@ -46,13 +46,14 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     protected $resultCatCounts = [];
 
     /**
-     * @param null|\XoopsDatabase $db
+     * @param \XoopsDatabase $db
+     * @param null|\XoopsModules\Publisher\Helper           $helper
      */
-    public function __construct(\XoopsDatabase $db = null)
+    public function __construct(\XoopsDatabase $db = null, $helper = null)
     {
-        /** @var Publisher\Helper $this ->helper */
+        /** @var Publisher\Helper $this->helper */
+        $this->helper = $helper;
         parent::__construct($db, 'publisher_items', Item::class, 'itemid', 'title');
-        $this->helper = Publisher\Helper::getInstance();
     }
 
     /**
@@ -174,7 +175,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $notNullFields = (null !== $notNullFields) ?: '';
 
         $sql = 'SELECT * FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
@@ -229,7 +230,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function getCount(\CriteriaElement $criteria = null, $notNullFields = '')
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
@@ -273,6 +274,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //                return $ret;
         //            }
         //        }
+        $criteriaCategory = null;
         if (isset($categoryid) && -1 != $categoryid) {
             $criteriaCategory = new \Criteria('categoryid', $categoryid);
         }
@@ -285,13 +287,13 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $criteriaStatus->add(new \Criteria('status', $status), 'OR');
         }
         $criteria = new \CriteriaCompo();
-        if (!empty($criteriaCategory)) {
+        if (null !== $criteriaCategory) {
             $criteria->add($criteriaCategory);
         }
-        if (!empty($criteriaPermissions)) {
+        if (null !== $criteriaPermissions) {
             $criteria->add($criteriaPermissions);
         }
-        if (!empty($criteriaStatus)) {
+        if (null !== $criteriaStatus) {
             $criteria->add($criteriaStatus);
         }
 
@@ -308,7 +310,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function getItemsCount($categoryid = -1, $status = '', $notNullFields = '')
     {
         //        global $publisherIsAdmin;
-        $criteriaPermissions = '';
+        $criteriaPermissions = null;
         if (!$GLOBALS['publisherIsAdmin']) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
@@ -474,7 +476,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function getItems($limit = 0, $start = 0, $status = '', $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $otherCriteria = null, $idKey = 'none')
     {
         //        global $publisherIsAdmin;
-        $criteriaPermissions = '';
+        $criteriaPermissions = null;
         if (!$GLOBALS['publisherIsAdmin']) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
@@ -626,7 +628,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //        global $publisherIsAdmin;
         $count = 0;
         $ret   = [];
-        /* @var  $grouppermHandler \XoopsGroupPermHandler */
+        /* @var  \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         $groups           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $searchin         = empty($searchin) ? ['title', 'body', 'summary'] : (is_array($searchin) ? $searchin : [$searchin]);
@@ -686,16 +688,16 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $criteriaItemsStatus = new \CriteriaCompo();
         $criteriaItemsStatus->add(new \Criteria('status', Constants::PUBLISHER_STATUS_PUBLISHED));
         $criteria = new \CriteriaCompo();
-        if (!empty($criteriaUser)) {
+        if (null !== $criteriaUser) {
             $criteria->add($criteriaUser, 'AND');
         }
-        if (!empty($criteriaKeywords)) {
+        if (null !== $criteriaKeywords) {
             $criteria->add($criteriaKeywords, 'AND');
         }
-        if (!empty($criteriaPermissions)) {
+        if (null !== $criteriaPermissions) {
             $criteria->add($criteriaPermissions);
         }
-        if (!empty($criteriaItemsStatus)) {
+        if (null !== $criteriaItemsStatus) {
             $criteria->add($criteriaItemsStatus, 'AND');
         }
         $criteria->setLimit($limit);

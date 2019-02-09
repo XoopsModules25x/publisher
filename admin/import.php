@@ -41,7 +41,7 @@ switch ($op) {
         Publisher\Utility::openCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
 
         xoops_load('XoopsFormLoader');
-        /* @var  $moduleHandler \XoopsModuleHandler */
+        /* @var  \XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
 
         // WF-Section

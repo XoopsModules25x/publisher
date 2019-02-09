@@ -35,7 +35,7 @@ $categoryid    = Request::getInt('categoryid');
 switch ($op) {
     case 'del':
         $categoryObj = $helper->getHandler('Category')->get($categoryid);
-        $confirm     = Request::getInt('confirm', '', 'POST');
+        $confirm     = Request::getString('confirm', '', 'POST');
         $name        = Request::getString('name', '', 'POST');
         if ($confirm) {
             if (!$helper->getHandler('Category')->delete($categoryObj)) {

@@ -49,13 +49,13 @@ class CategoryForm extends \XoopsThemeForm
     public $userGroups = [];
 
     /**
-     * @param     $target
+     * @param  \XoopsModules\Publisher\Category   $target
      * @param int $subCatsCount
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
-        /** @var Publisher\Helper $this ->helper */
-        $this->helper = Publisher\Helper::getInstance();
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
 
         $this->targetObject = &$target;
         $this->subCatsCount = $subCatsCount;
@@ -169,7 +169,7 @@ class CategoryForm extends \XoopsThemeForm
 
         // Added by skalpa: custom template support
         //todo, check this
-        $this->addElement(new \XoopsFormText('Custom template', 'template', 50, 255, $this->targetObject->template('e')), false);
+        $this->addElement(new \XoopsFormText('Custom template', 'template', 50, 255, $this->targetObject->getTemplate('e')), false);
 
         // READ PERMISSIONS
         $readPermissionsTray   = new \XoopsFormElementTray(_AM_PUBLISHER_PERMISSIONS_CAT_READ, '');

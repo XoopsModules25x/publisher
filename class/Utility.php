@@ -32,9 +32,11 @@ class Utility
 {
     use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
 
-    use Common\ServerStats; // getServerStats Trait
+    use Common\ServerStats; // ServerStats Trait
 
     use Common\FilesManagement; // Files Management Trait
+
+    use Common\ModuleStats; // ModuleStats Trait
 
     //--------------- Custom module methods -----------------------------
 
@@ -226,7 +228,7 @@ class Utility
         $helper = Publisher\Helper::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
-        /* @var  $categoryObj Publisher\Category */
+        /* @var  Publisher\Category $categoryObj */
         if (0 != $categoryId) {
             // Creating the category object for the selected category
             $categoryObj = $helper->getHandler('Category')->get($categoryId);
@@ -741,7 +743,7 @@ class Utility
         $result = true;
 
         $moduleId = $helper->getModule()->getVar('mid');
-        /* @var  $grouppermHandler \XoopsGroupPermHandler */
+        /* @var  \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $grouppermHandler->deleteByModule($moduleId, $permName, $categoryId);
@@ -1251,7 +1253,7 @@ class Utility
             $rating2     = number_format($currentRating / $count, 2);
         }
         $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        /* @var $grouppermHandler GroupPermHandler */
+        /* @var GroupPermHandler $grouppermHandler */
         $grouppermHandler = $helper->getHandler('GroupPerm');
 
         if (!$grouppermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {

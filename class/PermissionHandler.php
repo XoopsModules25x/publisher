@@ -39,10 +39,14 @@ class PermissionHandler extends \XoopsObjectHandler
      */
     public $helper;
 
-    public function __construct()
+    /**
+     * @param \XoopsDatabase $db
+     * @param null|\XoopsModules\Publisher\Helper           $helper
+     */
+    public function __construct(\XoopsDatabase $db = null, $helper = null)
     {
-        /** @var Publisher\Helper $this ->helper */
-        $this->helper = Publisher\Helper::getInstance();
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        $this->helper = $helper;
     }
 
     /**
@@ -65,10 +69,11 @@ class PermissionHandler extends \XoopsObjectHandler
         $criteria->add(new \Criteria('gperm_name', $gpermName));
         $criteria->add(new \Criteria('gperm_itemid', $id));
         //Instead of calling groupperm handler and get objects, we will save some memory and do it our way
+        /** @var \XoopsMySQLDatabase $db */
         $db    = \XoopsDatabaseFactory::getDatabaseConnection();
         $limit = $start = 0;
         $sql   = 'SELECT gperm_groupid FROM ' . $db->prefix('group_permission');
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql   .= ' ' . $criteria->renderWhere();
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
@@ -153,7 +158,7 @@ class PermissionHandler extends \XoopsObjectHandler
     {
         $result   = true;
         $moduleId = $this->helper->getModule()->getVar('mid');
-        /* @var  $grouppermHandler \XoopsGroupPermHandler */
+        /* @var  \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $grouppermHandler->deleteByModule($moduleId, $permName, $itemId);

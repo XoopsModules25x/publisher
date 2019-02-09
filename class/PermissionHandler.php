@@ -158,7 +158,7 @@ class PermissionHandler extends \XoopsObjectHandler
     {
         $result   = true;
         $moduleId = $this->helper->getModule()->getVar('mid');
-        /* @var  $grouppermHandler \XoopsGroupPermHandler */
+        /* @var  \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $grouppermHandler->deleteByModule($moduleId, $permName, $itemId);

@@ -305,7 +305,7 @@ class Category extends \XoopsObject
         $tags['MODULE_NAME']   = $this->helper->getModule()->getVar('name');
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = $this->getCategoryUrl();
-        /* @var  $notificationHandler \XoopsNotificationHandler */
+        /* @var  \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = xoops_getHandler('notification');
         $notificationHandler->triggerEvent('global_item', 0, 'category_created', $tags);
     }

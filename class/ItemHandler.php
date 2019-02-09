@@ -627,7 +627,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //        global $publisherIsAdmin;
         $count = 0;
         $ret   = [];
-        /* @var  $grouppermHandler \XoopsGroupPermHandler */
+        /* @var  \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         $groups           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $searchin         = empty($searchin) ? ['title', 'body', 'summary'] : (is_array($searchin) ? $searchin : [$searchin]);

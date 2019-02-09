@@ -147,7 +147,7 @@ class Category extends \XoopsObject
      *
      * @return mixed
      */
-    public function template($format = 'n')
+    public function getTemplate($format = 'n')
     {
         return $this->getVar('template', $format);
     }

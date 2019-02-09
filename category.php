@@ -53,7 +53,8 @@ if (!isset($totalItems[$categoryid]) || 0 == $totalItems[$categoryid]) {
 }
 
 // Added by skalpa: custom template support
-$GLOBALS['xoopsOption']['template_main'] = $categoryObj->template();
+/** @var Publisher\Category $categoryObj */
+$GLOBALS['xoopsOption']['template_main'] = $categoryObj->getTemplate();
 if (empty($GLOBALS['xoopsOption']['template_main'])) {
     $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
 }

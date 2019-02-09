@@ -169,7 +169,7 @@ class CategoryForm extends \XoopsThemeForm
 
         // Added by skalpa: custom template support
         //todo, check this
-        $this->addElement(new \XoopsFormText('Custom template', 'template', 50, 255, $this->targetObject->template('e')), false);
+        $this->addElement(new \XoopsFormText('Custom template', 'template', 50, 255, $this->targetObject->getTemplate('e')), false);
 
         // READ PERMISSIONS
         $readPermissionsTray   = new \XoopsFormElementTray(_AM_PUBLISHER_PERMISSIONS_CAT_READ, '');

@@ -274,7 +274,7 @@ class Metagen
      *
      * @credit psylove
      *
-     * @param string $title   title of the article
+     * @param string|array $title   title of the article
      * @param bool   $withExt do we add an html extension or not
      *
      * @return string short url for article
@@ -342,7 +342,7 @@ class Metagen
         $tableau = explode('-', $title); // Transforms the string in table //Transforme la chaine de caractères en tableau
         $tableau = array_filter($tableau, ['Metagen', 'emptyString']); // Remove empty strings of the table //Supprime les chaines vides du tableau
         $title   = implode('-', $tableau); // Transforms a character string in table separated by a hyphen //Transforme un tableau en chaine de caractères séparé par un tiret
-        if (count($title) > 0) {
+        if ($title && is_array($title)) {
             if ($withExt) {
                 $title .= '.html';
             }

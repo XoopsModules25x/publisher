@@ -24,7 +24,6 @@ trait ModuleStats
             }
         }
 
-        //print_r($moduleStats);
         return $moduleStats;
     }
 }

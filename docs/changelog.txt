@@ -1,3 +1,7 @@
+<h5>1.07 RC1       [2019-02-09]</h5>  Dev: XOOPS 2.5.10, PHP 7.2.8
+<hr>
+- added Resizer class for image upload (goffy)
+
 <h5>1.06 Final       [2018-08-01]</h5>  Dev: XOOPS 2.5.9, PHP 7.2.8
 <hr>
 - cosmetics (mamba)

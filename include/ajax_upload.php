@@ -65,7 +65,8 @@ if (!is_object($imgcat)) {
 
 if (false === $error) {
     xoops_load('XoopsMediaUploader');
-    $uploader = new \XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'], $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
+    // upload image according to module preferences and resize later to max size of selected image cat
+    $uploader = new \XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'], $helper->getConfig('maximum_filesize'), $helper->getConfig('maximum_image_width'), $helper->getConfig('maximum_image_height'));
     $uploader->setPrefix('img');
     if ($uploader->fetchMedia('publisher_upload_file')) {
         if (!$uploader->upload()) {
@@ -73,9 +74,11 @@ if (false === $error) {
         } else {
             $imageHandler = xoops_getHandler('image');
             $image        = $imageHandler->create();
-            $image->setVar('image_name', 'images/' . $uploader->getSavedFileName());
+            $savedFilename = $uploader->getSavedFileName();
+            $imageMimetype = $uploader->getMediaType();
+            $image->setVar('image_name', 'images/' . $savedFilename);
             $image->setVar('image_nicename', $image_nicename);
-            $image->setVar('image_mimetype', $uploader->getMediaType());
+            $image->setVar('image_mimetype', $imageMimetype);
             $image->setVar('image_created', time());
             $image->setVar('image_display', 1);
             $image->setVar('image_weight', 0);
@@ -88,6 +91,24 @@ if (false === $error) {
                 if (file_exists($uploader->getSavedDestination())) {
                     unlink($uploader->getSavedDestination());
                 }
+            } else {
+                
+
+                $maxwidth = $imgcat->getVar('imgcat_maxwidth');
+                $maxheight = $imgcat->getVar('imgcat_maxheight');
+                $imgHandler                = new Publisher\Resizer();
+                $imgHandler->sourceFile    = $uploader->getSavedDestination();
+                $imgHandler->endFile       = $uploader->getSavedDestination();
+                $imgHandler->imageMimetype = $imageMimetype;
+                $imgHandler->maxWidth      = $maxwidth;
+                $imgHandler->maxHeight     = $maxheight;
+                $result                    = $imgHandler->resizeImage();
+                
+                
+                
+                
+                
+                
             }
             if (!$imageHandler->insert($image)) {
                 $error = sprintf(_FAILSAVEIMG, $image->getVar('image_nicename'));

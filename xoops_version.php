@@ -1193,7 +1193,7 @@ $modversion['config'][] = [
     'description' => '_MI_PUBLISHER_MAX_SIZEDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => '1000000',
+    'default'     => '10485760', //10MB
 ];
 
 $modversion['config'][] = [
@@ -1202,7 +1202,7 @@ $modversion['config'][] = [
     'description' => '_MI_PUBLISHER_MAX_WIDTHDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => '800',
+    'default'     => '8000',
 ];
 
 $modversion['config'][] = [
@@ -1211,7 +1211,7 @@ $modversion['config'][] = [
     'description' => '_MI_PUBLISHER_MAX_HEIGHTDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => '800',
+    'default'     => '8000',
 ];
 
 ########### ADDED in final #############

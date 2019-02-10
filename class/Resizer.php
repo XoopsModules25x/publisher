@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Wggallery;
+namespace XoopsModules\Publisher;
 
 /*
  You may not change or alter any portion of this comment or credits

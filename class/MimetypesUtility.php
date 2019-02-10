@@ -23,8 +23,8 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
 use Xmf\Request;
+use XoopsModules\Publisher;
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -782,4 +782,3 @@ class MimetypesUtility
         header('Location: ' . Publisher\Utility::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', ['op' => 'edit', 'id' => $mimeid], false));
     }
 }
-

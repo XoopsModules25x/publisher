@@ -60,7 +60,7 @@ function publisher_latest_news_show($options)
     $allcats = false;
     if (!isset($options[29])) {
         $allcats = true;
-    } elseif (in_array(0, explode(',', $options[29]))) {
+    } elseif (in_array(0, explode(',', $options[29]), true)) {
         $allcats = true;
     }
 

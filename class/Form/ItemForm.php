@@ -115,7 +115,7 @@ class ItemForm extends Publisher\ThemeTabForm
      */
     public function hasTab($tab)
     {
-        if (!isset($tab) || !isset($this->tabs[$tab])) {
+        if (!isset($tab, $this->tabs[$tab])) {
             return false;
         }
 
@@ -195,7 +195,7 @@ class ItemForm extends Publisher\ThemeTabForm
                     $editor = (null !== $GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
-            $editor = (empty($editor) || !in_array($editor, $allowedEditors)) ? $helper->getConfig('submit_editor') : $editor;
+            $editor = (empty($editor) || !in_array($editor, $allowedEditors, true)) ? $helper->getConfig('submit_editor') : $editor;
 
             $formEditor = new \XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowedEditors);
             $this->addElement($formEditor);
@@ -601,22 +601,22 @@ $publisher(document).ready(function () {
 
         //COMMON TO ALL TABS
 
-        $button_tray = new \XoopsFormElementTray('', '');
+        $buttonTray = new \XoopsFormElementTray('', '');
 
         if (!$obj->isNew()) {
-            $button_tray->addElement(new \XoopsFormButton('', 'additem', _SUBMIT, 'submit')); //orclone
+            $buttonTray->addElement(new \XoopsFormButton('', 'additem', _SUBMIT, 'submit')); //orclone
         } else {
-            $button_tray->addElement(new \XoopsFormButton('', 'additem', _CO_PUBLISHER_CREATE, 'submit'));
-            $button_tray->addElement(new \XoopsFormButton('', '', _CO_PUBLISHER_CLEAR, 'reset'));
+            $buttonTray->addElement(new \XoopsFormButton('', 'additem', _CO_PUBLISHER_CREATE, 'submit'));
+            $buttonTray->addElement(new \XoopsFormButton('', '', _CO_PUBLISHER_CLEAR, 'reset'));
         }
 
-        $button_tray->addElement(new \XoopsFormButton('', 'preview', _CO_PUBLISHER_PREVIEW, 'submit'));
+        $buttonTray->addElement(new \XoopsFormButton('', 'preview', _CO_PUBLISHER_PREVIEW, 'submit'));
 
         $butt_cancel = new \XoopsFormButton('', '', _CO_PUBLISHER_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');
-        $button_tray->addElement($butt_cancel);
+        $buttonTray->addElement($butt_cancel);
 
-        $this->addElement($button_tray);
+        $this->addElement($buttonTray);
 
         $hidden = new \XoopsFormHidden('itemid', $obj->itemid());
         $this->addElement($hidden);

@@ -76,6 +76,7 @@ if ('start' === $op) {
             $imagecategory->setVar('imgcat_weight', 0); //$imgcat_weight);
             $imagecategory->setVar('imgcat_storetype', 'file'); //$imgcat_storetype);
             $imagecategory->setVar('imgcat_type', 'C');
+
             try {
                 $imageCategoryHandler->insert($imagecategory);
             }
@@ -88,7 +89,7 @@ if ('start' === $op) {
             if (!isset($readgroup)) {
                 $readgroup = [];
             }
-            if (!in_array(XOOPS_GROUP_ADMIN, $readgroup)) {
+            if (!in_array(XOOPS_GROUP_ADMIN, $readgroup, true)) {
                 $readgroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($readgroup as $rgroup) {
@@ -105,7 +106,7 @@ if ('start' === $op) {
             if (!isset($writegroup)) {
                 $writegroup = [];
             }
-            if (!in_array(XOOPS_GROUP_ADMIN, $writegroup)) {
+            if (!in_array(XOOPS_GROUP_ADMIN, $writegroup, true)) {
                 $writegroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($writegroup as $wgroup) {
@@ -164,11 +165,11 @@ if ('go' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
     Publisher\Utility::openCollapsableBar('xnewsimportgo', 'xnewsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /* @var  $moduleHandler XoopsModuleHandler */
+    /* @var  XoopsModuleHandler $moduleHandler */
     $moduleHandler   = xoops_getHandler('module');
     $moduleObj       = $moduleHandler->getByDirname('xnews');
     $xnews_module_id = $moduleObj->getVar('mid');
-    /* @var  $grouppermHandler XoopsGroupPermHandler */
+    /* @var  XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
@@ -182,7 +183,7 @@ if ('go' === $op) {
 
     $newCatArray     = [];
     $newArticleArray = [];
-    /* @var  $imageCategoryHandler XoopsImagecategoryHandler */
+    /* @var  XoopsImagecategoryHandler $imageCategoryHandler */
     $imageCategoryHandler = xoops_getHandler('imagecategory');
     //    $criteria = new \CriteriaCombo;
 
@@ -217,7 +218,7 @@ if ('go' === $op) {
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
 
-        /* @var  $categoryObj Publisher\Category */
+        /* @var  Publisher\Category $categoryObj */
         $categoryObj = $helper->getHandler('Category')->create();
 
         $categoryObj->setVar('parentid', $arrCat['topic_pid']);
@@ -292,7 +293,7 @@ if ('go' === $op) {
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
 
-            /** @var  Publisher\Item $itemObj */
+            /** @var Publisher\Item $itemObj */
             $itemObj = $helper->getHandler('Item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
@@ -355,7 +356,7 @@ if ('go' === $op) {
                 $filename = $GLOBALS['xoops']->path('uploads/xnews/attached/' . $arrFile['downloadname']);
                 if (file_exists($filename)) {
                     if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
-                        /* @var  $fileObj Publisher\File */
+                        /* @var  Publisher\File $fileObj */
                         $fileObj = $helper->getHandler('File')->create();
                         $fileObj->setVar('name', $arrFile['filerealname']);
                         $fileObj->setVar('description', $arrFile['filerealname']);
@@ -416,12 +417,12 @@ if ('go' === $op) {
 
     $publisher_module_id = $helper->getModule()->mid();
 
-    /* @var  $commentHandler XoopsCommentHandler */
+    /* @var  XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
     $criteria->add(new \Criteria('com_modid', $xnews_module_id));
     $comments = $commentHandler->getObjects($criteria);
-    /* @var  $comment XoopsComment */
+    /* @var  XoopsComment $comment */
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);

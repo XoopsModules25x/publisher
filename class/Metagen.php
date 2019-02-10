@@ -81,7 +81,7 @@ class Metagen
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
         /** @var Publisher\Helper $this->helper */
-        $this->helper = Publisher\Helper::getInstance();
+        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         $this->myts   = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
         $this->setTitle($title);
@@ -197,7 +197,7 @@ class Metagen
             $secondRoundKeywords = explode("'", $originalKeyword);
             foreach ($secondRoundKeywords as $secondRoundKeyword) {
                 if (mb_strlen($secondRoundKeyword) >= $minChar) {
-                    if (!in_array($secondRoundKeyword, $keywords)) {
+                    if (!in_array($secondRoundKeyword, $keywords, true)) {
                         $keywords[] = trim($secondRoundKeyword);
                     }
                 }
@@ -266,7 +266,7 @@ class Metagen
      */
     public static function emptyString($var)
     {
-        return (mb_strlen($var) > 0);
+        return ('' !== $var);
     }
 
     /**
@@ -274,7 +274,7 @@ class Metagen
      *
      * @credit psylove
      *
-     * @param string $title   title of the article
+     * @param string|array $title   title of the article
      * @param bool   $withExt do we add an html extension or not
      *
      * @return string short url for article
@@ -342,7 +342,7 @@ class Metagen
         $tableau = explode('-', $title); // Transforms the string in table //Transforme la chaine de caractères en tableau
         $tableau = array_filter($tableau, ['Metagen', 'emptyString']); // Remove empty strings of the table //Supprime les chaines vides du tableau
         $title   = implode('-', $tableau); // Transforms a character string in table separated by a hyphen //Transforme un tableau en chaine de caractères séparé par un tiret
-        if (count($title) > 0) {
+        if ($title && is_array($title)) {
             if ($withExt) {
                 $title .= '.html';
             }

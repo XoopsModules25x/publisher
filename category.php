@@ -53,7 +53,8 @@ if (!isset($totalItems[$categoryid]) || 0 == $totalItems[$categoryid]) {
 }
 
 // Added by skalpa: custom template support
-$GLOBALS['xoopsOption']['template_main'] = $categoryObj->template();
+/** @var Publisher\Category $categoryObj */
+$GLOBALS['xoopsOption']['template_main'] = $categoryObj->getTemplate();
 if (empty($GLOBALS['xoopsOption']['template_main'])) {
     $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
 }
@@ -69,32 +70,26 @@ switch ($helper->getConfig('format_order_by')) {
         $sort  = 'title';
         $order = 'ASC';
         break;
-
     case 'date':
         $sort  = 'datesub';
         $order = 'DESC';
         break;
-
     case 'counter':
         $sort  = 'counter';
         $order = 'DESC';
         break;
-
     case 'rating':
         $sort  = 'rating';
         $order = 'DESC';
         break;
-
     case 'votes':
         $sort  = 'votes';
         $order = 'DESC';
         break;
-
     case 'comments':
         $sort  = 'comments';
         $order = 'DESC';
         break;
-
     default:
         $sort  = 'weight';
         $order = 'ASC';
@@ -201,7 +196,7 @@ if (count($itemsObj) > 0) {
         $xoopsTpl->append('items', $item);
     }
 
-    if (isset($lastItemObj[$categoryObj->getVar('categoryid')]) && $lastItemObj[$categoryObj->getVar('categoryid')]) {
+    if (!empty($lastItemObj[$categoryObj->getVar('categoryid')])) {
         $category['last_itemid']     = $lastItemObj[$categoryObj->getVar('categoryid')]->getVar('itemid');
         $category['last_title_link'] = $lastItemObj[$categoryObj->getVar('categoryid')]->getItemLink(false, $lastitemsize);
     }

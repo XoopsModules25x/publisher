@@ -13,7 +13,6 @@
  * @link            https://www.xoops.org
  * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  */
-
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
 $moduleDirName      = basename(dirname(__DIR__));
@@ -32,13 +31,13 @@ $side_select->addOptionArray([
                                  5 => _AM_SYSTEM_BLOCKS_CBCENTER,
                                  7 => _AM_SYSTEM_BLOCKS_CBBOTTOMLEFT,
                                  8 => _AM_SYSTEM_BLOCKS_CBBOTTOMRIGHT,
-                                 9 => _AM_SYSTEM_BLOCKS_CBBOTTOM
+                                 9 => _AM_SYSTEM_BLOCKS_CBBOTTOM,
                              ]);
 $form->addElement($side_select);
 $form->addElement(new \XoopsFormText(constant('CO_' . $moduleDirNameUpper . '_' . 'WEIGHT'), 'bweight', 2, 5, $block['weight']));
 $form->addElement(new \XoopsFormRadioYN(constant('CO_' . $moduleDirNameUpper . '_' . 'VISIBLE'), 'bvisible', $block['visible']));
 $mod_select = new \XoopsFormSelect(constant('CO_' . $moduleDirNameUpper . '_' . 'VISIBLEIN'), 'bmodule', $block['modules'], 5, true);
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $criteria      = new \CriteriaCompo(new \Criteria('hasmain', 1));
 $criteria->add(new \Criteria('isactive', 1));
@@ -58,7 +57,7 @@ if ($block['is_custom']) {
                                       'H' => _AM_SYSTEM_BLOCKS_HTML,
                                       'P' => _AM_SYSTEM_BLOCKS_PHP,
                                       'S' => _AM_SYSTEM_BLOCKS_AFWSMILE,
-                                      'T' => _AM_SYSTEM_BLOCKS_AFNOSMILE
+                                      'T' => _AM_SYSTEM_BLOCKS_AFNOSMILE,
                                   ]);
     $form->addElement($ctype_select);
 } else {
@@ -91,7 +90,7 @@ $cache_select->addOptionArray([
                                   '86400'   => _DAY,
                                   '259200'  => sprintf(_DAYS, 3),
                                   '604800'  => _WEEK,
-                                  '2592000' => _MONTH
+                                  '2592000' => _MONTH,
                               ]);
 $form->addElement($cache_select);
 
@@ -106,18 +105,18 @@ if (isset($block['bid'])) {
 }
 $form->addElement(new \XoopsFormHidden('op', $block['op']));
 $form->addElement(new \XoopsFormHidden('fct', 'blocksadmin'));
-$button_tray = new \XoopsFormElementTray('', '&nbsp;');
+$buttonTray = new \XoopsFormElementTray('', '&nbsp;');
 if ($block['is_custom']) {
-    $button_tray->addElement(new \XoopsFormButton('', 'previewblock', _PREVIEW, 'submit'));
+    $buttonTray->addElement(new \XoopsFormButton('', 'previewblock', _PREVIEW, 'submit'));
 }
 
 //Submit buttons
-$button_tray   = new \XoopsFormElementTray('', '');
+$buttonTray    = new \XoopsFormElementTray('', '');
 $submit_button = new \XoopsFormButton('', 'submitblock', _SUBMIT, 'submit');
-$button_tray->addElement($submit_button);
+$buttonTray->addElement($submit_button);
 
 $cancel_button = new \XoopsFormButton('', '', _CANCEL, 'button');
 $cancel_button->setExtra('onclick="history.go(-1)"');
-$button_tray->addElement($cancel_button);
+$buttonTray->addElement($cancel_button);
 
-$form->addElement($button_tray);
+$form->addElement($buttonTray);

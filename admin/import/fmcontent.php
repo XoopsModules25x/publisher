@@ -39,7 +39,7 @@ if ('start' === $op) {
     Publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Publisher\Utility::openCollapsableBar('fmimport', 'fmimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
-    /* @var  $moduleHandler XoopsModuleHandler */
+    /* @var  XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('fmcontent');
     $fm_module_id  = $moduleObj->getVar('mid');
@@ -140,7 +140,7 @@ if ('go' === $op) {
     $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('fmcontent');
     $fm_module_id  = $moduleObj->getVar('mid');
-    /* @var  $grouppermHandler XoopsGroupPermHandler */
+    /* @var  XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
@@ -156,11 +156,11 @@ if ('go' === $op) {
     $criteria->add(new \Criteria('content_topic', 0));
     $fmContentObjs = $fmContentHdlr->getAll($criteria);
 
-    if (is_array($fmContentObjs) && count($fmContentObjs)) {
+    if ($fmContentObjs && is_array($fmContentObjs) ) {
         ++$cnt_imported_cat; //count category if there was content to import
 
         // create Publsher category to hold FmContent Content items with no Topic (content_topic=0)
-        /* @var  $categoryObj Publisher\Category */
+        /* @var  Publisher\Category $categoryObj */
         $categoryObj = $helper->getHandler('Category')->create();
         $categoryObj->setVars([
                                   'parentid'    => $parentId,
@@ -171,7 +171,7 @@ if ('go' === $op) {
                                   'weight'      => 1,
                                   'created'     => time(),
                                   'moderator',
-                                  $GLOBALS['xoopsUser']->getVar('uid')
+                                  $GLOBALS['xoopsUser']->getVar('uid'),
                               ]);
         $categoryObj->store();
 
@@ -199,13 +199,13 @@ if ('go' === $op) {
                                   'votes'            => 0,
                                   'comments'         => $thisFmContentObj->getVar('content_comments'),
                                   'meta_keywords'    => $thisFmContentObj->getVar('content_words'),
-                                  'meta_description' => $thisFmContentObj->getVar('content_desc')
+                                  'meta_description' => $thisFmContentObj->getVar('content_desc'),
                               ]);
             $contentImg = $thisFmContentObj->getVar('content_img');
             if (!empty($contentImg)) {
                 $itemObj->setVars([
                                       'images' => 1,
-                                      'image'  => $thisFmContentObj->getVar('content_img')
+                                      'image'  => $thisFmContentObj->getVar('content_img'),
                                   ]);
             }
 
@@ -239,7 +239,7 @@ if ('go' === $op) {
     foreach ($fmTopicObjs as $thisFmTopicObj) {
         $CatIds = [
             'oldid'  => $thisFmTopicObj->getVar('topic_id'),
-            'oldpid' => $thisFmTopicObj->getVar('topic_pid')
+            'oldpid' => $thisFmTopicObj->getVar('topic_pid'),
         ];
 
         $categoryObj = $helper->getHandler('Category')->create();
@@ -248,7 +248,7 @@ if ('go' === $op) {
                                   'parentid'    => $thisFmTopicObj->getVar('topic_pid'),
                                   'weight'      => $thisFmTopicObj->getVar('topic_weight'),
                                   'name'        => $thisFmTopicObj->getVar('topic_title'),
-                                  'description' => $thisFmTopicObj->getVar('topic_desc')
+                                  'description' => $thisFmTopicObj->getVar('topic_desc'),
                               ]);
 
         // Category image
@@ -296,7 +296,7 @@ if ('go' === $op) {
                                   'votes'            => 0,
                                   'comments'         => $thisFmContentObj->getVar('content_comments'),
                                   'meta_keywords'    => $thisFmContentObj->getVar('content_words'),
-                                  'meta_description' => $thisFmContentObj->getVar('content_desc')
+                                  'meta_description' => $thisFmContentObj->getVar('content_desc'),
                               ]);
             $contentImg = $thisFmContentObj->getVar('content_img');
             if (!empty($contentImg)) {

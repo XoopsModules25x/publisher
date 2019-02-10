@@ -32,9 +32,11 @@ class Utility
 {
     use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
 
-    use Common\ServerStats; // getServerStats Trait
+    use Common\ServerStats; // ServerStats Trait
 
     use Common\FilesManagement; // Files Management Trait
+
+    use Common\ModuleStats; // ModuleStats Trait
 
     //--------------- Custom module methods -----------------------------
 
@@ -226,7 +228,7 @@ class Utility
         $helper = Publisher\Helper::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
-        /* @var  $categoryObj Publisher\Category */
+        /* @var  Publisher\Category $categoryObj */
         if (0 != $categoryId) {
             // Creating the category object for the selected category
             $categoryObj = $helper->getHandler('Category')->get($categoryId);
@@ -341,7 +343,6 @@ class Utility
         }
         //end of fx2024 code
     }
-
 
     //======================== FUNCTIONS =================================
 
@@ -499,6 +500,7 @@ class Utility
         if (!$withLink) {
             return $helper->getModule()->getVar('name');
         }
+
         return '<a href="' . PUBLISHER_URL . '/">' . $helper->getModule()->getVar('name') . '</a>';
     }
 
@@ -576,6 +578,7 @@ class Utility
         if (!$getStatus) {
             return $pathStatus;
         }
+
         return $pathCheckResult;
     }
 
@@ -639,6 +642,7 @@ class Utility
         if ($hasPath) {
             return PUBLISHER_UPLOAD_PATH . '/' . $item;
         }
+
         return PUBLISHER_UPLOAD_URL . '/' . $item;
     }
 
@@ -720,7 +724,7 @@ class Utility
         $helper            = Publisher\Helper::getInstance();
         $categoriesGranted = $helper->getHandler('Permission')->getGrantedItems('category_moderation');
 
-        return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted));
+        return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted, true));
     }
 
     /**
@@ -739,7 +743,7 @@ class Utility
         $result = true;
 
         $moduleId = $helper->getModule()->getVar('mid');
-        /* @var  $grouppermHandler \XoopsGroupPermHandler */
+        /* @var  \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $grouppermHandler->deleteByModule($moduleId, $permName, $categoryId);
@@ -888,7 +892,7 @@ class Utility
         }
 
         $ret .= "<option value='" . $categoryObj->categoryid() . "'";
-        if (is_array($selectedid) && in_array($categoryObj->categoryid(), $selectedid)) {
+        if (is_array($selectedid) && in_array($categoryObj->categoryid(), $selectedid, true)) {
             $ret .= ' selected';
         } elseif ($categoryObj->categoryid() == $selectedid) {
             $ret .= ' selected';
@@ -923,7 +927,7 @@ class Utility
         $ret = "<select name='" . $selectname . "[]' multiple='multiple' size='10'>";
         if ($allCatOption) {
             $ret .= "<option value='0'";
-            if (in_array(0, $selectedid)) {
+            if (in_array(0, $selectedid, true)) {
                 $ret .= ' selected';
             }
             $ret .= '>' . _MB_PUBLISHER_ALLCAT . '</option>';
@@ -976,7 +980,7 @@ class Utility
      */
     public static function renderErrors(&$errArray, $reseturl = '')
     {
-        if (is_array($errArray) && count($errArray) > 0) {
+        if ($errArray && is_array($errArray)) {
             echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' . PUBLISHER_URL . '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
 
             echo '<h4 style="text-align:left;margin:0; padding-top:0;">' . _AM_PUBLISHER_MSG_SUBMISSION_ERR;
@@ -1050,7 +1054,7 @@ class Utility
      * @param              $itemObj
      * @return bool|string
      */
-    public static function uploadFile($another = false, $withRedirect = true, &$itemObj)
+    public static function uploadFile($another, $withRedirect, &$itemObj)
     {
         xoops_load('XoopsMediaUploader');
         //        require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
@@ -1130,7 +1134,7 @@ class Utility
      */
     public static function newFeatureTag()
     {
-        $ret = '<span style="padding-right: 4px; font-weight: bold; color: red;">' . _CO_PUBLISHER_NEW_FEATURE . '</span>';
+        $ret = '<span style="padding-right: 4px; font-weight: bold; color: #ff0000;">' . _CO_PUBLISHER_NEW_FEATURE . '</span>';
 
         return $ret;
     }
@@ -1169,6 +1173,7 @@ class Utility
 
             return $string . $etc;
         }
+
         return $string;
     }
 
@@ -1189,7 +1194,7 @@ class Utility
                 $endTags      = $endTags[1];
 
                 foreach ($startTags as $key => $val) {
-                    $posb = array_search($val, $endTags);
+                    $posb = array_search($val, $endTags, true);
                     if (is_int($posb)) {
                         unset($endTags[$posb]);
                     } else {
@@ -1248,7 +1253,7 @@ class Utility
             $rating2     = number_format($currentRating / $count, 2);
         }
         $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        /* @var $grouppermHandler GroupPermHandler */
+        /* @var GroupPermHandler $grouppermHandler */
         $grouppermHandler = $helper->getHandler('GroupPerm');
 
         if (!$grouppermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
@@ -1304,13 +1309,13 @@ class Utility
         $nohtml = false;
         xoops_load('XoopsEditorHandler');
         $editorHandler = \XoopsEditorHandler::getInstance();
-//        $editors       = array_flip($editorHandler->getList()); //$editorHandler->getList($nohtml);
-        $editors       = $editorHandler->getList($nohtml);
+        //        $editors       = array_flip($editorHandler->getList()); //$editorHandler->getList($nohtml);
+        $editors = $editorHandler->getList($nohtml);
         foreach ($editors as $name => $title) {
             $key = static::stringToInt($name);
             if (is_array($allowedEditors)) {
                 //for submit page
-                if (in_array($key, $allowedEditors)) {
+                if (in_array($key, $allowedEditors, true)) {
                     $ret[] = $name;
                 }
             } else {
@@ -1357,6 +1362,7 @@ class Utility
 
             return $serialize;
         }
+
         return @iconv('windows-1256', 'UTF-8', $item);
     }
 
@@ -1394,26 +1400,34 @@ class Utility
     /**
      * Verifies PHP version meets minimum requirements for this module
      * @static
-     * @param \XoopsModule $module
+     * @param \XoopsModule|null $module
      *
      * @return bool true if meets requirements, false if not
      */
-    public static function checkVerPhp(\XoopsModule $module)
+    public static function checkVerPhp(\XoopsModule $module = null)
     {
-        xoops_loadLanguage('admin', $module->dirname());
+        $moduleDirName      = basename(dirname(dirname(__DIR__)));
+        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+        if (null === $module) {
+            $module = \XoopsModule::getByDirname($moduleDirName);
+        }
+        xoops_loadLanguage('admin', $moduleDirName);
         // check for minimum PHP version
         $success = true;
-        $verNum  = PHP_VERSION;
-        $reqVer  = $module->getInfo('min_php');
+
+        $verNum = PHP_VERSION;
+        $reqVer = &$module->getInfo('min_php');
+
         if (false !== $reqVer && '' !== $reqVer) {
             if (version_compare($verNum, $reqVer, '<')) {
-                $module->setErrors(sprintf(_AM_PUBLISHER_ERROR_BAD_PHP, $reqVer, $verNum));
+                $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_PHP'), $reqVer, $verNum));
                 $success = false;
             }
         }
 
         return $success;
     }
+
 
     /**
      * truncateHtml can truncate a string up to a number of characters while preserving whole words and HTML tags
@@ -1449,7 +1463,7 @@ class Utility
                         // if tag is a closing tag
                     } elseif (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
                         // delete tag from $open_tags list
-                        $pos = array_search($tag_matchings[1], $open_tags);
+                        $pos = array_search($tag_matchings[1], $open_tags, true);
                         if (false !== $pos) {
                             unset($open_tags[$pos]);
                         }
@@ -1471,7 +1485,7 @@ class Utility
                     if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) {
                         // calculate the real length of all entities in the legal range
                         foreach ($entities[0] as $entity) {
-                            if ($entity[1] + 1 - $entities_length <= $left) {
+                            if ($left >= $entity[1] + 1 - $entities_length) {
                                 $left--;
                                 $entities_length += mb_strlen($entity[0]);
                             } else {

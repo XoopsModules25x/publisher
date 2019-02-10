@@ -8,7 +8,7 @@ spl_autoload_register(function ($class) {
     $prefix = 'XoopsModules\\' . ucfirst(basename(dirname(__DIR__)));
 
     // base directory for the namespace prefix
-    $base_dir = dirname(__DIR__) . '/class/';
+    $baseDir = dirname(__DIR__) . '/class/';
 
     // does the class use the namespace prefix?
     $len = mb_strlen($prefix);
@@ -23,7 +23,7 @@ spl_autoload_register(function ($class) {
     // replace the namespace prefix with the base directory, replace namespace
     // separators with directory separators in the relative class name, append
     // with .php
-    $file = $base_dir . str_replace('\\', '/', $relativeClass) . '.php';
+    $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
 
     // if the file exists, require it
     if (file_exists($file)) {

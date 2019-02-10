@@ -22,14 +22,15 @@
 use XoopsModules\Publisher;
 
 require_once __DIR__ . '/admin_header.php';
-//require_once dirname(__DIR__) . '/class/Utility.php';
 
 xoops_cp_header();
-/** @var Publisher\Helper $helper */
-$helper = Publisher\Helper::getInstance();
+/** @var \XoopsModules\Publisher\Helper $helper */
+$helper = \XoopsModules\Publisher\Helper::getInstance();
 $helper->loadLanguage('main');
-$adminObject = \Xmf\Module\Admin::getInstance();
-$utility     = new Publisher\Utility();
+$helper->loadLanguage('admin');
+$adminObject  = \Xmf\Module\Admin::getInstance();
+$utility      = new Publisher\Utility();
+$configurator = new Publisher\Common\Configurator();
 
 /*
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
@@ -47,10 +48,51 @@ foreach (array_keys($copyFiles) as $i) {
 */
 
 if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-    $adminObject->addConfigBoxLine('<span style="color:red;"><img src="' . $pathIcon16 . '/0.png" alt="!">' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
+    $adminObject->addConfigBoxLine('<span style="color:#ff0000;"><img src="' . $pathIcon16 . '/0.png" alt="!">' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
+}
+
+$modStats    = [];
+$moduleStats = $utility->getModuleStats($configurator, $modStats);
+
+$adminObject->addInfoBox(constant('CO_' . $moduleDirNameUpper . '_' . 'STATS_SUMMARY'));
+if ($moduleStats && is_array($moduleStats)) {
+    foreach ($moduleStats as $key => $value) {
+        switch ($key) {
+            case 'totalcategories':
+                $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
+                $adminObject->addInfoBoxLine(sprintf( $ret . ' ' . _AM_PUBLISHER_TOTALCAT ));
+                break;
+            case 'totalitems':
+                $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_ITEMS ));
+                break;
+            case 'totaloffline':
+                $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTAL_OFFLINE ));
+                break;
+            case 'totalpublished':
+                $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALPUBLISHED ));
+                break;
+            case 'totalrejected':
+                $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_REJECTED ));
+                break;
+            case 'totalsubmitted':
+                $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALSUBMITTED ));
+                break;
+        }
+    }
 }
 
 $adminObject->displayNavigation(basename(__FILE__));
+
+//check for latest release
+$newRelease = $utility::checkVerModule($helper);
+if (!empty($newRelease)) {
+    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
+}
 
 //------------- Test Data ----------------------------
 

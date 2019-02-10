@@ -34,14 +34,14 @@ if (!$categoriesArray) {
 }
 
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var $grouppermHandler \XoopsModules\Publisher\GroupPermHandler */
+/* @var \XoopsModules\Publisher\GroupPermHandler $grouppermHandler */
 $grouppermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
 $moduleId         = $helper->getModule()->getVar('mid');
 
 $itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
 if (0 != $itemId) {
     // We are editing or deleting an article
-    /* @var  $itemObj Publisher\Item */
+    /* @var  Publisher\Item $itemObj */
     $itemObj = $helper->getHandler('Item')->get($itemId);
     if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($itemObj) || Publisher\Utility::userIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
@@ -53,7 +53,7 @@ if (0 != $itemId) {
             redirect_header('index.php', 1, _NOPERM);
         }
     }
-    /* @var  $categoryObj Publisher\Category */
+    /* @var  Publisher\Category $categoryObj */
     $categoryObj = $itemObj->getCategory();
 } else {
     // we are submitting a new article
@@ -61,9 +61,9 @@ if (0 != $itemId) {
     if (!(Publisher\Utility::userIsAdmin() || (1 == $helper->getConfig('perm_submit') && (is_object($GLOBALS['xoopsUser']) || (1 == $helper->getConfig('perm_anon_submit')))))) {
         redirect_header('index.php', 1, _NOPERM);
     }
-    /* @var  $itemObj Publisher\Item */
+    /* @var  Publisher\Item $itemObj */
     $itemObj = $helper->getHandler('Item')->create();
-    /* @var  $categoryObj Publisher\Category */
+    /* @var  Publisher\Category $categoryObj */
     $categoryObj = $helper->getHandler('Category')->create();
 }
 
@@ -122,7 +122,7 @@ $elements = [
 ];
 foreach ($elements as $element) {
     $classname = Constants::class;
-    if (Request::hasVar($element, 'POST') && !in_array(constant($classname . '::' . 'PUBLISHER_' . mb_strtoupper($element)), $formView)) {
+    if (Request::hasVar($element, 'POST') && !in_array(constant($classname . '::' . 'PUBLISHER_' . mb_strtoupper($element)), $formView, true)) {
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
     }
 }
@@ -188,7 +188,6 @@ switch ($op) {
         exit();
 
         break;
-
     case 'post':
         // Putting the values about the ITEM in the ITEM object
         // print_r($itemObj->getVars());
@@ -240,7 +239,6 @@ switch ($op) {
         redirect_header('index.php', 2, $redirect_msg);
 
         break;
-
     case 'add':
     default:
         $GLOBALS['xoopsOption']['template_main'] = 'publisher_submit.tpl';

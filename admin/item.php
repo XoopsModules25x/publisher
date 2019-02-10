@@ -55,7 +55,6 @@ switch ($op) {
         Publisher\Utility::cpHeader();
         publisher_editItem(true, $itemid, true);
         break;
-
     case 'mod':
         if (0 == $itemid) {
             $totalcategories = $helper->getHandler('Category')->getCategoriesCount(-1);
@@ -67,7 +66,6 @@ switch ($op) {
         Publisher\Utility::cpHeader();
         publisher_editItem(true, $itemid);
         break;
-
     case 'additem':
         $redirect_msg = $error_msg = '';
         // Creating the item object
@@ -91,9 +89,8 @@ switch ($op) {
                 }
                 $redirect_msg = _AM_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
                 break;
-
             case Constants::PUBLISHER_STATUS_PUBLISHED:
-                if (($old_status == Constants::PUBLISHER_STATUS_NOTSET) || ($old_status == Constants::PUBLISHER_STATUS_SUBMITTED)) {
+                if ((Constants::PUBLISHER_STATUS_NOTSET == $old_status) || (Constants::PUBLISHER_STATUS_SUBMITTED == $old_status)) {
                     $redirect_msg = _AM_PUBLISHER_SUBMITTED_APPROVE_SUCCESS;
                     $notifToDo    = [Constants::PUBLISHER_NOTIFY_ITEM_PUBLISHED];
                 } else {
@@ -101,7 +98,6 @@ switch ($op) {
                 }
                 $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 break;
-
             case Constants::PUBLISHER_STATUS_OFFLINE:
                 $redirect_msg = _AM_PUBLISHER_OFFLINE_MOD_SUCCESS;
                 if (Constants::PUBLISHER_STATUS_NOTSET == $old_status) {
@@ -109,7 +105,6 @@ switch ($op) {
                 }
                 $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 break;
-
             case Constants::PUBLISHER_STATUS_REJECTED:
                 $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
                 if (Constants::PUBLISHER_STATUS_NOTSET == $old_status) {
@@ -141,7 +136,6 @@ switch ($op) {
         redirect_header('item.php', 2, $redirect_msg);
 
         break;
-
     case 'del':
         $itemObj = $helper->getHandler('Item')->get($itemid);
         $confirm = Request::getInt('confirm', 0, 'POST');
@@ -158,7 +152,6 @@ switch ($op) {
         }
         exit();
         break;
-
     case 'default':
     default:
         Publisher\Utility::cpHeader();
@@ -424,7 +417,6 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
                 $buttonCaption     = _AM_PUBLISHER_APPROVE;
                 $newStatus         = Constants::PUBLISHER_STATUS_PUBLISHED;
                 break;
-
             case Constants::PUBLISHER_STATUS_PUBLISHED:
                 $breadcrumbAction1 = _CO_PUBLISHER_PUBLISHED;
                 $breadcrumbAction2 = _AM_PUBLISHER_EDITING;
@@ -433,7 +425,6 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
                 $buttonCaption     = _AM_PUBLISHER_MODIFY;
                 $newStatus         = Constants::PUBLISHER_STATUS_PUBLISHED;
                 break;
-
             case Constants::PUBLISHER_STATUS_OFFLINE:
                 $breadcrumbAction1 = _CO_PUBLISHER_OFFLINE;
                 $breadcrumbAction2 = _AM_PUBLISHER_EDITING;
@@ -442,7 +433,6 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
                 $buttonCaption     = _AM_PUBLISHER_MODIFY;
                 $newStatus         = Constants::PUBLISHER_STATUS_OFFLINE;
                 break;
-
             case Constants::PUBLISHER_STATUS_REJECTED:
                 $breadcrumbAction1 = _CO_PUBLISHER_REJECTED;
                 $breadcrumbAction2 = _AM_PUBLISHER_REJECTED;
@@ -451,7 +441,6 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
                 $buttonCaption     = _AM_PUBLISHER_MODIFY;
                 $newStatus         = Constants::PUBLISHER_STATUS_REJECTED;
                 break;
-
             case Constants::PUBLISHER_STATUS_NOTSET: // Then it's a clone...
                 $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;
                 $breadcrumbAction2 = _AM_PUBLISHER_CLONE_NEW;
@@ -460,7 +449,6 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
                 $pageTitle         = _AM_PUBLISHER_ITEM_DUPLICATING;
                 $pageInfo          = _AM_PUBLISHER_ITEM_DUPLICATING_DSC;
                 break;
-
             case 'default':
             default:
                 $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;

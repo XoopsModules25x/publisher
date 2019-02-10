@@ -61,8 +61,8 @@ class Category extends \XoopsObject
      */
     public function __construct()
     {
-        /** @var Publisher\Helper $this->helper */
-        $this->helper = Publisher\Helper::getInstance();
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         $this->initVar('categoryid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('parentid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('name', XOBJ_DTYPE_TXTBOX, null, true, 100);
@@ -121,7 +121,7 @@ class Category extends \XoopsObject
         /** @var \XoopsModules\Publisher\PermissionHandler $permissionHandler */
         $permissionHandler = $this->helper->getHandler('Permission');
         $categoriesGranted = $permissionHandler->getGrantedItems('category_read');
-        if (in_array($this->categoryid(), $categoriesGranted)) {
+        if (in_array($this->categoryid(), $categoriesGranted, true)) {
             $ret = true;
         }
 
@@ -138,6 +138,7 @@ class Category extends \XoopsObject
         if ('' != $this->getVar('image')) {
             return $this->getVar('image', $format);
         }
+
         return 'blank.png';
     }
 
@@ -146,7 +147,7 @@ class Category extends \XoopsObject
      *
      * @return mixed
      */
-    public function template($format = 'n')
+    public function getTemplate($format = 'n')
     {
         return $this->getVar('template', $format);
     }
@@ -168,7 +169,7 @@ class Category extends \XoopsObject
             if (0 != $parentid) {
                 /** @var Publisher\CategoryHandler $categoryHandler */
                 $categoryHandler = $this->helper->getHandler('Category');
-                $parentObj      = $categoryHandler->get($parentid);
+                $parentObj       = $categoryHandler->get($parentid);
                 //                if ($parentObj->notLoaded()) {
                 //                    exit;
                 //                }
@@ -201,7 +202,7 @@ class Category extends \XoopsObject
         if (0 != $parentid) {
             /** @var Publisher\CategoryHandler $categoryHandler */
             $categoryHandler = $this->helper->getHandler('Category');
-            $parentObj = $categoryHandler->get($parentid);
+            $parentObj       = $categoryHandler->get($parentid);
             //            if ($parentObj->notLoaded()) {
             //                exit('NOT LOADED');
             //            }
@@ -230,6 +231,7 @@ class Category extends \XoopsObject
     {
         /** @var Publisher\PermissionHandler $permissionHandler */
         $permissionHandler = $this->helper->getHandler('Permission');
+
         return $permissionHandler->getGrantedGroupsById('category_read', $this->categoryid());
     }
 
@@ -240,6 +242,7 @@ class Category extends \XoopsObject
     {
         /** @var Publisher\PermissionHandler $permissionHandler */
         $permissionHandler = $this->helper->getHandler('Permission');
+
         return $permissionHandler->getGrantedGroupsById('item_submit', $this->categoryid());
     }
 
@@ -250,6 +253,7 @@ class Category extends \XoopsObject
     {
         /** @var Publisher\PermissionHandler $permissionHandler */
         $permissionHandler = $this->helper->getHandler('Permission');
+
         return $permissionHandler->getGrantedGroupsById('category_moderation', $this->categoryid());
     }
 
@@ -271,6 +275,7 @@ class Category extends \XoopsObject
         if ($class) {
             return "<a class='$class' href='" . $this->getCategoryUrl() . "'>" . $this->name() . '</a>';
         }
+
         return "<a href='" . $this->getCategoryUrl() . "'>" . $this->name() . '</a>';
     }
 
@@ -300,7 +305,7 @@ class Category extends \XoopsObject
         $tags['MODULE_NAME']   = $this->helper->getModule()->getVar('name');
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = $this->getCategoryUrl();
-        /* @var  $notificationHandler \XoopsNotificationHandler */
+        /* @var  \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = xoops_getHandler('notification');
         $notificationHandler->triggerEvent('global_item', 0, 'category_created', $tags);
     }

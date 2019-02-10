@@ -34,15 +34,17 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 class MimetypeHandler extends BaseObjectHandler
 {
-
     /**
      * Constructor
      *
-     * @param null|\XoopsDatabase $db reference to a xoopsDB object
+     * @param \XoopsDatabase $db
+     * @param null|\XoopsModules\Publisher\Helper           $helper
      */
-    public function __construct(\XoopsDatabase $db = null)
+    public function __construct(\XoopsDatabase $db = null, $helper = null)
     {
-        parent::init($db);
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        $this->helper = $helper;
+        $this->db = $db;
         $this->className = Mimetype::class;
     }
 
@@ -191,8 +193,8 @@ class MimetypeHandler extends BaseObjectHandler
      * Create a "select" SQL query
      *
      * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
-     *                                   to match
-     * @param bool             $join
+     *                                                  to match
+     * @param bool                            $join
      *
      * @return string string SQL query
      */
@@ -219,7 +221,7 @@ class MimetypeHandler extends BaseObjectHandler
 
         $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
 
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();

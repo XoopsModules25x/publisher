@@ -47,7 +47,7 @@ $content = '';
 if ('' != $mainImage['image_path']) {
     $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"><br>';
 }
-$content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" style="text-decoration: none; color: black; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '">' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '</a>';
+$content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" style="text-decoration: none; color: #000000; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '">' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '</a>';
 $content .= '<br><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">'
             . _CO_PUBLISHER_CATEGORY
             . ' : </span><a href="'
@@ -70,7 +70,7 @@ $pdf_data = [
     'page_format'      => 'A4',
     'page_orientation' => 'P',
     'unit'             => 'mm',
-    'rtl'              => false //true if right to left
+    'rtl'              => false, //true if right to left
 ];
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);

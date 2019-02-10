@@ -114,6 +114,7 @@ trait FilesManagement
             // Clean up
             $dir->close();
         }
+
         return true;
     }
 
@@ -162,6 +163,7 @@ trait FilesManagement
             // input is not a valid directory
             $success = false;
         }
+
         return $success;
     }
 
@@ -283,6 +285,7 @@ trait FilesManagement
                 self::rcopy($fObj->getPathname(), "{$dest}/" . $fObj->getFilename());
             }
         }
+
         return true;
     }
 }

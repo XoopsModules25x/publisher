@@ -36,9 +36,9 @@ $itemid = Request::getInt('itemid', 0, 'GET');
 
 $helper->loadLanguage('main');
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var $grouppermHandler Publisher\GroupPermHandler */
+/* @var Publisher\GroupPermHandler $grouppermHandler */
 $grouppermHandler = $helper->getHandler('GroupPerm');
-/* @var $configHandler XoopsConfigHandler */
+/* @var XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $module_id     = $helper->getModule()->getVar('mid');
 

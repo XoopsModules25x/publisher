@@ -35,7 +35,7 @@ $categoryid    = Request::getInt('categoryid');
 switch ($op) {
     case 'del':
         $categoryObj = $helper->getHandler('Category')->get($categoryid);
-        $confirm     = Request::getInt('confirm', '', 'POST');
+        $confirm     = Request::getString('confirm', '', 'POST');
         $name        = Request::getString('name', '', 'POST');
         if ($confirm) {
             if (!$helper->getHandler('Category')->delete($categoryObj)) {
@@ -48,7 +48,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         break;
-
     case 'mod':
         //Added by fx2024
         $nb_subcats = Request::getInt('nb_subcats', 0, 'POST');
@@ -58,7 +57,6 @@ switch ($op) {
         Publisher\Utility::cpHeader();
         Publisher\Utility::editCategory(true, $categoryid, $nb_subcats);
         break;
-
     case 'addcategory':
         global $modify;
 
@@ -156,7 +154,6 @@ switch ($op) {
         //end of fx2024 code
         redirect_header($redirect_to, 2, $redirect_msg);
         break;
-
     //Added by fx2024
 
     case 'addsubcats':

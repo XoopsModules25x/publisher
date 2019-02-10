@@ -50,8 +50,9 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var Publisher\Helper $this->helper */
-        $this->helper = Publisher\Helper::getInstance();
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+        /** @var \XoopsDatabase $this->db */
         $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', XOBJ_DTYPE_INT, 0, false);
@@ -375,10 +376,12 @@ class Item extends \XoopsObject
                 $poster->setVar('posts', $poster->getVar('posts') + 1);
                 if (!$memberHandler->insertUser($poster, true)) {
                     $this->setErrors('Article created but could not increment user posts.');
+
                     return false;
                 }
             }
         }
+
         return true;
     }
 
@@ -595,6 +598,7 @@ class Item extends \XoopsObject
         if ($class) {
             return '<a class=' . $class . ' href="' . $this->getItemUrl() . '">' . $this->getTitle($maxsize) . '</a>';
         }
+
         return '<a href="' . $this->getItemUrl() . '">' . $this->getTitle($maxsize) . '</a>';
     }
 
@@ -1008,7 +1012,7 @@ class Item extends \XoopsObject
                 if ($imageName == $imageFeatured) {
                     $this->setVar('image', $id);
                 }
-                if (in_array($imageName, $imageItem)) {
+                if (in_array($imageName, $imageItem, true)) {
                     $imageItemIds[] = $id;
                 }
             }

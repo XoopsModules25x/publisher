@@ -31,7 +31,8 @@ define('_CO_PUBLISHER_UID', 'Poster name');
 define('_CO_PUBLISHER_UID_DSC', 'Select the name of the poster');
 define('_CO_PUBLISHER_WEIGHT', 'Weight');
 define('_CO_PUBLISHER_ITEM_UPLOAD_FILE', 'File upload');
-define('_CO_PUBLISHER_ITEM_UPLOAD_FILE_DSC', 'Select a file from your computer to attach it to this article. You will be able to add more files once the article has been created. Simply edit the article and scroll at the bottom of the page to see the add file button.<br><br> For example, you could add a Word document or an Excel document. You can even upload a Flash file and it will be directly embedded into your article! ');
+define('_CO_PUBLISHER_ITEM_UPLOAD_FILE_DSC',
+       'SELECT a file FROM your computer TO attach it TO this article. You will be able TO ADD more files once the article has been created. Simply edit the article AND scroll AT the bottom OF the PAGE TO see the ADD FILE button.<br><br> FOR example, you could ADD a Word document OR an Excel document. You can even upload a Flash FILE AND it will be directly embedded INTO your article! ');
 //define('_CO_PUBLISHER_OPTIONS','Options');
 define('_CO_PUBLISHER_DISPLAY_SUMMARY', 'Display summary on the item page ?');
 define('_CO_PUBLISHER_DOHTML', 'Enable HTML tags');
@@ -168,6 +169,11 @@ define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA', 'Export DB Schema to
 define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS', 'Export DB Schema to YAML was a success');
 define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR', 'ERROR: Export of DB Schema to YAML failed');
 
+//letter choice
+define('CO_' . $moduleDirNameUpper . '_' . 'BROWSETOTOPIC', "<span style='font-weight: bold;'>Browse items alphabetically</span>");
+define('CO_' . $moduleDirNameUpper . '_' . 'OTHER', 'Other');
+define('CO_' . $moduleDirNameUpper . '_' . 'ALL', 'All');
+
 // block defines
 define('CO_' . $moduleDirNameUpper . '_' . 'ACCESSRIGHTS', 'Access Rights');
 define('CO_' . $moduleDirNameUpper . '_' . 'ACTION', 'Action');
@@ -197,8 +203,23 @@ define('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS_CLONEBLOCK', 'Clone a block')
 //myblocksadmin
 define('CO_' . $moduleDirNameUpper . '_' . 'AGDS', 'Admin Groups');
 define('CO_' . $moduleDirNameUpper . '_' . 'BCACHETIME', 'Cache Time');
+define('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS_ADMIN', 'Blocks Admin');
 
 //Template Admin
 define('CO_' . $moduleDirNameUpper . '_' . 'TPLSETS', 'Template Management');
 define('CO_' . $moduleDirNameUpper . '_' . 'GENERATE', 'Generate');
 define('CO_' . $moduleDirNameUpper . '_' . 'FILENAME', 'File Name');
+
+//Menu
+define('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE', 'Migrate');
+define('CO_' . $moduleDirNameUpper . '_' . 'FOLDER_YES', 'Folder "%s" exist');
+define('CO_' . $moduleDirNameUpper . '_' . 'FOLDER_NO', 'Folder "%s" does not exist. Create the specified folder with CHMOD 777.');
+define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS', 'Show Development Tools Button?');
+define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC', 'If yes, the "Migrate" Tab and other Development tools will be visible to the Admin.');
+
+
+//Latest Version Check
+define('CO_' . $moduleDirNameUpper . '_' . 'NEW_VERSION', 'New Version: ');
+
+//Module Stats
+define('CO_' . $moduleDirNameUpper . '_' . 'STATS_SUMMARY', 'Module Statistics');

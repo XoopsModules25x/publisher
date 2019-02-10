@@ -2,11 +2,24 @@
 <hr>
 - added Resizer class for image upload (goffy)
 
+
+<h5>1.07 Beta 1       [NOT RELEASED]</h5> Dev: XOOPS 2.5.9, PHP 7.3.1
+<hr>
+- fix missing /admin folder (SMEDrieben/mamba)
+- add fpm-fcgi for htaccess (alfredsx)
+- fix rss feed  (alfredsx)
+- fixed bug in import plugin for news modules (ggoffy)
+- fixed bug image upload was not working  (ggoffy)
+- Optimize images (mamba)
+- Dependency Injection (mamba)
+- added ModuleStats Trait (mamba)
+
 <h5>1.06 Final       [2018-08-01]</h5>  Dev: XOOPS 2.5.9, PHP 7.2.8
 <hr>
 - cosmetics (mamba)
 - reversing to old way of checking editors (mamba)
 - fix installation error (mamba)
+
 
 <h5>1.06 RC 1       [2018-07-15]</h5>  Dev: XOOPS 2.5.9, PHP 7.2.7
 <hr>

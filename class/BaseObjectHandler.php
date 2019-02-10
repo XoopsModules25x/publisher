@@ -204,7 +204,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     private function selectQuery(\CriteriaElement $criteria = null)
     {
         $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . '
@@ -219,14 +219,14 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      * count objects matching a criteria
      *
      * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
-     *                                   to match
+     *                                                  to match
      *
      * @return int count of objects
      */
     public function getCount(\CriteriaElement $criteria = null) //getCount($criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->dbtable);
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {
@@ -269,14 +269,14 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      *
      * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
      *
-     * @param  bool            $force
-     * @param  bool            $asObject
+     * @param  bool                           $force
+     * @param  bool                           $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
         $sql = 'DELETE FROM ' . $this->db->prefix($this->dbtable);
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {
@@ -289,18 +289,18 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Assign a value to 1 field for tickets matching a set of conditions
      *
-     * @param string           $fieldname
-     * @param string           $fieldvalue
+     * @param string                          $fieldname
+     * @param string                          $fieldvalue
      * @param \CriteriaElement|\CriteriaCompo $criteria {@link \CriteriaElement}
      *
-     * @param  bool            $force
+     * @param  bool                           $force
      * @return bool FALSE if update failed
      */
     public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null, $force = false) //updateAll($fieldname, $fieldvalue, $criteria = null)
     {
         $setClause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql       = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {

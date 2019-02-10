@@ -78,12 +78,10 @@ switch ($op) {
         Publisher\Utility::uploadFile(false, true, $false);
         exit;
         break;
-
     case 'uploadanother':
         Publisher\Utility::uploadFile(true, true, $false);
         exit;
         break;
-
     case 'mod':
         $fileid = Request::getInt('fileid', 0, 'GET');
         $itemid = Request::getInt('itemid', 0, 'GET');
@@ -96,7 +94,6 @@ switch ($op) {
 
         publisher_editFile(true, $fileid, $itemid);
         break;
-
     case 'modify':
         $fileid = Request::getInt('fileid', 0, 'POST');
 
@@ -119,7 +116,6 @@ switch ($op) {
 
         redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 2, _AM_PUBLISHER_FILE_EDITING_SUCCESS);
         break;
-
     case 'del':
         $fileid = Request::getInt('fileid', 0, 'POST');
         $fileid = Request::getInt('fileid', $fileid, 'GET');
@@ -146,7 +142,6 @@ switch ($op) {
 
         exit();
         break;
-
     case 'default':
     default:
         Publisher\Utility::cpHeader();

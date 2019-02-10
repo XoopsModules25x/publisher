@@ -76,6 +76,7 @@ if ('start' === $op) {
             $imagecategory->setVar('imgcat_weight', 0); //$imgcat_weight);
             $imagecategory->setVar('imgcat_storetype', 'file'); //$imgcat_storetype);
             $imagecategory->setVar('imgcat_type', 'C');
+
             try {
                 $imageCategoryHandler->insert($imagecategory);
             }
@@ -88,7 +89,7 @@ if ('start' === $op) {
             if (!isset($readgroup)) {
                 $readgroup = [];
             }
-            if (!in_array(XOOPS_GROUP_ADMIN, $readgroup)) {
+            if (!in_array(XOOPS_GROUP_ADMIN, $readgroup, true)) {
                 $readgroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($readgroup as $rgroup) {
@@ -104,7 +105,7 @@ if ('start' === $op) {
             if (!isset($writegroup)) {
                 $writegroup = [];
             }
-            if (!in_array(XOOPS_GROUP_ADMIN, $writegroup)) {
+            if (!in_array(XOOPS_GROUP_ADMIN, $writegroup, true)) {
                 $writegroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($writegroup as $wgroup) {
@@ -163,12 +164,12 @@ if ('go' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
     Publisher\Utility::openCollapsableBar('amsimportgo', 'amsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /* @var  $moduleHandler XoopsModuleHandler */
+    /* @var  XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('ams');
     $ams_module_id = $moduleObj->getVar('mid');
 
-    /* @var  $grouppermHandler XoopsGroupPermHandler */
+    /* @var  XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
@@ -217,7 +218,7 @@ if ('go' === $op) {
         $newCat           = [];
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
-        /* @var  $categoryObj Publisher\Category */
+        /* @var  Publisher\Category $categoryObj */
         $categoryObj = $helper->getHandler('Category')->create();
 
         $categoryObj->setVar('parentid', $arrCat['topic_pid']);

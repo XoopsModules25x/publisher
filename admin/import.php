@@ -31,7 +31,6 @@ switch ($op) {
         $importfile_path = $GLOBALS['xoops']->path('modules/' . $helper->getModule()->dirname() . '/admin/import/' . $importfile . '.php');
         require_once $importfile_path;
         break;
-
     case 'default':
     default:
         $importfile = 'none';
@@ -42,7 +41,7 @@ switch ($op) {
         Publisher\Utility::openCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
 
         xoops_load('XoopsFormLoader');
-        /* @var  $moduleHandler \XoopsModuleHandler */
+        /* @var  \XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
 
         // WF-Section
@@ -146,19 +145,19 @@ switch ($op) {
             $sform->addElement($importfile_tray);
 
             // Buttons
-            $button_tray = new \XoopsFormElementTray('', '');
-            $hidden      = new \XoopsFormHidden('op', 'importExecute');
-            $button_tray->addElement($hidden);
+            $buttonTray = new \XoopsFormElementTray('', '');
+            $hidden     = new \XoopsFormHidden('op', 'importExecute');
+            $buttonTray->addElement($hidden);
 
             $butt_import = new \XoopsFormButton('', '', _AM_PUBLISHER_IMPORT, 'submit');
             $butt_import->setExtra('onclick="this.form.elements.op.value=\'importExecute\'"');
-            $button_tray->addElement($butt_import);
+            $buttonTray->addElement($butt_import);
 
             $butt_cancel = new \XoopsFormButton('', '', _AM_PUBLISHER_CANCEL, 'button');
             $butt_cancel->setExtra('onclick="history.go(-1)"');
-            $button_tray->addElement($butt_cancel);
+            $buttonTray->addElement($butt_cancel);
 
-            $sform->addElement($button_tray);
+            $sform->addElement($buttonTray);
             /*$sform->addElement(new \XoopsFormHidden('xfs_version', $xfs_version));
              $sform->addElement(new \XoopsFormHidden('wfs_version', $wfs_version));*/
             $sform->addElement(new \XoopsFormHidden('news_version', $news_version));

@@ -20,10 +20,10 @@
  * @param $itemId
  * @param $totalNum
  */
-
 function publisher_com_update($itemId, $totalNum)
 {
     global $xoopsModule;
+    /** @var \XoopsDatabase $db */
     $db  = \XoopsDatabaseFactory::getDatabaseConnection();
     $sql = 'UPDATE ' . $db->prefix($xoopsModule->getVar('dirname', 'n') . '_items') . ' SET comments = ' . $totalNum . ' WHERE itemid = ' . $itemId;
     $db->query($sql);

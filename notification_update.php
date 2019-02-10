@@ -17,6 +17,5 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once $GLOBALS['xoops']->path('include/notification_update.php');

@@ -1236,6 +1236,7 @@ class Timthumb
         if (self::$curlDataWritten > MAX_FILE_SIZE) {
             return 0;
         }
+
         return mb_strlen($d);
     }
 
@@ -1332,6 +1333,7 @@ class Timthumb
         if (isset($_GET[$property])) {
             return Request::getString($property, '', 'GET');
         }
+
         return $default;
     }
 

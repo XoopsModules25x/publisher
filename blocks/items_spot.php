@@ -36,7 +36,7 @@ function publisher_items_spot_show($options)
     /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     /** @var Publisher\CategoryHandler $categoryHandler */
-    $categoryHandler   = $helper->getHandler('Category');
+    $categoryHandler = $helper->getHandler('Category');
     /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
 
@@ -86,7 +86,7 @@ function publisher_items_spot_show($options)
         }
     } else {
         $i = 1;
-        if (is_array($selItems) && count($selItems) > 0) {
+        if ($selItems && is_array($selItems)) {
             foreach ($selItems as $itemId) {
                 /** @var Publisher\Item $itemObj */
                 $itemObj = $itemHandler->get($itemId);

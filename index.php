@@ -42,7 +42,7 @@ if (0 == $totalCategories) {
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
 require_once $GLOBALS['xoops']->path('header.php');
 require_once PUBLISHER_ROOT_PATH . '/footer.php';
-/* @var  $grouppermHandler XoopsGroupPermHandler */
+/* @var  XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
 
 // Creating the top categories objects
@@ -145,17 +145,14 @@ if ($helper->getConfig('index_display_last_items')) {
             $sort  = 'title';
             $order = 'ASC';
             break;
-
         case 'date':
             $sort  = 'datesub';
             $order = 'DESC';
             break;
-
         case 'counter':
             $sort  = 'counter';
             $order = 'DESC';
             break;
-
         case 'rating':
             $sort  = 'rating';
             $order = 'DESC';
@@ -164,12 +161,10 @@ if ($helper->getConfig('index_display_last_items')) {
             $sort  = 'votes';
             $order = 'DESC';
             break;
-
         case 'comments':
             $sort  = 'comments';
             $order = 'DESC';
             break;
-
         default:
             $sort  = 'weight';
             $order = 'ASC';

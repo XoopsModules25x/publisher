@@ -98,11 +98,11 @@ if ('go' === $op) {
     Publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Publisher\Utility::openCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /* @var  $moduleHandler XoopsModuleHandler */
+    /* @var  XoopsModuleHandler $moduleHandler */
     $moduleHandler          = xoops_getHandler('module');
     $moduleObj              = $moduleHandler->getByDirname('smartsection');
     $smartsection_module_id = $moduleObj->getVar('mid');
-    /* @var  $grouppermHandler XoopsGroupPermHandler */
+    /* @var  XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
@@ -122,7 +122,7 @@ if ('go' === $op) {
         $newCat           = [];
         $newCat['oldid']  = $arrCat['categoryid'];
         $newCat['oldpid'] = $arrCat['parentid'];
-        /* @var  $categoryObj Publisher\Category */
+        /* @var  Publisher\Category $categoryObj */
         $categoryObj = $helper->getHandler('Category')->create();
 
         $categoryObj->setVars($arrCat);
@@ -148,7 +148,7 @@ if ('go' === $op) {
 
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
-            /** @var  Publisher\Item $itemObj */
+            /** @var Publisher\Item $itemObj */
             $itemObj = $helper->getHandler('Item')->create();
 
             $itemObj->setVars($arrArticle);
@@ -183,7 +183,7 @@ if ('go' === $op) {
                 $filename = $GLOBALS['xoops']->path('uploads/smartsection/' . $arrFile['filename']);
                 if (file_exists($filename)) {
                     if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filename']))) {
-                        /** @var  Publisher\File $fileObj */
+                        /** @var Publisher\File $fileObj */
                         $fileObj = $helper->getHandler('File')->create();
                         $fileObj->setVars($arrFile);
                         $fileObj->setVar('fileid', 0);

@@ -77,32 +77,26 @@ switch ($helper->getConfig('format_order_by')) {
         $sort  = 'title';
         $order = 'ASC';
         break;
-
     case 'date':
         $sort  = 'datesub';
         $order = 'DESC';
         break;
-
     case 'counter':
         $sort  = 'counter';
         $order = 'DESC';
         break;
-
     case 'rating':
         $sort  = 'rating';
         $order = 'DESC';
         break;
-
     case 'votes':
         $sort  = 'votes';
         $order = 'DESC';
         break;
-
     case 'comments':
         $sort  = 'comments';
         $order = 'DESC';
         break;
-
     default:
         $sort  = 'weight';
         $order = 'ASC';
@@ -245,7 +239,7 @@ if ((0 != $helper->getConfig('com_rule')) && ((1 == $itemObj->cancomment()) || !
     $xoopsTpl->assign([
                           'editcomment_link'   => PUBLISHER_URL . '/comment_edit.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
                           'deletecomment_link' => PUBLISHER_URL . '/comment_delete.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
-                          'replycomment_link'  => PUBLISHER_URL . '/comment_reply.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra
+                          'replycomment_link'  => PUBLISHER_URL . '/comment_reply.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
                       ]);
     $xoopsTpl->_tpl_vars['commentsnav'] = str_replace("self.location.href='", "self.location.href='" . PUBLISHER_URL . '/', $xoopsTpl->_tpl_vars['commentsnav']);
 }

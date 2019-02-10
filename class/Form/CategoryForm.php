@@ -49,15 +49,15 @@ class CategoryForm extends \XoopsThemeForm
     public $userGroups = [];
 
     /**
-     * @param     $target
+     * @param  \XoopsModules\Publisher\Category   $target
      * @param int $subCatsCount
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
-        /** @var Publisher\Helper $this->helper */
-        $this->helper = Publisher\Helper::getInstance();
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
 
-        $this->targetObject =& $target;
+        $this->targetObject = &$target;
         $this->subCatsCount = $subCatsCount;
 
         $memberHandler    = xoops_getHandler('member');
@@ -110,7 +110,7 @@ class CategoryForm extends \XoopsThemeForm
                     $editor = (null !== $GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
-            $editor     = (empty($editor) || !in_array($editor, $allowedEditors)) ? $this->helper->getConfig('submit_editor') : $editor;
+            $editor     = (empty($editor) || !in_array($editor, $allowedEditors, true)) ? $this->helper->getConfig('submit_editor') : $editor;
             $formEditor = new \XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowedEditors);
             $this->addElement($formEditor);
         } else {
@@ -169,7 +169,7 @@ class CategoryForm extends \XoopsThemeForm
 
         // Added by skalpa: custom template support
         //todo, check this
-        $this->addElement(new \XoopsFormText('Custom template', 'template', 50, 255, $this->targetObject->template('e')), false);
+        $this->addElement(new \XoopsFormText('Custom template', 'template', 50, 255, $this->targetObject->getTemplate('e')), false);
 
         // READ PERMISSIONS
         $readPermissionsTray   = new \XoopsFormElementTray(_AM_PUBLISHER_PERMISSIONS_CAT_READ, '');

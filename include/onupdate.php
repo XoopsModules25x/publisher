@@ -13,7 +13,6 @@
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author          trabis <lusopoemas@gmail.com>
- *
  */
 
 use XoopsModules\Publisher;
@@ -24,7 +23,6 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUs
 }
 
 /**
- *
  * Prepares system prior to attempting to install module
  * @param \XoopsModule $module {@link XoopsModule}
  *
@@ -32,28 +30,27 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUs
  */
 function xoops_module_pre_update_publisher(\XoopsModule $module)
 {
-
     /** @var Publisher\Utility $utility */
     $utility = new Publisher\Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
+
     return $xoopsSuccess && $phpSuccess;
 }
 
 /**
  * Performs tasks required during update of the module
  * @param \XoopsModule $module {@link XoopsModule}
- * @param null|string         $previousVersion
+ * @param null|string  $previousVersion
  *
  * @return bool true if update successful, false if not
  */
-
 function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = null)
 {
     global $xoopsDB;
-    $moduleDirName      = basename(dirname(__DIR__));
-//    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $moduleDirName = basename(dirname(__DIR__));
+    //    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     /** @var Publisher\Helper $helper */
     /** @var Publisher\Common\Configurator $configurator */
@@ -69,7 +66,6 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
     $xoopsDB->queryF($sql);
 
     if ($previousVersion <= 105) {
-
         //change TEXT fields to NULL
         $sql = '    ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' MODIFY `description` TEXT NULL';
         $xoopsDB->queryF($sql);
@@ -79,7 +75,7 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
         $xoopsDB->queryF($sql);
         $sql = '    ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' MODIFY `meta_description` TEXT NULL';
         $xoopsDB->queryF($sql);
-        /** @var  Publisher\Utility $utility */
+        /** @var Publisher\Utility $utility */
         $utility = new Publisher\Utility();
 
         //delete old HTML templates
@@ -144,9 +140,11 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
         $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
         $GLOBALS['xoopsDB']->queryF($sql);
 
-        /** @var XoopsGroupPermHandler $grouppermHandler */
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
+
         return $grouppermHandler->deleteByModule($module->getVar('mid'), 'item_read');
     }
+
     return true;
 }

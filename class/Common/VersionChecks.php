@@ -111,7 +111,7 @@ trait VersionChecks
                 $curlReturn = curl_exec($curlHandle);
                 if (false === $curlReturn) {
                     trigger_error(curl_error($curlHandle));
-                } elseif (strpos($curlReturn, 'Not Found')) {
+                } elseif (false !== strpos($curlReturn, 'Not Found')) {
                     trigger_error('Repository Not Found: ' . $infoReleasesUrl);
                 } else {
                     $file              = json_decode($curlReturn, false);

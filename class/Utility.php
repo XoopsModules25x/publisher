@@ -921,6 +921,7 @@ class Utility
         $helper = Publisher\Helper::getInstance();
 
         $selectedId = explode(',', $selectedId);
+        $selectedId = array_map(function ($value) { return (int)$value; }, $selectedId);
 
         $ret = "<select name='" . $selectname . "[]' multiple='multiple' size='10'>";
         if ($allCatOption) {

@@ -65,9 +65,9 @@ $categories = [];
 if ($count > 0) {
     /** @var Publisher\Item $item */
     foreach ($items as $item) {
-        $catid = $item->categoryid();
-        if (!isset($categories[$catid])) {
-            $categories[$catid] = [
+        $catId = $item->categoryid();
+        if (!isset($categories[$catId])) {
+            $categories[$catId] = [
                 'count_items' => 0,
                 'count_hits'  => 0,
                 'title'       => $item->getCategoryName(),
@@ -75,9 +75,9 @@ if ($count > 0) {
             ];
         }
 
-        $categories[$catid]['count_items']++;
-        $categories[$catid]['count_hits'] += $item->counter();
-        $categories[$catid]['items'][]    = [
+        $categories[$catId]['count_items']++;
+        $categories[$catId]['count_hits'] += $item->counter();
+        $categories[$catId]['items'][]    = [
             'title'     => $item->getTitle(),
             'hits'      => $item->counter(),
             'link'      => $item->getItemLink(),

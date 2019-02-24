@@ -165,7 +165,9 @@ function publisher_items_columns_edit($options)
                                 '5' => 5,
                             ]);
     $catEle      = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[1], 0, true, 'options[1]'));
+
     $cItemsEle   = new \XoopsFormText(_MB_PUBLISHER_NUMBER_ITEMS_CAT, 'options[2]', 4, 255, $options[2]);
+
     $truncateEle = new \XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[3]', 4, 255, $options[3]);
 
     $tempEle = new \XoopsFormSelect(_MB_PUBLISHER_TEMPLATE, 'options[4]', $options[4]);

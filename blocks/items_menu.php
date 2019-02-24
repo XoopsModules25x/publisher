@@ -66,9 +66,9 @@ function publisher_items_menu_show($options)
         }
     }
 
-    foreach ($blockCategoriesObj as $catid => $blockCategoryObj) {
-        if ($catid != $categoryid) {
-            $block['categories'][$catid]['categoryLink'] = $blockCategoryObj->getCategoryLink($catLinkClass);
+    foreach ($blockCategoriesObj as $catId => $blockCategoryObj) {
+        if ($catId != $categoryid) {
+            $block['categories'][$catId]['categoryLink'] = $blockCategoryObj->getCategoryLink($catLinkClass);
         }
     }
 

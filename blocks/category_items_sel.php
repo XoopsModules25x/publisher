@@ -53,12 +53,12 @@ function publisher_category_items_sel_show($options)
 
     // creating the ITEM objects that belong to the selected category
     $block['categories'] = [];
-    foreach ($categories as $catID => $catObj) {
-        if (!in_array(0, $selectedcatids, true) && !in_array($catID, $selectedcatids, true)) {
+    foreach ($categories as $catId => $catObj) {
+        if (!in_array(0, $selectedcatids, true) && !in_array($catId, $selectedcatids, true)) {
             continue;
         }
 
-        $criteria = new \Criteria('categoryid', $catID);
+        $criteria = new \Criteria('categoryid', $catId);
         /** @var Publisher\ItemHandler $itemHandler */
         $itemHandler = $helper->getHandler('Item');
         $items       = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
@@ -70,17 +70,17 @@ function publisher_category_items_sel_show($options)
 
         $item['title']                          = $catObj->name();
         $item['itemurl']                        = 'none';
-        $block['categories'][$catID]['items'][] = $item;
+        $block['categories'][$catId]['items'][] = $item;
 
         foreach ($items[''] as $itemObj) {
             $item['title']                          = $itemObj->getTitle(isset($options[3]) ? $options[3] : 0);
             $item['itemurl']                        = $itemObj->getItemUrl();
-            $block['categories'][$catID]['items'][] = $item;
+            $block['categories'][$catId]['items'][] = $item;
         }
-        $block['categories'][$catID]['name'] = $catObj->name();
+        $block['categories'][$catId]['name'] = $catObj->name();
     }
 
-    unset($items, $categories, $itemObj, $catID, $catObj);
+    unset($items, $categories, $itemObj, $catId, $catObj);
 
     if (0 === count($block['categories'])) {
         return $block;

@@ -28,7 +28,7 @@ define('_MB_PUBLISHER_POSTEDBY', 'Published by');
 define('_MB_PUBLISHER_READMORE', 'Read more...');
 define('_MB_PUBLISHER_READS', 'reads');
 define('_MB_PUBLISHER_SELECT_ITEMS', 'if “No”, select the articles to be displayed:');
-define('_MB_PUBLISHER_SELECTCAT', 'Display category:');
+define('_MB_PUBLISHER_SELECTCAT', 'Select category to display:');
 define('_MB_PUBLISHER_VISITITEM', 'Visit the');
 define('_MB_PUBLISHER_WEIGHT', 'List by weight');
 define('_MB_PUBLISHER_WHO_WHEN', 'Published by %s on %s');
@@ -41,7 +41,7 @@ define('_MB_PUBLISHER_SHOWITEMS', 'Show Items');
 //--/bd
 define('_MB_PUBLISHER_FILES', 'files');
 define('_MB_PUBLISHER_DIRECTDOWNLOAD', 'Direct link to download the file instead of a link to the article?');
-define('_MB_PUBLISHER_FROM', 'SELECT articles <br> FROM ');
+define('_MB_PUBLISHER_FROM', 'Select articles <br> from ');
 define('_MB_PUBLISHER_UNTIL', '&nbsp;&nbsp;to');
 define('_MB_PUBLISHER_DATE_FORMAT', 'Date format must be mm/dd/yyy');
 define('_MB_PUBLISHER_ARTICLES_FROM_TO', 'Articles published between  %s  and  %s ');

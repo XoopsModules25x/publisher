@@ -876,12 +876,12 @@ class Utility
 
     /**
      * @param  null|Publisher\Category $categoryObj
-     * @param  int|array               $selectedid
+     * @param  int|array               $selectedId
      * @param  int                     $level
      * @param  string                  $ret
      * @return string
      */
-    public static function addCategoryOption(Publisher\Category $categoryObj, $selectedid = 0, $level = 0, $ret = '')
+    public static function addCategoryOption(Publisher\Category $categoryObj, $selectedId = 0, $level = 0, $ret = '')
     {
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
@@ -892,9 +892,9 @@ class Utility
         }
 
         $ret .= "<option value='" . $categoryObj->categoryid() . "'";
-        if (is_array($selectedid) && in_array($categoryObj->categoryid(), $selectedid, true)) {
+        if (is_array($selectedId) && in_array($categoryObj->categoryid(), $selectedId, true)) {
             $ret .= ' selected';
-        } elseif ($categoryObj->categoryid() == $selectedid) {
+        } elseif ($categoryObj->categoryid() == $selectedId) {
             $ret .= ' selected';
         }
         $ret .= '>' . $spaces . $categoryObj->name() . "</option>\n";
@@ -902,8 +902,8 @@ class Utility
         $subCategoriesObj = $helper->getHandler('Category')->getCategories(0, 0, $categoryObj->categoryid());
         if (count($subCategoriesObj) > 0) {
             ++$level;
-            foreach ($subCategoriesObj as $catID => $subCategoryObj) {
-                $ret .= static::addCategoryOption($subCategoryObj, $selectedid, $level);
+            foreach ($subCategoriesObj as $catId => $subCategoryObj) {
+                $ret .= static::addCategoryOption($subCategoryObj, $selectedId, $level);
             }
         }
 
@@ -911,23 +911,23 @@ class Utility
     }
 
     /**
-     * @param  int|array $selectedid
+     * @param  int|array $selectedId
      * @param  int       $parentcategory
      * @param  bool      $allCatOption
      * @param  string    $selectname
      * @return string
      */
-    public static function createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[0]')
+    public static function createCategorySelect($selectedId = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[1]')
     {
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
-        $selectedid = explode(',', $selectedid);
+        $selectedId = explode(',', $selectedId);
 
         $ret = "<select name='" . $selectname . "[]' multiple='multiple' size='10'>";
         if ($allCatOption) {
             $ret .= "<option value='0'";
-            if (in_array(0, $selectedid, true)) {
+            if (in_array(0, $selectedId, true)) {
                 $ret .= ' selected';
             }
             $ret .= '>' . _MB_PUBLISHER_ALLCAT . '</option>';
@@ -937,8 +937,8 @@ class Utility
         $categoriesObj = $helper->getHandler('Category')->getCategories(0, 0, $parentcategory);
 
         if (count($categoriesObj) > 0) {
-            foreach ($categoriesObj as $catID => $categoryObj) {
-                $ret .= static::addCategoryOption($categoryObj, $selectedid);
+            foreach ($categoriesObj as $catId => $categoryObj) {
+                $ret .= static::addCategoryOption($categoryObj, $selectedId);
             }
         }
         $ret .= '</select>';
@@ -947,12 +947,12 @@ class Utility
     }
 
     /**
-     * @param  int  $selectedid
+     * @param  int  $selectedId
      * @param  int  $parentcategory
      * @param  bool $allCatOption
      * @return string
      */
-    public static function createCategoryOptions($selectedid = 0, $parentcategory = 0, $allCatOption = true)
+    public static function createCategoryOptions($selectedId = 0, $parentcategory = 0, $allCatOption = true)
     {
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
@@ -966,8 +966,8 @@ class Utility
         // Creating category objects
         $categoriesObj = $helper->getHandler('Category')->getCategories(0, 0, $parentcategory);
         if (count($categoriesObj) > 0) {
-            foreach ($categoriesObj as $catID => $categoryObj) {
-                $ret .= static::addCategoryOption($categoryObj, $selectedid);
+            foreach ($categoriesObj as $catId => $categoryObj) {
+                $ret .= static::addCategoryOption($categoryObj, $selectedId);
             }
         }
 

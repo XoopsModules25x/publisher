@@ -1,6 +1,10 @@
 <h5>1.07 RC1       [2019-02-09]</h5>  Dev: XOOPS 2.5.10, PHP 7.2.8
 <hr>
 - added Resizer class for image upload (goffy)
+- added check for cloned repository existence on GitHub (goffy/mamba)
+- fixed block selection bug (liomj/mamba)
+- fixed block "between dates" bug (aerograf/mamba)
+
 
 
 <h5>1.07 Beta 1       [NOT RELEASED]</h5> Dev: XOOPS 2.5.9, PHP 7.3.1

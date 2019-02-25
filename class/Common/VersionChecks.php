@@ -111,6 +111,8 @@ trait VersionChecks
                 $curlReturn = curl_exec($curlHandle);
                 if (false === $curlReturn) {
                     trigger_error(curl_error($curlHandle));
+                } elseif (false !== strpos($curlReturn, 'Not Found')) {
+                    trigger_error('Repository Not Found: ' . $infoReleasesUrl);
                 } else {
                     $file              = json_decode($curlReturn, false);
                     $latestVersionLink = sprintf("https://github.com/$repository/archive/%s.zip", $file ? reset($file)->tag_name : $default);
@@ -129,7 +131,7 @@ trait VersionChecks
                     //"PHP-standardized" version
                     $moduleVersion = str_replace(' ', '', mb_strtolower($moduleVersion));
                     //                    $moduleVersion = '1.0'; //for testing only
-                    //                    $moduleDirName = 'publisher'; //for testing only
+                    //                    $moduleDirName = 'aktuelles'; //for testing only
                     if (!$prerelease && version_compare($moduleVersion, $latestVersion, '<')) {
                         $ret   = [];
                         $ret[] = $update;

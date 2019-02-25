@@ -237,7 +237,7 @@ if ('go' === $op) {
 
     // first create FmContent Topics as Publisher Categories
     foreach ($fmTopicObjs as $thisFmTopicObj) {
-        $CatIds = [
+        $catIds = [
             'oldid'  => $thisFmTopicObj->getVar('topic_id'),
             'oldpid' => $thisFmTopicObj->getVar('topic_pid'),
         ];
@@ -262,7 +262,7 @@ if ('go' === $op) {
             continue;
         }
 
-        $CatIds['newid'] = $categoryObj->categoryid();
+        $catIds['newid'] = $categoryObj->categoryid();
         ++$cnt_imported_cat;
 
         echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . "<br>\n";
@@ -278,7 +278,7 @@ if ('go' === $op) {
         foreach ($fmContentObjs as $thisFmContentObj) {
             $itemObj = $helper->getHandler('Item')->create();
             $itemObj->setVars([
-                                  'categoryid'       => $CatIds['newid'],
+                                  'categoryid'       => $catIds['newid'],
                                   'title'            => $thisFmContentObj->getVar('content_title'),
                                   'uid'              => $thisFmContentObj->getVar('content_uid'),
                                   'summary'          => $thisFmContentObj->getVar('content_short'),
@@ -319,22 +319,22 @@ if ('go' === $op) {
         $groupsIds = $grouppermHandler->getGroupIds('fmcontent_submit', $thisFmContentObj->getVar('topic_id'), $fm_module_id);
         Publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
-        $newCatArray[$CatIds['oldid']] = $CatIds;
-        unset($CatIds, $thisFmContentObj);
+        $newCatArray[$catIds['oldid']] = $catIds;
+        unset($catIds, $thisFmContentObj);
         echo "<br>\n";
     }
     //    unset($thisFmTopicObj);
 
     // Looping through cat to change the parentid to the new parentid
-    foreach ($newCatArray as $oldid => $CatIds) {
+    foreach ($newCatArray as $oldid => $catIds) {
         $criteria = new \CriteriaCompo();
-        $criteria->add(new \Criteria('categoryid', $CatIds['newid']));
-        $oldpid = $CatIds['oldpid'];
+        $criteria->add(new \Criteria('categoryid', $catIds['newid']));
+        $oldpid = $catIds['oldpid'];
         $newpid = (0 == $oldpid) ? $parentId : $newCatArray[$oldpid]['newid'];
         $helper->getHandler('Category')->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
-    unset($oldid, $CatIds);
+    unset($oldid, $catIds);
 
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . "<br>\n";

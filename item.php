@@ -223,7 +223,7 @@ $xoopsTpl->assign('perm_author_items', $helper->getConfig('perm_author_items'));
 // tags support
 if (xoops_isActiveModule('tag')) {
     require_once $GLOBALS['xoops']->path('modules/tag/include/tagbar.php');
-    $xoopsTpl->assign('tagbar', tagBar($itemId, $catid = 0));
+    $xoopsTpl->assign('tagbar', tagBar($itemId, $catId = 0));
 }
 
 /**

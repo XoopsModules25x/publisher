@@ -2,6 +2,9 @@
 <hr>
 - added Resizer class for image upload (goffy)
 - added check for cloned repository existence on GitHub (goffy/mamba)
+- fixed block selection bug (liomj/mamba)
+- fixed block "between dates" bug (aerograf/mamba)
+
 
 
 <h5>1.07 Beta 1       [NOT RELEASED]</h5> Dev: XOOPS 2.5.9, PHP 7.3.1

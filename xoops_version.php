@@ -200,8 +200,7 @@ $modversion['blocks'][] = [
     'description' => _MI_PUBLISHER_DATE_TO_DATE_DSC,
     'show_func'   => 'publisher_date_to_date_show',
     'edit_func'   => 'publisher_date_to_date_edit',
-//    'options'     => "formatTimestamp(time(), 'm/j/Y') . " | " . formatTimestamp(time(), 'm/j/Y')",
-    'options'     => "formatTimestamp(1424860422, 'm/j/Y') . " | " . formatTimestamp(time(), 'm/j/Y')",
+    'options'     => formatTimestamp(1424860422, 'm/j/Y') . " | " . formatTimestamp(time(), 'm/j/Y'),
     'template'    => 'publisher_date_to_date.tpl',
 ];
 

@@ -440,7 +440,7 @@ class Metagen
 
         $text = preg_replace($search, $replace, $document);
 
-        preg_replace_callback('/&#(\d+);/', function ($matches) {
+        preg_replace_callback('/&#(\d+);/', static function ($matches) {
             return chr($matches[1]);
         }, $document);
 

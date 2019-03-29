@@ -468,7 +468,7 @@ class Utility
 
         $text = preg_replace($search, $replace, $document);
 
-        preg_replace_callback('/&#(\d+);/', function ($matches) {
+        preg_replace_callback('/&#(\d+);/', static function ($matches) {
             return chr($matches[1]);
         }, $document);
 
@@ -923,7 +923,7 @@ class Utility
         $helper = Publisher\Helper::getInstance();
 
         $selectedId = explode(',', $selectedId);
-        $selectedId = array_map(function ($value) { return (int)$value; }, $selectedId);
+        $selectedId = array_map(static function ($value) { return (int)$value; }, $selectedId);
 
         $ret = "<select name='" . $selectname . "[]' multiple='multiple' size='10'>";
         if ($allCatOption) {

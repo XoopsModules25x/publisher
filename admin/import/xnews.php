@@ -138,7 +138,7 @@ if ('start' === $op) {
             $form->addElement($cat_label);
 
             // Publisher parent category
-            $mytree = new \XoopsTree($GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories'), 'categoryid', 'parentid');
+            $mytree = new \XoopsTree($GLOBALS['xoopsDB']->prefix($helper->getModule()->dirname() . '_categories'), 'categoryid', 'parentid');
             ob_start();
             $mytree->makeMySelBox('name', 'weight', $preset_id = 0, $none = 1, $sel_name = 'parent_category');
 

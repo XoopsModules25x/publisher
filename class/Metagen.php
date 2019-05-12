@@ -197,7 +197,7 @@ class Metagen
             $secondRoundKeywords = explode("'", $originalKeyword);
             foreach ($secondRoundKeywords as $secondRoundKeyword) {
                 if (mb_strlen($secondRoundKeyword) >= $minChar) {
-                    if (!in_array($secondRoundKeyword, $keywords, true)) {
+                    if (!in_array($secondRoundKeyword, $keywords)) {
                         $keywords[] = trim($secondRoundKeyword);
                     }
                 }
@@ -440,7 +440,7 @@ class Metagen
 
         $text = preg_replace($search, $replace, $document);
 
-        preg_replace_callback('/&#(\d+);/', function ($matches) {
+        preg_replace_callback('/&#(\d+);/', static function ($matches) {
             return chr($matches[1]);
         }, $document);
 

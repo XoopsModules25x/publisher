@@ -36,7 +36,7 @@ class Cloner
             }
         } else {
             $noChangeExtensions = ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ttf'];
-            if (in_array(mb_strtolower(pathinfo($path, PATHINFO_EXTENSION)), $noChangeExtensions, true)) {
+            if (in_array(mb_strtolower(pathinfo($path, PATHINFO_EXTENSION)), $noChangeExtensions)) {
                 // image
                 copy($path, $newPath);
             } else {

@@ -174,7 +174,7 @@ CREATE TABLE `publisher_rating` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `publisher_rating`
+# Table structure for table `publisher_reactions`
 #
 
 # CREATE TABLE `publisher_reactions` (

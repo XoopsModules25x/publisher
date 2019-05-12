@@ -42,7 +42,7 @@ function publisher_items_new_show($options)
 
     $block   = [];
     $allcats = false;
-    if (in_array(0, $selectedcatids, true)) {
+    if (in_array(0, $selectedcatids)) {
         $allcats = true;
     }
 

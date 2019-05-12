@@ -25,6 +25,8 @@ use XoopsModules\Publisher;
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
+require dirname(__DIR__) . '/preloads/autoloader.php';
+
 /** @var \XoopsDatabase $db */
 /** @var \XoopsModules\Publisher\Helper $helper */
 /** @var \XoopsModules\Publisher\Utility $utility */

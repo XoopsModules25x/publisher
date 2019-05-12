@@ -110,7 +110,7 @@ class CategoryForm extends \XoopsThemeForm
                     $editor = (null !== $GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
-            $editor     = (empty($editor) || !in_array($editor, $allowedEditors, true)) ? $this->helper->getConfig('submit_editor') : $editor;
+            $editor     = (empty($editor) || !in_array($editor, $allowedEditors)) ? $this->helper->getConfig('submit_editor') : $editor;
             $formEditor = new \XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowedEditors);
             $this->addElement($formEditor);
         } else {

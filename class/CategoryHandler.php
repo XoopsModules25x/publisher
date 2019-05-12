@@ -54,6 +54,23 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
+     * @param bool $isNew
+     *
+     * @return \XoopsObject
+     */
+    public function create($isNew = true)
+    {
+        $obj = parent::create($isNew);
+//        if ($isNew) {
+//            $obj->setDefaultPermissions();
+//        }
+        $obj->helper = $this->helper;
+
+        return $obj;
+    }
+
+
+    /**
      * retrieve an item
      *
      * @param int|null $id  itemid of the user

@@ -468,7 +468,7 @@ class Utility
 
         $text = preg_replace($search, $replace, $document);
 
-        preg_replace_callback('/&#(\d+);/', function ($matches) {
+        preg_replace_callback('/&#(\d+);/', static function ($matches) {
             return chr($matches[1]);
         }, $document);
 
@@ -724,7 +724,7 @@ class Utility
         $helper            = Publisher\Helper::getInstance();
         $categoriesGranted = $helper->getHandler('Permission')->getGrantedItems('category_moderation');
 
-        return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted, true));
+        return (is_object($itemObj) && in_array($itemObj->categoryid(), $categoriesGranted));
     }
 
     /**
@@ -892,7 +892,7 @@ class Utility
         }
 
         $ret .= "<option value='" . $categoryObj->categoryid() . "'";
-        if (is_array($selectedId) && in_array($categoryObj->categoryid(), $selectedId, true)) {
+        if (is_array($selectedId) && in_array($categoryObj->categoryid(), $selectedId)) {
             $ret .= ' selected';
         } elseif ($categoryObj->categoryid() == $selectedId) {
             $ret .= ' selected';
@@ -923,12 +923,12 @@ class Utility
         $helper = Publisher\Helper::getInstance();
 
         $selectedId = explode(',', $selectedId);
-        $selectedId = array_map(function ($value) { return (int)$value; }, $selectedId);
+        $selectedId = array_map(static function ($value) { return (int)$value; }, $selectedId);
 
         $ret = "<select name='" . $selectname . "[]' multiple='multiple' size='10'>";
         if ($allCatOption) {
             $ret .= "<option value='0'";
-            if (in_array(0, $selectedId, true)) {
+            if (in_array(0, $selectedId)) {
                 $ret .= ' selected';
             }
             $ret .= '>' . _MB_PUBLISHER_ALLCAT . '</option>';
@@ -1316,7 +1316,7 @@ class Utility
             $key = static::stringToInt($name);
             if (is_array($allowedEditors)) {
                 //for submit page
-                if (in_array($key, $allowedEditors, true)) {
+                if (in_array($key, $allowedEditors)) {
                     $ret[] = $name;
                 }
             } else {
@@ -1382,6 +1382,8 @@ class Utility
             $module = \XoopsModule::getByDirname($moduleDirName);
         }
         xoops_loadLanguage('admin', $moduleDirName);
+        xoops_loadLanguage('common', $moduleDirName);
+
 
         //check for minimum XOOPS version
         $currentVer = mb_substr(XOOPS_VERSION, 6); // get the numeric part of string
@@ -1413,6 +1415,8 @@ class Utility
             $module = \XoopsModule::getByDirname($moduleDirName);
         }
         xoops_loadLanguage('admin', $moduleDirName);
+        xoops_loadLanguage('common', $moduleDirName);
+
         // check for minimum PHP version
         $success = true;
 

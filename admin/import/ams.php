@@ -89,7 +89,7 @@ if ('start' === $op) {
             if (!isset($readgroup)) {
                 $readgroup = [];
             }
-            if (!in_array(XOOPS_GROUP_ADMIN, $readgroup, true)) {
+            if (!in_array(XOOPS_GROUP_ADMIN, $readgroup)) {
                 $readgroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($readgroup as $rgroup) {
@@ -105,7 +105,7 @@ if ('start' === $op) {
             if (!isset($writegroup)) {
                 $writegroup = [];
             }
-            if (!in_array(XOOPS_GROUP_ADMIN, $writegroup, true)) {
+            if (!in_array(XOOPS_GROUP_ADMIN, $writegroup)) {
                 $writegroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($writegroup as $wgroup) {
@@ -127,7 +127,7 @@ if ('start' === $op) {
             $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = [];
 
-            while (false !== (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result))) {
+            while (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) {
                 $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }

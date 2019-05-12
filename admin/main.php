@@ -303,7 +303,7 @@ if ($numrows > 0) {
         echo "<td class='even' align='center'>" . $itemsObj[$i]->comments() . '</td>';
 
         echo "<td class='even' align='center'>" . $statustxt . '</td>';
-        echo "<td class='even' align='center'> " . $approve . $clone . $modify . $delete . '</td>';
+        echo "<td class='even' align='center'> " . $approve . $modify . $delete . $clone . '</td>';
         echo '</tr>';
     }
 } else {

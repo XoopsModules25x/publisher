@@ -67,6 +67,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if ($isNew) {
             $obj->setDefaultPermissions();
         }
+        $obj->helper = $this->helper;
 
         return $obj;
     }
@@ -199,7 +200,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         }
         $theObjects = [];
         while (false !== ($myrow = $this->db->fetchArray($result))) {
-            $item = new Item();
+//            $item = new Item();
+            $item = $this->create();
             $item->assignVars($myrow);
             $theObjects[$myrow['itemid']] = $item;
             unset($item);
@@ -633,7 +635,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $grouppermHandler = xoops_getHandler('groupperm');
         $groups           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $searchin         = empty($searchin) ? ['title', 'body', 'summary'] : (is_array($searchin) ? $searchin : [$searchin]);
-        if (in_array('all', $searchin, true) || 0 === count($searchin)) {
+        if (in_array('all', $searchin) || 0 === count($searchin)) {
             $searchin = ['title', 'subtitle', 'body', 'summary', 'meta_keywords'];
         }
         if ($userid && is_array($userid)) {
@@ -652,19 +654,19 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $criteriaKeywords = new \CriteriaCompo();
             foreach ($queryArray as $iValue) {
                 $criteriaKeyword = new \CriteriaCompo();
-                if (in_array('title', $searchin, true)) {
+                if (in_array('title', $searchin)) {
                     $criteriaKeyword->add(new \Criteria('title', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
-                if (in_array('subtitle', $searchin, true)) {
+                if (in_array('subtitle', $searchin)) {
                     $criteriaKeyword->add(new \Criteria('subtitle', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
-                if (in_array('body', $searchin, true)) {
+                if (in_array('body', $searchin)) {
                     $criteriaKeyword->add(new \Criteria('body', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
-                if (in_array('summary', $searchin, true)) {
+                if (in_array('summary', $searchin)) {
                     $criteriaKeyword->add(new \Criteria('summary', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
-                if (in_array('meta_keywords', $searchin, true)) {
+                if (in_array('meta_keywords', $searchin)) {
                     $criteriaKeyword->add(new \Criteria('meta_keywords', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
                 $criteriaKeywords->add($criteriaKeyword, $andor);
@@ -755,7 +757,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $sql .= " " . $criteriaBig->renderWhere();
         $result = $this->db->query($sql);
         while (false !== ($row = $this->db->fetchArray($result))) {
-            $item = new Item();
+//            $item = new Item();
+            $item = static::create();
             $item->assignVars($row);
             $ret[$row['categoryid']] = $item;
             unset($item);
@@ -769,7 +772,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $sql    .= ' JOIN ' . $this->db->prefix($this->helper->getDirname() . '_items') . ' mi ON mi.datesub = mo.date';
         $result = $this->db->query($sql);
         while (false !== ($row = $this->db->fetchArray($result))) {
-            $item = new Item();
+            // $item = new Item();
+            $item = $this->create();
             $item->assignVars($row);
             $ret[$row['categoryid']] = $item;
             unset($item);

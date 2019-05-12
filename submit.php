@@ -122,7 +122,7 @@ $elements = [
 ];
 foreach ($elements as $element) {
     $classname = Constants::class;
-    if (Request::hasVar($element, 'POST') && !in_array(constant($classname . '::' . 'PUBLISHER_' . mb_strtoupper($element)), $formView, true)) {
+    if (Request::hasVar($element, 'POST') && !in_array(constant($classname . '::' . 'PUBLISHER_' . mb_strtoupper($element)), $formView)) {
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
     }
 }

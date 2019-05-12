@@ -61,8 +61,6 @@ class Category extends \XoopsObject
      */
     public function __construct()
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
-        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         $this->initVar('categoryid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('parentid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('name', XOBJ_DTYPE_TXTBOX, null, true, 100);
@@ -121,7 +119,7 @@ class Category extends \XoopsObject
         /** @var \XoopsModules\Publisher\PermissionHandler $permissionHandler */
         $permissionHandler = $this->helper->getHandler('Permission');
         $categoriesGranted = $permissionHandler->getGrantedItems('category_read');
-        if (in_array($this->categoryid(), $categoriesGranted, true)) {
+        if (in_array($this->categoryid(), $categoriesGranted)) {
             $ret = true;
         }
 

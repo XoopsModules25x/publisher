@@ -44,7 +44,7 @@ function publisher_items_recent_show($options)
     $selectedcatids = explode(',', $options[0]);
 
     $allcats = false;
-    if (in_array(0, $selectedcatids, true)) {
+    if (in_array(0, $selectedcatids)) {
         $allcats = true;
     }
 

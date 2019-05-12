@@ -197,7 +197,7 @@ class Metagen
             $secondRoundKeywords = explode("'", $originalKeyword);
             foreach ($secondRoundKeywords as $secondRoundKeyword) {
                 if (mb_strlen($secondRoundKeyword) >= $minChar) {
-                    if (!in_array($secondRoundKeyword, $keywords, true)) {
+                    if (!in_array($secondRoundKeyword, $keywords)) {
                         $keywords[] = trim($secondRoundKeyword);
                     }
                 }

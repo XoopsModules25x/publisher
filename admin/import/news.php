@@ -63,7 +63,7 @@ if ('start' === $op) {
             $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = [];
 
-            while (false !== (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result))) {
+            while (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) {
                 $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }

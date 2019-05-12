@@ -35,6 +35,8 @@ trait VersionChecks
             $module = \XoopsModule::getByDirname($moduleDirName);
         }
         xoops_loadLanguage('admin', $moduleDirName);
+        xoops_loadLanguage('common', $moduleDirName);
+
 
         //check for minimum XOOPS version
         $currentVer = mb_substr(XOOPS_VERSION, 6); // get the numeric part of string
@@ -66,6 +68,8 @@ trait VersionChecks
             $module = \XoopsModule::getByDirname($moduleDirName);
         }
         xoops_loadLanguage('admin', $moduleDirName);
+        xoops_loadLanguage('common', $moduleDirName);
+
         // check for minimum PHP version
         $success = true;
 

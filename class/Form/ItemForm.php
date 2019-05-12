@@ -195,7 +195,7 @@ class ItemForm extends Publisher\ThemeTabForm
                     $editor = (null !== $GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
                 }
             }
-            $editor = (empty($editor) || !in_array($editor, $allowedEditors, true)) ? $helper->getConfig('submit_editor') : $editor;
+            $editor = (empty($editor) || !in_array($editor, $allowedEditors)) ? $helper->getConfig('submit_editor') : $editor;
 
             $formEditor = new \XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowedEditors);
             $this->addElement($formEditor);

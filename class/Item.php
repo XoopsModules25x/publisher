@@ -50,8 +50,6 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
-        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         /** @var \XoopsDatabase $this->db */
         $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', XOBJ_DTYPE_INT, 0);
@@ -1012,7 +1010,7 @@ class Item extends \XoopsObject
                 if ($imageName == $imageFeatured) {
                     $this->setVar('image', $id);
                 }
-                if (in_array($imageName, $imageItem, true)) {
+                if (in_array($imageName, $imageItem)) {
                     $imageItemIds[] = $id;
                 }
             }

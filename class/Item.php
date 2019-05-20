@@ -50,6 +50,8 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         /** @var \XoopsDatabase $this->db */
         $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', XOBJ_DTYPE_INT, 0);
@@ -61,6 +63,7 @@ class Item extends \XoopsObject
         $this->initVar('uid', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('author_alias', XOBJ_DTYPE_TXTBOX, '', false, 255);
         $this->initVar('datesub', XOBJ_DTYPE_INT, '', false);
+        $this->initVar('dateexpire', XOBJ_DTYPE_INT, '', false);
         $this->initVar('status', XOBJ_DTYPE_INT, -1, false);
         $this->initVar('image', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('images', XOBJ_DTYPE_TXTBOX, '', false, 255);
@@ -298,6 +301,23 @@ class Item extends \XoopsObject
         return formatTimestamp($this->getVar('datesub', $format), $dateFormat);
     }
 
+    /**
+     * @param string $dateFormat
+     * @param string $format
+     *
+     * @return string
+     */
+    public function getDateExpire($dateFormat = '', $format = 'S')
+    {
+        if (empty($dateFormat)) {
+            $dateFormat = $this->helper->getConfig('format_date');
+        }
+        if (0 == $this->getVar('dateexpire')) {
+            return false;
+        }
+        return formatTimestamp($this->getVar('dateexpire', $format), $dateFormat);
+    }
+    
     /**
      * @param int $realName
      *
@@ -732,17 +752,18 @@ class Item extends \XoopsObject
             $itemPageId = $display;
             $display    = 'all';
         }
-        $item['itemid']    = $this->itemid();
-        $item['uid']       = $this->uid();
-        $item['itemurl']   = $this->getItemUrl();
-        $item['titlelink'] = $this->getItemLink('titlelink', $maxCharTitle);
-        $item['subtitle']  = $this->subtitle();
-        $item['datesub']   = $this->getDatesub();
-        $item['counter']   = $this->counter();
-        $item['who']       = $this->getWho();
-        $item['when']      = $this->getWhen();
-        $item['category']  = $this->getCategoryName();
-        $item              = $this->getMainImage($item);
+        $item['itemid']     = $this->itemid();
+        $item['uid']        = $this->uid();
+        $item['itemurl']    = $this->getItemUrl();
+        $item['titlelink']  = $this->getItemLink('titlelink', $maxCharTitle);
+        $item['subtitle']   = $this->subtitle();
+        $item['datesub']    = $this->getDatesub();
+        $item['dateexpire'] = $this->getDateExpire();
+        $item['counter']    = $this->counter();
+        $item['who']        = $this->getWho();
+        $item['when']       = $this->getWhen();
+        $item['category']   = $this->getCategoryName();
+        $item               = $this->getMainImage($item);
         switch ($display) {
             case 'summary':
             case 'list':
@@ -1057,6 +1078,32 @@ class Item extends \XoopsObject
             //            }
         } elseif ($this->isNew()) {
             $this->setVar('datesub', time());
+        }
+        
+        // date expire
+        if (0 !== Request::getInt('use_expire_yn', 0, 'POST')) {
+            if ('' !== Request::getString('dateexpire', '', 'POST')) {
+                $resExDate = Request::getArray('dateexpire', [], 'POST');
+                $resExTime = Request::getArray('dateexpire', [], 'POST');
+                $localTimestamp = strtotime($resExDate['date']) + $resExTime['time'];
+
+                // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime
+                $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
+                $tz             = timezone_name_from_abbr(null, $userTimeoffset * 3600);
+                if (false === $tz) {
+                    $tz = timezone_name_from_abbr(null, $userTimeoffset * 3600, false);
+                }
+
+                $userTimezone = new \DateTimeZone($tz);
+                $gmtTimezone  = new \DateTimeZone('GMT');
+                $myDateTime   = new \DateTime('now', $gmtTimezone);
+                $offset       = $userTimezone->getOffset($myDateTime);
+
+                $gmtTimestamp = $localTimestamp - $offset;
+                $this->setVar('dateexpire', $gmtTimestamp);
+            }
+        } else {
+            $this->setVar('dateexpire', 0);
         }
 
         $this->setVar('short_url', Request::getString('item_short_url', '', 'POST'));

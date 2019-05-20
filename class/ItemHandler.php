@@ -67,7 +67,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if ($isNew) {
             $obj->setDefaultPermissions();
         }
-        $obj->helper = $this->helper;
+		$obj->helper = $this->helper;
 
         return $obj;
     }
@@ -363,16 +363,48 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      * @param string $notNullFields
      * @param bool   $asObject
      * @param string $idKey
+	 * @param bool   $excludeExpired
      *
      * @return array
      */
-    public function getAllPublished($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none')
+    public function getAllPublished($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none', $excludeExpired = true)
     {
-        $otherCriteria = new \Criteria('datesub', time(), '<=');
+        
+        $otherCriteria = new \CriteriaCompo();
+        $criteriaDateSub = new \Criteria('datesub', time(), '<=');
+		$otherCriteria->add($criteriaDateSub);
+		if ($excludeExpired) {
+			// by default expired items are excluded from list of published items
+			$criteriaExpire = new \CriteriaCompo();
+			$criteriaExpire->add(new \Criteria('dateexpire', '0'), 'OR');
+			$criteriaExpire->add(new \Criteria('dateexpire', time() , '>='), 'OR');
+			$otherCriteria->add($criteriaExpire);
+		}
 
         return $this->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], $categoryid, $sort, $order, $notNullFields, $asObject, $otherCriteria, $idKey);
     }
 
+    /**
+     * @param int    $limit
+     * @param int    $start
+     * @param int    $categoryid
+     * @param string $sort
+     * @param string $order
+     * @param string $notNullFields
+     * @param bool   $asObject
+     * @param string $idKey
+     *
+     * @return array
+     */
+    public function getAllExpired($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none')
+    {
+        $otherCriteria = new \CriteriaCompo();
+		$otherCriteria->add(new \Criteria('dateexpire', time(), '<='));
+		$otherCriteria->add(new \Criteria('dateexpire', 0, '>'));
+
+        return $this->getItems($limit, $start, -1, $categoryid, $sort, $order, $notNullFields, $asObject, $otherCriteria, $idKey);
+    }
+    
     /**
      * @param Item $obj
      *

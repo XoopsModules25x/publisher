@@ -334,6 +334,32 @@ class ItemForm extends Publisher\ThemeTabForm
             $datesub_datetime->setDescription(_CO_PUBLISHER_DATESUB_DSC);
             $this->addElement($datesub_datetime);
         }
+        
+        // Date expire
+        if ($this->isGranted(Constants::PUBLISHER_DATEEXPIRE)) {
+            if ($obj->isNew()) {
+                $dateexpire = time();
+                $dateexpire_opt = 0;
+            } else {
+                if (0 == $obj->getVar('dateexpire')) {
+                    $dateexpire_opt = 0;
+                    $dateexpire = time();
+                } else {
+                    $dateexpire_opt = 1;
+                    $dateexpire = $obj->getVar('dateexpire');
+                }
+            }
+            
+            $dateExpireYesNo = new \XoopsFormRadioYN('', 'use_expire_yn', $dateexpire_opt);
+            $dateexpire_datetime = new \XoopsFormDateTime('', 'dateexpire', $size = 15, $dateexpire, true);
+            if (0 == $dateexpire_opt) {$dateexpire_datetime->setExtra('disabled="disabled"');}
+            
+            $dateExpireTray = new \XoopsFormElementTray(_CO_PUBLISHER_DATEEXPIRE, '');
+            $dateExpireTray->setDescription(_CO_PUBLISHER_DATEEXPIRE_DSC);
+            $dateExpireTray->addElement($dateExpireYesNo);
+            $dateExpireTray->addElement($dateexpire_datetime);
+            $this->addElement($dateExpireTray);
+        }
 
         // NOTIFY ON PUBLISH
         if ($this->isGranted(Constants::PUBLISHER_NOTIFY)) {

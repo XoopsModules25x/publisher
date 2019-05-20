@@ -67,6 +67,7 @@ class Constants
     const PUBLISHER_NOTIFY = 23;
     const PUBLISHER_SUBTITLE = 24;
     const PUBLISHER_AUTHOR_ALIAS = 25;
+    const PUBLISHER_DATEEXPIRE = 26;
 
     // Global constants
     const PUBLISHER_SEARCH = 1;

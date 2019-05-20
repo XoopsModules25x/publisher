@@ -1,4 +1,4 @@
-<h5>1.07 RC1       [2019-05-10]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.5
+<h5>1.08 RC1       [2019-05-10]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.5
 <hr>
 - reverted in_array() true check (mamba)
 

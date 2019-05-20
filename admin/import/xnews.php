@@ -303,6 +303,7 @@ if ('go' === $op) {
             $itemObj->setVar('body', $arrArticle['bodytext']);
             $itemObj->setVar('counter', $arrArticle['counter']);
             $itemObj->setVar('datesub', $arrArticle['created']);
+            $itemObj->setVar('dateexpire', $arrArticle['expired']);
             $itemObj->setVar('dohtml', !$arrArticle['nohtml']);
             $itemObj->setVar('dosmiley', !$arrArticle['nosmiley']);
             $itemObj->setVar('weight', 0);

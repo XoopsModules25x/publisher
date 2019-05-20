@@ -68,7 +68,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
 
         return $obj;
     }
-	
+
 
     /**
      * retrieve an item

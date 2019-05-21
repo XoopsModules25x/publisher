@@ -1016,7 +1016,7 @@ class Item extends \XoopsObject
         $this->setVar('subtitle', Request::getString('subtitle', '', 'POST'));
         $this->setVar('item_tag', Request::getString('item_tag', '', 'POST'));
 
-        if (false !== ($imageFeatured = Request::getString('image_featured', '', 'POST'))) {
+        if ('' !== ($imageFeatured = Request::getString('image_featured', '', 'POST'))) {
             $imageItem = Request::getArray('image_item', [], 'POST');
             //            $imageFeatured = Request::getString('image_featured', '', 'POST');
             //Todo: get a better image class for xoops!

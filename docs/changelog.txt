@@ -3,6 +3,8 @@
 - reverted in_array() true check (mamba)
 - added expiration date (goffy)
 - added option to select sort/order in block spotlight (goffy)
+- fixed bug in item_spot (goffy)
+- fixed bug in saving item - saving without image was not possible (goffy)
 
 <h5>1.07 RC1       [2019-02-09]</h5>  Dev: XOOPS 2.5.10, PHP 7.2.8
 <hr>

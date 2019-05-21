@@ -118,12 +118,13 @@ function publisher_items_spot_show($options)
     } else {
         $i = 1;
         if ($selItems && is_array($selItems)) {
+            $itemsCount = count($selItems);
             foreach ($selItems as $itemId) {
                 /** @var Publisher\Item $itemObj */
                 $itemObj = $itemHandler->get($itemId);
                 if (!$itemObj->notLoaded()) {
                     $item             = $itemObj->toArraySimple();
-                    $item['who_when'] = sprintf(_MB_PUBLISHER_WHO_WHEN, $itemObj->posterName, $itemObj->getDatesub);
+                    $item['who_when'] = sprintf(_MB_PUBLISHER_WHO_WHEN, $item['who'], $item['when']);
                     if ($i < $itemsCount) {
                         $item['showline'] = true;
                     } else {
@@ -150,7 +151,7 @@ function publisher_items_spot_show($options)
     $block['display_type']         = $optDisplayType;
 
     $block['publisher_url'] = PUBLISHER_URL;
-    $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/assets/css/publisher.css');
+    $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/assets/css/' . PUBLISHER_DIRNAME . '.css');
 
     return $block;
 }

@@ -49,12 +49,43 @@ function publisher_items_spot_show($options)
     $optDisplayType    = $options[6];
     $optTruncate       = (int)$options[7];
     $optCatImage       = $options[8];
+    $optSortOrder      = $options[9];
     if (0 == $optCategoryId) {
         $optCategoryId = -1;
     }
     $block = [];
     if (1 == $optDisplayLast) {
-        $itemsObj   = $itemHandler->getAllPublished($optItemsCount, 0, $optCategoryId, $sort = 'datesub', $order = 'DESC', 'summary');
+        switch ($optSortOrder) {
+            case 'title':
+                $sort  = 'title';
+                $order = 'ASC';
+                break;
+            case 'date':
+                $sort  = 'datesub';
+                $order = 'DESC';
+                break;
+            case 'counter':
+                $sort  = 'counter';
+                $order = 'DESC';
+                break;
+            case 'rating':
+                $sort  = 'rating';
+                $order = 'DESC';
+                break;
+            case 'votes':
+                $sort  = 'votes';
+                $order = 'DESC';
+                break;
+            case 'comments':
+                $sort  = 'comments';
+                $order = 'DESC';
+                break;
+            default:
+                $sort  = 'weight';
+                $order = 'ASC';
+                break;
+        }
+        $itemsObj   = $itemHandler->getAllPublished($optItemsCount, 0, $optCategoryId, $sort, $order, 'summary');
         $i          = 1;
         $itemsCount = count($itemsObj);
         if ($itemsObj) {
@@ -163,6 +194,16 @@ function publisher_items_spot_edit($options)
                              ]);
     $truncateEle = new \XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[7]', 4, 255, $options[7]);
     $imageEle    = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_CATIMAGE, 'options[8]', $options[8]);
+    $sortEle = new \XoopsFormSelect(_MI_PUBLISHER_ORDERBY, 'options[9]', $options[9]);
+    $sortEle->addOptionArray([
+                                'title'    => _MI_PUBLISHER_ORDERBY_TITLE,
+                                'date'     => _MI_PUBLISHER_ORDERBY_DATE,
+                                'counter'  => _MI_PUBLISHER_ORDERBY_HITS,
+                                'rating'   => _MI_PUBLISHER_ORDERBY_RATING,
+                                'votes'    => _MI_PUBLISHER_ORDERBY_VOTES,
+                                'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS,
+                                'weight'   => _MI_PUBLISHER_ORDERBY_WEIGHT,                               
+                             ]);
     $form->addElement($autoEle);
     $form->addElement($countEle);
     $form->addElement($catEle);
@@ -172,6 +213,7 @@ function publisher_items_spot_edit($options)
     $form->addElement($typeEle);
     $form->addElement($truncateEle);
     $form->addElement($imageEle);
+    $form->addElement($sortEle);
 
     return $form->render();
 }

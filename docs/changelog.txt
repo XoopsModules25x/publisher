@@ -2,6 +2,7 @@
 <hr>
 - reverted in_array() true check (mamba)
 - added expiration date (goffy)
+- added option to select sort/order in block spotlight (goffy)
 
 <h5>1.07 RC1       [2019-02-09]</h5>  Dev: XOOPS 2.5.10, PHP 7.2.8
 <hr>

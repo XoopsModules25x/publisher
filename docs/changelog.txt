@@ -1,6 +1,7 @@
-<h5>1.08 RC1       [2019-05-10]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.5
+<h5>1.07 RC2       [2019-05-10]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.5
 <hr>
 - reverted in_array() true check (mamba)
+- added expiration date (goffy)
 
 <h5>1.07 RC1       [2019-02-09]</h5>  Dev: XOOPS 2.5.10, PHP 7.2.8
 <hr>

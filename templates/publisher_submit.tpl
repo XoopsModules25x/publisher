@@ -48,7 +48,8 @@
             <{if $element.hidden}>
                 <{$element.body}>
             <{/if}>
-        <{/foreach}></form>
+        <{/foreach}>
+    </form>
 </div>
 
 <{if $isAdmin == 1}>

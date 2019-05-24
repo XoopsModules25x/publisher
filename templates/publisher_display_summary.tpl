@@ -12,9 +12,7 @@
                                                                                                 alt=''></a>&nbsp;<{$lang_category_summary}>
         </div>
         <div id='toptable'>
-        <span class='publisher_collaps_info'>
-            <{$lang_category_summary}>
-        </span>
+            <span class='publisher_collaps_info'><{$lang_category_summary}></span>
         <!-- Content under the collapsable bar //-->
     <{/if}>
 
@@ -34,24 +32,16 @@
             </a>&nbsp;<{$lang_items_title}>
         </div>
         <div id='bottomtable'>
-        <span class="publisher_collaps_info">
-            <{$smarty.const._MD_PUBLISHER_ITEMS_INFO}>
-        </span>
+            <span class="publisher_collaps_info"><{$smarty.const._MD_PUBLISHER_ITEMS_INFO}></span>
     <{/if}>
     <div align="right"><{$navbar}></div>
     <table border="0" width="90%" cellspacing="1" cellpadding="3" align="center" class="outer">
         <tr>
-            <td align="left" class="itemHead" width='60%'>
-                <strong><{$smarty.const._CO_PUBLISHER_TITLE}></strong>
-            </td>
+            <td align="left" class="itemHead" width='60%'><strong><{$smarty.const._CO_PUBLISHER_TITLE}></strong></td>
             <{if $display_date_col == 1}>
-                <td align="center" class="itemHead" width="30%">
-                    <strong><{$smarty.const._MD_PUBLISHER_DATESUB}></strong>
-                </td>
+                <td align="center" class="itemHead" width="30%"><strong><{$smarty.const._MD_PUBLISHER_DATESUB}></strong></td>
             <{/if}> <{if $display_hits_col == 1}>
-                <td align="center" class="itemHead" width="10%">
-                    <strong><{$smarty.const._MD_PUBLISHER_HITS}></strong>
-                </td>
+                <td align="center" class="itemHead" width="10%"><strong><{$smarty.const._MD_PUBLISHER_HITS}></strong></td>
             <{/if}>
         </tr>
         <!-- Start item loop -->
@@ -68,7 +58,8 @@
                     <td class="odd" align="left">
                         <div align="center"><{$item.datesub}></div>
                     </td>
-                <{/if}> <{if $display_hits_col == 1}>
+                <{/if}>
+                <{if $display_hits_col == 1}>
                     <td class="odd" align="left">
                         <div align="center"><{$item.counter}></div>
                     </td>
@@ -80,7 +71,7 @@
     <div align="right"><{$navbar}></div>
     <{if $collapsable_heading == 1}>
         </div>
-    <{/if}><!-- end of if $items -->
-<{/if}>
+    <{/if}>
+<{/if}><!-- end of if $items -->
 
 <{include file='db:publisher_footer.tpl'}>

@@ -5,11 +5,11 @@
 
     <{if $block.display_whowhen_link}>
         <div class="itemInfo">
-      <span class="itemPoster">
-        <div class="publisher_item_head_who">
-            <{$item.who_when}> (<{$item.counter}> <{$block.lang_reads}>)
-        </div>
-      </span>
+            <span class="itemPoster">
+                <div class="publisher_item_head_who">
+                    <{$item.who_when}> (<{$item.counter}> <{$block.lang_reads}>)
+                </div>
+            </span>
         </div>
     <{/if}>
 

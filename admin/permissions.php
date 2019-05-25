@@ -91,6 +91,7 @@ $form_options = [
     Constants::PUBLISHER_ITEM_UPLOAD_FILE      => _CO_PUBLISHER_ITEM_UPLOAD_FILE,
     Constants::PUBLISHER_UID                   => _CO_PUBLISHER_UID,
     Constants::PUBLISHER_DATESUB               => _CO_PUBLISHER_DATESUB,
+    Constants::PUBLISHER_DATEEXPIRE            => _CO_PUBLISHER_DATEEXPIRE,
     Constants::PUBLISHER_STATUS                => _CO_PUBLISHER_STATUS,
     Constants::PUBLISHER_ITEM_SHORT_URL        => _CO_PUBLISHER_ITEM_SHORT_URL,
     Constants::PUBLISHER_ITEM_META_KEYWORDS    => _CO_PUBLISHER_ITEM_META_KEYWORDS,

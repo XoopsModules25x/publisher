@@ -13,6 +13,8 @@ define('_CO_PUBLISHER_AVAILABLE_PAGE_WRAP', 'Available pages to wrap');
 define('_CO_PUBLISHER_AVAILABLE_PAGE_WRAP_DSC', 'Here are the pages available for wrapping in the body. Click on the page(s) you would like to wrap. Works with XOOPS editor only for the moment. Add manually if you are on another editor.');
 define('_CO_PUBLISHER_DATESUB', 'Published');
 define('_CO_PUBLISHER_DATESUB_DSC', 'Select the date of publication');
+define('_CO_PUBLISHER_DATEEXPIRE', 'Expiration date');
+define('_CO_PUBLISHER_DATEEXPIRE_DSC', 'Want you select a expiration date? Article will not shown anymore if expired');
 define('_CO_PUBLISHER_ITEM_META_DESCRIPTION', 'Meta Description');
 define('_CO_PUBLISHER_ITEM_META_DESCRIPTION_DSC', 'In order to help Search Engines, you can customize the meta description you would like to use for this article. if you leave this field empty when creating a category, it will automatically be populated with the Summary field of this article.');
 define('_CO_PUBLISHER_ITEM_META_KEYWORDS', 'Meta Keywords');

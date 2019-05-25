@@ -1,7 +1,13 @@
-<h5>1.07 RC1       [2019-05-10]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.5
+<h5>1.07 RC2       [2019-05-10]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.5
 <hr>
 - reverted in_array() true check (mamba)
 - added language folder for test data (mamba)
+- added expiration date (goffy)
+- added option to select sort/order in block spotlight (goffy)
+- fixed bug in item_spot (goffy)
+- fixed bug in saving item - saving without image was not possible (goffy)
+- restructured templates for better readability (goffy)
+- fixed bug in deleting category (goffy)
 
 <h5>1.07 RC1       [2019-02-09]</h5>  Dev: XOOPS 2.5.10, PHP 7.2.8
 <hr>

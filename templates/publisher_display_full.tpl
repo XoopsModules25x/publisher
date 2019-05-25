@@ -12,9 +12,7 @@
             &nbsp;<{$lang_category_summary}>
         </div>
         <div id='toptable'>
-        <span class="publisher_collaps_info">
-        <{$lang_category_summary}>
-        </span>
+            <span class="publisher_collaps_info"><{$lang_category_summary}></span>
         <!-- Content under the collapsable bar //-->
     <{/if}>
 
@@ -35,7 +33,7 @@
             &nbsp;<{$lang_items_title}>
         </div>
         <div id='bottomtable'>
-        <span class="publisher_collaps_info"><{$smarty.const._MD_PUBLISHER_ITEMS_INFO}></span>
+            <span class="publisher_collaps_info"><{$smarty.const._MD_PUBLISHER_ITEMS_INFO}></span>
     <{/if}>
     <div align="right"><{$navbar}></div>
     <!-- Start item loop -->

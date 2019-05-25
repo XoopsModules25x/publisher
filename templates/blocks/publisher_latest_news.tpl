@@ -54,10 +54,10 @@
             <{/section}>
         </tr>
     </table>
-    <{if $block.latestnews_scroll }>
-        </marquee><{/if}>
+    <{if $block.latestnews_scroll }></marquee><{/if}>
 
-    <div><{$block.morelink}><{$block.topiclink}><{$block.archivelink}><{$block.submitlink}></div><{/if}>
+    <div><{$block.morelink}><{$block.topiclink}><{$block.archivelink}><{$block.submitlink}></div>
+<{/if}>
 
 <{if $block.template == 'ticker'}>
     <marquee behavior='scroll' align='middle' direction='<{$block.scrolldir}>' height='<{$block.scrollheight}>' scrollamount='3' scrolldelay='<{$block.scrollspeed}>' onmouseover='this.stop()'
@@ -75,7 +75,8 @@
     <{php}>$GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
         $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
         $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
-        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');<{/php}>
+        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
+    <{/php}>
     <script type="text/javascript">
         jQuery(document).ready(function () {
 

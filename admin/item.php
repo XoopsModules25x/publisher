@@ -41,6 +41,7 @@ $op = Request::getString('additem', '', 'POST') ? 'additem' : (Request::getStrin
 // Where shall we start ?
 $submittedstartitem = Request::getInt('submittedstartitem', Request::getInt('submittedstartitem', 0, 'GET'), 'POST');
 $publishedstartitem = Request::getInt('publishedstartitem', Request::getInt('publishedstartitem', 0, 'GET'), 'POST');
+$expiredstartitem   = Request::getInt('publishedstartitem', Request::getInt('expiredstartitem', 0, 'GET'), 'POST');
 $offlinestartitem   = Request::getInt('offlinestartitem', Request::getInt('offlinestartitem', 0, 'GET'), 'POST');
 $rejectedstartitem  = Request::getInt('rejectedstartitem', Request::getInt('submittedstartitem', 0, 'GET'), 'POST');
 
@@ -181,6 +182,7 @@ switch ($op) {
         echo "<th width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . '</strong></td>';
         echo "<th width='20%' class='bg3' align='left'><strong>" . _AM_PUBLISHER_ITEMCATEGORYNAME . '</strong></td>';
         echo "<th class='bg3' align='left'><strong>" . _AM_PUBLISHER_TITLE . '</strong></td>';
+        echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_EXPIRE . '</strong></td>';
         echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . '</strong></td>';
         echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_AUTHOR . '</strong></td>';
         echo "<th width='80' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . '</strong></td>';
@@ -198,6 +200,7 @@ switch ($op) {
                 echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
                 echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . '</td>';
                 echo "<td class='even' align='left'><a href='" . PUBLISHER_URL . '/item.php?itemid=' . $itemsObj[$i]->itemid() . "'>" . $itemsObj[$i]->getTitle() . '</a></td>';
+                echo "<td class='even' align='center'>" . $itemsObj[$i]->getDateExpire() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->getDatesub() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->getWho() . '</td>';
                 echo "<td class='even' align='center'> $approve $clone $modify $delete </td>";
@@ -223,7 +226,7 @@ switch ($op) {
         // Get the total number of published ITEM
         $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_PUBLISHED]);
 
-        $itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $publishedstartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $publishedstartitem, -1, $orderBy, $ascOrDesc, '', true, 'none', false);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -233,6 +236,7 @@ switch ($op) {
         echo "<th width='20%' class='bg3' align='left'><strong>" . _AM_PUBLISHER_ITEMCATEGORYNAME . '</strong></td>';
         echo "<th class='bg3' align='left'><strong>" . _AM_PUBLISHER_TITLE . '</strong></td>';
         echo "<th width='30' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEM_VIEWS . '</strong></td>';
+        echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_EXPIRE . '</strong></td>';
         echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . '</strong></td>';
         echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_AUTHOR . '</strong></td>';
         echo "<th width='80' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . '</strong></td>';
@@ -250,6 +254,7 @@ switch ($op) {
                 echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . '</td>';
                 echo "<td class='even' align='left'>" . $itemsObj[$i]->getItemLink() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->counter() . '</td>';
+                echo "<td class='even' align='center'>" . $itemsObj[$i]->getDateExpire() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->getDatesub() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->getWho() . '</td>';
                 echo "<td class='even' align='center'> $modify $delete $clone</td>";
@@ -284,6 +289,7 @@ switch ($op) {
         echo "<th width='20%' class='bg3' align='left'><strong>" . _AM_PUBLISHER_ITEMCATEGORYNAME . '</strong></td>';
         echo "<th class='bg3' align='left'><strong>" . _AM_PUBLISHER_TITLE . '</strong></td>';
         echo "<th width='30' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEM_VIEWS . '</strong></td>';
+        echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_EXPIRE . '</strong></td>';
         echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . '</strong></td>';
         echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_AUTHOR . '</strong></td>';
 
@@ -302,6 +308,7 @@ switch ($op) {
                 echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . '</td>';
                 echo "<td class='even' align='left'>" . $itemsObj[$i]->getItemLink() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->counter() . '</td>';
+                echo "<td class='even' align='center'>" . $itemsObj[$i]->getDateExpire() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->getDatesub() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->getWho() . '</td>';
                 echo "<td class='even' align='center'>  $modify $delete $clone</td>";
@@ -335,6 +342,7 @@ switch ($op) {
         echo "<th width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . '</strong></td>';
         echo "<th width='20%' class='bg3' align='left'><strong>" . _AM_PUBLISHER_ITEMCATEGORYNAME . '</strong></td>';
         echo "<th class='bg3' align='left'><strong>" . _AM_PUBLISHER_TITLE . '</strong></td>';
+        echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_EXPIRE . '</strong></td>';
         echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . '</strong></td>';
         echo "<th width='90' class='bg3' align='center'><strong>" . _AM_PUBLISHER_AUTHOR . '</strong></td>';
         echo "<th width='80' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . '</strong></td>';
@@ -352,6 +360,7 @@ switch ($op) {
                 echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
                 echo "<td class='even' align='left'>" . $categoryObj->getCategoryLink() . '</td>';
                 echo "<td class='even' align='left'>" . $itemsObj[$i]->getItemLink() . '</td>';
+                echo "<td class='even' align='center'>" . $itemsObj[$i]->getDateExpire() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->getDatesub() . '</td>';
                 echo "<td class='even' align='center'>" . $itemsObj[$i]->getWho() . '</td>';
                 echo "<td class='even' align='center'> $modify $delete $clone</td>";

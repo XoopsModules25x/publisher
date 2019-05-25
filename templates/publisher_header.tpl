@@ -44,15 +44,19 @@
 <{if $publisher_display_breadcrumb}>
 
     <div class="publisher_headertable">
-    <{if $module_home}>
-        <span class="publisher_modulename"><{$module_home}></span>
-        <{if $title_and_welcome}>
-            <span><{$lang_mainintro}></span>
-        <{/if}> <{/if}> <{if $categoryPath}>
-    <span class="publisher_breadcrumb">
-            <{if $module_home}>
-                >
+        <{if $module_home}>
+            <span class="publisher_modulename"><{$module_home}></span>
+            <{if $title_and_welcome}>
+                <span><{$lang_mainintro}></span>
             <{/if}>
-        <{$categoryPath}></span>
+        <{/if}>
+        <{if $categoryPath}>
+            <span class="publisher_breadcrumb">
+                <{if $module_home}>
+                    >
+                <{/if}>
+                <{$categoryPath}>
+            </span>
+        <{/if}>
+    </div>
 <{/if}>
-    </div><{/if}>

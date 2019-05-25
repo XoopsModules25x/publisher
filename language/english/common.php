@@ -32,7 +32,7 @@ define('_CO_PUBLISHER_UID_DSC', 'Select the name of the poster');
 define('_CO_PUBLISHER_WEIGHT', 'Weight');
 define('_CO_PUBLISHER_ITEM_UPLOAD_FILE', 'File upload');
 define('_CO_PUBLISHER_ITEM_UPLOAD_FILE_DSC',
-       'SELECT a file FROM your computer TO attach it TO this article. You will be able TO ADD more files once the article has been created. Simply edit the article AND scroll AT the bottom OF the PAGE TO see the ADD FILE button.<br><br> FOR example, you could ADD a Word document OR an Excel document. You can even upload a Flash FILE AND it will be directly embedded INTO your article! ');
+       'Select a file from your computer to attach it to this article. You will be able to add more files once the article has been created. Simply edit the article and scroll at the bottom of the page to see the add file button.<br><br> for example, you could add a Word document or an Excel document. You can even upload a Flash file and it will be directly embedded into your article! ');
 //define('_CO_PUBLISHER_OPTIONS','Options');
 define('_CO_PUBLISHER_DISPLAY_SUMMARY', 'Display summary on the item page ?');
 define('_CO_PUBLISHER_DOHTML', 'Enable HTML tags');
@@ -168,6 +168,10 @@ define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC', 'If yes, t
 define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA', 'Export DB Schema to YAML');
 define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS', 'Export DB Schema to YAML was a success');
 define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR', 'ERROR: Export of DB Schema to YAML failed');
+define('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA_OK', 'Are you sure to Import Sample Data? (It will delete ALL current data)');
+define('CO_' . $moduleDirNameUpper . '_' . 'HIDE_SAMPLEDATA_BUTTONS', 'Hide the Import buttons)');
+define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLEDATA_BUTTONS', 'Show the Import buttons)');
+define('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM', 'Confirm');
 
 //letter choice
 define('CO_' . $moduleDirNameUpper . '_' . 'BROWSETOTOPIC', "<span style='font-weight: bold;'>Browse items alphabetically</span>");

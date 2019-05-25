@@ -8,6 +8,9 @@
 - fixed bug in saving item - saving without image was not possible (goffy)
 - restructured templates for better readability (goffy)
 - fixed bug in deleting category (goffy)
+- added feedback tab (mamba)
+- added migration tab for developers (mamba)
+-
 
 <h5>1.07 RC1       [2019-02-09]</h5>  Dev: XOOPS 2.5.10, PHP 7.2.8
 <hr>

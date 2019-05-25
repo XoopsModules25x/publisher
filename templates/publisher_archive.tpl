@@ -26,15 +26,17 @@
             <th align="center"><{$lang_date}></th>
         </tr>
         <{foreach item=story from=$stories}>
-        <tr class="<{cycle values=" even,odd"}>">
-            <td><{$story.title}></td>
-            <td align="center">
-                <a href="<{$story.print_link}>" rel="nofollow"><img src="<{$xoops_url}>/modules/<{$module_dirname}>/assets/images/links/print.gif" border="0" alt="<{$lang_printer}>"></a>
-                <a href="<{$story.mail_link}>" target="_top"><img src="<{$xoops_url}>/modules/<{$module_dirname}>/assets/images/links/friend.gif" border="0"
-                                                                  alt="<{$smarty.const._MD_PUBLISHER_SENDSTORY}>"></a>
-            </td>
-            <td align="center"><{$story.counter}></td>
-            <td align="center"><{$story.date}></td>
-            </tr><{/foreach}>
+            <tr class="<{cycle values=" even,odd"}>">
+                <td><{$story.title}></td>
+                <td align="center">
+                    <a href="<{$story.print_link}>" rel="nofollow"><img src="<{$xoops_url}>/modules/<{$module_dirname}>/assets/images/links/print.gif" border="0" alt="<{$lang_printer}>"></a>
+                    <a href="<{$story.mail_link}>" target="_top"><img src="<{$xoops_url}>/modules/<{$module_dirname}>/assets/images/links/friend.gif" border="0"
+                                                                      alt="<{$smarty.const._MD_PUBLISHER_SENDSTORY}>"></a>
+                </td>
+                <td align="center"><{$story.counter}></td>
+                <td align="center"><{$story.date}></td>
+            </tr>
+        <{/foreach}>
     </table>
-    <div><{$lang_storytotal}></div><{/if}>
+    <div><{$lang_storytotal}></div>
+<{/if}>

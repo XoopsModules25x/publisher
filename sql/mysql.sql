@@ -52,6 +52,7 @@ CREATE TABLE `publisher_items` (
   `uid`              INT(6)                    DEFAULT '0',
   `author_alias`     VARCHAR(255)     NOT NULL DEFAULT '',
   `datesub`          INT(11)          NOT NULL DEFAULT '0',
+  `dateexpire`       INT(11)          NOT NULL DEFAULT '0',
   `status`           INT(1)           NOT NULL DEFAULT '-1',
   `image`            INT(11)          NOT NULL DEFAULT '0',
   `images`           VARCHAR(255)     NOT NULL DEFAULT '',

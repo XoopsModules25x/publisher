@@ -145,6 +145,12 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
 
         return $grouppermHandler->deleteByModule($module->getVar('mid'), 'item_read');
     }
+    
+    // check table items for field `dateexpire`
+    if (!$GLOBALS['xoopsDB']->query('SELECT dateexpire FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items'))) {
+        $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items') . " ADD `dateexpire` INT(11) NULL DEFAULT '0' AFTER `datesub`";
+        $GLOBALS['xoopsDB']->queryF($sql);
+    }
 
     return true;
 }

@@ -10,9 +10,9 @@
             </td>
         </tr>
         <!-- <tr>
-        <td class="head" align="right"><strong><{$smarty.const._SR_TYPE}></strong></td>
-        <td class="even"><{$block.typeSelect}></td>
-      </tr>  -->
+            <td class="head" align="right"><strong><{$smarty.const._SR_TYPE}></strong></td>
+            <td class="even"><{$block.typeSelect}></td>
+        </tr>  -->
         <tr>
             <td class="even">
                 <strong><{$smarty.const._CO_PUBLISHER_CATEGORY}></strong></td>
@@ -23,7 +23,7 @@
         <!--  <tr>
             <td class="head" align="right"><strong><{$smarty.const._SR_SEARCHIN}></strong></td>
             <td class="even"><{$block.searchSelect}></td>
-          </tr>    -->
+        </tr>    -->
         <tr>
             <td class="even">
                 <strong><{$smarty.const._CO_PUBLISHER_UID}></strong>&nbsp;</td>
@@ -34,16 +34,17 @@
             </td>
         </tr>
         <!-- <tr>
-       <td class="head" align="right"><strong><{$smarty.const._CO_PUBLISHER_SORTBY}></strong>&nbsp;</td>
-       <td class="even"><{$block.sortbySelect}></td>
-     </tr>   --><{if $block.search_rule}>
-        <tr>
-            <td class="even"><strong><{$smarty.const._SR_SEARCHRULE}></strong>&nbsp;
-            </td>
-        </tr>
-        <tr>
-            <td class="odd"><{$block.search_rule}></td>
-        </tr>
+           <td class="head" align="right"><strong><{$smarty.const._CO_PUBLISHER_SORTBY}></strong>&nbsp;</td>
+           <td class="even"><{$block.sortbySelect}></td>
+        </tr>   -->
+        <{if $block.search_rule}>
+            <tr>
+                <td class="even"><strong><{$smarty.const._SR_SEARCHRULE}></strong>&nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td class="odd"><{$block.search_rule}></td>
+            </tr>
         <{/if}>
         <tr>
             <td class="odd">

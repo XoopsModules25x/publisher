@@ -132,11 +132,11 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     {
         /** @var \XoopsModules\Publisher\Category $category */
         // Deleting this category ITEMs
-        $criteria = new \Criteria('categoryid', $category->categoryid);
+        $criteria = new \Criteria('categoryid', $category->categoryid());
         $this->helper->getHandler('Item')->deleteAll($criteria);
         unset($criteria);
         // Deleting the sub categories
-        $subcats = &$this->getCategories(0, 0, $category->categoryid);
+        $subcats = &$this->getCategories(0, 0, $category->categoryid());
         foreach ($subcats as $subcat) {
             $this->delete($subcat);
         }
@@ -146,9 +146,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
             return false;
         }
         $moduleId = $this->helper->getModule()->getVar('mid');
-        xoops_groupperm_deletebymoditem($moduleId, 'category_read', $category->categoryid);
-        xoops_groupperm_deletebymoditem($moduleId, 'item_submit', $category->categoryid);
-        xoops_groupperm_deletebymoditem($moduleId, 'category_moderation', $category->categoryid);
+        xoops_groupperm_deletebymoditem($moduleId, 'category_read', $category->categoryid());
+        xoops_groupperm_deletebymoditem($moduleId, 'item_submit', $category->categoryid());
+        xoops_groupperm_deletebymoditem($moduleId, 'category_moderation', $category->categoryid());
 
         return true;
     }

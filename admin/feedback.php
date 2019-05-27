@@ -60,7 +60,7 @@ switch ($op) {
         $your_mail  = Request::getString('your_mail', '');
         $fb_type    = Request::getString('fb_type', '');
         $fb_content = Request::getText('fb_content', '');
-        $fb_content = str_replace(array("\r\n", "\n", "\r"), '<br>', $fb_content); //clean line break from dhtmltextarea
+        $fb_content = str_replace(["\r\n", "\n", "\r"], '<br>', $fb_content); //clean line break from dhtmltextarea
 
         $title       = constant('CO_' . $moduleDirNameUpper . '_' . 'FB_SEND_FOR') . $GLOBALS['xoopsModule']->getVar('dirname');
         $body        = constant('CO_' . $moduleDirNameUpper . '_' . 'FB_NAME') . ': ' . $your_name . '<br>';

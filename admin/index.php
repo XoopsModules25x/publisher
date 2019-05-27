@@ -54,7 +54,7 @@ if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.p
 }
 
 $modStats    = [];
-$moduleStats = $utility->getModuleStats($configurator, $modStats);
+$moduleStats = $utility::getModuleStats($configurator, $modStats);
 
 $adminObject->addInfoBox(constant('CO_' . $moduleDirNameUpper . '_' . 'STATS_SUMMARY'));
 if ($moduleStats && is_array($moduleStats)) {
@@ -133,12 +133,19 @@ if ($helper->getConfig('displaySampleButton')) {
 
 $adminObject->displayIndex();
 
+/**
+ * @param $yamlFile
+ * @return array|bool
+ */
 function loadAdminConfig($yamlFile)
 {
     $config = Yaml::loadWrapped($yamlFile); // work with phpmyadmin YAML dumps
     return $config;
 }
 
+/**
+ * @param $yamlFile
+ */
 function hideButtons($yamlFile)
 {
     $app['displaySampleButton'] = 0;
@@ -146,6 +153,9 @@ function hideButtons($yamlFile)
     redirect_header('index.php', 0, '');
 }
 
+/**
+ * @param $yamlFile
+ */
 function showButtons($yamlFile)
 {
     $app['displaySampleButton'] = 1;

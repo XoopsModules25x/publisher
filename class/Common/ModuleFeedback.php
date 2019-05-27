@@ -61,7 +61,7 @@ class ModuleFeedback extends \XoopsObject
      * @public function getFormFeedback:
      * provide form for sending a feedback to module author
      * @param bool $action
-     * @return XoopsThemeForm
+     * @return \XoopsThemeForm
      */
     public function getFormFeedback($action = false)
     {
@@ -104,8 +104,10 @@ class ModuleFeedback extends \XoopsObject
         $editorConfigs['cols']   = 40;
         $editorConfigs['width']  = '100%';
         $editorConfigs['height'] = '400px';
+        /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler           = xoops_getHandler('module');
         $module                  = $moduleHandler->getByDirname('system');
+        /** @var \XoopsConfigHandler $configHandler */
         $configHandler           = xoops_getHandler('config');
         $config                  =& $configHandler->getConfigsByCat(0, $module->getVar('mid'));
         $editorConfigs['editor'] = $config['general_editor'];

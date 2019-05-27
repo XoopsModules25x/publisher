@@ -380,6 +380,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
         $subcats = $this->getObjects($criteria, true);
+        /** @var Publisher\Category $subcat */
         foreach ($subcats as $subcat) {
             $ret[$subcat->getVar('parentid')][$subcat->getVar('categoryid')] = $subcat;
         }

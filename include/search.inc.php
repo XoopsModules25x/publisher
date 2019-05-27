@@ -86,7 +86,8 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
             $item['text']          = $sanitizedText;
             $item['author']        = $obj->author_alias();
             $item['datesub']       = $obj->getDatesub($helper->getConfig('format_date'));
-            $usersIds[$obj->uid()] = $obj->uid();
+            $objUid = $obj->uid();
+            $usersIds[$objUid] = $objUid;
             $ret[]                 = $item;
             unset($item, $sanitizedText);
         }

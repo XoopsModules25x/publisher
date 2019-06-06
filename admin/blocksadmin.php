@@ -51,7 +51,9 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     function listBlocks()
     {
         global $xoopsModule, $pathIcon16;
-        require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+//        require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+        xoops_load('xoopslist');
+        require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
         $moduleDirName      = basename(dirname(__DIR__));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
         /** @var \XoopsDatabase $db */
@@ -75,7 +77,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         ksort($module_list);
         echo "
         <h4 style='text-align:left;'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'BADMIN') . '</h4>';
-        $moduleHandler = xoops_getHandler('module');
+//        $moduleHandler = xoops_getHandler('module');
         echo "<form action='" . \Xmf\Request::getString('PHP_SELF', '', 'SERVER') . "' name='blockadmin' method='post'>";
         echo $GLOBALS['xoopsSecurity']->getTokenHTML();
         echo "<table width='100%' class='outer' cellpadding='4' cellspacing='1'>
@@ -415,7 +417,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
      * @param $side
      * @param $bcachetime
      */
-    function xtubeSetOrder($bid, $title, $weight, $visible, $side, $bcachetime)
+    function setOrder($bid, $title, $weight, $visible, $side, $bcachetime)
     {
         $myblock = new \XoopsBlock($bid);
         $myblock->setVar('title', $title);
@@ -429,7 +431,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     /**
      * @param $bid
      */
-    function xtubeEditBlock($bid)
+    function editBlock($bid)
     {
         require_once __DIR__ . '/admin_header.php';
         xoops_cp_header();
@@ -489,7 +491,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
      * @param $options
      * @param $groups
      */
-    function xtubeUpdateBlock($bid, $btitle, $bside, $bweight, $bvisible, $bcachetime, $bmodule, $options, $groups)
+    function updateBlock($bid, $btitle, $bside, $bweight, $bvisible, $bcachetime, $bmodule, $options, $groups)
     {
         $myblock = new \XoopsBlock($bid);
         $myblock->setVar('title', $btitle);
@@ -539,7 +541,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             if ($oldtitle[$i] !== $title[$i] || $oldweight[$i] !== $weight[$i] || $oldvisible[$i] !== $visible[$i]
                 || $oldside[$i] !== $side[$i]
                 || $oldbcachetime[$i] !== $bcachetime[$i]) {
-                xtubeSetOrder($bid[$i], $title[$i], $weight[$i], $visible[$i], $side[$i], $bcachetime[$i], $bmodule[$i]);
+                setOrder($bid[$i], $title[$i], $weight[$i], $visible[$i], $side[$i], $bcachetime[$i], $bmodule[$i]);
             }
             if (!empty($bmodule[$i]) && count($bmodule[$i]) > 0) {
                 $sql = sprintf('DELETE FROM `%s` WHERE block_id = %u', $GLOBALS['xoopsDB']->prefix('block_module_link'), $bid[$i]);
@@ -570,11 +572,11 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     }
 
     if ('edit' === $op) {
-        xtubeEditBlock($bid);
+        editBlock($bid);
     }
 
     if ('edit_ok' === $op) {
-        xtubeUpdateBlock($bid, $btitle, $bside, $bweight, $bvisible, $bcachetime, $bmodule, $options, $groups);
+        updateBlock($bid, $btitle, $bside, $bweight, $bvisible, $bcachetime, $bmodule, $options, $groups);
     }
 
     if ('clone_ok' === $op) {

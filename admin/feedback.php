@@ -29,8 +29,8 @@ $adminObject = \Xmf\Module\Admin::getInstance();
 $feedback = new \XoopsModules\Publisher\Common\ModuleFeedback;
 
 // It recovered the value of argument op in URL$
-$op            = Request::getString('op', 'list');
-$moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
+$op                 = Request::getString('op', 'list');
+$moduleDirName      = $GLOBALS['xoopsModule']->getVar('dirname');
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 xoops_loadLanguage('feedback', $moduleDirName);
 
@@ -43,7 +43,8 @@ switch ($op) {
         $feedback->name  = $GLOBALS['xoopsUser']->getVar('name');
         $feedback->email = $GLOBALS['xoopsUser']->getVar('email');
         $feedback->site  = XOOPS_URL;
-        $form            = $feedback->getFormFeedback();
+        /** @var \XoopsThemeForm $form */
+        $form = $feedback->getFormFeedback();
         echo $form->display();
         break;
 

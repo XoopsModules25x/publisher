@@ -118,14 +118,14 @@ switch ($op) {
 
         // Storing the item
         if (!$itemObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, $error_msg . Publisher\Utility::formatErrors($itemObj->getErrors()));
+            redirect_header('<script>javascript:history.go(-1)</script>', 3, $error_msg . Publisher\Utility::formatErrors($itemObj->getErrors()));
         }
 
         // attach file if any
         if (($item_upload_file = Request::getArray('item_upload_file', '', 'FILES')) && '' !== $item_upload_file['name']) {
             $file_upload_result = Publisher\Utility::uploadFile(false, false, $itemObj);
             if (true !== $file_upload_result) {
-                redirect_header('javascript:history.go(-1)', 3, $file_upload_result);
+                redirect_header('<script>javascript:history.go(-1)</script>', 3, $file_upload_result);
             }
         }
 

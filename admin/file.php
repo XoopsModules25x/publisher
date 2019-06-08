@@ -43,7 +43,7 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
         $fileObj = $helper->getHandler('File')->get($fileid);
 
         if ($fileObj->notLoaded()) {
-            redirect_header('javascript:history.go(-1)', 1, _AM_PUBLISHER_NOFILESELECTED);
+            redirect_header('<script>javascript:history.go(-1)</script>', 1, _AM_PUBLISHER_NOFILESELECTED);
         }
 
         echo "<br>\n";
@@ -86,7 +86,7 @@ switch ($op) {
         $fileid = Request::getInt('fileid', 0, 'GET');
         $itemid = Request::getInt('itemid', 0, 'GET');
         if ((0 == $fileid) && (0 == $itemid)) {
-            redirect_header('javascript:history.go(-1)', 3, _AM_PUBLISHER_NOITEMSELECTED);
+            redirect_header('<script>javascript:history.go(-1)</script>', 3, _AM_PUBLISHER_NOITEMSELECTED);
         }
 
         Publisher\Utility::cpHeader();

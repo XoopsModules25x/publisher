@@ -28,18 +28,24 @@ $itemId     = Request::getInt('itemid', 0, 'GET');
 $itemPageId = Request::getInt('page', -1, 'GET');
 
 if (0 == $itemId) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 /** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
+
+$publisherIsAdmin = $helper->isUserAdmin();
+if (false === $publisherIsAdmin) {
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NO_CAT_PERMISSIONS);
+}
+
 
 // Creating the item object for the selected item
 $itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected item was not found, exit
 if (!$itemObj) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl';
@@ -60,7 +66,7 @@ $categoryObj = $helper->getHandler('Category')->get($itemObj->categoryid());
 
 // Check user permissions to access that category of the selected item
 if (!$itemObj->accessGranted()) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 $com_replytitle = $itemObj->getTitle();
 

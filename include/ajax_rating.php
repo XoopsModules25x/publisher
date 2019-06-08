@@ -56,7 +56,7 @@ try {
 }
 catch (\Exception $e) {
     $helper->addLog($e);
-    //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    //    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
     $output = "unit_long$itemid|" . _NOPERM . "\n";
     echo $output;
 }
@@ -77,7 +77,7 @@ try {
 }
 catch (\Exception $e) {
     $helper->addLog($e);
-    //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    //    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_BAD . "\n";
     echo $output;
 }
@@ -112,7 +112,7 @@ try {
 }
 catch (\Exception $e) {
     $helper->addLog($e);
-    //    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    //    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_ALREADY . "\n";
     echo $output;
 }

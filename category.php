@@ -31,12 +31,12 @@ $categoryObj = $helper->getHandler('Category')->get($categoryid);
 
 // if the selected category was not found, exit
 if (!is_object($categoryObj) || $categoryObj->notLoaded()) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOCATEGORYSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOCATEGORYSELECTED);
 }
 
 // Check user permissions to access this category
 if (!$categoryObj->checkPermission()) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 
 // At which record shall we start

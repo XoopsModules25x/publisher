@@ -80,7 +80,7 @@ switch ($op) {
                 $max_imgheight     = $helper->getConfig('maximum_image_height');
                 $allowed_mimetypes = Publisher\Utility::getAllowedImagesTypes();
                 if (('' == $temp['tmp_name']) || !is_readable($temp['tmp_name'])) {
-                    redirect_header('javascript:history.go(-1)', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
+                    redirect_header('<script>javascript:history.go(-1)</script>', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
                 }
 
                 xoops_load('XoopsMediaUploader');
@@ -88,7 +88,7 @@ switch ($op) {
                 if ($uploader->fetchMedia($filename) && $uploader->upload()) {
                     $categoryObj->setVar('image', $uploader->getSavedFileName());
                 } else {
-                    redirect_header('javascript:history.go(-1)', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR . $uploader->getErrors());
+                    redirect_header('<script>javascript:history.go(-1)</script>', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR . $uploader->getErrors());
                 }
             }
         } else {
@@ -124,7 +124,7 @@ switch ($op) {
         }
 
         if (!$categoryObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, _AM_PUBLISHER_CATEGORY_SAVE_ERROR . Publisher\Utility::formatErrors($categoryObj->getErrors()));
+            redirect_header('<script>javascript:history.go(-1)</script>', 3, _AM_PUBLISHER_CATEGORY_SAVE_ERROR . Publisher\Utility::formatErrors($categoryObj->getErrors()));
         }
         // TODO : put this function in the category class
         Publisher\Utility::saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
@@ -143,7 +143,7 @@ switch ($op) {
                 $categoryObj->setVar('parentid', $parentCat);
 
                 if (!$categoryObj->store()) {
-                    redirect_header('javascript:history.go(-1)', 3, _AM_PUBLISHER_SUBCATEGORY_SAVE_ERROR . Publisher\Utility::formatErrors($categoryObj->getErrors()));
+                    redirect_header('<script>javascript:history.go(-1)</script>', 3, _AM_PUBLISHER_SUBCATEGORY_SAVE_ERROR . Publisher\Utility::formatErrors($categoryObj->getErrors()));
                 }
                 // TODO : put this function in the category class
                 Publisher\Utility::saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');

@@ -15,7 +15,7 @@ require_once __DIR__ . '/header.php';
 $itemid       = Request::getInt('itemid', 0, 'GET');
 $item_page_id = Request::getInt('page', -1, 'GET');
 if (0 == $itemid) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 //2.5.8
@@ -26,7 +26,7 @@ $itemObj = $helper->getHandler('Item')->get($itemid);
 
 // if the selected item was not found, exit
 if (!$itemObj) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 // Creating the category object that holds the selected item
@@ -34,7 +34,7 @@ $categoryObj = $helper->getHandler('Category')->get($itemObj->categoryid());
 
 // Check user permissions to access that category of the selected item
 if (!$itemObj->accessGranted()) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 
 $helper->loadLanguage('main');

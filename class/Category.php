@@ -110,9 +110,8 @@ class Category extends \XoopsObject
      */
     public function checkPermission()
     {
-        //        global $publisherIsAdmin;
         $ret = false;
-        if ($GLOBALS['publisherIsAdmin']) {
+        if (Publisher\Utility::userIsAdmin()) {
             return true;
         }
         if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->getVar('uid') == $this->moderator) {
@@ -181,7 +180,7 @@ class Category extends \XoopsObject
                 }
                 catch (\Exception $e) {
                     $this->helper->addLog($e);
-                    //                    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+                    //                    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
                 }
 
                 $ret = $parentObj->getCategoryPath($withAllLink) . ' <li> ' . $ret . '</li>';
@@ -214,7 +213,7 @@ class Category extends \XoopsObject
             }
             catch (\Exception $e) {
                 $this->helper->addLog($e);
-                //                    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+                //                    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
             }
 
             $ret = $parentObj->getCategoryPath(false);

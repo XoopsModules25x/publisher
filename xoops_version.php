@@ -908,17 +908,6 @@ $modversion['config'][] = [
     'category'    => 'submit',
 ];
 
-//$modversion['config'][] = array(
-//    'name'        => 'submit_editor',
-//    'title'       => '_MI_PUBLISHER_EDITOR',
-//    'description' => '_MI_PUBLISHER_EDITOR_DSC',
-//    'formtype'    => 'select',
-//    'valuetype'   => 'text',
-//    'options'     => XoopsLists::getEditorList(),
-//    'default'     => 'dhtmltextarea',
-//    'category'    => 'submit'
-//);
-
 $modversion['config'][] = [
     'name'        => 'submit_editor_rows',
     'title'       => '_MI_PUBLISHER_EDITOR_ROWS',
@@ -1032,6 +1021,23 @@ $modversion['config'][] = [
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
+    'category'    => 'submit',
+];
+
+$optCats = [_MI_PUBLISHER_IMGCAT_ALL => Constants::PUBLISHER_IMGCAT_ALL];
+$imageCategoryHandler = xoops_getHandler('imagecategory');
+$catlist = $imageCategoryHandler->getList();
+foreach ($catlist as $key => $value) {
+    $optCats[$value] = $value;
+}
+$modversion['config'][] = [
+    'name'        => 'submit_imgcat',
+    'title'       => '_MI_PUBLISHER_IMGCAT',
+    'description' => '_MI_PUBLISHER_IMGCAT_DSC',
+    'formtype'    => 'select_multi',
+    'valuetype'   => 'array',
+    'options'     => $optCats,
+    'default'     => [Constants::PUBLISHER_IMGCAT_ALL],
     'category'    => 'submit',
 ];
 

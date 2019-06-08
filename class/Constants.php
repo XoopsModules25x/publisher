@@ -77,4 +77,7 @@ class Constants
     const PUBLISHER_STATUS_FILE_NOTSET = -1;
     const PUBLISHER_STATUS_FILE_ACTIVE = 1;
     const PUBLISHER_STATUS_FILE_INACTIVE = 2;
+    
+    // Image categories
+    const PUBLISHER_IMGCAT_ALL = 'all';
 }

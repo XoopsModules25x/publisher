@@ -7,6 +7,10 @@
 - fixed bug in saving item - saving without image was not possible (goffy)
 - restructured templates for better readability (goffy)
 - fixed bug in deleting category (goffy)
+- detect whether article was truncated or not (goffy)
+- implemented possibility to preselect image categories (goffy)
+- added 'show more articles' to item_spot (goffy)
+- fixed problem with multiple cat select in item_spot (goffy)
 
 <h5>1.07 RC1       [2019-02-09]</h5>  Dev: XOOPS 2.5.10, PHP 7.2.8
 <hr>

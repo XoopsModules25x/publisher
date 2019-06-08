@@ -387,8 +387,15 @@ class ItemForm extends Publisher\ThemeTabForm
             } else {
                 $catlist = $imgcatHandler->getList($group, 'imgcat_read', 1);
             }
-            $catids = array_keys($catlist);
-
+            $imgcatConfig = $helper->getConfig('submit_imgcat');
+            if (in_array(Constants::PUBLISHER_IMGCAT_ALL, $imgcatConfig)) {
+                $catids = array_keys($catlist);
+            } else {
+                // compare selected in options with readable of user
+                $catlist = array_intersect ($catlist, $imgcatConfig);
+                $catids = array_keys($catlist);
+            }
+            
             $imageObjs = [];
             if (!empty($catids)) {
                 $imageHandler = xoops_getHandler('image');
@@ -474,12 +481,12 @@ $publisher(document).ready(function () {
             $button   = new \XoopsFormLabel('', "<div id='publisher_upload_button'>" . _CO_PUBLISHER_IMAGE_UPLOAD_NEW . '</div>');
             $nicename = new \XoopsFormText('', 'image_nicename', 30, 30, _CO_PUBLISHER_IMAGE_NICENAME);
 
-            $imgcatHandler = xoops_getHandler('imagecategory');
-            if (method_exists($imgcatHandler, 'getListByPermission')) {
-                $catlist = $imgcatHandler->getListByPermission($group, 'imgcat_read', 1);
-            } else {
-                $catlist = $imgcatHandler->getList($group, 'imgcat_read', 1);
-            }
+            // $imgcatHandler = xoops_getHandler('imagecategory');
+            // if (method_exists($imgcatHandler, 'getListByPermission')) {
+                // $catlist = $imgcatHandler->getListByPermission($group, 'imgcat_read', 1);
+            // } else {
+                // $catlist = $imgcatHandler->getList($group, 'imgcat_read', 1);
+            // }
             $imagecat = new \XoopsFormSelect('', 'imgcat_id', '', 1);
             $imagecat->addOptionArray($catlist);
 

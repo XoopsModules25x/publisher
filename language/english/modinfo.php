@@ -351,3 +351,8 @@ define('_MI_PUBLISHER_CONFCAT_SEARCH', '<span style="color: #FF0000; font-size: 
 define('_MI_PUBLISHER_CONFCAT_SEARCH_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
 
 define('_MI_PUBLISHER_ADMENU5', 'Blocks Admin');
+
+// 2019-05-31 Goffy
+define('_MI_PUBLISHER_IMGCAT_ALL', 'All categories');
+define('_MI_PUBLISHER_IMGCAT', 'Image categories');
+define('_MI_PUBLISHER_IMGCAT_DSC', 'Please select which cateories from XOOPS Image Manager should be used for adding images to your articles');

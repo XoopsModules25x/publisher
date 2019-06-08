@@ -1,6 +1,7 @@
 <h5>1.07 RC2       [2019-05-10]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.5
 <hr>
 - reverted in_array() true check (mamba)
+- added language folder for test data (mamba)
 - added expiration date (goffy)
 - added option to select sort/order in block spotlight (goffy)
 - fixed bug in item_spot (goffy)
@@ -11,6 +12,9 @@
 - implemented possibility to preselect image categories (goffy)
 - added 'show more articles' to item_spot (goffy)
 - fixed problem with multiple cat select in item_spot (goffy)
+- added feedback tab (mamba)
+- added migration tab for developers (mamba)
+
 
 <h5>1.07 RC1       [2019-02-09]</h5>  Dev: XOOPS 2.5.10, PHP 7.2.8
 <hr>
@@ -18,7 +22,6 @@
 - added check for cloned repository existence on GitHub (goffy/mamba)
 - fixed block selection bug (liomj/mamba)
 - fixed block "between dates" bug (aerograf/mamba)
-
 
 
 <h5>1.07 Beta 1       [NOT RELEASED]</h5> Dev: XOOPS 2.5.9, PHP 7.3.1

@@ -24,101 +24,120 @@ use XoopsModules\Publisher;
 require_once dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 /** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
+$helper->loadLanguage('common');
+$helper->loadLanguage('feedback');
 
 // get path to icons
 $pathIcon32    = \Xmf\Module\Admin::menuIconPath('');
 $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
-$adminmenu = [
-    [
-        'title' => _MI_PUBLISHER_ADMENU0,
-        'link'  => 'admin/index.php',
-        'icon'  => $pathIcon32 . '/home.png',
-    ],
+$adminmenu[] = [
+    'title' => _MI_PUBLISHER_ADMENU0,
+    'link'  => 'admin/index.php',
+    'icon'  => $pathIcon32 . '/home.png',
+];
 
-    [
-        'title' => _MI_PUBLISHER_ADMENU1,
-        'link'  => 'admin/main.php',
-        'icon'  => $pathIcon32 . '/manage.png',
-    ],
+$adminmenu[] = [
+    'title' => _MI_PUBLISHER_ADMENU1,
+    'link'  => 'admin/main.php',
+    'icon'  => $pathIcon32 . '/manage.png',
+];
 
-    // Category
-    [
-        'title' => _MI_PUBLISHER_ADMENU2,
-        'link'  => 'admin/category.php',
-        'icon'  => $pathIcon32 . '/category.png',
-    ],
+// Category
 
-    // Items
-    [
-        'title' => _MI_PUBLISHER_ADMENU3,
-        'link'  => 'admin/item.php',
-        'icon'  => $pathIcon32 . '/content.png',
-    ],
+$adminmenu[] = [
+    'title' => _MI_PUBLISHER_ADMENU2,
+    'link'  => 'admin/category.php',
+    'icon'  => $pathIcon32 . '/category.png',
+];
 
-    // Permissions
-    [
-        'title' => _MI_PUBLISHER_ADMENU4,
-        'link'  => 'admin/permissions.php',
-        'icon'  => $pathIcon32 . '/permissions.png',
-    ],
+// Items
+$adminmenu[] = [
+    'title' => _MI_PUBLISHER_ADMENU3,
+    'link'  => 'admin/item.php',
+    'icon'  => $pathIcon32 . '/content.png',
+];
+// Permissions
+$adminmenu[] = [
+    'title' => _MI_PUBLISHER_ADMENU4,
+    'link'  => 'admin/permissions.php',
+    'icon'  => $pathIcon32 . '/permissions.png',
+];
 
-    // Blocks Admin
-    [
-        'title' => _MI_PUBLISHER_ADMENU5,
-        'link'  => 'admin/blocksadmin.php',
-        'icon'  => $pathIcon32 . '/block.png',
-    ],
+// Blocks Admin
+$adminmenu[] = [
+    'title' => _MI_PUBLISHER_ADMENU5,
+    'link'  => 'admin/blocksadmin.php',
+    'icon'  => $pathIcon32 . '/block.png',
+];
+// Mimetypes
+$adminmenu[] = [
+    'title' => _MI_PUBLISHER_ADMENU6,
+    'link'  => 'admin/mimetypes.php',
+    'icon'  => $pathIcon32 . '/type.png',
+];
 
-    // Mimetypes
-    [
-        'title' => _MI_PUBLISHER_ADMENU6,
-        'link'  => 'admin/mimetypes.php',
-        'icon'  => $pathIcon32 . '/type.png',
-    ],
+//$adminmenu[] = [
 
-    // Preferences
-    //    array(
-    //        'title' => _PREFERENCES,
-    //        'link'  => 'admin/preferences.php',
-    //        'icon'  => '../../' . $pathIcon32 . '/administration.png'),
+// Preferences
+//    array(
+//        'title' => _PREFERENCES,
+//        'link'  => 'admin/preferences.php',
+//        'icon'  => '../../' . $pathIcon32 . '/administration.png'),
 
-    /*
-     //Comments
-        array(
-            "title" => _AM_PUBLISHER_COMMENTS,
-            "link"  => '../../modules/system/admin.php?fct=comments&amp;module=' . $module->getVar('mid'),
-            "icon"  => './assets/images/icon32/folder_txt.png'),
-    */
+/*
+ //Comments
+    array(
+        "title" => _AM_PUBLISHER_COMMENTS,
+        "link"  => '../../modules/system/admin.php?fct=comments&amp;module=' . $module->getVar('mid'),
+        "icon"  => './assets/images/icon32/folder_txt.png'),
+*/
 
-    //Import
-    [
-        'title' => _MI_PUBLISHER_IMPORT,
-        'link'  => 'admin/import.php',
-        'icon'  => $pathIcon32 . '/download.png',
-    ],
+//];
+//Import
+$adminmenu[] = [
+    'title' => _MI_PUBLISHER_IMPORT,
+    'link'  => 'admin/import.php',
+    'icon'  => $pathIcon32 . '/download.png',
+];
 
-    //Clone
-    [
-        'title' => _MI_PUBLISHER_MENU_CLONE,
-        'link'  => 'admin/clone.php',
-        'icon'  => $pathModIcon32 . '/editcopy.png',
-    ],
+//Clone
+$adminmenu[] = [
+    'title' => _MI_PUBLISHER_MENU_CLONE,
+    'link'  => 'admin/clone.php',
+    'icon'  => $pathModIcon32 . '/editcopy.png',
+];
 
-    //    [
-    //        'title' => _MI_PUBLISHER_MENU_HISTORY,
-    //        'link'  => 'admin/history.php',
-    //        'icon'  => $pathModIcon32 . '/editcopy.png'
-    //    ],
-    //About
-    [
-        'title' => _MI_PUBLISHER_ABOUT,
-        'link'  => 'admin/about.php',
-        'icon'  => $pathIcon32 . '/about.png',
-    ],
+//    [
+//        'title' => _MI_PUBLISHER_MENU_HISTORY,
+//        'link'  => 'admin/history.php',
+//        'icon'  => $pathModIcon32 . '/editcopy.png'
+//    ],
+
+//Feedback
+$adminmenu[] = [
+    'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_FEEDBACK'),
+    'link'  => 'admin/feedback.php',
+    'icon'  => $pathIcon32 . '/mail_foward.png',
+];
+
+if ($helper->getConfig('displayDeveloperTools')) {
+    $adminmenu[] = [
+        'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
+        'link' => 'admin/migrate.php',
+        'icon' => $pathIcon32 . '/database_go.png',
+    ];
+}
+
+//About
+$adminmenu[] = [
+    'title' => _MI_PUBLISHER_ABOUT,
+    'link'  => 'admin/about.php',
+    'icon'  => $pathIcon32 . '/about.png',
 ];
 
 $GLOBALS['xoTheme']->addStylesheet('modules/' . $moduleDirName . '/assets/css/style.css');

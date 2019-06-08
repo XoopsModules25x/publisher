@@ -218,8 +218,7 @@ class Item extends \XoopsObject
             // this page uses smarty template
             ob_start();
             require $page;
-            $content = ob_get_contents();
-            ob_end_clean();
+            $content = ob_get_clean();
             // Cleaning the content
             $bodyStartPos = mb_strpos($content, '<body>');
             if ($bodyStartPos) {

@@ -59,7 +59,18 @@ function publisher_items_recent_show($options)
     } else {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
+
     }
+
+    $publisherIsAdmin = $helper->isUserAdmin();
+    if (!$publisherIsAdmin) {
+        if (null === $criteria) {
+            $criteria = new \CriteriaCompo();
+        }
+        $criteriaDateSub = new \Criteria('datesub', time(), '<=');
+        $criteria->add($criteriaDateSub);
+    }
+
     $itemsObj = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
 
     $totalItems = count($itemsObj);

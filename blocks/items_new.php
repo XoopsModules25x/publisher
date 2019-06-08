@@ -58,7 +58,25 @@ function publisher_items_new_show($options)
     } else {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
+
     }
+
+
+        $publisherIsAdmin = $helper->isUserAdmin();
+        if (!$publisherIsAdmin) {
+            if (null === $criteria) {
+                $criteria = new \CriteriaCompo();
+            }
+            $criteriaDateSub = new \Criteria('datesub', time(), '<=');
+            $criteria->add($criteriaDateSub);
+        }
+
+//    $optCatItems    = (int)$options[2];
+//    $categoryId = -1;
+//    $categoryItemsObj = $itemHandler->getAllPublished($optCatItems, 0, $categoryId);
+
+
+
     $itemsObj = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
 
     $totalitems = count($itemsObj);

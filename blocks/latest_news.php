@@ -79,6 +79,15 @@ function publisher_latest_news_show($options)
         $criteria->add(new \Criteria('itemid', '(' . $selectedStories . ')', 'IN'));
     }
 
+    $publisherIsAdmin = $helper->isUserAdmin();
+    if (!$publisherIsAdmin) {
+        if (null === $criteria) {
+            $criteria = new \CriteriaCompo();
+        }
+        $criteriaDateSub = new \Criteria('datesub', time(), '<=');
+        $criteria->add($criteriaDateSub);
+    }
+
     $itemsObj = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'itemid');
 
     $scount = count($itemsObj);

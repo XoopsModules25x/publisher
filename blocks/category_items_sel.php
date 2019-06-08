@@ -58,9 +58,23 @@ function publisher_category_items_sel_show($options)
             continue;
         }
 
-        $criteria = new \Criteria('categoryid', $catId);
+//        $criteria = new \Criteria('categoryid', $catId);
+
+
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('categoryid', $catId));
+
+
+
         /** @var Publisher\ItemHandler $itemHandler */
         $itemHandler = $helper->getHandler('Item');
+
+        $publisherIsAdmin = $helper->isUserAdmin();
+        if (!$publisherIsAdmin) {
+            $criteriaDateSub = new \Criteria('datesub', time(), '<=');
+            $criteria->add($criteriaDateSub);
+        }
+
         $items       = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
         unset($criteria);
 

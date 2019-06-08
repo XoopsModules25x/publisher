@@ -30,14 +30,14 @@ $fileid = Request::getInt('fileid', 0, 'GET');
 $fileObj = $helper->getHandler('File')->get($fileid);
 
 if ($fileObj->getVar('status' !== Constants::PUBLISHER_STATUS_FILE_ACTIVE)) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 
 $itemObj = $helper->getHandler('Item')->get($fileObj->getVar('itemid'));
 
 // Check user permissions to access this file
 if (!$itemObj->accessGranted()) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 // Creating the category object that holds the selected ITEM
 $categoryObj = $itemObj->getCategory();

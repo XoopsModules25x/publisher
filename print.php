@@ -28,7 +28,7 @@ require_once $GLOBALS['xoops']->path('class/template.php');
 $itemid = Request::getInt('itemid', 0, 'GET');
 
 if (0 == $itemid) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 // Creating the ITEM object for the selected ITEM
@@ -36,12 +36,12 @@ $itemObj = $helper->getHandler('Item')->get($itemid);
 
 // if the selected ITEM was not found, exit
 if ($itemObj->notLoaded()) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 // Check user permissions to access that category of the selected ITEM
 if (!$itemObj->accessGranted()) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 
 // Creating the category object that holds the selected ITEM

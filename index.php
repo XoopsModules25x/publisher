@@ -51,7 +51,7 @@ $categoriesObj = $helper->getHandler('Category')->getCategories($helper->getConf
 // if no categories are found, exit
 $totalCategoriesOnPage = count($categoriesObj);
 if (0 == $totalCategoriesOnPage) {
-    redirect_header('javascript:history.go(-1)', 2, _MD_PUBLISHER_NO_CAT_EXISTS);
+    redirect_header('<script>javascript:history.go(-1)</script>', 2, _MD_PUBLISHER_NO_CAT_EXISTS);
 }
 
 // Get subcats of the top categories

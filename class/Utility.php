@@ -912,10 +912,11 @@ class Utility
     }
 
     /**
-     * @param  int|array $selectedId
-     * @param  int       $parentcategory
-     * @param  bool      $allCatOption
-     * @param  string    $selectname
+     * @param int|array $selectedId
+     * @param int       $parentcategory
+     * @param bool      $allCatOption
+     * @param string    $selectname
+     * @param bool      $multiple
      * @return string
      */
     public static function createCategorySelect($selectedId = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[1]', $multiple = true)
@@ -924,7 +925,7 @@ class Utility
         $helper = Publisher\Helper::getInstance();
 
         $selectedId = explode(',', $selectedId);
-        $selectedId = array_map(static function ($value) { return (int)$value; }, $selectedId);
+        $selectedId = array_map('intval', $selectedId);
         $selMultiple = '';
         if ($multiple) {
             $selMultiple = " multiple='multiple'";

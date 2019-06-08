@@ -165,7 +165,7 @@ $modversion['blocks'][] = [
     'description' => _MI_PUBLISHER_ITEMSPOT_DSC,
     'show_func'   => 'publisher_items_spot_show',
     'edit_func'   => 'publisher_items_spot_edit',
-    'options'     => '1|5|0|0|1|1|bullet|0|0|date',
+    'options'     => '1|5|0|0|1|1|bullet|0|0|date|0',
     'template'    => 'publisher_items_spot.tpl',
 ];
 

@@ -14,6 +14,9 @@
 - fixed problem with multiple cat select in item_spot (goffy)
 - added feedback tab (mamba)
 - added migration tab for developers (mamba)
+- fixed typo, issue #109 (cesagonchu/mamba)
+- added preloads, issue #107 (liomj/mamba)
+- added missing option[10] default, issue #10 (aerograf /mamba)
 
 
 <h5>1.07 RC1       [2019-02-09]</h5>  Dev: XOOPS 2.5.10, PHP 7.2.8

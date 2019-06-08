@@ -917,15 +917,18 @@ class Utility
      * @param  string    $selectname
      * @return string
      */
-    public static function createCategorySelect($selectedId = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[1]')
+    public static function createCategorySelect($selectedId = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[1]', $multiple = true)
     {
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
         $selectedId = explode(',', $selectedId);
         $selectedId = array_map(static function ($value) { return (int)$value; }, $selectedId);
-
-        $ret = "<select name='" . $selectname . "[]' multiple='multiple' size='10'>";
+        $selMultiple = '';
+        if ($multiple) {
+            $selMultiple = " multiple='multiple'";
+        }
+        $ret = "<select name='" . $selectname . "[]'" . $selMultiple . " size='10'>";
         if ($allCatOption) {
             $ret .= "<option value='0'";
             if (in_array(0, $selectedId)) {

@@ -774,8 +774,9 @@ class Item extends \XoopsObject
                 if (!$summary) {
                     $summary = $this->getBody($maxCharSummary);
                 }
-                $item['summary'] = $summary;
-                $item            = $this->toArrayFull($item);
+                $item['summary']   = $summary;
+                $item['truncated'] = $maxCharSummary > 0 && strlen($summary) > $maxCharSummary;
+                $item              = $this->toArrayFull($item);
                 break;
             case 'all':
                 $item = $this->toArrayFull($item);

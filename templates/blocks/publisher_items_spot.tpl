@@ -30,3 +30,7 @@
         <{/if}>
     <{/foreach}>
 <{/if}>
+<{if $block.lang_displaymore}>
+    <div class="clear"></div>
+    <div class="col-xs-12 right"><a class="btn-readmore" href="<{$block.category.categoryurl}>" title="<{$block.lang_displaymore}>"><{$block.lang_displaymore}></a></div>
+<{/if}>

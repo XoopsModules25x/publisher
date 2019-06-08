@@ -18,6 +18,8 @@
 - added preloads, issue #107 (liomj/mamba)
 - added missing option[10] default, issue #10 (aerograf /mamba)
 - added <script>javascript (mamba)
+- $publisherIsAdmin consistency (mamba)
+- fixed Future Post appeared in blocks, issue #91 (myblackrx/liomj/mamba)
 
 
 

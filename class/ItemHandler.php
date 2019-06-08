@@ -51,7 +51,11 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db = null, $helper = null)
     {
         /** @var Publisher\Helper $this->helper */
-        $this->helper = $helper;
+        if (null === $helper) {
+            $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+        } else {
+            $this->helper = $helper;
+        }
         $this->publisherIsAdmin = $this->helper->isUserAdmin();
         parent::__construct($db, 'publisher_items', Item::class, 'itemid', 'title');
     }
@@ -326,14 +330,6 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //        $ret = array();
         $criteria = $this->getItemsCriteria($categoryid, $status, $notNullFields, $criteriaPermissions);
 
-//        $publisherIsAdmin = $this->helper->isUserAdmin(); //mb
-//        if (!$this->publisherIsAdmin) {
-//            $criteriaDateSub = new \Criteria('datesub', time(), '<=');
-//            $criteria->add($criteriaDateSub);
-//        }
-
-
-
         /*
                 if (isset($categoryid) && $categoryid != -1) {
                     $criteriaCategory = new \Criteria('categoryid', $categoryid);
@@ -504,16 +500,16 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param  int          $limit
-     * @param  int          $start
-     * @param  array|string $status
-     * @param  int          $categoryid
-     * @param  string       $sort
-     * @param  string       $order
-     * @param  string       $notNullFields
-     * @param  bool         $asObject
-     * @param  null         $otherCriteria
-     * @param  bool|string  $idKey
+     * @param int                $limit
+     * @param int                $start
+     * @param array|string       $status
+     * @param int                $categoryid
+     * @param string             $sort
+     * @param string             $order
+     * @param string             $notNullFields
+     * @param bool               $asObject
+     * @param null\CriteriaCompo $otherCriteria
+     * @param bool|string        $idKey
      * @return array
      * @internal param bool $asObject
      */

@@ -1,4 +1,4 @@
-<h5>1.07 RC2       [2019-05-10]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.5
+<h5>1.07 RC2       [2019-06-08]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.6
 <hr>
 - reverted in_array() true check (mamba)
 - added language folder for test data (mamba)
@@ -20,7 +20,6 @@
 - added <script>javascript (mamba)
 - $publisherIsAdmin consistency (mamba)
 - fixed Future Post appeared in blocks, issue #91 (myblackrx/liomj/mamba)
-
 
 
 <h5>1.07 RC1       [2019-02-09]</h5>  Dev: XOOPS 2.5.10, PHP 7.2.8

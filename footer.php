@@ -39,7 +39,7 @@ $xoTheme->addScript(PUBLISHER_URL . '/assets/js/funcs.js');
 $xoopsTpl->assign('xoops_module_header', '<link rel="alternate" type="application/rss+xml" title="' . $helper->getModule()->name() . '" href="' . PUBLISHER_URL . '/backend.php">' . @$xoopsTpl->get_template_vars('xoops_module_header'));
 
 $xoopsTpl->assign('publisher_adminpage', "<a href='" . PUBLISHER_URL . "/admin/index.php'>" . _MD_PUBLISHER_ADMIN_PAGE . '</a>');
-$xoopsTpl->assign('isAdmin', $publisherIsAdmin);
+$xoopsTpl->assign('isAdmin', Publisher\Utility::userIsAdmin());
 $xoopsTpl->assign('publisher_url', PUBLISHER_URL);
 $xoopsTpl->assign('publisherImagesUrl', PUBLISHER_IMAGES_URL);
 

@@ -695,7 +695,8 @@ class Utility
         if (!$GLOBALS['xoopsUser']) {
             $publisherIsAdmin = false;
         } else {
-            $publisherIsAdmin = $GLOBALS['xoopsUser']->isAdmin($helper->getModule()->getVar('mid'));
+//            $publisherIsAdmin = $GLOBALS['xoopsUser']->isAdmin($helper->getModule()->getVar('mid'));
+            $publisherIsAdmin = $helper->isUserAdmin();
         }
 
         return $publisherIsAdmin;

@@ -41,6 +41,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * @var Helper
      */
     public $helper;
+    public $publisherIsAdmin;
 
     /**
      * @param \XoopsDatabase $db
@@ -50,6 +51,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     {
         /** @var \XoopsModules\Publisher\Helper $this->helper */
         $this->helper = $helper;
+        $publisherIsAdmin = $this->helper->isUserAdmin();
         parent::__construct($db, 'publisher_categories', Category::class, 'categoryid', 'name');
     }
 
@@ -190,14 +192,13 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function &getCategories($limit = 0, $start = 0, $parentid = 0, $sort = 'weight', $order = 'ASC', $idAsKey = true)
     {
-        //        global $publisherIsAdmin;
-        $criteria = new \CriteriaCompo();
+         $criteria = new \CriteriaCompo();
         $criteria->setSort($sort);
         $criteria->setOrder($order);
         if (-1 != $parentid) {
             $criteria->add(new \Criteria('parentid', $parentid));
         }
-        if (!$GLOBALS['publisherIsAdmin']) {
+        if (!$this->publisherIsAdmin) {
             /** @var Publisher\PermissionHandler $permissionHandler */
             $permissionHandler = $this->helper->getHandler('Permission');
             $categoriesGranted = $permissionHandler->getGrantedItems('category_read');
@@ -244,12 +245,12 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function &getCategoriesForSubmit()
     {
-        global $publisherIsAdmin, $theresult;
+        global $theresult;
         $ret      = [];
         $criteria = new \CriteriaCompo();
         $criteria->setSort('name');
         $criteria->setOrder('ASC');
-        if (!$publisherIsAdmin) {
+        if (!$this->publisherIsAdmin) {
             $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('item_submit');
             if (count($categoriesGranted) > 0) {
                 $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
@@ -286,12 +287,13 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function getCategoriesForSearch()
     {
-        global $publisherIsAdmin, $theresult;
+        global $theresult;
+
         $ret      = [];
         $criteria = new \CriteriaCompo();
         $criteria->setSort('name');
         $criteria->setOrder('ASC');
-        if (!$publisherIsAdmin) {
+        if (!$this->publisherIsAdmin) {
             $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
             if (count($categoriesGranted) > 0) {
                 $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
@@ -330,14 +332,13 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function getCategoriesCount($parentid = 0)
     {
-        //        global $publisherIsAdmin;
         if (-1 == $parentid) {
             return $this->getCount();
         }
         $criteria = new \CriteriaCompo();
         if (isset($parentid) && (-1 != $parentid)) {
             $criteria->add(new \Criteria('parentid', $parentid));
-            if (!$GLOBALS['publisherIsAdmin']) {
+            if (!$this->publisherIsAdmin) {
                 $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
                 if (count($categoriesGranted) > 0) {
                     $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
@@ -362,10 +363,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function getSubCats($categories)
     {
-        //        global $publisherIsAdmin;
         $criteria = new \CriteriaCompo(new \Criteria('parentid', '(' . implode(',', array_keys($categories)) . ')', 'IN'));
         $ret      = [];
-        if (!$GLOBALS['publisherIsAdmin']) {
+        if (!$this->publisherIsAdmin) {
             $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
             if (count($categoriesGranted) > 0) {
                 $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));

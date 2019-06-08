@@ -23,8 +23,6 @@ namespace XoopsModules\Publisher;
 
 use XoopsModules\Publisher;
 
-//namespace Publisher;
-
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -42,6 +40,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      * @var Publisher\Helper
      */
     public $helper;
+    public $publisherIsAdmin;
 
     protected $resultCatCounts = [];
 
@@ -53,6 +52,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     {
         /** @var Publisher\Helper $this->helper */
         $this->helper = $helper;
+        $this->publisherIsAdmin = $this->helper->isUserAdmin();
         parent::__construct($db, 'publisher_items', Item::class, 'itemid', 'title');
     }
 
@@ -311,9 +311,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getItemsCount($categoryid = -1, $status = '', $notNullFields = '')
     {
-        //        global $publisherIsAdmin;
         $criteriaPermissions = null;
-        if (!$GLOBALS['publisherIsAdmin']) {
+        if (!$this->publisherIsAdmin) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
             $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
@@ -326,6 +325,15 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         }
         //        $ret = array();
         $criteria = $this->getItemsCriteria($categoryid, $status, $notNullFields, $criteriaPermissions);
+
+//        $publisherIsAdmin = $this->helper->isUserAdmin(); //mb
+//        if (!$this->publisherIsAdmin) {
+//            $criteriaDateSub = new \Criteria('datesub', time(), '<=');
+//            $criteria->add($criteriaDateSub);
+//        }
+
+
+
         /*
                 if (isset($categoryid) && $categoryid != -1) {
                     $criteriaCategory = new \Criteria('categoryid', $categoryid);
@@ -371,8 +379,10 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     {
         
         $otherCriteria = new \CriteriaCompo();
-        $criteriaDateSub = new \Criteria('datesub', time(), '<=');
-        $otherCriteria->add($criteriaDateSub);
+        if (!$this->publisherIsAdmin) {
+                    $criteriaDateSub = new \Criteria('datesub', time(), '<=');
+                    $otherCriteria->add($criteriaDateSub);
+        }
 		if ($excludeExpired) {
             // by default expired items are excluded from list of published items
             $criteriaExpire = new \CriteriaCompo();
@@ -509,9 +519,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getItems($limit = 0, $start = 0, $status = '', $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $otherCriteria = null, $idKey = 'none')
     {
-        //        global $publisherIsAdmin;
         $criteriaPermissions = null;
-        if (!$GLOBALS['publisherIsAdmin']) {
+        if (!$this->publisherIsAdmin) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
             $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
@@ -659,7 +668,6 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getItemsFromSearch($queryArray = [], $andor = 'AND', $limit = 0, $offset = 0, $userid = 0, $categories = [], $sortby = 0, $searchin = '', $extra = '')
     {
-        //        global $publisherIsAdmin;
         $count = 0;
         $ret   = [];
         $criteriaKeywords = $criteriaPermissions = $criteriaUser = null;
@@ -705,7 +713,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
                 unset($criteriaKeyword);
             }
         }
-        if (!$GLOBALS['publisherIsAdmin'] && (count($categories) > 0)) {
+        if (!$this->publisherIsAdmin && (count($categories) > 0)) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
             $categoriesGranted = $grouppermHandler->getItemIds('category_read', $groups, $this->helper->getModule()->getVar('mid'));

@@ -119,7 +119,7 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Format mime_types into array
      *
-     * @param null $mimeExt
+     * @param mixed|null $mimeExt
      *
      * @return array array of mime_types
      */

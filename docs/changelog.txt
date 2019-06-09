@@ -1,3 +1,9 @@
+<h5>1.07 Final       [2019-06-08]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.6
+<hr>
+- Unnecessary closures (mamba)
+- fix: delete $publisherIsAdmin check (mamba)
+
+
 <h5>1.07 RC2       [2019-06-08]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.6
 <hr>
 - reverted in_array() true check (mamba)

@@ -34,12 +34,6 @@ if (0 == $itemId) {
 /** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 
-$publisherIsAdmin = $helper->isUserAdmin();
-if (false === $publisherIsAdmin) {
-    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NO_CAT_PERMISSIONS);
-}
-
-
 // Creating the item object for the selected item
 $itemObj = $helper->getHandler('Item')->get($itemId);
 

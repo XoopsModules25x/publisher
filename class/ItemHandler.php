@@ -508,7 +508,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      * @param string             $order
      * @param string             $notNullFields
      * @param bool               $asObject
-     * @param null\CriteriaCompo $otherCriteria
+     * @param null|\CriteriaCompo $otherCriteria
      * @param bool|string        $idKey
      * @return array
      * @internal param bool $asObject

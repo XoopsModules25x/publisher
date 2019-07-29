@@ -3,6 +3,8 @@
 - added check uid (goffy)
   -- new item get current uid as default
   -- if access user is not granted then current uid will be used as default
+- added option to display number of reads in block spotlight (goffy)
+
 
 <h5>1.07 Final       [2019-06-08]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.6
 <hr>

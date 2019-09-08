@@ -52,10 +52,14 @@ class FileHandler extends \XoopsPersistableObjectHandler
      * @param \XoopsDatabase $db
      * @param null|\XoopsModules\Publisher\Helper           $helper
      */
-    public function __construct(\XoopsDatabase $db = null, $helper = null)
+    public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
         /** @var \XoopsModules\Publisher\Helper $this->helper */
-        $this->helper = $helper;
+        if (null === $helper) {
+            $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+        } else {
+            $this->helper = $helper;
+        }
         parent::__construct($db, 'publisher_files', File::class, 'fileid', 'name');
     }
 

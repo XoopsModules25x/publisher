@@ -48,7 +48,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      * @param \XoopsDatabase $db
      * @param null|\XoopsModules\Publisher\Helper           $helper
      */
-    public function __construct(\XoopsDatabase $db = null, $helper = null)
+    public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
         /** @var Publisher\Helper $this->helper */
         if (null === $helper) {
@@ -56,6 +56,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         } else {
             $this->helper = $helper;
         }
+
         $this->publisherIsAdmin = $this->helper->isUserAdmin();
         parent::__construct($db, 'publisher_items', Item::class, 'itemid', 'title');
     }
@@ -554,7 +555,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         */
         //        $ret = array();
 
-        if (!empty($otherCriteria)) {
+        if ($otherCriteria !== null) {
             $criteria->add($otherCriteria);
         }
         $criteria->setLimit($limit);

@@ -111,7 +111,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
         }
         $uid = [];
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $uid[] = $row['uid'];
+                $uid[] = $row['uid'];
         }
     } else {
         $uid = 0;

@@ -22,7 +22,7 @@ namespace XoopsModules\Publisher\Common;
  * @since       1.05
  */
 
-use XoopsModules\Publisher;
+//use XoopsModules\Publisher;
 
 /**
  * Class Configurator
@@ -31,6 +31,7 @@ class Configurator
 {
     public $name;
     public $paths           = [];
+    public $icons           = [];
     public $uploadFolders   = [];
     public $copyBlankFiles  = [];
     public $copyTestFolders = [];
@@ -46,14 +47,10 @@ class Configurator
      */
     public function __construct()
     {
-        $moduleDirName      = basename(dirname(dirname(__DIR__)));
-        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-        require dirname(dirname(__DIR__)) . '/include/config.php';
-        $config = getConfig();
+        $config = include dirname(dirname(__DIR__)) . '/config/config.php';
 
         $this->name            = $config->name;
-        $this->paths           = $config->paths;
         $this->uploadFolders   = $config->uploadFolders;
         $this->copyBlankFiles  = $config->copyBlankFiles;
         $this->copyTestFolders = $config->copyTestFolders;
@@ -63,5 +60,8 @@ class Configurator
         $this->renameTables    = $config->renameTables;
         $this->moduleStats     = $config->moduleStats;
         $this->modCopyright    = $config->modCopyright;
+
+        $this->paths = include dirname(dirname(__DIR__)) . '/config/paths.php';
+        $this->icons = include dirname(dirname(__DIR__)) . '/config/icons.php';
     }
 }

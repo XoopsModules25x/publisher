@@ -78,7 +78,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         echo "
         <h4 style='text-align:left;'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'BADMIN') . '</h4>';
 //        $moduleHandler = xoops_getHandler('module');
-        echo "<form action='" . \Xmf\Request::getString('PHP_SELF', '', 'SERVER') . "' name='blockadmin' method='post'>";
+        echo "<form action='" . \Xmf\Request::getString('SCRIPT_NAME', '', 'SERVER') . "' name='blockadmin' method='post'>";
         echo $GLOBALS['xoopsSecurity']->getTokenHTML();
         echo "<table width='100%' class='outer' cellpadding='4' cellspacing='1'>
         <tr valign='middle'><th align='center'>"

@@ -49,8 +49,8 @@ function publisher_items_spot_show($options)
     $optDisplayType     = $options[6];
     $optTruncate        = (int)$options[7];
     $optCatImage        = $options[8];
-    $optSortOrder       = $options[9];
-    $optBtnDisplayMore  = $options[10];
+    $optSortOrder       = isset($options[9])? $options[9]:'';
+    $optBtnDisplayMore  = isset($options[10])? $options[10]:'';
     if (0 == $optCategoryId) {
         $optCategoryId = -1;
     }

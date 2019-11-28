@@ -555,7 +555,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         */
         //        $ret = array();
 
-        if ($otherCriteria !== null) {
+        if (null !== $otherCriteria) {
             $criteria->add($otherCriteria);
         }
         $criteria->setLimit($limit);

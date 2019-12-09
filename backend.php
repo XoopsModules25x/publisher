@@ -71,14 +71,14 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     $tpl->assign('channel_generator', $helper->getModule()->name());
     $tpl->assign('channel_language', _LANGCODE);
     $tpl->assign('image_url', XOOPS_URL . '/images/logo.gif');
-    $dimention = getimagesize($GLOBALS['xoops']->path('images/logo.gif'));
-    if (empty($dimention[0])) {
+    $dimension = getimagesize($GLOBALS['xoops']->path('images/logo.gif'));
+    if (false === $dimension || empty($dimension[0])) {
         $width  = 140;
         $height = 140;
     } else {
-        $width        = ($dimention[0] > 140) ? 140 : $dimention[0];
-        $dimention[1] = $dimention[1] * $width / $dimention[0];
-        $height       = ($dimention[1] > 140) ? $dimention[1] * $dimention[0] / 140 : $dimention[1];
+        $width        = ($dimension[0] > 140) ? 140 : $dimension[0];
+        $dimension[1] = $dimension[1] * $width / $dimension[0];
+        $height       = ($dimension[1] > 140) ? $dimension[1] * $dimension[0] / 140 : $dimension[1];
     }
     $height = round($height, 0, PHP_ROUND_HALF_UP);
     $tpl->assign('image_width', $width);

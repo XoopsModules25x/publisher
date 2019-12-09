@@ -159,7 +159,7 @@ if ('go' === $op) {
             $itemObj->setVar('title', $arrArticle['title']);
             $itemObj->setVar('uid', $arrArticle['uid']);
             $itemObj->setVar('summary', $arrArticle['hometext']);
-            $itemObj->setVar('body', $arrArticle['bodytext'] == '' ? $arrArticle['hometext'] : $arrArticle['bodytext']); /* use hometext if no bodytext is available */
+            $itemObj->setVar('body', '' == $arrArticle['bodytext'] ? $arrArticle['hometext'] : $arrArticle['bodytext']); /* use hometext if no bodytext is available */
             $itemObj->setVar('counter', $arrArticle['counter']);
             $itemObj->setVar('datesub', $arrArticle['created']);
             $itemObj->setVar('dohtml', !$arrArticle['nohtml']);

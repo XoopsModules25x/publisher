@@ -525,7 +525,7 @@ class Item extends \XoopsObject
 
         $tags['MODULE_NAME']   = $this->helper->getModule()->getVar('name');
         $tags['ITEM_NAME']     = $this->getTitle();
-        $tags['ITEM_NAME']     = $this->subtitle();
+        $tags['ITEM_SUBNAME']  = $this->getSubtitle();
         $tags['CATEGORY_NAME'] = $this->getCategoryName();
         $tags['CATEGORY_URL']  = PUBLISHER_URL . '/category.php?categoryid=' . $this->categoryid();
         $tags['ITEM_BODY']     = $this->body();

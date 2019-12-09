@@ -40,7 +40,7 @@ class MimetypeHandler extends BaseObjectHandler
      * @param \XoopsDatabase $db
      * @param null|\XoopsModules\Publisher\Helper           $helper
      */
-    public function __construct(\XoopsDatabase $db = null, $helper = null)
+    public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
         /** @var \XoopsModules\Publisher\Helper $this->helper */
         if (null === $helper) {
@@ -48,6 +48,7 @@ class MimetypeHandler extends BaseObjectHandler
         } else {
             $this->helper = $helper;
         }
+
         $this->publisherIsAdmin = $this->helper->isUserAdmin();
         $this->db = $db;
         $this->className = Mimetype::class;

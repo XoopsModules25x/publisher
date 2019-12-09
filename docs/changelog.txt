@@ -1,3 +1,14 @@
+<h5>1.08 Alpha 1       [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.0 RC
+<hr>
+- added check uid (goffy)
+  -- new item get current uid as default
+  -- if access user is not granted then current uid will be used as default
+- Notification Title tag inadvertently overloaded (zyspec)
+- config updates, moved to /config (mamba)
+- use __NAMESPACE__ in Helper (mamba)
+- code cosmetics (mamba)
+
+
 <h5>1.07 Final       [2019-06-08]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.6
 <hr>
 - Unnecessary closures (mamba)

@@ -35,9 +35,9 @@ $editorHandler = \XoopsEditorHandler::getInstance();
 $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = [
-    'version'             => '1.07',
-    'module_status'       => 'Final',
-    'release_date'        => '2019/06/08',
+    'version'             => '1.08',
+    'module_status'       => 'Alpha 1',
+    'release_date'        => '2019/11/17',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -203,7 +203,7 @@ $modversion['blocks'][] = [
     'description' => _MI_PUBLISHER_DATE_TO_DATE_DSC,
     'show_func'   => 'publisher_date_to_date_show',
     'edit_func'   => 'publisher_date_to_date_edit',
-    'options'     => formatTimestamp(1424860422, 'm/j/Y') . " | " . formatTimestamp(time(), 'm/j/Y'),
+    'options'     => formatTimestamp(1424860422, 'm/j/Y') . ' | ' . formatTimestamp(time(), 'm/j/Y'),
     'template'    => 'publisher_date_to_date.tpl',
 ];
 

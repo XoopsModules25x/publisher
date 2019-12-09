@@ -108,7 +108,7 @@ $category = [];
 $items    = [];
 
 // Populating the smarty variables with informations related to the selected category
-$category                 = $categoryObj->toArraySimple(null, true);
+$category                 = $categoryObj->toArraySimple(null);
 $category['categoryPath'] = $categoryObj->getCategoryPath($helper->getConfig('format_linked_path'));
 
 //$totalItems = $publisher_categoryHandler->publishedItemsCount($helper->getConfig('idxcat_display_last_item'));

@@ -80,7 +80,7 @@ class Metagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        /** @var Publisher\Helper $this->helper */
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         $this->myts   = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);

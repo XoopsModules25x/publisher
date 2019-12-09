@@ -78,7 +78,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         echo "
         <h4 style='text-align:left;'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'BADMIN') . '</h4>';
 //        $moduleHandler = xoops_getHandler('module');
-        echo "<form action='" . \Xmf\Request::getString('PHP_SELF', '', 'SERVER') . "' name='blockadmin' method='post'>";
+        echo "<form action='" . \Xmf\Request::getString('SCRIPT_NAME', '', 'SERVER') . "' name='blockadmin' method='post'>";
         echo $GLOBALS['xoopsSecurity']->getTokenHTML();
         echo "<table width='100%' class='outer' cellpadding='4' cellspacing='1'>
         <tr valign='middle'><th align='center'>"
@@ -283,7 +283,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     }
 
     /**
-     * @param $bid
+     * @param int $bid
      */
     function cloneBlock($bid)
     {
@@ -331,6 +331,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         ];
         echo '<a href="blocksadmin.php">' . constant('CO_' . $moduleDirNameUpper . '_' . 'BADMIN') . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . _AM_SYSTEM_BLOCKS_CLONEBLOCK . '<br><br>';
         require_once __DIR__ . '/blockform.php';
+        /* @var  XoopsThemeForm $form */
         $form->display();
         //        xoops_cp_footer();
         require_once __DIR__ . '/admin_footer.php';
@@ -410,12 +411,12 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     }
 
     /**
-     * @param $bid
-     * @param $title
-     * @param $weight
-     * @param $visible
-     * @param $side
-     * @param $bcachetime
+     * @param int               $bid
+     * @param string            $title
+     * @param int               $weight
+     * @param bool              $visible
+     * @param string            $side
+     * @param int               $bcachetime
      */
     function setOrder($bid, $title, $weight, $visible, $side, $bcachetime)
     {
@@ -429,7 +430,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     }
 
     /**
-     * @param $bid
+     * @param int $bid
      */
     function editBlock($bid)
     {
@@ -474,6 +475,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         ];
         echo '<a href="blocksadmin.php">' . constant('CO_' . $moduleDirNameUpper . '_' . 'BADMIN') . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . _AM_SYSTEM_BLOCKS_EDITBLOCK . '<br><br>';
         require_once __DIR__ . '/blockform.php';
+        /* @var  XoopsThemeForm $form */
         $form->display();
         //        xoops_cp_footer();
         require_once __DIR__ . '/admin_footer.php';
@@ -481,16 +483,17 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     }
 
     /**
-     * @param $bid
-     * @param $btitle
-     * @param $bside
-     * @param $bweight
-     * @param $bvisible
-     * @param $bcachetime
-     * @param $bmodule
-     * @param $options
-     * @param $groups
+     * @param int               $bid
+     * @param string            $btitle
+     * @param string            $bside
+     * @param int               $bweight
+     * @param bool              $bvisible
+     * @param int               $bcachetime
+     * @param array             $bmodule
+     * @param null|array|string $options
+     * @param null|array        $groups
      */
+
     function updateBlock($bid, $btitle, $bside, $bweight, $bvisible, $bcachetime, $bmodule, $options, $groups)
     {
         $myblock = new \XoopsBlock($bid);
@@ -500,6 +503,9 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         $myblock->setVar('side', $bside);
         $myblock->setVar('bcachetime', $bcachetime);
         $myblock->store();
+        $moduleDirName = basename(dirname(__DIR__));
+        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
 
         if (!empty($bmodule) && count($bmodule) > 0) {
             $sql = sprintf('DELETE FROM `%s` WHERE block_id = %u', $GLOBALS['xoopsDB']->prefix('block_module_link'), $bid);

@@ -196,20 +196,22 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function &getCategories($limit = 0, $start = 0, $parentid = 0, $sort = 'weight', $order = 'ASC', $idAsKey = true)
     {
-         $criteria = new \CriteriaCompo();
+        $ret = [];
+        $criteria = new \CriteriaCompo();
         $criteria->setSort($sort);
-        $criteria->setOrder($order);
+        $criteria->order = $order; // used to fix bug in setOrder() for XOOPS < 2.5.10
         if (-1 != $parentid) {
-            $criteria->add(new \Criteria('parentid', $parentid));
+            $criteria->add(new \Criteria('parentid', (int)$parentid));
         }
         if (!$this->publisherIsAdmin) {
-            /** @var Publisher\PermissionHandler $permissionHandler */
+            /** @var \XoopsModules\Publisher\PermissionHandler $permissionHandler */
             $permissionHandler = $this->helper->getHandler('Permission');
             $categoriesGranted = $permissionHandler->getGrantedItems('category_read');
+var_dump($categoriesGranted);
             if (count($categoriesGranted) > 0) {
                 $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
             } else {
-                return [];
+                return $ret;
             }
             if (is_object($GLOBALS['xoopsUser'])) {
                 $criteria->add(new \Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');

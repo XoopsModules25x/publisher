@@ -23,14 +23,14 @@ use XoopsModules\Publisher;
 
 require_once __DIR__ . '/admin_header.php';
 
-$op = Request::getString('op', Request::getString('op', '', 'POST'), 'GET');
+$op = Request::getCmd('op', Request::getCmd('op', '', 'POST'), 'GET');
 
 $op = Request::getString('editor', '', 'POST') ? 'mod' : $op;
 $op = Request::getString('addcategory', '', 'POST') ? 'addcategory' : $op;
 
 // Where do we start ?
 $startcategory = Request::getInt('startcategory', 0, 'GET');
-$categoryid    = Request::getInt('categoryid');
+$categoryid    = Request::getInt('categoryid', null);
 
 switch ($op) {
     case 'del':

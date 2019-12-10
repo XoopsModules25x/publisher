@@ -1003,15 +1003,15 @@ class Timthumb
         if (!isset($docRoot)) {
             $this->debug(3, 'DOCUMENT_ROOT is not set. This is probably windows. Starting search 1.');
             if (\Xmf\Request::hasVar('SCRIPT_FILENAME', 'SERVER')) {
-                $docRoot = str_replace('\\', '/', mb_substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - mb_strlen($_SERVER['PHP_SELF'])));
-                $this->debug(3, "Generated docRoot using SCRIPT_FILENAME and PHP_SELF as: $docRoot");
+                $docRoot = str_replace('\\', '/', mb_substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - mb_strlen($_SERVER['SCRIPT_NAME'])));
+                $this->debug(3, "Generated docRoot using SCRIPT_FILENAME and SCRIPT_NAME as: $docRoot");
             }
         }
         if (!isset($docRoot)) {
             $this->debug(3, 'DOCUMENT_ROOT still is not set. Starting search 2.');
             if (\Xmf\Request::hasVar('PATH_TRANSLATED', 'SERVER')) {
-                $docRoot = str_replace('\\', '/', mb_substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - mb_strlen($_SERVER['PHP_SELF'])));
-                $this->debug(3, "Generated docRoot using PATH_TRANSLATED and PHP_SELF as: $docRoot");
+                $docRoot = str_replace('\\', '/', mb_substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - mb_strlen($_SERVER['SCRIPT_NAME'])));
+                $this->debug(3, "Generated docRoot using PATH_TRANSLATED and SCRIPT_NAME as: $docRoot");
             }
         }
         if ($docRoot && '/' !== $_SERVER['DOCUMENT_ROOT']) {

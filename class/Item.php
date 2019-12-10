@@ -316,7 +316,7 @@ class Item extends \XoopsObject
         }
         return formatTimestamp($this->getVar('dateexpire', $format), $dateFormat);
     }
-    
+
     /**
      * @param int $realName
      *
@@ -967,7 +967,7 @@ class Item extends \XoopsObject
     public function getForm($title = 'default', $checkperm = true)
     {
         //        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/item.php');
-        $form = new Publisher\Form\ItemForm($title, 'form', xoops_getenv('PHP_SELF'), 'post', true);
+        $form = new Publisher\Form\ItemForm($title, 'form', xoops_getenv('SCRIPT_NAME'), 'post', true);
         $form->setCheckPermissions($checkperm);
         $form->createElements($this);
 
@@ -1079,7 +1079,7 @@ class Item extends \XoopsObject
         } elseif ($this->isNew()) {
             $this->setVar('datesub', time());
         }
-        
+
         // date expire
         if (0 !== Request::getInt('use_expire_yn', 0, 'POST')) {
             if ('' !== Request::getString('dateexpire', '', 'POST')) {

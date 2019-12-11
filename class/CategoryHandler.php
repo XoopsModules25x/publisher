@@ -207,7 +207,6 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
             /** @var \XoopsModules\Publisher\PermissionHandler $permissionHandler */
             $permissionHandler = $this->helper->getHandler('Permission');
             $categoriesGranted = $permissionHandler->getGrantedItems('category_read');
-var_dump($categoriesGranted);
             if (count($categoriesGranted) > 0) {
                 $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
             } else {

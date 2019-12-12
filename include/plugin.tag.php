@@ -24,7 +24,8 @@ use XoopsModules\Publisher;
 
 /** Get item fields: title, content, time, link, uid, tags
  *
- * @param array $items
+ * @param array $items pass-by-ref
+ * @return bool true - items found | false - nothing found/created
  */
 function publisher_tag_iteminfo(&$items)
 {
@@ -51,11 +52,13 @@ function publisher_tag_iteminfo(&$items)
     $items_obj   = $itemHandler->getObjects($criteria, 'itemid');
 
     //make sure Tag module tag_parse_tag() can be found
-    if (!method_exists('XoopsModule\Tag\Utility', 'tag_parse_tag')) {
+    if (!method_exists('XoopsModules\Tag\Utility', 'tag_parse_tag')) {
+        // allows this plugin to work with Tag <= v2.34
         require_once $GLOBALS['xoops']->path('modules/tag/include/functions.php');
         $parse_function = 'tag_parse_tag';
     } else {
-        $parse_function = 'XoopsModule\Tag\Utility::tag_parse_tag';
+        // this will be used for Tag >= v2.35
+        $parse_function = 'XoopsModules\Tag\Utility::tag_parse_tag';
     }
 
     /** @var Publisher\Item $item_obj */
@@ -82,4 +85,27 @@ function publisher_tag_iteminfo(&$items)
 function publisher_tag_synchronization($mid)
 {
     // Optional
+    /** @var \XoopsModules\Publisher\ItemHandler $itemHandler */
+    $itemHandler = new \XoopsModules\Publisher\ItemHandler();
+
+    /** @var \XoopsModules\Tag\LinkHandler $itemHandler */
+    $linkHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Link');
+
+    //$mid = XoopsFilterInput::clean($mid, 'INT');
+    $mid = Request::getInt('mid');
+
+    /* clear tag-item links */
+    $sql    = "    DELETE FROM {$linkHandler->table}"
+            . "    WHERE "
+            . "        tag_modid = {$mid}"
+            . "        AND "
+            . "        ( tag_itemid NOT IN "
+            . "            ( SELECT DISTINCT {$itemHandler->keyName} "
+            . "                FROM {$itemHandler->table} "
+            . "                WHERE {$itemHandler->table}.status = " . _CO_PUBLISHER_PUBLISHED
+            . "            ) "
+            . "        )";
+    $result = $linkHandler->db->queryF($sql);
+
+    return $result ? true : false;
 }

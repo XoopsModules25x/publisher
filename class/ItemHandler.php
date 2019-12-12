@@ -374,13 +374,13 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getAllPublished($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none', $excludeExpired = true)
     {
-        
+
         $otherCriteria = new \CriteriaCompo();
         if (!$this->publisherIsAdmin) {
                     $criteriaDateSub = new \Criteria('datesub', time(), '<=');
                     $otherCriteria->add($criteriaDateSub);
         }
-		if ($excludeExpired) {
+        if ($excludeExpired) {
             // by default expired items are excluded from list of published items
             $criteriaExpire = new \CriteriaCompo();
             $criteriaExpire->add(new \Criteria('dateexpire', '0'), 'OR');
@@ -411,7 +411,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
 
         return $this->getItems($limit, $start, -1, $categoryid, $sort, $order, $notNullFields, $asObject, $otherCriteria, $idKey);
     }
-    
+
     /**
      * @param Item $obj
      *
@@ -561,7 +561,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $criteria->setLimit($limit);
         $criteria->setStart($start);
         $criteria->setSort($sort);
-        $criteria->setOrder($order);
+        $criteria->order = $order; // patch for XOOPS <= 2.5.10 does not set order correctly using setOrder() method
         $ret = &$this->getObjects($criteria, $idKey, $notNullFields);
 
         return $ret;
@@ -750,7 +750,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if ('datesub' === $sortby) {
             $order = 'DESC';
         }
-        $criteria->setOrder($order);
+        $criteria->order = $order; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
         $ret = &$this->getObjects($criteria);
 
         return $ret;
@@ -805,7 +805,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $sql    .= ' FROM (SELECT categoryid, MAX(datesub) AS date FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
         $sql    .= ' WHERE status IN (' . implode(',', $status) . ')';
         $sql    .= ' AND categoryid IN (' . implode(',', $catIds) . ')';
-        $sql    .= ' GROUP BY categoryid)mo';
+        $sql    .= ' GROUP BY categoryid) mo';
         $sql    .= ' JOIN ' . $this->db->prefix($this->helper->getDirname() . '_items') . ' mi ON mi.datesub = mo.date';
         $result = $this->db->query($sql);
         while (false !== ($row = $this->db->fetchArray($result))) {

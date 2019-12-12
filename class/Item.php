@@ -560,23 +560,29 @@ class Item extends \XoopsObject
     {
         $memberHandler = xoops_getHandler('member');
         $groups        = $memberHandler->getGroupList();
+        $groupIds      = 0 < count($groups) ? array_keys($groups) : [];
+        /*
         $j             = 0;
         $groupIds      = [];
         foreach (array_keys($groups) as $i) {
             $groupIds[$j] = $i;
             ++$j;
         }
+        */
         $this->groupsRead = $groupIds;
     }
 
     /**
      * @todo look at this
+     * @deprecated - NOT USED
      *
      * @param $groupIds
      */
     public function setPermissions($groupIds)
     {
         if (!isset($groupIds)) {
+            $this->setDefaultPermissions();
+            /*
             $memberHandler = xoops_getHandler('member');
             $groups        = $memberHandler->getGroupList();
             $j             = 0;
@@ -585,6 +591,7 @@ class Item extends \XoopsObject
                 $groupIds[$j] = $i;
                 ++$j;
             }
+            */
         }
     }
 
@@ -613,7 +620,7 @@ class Item extends \XoopsObject
     public function getItemLink($class = false, $maxsize = 0)
     {
         if ($class) {
-            return '<a class=' . $class . ' href="' . $this->getItemUrl() . '">' . $this->getTitle($maxsize) . '</a>';
+            return '<a class="' . $class . '" href="' . $this->getItemUrl() . '">' . $this->getTitle($maxsize) . '</a>';
         }
 
         return '<a href="' . $this->getItemUrl() . '">' . $this->getTitle($maxsize) . '</a>';

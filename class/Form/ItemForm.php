@@ -339,7 +339,7 @@ class ItemForm extends Publisher\ThemeTabForm
             $datesub_datetime->setDescription(_CO_PUBLISHER_DATESUB_DSC);
             $this->addElement($datesub_datetime);
         }
-        
+
         // Date expire
         if ($this->isGranted(Constants::PUBLISHER_DATEEXPIRE)) {
             if ($obj->isNew()) {
@@ -354,11 +354,11 @@ class ItemForm extends Publisher\ThemeTabForm
                     $dateexpire = $obj->getVar('dateexpire');
                 }
             }
-            
+
             $dateExpireYesNo = new \XoopsFormRadioYN('', 'use_expire_yn', $dateexpire_opt);
             $dateexpire_datetime = new \XoopsFormDateTime('', 'dateexpire', $size = 15, $dateexpire, true);
             if (0 == $dateexpire_opt) {$dateexpire_datetime->setExtra('disabled="disabled"');}
-            
+
             $dateExpireTray = new \XoopsFormElementTray(_CO_PUBLISHER_DATEEXPIRE, '');
             $dateExpireTray->setDescription(_CO_PUBLISHER_DATEEXPIRE_DSC);
             $dateExpireTray->addElement($dateExpireYesNo);
@@ -400,14 +400,14 @@ class ItemForm extends Publisher\ThemeTabForm
                 $catlist = array_intersect ($catlist, $imgcatConfig);
                 $catids = array_keys($catlist);
             }
-            
+
             $imageObjs = [];
             if (!empty($catids)) {
                 $imageHandler = xoops_getHandler('image');
                 $criteria     = new \CriteriaCompo(new \Criteria('imgcat_id', '(' . implode(',', $catids) . ')', 'IN'));
                 $criteria->add(new \Criteria('image_display', 1));
                 $criteria->setSort('image_nicename');
-                $criteria->setOrder('ASC');
+                $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
                 $imageObjs = $imageHandler->getObjects($criteria, true);
                 unset($criteria);
             }

@@ -254,7 +254,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $ret      = [];
         $criteria = new \CriteriaCompo();
         $criteria->setSort('name');
-        $criteria->setOrder('ASC');
+        $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
         if (!$this->publisherIsAdmin) {
             $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('item_submit');
             if (count($categoriesGranted) > 0) {
@@ -297,7 +297,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $ret      = [];
         $criteria = new \CriteriaCompo();
         $criteria->setSort('name');
-        $criteria->setOrder('ASC');
+        $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
         if (!$this->publisherIsAdmin) {
             $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
             if (count($categoriesGranted) > 0) {
@@ -383,7 +383,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
             }
         }
         $criteria->setSort('weight');
-        $criteria->setOrder('ASC');
+        $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
         $subcats = $this->getObjects($criteria, true);
         /** @var Publisher\Category $subcat */
         foreach ($subcats as $subcat) {

@@ -161,7 +161,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
                 $criteria->add($criteriaCategory);
             }
             $criteria->setSort($sort);
-            $criteria->setOrder($order);
+            $criteria->order = $order; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
             $criteria->setLimit($limit);
             $criteria->setStart($start);
             $files = $this->getByLink($criteria, ['o.*'], true);

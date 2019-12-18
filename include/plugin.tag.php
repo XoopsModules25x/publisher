@@ -86,7 +86,7 @@ function publisher_tag_synchronization($mid)
 {
     // Optional
     /** @var \XoopsModules\Publisher\ItemHandler $itemHandler */
-    $itemHandler = new \XoopsModules\Publisher\ItemHandler();
+    $itemHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('Item');
 
     /** @var \XoopsModules\Tag\LinkHandler $itemHandler */
     $linkHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Link');

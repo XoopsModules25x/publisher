@@ -179,6 +179,8 @@ class ItemForm extends Publisher\ThemeTabForm
         if (xoops_isActiveModule('tag') && $this->isGranted(Constants::PUBLISHER_ITEM_TAG)) {
             require_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
             $textTags = new \XoopsModules\Tag\FormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
+            $textTags->setClass('form-control');
+            /** @var \XoopsModules\Tag\FormTag $textTags */
             $this->addElement($textTags);
         }
 

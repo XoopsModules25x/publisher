@@ -674,6 +674,10 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $searchin         = empty($searchin) ? ['title', 'body', 'summary'] : (is_array($searchin) ? $searchin : [$searchin]);
         if (in_array('all', $searchin) || 0 === count($searchin)) {
             $searchin = ['title', 'subtitle', 'body', 'summary', 'meta_keywords'];
+            //add support for searching in tags if Tag module exists and is active
+             if (false !== $this->helper->getHelper('tag')) {
+                 $searchin[] = 'item_tag';
+             }
         }
         if ($userid && is_array($userid)) {
             $userid       = array_map('intval', $userid);
@@ -691,6 +695,10 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $criteriaKeywords = new \CriteriaCompo();
             foreach ($queryArray as $iValue) {
                 $criteriaKeyword = new \CriteriaCompo();
+                foreach($searchin as $searchField) {
+                    $criteriaKeyword->add(new \Criteria($searchField, '%' . $iValue . '%', 'LIKE'), 'OR');
+                }
+                /*
                 if (in_array('title', $searchin)) {
                     $criteriaKeyword->add(new \Criteria('title', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
@@ -706,6 +714,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
                 if (in_array('meta_keywords', $searchin)) {
                     $criteriaKeyword->add(new \Criteria('meta_keywords', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
+                */
                 $criteriaKeywords->add($criteriaKeyword, $andor);
                 unset($criteriaKeyword);
             }

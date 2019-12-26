@@ -7,6 +7,7 @@
 - config updates, moved to /config (mamba)
 - use __NAMESPACE__ in Helper (mamba)
 - code cosmetics (mamba)
+- PSR12 (mamba)
 
 
 <h5>1.07 Final       [2019-06-08]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.6

@@ -26,7 +26,8 @@ class Cloner
             }
 
             // check all files in dir, and process it
-            if ($handle = opendir($path)) {
+            $handle = opendir($path);
+            if ($handle) {
                 while (false !== ($file = readdir($handle))) {
                     if (0 !== mb_strpos($file, '.')) {
                         self::cloneFileFolder("{$path}/{$file}");

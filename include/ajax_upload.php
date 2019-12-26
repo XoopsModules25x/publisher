@@ -16,7 +16,6 @@
  * @since
  * @author         XOOPS Development Team
  */
-
 use Xmf\Request;
 use XoopsModules\Publisher;
 
@@ -35,7 +34,7 @@ if (!is_object($GLOBALS['xoopsUser'])) {
     $group = $GLOBALS['xoopsUser']->getGroups();
 }
 
-$filename       = basename($_FILES['publisher_upload_file']['name']);
+$filename = basename($_FILES['publisher_upload_file']['name']);
 $image_nicename = Request::getString('image_nicename', '', 'POST');
 if ('' == $image_nicename || _CO_PUBLISHER_IMAGE_NICENAME == $image_nicename) {
     $image_nicename = $filename;
@@ -44,7 +43,7 @@ if ('' == $image_nicename || _CO_PUBLISHER_IMAGE_NICENAME == $image_nicename) {
 $imgcat_id = Request::getInt('imgcat_id', 0, 'POST');
 
 $imgcatHandler = xoops_getHandler('imagecategory');
-$imgcat        = $imgcatHandler->get($imgcat_id);
+$imgcat = $imgcatHandler->get($imgcat_id);
 
 $error = false;
 if (!is_object($imgcat)) {
@@ -73,7 +72,7 @@ if (false === $error) {
             $error = implode('<br>', $uploader->getErrors(false));
         } else {
             $imageHandler = xoops_getHandler('image');
-            $image        = $imageHandler->create();
+            $image = $imageHandler->create();
             $savedFilename = $uploader->getSavedFileName();
             $imageMimetype = $uploader->getMediaType();
             $image->setVar('image_name', 'images/' . $savedFilename);
@@ -84,7 +83,7 @@ if (false === $error) {
             $image->setVar('image_weight', 0);
             $image->setVar('imgcat_id', $imgcat_id);
             if ('db' === $imgcat->getVar('imgcat_storetype')) {
-                $fp      = @fopen($uploader->getSavedDestination(), 'rb');
+                $fp = @fopen($uploader->getSavedDestination(), 'rb');
                 $fbinary = @fread($fp, filesize($uploader->getSavedDestination()));
                 @fclose($fp);
                 $image->setVar('image_body', $fbinary, true);
@@ -92,23 +91,15 @@ if (false === $error) {
                     unlink($uploader->getSavedDestination());
                 }
             } else {
-                
-
                 $maxwidth = $imgcat->getVar('imgcat_maxwidth');
                 $maxheight = $imgcat->getVar('imgcat_maxheight');
-                $imgHandler                = new Publisher\Resizer();
-                $imgHandler->sourceFile    = $uploader->getSavedDestination();
-                $imgHandler->endFile       = $uploader->getSavedDestination();
+                $imgHandler = new Publisher\Resizer();
+                $imgHandler->sourceFile = $uploader->getSavedDestination();
+                $imgHandler->endFile = $uploader->getSavedDestination();
                 $imgHandler->imageMimetype = $imageMimetype;
-                $imgHandler->maxWidth      = $maxwidth;
-                $imgHandler->maxHeight     = $maxheight;
-                $result                    = $imgHandler->resizeImage();
-                
-                
-                
-                
-                
-                
+                $imgHandler->maxWidth = $maxwidth;
+                $imgHandler->maxHeight = $maxheight;
+                $result = $imgHandler->resizeImage();
             }
             if (!$imageHandler->insert($image)) {
                 $error = sprintf(_FAILSAVEIMG, $image->getVar('image_nicename'));

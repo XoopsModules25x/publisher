@@ -20,7 +20,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
 use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -44,8 +43,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public $publisherIsAdmin;
 
     /**
-     * @param \XoopsDatabase $db
-     * @param null|\XoopsModules\Publisher\Helper           $helper
+     * @param \XoopsDatabase                      $db
+     * @param \XoopsModules\Publisher\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
@@ -75,7 +74,6 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         return $obj;
     }
 
-
     /**
      * retrieve an item
      *
@@ -91,7 +89,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         if (isset($cats[$id])) {
             return $cats[$id];
         }
-        $obj       = parent::get($id);
+        $obj = parent::get($id);
         $cats[$id] = $obj;
 
         return $obj;
@@ -170,7 +168,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $as_object = true) //&getObjects($criteria = null, $idAsKey = false)
     {
-        $ret        = [];
+        $ret = [];
         $theObjects = parent::getObjects($criteria, true);
         foreach ($theObjects as $theObject) {
             if (!$idAsKey) {
@@ -196,7 +194,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function &getCategories($limit = 0, $start = 0, $parentid = 0, $sort = 'weight', $order = 'ASC', $idAsKey = true)
     {
-         $criteria = new \CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort($sort);
         $criteria->setOrder($order);
         if (-1 != $parentid) {
@@ -250,7 +248,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function &getCategoriesForSubmit()
     {
         global $theresult;
-        $ret      = [];
+        $ret = [];
         $criteria = new \CriteriaCompo();
         $criteria->setSort('name');
         $criteria->setOrder('ASC');
@@ -293,7 +291,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     {
         global $theresult;
 
-        $ret      = [];
+        $ret = [];
         $criteria = new \CriteriaCompo();
         $criteria->setSort('name');
         $criteria->setOrder('ASC');
@@ -368,7 +366,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function getSubCats($categories)
     {
         $criteria = new \CriteriaCompo(new \Criteria('parentid', '(' . implode(',', array_keys($categories)) . ')', 'IN'));
-        $ret      = [];
+        $ret = [];
         if (!$this->publisherIsAdmin) {
             $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
             if (count($categoriesGranted) > 0) {

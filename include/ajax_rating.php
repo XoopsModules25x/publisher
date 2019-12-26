@@ -40,7 +40,7 @@ $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GRO
 $grouppermHandler = $helper->getHandler('GroupPerm');
 /* @var XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
-$module_id     = $helper->getModule()->getVar('mid');
+$module_id = $helper->getModule()->getVar('mid');
 
 //Checking permissions
 //if (!$helper->getConfig('perm_rating') || !$grouppermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
@@ -53,8 +53,7 @@ try {
     if (!$helper->getConfig('perm_rating') || !$grouppermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $module_id)) {
         throw new RuntimeException(_NOPERM);
     }
-}
-catch (\Exception $e) {
+} catch (\Exception $e) {
     $helper->addLog($e);
     //    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
     $output = "unit_long$itemid|" . _NOPERM . "\n";
@@ -62,7 +61,7 @@ catch (\Exception $e) {
 }
 
 $rating_unitwidth = 30;
-$units            = 5;
+$units = 5;
 
 //if ($rating > 5 || $rating < 1) {
 //    $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_BAD . "\n";
@@ -74,22 +73,21 @@ try {
     if ($rating > 5 || $rating < 1) {
         throw new RuntimeException(_MD_PUBLISHER_VOTE_BAD);
     }
-}
-catch (\Exception $e) {
+} catch (\Exception $e) {
     $helper->addLog($e);
     //    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_BAD . "\n";
     echo $output;
 }
 
-$criteria   = new \Criteria('itemid', $itemid);
+$criteria = new \Criteria('itemid', $itemid);
 $ratingObjs = $helper->getHandler('Rating')->getObjects($criteria);
 
-$uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
-$count          = count($ratingObjs);
+$uid = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
+$count = count($ratingObjs);
 $current_rating = 0;
-$voted          = false;
-$ip             = getenv('REMOTE_ADDR');
+$voted = false;
+$ip = getenv('REMOTE_ADDR');
 
 /** @var Publisher\Rating $ratingObj */
 foreach ($ratingObjs as $ratingObj) {
@@ -109,8 +107,7 @@ try {
     if ($voted) {
         throw new RuntimeException(_MD_PUBLISHER_VOTE_ALREADY);
     }
-}
-catch (\Exception $e) {
+} catch (\Exception $e) {
     $helper->addLog($e);
     //    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
     $output = "unit_long$itemid|" . _MD_PUBLISHER_VOTE_ALREADY . "\n";

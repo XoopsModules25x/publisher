@@ -125,7 +125,7 @@ function publisher_items_spot_show($options)
             foreach ($selItems as $itemId) {
                 /** @var Publisher\Item $itemObj */
                 $itemObj = $itemHandler->get($itemId);
-                if (!$itemObj->notLoaded()) {
+                if (null !== $itemObj && !$itemObj->notLoaded()) {
                     $item             = $itemObj->toArraySimple();
                     $item['who_when'] = sprintf(_MB_PUBLISHER_WHO_WHEN, $item['who'], $item['when']);
                     if ($i < $itemsCount) {

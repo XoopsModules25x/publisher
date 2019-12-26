@@ -22,7 +22,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
 use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -37,8 +36,8 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Constructor
      *
-     * @param \XoopsDatabase $db
-     * @param null|\XoopsModules\Publisher\Helper           $helper
+     * @param \XoopsDatabase                      $db
+     * @param \XoopsModules\Publisher\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
@@ -94,9 +93,9 @@ class MimetypeHandler extends BaseObjectHandler
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
     {
-        $ret   = [];
+        $ret = [];
         $limit = $start = 0;
-        $sql   = $this->selectQuery($criteria);
+        $sql = $this->selectQuery($criteria);
         if (null !== $criteria) {
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
@@ -109,7 +108,7 @@ class MimetypeHandler extends BaseObjectHandler
         }
         // Add each returned record to the result array
         while (false !== ($myrow = $this->db->fetchArray($result))) {
-            $obj   = new $this->className($myrow);
+            $obj = new $this->className($myrow);
             $ret[] = $obj;
             unset($obj);
         }
@@ -164,7 +163,7 @@ class MimetypeHandler extends BaseObjectHandler
      */
     public function checkMimeTypes($postField)
     {
-        $ret               = false;
+        $ret = false;
         $allowed_mimetypes = $this->getArrayByType();
         if (empty($allowed_mimetypes)) {
             return $ret;
@@ -217,8 +216,7 @@ class MimetypeHandler extends BaseObjectHandler
             if ($join) {
                 throw new \RuntimeException('no need for join...');
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             /** @var Publisher\Helper $helper */
             $helper = Publisher\Helper::getInstance();
             $helper->addLog($e);
@@ -248,9 +246,17 @@ class MimetypeHandler extends BaseObjectHandler
         foreach ($obj->cleanVars as $k => $v) {
             ${$k} = $v;
         }
-        $sql = sprintf('INSERT INTO `%s` (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
-            (%u, %s, %s, %s, %u, %u)', $this->db->prefix($this->dbtable), $obj->getVar('mime_id'), $this->db->quoteString($obj->getVar('mime_ext')), $this->db->quoteString($obj->getVar('mime_types')), $this->db->quoteString($obj->getVar('mime_name')), $obj->getVar('mime_admin'),
-                       $obj->getVar('mime_user'));
+        $sql = sprintf(
+            'INSERT INTO `%s` (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
+            (%u, %s, %s, %s, %u, %u)',
+            $this->db->prefix($this->dbtable),
+            $obj->getVar('mime_id'),
+            $this->db->quoteString($obj->getVar('mime_ext')),
+            $this->db->quoteString($obj->getVar('mime_types')),
+            $this->db->quoteString($obj->getVar('mime_name')),
+            $obj->getVar('mime_admin'),
+            $obj->getVar('mime_user')
+        );
 
         return $sql;
     }

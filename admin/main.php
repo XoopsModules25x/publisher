@@ -186,7 +186,7 @@ switch ($statussel) {
 }
 
 /* -- Code to show selected terms -- */
-echo "<form name='pick' id='pick' action='" . Request::getString('PHP_SELF', '', 'SERVER') . "' method='POST' style='margin: 0;'>";
+echo "<form name='pick' id='pick' action='" . Request::getString('SCRIPT_NAME', '', 'SERVER') . "' method='POST' style='margin: 0;'>";
 
 echo "
     <table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-left: 1px solid #c0c0c0; border-top: 1px solid #c0c0c0; border-right: 1px solid #c0c0c0;'>

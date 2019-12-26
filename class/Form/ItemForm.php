@@ -22,7 +22,6 @@ namespace XoopsModules\Publisher\Form;
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-
 use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
@@ -43,10 +42,10 @@ require_once $GLOBALS['xoops']->path('class/tree.php');
 class ItemForm extends Publisher\ThemeTabForm
 {
     public $checkperm = true;
-    public $tabs      = [
-        _CO_PUBLISHER_TAB_MAIN   => 'mainTab',
+    public $tabs = [
+        _CO_PUBLISHER_TAB_MAIN => 'mainTab',
         _CO_PUBLISHER_TAB_IMAGES => 'imagesTab',
-        _CO_PUBLISHER_TAB_FILES  => 'filesTab',
+        _CO_PUBLISHER_TAB_FILES => 'filesTab',
         _CO_PUBLISHER_TAB_OTHERS => 'othersTab',
     ];
 
@@ -100,7 +99,7 @@ class ItemForm extends Publisher\ThemeTabForm
     {
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
-        $ret    = false;
+        $ret = false;
         if (!$this->checkperm || $helper->getHandler('Permission')->isGranted('form_view', $item)) {
             $ret = true;
         }
@@ -120,7 +119,7 @@ class ItemForm extends Publisher\ThemeTabForm
         }
 
         $tabRef = $this->tabs[$tab];
-        $items  = $this->$tabRef;
+        $items = $this->$tabRef;
         foreach ($items as $item) {
             if ($this->isGranted($item)) {
                 return true;
@@ -205,27 +204,27 @@ class ItemForm extends Publisher\ThemeTabForm
             $editor = $helper->getConfig('submit_editor');
         }
 
-        $editorConfigs           = [];
-        $editorConfigs['rows']   = !$helper->getConfig('submit_editor_rows') ? 35 : $helper->getConfig('submit_editor_rows');
-        $editorConfigs['cols']   = !$helper->getConfig('submit_editor_cols') ? 60 : $helper->getConfig('submit_editor_cols');
-        $editorConfigs['width']  = !$helper->getConfig('submit_editor_width') ? '100%' : $helper->getConfig('submit_editor_width');
+        $editorConfigs = [];
+        $editorConfigs['rows'] = !$helper->getConfig('submit_editor_rows') ? 35 : $helper->getConfig('submit_editor_rows');
+        $editorConfigs['cols'] = !$helper->getConfig('submit_editor_cols') ? 60 : $helper->getConfig('submit_editor_cols');
+        $editorConfigs['width'] = !$helper->getConfig('submit_editor_width') ? '100%' : $helper->getConfig('submit_editor_width');
         $editorConfigs['height'] = !$helper->getConfig('submit_editor_height') ? '400px' : $helper->getConfig('submit_editor_height');
 
         // SUMMARY
         if ($this->isGranted(Constants::PUBLISHER_SUMMARY)) {
             // Description
             //$summaryText = new \XoopsFormTextArea(_CO_PUBLISHER_SUMMARY, 'summary', $obj->getVar('summary', 'e'), 7, 60);
-            $editorConfigs['name']  = 'summary';
+            $editorConfigs['name'] = 'summary';
             $editorConfigs['value'] = $obj->getVar('summary', 'e');
-            $summaryText            = new \XoopsFormEditor(_CO_PUBLISHER_SUMMARY, $editor, $editorConfigs, $nohtml, $onfailure = null);
+            $summaryText = new \XoopsFormEditor(_CO_PUBLISHER_SUMMARY, $editor, $editorConfigs, $nohtml, $onfailure = null);
             $summaryText->setDescription(_CO_PUBLISHER_SUMMARY_DSC);
             $this->addElement($summaryText);
         }
 
         // BODY
-        $editorConfigs['name']  = 'body';
+        $editorConfigs['name'] = 'body';
         $editorConfigs['value'] = $obj->getVar('body', 'e');
-        $bodyText               = new \XoopsFormEditor(_CO_PUBLISHER_BODY, $editor, $editorConfigs, $nohtml, $onfailure = null);
+        $bodyText = new \XoopsFormEditor(_CO_PUBLISHER_BODY, $editor, $editorConfigs, $nohtml, $onfailure = null);
         $bodyText->setDescription(_CO_PUBLISHER_BODY_DSC);
         $this->addElement($bodyText);
 
@@ -259,7 +258,7 @@ class ItemForm extends Publisher\ThemeTabForm
 
         // Available pages to wrap
         if ($this->isGranted(Constants::PUBLISHER_AVAILABLE_PAGE_WRAP)) {
-            $wrapPages              = \XoopsLists::getHtmlListAsArray(Publisher\Utility::getUploadDir(true, 'content'));
+            $wrapPages = \XoopsLists::getHtmlListAsArray(Publisher\Utility::getUploadDir(true, 'content'));
             $availableWrapPagesText = [];
             foreach ($wrapPages as $page) {
                 $availableWrapPagesText[] = "<span onclick='publisherPageWrap(\"body\", \"[pagewrap=$page] \");' onmouseover='style.cursor=\"pointer\"'>$page</span>";
@@ -313,11 +312,11 @@ class ItemForm extends Publisher\ThemeTabForm
 
         // STATUS
         if ($this->isGranted(Constants::PUBLISHER_STATUS)) {
-            $options      = [
+            $options = [
                 Constants::PUBLISHER_STATUS_SUBMITTED => _CO_PUBLISHER_SUBMITTED,
                 Constants::PUBLISHER_STATUS_PUBLISHED => _CO_PUBLISHER_PUBLISHED,
-                Constants::PUBLISHER_STATUS_OFFLINE   => _CO_PUBLISHER_OFFLINE,
-                Constants::PUBLISHER_STATUS_REJECTED  => _CO_PUBLISHER_REJECTED,
+                Constants::PUBLISHER_STATUS_OFFLINE => _CO_PUBLISHER_OFFLINE,
+                Constants::PUBLISHER_STATUS_REJECTED => _CO_PUBLISHER_REJECTED,
             ];
             $statusSelect = new \XoopsFormSelect(_CO_PUBLISHER_STATUS, 'status', $obj->getVar('status'));
             $statusSelect->addOptionArray($options);
@@ -339,7 +338,7 @@ class ItemForm extends Publisher\ThemeTabForm
             $datesub_datetime->setDescription(_CO_PUBLISHER_DATESUB_DSC);
             $this->addElement($datesub_datetime);
         }
-        
+
         // Date expire
         if ($this->isGranted(Constants::PUBLISHER_DATEEXPIRE)) {
             if ($obj->isNew()) {
@@ -354,11 +353,13 @@ class ItemForm extends Publisher\ThemeTabForm
                     $dateexpire = $obj->getVar('dateexpire');
                 }
             }
-            
+
             $dateExpireYesNo = new \XoopsFormRadioYN('', 'use_expire_yn', $dateexpire_opt);
             $dateexpire_datetime = new \XoopsFormDateTime('', 'dateexpire', $size = 15, $dateexpire, true);
-            if (0 == $dateexpire_opt) {$dateexpire_datetime->setExtra('disabled="disabled"');}
-            
+            if (0 == $dateexpire_opt) {
+                $dateexpire_datetime->setExtra('disabled="disabled"');
+            }
+
             $dateExpireTray = new \XoopsFormElementTray(_CO_PUBLISHER_DATEEXPIRE, '');
             $dateExpireTray->setDescription(_CO_PUBLISHER_DATEEXPIRE_DSC);
             $dateExpireTray->addElement($dateExpireYesNo);
@@ -378,9 +379,9 @@ class ItemForm extends Publisher\ThemeTabForm
 
         // IMAGE
         if ($this->isGranted(Constants::PUBLISHER_IMAGE_ITEM)) {
-            $objimages      = $obj->getImages();
-            $mainarray      = is_object($objimages['main']) ? [$objimages['main']] : [];
-            $mergedimages   = array_merge($mainarray, $objimages['others']);
+            $objimages = $obj->getImages();
+            $mainarray = is_object($objimages['main']) ? [$objimages['main']] : [];
+            $mergedimages = array_merge($mainarray, $objimages['others']);
             $objimage_array = [];
             foreach ($mergedimages as $imageObj) {
                 $objimage_array[$imageObj->getVar('image_name')] = $imageObj->getVar('image_nicename');
@@ -397,14 +398,14 @@ class ItemForm extends Publisher\ThemeTabForm
                 $catids = array_keys($catlist);
             } else {
                 // compare selected in options with readable of user
-                $catlist = array_intersect ($catlist, $imgcatConfig);
+                $catlist = array_intersect($catlist, $imgcatConfig);
                 $catids = array_keys($catlist);
             }
-            
+
             $imageObjs = [];
             if (!empty($catids)) {
                 $imageHandler = xoops_getHandler('image');
-                $criteria     = new \CriteriaCompo(new \Criteria('imgcat_id', '(' . implode(',', $catids) . ')', 'IN'));
+                $criteria = new \CriteriaCompo(new \Criteria('imgcat_id', '(' . implode(',', $catids) . ')', 'IN'));
                 $criteria->add(new \Criteria('image_display', 1));
                 $criteria->setSort('image_nicename');
                 $criteria->setOrder('ASC');
@@ -434,13 +435,13 @@ class ItemForm extends Publisher\ThemeTabForm
             $buttonremove = new \XoopsFormButton('', 'buttonremove', _CO_PUBLISHER_REMOVE);
             $buttonremove->setExtra("onclick='publisher_appendSelectOption(\"image_item\", \"image_notused\"), publisher_updateSelectOption(\"image_item\", \"image_featured\")'");
 
-            $opentable  = new \XoopsFormLabel('', '<table><tr><td>');
-            $addcol     = new \XoopsFormLabel('', '</td><td>');
-            $addbreak   = new \XoopsFormLabel('', '<br>');
+            $opentable = new \XoopsFormLabel('', '<table><tr><td>');
+            $addcol = new \XoopsFormLabel('', '</td><td>');
+            $addbreak = new \XoopsFormLabel('', '<br>');
             $closetable = new \XoopsFormLabel('', '</td></tr></table>');
 
             $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ajaxupload.3.9.js');
-            $js_data  = new \XoopsFormLabel('', '
+            $js_data = new \XoopsFormLabel('', '
 
 <script type= "text/javascript">
 $publisher(document).ready(function () {
@@ -483,14 +484,14 @@ $publisher(document).ready(function () {
 
 ');
             $messages = new \XoopsFormLabel('', "<div id='publisher_upload_message'></div>");
-            $button   = new \XoopsFormLabel('', "<div id='publisher_upload_button'>" . _CO_PUBLISHER_IMAGE_UPLOAD_NEW . '</div>');
+            $button = new \XoopsFormLabel('', "<div id='publisher_upload_button'>" . _CO_PUBLISHER_IMAGE_UPLOAD_NEW . '</div>');
             $nicename = new \XoopsFormText('', 'image_nicename', 30, 30, _CO_PUBLISHER_IMAGE_NICENAME);
 
             // $imgcatHandler = xoops_getHandler('imagecategory');
             // if (method_exists($imgcatHandler, 'getListByPermission')) {
-                // $catlist = $imgcatHandler->getListByPermission($group, 'imgcat_read', 1);
+            // $catlist = $imgcatHandler->getListByPermission($group, 'imgcat_read', 1);
             // } else {
-                // $catlist = $imgcatHandler->getList($group, 'imgcat_read', 1);
+            // $catlist = $imgcatHandler->getList($group, 'imgcat_read', 1);
             // }
             $imagecat = new \XoopsFormSelect('', 'imgcat_id', '', 1);
             $imagecat->addOptionArray($catlist);
@@ -524,7 +525,7 @@ $publisher(document).ready(function () {
             $imageTray->setDescription(_CO_PUBLISHER_IMAGE_ITEMS_DSC);
             $this->addElement($imageTray);
 
-            $imagename    = is_object($objimages['main']) ? $objimages['main']->getVar('image_name') : '';
+            $imagename = is_object($objimages['main']) ? $objimages['main']->getVar('image_name') : '';
             $imageforpath = ('' != $imagename) ? $imagename : 'blank.gif';
 
             $imageSelect3 = new \XoopsFormSelect(_CO_PUBLISHER_IMAGE_ITEM, 'image_featured', $imagename, 1);
@@ -580,8 +581,8 @@ $publisher(document).ready(function () {
                     $table .= '</tr>';
 
                     foreach ($filesObj as $fileObj) {
-                        $modify      = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _CO_PUBLISHER_EDITFILE . "' alt='" . _CO_PUBLISHER_EDITFILE . "'></a>";
-                        $delete      = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _CO_PUBLISHER_DELETEFILE . "' alt='" . _CO_PUBLISHER_DELETEFILE . "'></a>";
+                        $modify = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _CO_PUBLISHER_EDITFILE . "' alt='" . _CO_PUBLISHER_EDITFILE . "'></a>";
+                        $delete = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _CO_PUBLISHER_DELETEFILE . "' alt='" . _CO_PUBLISHER_DELETEFILE . "'></a>";
                         $not_visible = '';
                         if (0 == $fileObj->status()) {
                             $not_visible = "<img src='" . PUBLISHER_URL . "/assets/images/no.gif'>";

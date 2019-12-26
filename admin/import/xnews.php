@@ -18,7 +18,6 @@
  * @author          The SmartFactory <www.smartfactory.ca>
  * @author          Marius Scurtescu <mariuss@romanians.bc.ca>
  */
-
 use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
@@ -65,7 +64,7 @@ if ('start' === $op) {
             //            }
 
             $imageCategoryHandler = xoops_getHandler('imagecategory');
-            $imagecategory        = $imageCategoryHandler->create();
+            $imagecategory = $imageCategoryHandler->create();
             //            $imagecategory->setVar('imgcat_name', $imgcat_name);
             $imagecategory->setVar('imgcat_name', PUBLISHER_DIRNAME); //$imgcat_name);
             $imagecategory->setVar('imgcat_maxsize', $GLOBALS['xoopsModuleConfig']['maximum_filesize']); //$imgcat_maxsize);
@@ -79,12 +78,11 @@ if ('start' === $op) {
 
             try {
                 $imageCategoryHandler->insert($imagecategory);
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 echo "Caught exception: : couldn't insert Image Category " . $e->getMessage() . 'n';
             }
 
-            $newid                    = $imagecategory->getVar('imgcat_id');
+            $newid = $imagecategory->getVar('imgcat_id');
             $imagecategorypermHandler = xoops_getHandler('groupperm');
             if (!isset($readgroup)) {
                 $readgroup = [];
@@ -125,11 +123,11 @@ if ('start' === $op) {
             // Categories to be imported
             $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('nw_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('nw_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
-            $result           = $GLOBALS['xoopsDB']->query($sql);
+            $result = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = [];
 
             while (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) {
-                $cat_title              = $myts->displayTarea($cat_title);
+                $cat_title = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }
 
@@ -166,13 +164,13 @@ if ('go' === $op) {
     // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
     Publisher\Utility::openCollapsableBar('xnewsimportgo', 'xnewsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /* @var  XoopsModuleHandler $moduleHandler */
-    $moduleHandler   = xoops_getHandler('module');
-    $moduleObj       = $moduleHandler->getByDirname('xnews');
+    $moduleHandler = xoops_getHandler('module');
+    $moduleObj = $moduleHandler->getByDirname('xnews');
     $xnews_module_id = $moduleObj->getVar('mid');
     /* @var  XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
-    $cnt_imported_cat      = 0;
+    $cnt_imported_cat = 0;
     $cnt_imported_articles = 0;
 
     $parentId = Request::getInt('parent_category', 0, 'POST');
@@ -181,7 +179,7 @@ if ('go' === $op) {
 
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
-    $newCatArray     = [];
+    $newCatArray = [];
     $newArticleArray = [];
     /* @var  XoopsImagecategoryHandler $imageCategoryHandler */
     $imageCategoryHandler = xoops_getHandler('imagecategory');
@@ -192,7 +190,7 @@ if ('go' === $op) {
     //     $criteria->add(new \Criteria('imagecategory', $catObj->getVar('cid'), '='));
     //     $childCount = (int)($mylinksCatHandler->getCount($criteria));
 
-    $criteria        = new \Criteria('imgcat_name', PUBLISHER_DIRNAME);
+    $criteria = new \Criteria('imgcat_name', PUBLISHER_DIRNAME);
     $imageCategoryId = $imageCategoryHandler->getObjects($criteria);
 
     //    $criteria = new \CriteriaCompo();
@@ -214,8 +212,8 @@ if ('go' === $op) {
 
     $oldToNew = [];
     while (false !== ($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat))) {
-        $newCat           = [];
-        $newCat['oldid']  = $arrCat['topic_id'];
+        $newCat = [];
+        $newCat['oldid'] = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
 
         /* @var  Publisher\Category $categoryObj */
@@ -288,7 +286,7 @@ if ('go' === $op) {
 
         echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . '<br>';
 
-        $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('nw_stories') . ' WHERE topicid=' . $arrCat['topic_id'];
+        $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('nw_stories') . ' WHERE topicid=' . $arrCat['topic_id'];
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
@@ -317,8 +315,8 @@ if ('go' === $op) {
             /** @var \XoopsImageHandler $imgHandler */
             $imgHandler = xoops_getHandler('image');
 
-            $criteria   = new \Criteria('image_name', $arrArticle['picture']);
-            $imageId    = $imgHandler->getObjects($criteria);
+            $criteria = new \Criteria('image_name', $arrArticle['picture']);
+            $imageId = $imgHandler->getObjects($criteria);
             $newImageId = $imageId[0]->vars['image_id']['value'];
             $itemObj->setVar('image', $newImageId);
             $itemObj->setVar('images', $newImageId);
@@ -350,8 +348,8 @@ if ('go' === $op) {
             }
             //--------------------------------------------
             // Linkes files
-            $sql               = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('nw_stories_files') . ' WHERE storyid=' . $arrArticle['storyid'];
-            $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
+            $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('nw_stories_files') . ' WHERE storyid=' . $arrArticle['storyid'];
+            $resultFiles = $GLOBALS['xoopsDB']->query($sql);
             $allowed_mimetypes = '';
             while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
                 $filename = $GLOBALS['xoops']->path('uploads/xnews/attached/' . $arrFile['downloadname']);
@@ -420,7 +418,7 @@ if ('go' === $op) {
 
     /* @var  XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
-    $criteria       = new \CriteriaCompo();
+    $criteria = new \CriteriaCompo();
     $criteria->add(new \Criteria('com_modid', $xnews_module_id));
     $comments = $commentHandler->getObjects($criteria);
     /* @var  XoopsComment $comment */

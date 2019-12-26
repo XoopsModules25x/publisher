@@ -70,10 +70,12 @@ switch ($op) {
         // Uploading the image, if any
         // Retreive the filename to be uploaded
         $temp = Request::getArray('image_file', '', 'FILES');
-        if ($image_file = $temp['name']) {
+        $image_file = $temp['name'];
+        if ($image_file) {
             //            $filename = Request::getArray('xoops_upload_file', array(), 'POST')[0];
             $temp2 = Request::getArray('xoops_upload_file', [], 'POST');
-            if ($filename = $temp2[0]) {
+            $filename = $temp2[0];
+            if ($filename) {
                 // TODO : implement publisher mimetype management
                 $max_size          = $helper->getConfig('maximum_filesize');
                 $max_imgwidth      = $helper->getConfig('maximum_image_width');

@@ -29,9 +29,6 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 class RatingHandler extends \XoopsPersistableObjectHandler
 {
-    /**
-     * @param null|\XoopsDatabase $db
-     */
     public function __construct(\XoopsDatabase $db = null)
     {
         parent::__construct($db, 'publisher_rating', Rating::class, 'ratingid', 'itemid');

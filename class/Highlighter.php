@@ -125,7 +125,7 @@ class Highlighter
         }
         $needle = (array)$needle;
         foreach ($needle as $needleS) {
-            $needleS = preg_quote($needleS);
+            $needleS = preg_quote($needleS, '/');
             // Escape needle with optional whole word check
             if ($this->wholeWords) {
                 $needleS = '\b' . $needleS . '\b';

@@ -20,7 +20,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
 use XoopsModules\Publisher;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -168,7 +167,7 @@ class Category extends \XoopsObject
             if (0 != $parentid) {
                 /** @var Publisher\CategoryHandler $categoryHandler */
                 $categoryHandler = $this->helper->getHandler('Category');
-                $parentObj       = $categoryHandler->get($parentid);
+                $parentObj = $categoryHandler->get($parentid);
                 //                if ($parentObj->notLoaded()) {
                 //                    exit;
                 //                }
@@ -177,8 +176,7 @@ class Category extends \XoopsObject
                     if ($parentObj->notLoaded()) {
                         throw new \RuntimeException(_NOPERM);
                     }
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $this->helper->addLog($e);
                     //                    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
                 }
@@ -196,12 +194,12 @@ class Category extends \XoopsObject
      */
     public function getCategoryPathForMetaTitle()
     {
-        $ret      = '';
+        $ret = '';
         $parentid = $this->parentid();
         if (0 != $parentid) {
             /** @var Publisher\CategoryHandler $categoryHandler */
             $categoryHandler = $this->helper->getHandler('Category');
-            $parentObj       = $categoryHandler->get($parentid);
+            $parentObj = $categoryHandler->get($parentid);
             //            if ($parentObj->notLoaded()) {
             //                exit('NOT LOADED');
             //            }
@@ -210,8 +208,7 @@ class Category extends \XoopsObject
                 if ($parentObj->notLoaded()) {
                     throw new \RuntimeException('NOT LOADED');
                 }
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $this->helper->addLog($e);
                 //                    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
             }
@@ -300,10 +297,10 @@ class Category extends \XoopsObject
      */
     public function sendNotifications()
     {
-        $tags                  = [];
-        $tags['MODULE_NAME']   = $this->helper->getModule()->getVar('name');
+        $tags = [];
+        $tags['MODULE_NAME'] = $this->helper->getModule()->getVar('name');
         $tags['CATEGORY_NAME'] = $this->name();
-        $tags['CATEGORY_URL']  = $this->getCategoryUrl();
+        $tags['CATEGORY_URL'] = $this->getCategoryUrl();
         /* @var  \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = xoops_getHandler('notification');
         $notificationHandler->triggerEvent('global_item', 0, 'category_created', $tags);
@@ -316,18 +313,18 @@ class Category extends \XoopsObject
      */
     public function toArraySimple($category = [])
     {
-        $category['categoryid']       = $this->categoryid();
-        $category['name']             = $this->name();
-        $category['categorylink']     = $this->getCategoryLink();
-        $category['categoryurl']      = $this->getCategoryUrl();
-        $category['total']            = ($this->getVar('itemcount') > 0) ? $this->getVar('itemcount') : '';
-        $category['description']      = $this->description();
-        $category['header']           = $this->header();
-        $category['meta_keywords']    = $this->meta_keywords();
+        $category['categoryid'] = $this->categoryid();
+        $category['name'] = $this->name();
+        $category['categorylink'] = $this->getCategoryLink();
+        $category['categoryurl'] = $this->getCategoryUrl();
+        $category['total'] = ($this->getVar('itemcount') > 0) ? $this->getVar('itemcount') : '';
+        $category['description'] = $this->description();
+        $category['header'] = $this->header();
+        $category['meta_keywords'] = $this->meta_keywords();
         $category['meta_description'] = $this->meta_description();
-        $category['short_url']        = $this->short_url();
+        $category['short_url'] = $this->short_url();
         if ($this->getVar('last_itemid') > 0) {
-            $category['last_itemid']     = $this->getVar('last_itemid', 'n');
+            $category['last_itemid'] = $this->getVar('last_itemid', 'n');
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
         if ('blank.png' !== $this->getImage()) {
@@ -347,12 +344,12 @@ class Category extends \XoopsObject
      */
     public function toArrayTable($category = [])
     {
-        $category['categoryid']   = $this->categoryid();
+        $category['categoryid'] = $this->categoryid();
         $category['categorylink'] = $this->getCategoryLink();
-        $category['total']        = ($this->getVar('itemcount') > 0) ? $this->getVar('itemcount') : '';
-        $category['description']  = $this->description();
+        $category['total'] = ($this->getVar('itemcount') > 0) ? $this->getVar('itemcount') : '';
+        $category['description'] = $this->description();
         if ($this->getVar('last_itemid') > 0) {
-            $category['last_itemid']     = $this->getVar('last_itemid', 'n');
+            $category['last_itemid'] = $this->getVar('last_itemid', 'n');
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
         if ('blank.png' !== $this->getImage()) {

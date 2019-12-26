@@ -133,7 +133,7 @@ switch ($op) {
         } */
 
         if (isset($importfile_select_array) && count($importfile_select_array) > 0) {
-            $sform = new \XoopsThemeForm(_AM_PUBLISHER_IMPORT_SELECTION, 'op', xoops_getenv('PHP_SELF'), 'post', true);
+            $sform = new \XoopsThemeForm(_AM_PUBLISHER_IMPORT_SELECTION, 'op', xoops_getenv('SCRIPT_NAME'), 'post', true);
             $sform->setExtra('enctype="multipart/form-data"');
 
             // Partners to import

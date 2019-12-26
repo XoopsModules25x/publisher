@@ -18,10 +18,8 @@
  * @since        1.0
  * @author       Mage, Mamba
  */
-
 use Xmf\Yaml;
 use XoopsModules\Publisher;
-use XoopsModules\Publisher\Common;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -30,8 +28,8 @@ xoops_cp_header();
 $helper = \XoopsModules\Publisher\Helper::getInstance();
 $helper->loadLanguage('main');
 $helper->loadLanguage('admin');
-$adminObject  = \Xmf\Module\Admin::getInstance();
-$utility      = new Publisher\Utility();
+$adminObject = \Xmf\Module\Admin::getInstance();
+$utility = new Publisher\Utility();
 $configurator = new Publisher\Common\Configurator();
 
 /*
@@ -53,7 +51,7 @@ if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.p
     $adminObject->addConfigBoxLine('<span style="color:#ff0000;"><img src="' . $pathIcon16 . '/0.png" alt="!">' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
 }
 
-$modStats    = [];
+$modStats = [];
 $moduleStats = $utility::getModuleStats($configurator, $modStats);
 
 $adminObject->addInfoBox(constant('CO_' . $moduleDirNameUpper . '_' . 'STATS_SUMMARY'));
@@ -62,27 +60,27 @@ if ($moduleStats && is_array($moduleStats)) {
         switch ($key) {
             case 'totalcategories':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf( $ret . ' ' . _AM_PUBLISHER_TOTALCAT ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALCAT));
                 break;
             case 'totalitems':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_ITEMS ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_ITEMS));
                 break;
             case 'totaloffline':
                 $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTAL_OFFLINE ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTAL_OFFLINE));
                 break;
             case 'totalpublished':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALPUBLISHED ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALPUBLISHED));
                 break;
             case 'totalrejected':
                 $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_REJECTED ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_REJECTED));
                 break;
             case 'totalsubmitted':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALSUBMITTED ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALSUBMITTED));
                 break;
         }
     }
@@ -99,8 +97,8 @@ if (!empty($newRelease)) {
 //------------- Test Data ----------------------------
 
 if ($helper->getConfig('displaySampleButton')) {
-    $yamlFile            = dirname(__DIR__) . '/config/admin.yml';
-    $config              = loadAdminConfig($yamlFile);
+    $yamlFile = dirname(__DIR__) . '/config/admin.yml';
+    $config = loadAdminConfig($yamlFile);
     $displaySampleButton = $config['displaySampleButton'];
 
     if (1 == $displaySampleButton) {

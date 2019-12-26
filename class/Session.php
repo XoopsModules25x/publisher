@@ -40,7 +40,9 @@ class Session
      */
     protected function __construct()
     {
-        @session_start();
+        if (false === @session_start()) {
+            throw new \RuntimeException('Session could not start.');
+        }
     }
 
     /**

@@ -14,12 +14,11 @@
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author          luciorota <lucio.rota@gmail.com>
  */
-
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Common;
 
 /**
- * @param  \XoopsModule $module
+ * @param \XoopsModule $module
  * @return bool
  */
 function xoops_module_pre_install_publisher(\XoopsModule $module)
@@ -46,7 +45,6 @@ function xoops_module_pre_install_publisher(\XoopsModule $module)
 
 /**
  * @param \XoopsModule $module
- *
  * @return bool|string
  */
 function xoops_module_install_publisher(\XoopsModule $module)
@@ -56,8 +54,8 @@ function xoops_module_install_publisher(\XoopsModule $module)
     /** @var Publisher\Helper $helper */
     /** @var Publisher\Utility $utility */
     /** @var Common\Configurator $configurator */
-    $helper       = Publisher\Helper::getInstance();
-    $utility      = new Publisher\Utility();
+    $helper = Publisher\Helper::getInstance();
+    $utility = new Publisher\Utility();
     $configurator = new Common\Configurator();
 
     // Load language files
@@ -85,7 +83,7 @@ function xoops_module_install_publisher(\XoopsModule $module)
     if ($configurator->copyTestFolders && is_array($configurator->copyTestFolders)) {
         //        $file =  dirname(__DIR__) . '/testdata/images/';
         foreach (array_keys($configurator->copyTestFolders) as $i) {
-            $src  = $configurator->copyTestFolders[$i][0];
+            $src = $configurator->copyTestFolders[$i][0];
             $dest = $configurator->copyTestFolders[$i][1];
             $utility::rcopy($src, $dest);
         }

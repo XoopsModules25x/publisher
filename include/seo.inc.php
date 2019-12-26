@@ -54,12 +54,12 @@ if (!empty($seoOp) && isset($seoMap[$seoOp])) {
     // module specific dispatching logic, other module must implement as
     // per their requirements.
 
-    $url_arr = explode('/modules/', Request::getString('PHP_SELF', '', 'SERVER'));
+    $url_arr = explode('/modules/', Request::getString('SCRIPT_NAME', '', 'SERVER'));
     $newUrl  = $url_arr[0] . '/modules/' . PUBLISHER_DIRNAME . '/' . $seoMap[$seoOp];
 
-    $_ENV['PHP_SELF']       = $newUrl;
+    $_ENV['SCRIPT_NAME']       = $newUrl;
     $_SERVER['SCRIPT_NAME'] = $newUrl;
-    $_SERVER['PHP_SELF']    = $newUrl;
+    $_SERVER['SCRIPT_NAME']    = $newUrl;
     switch ($seoOp) {
         case 'category':
             $_SERVER['REQUEST_URI'] = $newUrl . '?categoryid=' . $seoArg;

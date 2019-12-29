@@ -7,9 +7,15 @@
 - Notification Title tag inadvertently overloaded (zyspec)
 - config updates, moved to /config (mamba)
 - use __NAMESPACE__ in Helper (mamba)
-- code cosmetics (mamba)
-- PSR12 (mamba)
+- code cosmetics, PSR12 (mamba)
+- fixed return-by-ref error in CategoryHandler::getCategories() method (zyspec)
+- fixed mimetypes not loaded into dB on initial install (zyspec)
+- minor update to help text for XOOPS version (zyspec)
+- move test data to ./testdata/english folder and rename it so import routine can find it (zyspec)
+- change from using $_SERVER['PHP_SELF'] to $_SERVER['SCRIPT_NAME'] for improved security (zyspec)
 
+TODO:
+- Set 'default' category/item permissions for test data
 
 <h5>1.07 Final       [2019-06-08]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.6
 <hr>

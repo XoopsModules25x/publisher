@@ -10,10 +10,9 @@
  */
 
 /**
+ * @package         XoopsModules\Publisher
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
@@ -25,9 +24,10 @@ require_once __DIR__ . '/include/common.php';
 
 $myts = \MyTextSanitizer::getInstance();
 
-/** @var \XoopsModules\Publisher\Helper $helper */
-$helper = \XoopsModules\Publisher\Helper::getInstance();
+/** @var \XoopsModules\Publisher\Helper $helper
+ * {@internal $helper defined in ./include/common.php }}
+ */
 
 if ('none' !== $helper->getConfig('seo_url_rewrite')) {
-    require_once PUBLISHER_ROOT_PATH . '/include/seo.inc.php';
+    require_once $helper->path('include/seo.inc.php');
 }

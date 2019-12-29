@@ -76,7 +76,7 @@ class CategoryForm extends \XoopsThemeForm
         // Category
         $criteria = new \Criteria(null);
         $criteria->setSort('weight');
-        $criteria->setOrder('ASC');
+        $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
         $myTree        = new \XoopsObjectTree($this->helper->getHandler('Category')->getObjects($criteria), 'categoryid', 'parentid');
         $moduleDirName = basename(dirname(__DIR__));
         $module        = \XoopsModule::getByDirname($moduleDirName);

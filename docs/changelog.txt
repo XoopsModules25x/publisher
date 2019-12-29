@@ -3,6 +3,7 @@
 - added check uid (goffy)
   -- new item get current uid as default
   -- if access user is not granted then current uid will be used as default
+- added option to display number of reads in block spotlight (goffy)  
 - Notification Title tag inadvertently overloaded (zyspec)
 - config updates, moved to /config (mamba)
 - use __NAMESPACE__ in Helper (mamba)

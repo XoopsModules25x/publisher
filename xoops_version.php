@@ -32,6 +32,7 @@ xoops_loadLanguage('common');
 
 xoops_load('xoopseditorhandler');
 $editorHandler = \XoopsEditorHandler::getInstance();
+
 $xoops_url     = parse_url(XOOPS_URL);
 
 $modversion = [

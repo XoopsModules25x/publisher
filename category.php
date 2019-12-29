@@ -176,7 +176,7 @@ $thiscategory_itemcount = isset($totalItems[$categoryid]) ? $totalItems[$categor
 $category['total']      = $thiscategory_itemcount;
 
 if (count($itemsObj) > 0) {
-    /*$userids = array();
+    /*$userids  = [];
     if ($itemsObj) {
         foreach ($itemsObj as $key => $thisItem) {
             $itemids[] = $thisItem->getVar('itemid');

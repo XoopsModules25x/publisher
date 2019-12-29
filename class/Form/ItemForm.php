@@ -286,7 +286,7 @@ class ItemForm extends Publisher\ThemeTabForm
             $uidSelect->setDescription(_CO_PUBLISHER_UID_DSC);
             $sql           = 'SELECT uid, uname FROM ' . $obj->db->prefix('users') . ' ORDER BY uname ASC';
             $result        = $obj->db->query($sql);
-            $usersArray    = array();
+            $usersArray     = [];
             $usersArray[0] = $GLOBALS['xoopsConfig']['anonymous'];
             while (($myrow = $obj->db->fetchArray($result)) !== false) {
                 $usersArray[$myrow['uid']] = $myrow['uname'];

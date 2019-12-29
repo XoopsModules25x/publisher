@@ -320,3 +320,20 @@ INSERT INTO publisher_mimetypes VALUES (120, 'wm', 'video/x-ms-wm', 'Windows Med
 INSERT INTO publisher_mimetypes VALUES (121, 'wmx', 'video/x-ms-wmx', 'Windows Media Player A/V Shortcut', 0, 0);
 INSERT INTO publisher_mimetypes VALUES (122, 'ice', 'x-conference-xcooltalk', 'Cooltalk Audio', 0, 0);
 INSERT INTO publisher_mimetypes VALUES (123, 'rar', 'application/octet-stream', 'WinRAR Compressed Archive', 0, 0);
+
+# CREATE TABLE x798_publisher_versioncontrol (
+#     id                  INTEGER(11) NOT NULL AUTO_INCREMENT,
+#     object_identifier   VARCHAR(250) NOT NULL,
+#     object_version      INTEGER(5)   NOT NULL DEFAULT '1',
+#     object_editor       INTEGER(5),
+#     object_date         INTEGER(11),
+#     object_data         LONGTEXT     NOT NULL,
+#     object_hash         VARCHAR(32)  NOT NULL,
+#     object_informations LONGTEXT,
+#     PRIMARY KEY (id),
+#     UNIQUE (
+#             object_identifier,
+#             object_version,
+#             object_hash
+#            )
+# )

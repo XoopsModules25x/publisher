@@ -327,7 +327,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
                 return 0;
             }
         }
-        //        $ret = array();
+        //        $ret = [];
         $criteria = $this->getItemsCriteria($categoryid, $status, $notNullFields, $criteriaPermissions);
 
         /*
@@ -551,7 +551,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
                     $criteria->add($criteriaStatus);
                 }
         */
-        //        $ret = array();
+        //        $ret  = [];
 
         if (null !== $otherCriteria) {
             $criteria->add($otherCriteria);
@@ -773,7 +773,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (empty($catIds)) {
             return $ret;
         }
-        /*$cat = array();
+        /*$cat  = [];
 
         $sql = "SELECT categoryid, MAX(datesub) as date FROM " . $this->db->prefix($this->helper->getDirname() . '_items') . " WHERE status IN (" . implode(',', $status) . ") GROUP BY categoryid";
         $result = $this->db->query($sql);
@@ -876,7 +876,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         while (false !== ($row = $this->db->fetchArray($result))) {
             $catsCount[$row['parentid']][$row['categoryid']] = $row['count'];
         }
-        //        $resultCatCounts = array();
+        //        $resultCatCounts = [];
         foreach ($catsCount[0] as $subCatId => $count) {
             $this->resultCatCounts[$subCatId] = $count;
             if (isset($catsCount[$subCatId])) {

@@ -55,10 +55,15 @@ $item['body']         = $itemObj->getBody();
 $item['categoryname'] = $myts->displayTarea($categoryObj->name());
 
 $mainImage = $itemObj->getMainImage();
+  if (empty($mainImage['image_path'])) {
+            $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
+           }
 if ('' != $mainImage['image_path']) {
     $item['image'] = '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '">';
 }
 $xoopsTpl->assign('item', $item);
+$xoopsTpl->assign('xoops_sitename', $GLOBALS['xoopsConfig']['sitename']);
+$xoopsTpl->assign('xoops_slogan', $GLOBALS['xoopsConfig']['slogan']);
 $xoopsTpl->assign('printtitle', $GLOBALS['xoopsConfig']['sitename'] . ' - ' . Publisher\Utility::html2text($categoryObj->getCategoryPath()) . ' > ' . $myts->displayTarea($itemObj->getTitle()));
 $xoopsTpl->assign('printlogourl', $helper->getConfig('print_logourl'));
 $xoopsTpl->assign('printheader', $myts->displayTarea($helper->getConfig('print_header'), 1));
@@ -83,5 +88,10 @@ if ('index footer' === $helper->getConfig('print_footer') || 'both' === $helper-
 }
 
 $xoopsTpl->assign('display_whowhen_link', $helper->getConfig('item_disp_whowhen_link'));
+$xoopsTpl->assign('display_who_link', $helper->getConfig('item_disp_who_link'));
+$xoopsTpl->assign('display_when_link', $helper->getConfig('item_disp_when_link'));
+$xoopsTpl->assign('display_hits_link', $helper->getConfig('item_disp_hits_link'));
+$xoopsTpl->assign('display_itemcategory', $helper->getConfig('item_disp_itemcategory'));
+$xoopsTpl->assign('display_defaultimage', $helper->getConfig('item_disp_defaultimage'));
 
 $xoopsTpl->display('db:publisher_print.tpl');

@@ -94,13 +94,18 @@ function publisher_items_columns_show($options)
             $mainItem['item_cleantitle'] = strip_tags($thisItem->getTitle());
             $mainItem['item_link']       = $thisItem->itemid();
             $mainItem['itemurl']         = $thisItem->getItemUrl();
-            $mainImage                   = $thisItem->getMainImage();
-
+            $mainItem['date']            = $thisItem->getDatesub();
+			
+			$mainImage                   = $thisItem->getMainImage();
+            if (empty($mainImage['image_path'])) {
+            $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
+           }
             // check to see if GD function exist
             $mainItem['item_image'] = $mainImage['image_path'];
             if (!empty($mainImage['image_path']) && function_exists('imagecreatetruecolor')) {
                 $mainItem['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=100';
-            }
+                $mainItem['image_path'] = $mainImage['image_path'];
+			}
 
             $mainItem['item_summary'] = $thisItem->getBlockSummary($optCatTruncate);
 
@@ -119,6 +124,7 @@ function publisher_items_columns_show($options)
                     $subItem['link']       = $thisItem->getItemLink();
                     $subItem['itemurl']    = $thisItem->getItemUrl();
                     $subItem['summary']    = $thisItem->getBlockSummary($optCatTruncate);
+					$subItem['date']       = $thisItem->getDatesub();
                     $mainItem['subitem'][] = $subItem;
                     unset($subItem);
                 }
@@ -137,7 +143,9 @@ function publisher_items_columns_show($options)
     $block['template']    = $options[4];
     $block['columns']     = $columns;
     $block['columnwidth'] = (int)(100 / $optNumColumns);
-
+    $block['display_datemainitem']         = $options[5];
+    $block['display_datesubitem']          = $options[6];
+    
     $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/assets/css/publisher.css');
 
     return $block;
@@ -175,12 +183,15 @@ function publisher_items_columns_edit($options)
                                  'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
                                  'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED,
                              ]);
-
+    $dateMain = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_DATE_MAINITEM, 'options[5]', $options[5]);
+	$dateSub = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_DATE_SUBITEM, 'options[6]', $options[6]);
+							 
     $form->addElement($colEle);
     $form->addElement($catEle);
     $form->addElement($cItemsEle);
     $form->addElement($truncateEle);
     $form->addElement($tempEle);
-
+	$form->addElement($dateMain);
+	$form->addElement($dateSub);
     return $form->render();
 }

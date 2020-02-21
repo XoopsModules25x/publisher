@@ -155,13 +155,15 @@ unset($items);
 
 if (0 != $fromyear && 0 != $frommonth) {
     $xoopsTpl->assign('show_articles', true);
-    $xoopsTpl->assign('lang_articles', _MD_PUBLISHER_ITEM);
+    $xoopsTpl->assign('lang_articles', _MD_PUBLISHER_ITEMS);
     $xoopsTpl->assign('currentmonth', $monthsArray[$frommonth]);
     $xoopsTpl->assign('currentyear', $fromyear);
     $xoopsTpl->assign('lang_actions', _MD_PUBLISHER_ACTIONS);
     $xoopsTpl->assign('lang_date', _MD_PUBLISHER_DATE);
     $xoopsTpl->assign('lang_views', _MD_PUBLISHER_HITS);
-
+	$xoopsTpl->assign('lang_category', _MD_PUBLISHER_CATEGORY);
+    $xoopsTpl->assign('lang_author', _MD_PUBLISHER_AUTHOR);
+	
     // must adjust the selected time to server timestamp
     $timeoffset = $useroffset - $GLOBALS['xoopsConfig']['server_TZ'];
     $monthstart = mktime(0 - $timeoffset, 0, 0, $frommonth, 1, $fromyear);
@@ -192,26 +194,66 @@ if (0 != $fromyear && 0 != $frommonth) {
     $count = count($storyarray);
     if (is_array($storyarray) && $count > 0) {
         /** @var \XoopsModules\Publisher\Item $item */
+
+
         foreach ($storyarray as $item) {
+
             $story               = [];
-            $htmltitle           = '';
-            $story['title']      = "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . "</a>: <a href='" . $item->getItemUrl() . "'" . $htmltitle . '>' . $item->getTitle() . '</a>';
-            $story['counter']    = $item->counter();
+            $htmltitle           = '';			
+            $story['title']      = "<a href='" . $item->getItemUrl() . "'" . $htmltitle . '>' . $item->getTitle() . '</a>';
+            $story['cleantitle'] = strip_tags($item->getTitle());
+			$story['itemurl']    = $item->getItemUrl();
+			$story['category']   = "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . "</a>"; 
+			$story['counter']    = $item->counter();
             $story['date']       = $item->getDatesub();
             $story['print_link'] = XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/print.php?itemid=' . $item->itemid();
             $story['mail_link']  = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  ' . $item->getItemUrl();
-
+            $story['pdf_link']   = XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/makepdf.php?itemid=' . $item->itemid();
+            $story['author']     = $item->getWho();
+		    $story['summary']    = $item->getSummary();
+            $story['cancomment'] = $item->cancomment();			
+			
+			$mainImage = $item->getMainImage();
+	     if (empty($mainImage['image_path'])) {
+            $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
+           }
+             //check to see if GD function exist
+            if (!empty($mainImage['image_path']) && !function_exists('imagecreatetruecolor')) {
+		      $story['item_image'] = $mainImage['path'];
+            } else {
+              $story['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . ''; 
+              $story['image_path'] = $mainImage['image_path'];
+			}
+		   
+		$comments = $item->comments();
+            if ($comments > 0) {
+                //shows 1 comment instead of 1 comm. if comments ==1
+                //langugage file modified accordingly
+                if (1 == $comments) {
+                    $story['comment'] = '&nbsp;' . _MD_PUBLISHER_ONECOMMENT . '&nbsp;';
+                } else {
+                    $story['comment'] = '&nbsp;' . $comments . '&nbsp;' . _MD_PUBLISHER_COMMENTS . '&nbsp;';
+                }
+            } else {
+                    $story['comment'] = '&nbsp;' . _MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
+            }   
+		   
+		   
+		   
+		   
             $xoopsTpl->append('stories', $story);
         }
-        //        unset($item);
+            //unset($item);
+			
     }
     $xoopsTpl->assign('lang_printer', _MD_PUBLISHER_PRINTERFRIENDLY);
     $xoopsTpl->assign('lang_sendstory', _MD_PUBLISHER_SENDSTORY);
     $xoopsTpl->assign('lang_storytotal', _MD_PUBLISHER_TOTAL_ITEMS . ' ' . $count);
+	 
 } else {
     $xoopsTpl->assign('show_articles', false);
 }
-
+	   
 $xoopsTpl->assign('lang_newsarchives', _MD_PUBLISHER_ARCHIVES);
 
 require_once $GLOBALS['xoops']->path('footer.php');

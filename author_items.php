@@ -74,16 +74,49 @@ if ($count > 0) {
                 'link'        => $item->getCategoryLink(),
             ];
         }
-
+        //mb start
+        $mainImage       = $item->getMainImage();
+	     if (empty($mainImage['image_path'])) {
+            $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
+           }
+        // check to see if GD function exist
+        if (!empty($mainImage['image_path']) && !function_exists('imagecreatetruecolor')) {
+            $image = $mainImage['image_path'];
+        } else {
+            $image = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . ''; 
+           }
+        //mb end
+		  $comments = $item->comments();
+            if ($comments > 0) {
+                //shows 1 comment instead of 1 comm. if comments ==1
+                //langugage file modified accordingly
+                if (1 == $comments) {
+                    $comment = '&nbsp;' . _MB_PUBLISHER_ONECOMMENT . '&nbsp;';
+                } else {
+                    $comment = '&nbsp;' . $comments . '&nbsp;' . _MB_PUBLISHER_COMMENTS . '&nbsp;';
+                }
+            } else {
+                    $comment = '&nbsp;' . _MB_PUBLISHER_NO_COMMENTS . '&nbsp;';
+            }
+		
+		
+		
         $categories[$catId]['count_items']++;
         $categories[$catId]['count_hits'] += $item->counter();
         $categories[$catId]['items'][]    = [
             'title'     => $item->getTitle(),
+			'cleantitle'=> strip_tags($item->getTitle()),
+			'itemurl'   => $item->getItemUrl(),
+			'summary'   => $item->getSummary(),
+			'comment'   => $comment,
+			'cancomment'=> $item->cancomment(),
             'hits'      => $item->counter(),
             'link'      => $item->getItemLink(),
-            'published' => $item->getDatesub(_SHORTDATESTRING),
+            'published' => $item->getDatesub(),
+			//'published' => $item->getDatesub(_SHORTDATESTRING),
             //'rating'    => $xoopsLocal->number_format((float)$item->rating())
             'rating'    => $item->rating(),
+			'image'     => $image,
         ];
     }
 }

@@ -44,6 +44,9 @@ $sender_inform = sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemOb
 $mainImage     = $itemObj->getMainImage();
 
 $content = '';
+  if (empty($mainImage['image_path'])) {
+             $content .= '<img src="' . PUBLISHER_URL . '/assets/images/default_image.jpg" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"><br>';
+		   }
 if ('' != $mainImage['image_path']) {
     $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"><br>';
 }
@@ -93,10 +96,24 @@ $pdf->SetKeywords($docKeywords);
 $firstLine  = Publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
 $secondLine = Publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['slogan']);
 
-//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
-$pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine, [0, 64, 255], [0, 64, 128]);
+$PDF_HEADER_LOGO = "_blank.png";
+$PDF_HEADER_LOGO_WIDTH = "";
 
+//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
+$pdf->setHeaderData($PDF_HEADER_LOGO, $PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+//print : disable the possibility to print the PDF from any PDF viewer.
+//modify : prevent the modification of contents of the document by operations other than those controlled by 'fill-forms', 'extract' and 'assemble';
+//copy : prevent the copy or otherwise extract text and graphics from the document;
+//annot-forms : Add or modify text annotations, fill in interactive form fields, and, if 'modify' is also set, create or modify interactive form fields (including signature fields);
+//fill-forms : Fill in existing interactive form fields (including signature fields), even if 'annot-forms' is not specified;
+//extract : Extract text and graphics (in support of accessibility to users with disabilities or for other purposes);
+//assemble : Assemble the document (insert, rotate, or delete pages and create bookmarks or thumbnail images), even if 'modify' is not set;
+//print-high : Print the document to a representation from which a faithful digital copy of the PDF content could be generated. When this is not set, printing is limited to a low-level representation of the appearance, possibly of degraded quality.
+//owner : (inverted logic - only for public-key) when set permits change of encryption and enables all other permissions.
+
+$pdf->SetProtection(array('modify','copy','annot-forms','fill-forms','extract','assemble'));
 
 //set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);

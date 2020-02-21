@@ -89,3 +89,11 @@ define('_MD_PUBLISHER_ENLARGEIMG', 'Enlarge');
 define('_MD_PUBLISHER_OF', ' of ');
 //1.04
 define('_MD_PUBLISHER_ERROR_NO_PDF', 'TCPDF for XOOPS not installed in /class/libraries/vendor/tecnickcom/tcpdf/ <br> Please read the /docs/readme.txt or click on the Help tab to learn how to get it!');
+//Lio-MJ
+define('_MD_PUBLISHER_READMORE', 'Read more...');
+define('_MD_PUBLISHER_CATEGORY', 'Category');
+define('_MD_PUBLISHER_POSTER', 'Published by');
+define('_MD_PUBLISHER_AUTHOR', 'Author');
+define('_MD_PUBLISHER_TOTALHITS', 'hits');
+define('_MD_PUBLISHER_ONECOMMENT', '1 comment');
+define('_MD_PUBLISHER_NO_COMMENTS', 'No comments');

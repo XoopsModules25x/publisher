@@ -20,9 +20,10 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
+
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 require_once dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -44,12 +45,12 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     protected $resultCatCounts = [];
 
     /**
-     * @param \XoopsDatabase $db
+     * @param \XoopsDatabase                      $db
      * @param \XoopsModules\Publisher\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
-        /** @var Publisher\Helper $this->helper */
+        /** @var Publisher\Helper $this ->helper */
         if (null === $helper) {
             $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         } else {
@@ -79,9 +80,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve an item
      *
-     * @param int   $id     itemid of the user
+     * @param int  $id      itemid of the user
      *
-     * @param  null $fields
+     * @param null $fields
      * @return mixed reference to the <a href='psi_element://Item'>Item</a> object, FALSE if failed
      *                      object, FALSE if failed
      */
@@ -167,9 +168,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      *
      * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
      *                                                  conditions to be met
-     * @param  bool|string                    $idKey    what shall we use as array key ? none, itemid, categoryid
-     * @param  bool                           $as_object
-     * @param  string|bool                    $notNullFields
+     * @param bool|string                     $idKey    what shall we use as array key ? none, itemid, categoryid
+     * @param bool                            $as_object
+     * @param string|bool                     $notNullFields
      * @return array           array of <a href='psi_element://Item'>Item</a> objects
      *                                                  objects
      */
@@ -204,7 +205,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         }
         $theObjects = [];
         while (false !== ($myrow = $this->db->fetchArray($result))) {
-//            $item = new Item();
+            //            $item = new Item();
             $item = $this->create();
             $item->assignVars($myrow);
             $theObjects[$myrow['itemid']] = $item;
@@ -259,10 +260,10 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param  int                 $categoryid
-     * @param  string|array        $status
-     * @param  string              $notNullFields
-     * @param  null|\CriteriaCompo $criteriaPermissions
+     * @param int                 $categoryid
+     * @param string|array        $status
+     * @param string              $notNullFields
+     * @param null|\CriteriaCompo $criteriaPermissions
      * @return \CriteriaCompo
      */
     private function getItemsCriteria($categoryid = -1, $status = '', $notNullFields = '', $criteriaPermissions = null)
@@ -375,14 +376,14 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     {
         $otherCriteria = new \CriteriaCompo();
         if (!$this->publisherIsAdmin) {
-                    $criteriaDateSub = new \Criteria('datesub', time(), '<=');
-                    $otherCriteria->add($criteriaDateSub);
+            $criteriaDateSub = new \Criteria('datesub', time(), '<=');
+            $otherCriteria->add($criteriaDateSub);
         }
-		if ($excludeExpired) {
+        if ($excludeExpired) {
             // by default expired items are excluded from list of published items
             $criteriaExpire = new \CriteriaCompo();
             $criteriaExpire->add(new \Criteria('dateexpire', '0'), 'OR');
-            $criteriaExpire->add(new \Criteria('dateexpire', time() , '>='), 'OR');
+            $criteriaExpire->add(new \Criteria('dateexpire', time(), '>='), 'OR');
             $otherCriteria->add($criteriaExpire);
         }
 
@@ -409,7 +410,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
 
         return $this->getItems($limit, $start, -1, $categoryid, $sort, $order, $notNullFields, $asObject, $otherCriteria, $idKey);
     }
-    
+
     /**
      * @param Item $obj
      *
@@ -499,16 +500,16 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int                $limit
-     * @param int                $start
-     * @param array|string       $status
-     * @param int                $categoryid
-     * @param string             $sort
-     * @param string             $order
-     * @param string             $notNullFields
-     * @param bool               $asObject
+     * @param int                 $limit
+     * @param int                 $start
+     * @param array|string        $status
+     * @param int                 $categoryid
+     * @param string              $sort
+     * @param string              $order
+     * @param string              $notNullFields
+     * @param bool                $asObject
      * @param null|\CriteriaCompo $otherCriteria
-     * @param bool|string        $idKey
+     * @param bool|string         $idKey
      * @return array
      * @internal param bool $asObject
      */
@@ -560,7 +561,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $criteria->setStart($start);
         $criteria->setSort($sort);
         $criteria->order = $order; // patch for XOOPS <= 2.5.10 does not set order correctly using setOrder() method
-        $ret = &$this->getObjects($criteria, $idKey, $notNullFields);
+        $ret             = &$this->getObjects($criteria, $idKey, $notNullFields);
 
         return $ret;
     }
@@ -595,8 +596,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      *
      * @param \CriteriaElement $criteria {@link CriteriaElement}
      *
-     * @param  bool            $force
-     * @param  bool            $asObject
+     * @param bool             $force
+     * @param bool             $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
@@ -663,8 +664,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getItemsFromSearch($queryArray = [], $andor = 'AND', $limit = 0, $offset = 0, $userid = 0, $categories = [], $sortby = 0, $searchin = '', $extra = '')
     {
-        $count = 0;
-        $ret   = [];
+        $count            = 0;
+        $ret              = [];
         $criteriaKeywords = $criteriaPermissions = $criteriaUser = null;
         /* @var  \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
@@ -673,9 +674,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (in_array('all', $searchin) || 0 === count($searchin)) {
             $searchin = ['title', 'subtitle', 'body', 'summary', 'meta_keywords'];
             //add support for searching in tags if Tag module exists and is active
-             if (false !== $this->helper->getHelper('tag')) {
-                 $searchin[] = 'item_tag';
-             }
+            if (false !== $this->helper::getHelper('tag')) {
+                $searchin[] = 'item_tag';
+            }
         }
         if ($userid && is_array($userid)) {
             $userid       = array_map('intval', $userid);
@@ -693,7 +694,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $criteriaKeywords = new \CriteriaCompo();
             foreach ($queryArray as $iValue) {
                 $criteriaKeyword = new \CriteriaCompo();
-                foreach($searchin as $searchField) {
+                foreach ($searchin as $searchField) {
                     $criteriaKeyword->add(new \Criteria($searchField, '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
                 /*
@@ -758,7 +759,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $order = 'DESC';
         }
         $criteria->order = $order; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
-        $ret = &$this->getObjects($criteria);
+        $ret             = &$this->getObjects($criteria);
 
         return $ret;
     }
@@ -829,7 +830,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * @param         $parentid
      * @param         $catsCount
-     * @param  string $spaces
+     * @param string  $spaces
      * @return int
      */
     public function countArticlesByCat($parentid, $catsCount, $spaces = '')

@@ -39,20 +39,26 @@ function publisher_items_spot_show($options)
     $categoryHandler = $helper->getHandler('Category');
     /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
+	xoops_loadLanguage('main', 'publisher');
 
-    $optDisplayLast    = $options[0];
-    $optItemsCount     = $options[1];
-    $optCategoryId     = $options[2];
-    $selItems          = isset($options[3]) ? explode(',', $options[3]) : '';
-    $optDisplayPoster  = $options[4];
-    $optDisplayComment = $options[5];
-    $optDisplayType    = $options[6];
-    $optTruncate       = (int)$options[7];
-    $optCatImage       = $options[8];
+    $optDisplayLast     = $options[0];
+    $optItemsCount      = $options[1];
+    $optCategoryId      = $options[2];
+    $selItems           = isset($options[3]) ? explode(',', $options[3]) : '';
+    $optDisplayPoster   = $options[4];
+    $optDisplayComment  = $options[5];
+    $optDisplayType     = $options[6];
+    $optTruncate        = (int)$options[7];
+    $optCatImage        = $options[8];
     $optSortOrder      = isset($options[9]) ? $options[9] : '';
     $optBtnDisplayMore = isset($options[10]) ? $options[10] : '';
     $optDisplayReads   = isset($options[11]) ? $options[11] : '';
-
+    $optdisplayitemimage=$options[12];
+	$optdisplaywhenlink=$options[13];
+    $optdisplaycategorylink=$options[14];
+	$optdisplayadminlink=$options[15];
+	$optdisplayreadmore =$options[16];
+    
     if (0 == $optCategoryId) {
         $optCategoryId = -1;
     }
@@ -151,10 +157,22 @@ function publisher_items_spot_show($options)
     $block['lang_reads']           = _MB_PUBLISHER_READS;
     $block['lang_comments']        = _MB_PUBLISHER_COMMENTS;
     $block['lang_readmore']        = _MB_PUBLISHER_READMORE;
+	$block['lang_poster']          = _MB_PUBLISHER_POSTEDBY;
+	$block['lang_date']            = _MB_PUBLISHER_ON;
+	$block['lang_category']        = _MB_PUBLISHER_CATEGORY;
+	       	
     $block['display_whowhen_link'] = $optDisplayPoster;
+	$block['display_who_link']     = $optDisplayPoster;
     $block['display_comment_link'] = $optDisplayComment;
     $block['display_type']         = $optDisplayType;
     $block['display_reads']        = $optDisplayReads;
+	$block['display_cat_image']    = $optCatImage;
+    $block['display_item_image']    =$optdisplayitemimage;
+	$block['display_when_link']     =$optdisplaywhenlink;
+    $block['display_categorylink']  =$optdisplaycategorylink;
+	$block['display_adminlink']     =$optdisplayadminlink;
+	$block['display_readmore']      =$optdisplayreadmore;
+	
     if ($optBtnDisplayMore) {
         $block['lang_displaymore'] = _MB_PUBLISHER_MORE_ITEMS;
     }
@@ -195,13 +213,13 @@ function publisher_items_spot_edit($options)
     }
     $itemEle = new \XoopsFormSelect(_MB_PUBLISHER_SELECT_ITEMS, 'options[3]', $selItems, 10, true);
     $itemEle->addOptionArray($itemsObj);
-    $whoEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_WHO_AND_WHEN, 'options[4]', $options[4]);
+    $whoEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_POSTEDBY, 'options[4]', $options[4]);
     $comEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_COMMENTS, 'options[5]', $options[5]);
     $typeEle = new \XoopsFormSelect(_MB_PUBLISHER_DISPLAY_TYPE, 'options[6]', $options[6]);
     $typeEle->addOptionArray(
         [
-            'block'  => _MB_PUBLISHER_DISPLAY_TYPE_BLOCK,
-            'bullet' => _MB_PUBLISHER_DISPLAY_TYPE_BULLET,
+                                 'block'  => _MB_PUBLISHER_DISPLAY_TYPE_BLOCK,
+                                 'bullet' => _MB_PUBLISHER_DISPLAY_TYPE_BULLET,
         ]
     );
     $truncateEle = new \XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[7]', 4, 255, $options[7]);
@@ -209,30 +227,39 @@ function publisher_items_spot_edit($options)
     $sortEle     = new \XoopsFormSelect(_MI_PUBLISHER_ORDERBY, 'options[9]', $options[9]);
     $sortEle->addOptionArray(
         [
-            'title'    => _MI_PUBLISHER_ORDERBY_TITLE,
-            'date'     => _MI_PUBLISHER_ORDERBY_DATE,
-            'counter'  => _MI_PUBLISHER_ORDERBY_HITS,
-            'rating'   => _MI_PUBLISHER_ORDERBY_RATING,
-            'votes'    => _MI_PUBLISHER_ORDERBY_VOTES,
-            'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS,
-            'weight'   => _MI_PUBLISHER_ORDERBY_WEIGHT,
+                                'title'    => _MI_PUBLISHER_ORDERBY_TITLE,
+                                'date'     => _MI_PUBLISHER_ORDERBY_DATE,
+                                'counter'  => _MI_PUBLISHER_ORDERBY_HITS,
+                                'rating'   => _MI_PUBLISHER_ORDERBY_RATING,
+                                'votes'    => _MI_PUBLISHER_ORDERBY_VOTES,
+                                'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS,
+                                'weight'   => _MI_PUBLISHER_ORDERBY_WEIGHT,                               
         ]
     );
     $dispMoreEle = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_MORELINK, 'options[10]', $options[10]);
     $readsEle    = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_READ, 'options[11]', $options[11]);
-
+    $dispImage    = new \XoopsFormRadioYN(_MB_PUBLISHER_IMGDISPLAY, 'options[12]', $options[12]);
+    $dispDate    = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_POSTTIME, 'options[13]', $options[13]);
+    $dispCategory    = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_TOPICLINK, 'options[14]', $options[14]);
+    $dispAdminlink    = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_ADMINLINK, 'options[15]', $options[15]);
+    $dispReadmore   = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_READ_FULLITEM, 'options[16]', $options[16]);
+    
     $form->addElement($autoEle);
     $form->addElement($countEle);
     $form->addElement($catEle);
     $form->addElement($itemEle);
     $form->addElement($whoEle);
-    $form->addElement($comEle);
+    $form->addElement($comEle); 
     $form->addElement($typeEle);
     $form->addElement($truncateEle);
     $form->addElement($imageEle);
     $form->addElement($sortEle);
     $form->addElement($dispMoreEle);
     $form->addElement($readsEle);
-
+	$form->addElement($dispImage);
+	$form->addElement($dispDate);
+	$form->addElement($dispCategory);
+	$form->addElement($dispAdminlink);
+	$form->addElement($dispReadmore);
     return $form->render();
 }

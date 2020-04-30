@@ -1,3 +1,7 @@
+<{if $indexfooter}>
+       <{$indexfooter}>
+    <{/if}>
+
 <{if $isAdmin == 1}>
     <div class="publisher_adminlinks"><{$publisher_adminpage}></div>
 <{/if}>

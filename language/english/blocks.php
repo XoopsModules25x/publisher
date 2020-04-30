@@ -108,3 +108,12 @@ define('_MB_PUBLISHER_TEMPLATE_SLIDER2', 'Tabbed Slider');
 define('_MB_PUBLISHER_ARCHIVE', 'Archive');
 //25-11-2012
 define('_MB_PUBLISHER_ONECOMMENT', '1 comment');
+//Lio-MJ
+define('_MB_PUBLISHER_DISPLAY_READ_FULLITEM', 'Display \'Read Full Article\'?');
+define('_MB_PUBLISHER_DISPLAY_ADMINLINK', 'Display \'Administrator Icon\'?');
+define('_MB_PUBLISHER_DISPLAY_SUMMARY', 'Display \'Article Summary\'?');
+define('_MB_PUBLISHER_DISPLAY_RATING', 'Display \'Article Rating\'?');
+define('_MB_PUBLISHER_DISPLAY_DATE_MAINITEM', 'Display Date in Main Item?');
+define('_MB_PUBLISHER_DISPLAY_DATE_SUBITEM', 'Display Date in Sub Item?');
+define('_MB_PUBLISHER_ON', 'on');
+define('_MB_PUBLISHER_TOTALHITS', 'hits');

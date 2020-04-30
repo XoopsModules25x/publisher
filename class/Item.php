@@ -50,10 +50,10 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this ->helper */
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
-        /** @var \XoopsDatabase $this ->db */
-        $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
+        /** @var \XoopsDatabase $this->db */
+        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('title', XOBJ_DTYPE_TXTBOX, '', true, 255);
@@ -317,7 +317,7 @@ class Item extends \XoopsObject
 
         return formatTimestamp($this->getVar('dateexpire', $format), $dateFormat);
     }
-
+    
     /**
      * @param int $realName
      *
@@ -481,8 +481,16 @@ class Item extends \XoopsObject
             }
         }
 
+        return $adminLinks;
+    }
+	
+	    /**
+     * @return string
+     */
+    public function getPdfButton()
+    {
+       $pdfButton = '';
         // PDF button
-        if ($this->helper->getConfig('display_pdf')) {
             if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
                 //                if (is_object($GLOBALS['xoopsUser']) && Publisher\Utility::userIsAdmin()) {
                 //                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
@@ -495,24 +503,22 @@ class Item extends \XoopsObject
                 //                        </script>';
                 //                }
             } else {
-                $adminLinks .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "'></a>";
-                $adminLinks .= ' ';
+                $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "'></a>&nbsp;";
+                $pdfButton .= ' ';
             }
+        return $pdfButton;
         }
 
+	   /**
+     * @return string
+     */
+    public function getPrintLinks()
+    {
+		$printLinks = '';
         // Print button
-        $adminLinks .= "<a href='" . Publisher\Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . _CO_PUBLISHER_PRINT . "' alt='" . _CO_PUBLISHER_PRINT . "'></a>";
-        $adminLinks .= ' ';
-        // Email button
-        if (xoops_isActiveModule('tellafriend')) {
-            $subject    = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
-            $subject    = $this->convertForJapanese($subject);
-            $maillink   = Publisher\Utility::tellAFriend($subject);
-            $adminLinks .= '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '"></a>';
-            $adminLinks .= ' ';
-        }
-
-        return $adminLinks;
+        $printLinks .= "<a href='" . Publisher\Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . _CO_PUBLISHER_PRINT . "' alt='" . _CO_PUBLISHER_PRINT . "'></a>&nbsp;";
+        $printLinks .= ' ';
+        return $printLinks;
     }
 
     /**
@@ -752,7 +758,7 @@ class Item extends \XoopsObject
      *
      * @return array
      */
-    public function toArraySimple($display = 'default', $maxCharTitle = 0, $maxCharSummary = 0, $fullSummary = false)
+    public function toArraySimple($display = 'default', $maxCharTitle = 0, $maxCharSummary = 300, $fullSummary = false)
     {
         $itemPageId = -1;
         if (is_numeric($display)) {
@@ -767,17 +773,42 @@ class Item extends \XoopsObject
         $item['datesub']    = $this->getDatesub();
         $item['dateexpire'] = $this->getDateExpire();
         $item['counter']    = $this->counter();
+        $item['hits']      = '&nbsp;' . $this->counter() . ' ' . _READS . '';
         $item['who']        = $this->getWho();
         $item['when']       = $this->getWhen();
         $item['category']   = $this->getCategoryName();
+		$item['categorylink'] = $this->getCategoryLink();
+		$item['cancomment']   = $this->cancomment();
+        $comments = $this->comments();
+            if ($comments > 0) {
+                //shows 1 comment instead of 1 comm. if comments ==1
+                //langugage file modified accordingly
+                if (1 == $comments) {
+                    $item['comments'] = '&nbsp;' . _MD_PUBLISHER_ONECOMMENT . '&nbsp;';
+                } else {
+                    $item['comments'] = '&nbsp;' . $comments . '&nbsp;' . _MD_PUBLISHER_COMMENTS . '&nbsp;';
+                }
+            } else {
+                $item['comments'] = '&nbsp;' . _MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
+            }
         $item               = $this->getMainImage($item);
         switch ($display) {
             case 'summary':
+			    $item = $this->toArrayFull($item);
+                $item = $this->toArrayAll($item, $itemPageId);
             case 'list':
-                break;
+			    $item = $this->toArrayFull($item);
+                $item = $this->toArrayAll($item, $itemPageId);
+                //break;
             case 'full':
+			    $item = $this->toArrayFull($item);
+                $item = $this->toArrayAll($item, $itemPageId);
             case 'wfsection':
+			    $item = $this->toArrayFull($item);
+                $item = $this->toArrayAll($item, $itemPageId);
             case 'default':
+			    $item = $this->toArrayFull($item);
+                $item = $this->toArrayAll($item, $itemPageId);
                 $summary = $this->getSummary($maxCharSummary);
                 if (!$summary) {
                     $summary = $this->getBody($maxCharSummary);
@@ -817,14 +848,17 @@ class Item extends \XoopsObject
         $item['title']        = $this->getTitle();
         $item['clean_title']  = $this->getTitle();
         $item['itemurl']      = $this->getItemUrl();
-        $item['cancomment']   = $this->cancomment();
-        $item['comments']     = $this->comments();
+        
         $item['adminlink']    = $this->getAdminLinks();
+		$item['pdfbutton']    = $this->getPdfButton();
+		$item['printlink']    = $this->getPrintLinks();
         $item['categoryPath'] = $this->getCategoryPath($this->helper->getConfig('format_linked_path'));
         $item['who_when']     = $this->getWhoAndWhen();
         $item['who']          = $this->getWho();
         $item['when']         = $this->getWhen();
         $item['category']     = $this->getCategoryName();
+		$item['body']         = $this->getBody();
+		$item['more']         = $this->getItemUrl();
         $item                 = $this->getMainImage($item);
 
         return $item;
@@ -1066,7 +1100,10 @@ class Item extends \XoopsObject
             $resDate = Request::getArray('datesub', [], 'POST');
             $resTime = Request::getArray('datesub', [], 'POST');
             //            $this->setVar('datesub', strtotime($resDate['date']) + $resTime['time']);
-            $localTimestamp = strtotime($resDate['date']) + $resTime['time'];
+            //$localTimestamp = strtotime($resDate['date']) + $resTime['time'];
+            $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resDate['date']);
+            $dateTimeObj->setTime(0, 0, 0);
+            $localTimestamp = $dateTimeObj->getTimestamp() + $resTime['time'];
 
             // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime
             $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
@@ -1086,13 +1123,16 @@ class Item extends \XoopsObject
         } elseif ($this->isNew()) {
             $this->setVar('datesub', time());
         }
-
+        
         // date expire
         if (0 !== Request::getInt('use_expire_yn', 0, 'POST')) {
             if ('' !== Request::getString('dateexpire', '', 'POST')) {
-                $resExDate      = Request::getArray('dateexpire', [], 'POST');
-                $resExTime      = Request::getArray('dateexpire', [], 'POST');
-                $localTimestamp = strtotime($resExDate['date']) + $resExTime['time'];
+                $resExDate = Request::getArray('dateexpire', [], 'POST');
+                $resExTime = Request::getArray('dateexpire', [], 'POST');
+                //$localTimestamp = strtotime($resExDate['date']) + $resExTime['time'];
+                $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resExDate['date']);
+                $dateTimeObj->setTime(0, 0, 0);
+                $localTimestamp = $dateTimeObj->getTimestamp() + $resExTime['time'];
 
                 // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime
                 $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');

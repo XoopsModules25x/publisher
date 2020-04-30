@@ -44,7 +44,7 @@ $tpl          = new \XoopsTpl();
 $tpl->caching = 2;
 //$tpl->xoops_setCacheTime(0);
 $tpl->cache_lifetime = 0;
-$myts                = \MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     //    xoops_load('XoopsLocal');
     $channel_category = $helper->getModule()->name();
@@ -70,9 +70,9 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     $tpl->assign('channel_category', htmlspecialchars($channel_category, ENT_QUOTES | ENT_HTML5));
     $tpl->assign('channel_generator', $helper->getModule()->name());
     $tpl->assign('channel_language', _LANGCODE);
-    $tpl->assign('image_url', XOOPS_URL . '/images/logo.gif');
-    $dimension = getimagesize($GLOBALS['xoops']->path('images/logo.gif'));
-    if (false === $dimension || empty($dimension[0])) {
+    $tpl->assign('image_url', XOOPS_URL . '/images/logo.png');
+    $dimension = getimagesize($GLOBALS['xoops']->path('images/logo.png'));
+    if (empty($dimension[0])) {
         $width  = 140;
         $height = 140;
     } else {
@@ -90,11 +90,11 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
             $tpl->append(
                 'items',
                 [
-                    'title'       => htmlspecialchars($item->getTitle(), ENT_QUOTES | ENT_HTML5),
-                    'link'        => htmlspecialchars($item->getItemUrl(), ENT_QUOTES | ENT_HTML5),
-                    'guid'        => $item->getItemUrl(),
-                    //mb            'pubdate'     => XoopsLocal::formatTimestamp($item->getVar('datesub'), 'rss'),
-                    'pubdate'     => formatTimestamp($item->getVar('datesub'), 'rss'),
+                'title'       => htmlspecialchars($item->getTitle(), ENT_QUOTES | ENT_HTML5),
+                'link'        => htmlspecialchars($item->getItemUrl(), ENT_QUOTES | ENT_HTML5),
+                'guid'        => $item->getItemUrl(),
+                //mb            'pubdate'     => XoopsLocal::formatTimestamp($item->getVar('datesub'), 'rss'),
+                'pubdate'     => formatTimestamp($item->getVar('datesub'), 'rss'),
                     'description' => htmlspecialchars($item->getBlockSummary(300, true), ENT_QUOTES | ENT_HTML5),
                 ]
             );

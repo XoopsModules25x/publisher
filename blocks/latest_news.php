@@ -58,9 +58,9 @@ function publisher_latest_news_show($options)
     $block['spec']['columnwidth'] = (1 / $columnCount * 100);
 
     $allcats = false;
-    if (!isset($options[29])) {
+    if (!isset($options[31])) {
         $allcats = true;
-    } elseif (in_array(0, explode(',', $options[29]))) {
+    } elseif (in_array(0, explode(',', $options[31]))) {
         $allcats = true;
     }
 
@@ -69,7 +69,7 @@ function publisher_latest_news_show($options)
         $criteria = null;
     } else {
         $criteria = new \CriteriaCompo();
-        $criteria->add(new \Criteria('categoryid', '(' . $options[29] . ')', 'IN'));
+        $criteria->add(new \Criteria('categoryid', '(' . $options[31] . ')', 'IN'));
     }
 
     // Use specific ITEMS
@@ -104,14 +104,20 @@ function publisher_latest_news_show($options)
         $item['title']   = $itemObj->getItemLink();
         $item['alt']     = strip_tags($itemObj->getItemLink());
         $mainImage       = $itemObj->getMainImage();
+        if (empty($mainImage['image_path'])) {
+            $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
+           }
         // check to see if GD function exist
-        if (!function_exists('imagecreatetruecolor')) {
+        if (!empty($mainImage['image_path']) && !function_exists('imagecreatetruecolor')) {
             $item['item_image'] = $mainImage['image_path'];
         } else {
             $item['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=' . $imgWidth; // No $imgHeight for autoheight option
-        }
+            $item['image_path'] = $mainImage['image_path'];
+		}
         $item['text'] = $itemObj->getBlockSummary($letters);
-
+        $item['display_item_image']    =$options[10];
+        $item['display_summary']       =$options[16];
+		$item['display_adminlink']     =$options[29];
         $item = $itemObj->getMainImage($item); //returns an array
 
         $lsHeight = $imgPosition = $lsMargin = '';
@@ -122,16 +128,22 @@ function publisher_latest_news_show($options)
         if ('LEFT' === $options[15]) {
             $imgPosition = 'float: left';
             $lsMargin    = '-right';
+			$block['position'] = $imgPosition;
+		    $block['margin'] = $lsMargin;
         }
 
         if ('CENTER' === $options[15]) {
             $imgPosition = 'text-align:center';
             $lsMargin    = '';
+			$block['position'] = $imgPosition;
+		    $block['margin'] = $lsMargin;
         }
 
         if ('RIGHT' === $options[15]) {
             $imgPosition = 'float: right';
             $lsMargin    = '-left';
+			$block['position'] = $imgPosition;
+		    $block['margin'] = $lsMargin;
         }
 
         //Image
@@ -152,11 +164,11 @@ function publisher_latest_news_show($options)
         }
 
         $block['topiclink'] = '';
-        /*
-        if ($options[16] == 1) {
-         $block['topiclink'] = '| <a href="'.XOOPS_URL.'/modules/news/topics_directory.php">'._AM_NEWS_TOPICS_DIRECTORY.'</a> ';
-         }
-         */
+        
+        if (1 == $options[16]) {
+         $block['text'] = $itemObj->getBlockSummary($letters);
+        }
+         
         $block['archivelink'] = '';
         if (1 == $options[17]) {
             $block['archivelink'] = '| <a href="' . PUBLISHER_URL . '/archive.php">' . _MB_PUBLISHER_ARCHIVE . '</a> ';
@@ -170,29 +182,29 @@ function publisher_latest_news_show($options)
 
         $item['poster'] = '';
         if (1 == $options[19]) {
-            $item['poster'] = _MB_PUBLISHER_POSTER . ' ' . $itemObj->posterName();
+            $item['poster'] = $itemObj->posterName();
+			$block['lang_poster']           = _MB_PUBLISHER_POSTEDBY;
         }
 
         $item['posttime'] = '';
         if (1 == $options[20]) {
-            $item['posttime'] = _ON . ' ' . $itemObj->getDatesub();
+            $item['posttime'] = $itemObj->getDatesub();
+			$block['lang_date']           = _MB_PUBLISHER_ON;
         }
 
         $item['topic_title'] = '';
         if (1 == $options[21]) {
-            $item['topic_title'] = $itemObj->getCategoryLink() . _MB_PUBLISHER_SP;
-        }
+            $item['topic_title'] = $itemObj->getCategoryLink();
+            $item['category'] = strip_tags($itemObj->getCategoryLink());
+			$block['lang_category']           = _MB_PUBLISHER_CATEGORY;
+		}
 
         $item['read'] = '';
         if (1 == $options[22]) {
-            $item['read'] = '&nbsp;(' . $itemObj->counter() . ' ' . _READS . ')';
+            $item['read'] = $itemObj->counter();
+			$block['lang_reads']           = _MB_PUBLISHER_READS;
         }
-
-        $item['more'] = '';
-        if ('' != $itemObj->body() || $itemObj->comments() > 0) {
-            $item['more'] = '<a class="publisher_spotlight_readmore" href="' . $itemObj->getItemUrl() . '">' . _MB_PUBLISHER_READMORE . '</a>';
-        }
-
+        $item['cancomment']   = $itemObj->cancomment();
         $comments = $itemObj->comments();
         if (1 == $options[23]) {
             if ($comments > 0) {
@@ -214,23 +226,25 @@ function publisher_latest_news_show($options)
         }
 
         $item['pdf'] = '';
-        if ($helper->getConfig('display_pdf')) {
+        
             if (1 == $options[25]) {
                 $item['pdf'] = "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $itemObj->itemid() . "' rel='nofollow'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif' title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "'></a>&nbsp;";
             }
-        }
+        
         $item['email'] = '';
-        if (1 == $options[26] && xoops_isActiveModule('tellafriend')) {
-            $subject  = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
-            $subject  = $itemObj->convertForJapanese($subject);
-            $maillink = Publisher\Utility::tellAFriend($subject);
-
+            if (1 == $options[26]) {
+            $maillink  = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  ' . $itemObj->getItemUrl();
             $item['email'] = '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '"></a>&nbsp;';
         }
 
         $block['morelink'] = '';
         if (1 == $options[27]) {
             $block['morelink'] = '<a href="' . PUBLISHER_URL . '/index.php">' . _MB_PUBLISHER_MORE_ITEMS . '</a> ';
+        }
+
+        $item['more'] = '';
+        if (1 == $options[28] && '' != $itemObj->body() || $itemObj->comments() > 0) {
+            $item['more'] = '<a href="' . $itemObj->getItemUrl() . '">' . _MB_PUBLISHER_READMORE . '</a>';
         }
 
         $block['latestnews_scroll'] = false;
@@ -242,12 +256,14 @@ function publisher_latest_news_show($options)
         $block['scrollspeed']  = $options[7];
         $block['scrolldir']    = $options[8];
 
-        $block['template'] = $options[28];
+        $block['template'] = $options[30];
 
         $block['imgwidth']  = $options[11];
         $block['imgheight'] = $options[12];
-
-        $block['letters'] = $letters;
+        $block['border'] = $options[13];
+        $block['bordercolor'] = $options[14];
+	
+		$block['letters'] = $letters;
 
         $columns[$k][] = $item;
         ++$k;
@@ -259,6 +275,7 @@ function publisher_latest_news_show($options)
 
     unset($item);
     $block['columns'] = $columns;
+    $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/assets/css/' . PUBLISHER_DIRNAME . '.css');
 
     return $block;
 }
@@ -359,7 +376,7 @@ function publisher_latest_news_edit($options)
     $form .= '</select></td></tr>';
 
     $form .= $tabletag3 . _MB_PUBLISHER_LINKSCONFIG . $tabletag4; // Links Options
-    $form .= $tabletag1 . _MB_PUBLISHER_DISPLAY_TOPICLINK . $tabletag2;
+    $form .= $tabletag1 . _MB_PUBLISHER_DISPLAY_SUMMARY . $tabletag2;
     $form .= publisher_mk_chkbox($options, 16);
     $form .= $tabletag1 . _MB_PUBLISHER_DISPLAY_ARCHIVELINK . $tabletag2;
     $form .= publisher_mk_chkbox($options, 17);
@@ -383,10 +400,13 @@ function publisher_latest_news_edit($options)
     $form .= publisher_mk_chkbox($options, 26);
     $form .= $tabletag1 . _MB_PUBLISHER_DISPLAY_MORELINK . $tabletag2;
     $form .= publisher_mk_chkbox($options, 27);
-
+    $form .= $tabletag1 . _MB_PUBLISHER_DISPLAY_READ_FULLITEM . $tabletag2;
+    $form .= publisher_mk_chkbox($options, 28);
+    $form .= $tabletag1 . _MB_PUBLISHER_DISPLAY_ADMINLINK . $tabletag2;
+    $form .= publisher_mk_chkbox($options, 29);
     $form .= $tabletag3 . _MB_PUBLISHER_TEMPLATESCONFIG . $tabletag4; // Templates Options
     $form .= $tabletag1 . _MB_PUBLISHER_TEMPLATE . $tabletag2;
-    $form .= "<select size='1' name='options[28]'>";
+    $form .= "<select size='1' name='options[30]'>";
 
     $templates = [
         'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
@@ -397,7 +417,7 @@ function publisher_latest_news_edit($options)
     ];
     foreach ($templates as $key => $value) {
         $form .= "<option value='{$key}'";
-        if ($options[28] == $key) {
+        if ($options[30] == $key) {
             $form .= ' selected';
         }
         $form .= ">{$value}</option>";
@@ -407,7 +427,7 @@ function publisher_latest_news_edit($options)
     //Select Which Categories To Show
     $form .= $tabletag3 . _MB_PUBLISHER_TOPICSCONFIG . $tabletag4; // Topics Options
     $form .= $tabletag1 . _MB_PUBLISHER_TOPICSDISPLAY . $tabletag2;
-    $form .= Publisher\Utility::createCategorySelect($options[29], 0, true, 'options[29]');
+    $form .= Publisher\Utility::createCategorySelect($options[31], 0, true, 'options[31]');
     $form .= '</td></tr>';
 
     $form .= '</table>';

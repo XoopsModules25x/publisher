@@ -70,8 +70,8 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     $tpl->assign('channel_category', htmlspecialchars($channel_category, ENT_QUOTES | ENT_HTML5));
     $tpl->assign('channel_generator', $helper->getModule()->name());
     $tpl->assign('channel_language', _LANGCODE);
-    $tpl->assign('image_url', XOOPS_URL . '/images/logo.gif');
-    $dimention = getimagesize($GLOBALS['xoops']->path('images/logo.gif'));
+    $tpl->assign('image_url', XOOPS_URL . '/images/logo.png');
+    $dimention = getimagesize($GLOBALS['xoops']->path('images/logo.png'));
     if (empty($dimention[0])) {
         $width  = 140;
         $height = 140;

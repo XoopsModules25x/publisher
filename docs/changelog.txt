@@ -1,5 +1,44 @@
 <h5>1.08????
 <hr>
+- added Option to display default image if no article image selected in article page (liomj)
+- separate Latest Published Article in Index/Category and Article Page (liomj)
+- changed Preferences order and add new option for better readibility (liomj)  
+ --Latest Published Articles in Index and Category Page 
+ --Article page 
+ --All Latest Published Articles in Article Page 
+ --Archive Page 
+ --Item by The Same Author Page 
+- added new options to enabled/disable item in article page (liomj)
+- added new options to enabled/disable item in item by the same author page (liomj)
+- added new options to enabled/disable item in blocks (liomj)
+ -- Random Block
+ -- Latest News Block
+ -- Spotlight Block
+ -- Recent Block
+ -- Column Block
+ -- New Block
+- restructured blocks and article templates (liomj)
+- restructured Latest Published Article templates (liomj)
+- added new options in preferences to enable/disable item in archive page (liomj)
+- restructured Archive page templates (liomj)
+- restructured Item by the same Author page templates (liomj)
+- separate Poster and Date in index,article page & blocks (liomj)   
+- separate PDF and Print Button from AdminLinks (liomj)
+- removed unused tellafriend module support from AdminLinks (liomj)
+- removed unused Poster avatar from article page (liomj)
+- changed date format to 12 Hour format as default (liomj)
+- change XOOPS logo.gif to logo.png as default (liomj)
+- changed file.gif to transparent file.png in article page (liomj)
+- fixed Extended Column Block (liomj)
+- removed unused Topic Link (News Module) from Latest News Block (liomj)
+- added Default Article Image in PDF (liomj)
+- change TCPDF Logo to Blank.png in PDF Page (liomj)
+- change Text Header color from Blue to Black in PDF Page (liomj)
+- added PDF Protection in PDF Page (liomj)
+- added site name and slogan in Print Page (liomj)
+- fixed Default Template Breadcrumb (liomj)
+- fixed Category Image in Spotlight block (liomj)
+- fixed Footer that will be displayed at the index page of the module (liomj)
 - added check uid (goffy)
   -- new item get current uid as default
   -- if access user is not granted then current uid will be used as default

@@ -1092,7 +1092,10 @@ class Item extends \XoopsObject
             $resDate = Request::getArray('datesub', [], 'POST');
             $resTime = Request::getArray('datesub', [], 'POST');
             //            $this->setVar('datesub', strtotime($resDate['date']) + $resTime['time']);
-            $localTimestamp = strtotime($resDate['date']) + $resTime['time'];
+            //$localTimestamp = strtotime($resDate['date']) + $resTime['time'];
+            $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resDate['date']);
+            $dateTimeObj->setTime(0, 0, 0);
+            $localTimestamp = $dateTimeObj->getTimestamp() + $resTime['time'];
 
             // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime
             $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
@@ -1119,7 +1122,10 @@ class Item extends \XoopsObject
             if ('' !== Request::getString('dateexpire', '', 'POST')) {
                 $resExDate = Request::getArray('dateexpire', [], 'POST');
                 $resExTime = Request::getArray('dateexpire', [], 'POST');
-                $localTimestamp = strtotime($resExDate['date']) + $resExTime['time'];
+                //$localTimestamp = strtotime($resExDate['date']) + $resExTime['time'];
+                $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resExDate['date']);
+                $dateTimeObj->setTime(0, 0, 0);
+                $localTimestamp = $dateTimeObj->getTimestamp() + $resExTime['time'];
 
                 // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime
                 $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');

@@ -80,7 +80,8 @@ final class Meta
             foreach ($langList as $lang):
                 $LL .= '
 				<link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '"/>';
-        endforeach; else:
+            endforeach;
+        else:
             $LL = '
 			<link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '"/>';
         endif;
@@ -98,7 +99,7 @@ final class Meta
             foreach ($fb as $fbkey => $fbrow):
                 $fbh .= '
 				<meta property="og:' . $fbkey . '" content="' . $fbrow . '"/>';
-        endforeach;
+            endforeach;
         endif;
         return $fbh;
     }
@@ -113,7 +114,7 @@ final class Meta
         if (is_array($tw)):
             foreach ($tw as $twkey => $twrow):
                 $twh .= '<meta name="twitter:' . $twkey . '" content="' . $twrow . '"/>';
-        endforeach;
+            endforeach;
         endif;
         return $twh;
     }
@@ -128,7 +129,7 @@ final class Meta
         if (is_array($icon)):
             foreach ($icon as $iconkey => $iconrow):
                 $iconh .= '<meta name="' . $iconkey . '" href="' . $iconrow . '"/>';
-        endforeach;
+            endforeach;
         endif;
         return $iconh;
     }
@@ -211,9 +212,9 @@ final class Meta
 				"@context": "http://schema.org",
 				"@type": "BreadcrumbList",
 				"itemListElement":[';
-        foreach ($crumb as $crumbrow):
+            foreach ($crumb as $crumbrow):
                 ++$count;
-        $h .= '
+                $h .= '
 					{
 						"@type": "ListItem",
 						"position":"' . $crumbrow['position'] . '",
@@ -222,9 +223,9 @@ final class Meta
 							"name": "' . $crumbrow['name'] . '"
 						}
 					}';
-        $h .= $count == $bcount ? '' : ',';
-        endforeach;
-        $h .= ']}
+                $h .= $count == $bcount ? '' : ',';
+            endforeach;
+            $h .= ']}
        </script>';
         endif;
         return $h;

@@ -20,12 +20,13 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
+
 use Xmf\Request;
 use XoopsModules\Publisher;
 
 //namespace Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 require_once dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -49,10 +50,10 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        /** @var \XoopsModules\Publisher\Helper $this ->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
-        /** @var \XoopsDatabase $this->db */
-        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
+        /** @var \XoopsDatabase $this ->db */
+        $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('title', XOBJ_DTYPE_TXTBOX, '', true, 255);
@@ -316,7 +317,7 @@ class Item extends \XoopsObject
 
         return formatTimestamp($this->getVar('dateexpire', $format), $dateFormat);
     }
-    
+
     /**
      * @param int $realName
      *
@@ -573,10 +574,10 @@ class Item extends \XoopsObject
     }
 
     /**
-     * @todo look at this
+     * @param $groupIds
      * @deprecated - NOT USED
      *
-     * @param $groupIds
+     * @todo       look at this
      */
     public function setPermissions($groupIds)
     {
@@ -1081,17 +1082,16 @@ class Item extends \XoopsObject
 
             $gmtTimestamp = $localTimestamp - $offset;
             $this->setVar('datesub', $gmtTimestamp);
-
             //            }
         } elseif ($this->isNew()) {
             $this->setVar('datesub', time());
         }
-        
+
         // date expire
         if (0 !== Request::getInt('use_expire_yn', 0, 'POST')) {
             if ('' !== Request::getString('dateexpire', '', 'POST')) {
-                $resExDate = Request::getArray('dateexpire', [], 'POST');
-                $resExTime = Request::getArray('dateexpire', [], 'POST');
+                $resExDate      = Request::getArray('dateexpire', [], 'POST');
+                $resExTime      = Request::getArray('dateexpire', [], 'POST');
                 $localTimestamp = strtotime($resExDate['date']) + $resExTime['time'];
 
                 // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime

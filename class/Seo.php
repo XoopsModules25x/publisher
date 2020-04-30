@@ -17,14 +17,14 @@ namespace XoopsModules\Publisher;
  *
  * @credit psylove
  *
- * @var    string $title   title of the article
- * @var    string $withExt do we add an html extension or not
  * @return string sort_url for the article
+ * @var    string $withExt do we add an html extension or not
+ * @var    string $title   title of the article
  */
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 

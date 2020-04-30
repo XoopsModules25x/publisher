@@ -21,7 +21,7 @@
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -87,9 +87,8 @@ function publisher_date_to_date_edit($options)
     xoops_load('XoopsFormTextDateSelect');
 
     if ('' === $options[0]) {
-        $options[0] =formatTimestamp(1424860422);
+        $options[0] = formatTimestamp(1424860422);
     }
-
 
     $form    = new Publisher\BlockForm();
     $fromEle = new \XoopsFormTextDateSelect(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));

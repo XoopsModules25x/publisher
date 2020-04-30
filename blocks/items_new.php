@@ -22,7 +22,7 @@
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -58,24 +58,20 @@ function publisher_items_new_show($options)
     } else {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
-
     }
 
-
-        $publisherIsAdmin = $helper->isUserAdmin();
-        if (!$publisherIsAdmin) {
-            if (null === $criteria) {
-                $criteria = new \CriteriaCompo();
-            }
-            $criteriaDateSub = new \Criteria('datesub', time(), '<=');
-            $criteria->add($criteriaDateSub);
+    $publisherIsAdmin = $helper->isUserAdmin();
+    if (!$publisherIsAdmin) {
+        if (null === $criteria) {
+            $criteria = new \CriteriaCompo();
         }
+        $criteriaDateSub = new \Criteria('datesub', time(), '<=');
+        $criteria->add($criteriaDateSub);
+    }
 
-//    $optCatItems    = (int)$options[2];
-//    $categoryId = -1;
-//    $categoryItemsObj = $itemHandler->getAllPublished($optCatItems, 0, $categoryId);
-
-
+    //    $optCatItems    = (int)$options[2];
+    //    $categoryId = -1;
+    //    $categoryItemsObj = $itemHandler->getAllPublished($optCatItems, 0, $categoryId);
 
     $itemsObj = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
 
@@ -165,26 +161,30 @@ function publisher_items_new_edit($options)
 
     $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
-    $orderEle->addOptionArray([
-                                  'datesub'  => _MB_PUBLISHER_DATE,
-                                  'counter'  => _MB_PUBLISHER_HITS,
-                                  'weight'   => _MB_PUBLISHER_WEIGHT,
-                                  'rating'   => _MI_PUBLISHER_ORDERBY_RATING,
-                                  'votes'    => _MI_PUBLISHER_ORDERBY_VOTES,
-                                  'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS,
-                              ]);
+    $orderEle->addOptionArray(
+        [
+            'datesub'  => _MB_PUBLISHER_DATE,
+            'counter'  => _MB_PUBLISHER_HITS,
+            'weight'   => _MB_PUBLISHER_WEIGHT,
+            'rating'   => _MI_PUBLISHER_ORDERBY_RATING,
+            'votes'    => _MI_PUBLISHER_ORDERBY_VOTES,
+            'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS,
+        ]
+    );
 
     $showEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_ORDER_SHOW, 'options[2]', $options[2]);
     $dispEle  = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[3]', 10, 255, $options[3]);
     $charsEle = new \XoopsFormText(_MB_PUBLISHER_CHARS, 'options[4]', 10, 255, $options[4]);
 
     $imageEle = new \XoopsFormSelect(_MB_PUBLISHER_IMAGE_TO_DISPLAY, 'options[5]', $options[5]);
-    $imageEle->addOptionArray([
-                                  'none'     => _NONE,
-                                  'article'  => _MB_PUBLISHER_IMAGE_ARTICLE,
-                                  'category' => _MB_PUBLISHER_IMAGE_CATEGORY,
-                                  'avatar'   => _MB_PUBLISHER_IMAGE_AVATAR,
-                              ]);
+    $imageEle->addOptionArray(
+        [
+            'none'     => _NONE,
+            'article'  => _MB_PUBLISHER_IMAGE_ARTICLE,
+            'category' => _MB_PUBLISHER_IMAGE_CATEGORY,
+            'avatar'   => _MB_PUBLISHER_IMAGE_AVATAR,
+        ]
+    );
 
     $form->addElement($catEle);
     $form->addElement($orderEle);

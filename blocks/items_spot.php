@@ -21,7 +21,7 @@
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -40,18 +40,18 @@ function publisher_items_spot_show($options)
     /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
 
-    $optDisplayLast     = $options[0];
-    $optItemsCount      = $options[1];
-    $optCategoryId      = $options[2];
-    $selItems           = isset($options[3]) ? explode(',', $options[3]) : '';
-    $optDisplayPoster   = $options[4];
-    $optDisplayComment  = $options[5];
-    $optDisplayType     = $options[6];
-    $optTruncate        = (int)$options[7];
-    $optCatImage        = $options[8];
-    $optSortOrder       = isset($options[9])? $options[9]:'';
-    $optBtnDisplayMore  = isset($options[10])? $options[10]:'';
-    $optDisplayReads    = $options[11];
+    $optDisplayLast    = $options[0];
+    $optItemsCount     = $options[1];
+    $optCategoryId     = $options[2];
+    $selItems          = isset($options[3]) ? explode(',', $options[3]) : '';
+    $optDisplayPoster  = $options[4];
+    $optDisplayComment = $options[5];
+    $optDisplayType    = $options[6];
+    $optTruncate       = (int)$options[7];
+    $optCatImage       = $options[8];
+    $optSortOrder      = isset($options[9]) ? $options[9] : '';
+    $optBtnDisplayMore = isset($options[10]) ? $options[10] : '';
+    $optDisplayReads   = isset($options[11]) ? $options[11] : '';
 
     if (0 == $optCategoryId) {
         $optCategoryId = -1;
@@ -198,25 +198,29 @@ function publisher_items_spot_edit($options)
     $whoEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_WHO_AND_WHEN, 'options[4]', $options[4]);
     $comEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_COMMENTS, 'options[5]', $options[5]);
     $typeEle = new \XoopsFormSelect(_MB_PUBLISHER_DISPLAY_TYPE, 'options[6]', $options[6]);
-    $typeEle->addOptionArray([
-                                 'block'  => _MB_PUBLISHER_DISPLAY_TYPE_BLOCK,
-                                 'bullet' => _MB_PUBLISHER_DISPLAY_TYPE_BULLET,
-                             ]);
+    $typeEle->addOptionArray(
+        [
+            'block'  => _MB_PUBLISHER_DISPLAY_TYPE_BLOCK,
+            'bullet' => _MB_PUBLISHER_DISPLAY_TYPE_BULLET,
+        ]
+    );
     $truncateEle = new \XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[7]', 4, 255, $options[7]);
     $imageEle    = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_CATIMAGE, 'options[8]', $options[8]);
     $sortEle     = new \XoopsFormSelect(_MI_PUBLISHER_ORDERBY, 'options[9]', $options[9]);
-    $sortEle->addOptionArray([
-                                'title'    => _MI_PUBLISHER_ORDERBY_TITLE,
-                                'date'     => _MI_PUBLISHER_ORDERBY_DATE,
-                                'counter'  => _MI_PUBLISHER_ORDERBY_HITS,
-                                'rating'   => _MI_PUBLISHER_ORDERBY_RATING,
-                                'votes'    => _MI_PUBLISHER_ORDERBY_VOTES,
-                                'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS,
-                                'weight'   => _MI_PUBLISHER_ORDERBY_WEIGHT,                               
-                             ]);
+    $sortEle->addOptionArray(
+        [
+            'title'    => _MI_PUBLISHER_ORDERBY_TITLE,
+            'date'     => _MI_PUBLISHER_ORDERBY_DATE,
+            'counter'  => _MI_PUBLISHER_ORDERBY_HITS,
+            'rating'   => _MI_PUBLISHER_ORDERBY_RATING,
+            'votes'    => _MI_PUBLISHER_ORDERBY_VOTES,
+            'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS,
+            'weight'   => _MI_PUBLISHER_ORDERBY_WEIGHT,
+        ]
+    );
     $dispMoreEle = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_MORELINK, 'options[10]', $options[10]);
     $readsEle    = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_READ, 'options[11]', $options[11]);
-    
+
     $form->addElement($autoEle);
     $form->addElement($countEle);
     $form->addElement($catEle);

@@ -20,9 +20,10 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
+
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -43,12 +44,12 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public $publisherIsAdmin;
 
     /**
-     * @param \XoopsDatabase $db
+     * @param \XoopsDatabase                      $db
      * @param \XoopsModules\Publisher\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        /** @var \XoopsModules\Publisher\Helper $this ->helper */
         if (null === $helper) {
             $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         } else {
@@ -66,9 +67,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function create($isNew = true)
     {
         $obj = parent::create($isNew);
-//        if ($isNew) {
-//            $obj->setDefaultPermissions();
-//        }
+        //        if ($isNew) {
+        //            $obj->setDefaultPermissions();
+        //        }
         $obj->helper = $this->helper;
 
         return $obj;
@@ -79,7 +80,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      *
      * @param int|null $id  itemid of the user
      *
-     * @param  null    $fields
+     * @param null     $fields
      * @return mixed reference to the <a href='psi_element://Publisher\Category'>Publisher\Category</a> object, FALSE if failed
      *                      object, FALSE if failed
      */
@@ -99,7 +100,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * insert a new category in the database
      *
      * @param \XoopsObject $category reference to the {@link Publisher\Category}
-     * @param  bool        $force
+     * @param bool         $force
      * @return bool        FALSE if failed, TRUE if already present and unchanged or successful
      */
     public function insert(\XoopsObject $category, $force = false) //insert(&$category, $force = false)
@@ -163,7 +164,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * @param \CriteriaElement $criteria {@link CriteriaElement} conditions to be met
      * @param bool             $idAsKey  use the categoryid as key for the array?
      *
-     * @param  bool            $as_object
+     * @param bool             $as_object
      * @return array array of <a href='psi_element://XoopsItem'>XoopsItem</a> objects
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $as_object = true) //&getObjects($criteria = null, $idAsKey = false)
@@ -194,8 +195,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function &getCategories($limit = 0, $start = 0, $parentid = 0, $sort = 'weight', $order = 'ASC', $idAsKey = true)
     {
-        $ret = [];
-         $criteria = new \CriteriaCompo();
+        $ret      = [];
+        $criteria = new \CriteriaCompo();
         $criteria->setSort($sort);
         $criteria->order = $order; // used to fix bug in setOrder() for XOOPS < 2.5.10
         if (-1 != $parentid) {
@@ -382,7 +383,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         }
         $criteria->setSort('weight');
         $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
-        $subcats = $this->getObjects($criteria, true);
+        $subcats         = $this->getObjects($criteria, true);
         /** @var Publisher\Category $subcat */
         foreach ($subcats as $subcat) {
             $ret[$subcat->getVar('parentid')][$subcat->getVar('categoryid')] = $subcat;
@@ -396,8 +397,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      *
      * @param \CriteriaElement $criteria {@link CriteriaElement}
      *
-     * @param  bool            $force
-     * @param  bool            $asObject
+     * @param bool             $force
+     * @param bool             $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)

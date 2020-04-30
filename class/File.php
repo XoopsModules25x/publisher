@@ -23,7 +23,7 @@ namespace XoopsModules\Publisher;
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -47,10 +47,10 @@ class File extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        /** @var \XoopsModules\Publisher\Helper $this ->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         /** @var \XoopsDatabase $db */
-        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('fileid', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('itemid', XOBJ_DTYPE_INT, null, true);
         $this->initVar('name', XOBJ_DTYPE_TXTBOX, null, true, 255);

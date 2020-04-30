@@ -21,7 +21,7 @@
 
 use Xmf\Request;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 //$seoOp = @$_GET['seoOp'];
 $seoOp = Request::getString('seoOp', '', 'GET');
@@ -57,9 +57,9 @@ if (!empty($seoOp) && isset($seoMap[$seoOp])) {
     $url_arr = explode('/modules/', Request::getString('SCRIPT_NAME', '', 'SERVER'));
     $newUrl  = $url_arr[0] . '/modules/' . PUBLISHER_DIRNAME . '/' . $seoMap[$seoOp];
 
-    $_ENV['SCRIPT_NAME']       = $newUrl;
+    $_ENV['SCRIPT_NAME']    = $newUrl;
     $_SERVER['SCRIPT_NAME'] = $newUrl;
-    $_SERVER['SCRIPT_NAME']    = $newUrl;
+    $_SERVER['SCRIPT_NAME'] = $newUrl;
     switch ($seoOp) {
         case 'category':
             $_SERVER['REQUEST_URI'] = $newUrl . '?categoryid=' . $seoArg;

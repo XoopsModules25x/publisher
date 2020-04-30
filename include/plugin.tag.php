@@ -20,7 +20,7 @@
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 /** Get item fields: title, content, time, link, uid, tags
  *
@@ -64,7 +64,7 @@ function publisher_tag_iteminfo(&$items)
     /** @var Publisher\Item $item_obj */
     foreach (array_keys($items) as $cat_id) {
         foreach (array_keys($items[$cat_id]) as $item_id) {
-            $item_obj                = $items_obj[$item_id];
+            $item_obj                 = $items_obj[$item_id];
             $items[$cat_id][$item_id] = [
                 'title'   => $item_obj->getVar('title'),
                 'uid'     => $item_obj->getVar('uid'),
@@ -96,15 +96,15 @@ function publisher_tag_synchronization($mid)
 
     /* clear tag-item links */
     $sql    = "    DELETE FROM {$linkHandler->table}"
-            . "    WHERE "
-            . "        tag_modid = {$mid}"
-            . "        AND "
-            . "        ( tag_itemid NOT IN "
-            . "            ( SELECT DISTINCT {$itemHandler->keyName} "
-            . "                FROM {$itemHandler->table} "
+              . "    WHERE "
+              . "        tag_modid = {$mid}"
+              . "        AND "
+              . "        ( tag_itemid NOT IN "
+              . "            ( SELECT DISTINCT {$itemHandler->keyName} "
+              . "                FROM {$itemHandler->table} "
             . "                WHERE {$itemHandler->table}.status = " . _CO_PUBLISHER_PUBLISHED
-            . "            ) "
-            . "        )";
+              . "            ) "
+              . "        )";
     $result = $linkHandler->db->queryF($sql);
 
     return $result ? true : false;

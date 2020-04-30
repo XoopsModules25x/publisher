@@ -25,7 +25,7 @@ namespace XoopsModules\Publisher\Form;
 use Xmf\Request;
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
+
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -49,12 +49,12 @@ class CategoryForm extends \XoopsThemeForm
     public $userGroups = [];
 
     /**
-     * @param  \XoopsModules\Publisher\Category   $target
-     * @param int $subCatsCount
+     * @param \XoopsModules\Publisher\Category $target
+     * @param int                              $subCatsCount
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        /** @var \XoopsModules\Publisher\Helper $this ->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
 
         $this->targetObject = &$target;
@@ -77,9 +77,9 @@ class CategoryForm extends \XoopsThemeForm
         $criteria = new \Criteria(null);
         $criteria->setSort('weight');
         $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
-        $myTree        = new \XoopsObjectTree($this->helper->getHandler('Category')->getObjects($criteria), 'categoryid', 'parentid');
-        $moduleDirName = basename(dirname(__DIR__));
-        $module        = \XoopsModule::getByDirname($moduleDirName);
+        $myTree          = new \XoopsObjectTree($this->helper->getHandler('Category')->getObjects($criteria), 'categoryid', 'parentid');
+        $moduleDirName   = basename(dirname(__DIR__));
+        $module          = \XoopsModule::getByDirname($moduleDirName);
         if (Publisher\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
             $catSelect = $myTree->makeSelectElement('parentid', 'name', '--', $this->targetObject->parentid(), true, 0, '', _AM_PUBLISHER_PARENT_CATEGORY_EXP);
             $this->addElement($catSelect);

@@ -22,9 +22,10 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
+
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -54,7 +55,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      */
     protected $idfield = 'id';
 
-    public $helper = null;
+    public $helper           = null;
     public $publisherIsAdmin = null;
 
     public function init(\XoopsDatabase $db = null)
@@ -72,7 +73,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * create a new  object
      *
-     * @param  bool $isNew
+     * @param bool $isNew
      * @return \XoopsObject
      */
     public function create($isNew = true)
@@ -83,9 +84,9 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve an object from the database, based on. use in child classes
      *
-     * @param int   $id ID
+     * @param int  $id ID
      *
-     * @param  null $fields
+     * @param null $fields
      * @return mixed object if id exists, false if not
      */
     public function get($id = null, $fields = null)
@@ -114,15 +115,15 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      *                                   conditions to be met
      * @param bool             $idAsKey  Should the department ID be used as array key
      *
-     * @param  bool            $asObject
+     * @param bool             $asObject
      * @return array array of objects
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
     {
-        $ret = [];
+        $ret   = [];
         $limit = $start = 0;
-        $sql = $this->selectQuery($criteria);
-        $id = $this->idfield;
+        $sql   = $this->selectQuery($criteria);
+        $id    = $this->idfield;
         if (null !== $criteria) {
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
@@ -268,8 +269,8 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      *
      * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
      *
-     * @param  bool                           $force
-     * @param  bool                           $asObject
+     * @param bool                            $force
+     * @param bool                            $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
@@ -292,13 +293,13 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      * @param string                          $fieldvalue
      * @param \CriteriaElement|\CriteriaCompo $criteria {@link \CriteriaElement}
      *
-     * @param  bool                           $force
+     * @param bool                            $force
      * @return bool FALSE if update failed
      */
     public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null, $force = false) //updateAll($fieldname, $fieldvalue, $criteria = null)
     {
         $setClause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
-        $sql = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
+        $sql       = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
@@ -351,7 +352,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
         static $instance;
         if (null === $instance) {
             $className = $this->className . 'Handler';
-            $instance = new $className($db);
+            $instance  = new $className($db);
         }
 
         return $instance;

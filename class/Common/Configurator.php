@@ -47,7 +47,6 @@ class Configurator
      */
     public function __construct()
     {
-
         $config = include dirname(dirname(__DIR__)) . '/config/config.php';
 
         $this->name            = $config->name;

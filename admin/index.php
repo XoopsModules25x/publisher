@@ -13,11 +13,12 @@
  * Publisher
  *
  * @copyright    The XOOPS Project (https://xoops.org)
- * @license      GNU GPL (http://www.gnu.org/licenses/gpl-2.0.html/)
+ * @license      GNU GPL (https://www.gnu.org/licenses/gpl-2.0.html/)
  * @package      Publisher
  * @since        1.0
  * @author       Mage, Mamba
  */
+
 use Xmf\Yaml;
 use XoopsModules\Publisher;
 
@@ -28,8 +29,8 @@ xoops_cp_header();
 $helper = \XoopsModules\Publisher\Helper::getInstance();
 $helper->loadLanguage('main');
 $helper->loadLanguage('admin');
-$adminObject = \Xmf\Module\Admin::getInstance();
-$utility = new Publisher\Utility();
+$adminObject  = \Xmf\Module\Admin::getInstance();
+$utility      = new Publisher\Utility();
 $configurator = new Publisher\Common\Configurator();
 
 /*
@@ -51,7 +52,7 @@ if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.p
     $adminObject->addConfigBoxLine('<span style="color:#ff0000;"><img src="' . $pathIcon16 . '/0.png" alt="!">' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
 }
 
-$modStats = [];
+$modStats    = [];
 $moduleStats = $utility::getModuleStats($configurator, $modStats);
 
 $adminObject->addInfoBox(constant('CO_' . $moduleDirNameUpper . '_' . 'STATS_SUMMARY'));
@@ -89,16 +90,16 @@ if ($moduleStats && is_array($moduleStats)) {
 $adminObject->displayNavigation(basename(__FILE__));
 
 //check for latest release
-$newRelease = $utility::checkVerModule($helper);
-if (!empty($newRelease)) {
-    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
-}
+//$newRelease = $utility::checkVerModule($helper);
+//if (!empty($newRelease)) {
+//    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
+//}
 
 //------------- Test Data ----------------------------
 
 if ($helper->getConfig('displaySampleButton')) {
-    $yamlFile = dirname(__DIR__) . '/config/admin.yml';
-    $config = loadAdminConfig($yamlFile);
+    $yamlFile            = dirname(__DIR__) . '/config/admin.yml';
+    $config              = loadAdminConfig($yamlFile);
     $displaySampleButton = $config['displaySampleButton'];
 
     if (1 == $displaySampleButton) {

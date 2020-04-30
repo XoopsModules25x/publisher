@@ -22,7 +22,7 @@
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -59,7 +59,6 @@ function publisher_items_recent_show($options)
     } else {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
-
     }
 
     $publisherIsAdmin = $helper->isUserAdmin();
@@ -114,11 +113,13 @@ function publisher_items_recent_edit($options)
 
     $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
-    $orderEle->addOptionArray([
-                                  'datesub' => _MB_PUBLISHER_DATE,
-                                  'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT,
-                              ]);
+    $orderEle->addOptionArray(
+        [
+            'datesub' => _MB_PUBLISHER_DATE,
+            'counter' => _MB_PUBLISHER_HITS,
+            'weight'  => _MB_PUBLISHER_WEIGHT,
+        ]
+    );
     $dispEle  = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $charsEle = new \XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);
 

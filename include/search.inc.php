@@ -20,7 +20,7 @@
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once __DIR__ . '/common.php';
 
@@ -83,12 +83,12 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
                 }
             }
             //End of highlight
-            $item['text']          = $sanitizedText;
-            $item['author']        = $obj->author_alias();
-            $item['datesub']       = $obj->getDatesub($helper->getConfig('format_date'));
-            $objUid = $obj->uid();
+            $item['text']      = $sanitizedText;
+            $item['author']    = $obj->author_alias();
+            $item['datesub']   = $obj->getDatesub($helper->getConfig('format_date'));
+            $objUid            = $obj->uid();
             $usersIds[$objUid] = $objUid;
-            $ret[]                 = $item;
+            $ret[]             = $item;
             unset($item, $sanitizedText);
         }
     }

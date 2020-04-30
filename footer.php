@@ -21,7 +21,7 @@
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once __DIR__ . '/include/common.php';
 

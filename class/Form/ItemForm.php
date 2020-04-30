@@ -22,11 +22,12 @@ namespace XoopsModules\Publisher\Form;
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
+
 use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
+
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -142,10 +143,10 @@ class ItemForm extends Publisher\ThemeTabForm
         $allowedEditors = Publisher\Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
 
         if (!is_object($GLOBALS['xoopsUser'])) {
-            $group = [XOOPS_GROUP_ANONYMOUS];
+            $group      = [XOOPS_GROUP_ANONYMOUS];
             $currentUid = 0;
         } else {
-            $group = $GLOBALS['xoopsUser']->getGroups();
+            $group      = $GLOBALS['xoopsUser']->getGroups();
             $currentUid = $GLOBALS['xoopsUser']->uid();
         }
 
@@ -280,8 +281,7 @@ class ItemForm extends Publisher\ThemeTabForm
         // Uid
         /*  We need to retreive the users manually because for some reason, on the frxoops.org server,
          the method users::getobjects encounters a memory error
-         */
-        // Trabis : well, maybe is because you are getting 6000 objects into memory , no??? LOL
+         */ // Trabis : well, maybe is because you are getting 6000 objects into memory , no??? LOL
         /*
         if ($this->isGranted(Constants::PUBLISHER_UID)) {
             $uidSelect = new \XoopsFormSelect(_CO_PUBLISHER_UID, 'uid', $obj->uid(), 1, false);
@@ -340,28 +340,28 @@ class ItemForm extends Publisher\ThemeTabForm
             $datesub_datetime->setDescription(_CO_PUBLISHER_DATESUB_DSC);
             $this->addElement($datesub_datetime);
         }
-        
+
         // Date expire
         if ($this->isGranted(Constants::PUBLISHER_DATEEXPIRE)) {
             if ($obj->isNew()) {
-                $dateexpire = time();
+                $dateexpire     = time();
                 $dateexpire_opt = 0;
             } else {
                 if (0 == $obj->getVar('dateexpire')) {
                     $dateexpire_opt = 0;
-                    $dateexpire = time();
+                    $dateexpire     = time();
                 } else {
                     $dateexpire_opt = 1;
-                    $dateexpire = $obj->getVar('dateexpire');
+                    $dateexpire     = $obj->getVar('dateexpire');
                 }
             }
-            
-            $dateExpireYesNo = new \XoopsFormRadioYN('', 'use_expire_yn', $dateexpire_opt);
+
+            $dateExpireYesNo     = new \XoopsFormRadioYN('', 'use_expire_yn', $dateexpire_opt);
             $dateexpire_datetime = new \XoopsFormDateTime('', 'dateexpire', $size = 15, $dateexpire, true);
             if (0 == $dateexpire_opt) {
                 $dateexpire_datetime->setExtra('disabled="disabled"');
             }
-            
+
             $dateExpireTray = new \XoopsFormElementTray(_CO_PUBLISHER_DATEEXPIRE, '');
             $dateExpireTray->setDescription(_CO_PUBLISHER_DATEEXPIRE_DSC);
             $dateExpireTray->addElement($dateExpireYesNo);
@@ -400,10 +400,10 @@ class ItemForm extends Publisher\ThemeTabForm
                 $catids = array_keys($catlist);
             } else {
                 // compare selected in options with readable of user
-                $catlist = array_intersect ($catlist, $imgcatConfig);
-                $catids = array_keys($catlist);
+                $catlist = array_intersect($catlist, $imgcatConfig);
+                $catids  = array_keys($catlist);
             }
-            
+
             $imageObjs = [];
             if (!empty($catids)) {
                 $imageHandler = xoops_getHandler('image');
@@ -411,7 +411,7 @@ class ItemForm extends Publisher\ThemeTabForm
                 $criteria->add(new \Criteria('image_display', 1));
                 $criteria->setSort('image_nicename');
                 $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
-                $imageObjs = $imageHandler->getObjects($criteria, true);
+                $imageObjs       = $imageHandler->getObjects($criteria, true);
                 unset($criteria);
             }
             $image_array = [];
@@ -443,7 +443,8 @@ class ItemForm extends Publisher\ThemeTabForm
             $closetable = new \XoopsFormLabel('', '</td></tr></table>');
 
             $GLOBALS['xoTheme']->addScript(PUBLISHER_URL . '/assets/js/ajaxupload.3.9.js');
-            $js_data  = new \XoopsFormLabel('', '
+            $js_data  = new \XoopsFormLabel(
+                '', '
 
 <script type= "text/javascript">
 $publisher(document).ready(function () {
@@ -484,16 +485,17 @@ $publisher(document).ready(function () {
 });
 </script>
 
-');
+'
+            );
             $messages = new \XoopsFormLabel('', "<div id='publisher_upload_message'></div>");
             $button   = new \XoopsFormLabel('', "<div id='publisher_upload_button'>" . _CO_PUBLISHER_IMAGE_UPLOAD_NEW . '</div>');
             $nicename = new \XoopsFormText('', 'image_nicename', 30, 30, _CO_PUBLISHER_IMAGE_NICENAME);
 
             // $imgcatHandler = xoops_getHandler('imagecategory');
             // if (method_exists($imgcatHandler, 'getListByPermission')) {
-                // $catlist = $imgcatHandler->getListByPermission($group, 'imgcat_read', 1);
+            // $catlist = $imgcatHandler->getListByPermission($group, 'imgcat_read', 1);
             // } else {
-                // $catlist = $imgcatHandler->getList($group, 'imgcat_read', 1);
+            // $catlist = $imgcatHandler->getList($group, 'imgcat_read', 1);
             // }
             $imagecat = new \XoopsFormSelect('', 'imgcat_id', '', 1);
             $imagecat->addOptionArray($catlist);

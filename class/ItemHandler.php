@@ -23,7 +23,7 @@ namespace XoopsModules\Publisher;
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+
 require_once dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -581,7 +581,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $totalItems = $this->getItemsCount($categoryId, $status, $notNullFields);
         if ($totalItems > 0) {
             --$totalItems;
-            $entryNumber = mt_rand(0, $totalItems);
+            $entryNumber = random_int(0, $totalItems); //TODO switch in PHP 7 to random_int()
+//            $entryNumber2 = random_int(0, $totalItems);
+
             $item        = $this->getItems(1, $entryNumber, $status, $categoryId, $sort = 'datesub', $order = 'DESC', $notNullFields);
             if ($item) {
                 $ret = $item[0];

@@ -22,7 +22,7 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once $GLOBALS['xoops']->path('kernel/groupperm.php');
 
@@ -41,7 +41,7 @@ class GroupPermHandler extends \XoopsGroupPermHandler
      * @param        $gpermGroupId
      * @param int    $gpermModId  ID of a module
      *
-     * @param  bool  $trueifadmin
+     * @param bool   $trueifadmin
      * @return bool TRUE if permission is enabled
      * @internal param $int /array $gpermGroupId A group ID or an array of group IDs
      */

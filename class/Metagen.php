@@ -23,7 +23,7 @@ namespace XoopsModules\Publisher;
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -80,7 +80,7 @@ class Metagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        /** @var \XoopsModules\Publisher\Helper $this ->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         $this->myts   = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
@@ -275,7 +275,7 @@ class Metagen
      * @credit psylove
      *
      * @param string|array $title   title of the article
-     * @param bool   $withExt do we add an html extension or not
+     * @param bool         $withExt do we add an html extension or not
      *
      * @return string short url for article
      */
@@ -440,9 +440,13 @@ class Metagen
 
         $text = preg_replace($search, $replace, $document);
 
-        preg_replace_callback('/&#(\d+);/', static function ($matches) {
-            return chr($matches[1]);
-        }, $document);
+        preg_replace_callback(
+            '/&#(\d+);/',
+            static function ($matches) {
+                return chr($matches[1]);
+            },
+            $document
+        );
 
         return $text;
     }

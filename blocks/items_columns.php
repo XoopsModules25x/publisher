@@ -21,14 +21,14 @@
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
 /***
  * Function To Show Publisher Items From Categories In Their Own Columns
  *
- * @param    array $options Block Options
+ * @param array $options Block Options
  *
  * @return bool|array
  */
@@ -146,7 +146,7 @@ function publisher_items_columns_show($options)
 /***
  * Edit Function For Multi-Column Category Items Display Block
  *
- * @param    array $options Block Options
+ * @param array $options Block Options
  *
  * @return string
  */
@@ -157,24 +157,28 @@ function publisher_items_columns_edit($options)
 
     $form   = new Publisher\BlockForm();
     $colEle = new \XoopsFormSelect(_MB_PUBLISHER_NUMBER_COLUMN_VIEW, 'options[0]', $options[0]);
-    $colEle->addOptionArray([
-                                '1' => 1,
-                                '2' => 2,
-                                '3' => 3,
-                                '4' => 4,
-                                '5' => 5,
-                            ]);
-    $catEle      = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[1], 0, true, 'options[1]'));
+    $colEle->addOptionArray(
+        [
+            '1' => 1,
+            '2' => 2,
+            '3' => 3,
+            '4' => 4,
+            '5' => 5,
+        ]
+    );
+    $catEle = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[1], 0, true, 'options[1]'));
 
-    $cItemsEle   = new \XoopsFormText(_MB_PUBLISHER_NUMBER_ITEMS_CAT, 'options[2]', 4, 255, $options[2]);
+    $cItemsEle = new \XoopsFormText(_MB_PUBLISHER_NUMBER_ITEMS_CAT, 'options[2]', 4, 255, $options[2]);
 
     $truncateEle = new \XoopsFormText(_MB_PUBLISHER_TRUNCATE, 'options[3]', 4, 255, $options[3]);
 
     $tempEle = new \XoopsFormSelect(_MB_PUBLISHER_TEMPLATE, 'options[4]', $options[4]);
-    $tempEle->addOptionArray([
-                                 'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
-                                 'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED,
-                             ]);
+    $tempEle->addOptionArray(
+        [
+            'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
+            'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED,
+        ]
+    );
 
     $form->addElement($colEle);
     $form->addElement($catEle);

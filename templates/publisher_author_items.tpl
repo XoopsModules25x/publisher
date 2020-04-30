@@ -17,6 +17,9 @@
             <{/if}> <{$category.link}>
             </th>
         </tr>
+
+
+
         <tr>
             <td class="bold"><{$smarty.const._CO_PUBLISHER_DATESUB}></td>
             <td class="bold">&nbsp;<{$smarty.const._CO_PUBLISHER_TITLE}></td>

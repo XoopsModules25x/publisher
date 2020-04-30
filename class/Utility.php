@@ -21,19 +21,17 @@ namespace XoopsModules\Publisher;
  * @package     Publisher
  * @since       1.03
  */
+
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Common;
+use XoopsModules\Publisher\Constants;
 
 /**
  * Class Utility
  */
-class Utility
+class Utility extends Common\SysUtility
 {
-    use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
-    use Common\ServerStats; // ServerStats Trait
-    use Common\FilesManagement; // Files Management Trait
-    use Common\ModuleStats; // ModuleStats Trait
-
     //--------------- Custom module methods -----------------------------
 
     /**
@@ -173,7 +171,7 @@ class Utility
 
     /**
      * @param \XoopsModules\Publisher\Category $categoryObj
-     * @param int                $level
+     * @param int                              $level
      */
     public static function displayCategory(Publisher\Category $categoryObj, $level = 0)
     {
@@ -196,11 +194,25 @@ class Utility
         }
         */
         echo "<tr>\n"
-           . "<td class='even center'>" . $categoryObj->categoryid() . "</td>\n"
-           . "<td class='even left'>" . $spaces . "<a href='" . PUBLISHER_URL . '/category.php?categoryid=' . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/subcat.gif' alt=''>&nbsp;" . $categoryObj->name() . "</a></td>\n"
-           . "<td class='even center'>" . $categoryObj->weight() . "</td>\n"
-           . "<td class='even center'> {$modify} {$delete} </td>\n"
-           . "</tr>\n";
+             . "<td class='even center'>"
+             . $categoryObj->categoryid()
+             . "</td>\n"
+             . "<td class='even left'>"
+             . $spaces
+             . "<a href='"
+             . PUBLISHER_URL
+             . '/category.php?categoryid='
+             . $categoryObj->categoryid()
+             . "'><img src='"
+             . PUBLISHER_URL
+             . "/assets/images/links/subcat.gif' alt=''>&nbsp;"
+             . $categoryObj->name()
+             . "</a></td>\n"
+             . "<td class='even center'>"
+             . $categoryObj->weight()
+             . "</td>\n"
+             . "<td class='even center'> {$modify} {$delete} </td>\n"
+             . "</tr>\n";
         $subCategoriesObj = $helper->getHandler('Category')->getCategories(0, 0, $categoryObj->categoryid());
         if (count($subCategoriesObj) > 0) {
             ++$level;
@@ -365,7 +377,7 @@ class Utility
     /**
      * Default sorting for a given order
      *
-     * @param  string $sort
+     * @param string $sort
      * @return string
      */
     public static function getOrderBy($sort)
@@ -391,10 +403,10 @@ class Utility
 
     /**
      * @credits Thanks to Mithandir
-     * @param  string $str
-     * @param  int    $start
-     * @param  int    $length
-     * @param  string $trimMarker
+     * @param string $str
+     * @param int    $start
+     * @param int    $length
+     * @param string $trimMarker
      * @return string
      */
     public static function substr($str, $start, $length, $trimMarker = '...')
@@ -419,7 +431,7 @@ class Utility
     }
 
     /**
-     * @param  string $document
+     * @param string $document
      * @return mixed
      */
     public static function html2text($document)
@@ -464,9 +476,13 @@ class Utility
 
         $text = preg_replace($search, $replace, $document);
 
-        preg_replace_callback('/&#(\d+);/', static function ($matches) {
-            return chr($matches[1]);
-        }, $document);
+        preg_replace_callback(
+            '/&#(\d+);/',
+            static function ($matches) {
+                return chr($matches[1]);
+            },
+            $document
+        );
 
         return $text;
         //<?php
@@ -481,7 +497,7 @@ class Utility
     }
 
     /**
-     * @param  bool $withLink
+     * @param bool $withLink
      * @return string
      */
     public static function moduleHome($withLink = true)
@@ -503,11 +519,11 @@ class Utility
     /**
      * Copy a file, or a folder and its contents
      *
-     * @author      Aidan Lister <aidan@php.net>
-     * @version     1.0.0
-     * @param  string $source The source
-     * @param  string $dest   The destination
+     * @param string $source The source
+     * @param string $dest   The destination
      * @return bool   Returns true on success, false on failure
+     * @version     1.0.0
+     * @author      Aidan Lister <aidan@php.net>
      */
     public static function copyr($source, $dest)
     {
@@ -545,11 +561,11 @@ class Utility
 
     /**
      * .* @credits Thanks to the NewBB2 Development Team
-     * @param  string $item
-     * @param  bool   $getStatus
+     * @param string $item
+     * @param bool   $getStatus
      * @return bool|int|string
      */
-    public static function &getPathStatus($item, $getStatus = false)
+    public static function getPathStatus($item, $getStatus = false)
     {
         $path = '';
         if ('root' !== $item) {
@@ -580,7 +596,7 @@ class Utility
 
     /**
      * @credits Thanks to the NewBB2 Development Team
-     * @param  string $target
+     * @param string $target
      * @return bool
      */
     public static function mkdir($target)
@@ -611,8 +627,8 @@ class Utility
 
     /**
      * @credits Thanks to the NewBB2 Development Team
-     * @param  string $target
-     * @param  int    $mode
+     * @param string $target
+     * @param int    $mode
      * @return bool
      */
     public static function chmod($target, $mode = 0777)
@@ -621,8 +637,8 @@ class Utility
     }
 
     /**
-     * @param  bool   $hasPath
-     * @param  string $item
+     * @param bool   $hasPath
+     * @param string $item
      * @return string
      */
     public static function getUploadDir($hasPath = true, $item = '')
@@ -643,8 +659,8 @@ class Utility
     }
 
     /**
-     * @param  string $item
-     * @param  bool   $hasPath
+     * @param string $item
+     * @param bool   $hasPath
      * @return string
      */
     public static function getImageDir($item = '', $hasPath = true)
@@ -659,7 +675,7 @@ class Utility
     }
 
     /**
-     * @param  array $errors
+     * @param array $errors
      * @return string
      */
     public static function formatErrors($errors = [])
@@ -691,7 +707,7 @@ class Utility
         if (!$GLOBALS['xoopsUser']) {
             $publisherIsAdmin = false;
         } else {
-//            $publisherIsAdmin = $GLOBALS['xoopsUser']->isAdmin($helper->getModule()->getVar('mid'));
+            //            $publisherIsAdmin = $GLOBALS['xoopsUser']->isAdmin($helper->getModule()->getVar('mid'));
             $publisherIsAdmin = $helper->isUserAdmin();
         }
 
@@ -701,7 +717,7 @@ class Utility
     /**
      * Check is current user is author of a given article
      *
-     * @param  \XoopsObject $itemObj
+     * @param \XoopsObject $itemObj
      * @return bool
      */
     public static function userIsAuthor($itemObj)
@@ -712,7 +728,7 @@ class Utility
     /**
      * Check is current user is moderator of a given article
      *
-     * @param  \XoopsObject $itemObj
+     * @param \XoopsObject $itemObj
      * @return bool
      */
     public static function userIsModerator($itemObj)
@@ -727,9 +743,9 @@ class Utility
     /**
      * Saves permissions for the selected category
      *
-     * @param  null|array $groups     : group with granted permission
-     * @param  int        $categoryId : categoryid on which we are setting permissions
-     * @param  string     $permName   : name of the permission
+     * @param null|array $groups     : group with granted permission
+     * @param int        $categoryId : categoryid on which we are setting permissions
+     * @param string     $permName   : name of the permission
      * @return bool : TRUE if the no errors occured
      */
     public static function saveCategoryPermissions($groups, $categoryId, $permName)
@@ -756,11 +772,11 @@ class Utility
     }
 
     /**
-     * @param  string $tablename
-     * @param  string $iconname
-     * @param  string $tabletitle
-     * @param  string $tabledsc
-     * @param  bool   $open
+     * @param string $tablename
+     * @param string $iconname
+     * @param string $tabletitle
+     * @param string $tabledsc
+     * @param bool   $open
      */
     public static function openCollapsableBar($tablename = '', $iconname = '', $tabletitle = '', $tabledsc = '', $open = true)
     {
@@ -780,8 +796,8 @@ class Utility
     }
 
     /**
-     * @param  string $name
-     * @param  string $icon
+     * @param string $name
+     * @param string $icon
      */
     public static function closeCollapsableBar($name, $icon)
     {
@@ -805,9 +821,9 @@ class Utility
     }
 
     /**
-     * @param  string $name
-     * @param  string $value
-     * @param  int    $time
+     * @param string $name
+     * @param string $value
+     * @param int    $time
      */
     public static function setCookieVar($name, $value, $time = 0)
     {
@@ -818,8 +834,8 @@ class Utility
     }
 
     /**
-     * @param  string $name
-     * @param  string $default
+     * @param string $name
+     * @param string $default
      * @return string
      */
     public static function getCookieVar($name, $default = '')
@@ -872,10 +888,10 @@ class Utility
     }
 
     /**
-     * @param  null|Publisher\Category $categoryObj
-     * @param  int|array               $selectedId
-     * @param  int                     $level
-     * @param  string                  $ret
+     * @param null|Publisher\Category $categoryObj
+     * @param int|array               $selectedId
+     * @param int                     $level
+     * @param string                  $ret
      * @return string
      */
     public static function addCategoryOption(Publisher\Category $categoryObj, $selectedId = 0, $level = 0, $ret = '')
@@ -920,8 +936,8 @@ class Utility
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
-        $selectedId = explode(',', $selectedId);
-        $selectedId = array_map('intval', $selectedId);
+        $selectedId  = explode(',', $selectedId);
+        $selectedId  = array_map('intval', $selectedId);
         $selMultiple = '';
         if ($multiple) {
             $selMultiple = " multiple='multiple'";
@@ -949,9 +965,9 @@ class Utility
     }
 
     /**
-     * @param  int  $selectedId
-     * @param  int  $parentcategory
-     * @param  bool $allCatOption
+     * @param int  $selectedId
+     * @param int  $parentcategory
+     * @param bool $allCatOption
      * @return string
      */
     public static function createCategoryOptions($selectedId = 0, $parentcategory = 0, $allCatOption = true)
@@ -977,10 +993,10 @@ class Utility
     }
 
     /**
-     * @param  array  $errArray
-     * @param  string $reseturl
+     * @param array  $errArray
+     * @param string $reseturl
      */
-    public static function renderErrors(&$errArray, $reseturl = '')
+    public static function renderErrors($errArray, $reseturl = '')
     {
         if ($errArray && is_array($errArray)) {
             echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' . PUBLISHER_URL . '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
@@ -1009,9 +1025,9 @@ class Utility
     /**
      * Generate publisher URL
      *
-     * @param  string $page
-     * @param  array  $vars
-     * @param  bool   $encodeAmp
+     * @param string $page
+     * @param array  $vars
+     * @param bool   $encodeAmp
      * @return string
      *
      * @credit : xHelp module, developped by 3Dev
@@ -1036,7 +1052,7 @@ class Utility
     }
 
     /**
-     * @param  string $subject
+     * @param string $subject
      * @return string
      */
     public static function tellAFriend($subject = '')
@@ -1051,8 +1067,8 @@ class Utility
     }
 
     /**
-     * @param  bool        $another
-     * @param  bool        $withRedirect
+     * @param bool         $another
+     * @param bool         $withRedirect
      * @param              $itemObj
      * @return bool|string
      */
@@ -1150,13 +1166,13 @@ class Utility
      *           appending the $etc string or inserting $etc into the middle.
      *           Makes sure no tags are left half-open or half-closed
      *           (e.g. "Banana in a <a...")
-     * @author   Monte Ohrt <monte at ohrt dot com>, modified by Amos Robinson
-     *           <amos dot robinson at gmail dot com>
      * @param mixed $string
      * @param mixed $length
      * @param mixed $etc
      * @param mixed $breakWords
      * @return string
+     * @author   Monte Ohrt <monte at ohrt dot com>, modified by Amos Robinson
+     *           <amos dot robinson at gmail dot com>
      */
     public static function truncateTagSafe($string, $length = 80, $etc = '...', $breakWords = false)
     {
@@ -1179,10 +1195,10 @@ class Utility
     }
 
     /**
+     * @param string $string
+     * @return string
      * @author   Monte Ohrt <monte at ohrt dot com>, modified by Amos Robinson
      *           <amos dot robinson at gmail dot com>
-     * @param  string $string
-     * @return string
      */
     public static function closeTags($string)
     {
@@ -1217,7 +1233,7 @@ class Utility
     }
 
     /**
-     * @param  int $itemId
+     * @param int $itemId
      * @return string
      */
     public static function ratingBar($itemId)
@@ -1301,7 +1317,7 @@ class Utility
     }
 
     /**
-     * @param  array $allowedEditors
+     * @param array $allowedEditors
      * @return array
      */
     public static function getEditors($allowedEditors = null)
@@ -1330,8 +1346,8 @@ class Utility
     }
 
     /**
-     * @param  string $string
-     * @param  int    $length
+     * @param string $string
+     * @param int    $length
      * @return int
      */
     public static function stringToInt($string = '', $length = 5)
@@ -1346,7 +1362,7 @@ class Utility
     }
 
     /**
-     * @param  string $item
+     * @param string $item
      * @return string
      */
     public static function convertCharset($item)

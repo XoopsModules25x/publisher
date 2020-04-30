@@ -1,4 +1,5 @@
 <?php
+
 define('_MI_PUBLISHER_ADMENU1', 'Summary');
 define('_MI_PUBLISHER_ADMENU2', 'Categories');
 define('_MI_PUBLISHER_ADMENU3', 'Articles');
@@ -246,8 +247,10 @@ define('_MI_PUBLISHER_SINGLEITEM_BLOCK_DSC', 'Display a single item in a block')
 define('_MI_PUBLISHER_PRINT_DSC', 'Print page template');
 define('_MI_PUBLISHER_RSS_DSC', 'Display publisher RSS feed');
 define('_MI_PUBLISHER_ADDFILE_DSC', 'Form to add a file to an article');
-define('_MI_PUBLISHER_WARNING_ALPHA',
-       'This module comes as is, without any guarantees whatsoever. This module is ALPHA, meaning it is still under active development. This release is meant for <strong>testing purposes only</strong> and we <strong>strongly</strong> recommend that you do not use it on a live website or in a production environment.');
+define(
+    '_MI_PUBLISHER_WARNING_ALPHA',
+    'This module comes as is, without any guarantees whatsoever. This module is ALPHA, meaning it is still under active development. This release is meant for <strong>testing purposes only</strong> and we <strong>strongly</strong> recommend that you do not use it on a live website or in a production environment.'
+);
 define('_MI_PUBLISHER_PEOPLE_DEVELOPERS', 'Developers');
 define('_MI_PUBLISHER_PEOPLE_TESTERS', 'Testers');
 define('_MI_PUBLISHER_PEOPLE_DOCUMENTERS', 'Documenters');
@@ -326,29 +329,31 @@ define('_MI_PUBLISHER_SHOW_SAMPLE_BUTTON_DESC', 'If yes, the "Add Sample Data" b
 define('_MI_PUBLISHER_MENU_HISTORY', 'History');
 
 //Categories:
-define('_MI_PUBLISHER_CONFCAT_SEO', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---SEO ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SEO_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Preferences for rewriting methods, meta data, etc ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_INDEXCAT', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Index and category pages ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_INDEXCAT_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_CATEGORY', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Category page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_CATEGORY_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_ITEM', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Article page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_ITEM_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_FORMAT', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Format ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_FORMAT_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_PRINT', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Print page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_PRINT_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_OTHERS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Others ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_OTHERS_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_PERMISSIONS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Permissions ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_PERMISSIONS_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_CONF_GROUP_SEO', 'SEO');
+define('_MI_PUBLISHER_CONF_GROUP_SEO_DSC', 'Preferences for rewriting methods, meta data, etc');
+define('_MI_PUBLISHER_CONF_GROUP_INDEXCAT', 'Index and category pages');
+define('_MI_PUBLISHER_CONF_GROUP_INDEXCAT_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_CATEGORY', 'Category page');
+define('_MI_PUBLISHER_CONF_GROUP_CATEGORY_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_ITEM', 'Article page');
+define('_MI_PUBLISHER_CONF_GROUP_ITEM_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_FORMAT', 'Format');
+define('_MI_PUBLISHER_CONF_GROUP_FORMAT_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_PRINT', 'Print page');
+define('_MI_PUBLISHER_CONF_GROUP_PRINT_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_OTHERS', 'Others');
+define('_MI_PUBLISHER_CONF_GROUP_OTHERS_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_PERMISSIONS', 'Permissions');
+define('_MI_PUBLISHER_CONF_GROUP_PERMISSIONS_DSC', '');
 
-define('_MI_PUBLISHER_CONFCAT_INDEX', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Index page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_INDEX_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SUBMIT', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Submit article ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SUBMIT_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Submit article layout and form default values ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SEARCH', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Search page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SEARCH_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_CONF_GROUP_INDEX', 'Index page');
+define('_MI_PUBLISHER_CONF_GROUP_INDEX_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_SUBMIT', 'Submit article');
+define('_MI_PUBLISHER_CONF_GROUP_SUBMIT_DSC', 'Submit article layout and form default values');
+define('_MI_PUBLISHER_CONF_GROUP_SEARCH', 'Search page');
+define('_MI_PUBLISHER_CONF_GROUP_SEARCH_DSC', '');
+
+
 
 define('_MI_PUBLISHER_ADMENU5', 'Blocks Admin');
 
@@ -356,3 +361,35 @@ define('_MI_PUBLISHER_ADMENU5', 'Blocks Admin');
 define('_MI_PUBLISHER_IMGCAT_ALL', 'All categories');
 define('_MI_PUBLISHER_IMGCAT', 'Image categories');
 define('_MI_PUBLISHER_IMGCAT_DSC', 'Please select which cateories from XOOPS Image Manager should be used for adding images to your articles');
+
+//Config Categories Styling:
+define('_MI_PUBLISHER_CONFIG_STYLING_START', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;"> :: ');
+define('_MI_PUBLISHER_CONFIG_STYLING_END', ' ::</span> ');
+
+define('_MI_PUBLISHER_CONFIG_STYLING_DESC_START', '<span style="color: #FF0000; font-size: Small;">');
+define('_MI_PUBLISHER_CONFIG_STYLING_DESC_END', '</span> ');
+
+//Styled Group Headings in Preferences
+define('_MI_PUBLISHER_CONFCAT_SEO', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_SEO . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_SEO_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_SEO_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_INDEXCAT', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_INDEXCAT . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_INDEXCAT_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_INDEXCAT_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_CATEGORY', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_CATEGORY . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_CATEGORY_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_CATEGORY_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_ITEM', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_ITEM . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_ITEM_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_ITEM_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_FORMAT', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_FORMAT . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_FORMAT_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_FORMAT_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_PRINT', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_PRINT . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_PRINT_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_PRINT_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_OTHERS', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_OTHERS . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_OTHERS_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_OTHERS_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_PERMISSIONS', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_PERMISSIONS . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_PERMISSIONS_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_PERMISSIONS_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+
+define('_MI_PUBLISHER_CONFCAT_INDEX', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_INDEX . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_INDEX_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_INDEX_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_SUBMIT', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_SUBMIT . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_SUBMIT_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_SUBMIT_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_SEARCH', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_SEARCH . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_SEARCH_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_SEARCH_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);

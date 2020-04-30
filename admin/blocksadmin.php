@@ -10,7 +10,7 @@
  * @author          XOOPS Development Team
  * @copyright       XOOPS Project
  * @link            https://www.xoops.org
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  */
 
 use Xmf\Request;
@@ -51,13 +51,13 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     function listBlocks()
     {
         global $xoopsModule, $pathIcon16;
-//        require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+        //        require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
         xoops_load('xoopslist');
         require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
         $moduleDirName      = basename(dirname(__DIR__));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
         /** @var \XoopsDatabase $db */
-        $db                 = \XoopsDatabaseFactory::getDatabaseConnection();
+        $db = \XoopsDatabaseFactory::getDatabaseConnection();
         xoops_loadLanguage('admin', 'system');
         xoops_loadLanguage('admin/blocksadmin', 'system');
         xoops_loadLanguage('admin/groups', 'system');
@@ -77,7 +77,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         ksort($module_list);
         echo "
         <h4 style='text-align:left;'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'BADMIN') . '</h4>';
-//        $moduleHandler = xoops_getHandler('module');
+        //        $moduleHandler = xoops_getHandler('module');
         echo "<form action='" . \Xmf\Request::getString('SCRIPT_NAME', '', 'SERVER') . "' name='blockadmin' method='post'>";
         echo $GLOBALS['xoopsSecurity']->getTokenHTML();
         echo "<table width='100%' class='outer' cellpadding='4' cellspacing='1'>
@@ -92,10 +92,9 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
              . '-'
              . _RIGHT
              . "</th><th align='center'>"
-             . constant('CO_'
-                        . $moduleDirNameUpper
-                        . '_'
-                        . 'WEIGHT')
+             . constant(
+                 'CO_' . $moduleDirNameUpper . '_' . 'WEIGHT'
+             )
              . "</th><th align='center'>"
              . constant('CO_' . $moduleDirNameUpper . '_' . 'VISIBLE')
              . "</th><th align='center'>"
@@ -411,12 +410,12 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     }
 
     /**
-     * @param int               $bid
-     * @param string            $title
-     * @param int               $weight
-     * @param bool              $visible
-     * @param string            $side
-     * @param int               $bcachetime
+     * @param int    $bid
+     * @param string $title
+     * @param int    $weight
+     * @param bool   $visible
+     * @param string $side
+     * @param int    $bcachetime
      */
     function setOrder($bid, $title, $weight, $visible, $side, $bcachetime)
     {
@@ -503,9 +502,8 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         $myblock->setVar('side', $bside);
         $myblock->setVar('bcachetime', $bcachetime);
         $myblock->store();
-        $moduleDirName = basename(dirname(__DIR__));
+        $moduleDirName      = basename(dirname(__DIR__));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-
 
         if (!empty($bmodule) && count($bmodule) > 0) {
             $sql = sprintf('DELETE FROM `%s` WHERE block_id = %u', $GLOBALS['xoopsDB']->prefix('block_module_link'), $bid);

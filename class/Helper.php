@@ -22,8 +22,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-//defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 /**
  * Class Helper
  */
@@ -36,8 +34,8 @@ class Helper extends \Xmf\Module\Helper
     public $debug;
 
     /**
-     * @internal param $debug
      * @param bool $debug
+     * @internal param $debug
      */
     public function __construct($debug = false)
     {
@@ -78,9 +76,9 @@ class Helper extends \Xmf\Module\Helper
      */
     public function getHandler($name)
     {
-        $ret   = false;
+        $ret = false;
 
-        $class =  __NAMESPACE__ . '\\' . $name . 'Handler';
+        $class = __NAMESPACE__ . '\\' . $name . 'Handler';
         if (!class_exists($class)) {
             throw new \RuntimeException("Class '$class' not found");
         }

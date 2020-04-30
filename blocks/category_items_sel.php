@@ -21,7 +21,7 @@
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -58,13 +58,10 @@ function publisher_category_items_sel_show($options)
             continue;
         }
 
-//        $criteria = new \Criteria('categoryid', $catId);
-
+        //        $criteria = new \Criteria('categoryid', $catId);
 
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('categoryid', $catId));
-
-
 
         /** @var Publisher\ItemHandler $itemHandler */
         $itemHandler = $helper->getHandler('Item');
@@ -75,7 +72,7 @@ function publisher_category_items_sel_show($options)
             $criteria->add($criteriaDateSub);
         }
 
-        $items       = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
+        $items = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, true);
         unset($criteria);
 
         if (0 === count($items)) {
@@ -117,11 +114,13 @@ function publisher_category_items_sel_edit($options)
 
     $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0]), 'options[0]');
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
-    $orderEle->addOptionArray([
-                                  'datesub' => _MB_PUBLISHER_DATE,
-                                  'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT,
-                              ]);
+    $orderEle->addOptionArray(
+        [
+            'datesub' => _MB_PUBLISHER_DATE,
+            'counter' => _MB_PUBLISHER_HITS,
+            'weight'  => _MB_PUBLISHER_WEIGHT,
+        ]
+    );
     $dispEle  = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $charsEle = new \XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);
 

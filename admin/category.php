@@ -69,11 +69,11 @@ switch ($op) {
 
         // Uploading the image, if any
         // Retreive the filename to be uploaded
-        $temp = Request::getArray('image_file', '', 'FILES');
+        $temp       = Request::getArray('image_file', '', 'FILES');
         $image_file = $temp['name'];
         if ($image_file) {
             //            $filename = Request::getArray('xoops_upload_file', array(), 'POST')[0];
-            $temp2 = Request::getArray('xoops_upload_file', [], 'POST');
+            $temp2    = Request::getArray('xoops_upload_file', [], 'POST');
             $filename = $temp2[0];
             if ($filename) {
                 // TODO : implement publisher mimetype management

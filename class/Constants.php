@@ -20,12 +20,12 @@ namespace XoopsModules\Publisher;
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 /**
- * class Constants
+ * interface Constants
  */
-class Constants
+interface Constants
 {
     // ITEM status
     const PUBLISHER_STATUS_NOTSET = -1;
@@ -77,7 +77,7 @@ class Constants
     const PUBLISHER_STATUS_FILE_NOTSET = -1;
     const PUBLISHER_STATUS_FILE_ACTIVE = 1;
     const PUBLISHER_STATUS_FILE_INACTIVE = 2;
-    
+
     // Image categories
     const PUBLISHER_IMGCAT_ALL = 'all';
 }

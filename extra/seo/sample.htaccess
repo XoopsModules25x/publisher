@@ -1,4 +1,10 @@
 RewriteEngine   On
-RewriteRule     ^Publisher\.([a-z]+)\.([0-9.]+)/  modules/publisher/index.php?seoOp=$1&seoArg=$2
+
+#For Ajax Rating -
+RewriteRule ^modules\/publisher\/index\.php\/([a-z]+)\.([0-9.]+)\/include\/ajax_rating\.php$ modules/publisher/include/ajax_rating.php?%{QUERY_STRING}
+RewriteRule ^publisher\.([a-z]+)\.([0-9.]+)\/include\/ajax_rating\.php$ modules/publisher/include/ajax_rating.php?%{QUERY_STRING}
+
+#SEO .Htaccess setting
+RewriteRule ^publisher\.([a-z]+)\.([0-9.]+)/  modules/publisher/index.php?seoOp=$1&seoArg=$2
 
 # RewriteRule     ^ss\.([a-z]+)\.([0-9.]+)/  modules/publisher/index.php?seoOp=$1&seoArg=$2

@@ -107,7 +107,7 @@ class Metagen
         if (isset($this->categoryPath) && ('' != $this->categoryPath)) {
             $titleTag['category'] = $this->categoryPath;
         }
-        $ret = isset($titleTag['title']) ? $titleTag['title'] : '';
+        $ret = $titleTag['title'] ?? '';
         if (isset($titleTag['category']) && '' != $titleTag['category']) {
             if ('' != $ret) {
                 $ret .= ' - ';

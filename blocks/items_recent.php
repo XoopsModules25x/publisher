@@ -84,7 +84,7 @@ function publisher_items_recent_show($options)
             $newItems['categoryid']   = $iValue->categoryid();
             $newItems['date']         = $iValue->getDatesub();
             $newItems['poster']       = $iValue->getLinkedPosterName();
-            $newItems['itemlink']     = $iValue->getItemLink(false, isset($options[3]) ? $options[3] : 65);
+            $newItems['itemlink']     = $iValue->getItemLink(false, $options[3] ?? 65);
             $newItems['categorylink'] = $iValue->getCategoryLink();
             $newItems['hits']         = '&nbsp;' . $iValue->counter() . ' ' . _READS . '';
 			$newItems['summary']      = $iValue->getBlockSummary(300, true); //show complete summary  but truncate to 300 if only body available

@@ -132,7 +132,7 @@ if ('no' !== $helper->getConfig('idxcat_show_subcats')) {
     if (isset($subcatsObj) && $total_subcats > 0) {
         foreach ($subcatsObj as $key => $subcat) {
             // Get the items count of this very category
-            $subcat_total_items = isset($totalItems[$key]) ? $totalItems[$key] : 0;
+            $subcat_total_items = $totalItems[$key] ?? 0;
 
             // Do we display empty sub-cats ?
             if (($subcat_total_items > 0) || ('all' === $helper->getConfig('idxcat_show_subcats'))) {
@@ -172,7 +172,7 @@ if ('no' !== $helper->getConfig('idxcat_show_subcats')) {
 $category['subcats']      = $subcategories;
 $category['subcatscount'] = count($subcategories);
 
-$thiscategory_itemcount = isset($totalItems[$categoryid]) ? $totalItems[$categoryid] : 0;
+$thiscategory_itemcount = $totalItems[$categoryid] ?? 0;
 $category['total']      = $thiscategory_itemcount;
 
 if (count($itemsObj) > 0) {

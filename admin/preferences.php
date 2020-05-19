@@ -97,7 +97,7 @@ if ('showmod' === $op) {
         }
 
         $formCat = @$xv_config['category'];
-        $formCat = isset($xv_config['category']) ? $xv_config['category'] : '';
+        $formCat = $xv_config['category'] ?? '';
         unset($xv_config);
 
         if (!array_key_exists($formCat, $config_cats)) {

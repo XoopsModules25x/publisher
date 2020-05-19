@@ -50,9 +50,9 @@ function publisher_items_spot_show($options)
     $optDisplayType     = $options[6];
     $optTruncate        = (int)$options[7];
     $optCatImage        = $options[8];
-    $optSortOrder      = isset($options[9]) ? $options[9] : '';
-    $optBtnDisplayMore = isset($options[10]) ? $options[10] : '';
-    $optDisplayReads   = isset($options[11]) ? $options[11] : '';
+    $optSortOrder      = $options[9] ?? '';
+    $optBtnDisplayMore = $options[10] ?? '';
+    $optDisplayReads   = $options[11] ?? '';
     $optdisplayitemimage=$options[12];
 	$optdisplaywhenlink=$options[13];
     $optdisplaycategorylink=$options[14];
@@ -207,7 +207,7 @@ function publisher_items_spot_edit($options)
     $keys     = array_keys($itemsObj);
     unset($criteria);
     if (empty($options[3]) || (0 == $options[3])) {
-        $selItems = isset($keys[0]) ? $keys[0] : 0;
+        $selItems = $keys[0] ?? 0;
     } else {
         $selItems = explode(',', $options[3]);
     }

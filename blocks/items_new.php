@@ -80,7 +80,7 @@ function publisher_items_new_show($options)
         foreach ($itemsObj as $iValue) {
             $item           = [];
 			$item['itemurl']= $iValue->getItemUrl();
-            $item['link']   = $iValue->getItemLink(false, isset($options[4]) ? $options[4] : 65);
+            $item['link']   = $iValue->getItemLink(false, $options[4] ?? 65);
             $item['id']     = $iValue->itemid();
             $item['poster'] = $iValue->posterName(); // for make poster name linked, use getLinkedPosterName() instead of posterName()
             $item['categorylink']  = $iValue->getCategoryLink();

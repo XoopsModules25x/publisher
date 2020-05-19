@@ -196,7 +196,7 @@ class ItemForm extends Publisher\ThemeTabForm
                 $editor = Publisher\Utility::getCookieVar('publisher_editor');
                 if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
                     //                    $editor = @ $GLOBALS['xoopsUser']->getVar('publisher_editor'); // Need set through user profile
-                    $editor = (null !== $GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
+                    $editor = $GLOBALS['xoopsUser']->getVar('publisher_editor') ?? ''; // Need set through user profile
                 }
             }
             $editor = (empty($editor) || !in_array($editor, $allowedEditors)) ? $helper->getConfig('submit_editor') : $editor;

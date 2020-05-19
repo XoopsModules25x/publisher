@@ -107,7 +107,7 @@ class CategoryForm extends \XoopsThemeForm
             } else {
                 $editor = Publisher\Utility::getCookieVar('publisher_editor');
                 if (empty($editor) && is_object($GLOBALS['xoopsUser'])) {
-                    $editor = (null !== $GLOBALS['xoopsUser']->getVar('publisher_editor')) ? $GLOBALS['xoopsUser']->getVar('publisher_editor') : ''; // Need set through user profile
+                    $editor = $GLOBALS['xoopsUser']->getVar('publisher_editor') ?? ''; // Need set through user profile
                 }
             }
             $editor     = (empty($editor) || !in_array($editor, $allowedEditors)) ? $this->helper->getConfig('submit_editor') : $editor;

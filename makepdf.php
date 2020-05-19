@@ -113,7 +113,7 @@ $pdf->setHeaderData($PDF_HEADER_LOGO, $PDF_HEADER_LOGO_WIDTH, $firstLine, $secon
 //print-high : Print the document to a representation from which a faithful digital copy of the PDF content could be generated. When this is not set, printing is limited to a low-level representation of the appearance, possibly of degraded quality.
 //owner : (inverted logic - only for public-key) when set permits change of encryption and enables all other permissions.
 
-$pdf->SetProtection(array('modify','copy','annot-forms','fill-forms','extract','assemble'));
+$pdf->SetProtection(['modify', 'copy', 'annot-forms', 'fill-forms', 'extract', 'assemble']);
 
 //set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);

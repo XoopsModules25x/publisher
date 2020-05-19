@@ -36,7 +36,7 @@ class Resizer
 
     /**
      * resize image if size exceed given width/height
-     * @return string|boolean
+     * @return string|bool
      */
     public function resizeImage()
     {

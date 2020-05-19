@@ -1,4 +1,4 @@
-<h5>1.08 Alpha 1       [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.0 RC
+<h5>1.08 Alpha 1       [2020-05-18]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.6
 <hr>
 - added Option to display default image if no article image selected in article page (liomj)
 - separate Latest Published Article in Index/Category and Article Page (liomj)
@@ -52,6 +52,7 @@
 - minor update to help text for XOOPS version (zyspec)
 - move test data to ./testdata/english folder and rename it so import routine can find it (zyspec)
 - change from using $_SERVER['PHP_SELF'] to $_SERVER['SCRIPT_NAME'] for improved security (zyspec)
+- PHP 7.1 (mamba)
 
 TODO:
 - Set 'default' category/item permissions for test data

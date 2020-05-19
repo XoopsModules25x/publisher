@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -38,7 +40,7 @@ $xoops_url = parse_url(XOOPS_URL);
 $modversion = [
     'version'             => '1.08',
     'module_status'       => 'Alpha 1',
-    'release_date'        => '2019/12/22',
+    'release_date'        => '2020/05/18',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',

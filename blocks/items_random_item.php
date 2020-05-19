@@ -32,6 +32,8 @@ require_once dirname(__DIR__) . '/include/common.php';
  * @param $options
  *
  * @return array
+ * @throws \Exception
+ * @throws \Exception
  */
 function publisher_items_random_item_show($options)
 {

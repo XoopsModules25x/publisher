@@ -117,7 +117,7 @@ class ThemeTabForm extends \XoopsForm
         $this->action  = $action;
         $this->method  = $method;
         $this->summary = $summary;
-        if (false !== $addtoken) {
+        if ($addtoken) {
             $this->addElement(new \XoopsFormHiddenToken());
         }
     }

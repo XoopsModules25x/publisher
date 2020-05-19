@@ -181,7 +181,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
             $sql = $this->updateQuery($obj);
         }
         // Update DB
-        if (false !== $force) {
+        if ($force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -257,7 +257,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
             return false;
         }
         $sql = $this->deleteQuery($obj);
-        if (false !== $force) {
+        if ($force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);

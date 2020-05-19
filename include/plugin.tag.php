@@ -21,7 +21,7 @@ declare(strict_types=1);
  */
 
 use XoopsModules\Publisher;
-
+use Xmf\Request;
 
 
 /** Get item fields: title, content, time, link, uid, tags

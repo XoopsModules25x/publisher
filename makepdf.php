@@ -79,7 +79,7 @@ $pdf_data = [
     'rtl'              => false, //true if right to left
 ];
 
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
+$pdf = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
 $doc_title  = Publisher\Utility::convertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
 $docSubject = $myts->undoHtmlSpecialChars($categoryObj->name());

@@ -17,7 +17,7 @@
 
                             <p>
                                 <{if $item.item_image != ''}>
-                                    <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.item_cleantitle}>" align="left" width="120"/></a>
+                                    <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.item_cleantitle}>" align="left" width="120"></a>
                                 <{/if}>
                                 <{$item.item_summary}>
                             </p>
@@ -57,7 +57,7 @@
 
                         <div class="publisher-content clearfix">
                             <{if $item.item_image != ''}>
-                                <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.item_cleantitle}>" align="right" width="100"/></a>
+                                <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.item_cleantitle}>" align="right" width="100"></a>
                             <{/if}>
                             <p><{$item.item_summary}></p>
 

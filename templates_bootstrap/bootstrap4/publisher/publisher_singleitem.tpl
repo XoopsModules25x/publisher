@@ -14,7 +14,7 @@
     <{if $item.image_path}>
         <div class="sitem_img_div">
             <a href="<{$item.itemurl}>" title="<{$item.title}>">
-                <img class="sitem_img" src="<{$item.image_path}>" alt="<{$item.title}>" width="100"/>
+                <img class="sitem_img" src="<{$item.image_path}>" alt="<{$item.title}>" width="100">
             </a>
         </div>
     <{/if}>

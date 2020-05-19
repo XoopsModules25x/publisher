@@ -10,7 +10,7 @@
  * @category        Module
  * @author          XOOPS Development Team
  * @copyright       XOOPS Project
- * @link            https://www.xoops.org
+ * @link            https://xoops.org
  * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  */
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';

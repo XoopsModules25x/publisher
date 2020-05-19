@@ -1,6 +1,6 @@
 <{foreach item=items from=$block.items}> 
   <{if $block.display_item_image == '1'}>
-	<a href="<{$block.url}>"><img src="<{$block.item_image}>" alt="<{$block.alt}>" title="<{$block.alt}>" style="padding:5px;" align="left"/></a>
+	<a href="<{$block.url}>"><img src="<{$block.item_image}>" alt="<{$block.alt}>" title="<{$block.alt}>" style="padding:5px;" align="left"></a>
   <{/if}>
 
    <{$block.titlelink}><br>

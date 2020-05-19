@@ -8,7 +8,7 @@
                 <li> <{$item.title}><br>
     <{if $item.display_item_image}>
 		 <{if $item.item_image != ''}>
-			<a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="margin<{$block.margin}>: 10px; padding: 2px; border:<{$block.border}>px solid #<{$block.bordercolor}>"></a><br />
+			<a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="margin<{$block.margin}>: 10px; padding: 2px; border:<{$block.border}>px solid #<{$block.bordercolor}>"></a><br >
 			<{else}>
 			<a href="<{$item.itemurl}>"><img src="<{$block.publisher_url}>thumb.php?src=<{$block.publisher_url}>/assets/images/default_image.jpg&w=<{$block.imgheight}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="margin<{$block.margin}>: 10px; padding: 2px; border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>
 	     <{/if}>
@@ -122,7 +122,7 @@
         </tr>
     </table>
     <{if $block.latestnews_scroll }></marquee><{/if}>
-    <div><br /><{$block.morelink}><{$block.archivelink}><{$block.submitlink}><br /></div>
+    <div><br ><{$block.morelink}><{$block.archivelink}><{$block.submitlink}><br ></div>
 <{/if}>
 
 <{if $block.template == 'ticker'}>

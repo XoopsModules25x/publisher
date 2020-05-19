@@ -76,9 +76,9 @@
                 <div> 
                       <{if $display_mainimage == 1}>					
                          <{if $item.image_path!=''}>
-		                 <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" title="<{$item.title}>" alt="<{$item.title}>" width="120" style="padding:5px"/></a> 
+		                 <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" title="<{$item.title}>" alt="<{$item.title}>" width="120" style="padding:5px"></a>
 		                  <{else}>
-					      <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg"  title="<{$item.title}>" alt="<{$item.title}>" width="120" style="padding:5px"/></a> 
+					      <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg"  title="<{$item.title}>" alt="<{$item.title}>" width="120" style="padding:5px"></a>
 					      <{/if}>
                       <{/if}>
                 <br>
@@ -105,7 +105,7 @@
               
            <{if $display_readmore == 1}>
                 <div align="right">
-                <a href="<{$item.more}>"><{$smarty.const._MD_PUBLISHER_READMORE}></a> </div><br />
+                <a href="<{$item.more}>"><{$smarty.const._MD_PUBLISHER_READMORE}></a> </div><br >
            <{/if}>
 
 			 <div style="font-size: 10px; text-align: right; border-bottom: 1px dotted #000000;"></div>

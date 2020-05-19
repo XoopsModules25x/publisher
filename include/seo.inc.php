@@ -73,6 +73,6 @@ if (!empty($seoOp) && isset($seoMap[$seoOp])) {
             $_GET['itemid']         = $seoArg;
             $_REQUEST['itemid']     = $seoArg;
     }
-    include PUBLISHER_ROOT_PATH . '/' . $seoMap[$seoOp];
+    require PUBLISHER_ROOT_PATH . '/' . $seoMap[$seoOp];
     exit;
 }

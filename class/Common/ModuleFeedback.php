@@ -107,7 +107,7 @@ class ModuleFeedback extends \XoopsObject
         $module        = $moduleHandler->getByDirname('system');
         /** @var \XoopsConfigHandler $configHandler */
         $configHandler           = xoops_getHandler('config');
-        $config                  =& $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+        $config                  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
         $editorConfigs['editor'] = $config['general_editor'];
         $editor                  = new \XoopsFormEditor(constant('CO_' . $moduleDirNameUpper . '_' . 'FB_TYPE_CONTENT'), 'fb_content', $editorConfigs);
         $form->addElement($editor, true);

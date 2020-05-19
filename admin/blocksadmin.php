@@ -9,7 +9,7 @@
  * @category        Module
  * @author          XOOPS Development Team
  * @copyright       XOOPS Project
- * @link            https://www.xoops.org
+ * @link            https://xoops.org
  * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  */
 
@@ -495,12 +495,26 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
 
     function updateBlock($bid, $btitle, $bside, $bweight, $bvisible, $bcachetime, $bmodule, $options, $groups)
     {
-        $myblock = new \XoopsBlock($bid);
+        $myblock = new XoopsBlock($bid);
         $myblock->setVar('title', $btitle);
         $myblock->setVar('weight', $bweight);
         $myblock->setVar('visible', $bvisible);
         $myblock->setVar('side', $bside);
         $myblock->setVar('bcachetime', $bcachetime);
+        //update block options
+        if (isset($options)) {
+            $options_count = count($options);
+            if ($options_count > 0) {
+                //Convert array values to comma-separated
+                for ($i = 0; $i < $options_count; ++$i) {
+                    if (is_array($options[$i])) {
+                        $options[$i] = implode(',', $options[$i]);
+                    }
+                }
+                $options = implode('|', $options);
+                $myblock->setVar('options', $options);
+            }
+        }
         $myblock->store();
         $moduleDirName      = basename(dirname(__DIR__));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);

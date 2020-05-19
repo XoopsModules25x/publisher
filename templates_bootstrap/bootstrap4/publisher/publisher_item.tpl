@@ -36,7 +36,7 @@
     </header>
 	<{if $item.image_path==''}>
 			  <{if $display_defaultimage}>
-			  <img class="d-block w-100" src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>"/>
+			  <img class="d-block w-100" src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>">
 		      <{/if}>  
 	     <{/if}>
     <{if $item.image_path || $item.images}>
@@ -47,7 +47,7 @@
                     <{assign var=active value=' active'}>
                     <{if $item.image_path}>
                     <div class="carousel-item<{$active}>">
-                        <img class="d-block w-100" src="<{$item.image_path}>" alt="<{$item.image_name}>"/>
+                        <img class="d-block w-100" src="<{$item.image_path}>" alt="<{$item.image_name}>">
                         <div class="carousel-caption d-none d-md-block">
                             <p class="slidetext-trans center"><{$item.image_name}><p>
                         </div>
@@ -56,7 +56,7 @@
                     <{/if}>
                     <{foreach item=image from=$item.images name=foo}>
                     <div class="carousel-item<{$active}>">
-                        <img class="d-block w-100" src="<{$image.path}>" alt="<{$image.name}>"/>
+                        <img class="d-block w-100" src="<{$image.path}>" alt="<{$image.name}>">
                         <div class="carousel-caption d-none d-md-block">
                             <p class="slidetext-trans center"><{$image.name}><p>
                         </div>
@@ -74,7 +74,7 @@
                 </div>
             </div>
             <{elseif $item.image_path}>
-                <img class="img-fluid mh-100" src="<{$item.image_path}>" alt="<{$item.image_name}>"/>
+                <img class="img-fluid mh-100" src="<{$item.image_path}>" alt="<{$item.image_name}>">
             <{/if}>
         </figure>
     <{/if}>
@@ -133,14 +133,14 @@
                     <{if $file.mod}>
                         <a href="<{$publisher_url}>/file.php?op=mod&fileid=<{$file.fileid}>">
                             <img src="<{$publisher_url}>/assets/images/links/edit.gif" title="<{$smarty.const._CO_PUBLISHER_EDITFILE}>"
-                                 alt="<{$smarty.const._CO_PUBLISHER_EDITFILE}>"/></a>
+                                 alt="<{$smarty.const._CO_PUBLISHER_EDITFILE}>"></a>
                         <a href="<{$publisher_url}>/file.php?op=del&fileid=<{$file.fileid}>">
                             <img src="<{$publisher_url}>/assets/images/links/delete.png" title="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>"
-                                 alt="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>"/></a>
+                                 alt="<{$smarty.const._CO_PUBLISHER_DELETEFILE}>"></a>
                     <{/if}>
                     <a href="<{$publisher_url}>/visit.php?fileid=<{$file.fileid}>" target="_blank">
                         <img src="<{$publisher_url}>/assets/images/links/file.png" title="<{$lang_download_file}>"
-                             alt="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>"/>&nbsp;<strong><{$file.name}></strong>
+                             alt="<{$smarty.const._MD_PUBLISHER_DOWNLOAD_FILE}>">&nbsp;<strong><{$file.name}></strong>
                     </a>
 
                     <div style="font-size:12px;"><{$file.description}></div>
@@ -173,7 +173,7 @@
             <div class="pull-left">
                 <a href="<{$previousItemUrl}>">
                     <img style="vertical-align: middle;" src="<{$publisherImagesUrl}>/links/previous.gif" title="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>"
-                         alt="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>"/>
+                         alt="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>">
                 </a>
                 <{$previousItemLink}>
             </div>
@@ -183,7 +183,7 @@
                 <{$nextItemLink}>
                 <a href="<{$nextItemUrl}>">
                     <img style="vertical-align: middle;" src="<{$publisherImagesUrl}>/links/next.gif" title="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>"
-                         alt="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>"/>
+                         alt="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>">
                 </a>
             </div>
         <{/if}>
@@ -208,14 +208,14 @@
                 <td class="even" align="left">
 				<{if $show_mainimage == 1}>					
 		          <{if $item.item_image==''}>
-		             <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>" align="left" width="100" style="padding:5px"/>
+		             <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>" align="left" width="100" style="padding:5px">
 		          <{else}>
-				   <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px" /></a> 
+				   <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px" ></a>
                   <{/if}> 
 				<{/if}>
 				<{$item.titlelink}>
 				<{if $show_summary == 1}>
-                   <br><{$item.summary}><br />
+                   <br><{$item.summary}><br >
                    <{/if}> 
 					<{if $show_readmore == 1}>
 					<div class="pull-right">

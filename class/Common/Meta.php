@@ -19,13 +19,13 @@ final class Meta
     public static function getStatik($locale_code)
     {
         return '
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<meta charset="UTF-8"/>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<meta name="robots" content="index,follow"/>
-		<meta name="revisit-after" content="1 days"/>
-		<meta name="referrer" content="origin-when-cross-origin"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="robots" content="index,follow">
+		<meta name="revisit-after" content="1 days">
+		<meta name="referrer" content="origin-when-cross-origin">
 		<meta name="locale" content="' . $locale_code . '">';
     }
 
@@ -35,10 +35,10 @@ final class Meta
     public static function getRobot()
     {
         return '
-		<meta name="robots" content="all"/>
-		<meta name="googlebot" content="snippet"/>
-		<meta name="googlebot" content="index, follow"/>
-		<meta name="robots" content="index, follow"/>';
+		<meta name="robots" content="all">
+		<meta name="googlebot" content="snippet">
+		<meta name="googlebot" content="index, follow">
+		<meta name="robots" content="index, follow">';
     }
 
     /**
@@ -47,8 +47,8 @@ final class Meta
     public static function getNorobot()
     {
         return '
-		<meta name="googlebot" content="noindex, nofollow"/>
-		<meta name="robots" content="noindex, nofollow"/>';
+		<meta name="googlebot" content="noindex, nofollow">
+		<meta name="robots" content="noindex, nofollow">';
     }
 
     /**
@@ -66,7 +66,7 @@ final class Meta
      */
     public static function getDescription($desc)
     {
-        return '<meta itemprop="description" name="description" content="' . $desc . '"/>';
+        return '<meta itemprop="description" name="description" content="' . $desc . '">';
     }
 
     /**
@@ -79,11 +79,11 @@ final class Meta
         if (count($langList) > 1):
             foreach ($langList as $lang):
                 $LL .= '
-				<link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '"/>';
+				<link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '">';
             endforeach;
         else:
             $LL = '
-			<link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '"/>';
+			<link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '">';
         endif;
         return $LL;
     }
@@ -98,7 +98,7 @@ final class Meta
         if (is_array($fb)):
             foreach ($fb as $fbkey => $fbrow):
                 $fbh .= '
-				<meta property="og:' . $fbkey . '" content="' . $fbrow . '"/>';
+				<meta property="og:' . $fbkey . '" content="' . $fbrow . '">';
             endforeach;
         endif;
         return $fbh;
@@ -113,7 +113,7 @@ final class Meta
         $twh = '';
         if (is_array($tw)):
             foreach ($tw as $twkey => $twrow):
-                $twh .= '<meta name="twitter:' . $twkey . '" content="' . $twrow . '"/>';
+                $twh .= '<meta name="twitter:' . $twkey . '" content="' . $twrow . '">';
             endforeach;
         endif;
         return $twh;
@@ -128,7 +128,7 @@ final class Meta
         $iconh = '';
         if (is_array($icon)):
             foreach ($icon as $iconkey => $iconrow):
-                $iconh .= '<meta name="' . $iconkey . '" href="' . $iconrow . '"/>';
+                $iconh .= '<meta name="' . $iconkey . '" href="' . $iconrow . '">';
             endforeach;
         endif;
         return $iconh;
@@ -140,7 +140,7 @@ final class Meta
      */
     public static function getAuthor($author)
     {
-        return '<meta name="author" itemprop="author" content="' . $author . '"/>';
+        return '<meta name="author" itemprop="author" content="' . $author . '">';
     }
 
     /**
@@ -149,7 +149,7 @@ final class Meta
      */
     public static function getCanonical($canonical)
     {
-        return '<link rel="canonical" itemprop="url" type="text/html" href="' . $canonical . '"/>';
+        return '<link rel="canonical" itemprop="url" type="text/html" href="' . $canonical . '">';
     }
 
     /**
@@ -158,7 +158,7 @@ final class Meta
      */
     public static function getManifest($manifest)
     {
-        return '<link rel="manifest" href="' . $manifest . '"/>';
+        return '<link rel="manifest" href="' . $manifest . '">';
     }
 
     /**
@@ -167,7 +167,7 @@ final class Meta
      */
     public static function getGoogle($google)
     {
-        return '<meta name="google-site-verification" content="' . $google . '"/>';
+        return '<meta name="google-site-verification" content="' . $google . '">';
     }
 
     /**
@@ -177,7 +177,7 @@ final class Meta
     public static function getBing($bing)
     {
         return '
-		<meta name="msvalidate.01" content="' . $bing . '"/>';
+		<meta name="msvalidate.01" content="' . $bing . '">';
     }
 
     /**
@@ -186,7 +186,7 @@ final class Meta
      */
     public static function getgetYandex($yandex)
     {
-        return '<meta name="yandex-verification" content="' . $yandex . '"/>';
+        return '<meta name="yandex-verification" content="' . $yandex . '">';
     }
 
     /**
@@ -195,7 +195,7 @@ final class Meta
      */
     public static function getAmp($amp)
     {
-        return '<meta rel="amphtml" content="' . $amp . '"/>';
+        return '<meta rel="amphtml" content="' . $amp . '">';
     }
 
     /**

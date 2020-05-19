@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -26,8 +28,8 @@ namespace XoopsModules\Publisher;
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-require_once dirname(__DIR__) . '/include/common.php';
+
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class PermissionHandler
@@ -40,13 +42,17 @@ class PermissionHandler extends \XoopsObjectHandler
     public $helper;
 
     /**
-     * @param \XoopsDatabase $db
-     * @param null|\XoopsModules\Publisher\Helper           $helper
+     * @param \XoopsDatabase                      $db
+     * @param \XoopsModules\Publisher\Helper|null $helper
      */
-    public function __construct(\XoopsDatabase $db = null, $helper = null)
+    public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
-        $this->helper = $helper;
+        /** @var \XoopsModules\Publisher\Helper $this ->helper */
+        if (null === $helper) {
+            $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+        } else {
+            $this->helper = $helper;
+        }
     }
 
     /**
@@ -107,7 +113,7 @@ class PermissionHandler extends \XoopsObjectHandler
         $criteria->add(new \Criteria('gperm_modid', $this->helper->getModule()->getVar('mid')));
 
         //Get user's groups
-        $groups    = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
+        $groups    = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
         $criteria2 = new \CriteriaCompo();
         foreach ($groups as $gid) {
             $criteria2->add(new \Criteria('gperm_groupid', $gid), 'OR');
@@ -159,11 +165,11 @@ class PermissionHandler extends \XoopsObjectHandler
         $result   = true;
         $moduleId = $this->helper->getModule()->getVar('mid');
         /* @var  \XoopsGroupPermHandler $grouppermHandler */
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $grouppermHandler->deleteByModule($moduleId, $permName, $itemId);
         // Save the new permissions
-        if (count($groups) > 0) {
+        if (\count($groups) > 0) {
             foreach ($groups as $groupId) {
                 echo $groupId . '-';
                 echo $grouppermHandler->addRight($permName, $itemId, $groupId, $moduleId);
@@ -185,7 +191,7 @@ class PermissionHandler extends \XoopsObjectHandler
     public function deletePermissions($itemId, $gpermName)
     {
         $result           = true;
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
         $grouppermHandler->deleteByModule($this->helper->getModule()->getVar('mid'), $gpermName, $itemId);
 
         return $result;

@@ -53,9 +53,9 @@
                 <td class="even" align="left">
                     <{if $display_mainimage == 1}>					
                       <{if $item.image_path!=''}>
-		              <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px"/></a> 
+		              <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px"></a>
 		              <{else}>
-					   <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" align="left" width="100" style="padding:5px"/></a> 
+					   <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" align="left" width="100" style="padding:5px"></a>
 					   <{/if}>
 					<{/if}>
 					<strong><{$item.titlelink}></strong>
@@ -63,13 +63,13 @@
                         <br>
                         <em><{$item.subtitle}></em>
                     <{/if}>
-					<br />
+					<br >
 					<{if $display_summary == 1}>
-                    <{$item.summary}><br />
+                    <{$item.summary}><br >
                     <{/if}> 
 
 					<{if $display_readmore == 1}>
-					<a href="<{$item.more}>"><{$smarty.const._MD_PUBLISHER_READMORE}></a><br />
+					<a href="<{$item.more}>"><{$smarty.const._MD_PUBLISHER_READMORE}></a><br >
                     <{/if}>
 
 					<small>

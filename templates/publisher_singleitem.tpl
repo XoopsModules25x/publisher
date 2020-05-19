@@ -26,9 +26,9 @@
     <div class="itemBody">
            <{if $display_mainimage == 1}>					
                     <{if $item.image_path!=''}>
-		            <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" title="<{$item.title}>" alt="<{$item.title}>" align="left" width="120" style="padding:5px"/></a> 
+		            <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" title="<{$item.title}>" alt="<{$item.title}>" align="left" width="120" style="padding:5px"></a>
 		           <{else}>
-					<a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg"  title="<{$item.title}>" alt="<{$item.title}>" align="left" width="120" style="padding:5px"/></a> 
+					<a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg"  title="<{$item.title}>" alt="<{$item.title}>" align="left" width="120" style="padding:5px"></a>
 					<{/if}>
             <{/if}>
          <{if $display_summary == 1}>	

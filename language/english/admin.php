@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Module: Publisher
  * Author: The SmartFactory <www.smartfactory.ca>
@@ -44,11 +46,15 @@ define('_AM_PUBLISHER_CATEGORY_EDIT_INFO', 'You can edit this category. Modifica
 define('_AM_PUBLISHER_CATEGORY_HEADER', 'Category header');
 define('_AM_PUBLISHER_CATEGORY_HEADER_DSC', '');
 define('_AM_PUBLISHER_CATEGORY_META_DESCRIPTION', 'Meta Description');
-define('_AM_PUBLISHER_CATEGORY_META_DESCRIPTION_DSC',
-       'In order to help Search Engines, you can customize the meta description you would like to use for this category. if you leave this field empty when creating a category, it will automatically be populated with the Description field of this category.');
+define(
+    '_AM_PUBLISHER_CATEGORY_META_DESCRIPTION_DSC',
+    'In order to help Search Engines, you can customize the meta description you would like to use for this category. if you leave this field empty when creating a category, it will automatically be populated with the Description field of this category.'
+);
 define('_AM_PUBLISHER_CATEGORY_META_KEYWORDS', 'Meta Keywords');
-define('_AM_PUBLISHER_CATEGORY_META_KEYWORDS_DSC',
-       'In order to help Search Engines, you can customize the keywords you would like to use for this category. if you leave this field empty when creating a category, it will automatically be populated with words from the Description field of this category.');
+define(
+    '_AM_PUBLISHER_CATEGORY_META_KEYWORDS_DSC',
+    'In order to help Search Engines, you can customize the keywords you would like to use for this category. if you leave this field empty when creating a category, it will automatically be populated with words from the Description field of this category.'
+);
 define('_AM_PUBLISHER_CATEGORY_SAVE_ERROR', 'An error occurred while saving the category. Here is a list of error(s) :');
 define('_AM_PUBLISHER_CATEGORY_SHORT_URL', 'Short URL');
 define('_AM_PUBLISHER_CATEGORY_SHORT_URL_DSC', 'When using the SEO features of this module, you can specify a Short URL for this category. This field is optional.');
@@ -244,8 +250,10 @@ define('_AM_PUBLISHER_PAGEWRAPDSC', "A page-wrap is the ability to link an artic
 define('_AM_PUBLISHER_PARENT_CATEGORY_EXP', "Parent category<span style='font-size: xx-small; font-weight: normal; display: block;'>Select a parent to make this a sub-category.</span>");
 define('_AM_PUBLISHER_PERMERROR', 'ERROR: cannot access file directory. Please CHMOD the uploads/publisher/content directory with value 755 or 775 depending on your environment');
 define('_AM_PUBLISHER_PERMISSIONS', 'Permissions');
-define('_AM_PUBLISHER_PERMISSIONS_APPLY_ON_ITEMS',
-       "Apply read permissions on articles<span style='font-size: xx-small; font-weight: normal; display: block;'>Apply the above Read Permissions on all<br>articles within that category, overriding their<br>current permissions.<br><strong>Please note that this is a one-time action only, and not a property</strong></span>");
+define(
+    '_AM_PUBLISHER_PERMISSIONS_APPLY_ON_ITEMS',
+    "Apply read permissions on articles<span style='font-size: xx-small; font-weight: normal; display: block;'>Apply the above Read Permissions on all<br>articles within that category, overriding their<br>current permissions.<br><strong>Please note that this is a one-time action only, and not a property</strong></span>"
+);
 define('_AM_PUBLISHER_PERMISSIONS_CAT_READ', "Read permissions<span style='font-size: xx-small; font-weight: normal; display: block;'>Groups that will have permissions to see<br>this Category, as well as any articles<br>inside that category.</span>");
 define('_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT', 'Articles submission permissions');
 define('_AM_PUBLISHER_PERMISSIONS_CAT_SUBMIT_DSC', "Groups that will be allowed to submit articles within this category. Preference '[PERMISSIONS] User submissions' must be enabled.");
@@ -261,8 +269,10 @@ define('_AM_PUBLISHER_REJECTED_EDIT', 'Edit this rejected article');
 define('_AM_PUBLISHER_REJECTED_ITEM', 'Rejected article');
 define('_AM_PUBLISHER_REJECTED_ITEM_EXP', '<strong>Rejected articles</strong>: articles that have been submitted by user, but rejected by a moderator. Rejected articles are not displayed in the user side.');
 define('_AM_PUBLISHER_RUSUREDELF', 'Are you sure you want to delete this file?');
-define('_AM_PUBLISHER_SCATEGORYNAME',
-       "Create subcategories<br><br><span style='font-size: xx-small; font-weight: normal; display: block;'>Fill the text box with the names of sub categories to create.<br>Leave blank to not create subcategory. To create more, enter the how much more to create then press 'Add'</span>");
+define(
+    '_AM_PUBLISHER_SCATEGORYNAME',
+    "Create subcategories<br><br><span style='font-size: xx-small; font-weight: normal; display: block;'>Fill the text box with the names of sub categories to create.<br>Leave blank to not create subcategory. To create more, enter the how much more to create then press 'Add'</span>"
+);
 define('_AM_PUBLISHER_SEARCH', 'Search');
 define('_AM_PUBLISHER_SEARCH_PW', 'Only HTML, HTM or XHTML extensions are allowed');
 define('_AM_PUBLISHER_SELECT_SORT', 'Sort order');

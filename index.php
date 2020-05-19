@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -31,6 +33,7 @@ $catstart = Request::getInt('catstart', 0, 'GET');
 // At which record shall we start for the ITEM
 $start = Request::getInt('start', 0, 'GET');
 
+/* @var XoopsModules\Publisher\Helper $helper */
 // Number of categories at the top level
 $totalCategories = $helper->getHandler('Category')->getCategoriesCount(0);
 
@@ -41,9 +44,9 @@ if (0 == $totalCategories) {
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
 require_once $GLOBALS['xoops']->path('header.php');
-require_once PUBLISHER_ROOT_PATH . '/footer.php';
+require_once $helper->path('footer.php');
 /* @var  XoopsGroupPermHandler $grouppermHandler */
-$grouppermHandler = xoops_getHandler('groupperm');
+//$grouppermHandler = xoops_getHandler('groupperm');
 
 // Creating the top categories objects
 $categoriesObj = $helper->getHandler('Category')->getCategories($helper->getConfig('idxcat_cat_perpage'), $catstart);
@@ -86,7 +89,7 @@ foreach ($categoriesObj as $catId => $category) {
         if (isset($subcats[$catId])) {
             foreach ($subcats[$catId] as $key => $subcat) {
                 // Get the items count of this very category
-                $subcat_total_items = isset($totalItems[$key]) ? $totalItems[$key] : 0;
+                $subcat_total_items = $totalItems[$key] ?? 0;
                 // Do we display empty sub-cats ?
                 if (($subcat_total_items > 0) || ('all' === $helper->getConfig('idxcat_show_subcats'))) {
                     $subcat_id = $subcat->getVar('categoryid');

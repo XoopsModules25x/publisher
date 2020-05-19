@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -23,9 +25,9 @@ namespace XoopsModules\Publisher;
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Publisher\Category
@@ -61,27 +63,27 @@ class Category extends \XoopsObject
      */
     public function __construct()
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        /** @var \XoopsModules\Publisher\Helper $this ->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
-        $this->initVar('categoryid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('parentid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('name', XOBJ_DTYPE_TXTBOX, null, true, 100);
-        $this->initVar('description', XOBJ_DTYPE_TXTAREA, null, false, 255);
-        $this->initVar('image', XOBJ_DTYPE_TXTBOX, null, false, 255);
-        $this->initVar('total', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('weight', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('created', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('template', XOBJ_DTYPE_TXTBOX, null, false, 255);
-        $this->initVar('header', XOBJ_DTYPE_TXTAREA, null, false);
-        $this->initVar('meta_keywords', XOBJ_DTYPE_TXTAREA, null, false);
-        $this->initVar('meta_description', XOBJ_DTYPE_TXTAREA, null, false);
-        $this->initVar('short_url', XOBJ_DTYPE_TXTBOX, null, false, 255);
-        $this->initVar('moderator', XOBJ_DTYPE_INT, null, false, 0);
+        $this->initVar('categoryid', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('parentid', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('name', \XOBJ_DTYPE_TXTBOX, null, true, 100);
+        $this->initVar('description', \XOBJ_DTYPE_TXTAREA, null, false, 255);
+        $this->initVar('image', \XOBJ_DTYPE_TXTBOX, null, false, 255);
+        $this->initVar('total', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('weight', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('created', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('template', \XOBJ_DTYPE_TXTBOX, null, false, 255);
+        $this->initVar('header', \XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('meta_keywords', \XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('meta_description', \XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('short_url', \XOBJ_DTYPE_TXTBOX, null, false, 255);
+        $this->initVar('moderator', \XOBJ_DTYPE_INT, null, false, 0);
         //not persistent values
-        $this->initVar('itemcount', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('last_itemid', XOBJ_DTYPE_INT);
-        $this->initVar('last_title_link', XOBJ_DTYPE_TXTBOX);
-        $this->initVar('dohtml', XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('itemcount', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('last_itemid', \XOBJ_DTYPE_INT);
+        $this->initVar('last_title_link', \XOBJ_DTYPE_TXTBOX);
+        $this->initVar('dohtml', \XOBJ_DTYPE_INT, 1, false);
     }
 
     /**
@@ -92,7 +94,7 @@ class Category extends \XoopsObject
      */
     public function __call($method, $args)
     {
-        $arg = isset($args[0]) ? $args[0] : null;
+        $arg = $args[0] ?? null;
 
         return $this->getVar($method, $arg);
     }
@@ -114,13 +116,13 @@ class Category extends \XoopsObject
         if (Publisher\Utility::userIsAdmin()) {
             return true;
         }
-        if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->getVar('uid') == $this->moderator) {
+        if (\is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->getVar('uid') == $this->moderator) {
             return true;
         }
         /** @var \XoopsModules\Publisher\PermissionHandler $permissionHandler */
         $permissionHandler = $this->helper->getHandler('Permission');
         $categoriesGranted = $permissionHandler->getGrantedItems('category_read');
-        if (in_array($this->categoryid(), $categoriesGranted)) {
+        if (\in_array($this->categoryid(), $categoriesGranted)) {
             $ret = true;
         }
 
@@ -177,8 +179,7 @@ class Category extends \XoopsObject
                     if ($parentObj->notLoaded()) {
                         throw new \RuntimeException(_NOPERM);
                     }
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $this->helper->addLog($e);
                     //                    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
                 }
@@ -210,14 +211,13 @@ class Category extends \XoopsObject
                 if ($parentObj->notLoaded()) {
                     throw new \RuntimeException('NOT LOADED');
                 }
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $this->helper->addLog($e);
                 //                    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
             }
 
             $ret = $parentObj->getCategoryPath(false);
-            $ret = str_replace(' >', ' -', $ret);
+            $ret = \str_replace(' >', ' -', $ret);
         }
 
         return $ret;
@@ -305,7 +305,7 @@ class Category extends \XoopsObject
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = $this->getCategoryUrl();
         /* @var  \XoopsNotificationHandler $notificationHandler */
-        $notificationHandler = xoops_getHandler('notification');
+        $notificationHandler = \xoops_getHandler('notification');
         $notificationHandler->triggerEvent('global_item', 0, 'category_created', $tags);
     }
 
@@ -335,7 +335,7 @@ class Category extends \XoopsObject
         } else {
             $category['image_path'] = '';
         }
-        $category['lang_subcategories'] = sprintf(_CO_PUBLISHER_SUBCATEGORIES_INFO, $this->name());
+        $category['lang_subcategories'] = \sprintf(\_CO_PUBLISHER_SUBCATEGORIES_INFO, $this->name());
 
         return $category;
     }
@@ -360,7 +360,7 @@ class Category extends \XoopsObject
         } else {
             $category['image_path'] = '';
         }
-        $category['lang_subcategories'] = sprintf(_CO_PUBLISHER_SUBCATEGORIES_INFO, $this->name());
+        $category['lang_subcategories'] = \sprintf(\_CO_PUBLISHER_SUBCATEGORIES_INFO, $this->name());
 
         return $category;
     }

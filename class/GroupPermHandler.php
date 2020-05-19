@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -22,11 +24,11 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once $GLOBALS['xoops']->path('kernel/groupperm.php');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class GroupPermHandler
@@ -41,7 +43,7 @@ class GroupPermHandler extends \XoopsGroupPermHandler
      * @param        $gpermGroupId
      * @param int    $gpermModId  ID of a module
      *
-     * @param  bool  $trueifadmin
+     * @param bool   $trueifadmin
      * @return bool TRUE if permission is enabled
      * @internal param $int /array $gpermGroupId A group ID or an array of group IDs
      */
@@ -53,7 +55,7 @@ class GroupPermHandler extends \XoopsGroupPermHandler
         if ($gpermItemId > 0) {
             $criteria->add(new \Criteria('gperm_itemid', $gpermItemId));
         }
-        if (is_array($gpermGroupId)) {
+        if (\is_array($gpermGroupId)) {
             $criteria2 = new \CriteriaCompo();
             foreach ($gpermGroupId as $gid) {
                 $criteria2->add(new \Criteria('gperm_groupid', $gid), 'OR');

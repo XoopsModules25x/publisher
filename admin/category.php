@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -23,14 +25,14 @@ use XoopsModules\Publisher;
 
 require_once __DIR__ . '/admin_header.php';
 
-$op = Request::getString('op', Request::getString('op', '', 'POST'), 'GET');
+$op = Request::getCmd('op', Request::getCmd('op', '', 'POST'), 'GET');
 
 $op = Request::getString('editor', '', 'POST') ? 'mod' : $op;
 $op = Request::getString('addcategory', '', 'POST') ? 'addcategory' : $op;
 
 // Where do we start ?
 $startcategory = Request::getInt('startcategory', 0, 'GET');
-$categoryid    = Request::getInt('categoryid');
+$categoryid    = Request::getInt('categoryid', null);
 
 switch ($op) {
     case 'del':
@@ -69,11 +71,13 @@ switch ($op) {
 
         // Uploading the image, if any
         // Retreive the filename to be uploaded
-        $temp = Request::getArray('image_file', '', 'FILES');
-        if ($image_file = $temp['name']) {
+        $temp       = Request::getArray('image_file', '', 'FILES');
+        $image_file = $temp['name'];
+        if ($image_file) {
             //            $filename = Request::getArray('xoops_upload_file', array(), 'POST')[0];
-            $temp2 = Request::getArray('xoops_upload_file', [], 'POST');
-            if ($filename = $temp2[0]) {
+            $temp2    = Request::getArray('xoops_upload_file', [], 'POST');
+            $filename = $temp2[0];
+            if ($filename) {
                 // TODO : implement publisher mimetype management
                 $max_size          = $helper->getConfig('maximum_filesize');
                 $max_imgwidth      = $helper->getConfig('maximum_image_width');

@@ -9,13 +9,13 @@
             <{if $item.image_path}>
             <div class="article_full_img_div">
                 <a href="<{$item.itemurl}>" title="<{$item.title}>">
-                <img src="<{$item.image_path}>" alt="<{$item.title}>"/>
+                <img src="<{$item.image_path}>" alt="<{$item.title}>">
                 </a>
             </div>
             <{else}>
                <div class="article_full_img_div">
 				<a href="<{$item.itemurl}>" title="<{$item.title}>">
-                <img src="<{$block.publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>"/>
+                <img src="<{$block.publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>">
                 </a>
                 </div>	
 			<{/if}>

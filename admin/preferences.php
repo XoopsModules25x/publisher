@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -97,7 +99,7 @@ if ('showmod' === $op) {
         }
 
         $formCat = @$xv_config['category'];
-        $formCat = isset($xv_config['category']) ? $xv_config['category'] : '';
+        $formCat = $xv_config['category'] ?? '';
         unset($xv_config);
 
         if (!array_key_exists($formCat, $config_cats)) {

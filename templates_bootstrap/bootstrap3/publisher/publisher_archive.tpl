@@ -20,7 +20,7 @@
 </div>
 <br>
 
-<{if $show_articles == true}>
+<{if $show_articles === true}>
 
 <h4><{$lang_articles}></h4>
     <div class="container-fluid">

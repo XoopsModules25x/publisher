@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -20,9 +22,9 @@ namespace XoopsModules\Publisher;
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class RatingHandler
@@ -30,7 +32,8 @@ require_once dirname(__DIR__) . '/include/common.php';
 class RatingHandler extends \XoopsPersistableObjectHandler
 {
     /**
-     * @param null|\XoopsDatabase $db
+     * RatingHandler constructor.
+     * @param \XoopsDatabase|null $db
      */
     public function __construct(\XoopsDatabase $db = null)
     {

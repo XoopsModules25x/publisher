@@ -67,12 +67,12 @@
                 </div>
 				<{if $display_summary == 1}>
                    <div style="margin-top:10px;">
-                    <{$item.summary}><br /> 
+                    <{$item.summary}><br >
                    </div>
                 <{/if}>
 						
 				<{if $display_readmore == 1}>
-					<a href="<{$item.more}>"><{$smarty.const._MD_PUBLISHER_READMORE}></a><br />
+					<a href="<{$item.more}>"><{$smarty.const._MD_PUBLISHER_READMORE}></a><br >
                 <{/if}>
 
             </div>

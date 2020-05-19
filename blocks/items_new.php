@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -22,7 +24,7 @@
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -58,9 +60,7 @@ function publisher_items_new_show($options)
     } else {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
-
     }
-
 
         $publisherIsAdmin = $helper->isUserAdmin();
         if (!$publisherIsAdmin) {
@@ -75,8 +75,6 @@ function publisher_items_new_show($options)
 //    $categoryId = -1;
 //    $categoryItemsObj = $itemHandler->getAllPublished($optCatItems, 0, $categoryId);
 
-
-
     $itemsObj = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
 
     $totalitems = count($itemsObj);
@@ -84,7 +82,7 @@ function publisher_items_new_show($options)
         foreach ($itemsObj as $iValue) {
             $item           = [];
 			$item['itemurl']= $iValue->getItemUrl();
-            $item['link']   = $iValue->getItemLink(false, isset($options[4]) ? $options[4] : 65);
+            $item['link']   = $iValue->getItemLink(false, $options[4] ?? 65);
             $item['id']     = $iValue->itemid();
             $item['poster'] = $iValue->posterName(); // for make poster name linked, use getLinkedPosterName() instead of posterName()
             $item['categorylink']  = $iValue->getCategoryLink();
@@ -114,7 +112,7 @@ function publisher_items_new_show($options)
 		  
 		  
 			
-			
+
             if ('article' === $image) {
                 $item['image'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
                 $item['image_name'] = '';
@@ -123,19 +121,19 @@ function publisher_items_new_show($options)
            if (empty($images['image_path'])) {
                  $images['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
                   }
-				if (is_object($images['main'])) {
-					// check to see if GD function exist
+                if (is_object($images['main'])) {
+                    // check to see if GD function exist
                     if (!function_exists('imagecreatetruecolor')) {
                         $item['image'] = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
                     } else {
                         $item['image'] = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name') . ''; 
                         $item['image_path'] = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name') . ''; 
-				    }
-                        $item['image_name'] = $images['main']->getVar('image_nicename');
                     }
-            } elseif ('category' === $image) {         
-				$item['image']     = $iValue->getCategoryImagePath();       
-				$item['image_name'] = $iValue->getCategoryName();
+                    $item['image_name'] = $images['main']->getVar('image_nicename');
+                }
+            } elseif ('category' === $image) {
+                $item['image']      = $iValue->getCategoryImagePath();
+                $item['image_name'] = $iValue->getCategoryName();
             } elseif ('avatar' === $image) {
                 if ('0' == $iValue->uid()) {
                     $item['image'] = XOOPS_URL . '/uploads/avatars/blank.gif';
@@ -204,26 +202,30 @@ function publisher_items_new_edit($options)
 
     $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
-    $orderEle->addOptionArray([
+    $orderEle->addOptionArray(
+        [
                                   'datesub'  => _MB_PUBLISHER_DATE,
                                   'counter'  => _MB_PUBLISHER_HITS,
                                   'weight'   => _MB_PUBLISHER_WEIGHT,
                                   'rating'   => _MI_PUBLISHER_ORDERBY_RATING,
                                   'votes'    => _MI_PUBLISHER_ORDERBY_VOTES,
                                   'comments' => _MI_PUBLISHER_ORDERBY_COMMENTS,
-                              ]);
+        ]
+    );
 
     $showEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_ORDER_SHOW, 'options[2]', $options[2]);
     $dispEle  = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[3]', 10, 255, $options[3]);
     $charsEle = new \XoopsFormText(_MB_PUBLISHER_CHARS, 'options[4]', 10, 255, $options[4]);
 
     $imageEle = new \XoopsFormSelect(_MB_PUBLISHER_IMAGE_TO_DISPLAY, 'options[5]', $options[5]);
-    $imageEle->addOptionArray([
+    $imageEle->addOptionArray(
+        [
                                   'none'     => _NONE,
                                   'article'  => _MB_PUBLISHER_IMAGE_ARTICLE,
                                   'category' => _MB_PUBLISHER_IMAGE_CATEGORY,
                                   'avatar'   => _MB_PUBLISHER_IMAGE_AVATAR,
-                              ]);
+        ]
+    );
     $showSummary  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_SUMMARY, 'options[6]', $options[6]);
     $showPoster  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_POSTEDBY, 'options[7]', $options[7]);
     $showDate  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_POSTTIME, 'options[8]', $options[8]);
@@ -231,9 +233,7 @@ function publisher_items_new_edit($options)
     $showHits  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_READ, 'options[10]', $options[10]);
     $showComment  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_COMMENT, 'options[11]', $options[11]);
     $showRating  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_RATING, 'options[12]', $options[12]);
-    
-							  
-							  
+
     $form->addElement($catEle);
     $form->addElement($orderEle);
     $form->addElement($showEle);
@@ -247,6 +247,6 @@ function publisher_items_new_edit($options)
 	$form->addElement($showHits);
 	$form->addElement($showComment);
     $form->addElement($showRating);
-	
+
     return $form->render();
 }

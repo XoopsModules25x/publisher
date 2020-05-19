@@ -36,7 +36,7 @@
         <div class="itemText">
 		    <{if $item.image_path==''}>
 			  <{if $display_defaultimage}>
-			     <img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>"/>
+			     <img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>">
 		      <{/if}>  
 			<{/if}> 
            <{if $item.image_path || $item.images}>
@@ -224,16 +224,16 @@
                 <td class="even" align="left">
 				<{if $show_mainimage == 1}>					
 		           <{if $item.item_image==''}>
-		             <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>" align="left" width="100" style="padding:5px"/>
+		             <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>" align="left" width="100" style="padding:5px">
 		           <{else}>
-				     <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px" /></a> 
+				     <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px"></a> 
                    <{/if}> 
 				<{/if}>
 				<{$item.titlelink}>
 				
-				<{if $show_summary == 1}><br><{$item.summary}><br /><{/if}> 
+				<{if $show_summary == 1}><br><{$item.summary}><br><{/if}> 
 					<{if $show_readmore == 1}>
-					    <{$item.more}><br />
+					    <{$item.more}><br>
                     <{/if}>
 					<small>
 					    <{if $show_poster == 1}>

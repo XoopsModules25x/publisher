@@ -28,7 +28,7 @@
                     <img class="card-img-top" src="<{$item.image_path}>" alt="<{$item.title}>"></a>		            
 					<{else}>
 					<a href="<{$item.itemurl}>">
-					<img class="card-img-top" src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>"/></a> 
+					<img class="card-img-top" src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>"></a>
 					<{/if}>
 			<{/if}>
 			

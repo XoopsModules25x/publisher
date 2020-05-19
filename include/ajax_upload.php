@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -11,7 +13,7 @@
 
 /**
  * @copyright      {@link https://xoops.org/ XOOPS Project}
- * @license        {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license        {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
  * @author         XOOPS Development Team
@@ -72,8 +74,8 @@ if (false === $error) {
         if (!$uploader->upload()) {
             $error = implode('<br>', $uploader->getErrors(false));
         } else {
-            $imageHandler = xoops_getHandler('image');
-            $image        = $imageHandler->create();
+            $imageHandler  = xoops_getHandler('image');
+            $image         = $imageHandler->create();
             $savedFilename = $uploader->getSavedFileName();
             $imageMimetype = $uploader->getMediaType();
             $image->setVar('image_name', 'images/' . $savedFilename);
@@ -92,10 +94,8 @@ if (false === $error) {
                     unlink($uploader->getSavedDestination());
                 }
             } else {
-                
-
-                $maxwidth = $imgcat->getVar('imgcat_maxwidth');
-                $maxheight = $imgcat->getVar('imgcat_maxheight');
+                $maxwidth                  = $imgcat->getVar('imgcat_maxwidth');
+                $maxheight                 = $imgcat->getVar('imgcat_maxheight');
                 $imgHandler                = new Publisher\Resizer();
                 $imgHandler->sourceFile    = $uploader->getSavedDestination();
                 $imgHandler->endFile       = $uploader->getSavedDestination();
@@ -103,12 +103,6 @@ if (false === $error) {
                 $imgHandler->maxWidth      = $maxwidth;
                 $imgHandler->maxHeight     = $maxheight;
                 $result                    = $imgHandler->resizeImage();
-                
-                
-                
-                
-                
-                
             }
             if (!$imageHandler->insert($image)) {
                 $error = sprintf(_FAILSAVEIMG, $image->getVar('image_nicename'));

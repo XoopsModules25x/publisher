@@ -1,11 +1,13 @@
 <?php
+
+declare(strict_types=1);
 /**
  * TimThumb by Ben Gillbanks and Mark Maunder
  * Based on work done by Tim McDaniels and Darren Hoyt
  * http://code.google.com/p/timthumb/
  *
  * GNU General Public License, version 2
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Examples and documentation available on the project homepage
  * http://www.binarymoon.co.uk/projects/timthumb/
@@ -335,7 +337,7 @@ class Timthumb
 
             return false;
         }
-        if (BLOCK_EXTERNAL_LEECHERS && array_key_exists('HTTP_REFERER', $_SERVER) && (!preg_match('/^https?:\/\/(?:www\.)?' . $this->myHost . '(?:$|\/)/i', $_SERVER['HTTP_REFERER']))) {
+        if (BLOCK_EXTERNAL_LEECHERS && array_key_exists('HTTP_REFERER', $_SERVER) && (!preg_match('/^https?:\/\/(?:www\.)?' . $this->myHost . '(?:$|\/)/i', \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')))) {
             // base64 encoded red image that says 'no hotlinkers'
             // nothing to worry about! :)
             $imgData = base64_decode("R0lGODlhUAAMAIAAAP8AAP///yH5BAAHAP8ALAAAAABQAAwAAAJpjI+py+0Po5y0OgAMjjv01YUZ\nOGplhWXfNa6JCLnWkXplrcBmW+spbwvaVr/cDyg7IoFC2KbYVC2NQ5MQ4ZNao9Ynzjl9ScNYpneb\nDULB3RP6JuPuaGfuuV4fumf8PuvqFyhYtjdoeFgAADs=", true);
@@ -1003,15 +1005,15 @@ class Timthumb
         if (!isset($docRoot)) {
             $this->debug(3, 'DOCUMENT_ROOT is not set. This is probably windows. Starting search 1.');
             if (\Xmf\Request::hasVar('SCRIPT_FILENAME', 'SERVER')) {
-                $docRoot = str_replace('\\', '/', mb_substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - mb_strlen($_SERVER['PHP_SELF'])));
-                $this->debug(3, "Generated docRoot using SCRIPT_FILENAME and PHP_SELF as: $docRoot");
+                $docRoot = str_replace('\\', '/', mb_substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - mb_strlen($_SERVER['SCRIPT_NAME'])));
+                $this->debug(3, "Generated docRoot using SCRIPT_FILENAME and SCRIPT_NAME as: $docRoot");
             }
         }
         if (!isset($docRoot)) {
             $this->debug(3, 'DOCUMENT_ROOT still is not set. Starting search 2.');
             if (\Xmf\Request::hasVar('PATH_TRANSLATED', 'SERVER')) {
-                $docRoot = str_replace('\\', '/', mb_substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - mb_strlen($_SERVER['PHP_SELF'])));
-                $this->debug(3, "Generated docRoot using PATH_TRANSLATED and PHP_SELF as: $docRoot");
+                $docRoot = str_replace('\\', '/', mb_substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - mb_strlen($_SERVER['SCRIPT_NAME'])));
+                $this->debug(3, "Generated docRoot using PATH_TRANSLATED and SCRIPT_NAME as: $docRoot");
             }
         }
         if ($docRoot && '/' !== $_SERVER['DOCUMENT_ROOT']) {

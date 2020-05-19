@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -22,7 +24,7 @@
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -30,6 +32,8 @@ require_once dirname(__DIR__) . '/include/common.php';
  * @param $options
  *
  * @return array
+ * @throws \Exception
+ * @throws \Exception
  */
 function publisher_items_random_item_show($options)
 {
@@ -99,6 +103,10 @@ function publisher_items_random_item_show($options)
 
 	}
 
+/**
+ * @param $options
+ * @return string
+ */
 function publisher_items_random_item_edit($options)
 {
     // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';

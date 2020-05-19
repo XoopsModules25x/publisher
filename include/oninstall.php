@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -19,7 +21,7 @@ use XoopsModules\Publisher;
 use XoopsModules\Publisher\Common;
 
 /**
- * @param  \XoopsModule $module
+ * @param \XoopsModule $module
  * @return bool
  */
 function xoops_module_pre_install_publisher(\XoopsModule $module)
@@ -34,7 +36,7 @@ function xoops_module_pre_install_publisher(\XoopsModule $module)
     // check for minimum PHP version
     $phpSuccess = $utility::checkVerPhp($module);
 
-    if (false !== $xoopsSuccess && false !== $phpSuccess) {
+    if ($xoopsSuccess && $phpSuccess) {
         $moduleTables = &$module->getInfo('tables');
         foreach ($moduleTables as $table) {
             $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
@@ -46,15 +48,13 @@ function xoops_module_pre_install_publisher(\XoopsModule $module)
 
 /**
  * @param \XoopsModule $module
- *
  * @return bool|string
  */
 function xoops_module_install_publisher(\XoopsModule $module)
 {
     require dirname(__DIR__) . '/preloads/autoloader.php';
 
-    /** @var Publisher\Helper $helper */
-    /** @var Publisher\Utility $utility */
+    /** @var Publisher\Helper $helper */ /** @var Publisher\Utility $utility */
     /** @var Common\Configurator $configurator */
     $helper       = Publisher\Helper::getInstance();
     $utility      = new Publisher\Utility();

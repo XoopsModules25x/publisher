@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * File : makepdf.php for publisher
  * For tcpdf_for_xoops 2.01 and higher
@@ -76,7 +79,7 @@ $pdf_data = [
     'rtl'              => false, //true if right to left
 ];
 
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
+$pdf = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
 $doc_title  = Publisher\Utility::convertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
 $docSubject = $myts->undoHtmlSpecialChars($categoryObj->name());
@@ -96,8 +99,8 @@ $pdf->SetKeywords($docKeywords);
 $firstLine  = Publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
 $secondLine = Publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['slogan']);
 
-$PDF_HEADER_LOGO = "_blank.png";
-$PDF_HEADER_LOGO_WIDTH = "";
+$PDF_HEADER_LOGO = '_blank.png';
+$PDF_HEADER_LOGO_WIDTH = '';
 
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
 $pdf->setHeaderData($PDF_HEADER_LOGO, $PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
@@ -113,7 +116,7 @@ $pdf->setHeaderData($PDF_HEADER_LOGO, $PDF_HEADER_LOGO_WIDTH, $firstLine, $secon
 //print-high : Print the document to a representation from which a faithful digital copy of the PDF content could be generated. When this is not set, printing is limited to a low-level representation of the appearance, possibly of degraded quality.
 //owner : (inverted logic - only for public-key) when set permits change of encryption and enables all other permissions.
 
-$pdf->SetProtection(array('modify','copy','annot-forms','fill-forms','extract','assemble'));
+$pdf->SetProtection(['modify', 'copy', 'annot-forms', 'fill-forms', 'extract', 'assemble']);
 
 //set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);

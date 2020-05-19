@@ -203,7 +203,7 @@ if (0 != $fromyear && 0 != $frommonth) {
             $story['title']      = "<a href='" . $item->getItemUrl() . "'" . $htmltitle . '>' . $item->getTitle() . '</a>';
             $story['cleantitle'] = strip_tags($item->getTitle());
 			$story['itemurl']    = $item->getItemUrl();
-			$story['category']   = "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . "</a>"; 
+			$story['category']   = "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . '</a>';
 			$story['counter']    = $item->counter();
             $story['date']       = $item->getDatesub();
             $story['print_link'] = XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/print.php?itemid=' . $item->itemid();

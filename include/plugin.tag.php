@@ -98,15 +98,15 @@ function publisher_tag_synchronization($mid)
 
     /* clear tag-item links */
     $sql    = "    DELETE FROM {$linkHandler->table}"
-              . "    WHERE "
+              . '    WHERE '
               . "        tag_modid = {$mid}"
-              . "        AND "
-              . "        ( tag_itemid NOT IN "
+              . '        AND '
+              . '        ( tag_itemid NOT IN '
               . "            ( SELECT DISTINCT {$itemHandler->keyName} "
               . "                FROM {$itemHandler->table} "
             . "                WHERE {$itemHandler->table}.status = " . _CO_PUBLISHER_PUBLISHED
-              . "            ) "
-              . "        )";
+              . '            ) '
+              . '        )';
     $result = $linkHandler->db->queryF($sql);
 
     return $result ? true : false;

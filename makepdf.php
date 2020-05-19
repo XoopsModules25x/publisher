@@ -96,8 +96,8 @@ $pdf->SetKeywords($docKeywords);
 $firstLine  = Publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
 $secondLine = Publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['slogan']);
 
-$PDF_HEADER_LOGO = "_blank.png";
-$PDF_HEADER_LOGO_WIDTH = "";
+$PDF_HEADER_LOGO = '_blank.png';
+$PDF_HEADER_LOGO_WIDTH = '';
 
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
 $pdf->setHeaderData($PDF_HEADER_LOGO, $PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -132,11 +134,11 @@ class Highlighter
             }
             // Strip links
             if ($this->stripLinks) {
-                $slRegex = sprintf($slPattern, $needleS);
-                $text    = preg_replace($slRegex, '\1', $text);
+                $slRegex = \sprintf($slPattern, $needleS);
+                $text    = \preg_replace($slRegex, '\1', $text);
             }
-            $regex = sprintf($pattern, $needleS);
-            $text  = preg_replace($regex, $this->replacementString, $text);
+            $regex = \sprintf($pattern, $needleS);
+            $text  = \preg_replace($regex, $this->replacementString, $text);
         }
 
         return $text;

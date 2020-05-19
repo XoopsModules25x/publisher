@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Module: Publisher
  * Author: The SmartFactory <www.smartfactory.ca>

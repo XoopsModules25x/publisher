@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -27,7 +29,7 @@ use XoopsModules\Publisher;
 
 
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class MimetypeHandler
@@ -146,7 +148,7 @@ class MimetypeHandler extends BaseObjectHandler
             return $ret;
         }
         foreach ($result as $mime) {
-            $line = explode(' ', $mime->getVar('mime_types'));
+            $line = \explode(' ', $mime->getVar('mime_types'));
             foreach ($line as $row) {
                 $ret[] = ['type' => $row, 'ext' => $mime->getVar('mime_ext')];
             }
@@ -224,7 +226,7 @@ class MimetypeHandler extends BaseObjectHandler
             echo 'no need for join...';
         }
 
-        $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
+        $sql = \sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
 
         if (null !== $criteria && $criteria instanceof \CriteriaCompo) {
             $sql .= ' ' . $criteria->renderWhere();
@@ -247,7 +249,7 @@ class MimetypeHandler extends BaseObjectHandler
         foreach ($obj->cleanVars as $k => $v) {
             ${$k} = $v;
         }
-        $sql = sprintf(
+        $sql = \sprintf(
             'INSERT INTO `%s` (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
             (%u, %s, %s, %s, %u, %u)',
             $this->db->prefix($this->dbtable),
@@ -273,7 +275,7 @@ class MimetypeHandler extends BaseObjectHandler
         foreach ($obj->cleanVars as $k => $v) {
             ${$k} = $v;
         }
-        $sql = sprintf(
+        $sql = \sprintf(
             'UPDATE `%s` SET mime_ext = %s, mime_types = %s, mime_name = %s, mime_admin = %u, mime_user = %u WHERE
             mime_id = %u',
             $this->db->prefix($this->dbtable),
@@ -295,7 +297,7 @@ class MimetypeHandler extends BaseObjectHandler
      */
     protected function deleteQuery($obj)
     {
-        $sql = sprintf('DELETE FROM `%s` WHERE mime_id = %u', $this->db->prefix($this->dbtable), $obj->getVar('mime_id'));
+        $sql = \sprintf('DELETE FROM `%s` WHERE mime_id = %u', $this->db->prefix($this->dbtable), $obj->getVar('mime_id'));
 
         return $sql;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher\Common;
 
 /*
@@ -33,13 +35,13 @@ class Migrate extends \Xmf\Database\Migrate
     public function __construct()
     {
         $class = __NAMESPACE__ . '\\' . 'Configurator';
-        if (!class_exists($class)) {
+        if (!\class_exists($class)) {
             throw new \RuntimeException("Class '$class' not found");
         }
         $configurator       = new $class();
         $this->renameTables = $configurator->renameTables;
 
-        $moduleDirName = basename(dirname(dirname(__DIR__)));
+        $moduleDirName = \basename(\dirname(\dirname(__DIR__)));
         parent::__construct($moduleDirName);
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -25,7 +27,7 @@ namespace XoopsModules\Publisher;
 
 
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Session
@@ -40,7 +42,7 @@ class Session
      */
     protected function __construct()
     {
-        if (false === @session_start()) {
+        if (false === @\session_start()) {
             throw new \RuntimeException('Session could not start.');
         }
     }
@@ -84,7 +86,7 @@ class Session
     public function destroy()
     {
         $_SESSION = [];
-        session_destroy();
+        \session_destroy();
     }
 
     /**

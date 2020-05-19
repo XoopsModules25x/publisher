@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -65,7 +67,7 @@ function publisher_search_show($options)
         $category = [];
     } else {
         $category = (!is_array($category)) ? explode(',', $category) : $category;
-        $category = array_map('intval', $category);
+        $category = array_map('\intval', $category);
     }
 
     $andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT']) ? mb_strtoupper($andor) : 'OR';

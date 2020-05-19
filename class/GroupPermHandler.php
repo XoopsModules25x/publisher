@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -26,7 +28,7 @@ namespace XoopsModules\Publisher;
 
 require_once $GLOBALS['xoops']->path('kernel/groupperm.php');
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class GroupPermHandler
@@ -53,7 +55,7 @@ class GroupPermHandler extends \XoopsGroupPermHandler
         if ($gpermItemId > 0) {
             $criteria->add(new \Criteria('gperm_itemid', $gpermItemId));
         }
-        if (is_array($gpermGroupId)) {
+        if (\is_array($gpermGroupId)) {
             $criteria2 = new \CriteriaCompo();
             foreach ($gpermGroupId as $gid) {
                 $criteria2->add(new \Criteria('gperm_groupid', $gid), 'OR');

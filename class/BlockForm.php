@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -26,7 +28,7 @@ use XoopsModules\Publisher;
 
 
 
-xoops_load('XoopsForm');
+\xoops_load('XoopsForm');
 
 /**
  * Form that will output formatted as a HTML table

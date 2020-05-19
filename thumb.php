@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * TimThumb by Ben Gillbanks and Mark Maunder
  * Based on work done by Tim McDaniels and Darren Hoyt

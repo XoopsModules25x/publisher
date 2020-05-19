@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -27,7 +29,7 @@ use XoopsModules\Publisher;
 
 
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * BaseObjectHandler class
@@ -159,7 +161,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     public function insert(\XoopsObject $obj, $force = false)// insert($obj, $force = false)
     {
         // Make sure object is of correct type
-        if (0 != strcasecmp($this->className, get_class($obj))) {
+        if (0 != \strcasecmp($this->className, \get_class($obj))) {
             return false;
         }
         // Make sure object needs to be stored in DB
@@ -206,7 +208,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      */
     private function selectQuery(\CriteriaElement $criteria = null)
     {
-        $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
+        $sql = \sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
@@ -251,7 +253,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      */
     public function delete(\XoopsObject $obj, $force = false) //delete($obj, $force = false)
     {
-        if (0 != strcasecmp($this->className, get_class($obj))) {
+        if (0 != \strcasecmp($this->className, \get_class($obj))) {
             return false;
         }
         $sql = $this->deleteQuery($obj);
@@ -301,7 +303,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      */
     public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null, $force = false) //updateAll($fieldname, $fieldvalue, $criteria = null)
     {
-        $setClause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
+        $setClause = \is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql       = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();

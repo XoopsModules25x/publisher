@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  Page:           rpc.php
  Created:        Aug 2006

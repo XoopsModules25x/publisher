@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher\Common;
 
 /**
@@ -17,8 +19,8 @@ trait ModuleStats
      */
     public static function getModuleStats($configurator, $moduleStats)
     {
-        if (count($configurator->moduleStats) > 0) {
-            foreach (array_keys($configurator->moduleStats) as $i) {
+        if (\count($configurator->moduleStats) > 0) {
+            foreach (\array_keys($configurator->moduleStats) as $i) {
                 $moduleStats[$i] = $configurator->moduleStats[$i];
             }
         }

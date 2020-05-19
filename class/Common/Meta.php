@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher\Common;
 
 /**
@@ -76,7 +78,7 @@ final class Meta
     public static function getAlternate($langList)
     {
         $LL = '';
-        if (count($langList) > 1):
+        if (\count($langList) > 1):
             foreach ($langList as $lang):
                 $LL .= '
 				<link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '">';
@@ -95,7 +97,7 @@ final class Meta
     public static function getFacebook($fb)
     {
         $fbh = '';
-        if (is_array($fb)):
+        if (\is_array($fb)):
             foreach ($fb as $fbkey => $fbrow):
                 $fbh .= '
 				<meta property="og:' . $fbkey . '" content="' . $fbrow . '">';
@@ -111,7 +113,7 @@ final class Meta
     public static function getTwitter($tw)
     {
         $twh = '';
-        if (is_array($tw)):
+        if (\is_array($tw)):
             foreach ($tw as $twkey => $twrow):
                 $twh .= '<meta name="twitter:' . $twkey . '" content="' . $twrow . '">';
             endforeach;
@@ -126,7 +128,7 @@ final class Meta
     public static function getIcon($icon)
     {
         $iconh = '';
-        if (is_array($icon)):
+        if (\is_array($icon)):
             foreach ($icon as $iconkey => $iconrow):
                 $iconh .= '<meta name="' . $iconkey . '" href="' . $iconrow . '">';
             endforeach;
@@ -206,8 +208,8 @@ final class Meta
     {
         $h      = '';
         $count  = 0;
-        $bcount = count($crumb);
-        if (is_array($crumb)):
+        $bcount = \count($crumb);
+        if (\is_array($crumb)):
             $h .= '<script type="application/ld+json">{
 				"@context": "http://schema.org",
 				"@type": "BreadcrumbList",

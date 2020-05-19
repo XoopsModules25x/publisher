@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -25,7 +27,7 @@ use XoopsModules\Publisher;
 
 
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 // File status
 //define("_PUBLISHER_STATUS_FILE_NOTSET", -1);
@@ -75,7 +77,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
     {
         $ret = false;
         // Delete the actual file
-        if (is_file($file->getFilePath()) && unlink($file->getFilePath())) {
+        if (\is_file($file->getFilePath()) && \unlink($file->getFilePath())) {
             $ret = parent::delete($file, $force);
         }
 
@@ -91,7 +93,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
      */
     public function deleteItemFiles(\XoopsObject $itemObj)
     {
-        if ('publisheritem' !== mb_strtolower(get_class($itemObj))) {
+        if ('publisheritem' !== mb_strtolower(\get_class($itemObj))) {
             return false;
         }
         $files  = $this->getAllFiles($itemObj->itemid());
@@ -131,7 +133,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
             $this->field_link   = 'itemid';
             $hasStatusCriteria  = false;
             $criteriaStatus     = new \CriteriaCompo();
-            if (is_array($status)) {
+            if (\is_array($status)) {
                 $hasStatusCriteria = true;
                 foreach ($status as $v) {
                     $criteriaStatus->add(new \Criteria('o.status', $v), 'OR');
@@ -143,7 +145,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
             $hasCategoryCriteria = false;
             $criteriaCategory    = new \CriteriaCompo();
             $category            = (array)$category;
-            if (isset($category[0]) && 0 != $category[0] && count($category) > 0) {
+            if (isset($category[0]) && 0 != $category[0] && \count($category) > 0) {
                 $hasCategoryCriteria = true;
                 foreach ($category as $cat) {
                     $criteriaCategory->add(new \Criteria('l.categoryid', $cat), 'OR');

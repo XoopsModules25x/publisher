@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+namespace XoopsModules\Publisher\Helper;
 namespace XoopsModules\Publisher\Common;
 
 /*

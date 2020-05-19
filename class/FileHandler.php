@@ -125,7 +125,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
         $this->table_link = $this->db->prefix($this->helper->getDirname() . '_items');
 
         $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_files'));
-        list($count) = $GLOBALS['xoopsDB']->fetchRow($result);
+        [$count] = $GLOBALS['xoopsDB']->fetchRow($result);
         if ($count > 0) {
             $this->field_object = 'itemid';
             $this->field_link   = 'itemid';

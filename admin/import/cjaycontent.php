@@ -60,7 +60,7 @@ if ('start' === $op) {
     Publisher\Utility::openCollapsableBar('cjaycontentimport', 'cjaycontentimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('cjaycontent'));
-    list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$totalArticles] = $GLOBALS['xoopsDB']->fetchRow($result);
 
     if (0 == $totalArticles) {
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles) . '</span>';

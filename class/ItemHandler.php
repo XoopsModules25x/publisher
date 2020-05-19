@@ -254,7 +254,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (!$result) {
             return 0;
         }
-        list($count) = $this->db->fetchRow($result);
+        [$count] = $this->db->fetchRow($result);
 
         return $count;
     }

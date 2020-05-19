@@ -58,6 +58,9 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     public $helper           = null;
     public $publisherIsAdmin = null;
 
+    /**
+     * @param \XoopsDatabase|null $db
+     */
     public function init(\XoopsDatabase $db = null)
     {
         $this->db = $db;
@@ -232,7 +235,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
         if (!$result = $this->db->query($sql)) {
             return 0;
         }
-        list($count) = $this->db->fetchRow($result);
+        [$count] = $this->db->fetchRow($result);
 
         return $count;
     }

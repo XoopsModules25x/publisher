@@ -81,6 +81,8 @@ function publisher_tag_iteminfo(&$items)
 
 /** Remove orphan tag-item links *
  * @param int $mid
+ * @return bool
+ * @return bool
  */
 function publisher_tag_synchronization($mid)
 {

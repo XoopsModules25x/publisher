@@ -572,6 +572,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      * @param int    $categoryId
      *
      * @return bool
+     * @throws \Exception
+     * @throws \Exception
      */
     public function getRandomItem($field = '', $status = '', $categoryId = -1)
     {

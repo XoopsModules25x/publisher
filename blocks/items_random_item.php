@@ -99,6 +99,10 @@ function publisher_items_random_item_show($options)
 
 	}
 
+/**
+ * @param $options
+ * @return string
+ */
 function publisher_items_random_item_edit($options)
 {
     // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';

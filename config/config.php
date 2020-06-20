@@ -19,7 +19,8 @@ declare(strict_types=1);
  * @author       XOOPS Development Team
  */
 
-$moduleDirName      = basename(dirname(__DIR__));
+require_once __DIR__ . '/../include/common.php';
+$moduleDirName = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 return (object)[

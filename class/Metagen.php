@@ -342,7 +342,7 @@ class Metagen
         $repPat  = ['-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o'];
         $title   = \str_replace($pattern, $repPat, $title);
         $tableau = \explode('-', $title); // Transforms the string in table //Transforme la chaine de caractères en tableau
-        $tableau = \array_filter($tableau, ['Metagen', 'emptyString']); // Remove empty strings of the table //Supprime les chaines vides du tableau
+        $tableau = \array_filter($tableau, ['XoopsModules\Publisher\Metagen', 'emptyString']); // Remove empty strings of the table //Supprime les chaines vides du tableau
         $title   = \implode('-', $tableau); // Transforms a character string in table separated by a hyphen //Transforme un tableau en chaine de caractères séparé par un tiret
         if ($title && \is_array($title)) {
             if ($withExt) {

@@ -22,7 +22,7 @@ namespace XoopsModules\Publisher\Common;
  *
  * @license      https://www.fsf.org/copyleft/gpl.html GNU public license
  * @copyright    https://xoops.org 2000-2020 &copy; XOOPS Project
- * @author       ZySpec <owners@zyspec.com>
+ * @author       ZySpec <zyspec@yahoo.com>
  * @author       Mamba <mambax7@gmail.com>
  */
 

@@ -19,7 +19,7 @@ declare(strict_types=1);
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  * @author          Marius Scurtescu <mariuss@romanians.bc.ca>
- * @author          ZySpec <owners@zyspec.com>
+ * @author          ZySpec <zyspec@yahoo.com>
  */
 
 use Xmf\Request;

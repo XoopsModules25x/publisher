@@ -55,11 +55,11 @@ function publisher_items_spot_show($options)
     $optSortOrder      = $options[9] ?? '';
     $optBtnDisplayMore = $options[10] ?? '';
     $optDisplayReads   = $options[11] ?? '';
-    $optdisplayitemimage=$options[12];
-	$optdisplaywhenlink=$options[13];
-    $optdisplaycategorylink=$options[14];
-	$optdisplayadminlink=$options[15];
-	$optdisplayreadmore =$options[16];
+    $optdisplayitemimage=$options[12]?? '';
+	$optdisplaywhenlink=$options[13]?? '';
+    $optdisplaycategorylink=$options[14]?? '';
+	$optdisplayadminlink=$options[15]?? '';
+	$optdisplayreadmore =$options[16]?? '';
     
     if (0 == $optCategoryId) {
         $optCategoryId = -1;

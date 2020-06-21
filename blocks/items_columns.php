@@ -142,11 +142,11 @@ function publisher_items_columns_show($options)
     }
     unset($categoryId, $mainItemCatObj);
 
-    $block['template']    = $options[4];
-    $block['columns']     = $columns;
-    $block['columnwidth'] = (int)(100 / $optNumColumns);
-    $block['display_datemainitem']         = $options[5];
-    $block['display_datesubitem']          = $options[6];
+    $block['template']             = $options[4];
+    $block['columns']              = $columns;
+    $block['columnwidth']          = (int)(100 / $optNumColumns);
+    $block['display_datemainitem'] = $options[5] ?? '';
+    $block['display_datesubitem']  = $options[6] ?? '';
 
     $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/assets/css/publisher.css');
 

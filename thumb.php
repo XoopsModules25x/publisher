@@ -770,7 +770,7 @@ class Timthumb
         }
 
         // create a new true color image
-        $canvas = imagecreatetruecolor($newWidth, $newHeight);
+        $canvas = imagecreatetruecolor(intval($newWidth), intval($newHeight));
         imagealphablending($canvas, false);
 
         if (3 == mb_strlen($canvas_color)) {
@@ -845,10 +845,10 @@ class Timthumb
                 }
             }
 
-            imagecopyresampled($canvas, $image, $origin_x, $origin_y, $src_x, $src_y, $newWidth, $newHeight, $src_w, $src_h);
+            imagecopyresampled($canvas, $image, (int)$origin_x, (int)$origin_y, (int)$src_x, (int)$src_y, (int)$newWidth, (int)$newHeight, (int)$src_w, (int)$src_h);
         } else {
             // copy and resize part of an image with resampling
-            imagecopyresampled($canvas, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+            imagecopyresampled($canvas, $image, 0, 0, 0, 0, (int)$newWidth, (int)$newHeight, (int)$width, (int)$height);
         }
 
         if (defined('IMG_FILTER_NEGATE') && '' != $filters && function_exists('imagefilter')) {
@@ -965,7 +965,7 @@ class Timthumb
         $this->debug(3, 'Rewriting image with security header.');
         $tempfile4 = tempnam($this->cacheDirectory, 'timthumb_tmpimg_');
         $context   = stream_context_create();
-        $fp        = fopen($tempfile, 'rb', 0, $context);
+        $fp        = fopen($tempfile, 'rb', false, $context);
         file_put_contents($tempfile4, $this->filePrependSecurityBlock . $imgType . ' ?' . '>'); //6 extra bytes, first 3 being image type
         file_put_contents($tempfile4, $fp, FILE_APPEND);
         fclose($fp);

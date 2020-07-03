@@ -1103,23 +1103,16 @@ class Item extends \XoopsObject
             $resTime = Request::getArray('datesub', [], 'POST');
             //            $this->setVar('datesub', strtotime($resDate['date']) + $resTime['time']);
             //$localTimestamp = strtotime($resDate['date']) + $resTime['time'];
-            $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resDate['date']);
+            $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resDate['date']);//TODO:
             $dateTimeObj->setTime(0, 0, 0);
             $localTimestamp = $dateTimeObj->getTimestamp() + $resTime['time'];
-
-            // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime
             $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
-            $tz             = \timezone_name_from_abbr(null, $userTimeoffset * 3600);
-            if (false === $tz) {
-                $tz = \timezone_name_from_abbr(null, $userTimeoffset * 3600, false);
-            }
-
-            $userTimezone = new \DateTimeZone($tz);
-            $gmtTimezone  = new \DateTimeZone('GMT');
-            $myDateTime   = new \DateTime('now', $gmtTimezone);
-            $offset       = $userTimezone->getOffset($myDateTime);
-
+            $userTimezone = new \DateTimeZone($userTimeoffset);
+            $gmtTimezone = new \DateTime('now', new \DateTimeZone('GMT'));
+            $offset = $userTimezone->getOffset($gmtTimezone);
             $gmtTimestamp = $localTimestamp - $offset;
+
+            //always store the time as GMT/UTC Time
             $this->setVar('datesub', $gmtTimestamp);
             //            }
         } elseif ($this->isNew()) {
@@ -1135,20 +1128,13 @@ class Item extends \XoopsObject
                 $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resExDate['date']);
                 $dateTimeObj->setTime(0, 0, 0);
                 $localTimestamp = $dateTimeObj->getTimestamp() + $resExTime['time'];
-
-                // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime
                 $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
-                $tz             = \timezone_name_from_abbr(null, $userTimeoffset * 3600);
-                if (false === $tz) {
-                    $tz = \timezone_name_from_abbr(null, $userTimeoffset * 3600, false);
-                }
-
-                $userTimezone = new \DateTimeZone($tz);
-                $gmtTimezone  = new \DateTimeZone('GMT');
-                $myDateTime   = new \DateTime('now', $gmtTimezone);
-                $offset       = $userTimezone->getOffset($myDateTime);
-
+                $userTimezone = new \DateTimeZone($userTimeoffset);
+                $gmtTimezone = new \DateTime('now', new \DateTimeZone('GMT'));
+                $offset = $userTimezone->getOffset($gmtTimezone);
                 $gmtTimestamp = $localTimestamp - $offset;
+
+                //always store the time as GMT/UTC Time
                 $this->setVar('dateexpire', $gmtTimestamp);
             }
         } else {

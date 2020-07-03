@@ -185,7 +185,7 @@ if (0 != $fromyear && 0 != $frommonth) {
     $criteria->add($grantedCategories, 'AND');
     $criteria->add(new \Criteria('o.status', 2), 'AND');
     $critdatesub = new \CriteriaCompo();
-    $critdatesub->add(new \Criteria('o.datesub', $monthstart, '>'), 'AND');
+    $critdatesub->add(new \Criteria('o.datesub', $monthstart, '>='), 'AND');
     $critdatesub->add(new \Criteria('o.datesub', $monthend, '<='), 'AND');
     $criteria->add($critdatesub);
     $criteria->setSort('o.datesub');

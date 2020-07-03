@@ -1107,10 +1107,7 @@ class Item extends \XoopsObject
             $dateTimeObj->setTime(0, 0, 0);
             $localTimestamp = $dateTimeObj->getTimestamp() + $resTime['time'];
             $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
-            $userTimezone = new \DateTimeZone($userTimeoffset);
-            $gmtTimezone = new \DateTime('now', new \DateTimeZone('GMT'));
-            $offset = $userTimezone->getOffset($gmtTimezone);
-            $gmtTimestamp = $localTimestamp - $offset;
+            $gmtTimestamp = $localTimestamp - ($userTimeoffset * 3600);
 
             //always store the time as GMT/UTC Time
             $this->setVar('datesub', $gmtTimestamp);
@@ -1129,10 +1126,7 @@ class Item extends \XoopsObject
                 $dateTimeObj->setTime(0, 0, 0);
                 $localTimestamp = $dateTimeObj->getTimestamp() + $resExTime['time'];
                 $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
-                $userTimezone = new \DateTimeZone($userTimeoffset);
-                $gmtTimezone = new \DateTime('now', new \DateTimeZone('GMT'));
-                $offset = $userTimezone->getOffset($gmtTimezone);
-                $gmtTimestamp = $localTimestamp - $offset;
+                $gmtTimestamp = $localTimestamp - ($userTimeoffset * 3600);
 
                 //always store the time as GMT/UTC Time
                 $this->setVar('dateexpire', $gmtTimestamp);

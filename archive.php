@@ -171,7 +171,7 @@ if (0 != $fromyear && 0 != $frommonth) {
     $timeoffsethours = intval($timeoffset);
     $timeoffsetminutes = intval(($timeoffset - $timeoffsethours) * 60);
 
-    $monthstart = mktime(0 - $timeoffsethours  , 0 - $timeoffsetminutes, 0, $frommonth, 1, $fromyear);
+    $monthstart = mktime(0 - $timeoffsethours, 0 - $timeoffsetminutes, 0, $frommonth, 1, $fromyear);
     $monthend   = mktime(23 - $timeoffsethours, 59 - $timeoffsetminutes, 59, $frommonth + 1, 0, $fromyear);
 
     $monthend   = ($monthend > time()) ? time() : $monthend;
@@ -201,9 +201,7 @@ if (0 != $fromyear && 0 != $frommonth) {
     if (is_array($storyarray) && $count > 0) {
         /** @var \XoopsModules\Publisher\Item $item */
 
-
         foreach ($storyarray as $item) {
-
             $story               = [];
             $htmltitle           = '';			
             $story['title']      = "<a href='" . $item->getItemUrl() . "'" . $htmltitle . '>' . $item->getTitle() . '</a>';
@@ -242,20 +240,14 @@ if (0 != $fromyear && 0 != $frommonth) {
                 }
             } else {
                     $story['comment'] = '&nbsp;' . _MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
-            }   
-		   
-		   
-		   
-		   
+            }
             $xoopsTpl->append('stories', $story);
         }
             //unset($item);
-			
     }
     $xoopsTpl->assign('lang_printer', _MD_PUBLISHER_PRINTERFRIENDLY);
     $xoopsTpl->assign('lang_sendstory', _MD_PUBLISHER_SENDSTORY);
     $xoopsTpl->assign('lang_storytotal', _MD_PUBLISHER_TOTAL_ITEMS . ' ' . $count);
-	 
 } else {
     $xoopsTpl->assign('show_articles', false);
 }

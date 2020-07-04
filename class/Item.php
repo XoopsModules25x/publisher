@@ -50,10 +50,10 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this ->helper */
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
-        /** @var \XoopsDatabase $this ->db */
-        $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
+        /** @var \XoopsDatabase $this->db */
+        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', \XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', \XOBJ_DTYPE_INT, 0, false);
         $this->initVar('title', \XOBJ_DTYPE_TXTBOX, '', true, 255);
@@ -317,7 +317,7 @@ class Item extends \XoopsObject
 
         return \formatTimestamp($this->getVar('dateexpire', $format), $dateFormat);
     }
-
+    
     /**
      * @param int $realName
      *
@@ -483,38 +483,38 @@ class Item extends \XoopsObject
 
         return $adminLinks;
     }
-
-    /**
+	
+	    /**
      * @return string
      */
     public function getPdfButton()
     {
-        $pdfButton = '';
+       $pdfButton = '';
         // PDF button
-        if (!\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-            //                if (is_object($GLOBALS['xoopsUser']) && Publisher\Utility::userIsAdmin()) {
-            //                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
-            //                    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
-            //                    $adminLinks .= '<script type="text/javascript">
-            //                    (function($){
-            //                        $(document).ready(function(){
-            //                            $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
-            //                        })(jQuery);
-            //                        </script>';
-            //                }
-        } else {
-            $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . \_CO_PUBLISHER_PDF . "' alt='" . \_CO_PUBLISHER_PDF . "'></a>&nbsp;";
-            $pdfButton .= ' ';
-        }
+            if (!\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
+                //                if (is_object($GLOBALS['xoopsUser']) && Publisher\Utility::userIsAdmin()) {
+                //                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
+                //                    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
+                //                    $adminLinks .= '<script type="text/javascript">
+                //                    (function($){
+                //                        $(document).ready(function(){
+                //                            $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
+                //                        })(jQuery);
+                //                        </script>';
+                //                }
+            } else {
+                $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . \_CO_PUBLISHER_PDF . "' alt='" . \_CO_PUBLISHER_PDF . "'></a>&nbsp;";
+                $pdfButton .= ' ';
+            }
         return $pdfButton;
-    }
+        }
 
-    /**
+	   /**
      * @return string
      */
     public function getPrintLinks()
     {
-        $printLinks = '';
+		$printLinks = '';
         // Print button
         $printLinks .= "<a href='" . Publisher\Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . \_CO_PUBLISHER_PRINT . "' alt='" . \_CO_PUBLISHER_PRINT . "'></a>&nbsp;";
         $printLinks .= ' ';
@@ -765,50 +765,50 @@ class Item extends \XoopsObject
             $itemPageId = $display;
             $display    = 'all';
         }
-        $item['itemid']       = $this->itemid();
-        $item['uid']          = $this->uid();
-        $item['itemurl']      = $this->getItemUrl();
-        $item['titlelink']    = $this->getItemLink('titlelink', $maxCharTitle);
-        $item['subtitle']     = $this->subtitle();
-        $item['datesub']      = $this->getDatesub();
-        $item['dateexpire']   = $this->getDateExpire();
-        $item['counter']      = $this->counter();
-        $item['hits']         = '&nbsp;' . $this->counter() . ' ' . _READS . '';
-        $item['who']          = $this->getWho();
-        $item['when']         = $this->getWhen();
-        $item['category']     = $this->getCategoryName();
-        $item['categorylink'] = $this->getCategoryLink();
-        $item['cancomment']   = $this->cancomment();
-        $comments             = $this->comments();
-        if ($comments > 0) {
-            //shows 1 comment instead of 1 comm. if comments ==1
-            //langugage file modified accordingly
-            if (1 == $comments) {
-                $item['comments'] = '&nbsp;' . \_MD_PUBLISHER_ONECOMMENT . '&nbsp;';
+        $item['itemid']     = $this->itemid();
+        $item['uid']        = $this->uid();
+        $item['itemurl']    = $this->getItemUrl();
+        $item['titlelink']  = $this->getItemLink('titlelink', $maxCharTitle);
+        $item['subtitle']   = $this->subtitle();
+        $item['datesub']    = $this->getDatesub();
+        $item['dateexpire'] = $this->getDateExpire();
+        $item['counter']    = $this->counter();
+        $item['hits']      = '&nbsp;' . $this->counter() . ' ' . _READS . '';
+        $item['who']        = $this->getWho();
+        $item['when']       = $this->getWhen();
+        $item['category']   = $this->getCategoryName();
+		$item['categorylink'] = $this->getCategoryLink();
+		$item['cancomment']   = $this->cancomment();
+        $comments = $this->comments();
+            if ($comments > 0) {
+                //shows 1 comment instead of 1 comm. if comments ==1
+                //langugage file modified accordingly
+                if (1 == $comments) {
+                    $item['comments'] = '&nbsp;' . \_MD_PUBLISHER_ONECOMMENT . '&nbsp;';
+                } else {
+                    $item['comments'] = '&nbsp;' . $comments . '&nbsp;' . \_MD_PUBLISHER_COMMENTS . '&nbsp;';
+                }
             } else {
-                $item['comments'] = '&nbsp;' . $comments . '&nbsp;' . \_MD_PUBLISHER_COMMENTS . '&nbsp;';
+                $item['comments'] = '&nbsp;' . \_MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
             }
-        } else {
-            $item['comments'] = '&nbsp;' . \_MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
-        }
-        $item = $this->getMainImage($item);
+        $item               = $this->getMainImage($item);
         switch ($display) {
             case 'summary':
-                $item = $this->toArrayFull($item);
+			    $item = $this->toArrayFull($item);
                 $item = $this->toArrayAll($item, $itemPageId);
             case 'list':
-                $item = $this->toArrayFull($item);
+			    $item = $this->toArrayFull($item);
                 $item = $this->toArrayAll($item, $itemPageId);
-            //break;
+                //break;
             case 'full':
-                $item = $this->toArrayFull($item);
+			    $item = $this->toArrayFull($item);
                 $item = $this->toArrayAll($item, $itemPageId);
             case 'wfsection':
-                $item = $this->toArrayFull($item);
+			    $item = $this->toArrayFull($item);
                 $item = $this->toArrayAll($item, $itemPageId);
             case 'default':
-                $item    = $this->toArrayFull($item);
-                $item    = $this->toArrayAll($item, $itemPageId);
+			    $item = $this->toArrayFull($item);
+                $item = $this->toArrayAll($item, $itemPageId);
                 $summary = $this->getSummary($maxCharSummary);
                 if (!$summary) {
                     $summary = $this->getBody($maxCharSummary);
@@ -845,20 +845,20 @@ class Item extends \XoopsObject
      */
     public function toArrayFull($item)
     {
-        $item['title']       = $this->getTitle();
-        $item['clean_title'] = $this->getTitle();
-        $item['itemurl']     = $this->getItemUrl();
-
+        $item['title']        = $this->getTitle();
+        $item['clean_title']  = $this->getTitle();
+        $item['itemurl']      = $this->getItemUrl();
+        
         $item['adminlink']    = $this->getAdminLinks();
-        $item['pdfbutton']    = $this->getPdfButton();
-        $item['printlink']    = $this->getPrintLinks();
+		$item['pdfbutton']    = $this->getPdfButton();
+		$item['printlink']    = $this->getPrintLinks();
         $item['categoryPath'] = $this->getCategoryPath($this->helper->getConfig('format_linked_path'));
         $item['who_when']     = $this->getWhoAndWhen();
         $item['who']          = $this->getWho();
         $item['when']         = $this->getWhen();
         $item['category']     = $this->getCategoryName();
-        $item['body']         = $this->getBody();
-        $item['more']         = $this->getItemUrl();
+		$item['body']         = $this->getBody();
+		$item['more']         = $this->getItemUrl();
         $item                 = $this->getMainImage($item);
 
         return $item;
@@ -1048,7 +1048,11 @@ class Item extends \XoopsObject
         //Required fields
         //        if (!empty($categoryid = Request::getInt('categoryid', 0, 'POST'))) {
         //            $this->setVar('categoryid', $categoryid);}
-
+        if (\is_object($GLOBALS['xoopsUser'])) {
+            $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
+        }else{
+            $userTimeoffset = null;
+        }
         $this->setVar('categoryid', Request::getInt('categoryid', 0, 'POST'));
         $this->setVar('title', Request::getString('title', '', 'POST'));
         $this->setVar('body', Request::getText('body', '', 'POST'));
@@ -1097,32 +1101,26 @@ class Item extends \XoopsObject
             //            if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
             //                $this->setVar('datesub', strtotime(Request::getArray('datesub', array(), 'POST')['date']) + Request::getArray('datesub', array(), 'POST')['time']);
             //            } else {
-            $resDate     = Request::getArray('datesub', [], 'POST');
-            $resTime     = Request::getArray('datesub', [], 'POST');
-            $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resDate['date'],
-                new \DateTimeZone($GLOBALS['xoopsUser']->getVar('timezone_offset')));
+            $resDate = Request::getArray('datesub', [], 'POST');
+            $resTime = Request::getArray('datesub', [], 'POST');
+            $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resDate['date']);
             $dateTimeObj->setTime(0, 0, (int)$resTime['time']);
-            $dateTimeObj->setTimezone(new \DateTimeZone('GMT'));
-            $gmtTimestamp = $dateTimeObj->getTimestamp();
-            //always store the time as GMT/UTC Time
-            $this->setVar('datesub', $gmtTimestamp);
+            $serverTimestamp = userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
+            $this->setVar('datesub', $serverTimestamp);
             //            }
         } elseif ($this->isNew()) {
             $this->setVar('datesub', \time());
         }
-
+        
         // date expire
         if (0 !== Request::getInt('use_expire_yn', 0, 'POST')) {
             if ('' !== Request::getString('dateexpire', '', 'POST')) {
-                $resExDate   = Request::getArray('dateexpire', [], 'POST');
-                $resExTime   = Request::getArray('dateexpire', [], 'POST');
-                $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resExDate['date'],
-                    new \DateTimeZone($GLOBALS['xoopsUser']->getVar('timezone_offset')));
+                $resExDate = Request::getArray('dateexpire', [], 'POST');
+                $resExTime = Request::getArray('dateexpire', [], 'POST');
+                $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resExDate['date']);
                 $dateTimeObj->setTime(0, 0, (int)$resExTime['time']);
-                $dateTimeObj->setTimezone(new \DateTimeZone('GMT'));
-                $gmtTimestamp = $dateTimeObj->getTimestamp();
-                //always store the time as GMT/UTC Time
-                $this->setVar('dateexpire', $gmtTimestamp);
+                $serverTimestamp = userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
+                $this->setVar('dateexpire', $serverTimestamp);
             }
         } else {
             $this->setVar('dateexpire', 0);

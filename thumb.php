@@ -770,7 +770,7 @@ class Timthumb
         }
 
         // create a new true color image
-        $canvas = imagecreatetruecolor(intval($newWidth), intval($newHeight));
+        $canvas = imagecreatetruecolor((int)$newWidth, (int)$newHeight);
         imagealphablending($canvas, false);
 
         if (3 == mb_strlen($canvas_color)) {

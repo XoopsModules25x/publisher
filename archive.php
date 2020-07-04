@@ -168,7 +168,7 @@ if (0 != $fromyear && 0 != $frommonth) {
 	
     // must adjust the selected time to server timestamp
     $timeoffset = $useroffset - $GLOBALS['xoopsConfig']['server_TZ'];
-    $timeoffsethours = intval($timeoffset);
+    $timeoffsethours = (int)$timeoffset;
     $timeoffsetminutes = intval(($timeoffset - $timeoffsethours) * 60);
 
     $monthstart = mktime(0 - $timeoffsethours, 0 - $timeoffsetminutes, 0, $frommonth, 1, $fromyear);

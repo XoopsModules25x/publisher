@@ -1050,7 +1050,11 @@ class Item extends \XoopsObject
         //Required fields
         //        if (!empty($categoryid = Request::getInt('categoryid', 0, 'POST'))) {
         //            $this->setVar('categoryid', $categoryid);}
-
+        if (\is_object($GLOBALS['xoopsUser'])) {
+            $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
+        }else{
+            $userTimeoffset = null;
+        }
         $this->setVar('categoryid', Request::getInt('categoryid', 0, 'POST'));
         $this->setVar('title', Request::getString('title', '', 'POST'));
         $this->setVar('body', Request::getText('body', '', 'POST'));
@@ -1101,13 +1105,10 @@ class Item extends \XoopsObject
             //            } else {
             $resDate = Request::getArray('datesub', [], 'POST');
             $resTime = Request::getArray('datesub', [], 'POST');
-            $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resDate['date'],
-                new \DateTimeZone($GLOBALS['xoopsUser']->getVar('timezone_offset')));
+            $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resDate['date']);
             $dateTimeObj->setTime(0, 0, (int)$resTime['time']);
-            $dateTimeObj->setTimezone(new \DateTimeZone('GMT'));
-            $gmtTimestamp = $dateTimeObj->getTimestamp();
-            //always store the time as GMT/UTC Time
-            $this->setVar('datesub', $gmtTimestamp);
+            $serverTimestamp = userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
+            $this->setVar('datesub', $serverTimestamp);
             //            }
         } elseif ($this->isNew()) {
             $this->setVar('datesub', \time());
@@ -1118,13 +1119,10 @@ class Item extends \XoopsObject
             if ('' !== Request::getString('dateexpire', '', 'POST')) {
                 $resExDate = Request::getArray('dateexpire', [], 'POST');
                 $resExTime = Request::getArray('dateexpire', [], 'POST');
-                $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resExDate['date'],
-                    new \DateTimeZone($GLOBALS['xoopsUser']->getVar('timezone_offset')));
+                $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resExDate['date']);
                 $dateTimeObj->setTime(0, 0, (int)$resExTime['time']);
-                $dateTimeObj->setTimezone(new \DateTimeZone('GMT'));
-                $gmtTimestamp = $dateTimeObj->getTimestamp();
-                //always store the time as GMT/UTC Time
-                $this->setVar('dateexpire', $gmtTimestamp);
+                $serverTimestamp = userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
+                $this->setVar('dateexpire', $serverTimestamp);
             }
         } else {
             $this->setVar('dateexpire', 0);

@@ -269,7 +269,7 @@ ul.publisher_breadcrumb li {
 }
 ul.publisher_breadcrumb li+li:before {
   padding: 8px;
-  color: black;
+  color: #000000;
   content: "/\00a0";
 }
 ul.publisher_breadcrumb li a {

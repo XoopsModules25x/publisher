@@ -48,8 +48,8 @@ function publisher_tag_iteminfo(&$items)
     $helper = \XoopsModules\Publisher\Helper::getInstance();
     /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
-    $criteria = new \Criteria('itemid', '(' . implode(', ', $items_id) . ')', 'IN');
-    $items_obj = $itemHandler->getObjects($criteria, 'itemid');
+    $criteria    = new \Criteria('itemid', '(' . implode(', ', $items_id) . ')', 'IN');
+    $items_obj   = $itemHandler->getObjects($criteria, 'itemid');
 
     //make sure Tag module tag_parse_tag() can be found
     if (!method_exists('XoopsModules\Tag\Utility', 'tag_parse_tag')) {
@@ -64,13 +64,13 @@ function publisher_tag_iteminfo(&$items)
     /** @var Publisher\Item $item_obj */
     foreach (array_keys($items) as $cat_id) {
         foreach (array_keys($items[$cat_id]) as $item_id) {
-            $item_obj = $items_obj[$item_id];
+            $item_obj                 = $items_obj[$item_id];
             $items[$cat_id][$item_id] = [
-                'title' => $item_obj->getVar('title'),
-                'uid' => $item_obj->getVar('uid'),
-                'link' => "item.php?itemid={$item_id}",
-                'time' => $item_obj->getVar('datesub'),
-                'tags' => $parse_function($item_obj->getVar('item_tag', 'n')), // optional
+                'title'   => $item_obj->getVar('title'),
+                'uid'     => $item_obj->getVar('uid'),
+                'link'    => "item.php?itemid={$item_id}",
+                'time'    => $item_obj->getVar('datesub'),
+                'tags'    => $parse_function($item_obj->getVar('item_tag', 'n')), // optional
                 'content' => '',
             ];
         }
@@ -98,14 +98,15 @@ function publisher_tag_synchronization($mid)
     $mid = Request::getInt('mid');
 
     /* clear tag-item links */
-    $sql = "    DELETE FROM {$linkHandler->table}"
+    $sql    = "    DELETE FROM {$linkHandler->table}"
               . '    WHERE '
               . "        tag_modid = {$mid}"
               . '        AND '
               . '        ( tag_itemid NOT IN '
               . "            ( SELECT DISTINCT {$itemHandler->keyName} "
               . "                FROM {$itemHandler->table} "
-            . "                WHERE {$itemHandler->table}.status = " . _CO_PUBLISHER_PUBLISHED
+              . "                WHERE {$itemHandler->table}.status = "
+              . _CO_PUBLISHER_PUBLISHED
               . '            ) '
               . '        )';
     $result = $linkHandler->db->queryF($sql);

@@ -67,31 +67,31 @@ $module_id = $helper->getModule()->getVar('mid');
 // creating the Item objects that belong to the selected category
 switch ($helper->getConfig('format_order_by')) {
     case 'title':
-        $sort = 'title';
+        $sort  = 'title';
         $order = 'ASC';
         break;
     case 'date':
-        $sort = 'datesub';
+        $sort  = 'datesub';
         $order = 'DESC';
         break;
     case 'counter':
-        $sort = 'counter';
+        $sort  = 'counter';
         $order = 'DESC';
         break;
     case 'rating':
-        $sort = 'rating';
+        $sort  = 'rating';
         $order = 'DESC';
         break;
     case 'votes':
-        $sort = 'votes';
+        $sort  = 'votes';
         $order = 'DESC';
         break;
     case 'comments':
-        $sort = 'comments';
+        $sort  = 'comments';
         $order = 'DESC';
         break;
     default:
-        $sort = 'weight';
+        $sort  = 'weight';
         $order = 'ASC';
         break;
 }
@@ -105,10 +105,10 @@ if ($itemsObj) {
 
 // Arrays that will hold the informations passed on to smarty variables
 $category = [];
-$items = [];
+$items    = [];
 
 // Populating the smarty variables with informations related to the selected category
-$category = $categoryObj->toArraySimple(null);
+$category                 = $categoryObj->toArraySimple(null);
 $category['categoryPath'] = $categoryObj->getCategoryPath($helper->getConfig('format_linked_path'));
 
 //$totalItems = $publisher_categoryHandler->publishedItemsCount($helper->getConfig('idxcat_display_last_item'));
@@ -120,7 +120,7 @@ if (1 == $helper->getConfig('idxcat_display_last_item')) {
 $lastitemsize = (int)$helper->getConfig('idxcat_last_item_size');
 
 // Creating the sub-categories objects that belong to the selected category
-$subcatsObj = $helper->getHandler('Category')->getCategories(0, 0, $categoryid);
+$subcatsObj    = $helper->getHandler('Category')->getCategories(0, 0, $categoryid);
 $total_subcats = count($subcatsObj);
 
 $total_items = 0;
@@ -169,11 +169,11 @@ if ('no' !== $helper->getConfig('idxcat_show_subcats')) {
     }
 }
 
-$category['subcats'] = $subcategories;
+$category['subcats']      = $subcategories;
 $category['subcatscount'] = count($subcategories);
 
 $thiscategory_itemcount = $totalItems[$categoryid] ?? 0;
-$category['total'] = $thiscategory_itemcount;
+$category['total']      = $thiscategory_itemcount;
 
 if (count($itemsObj) > 0) {
     /*$userids  = [];
@@ -189,22 +189,22 @@ if (count($itemsObj) > 0) {
     // Adding the items of the selected category
 
     for ($i = 0; $i < $totalItemOnPage; ++$i) {
-        $item = $itemsObj[$i]->toArraySimple('default', $helper->getConfig('item_title_size'));
+        $item                 = $itemsObj[$i]->toArraySimple('default', $helper->getConfig('item_title_size'));
         $item['categoryname'] = $categoryObj->name();
         $item['categorylink'] = "<a href='" . Publisher\Seo::generateUrl('category', $itemsObj[$i]->categoryid(), $categoryObj->short_url()) . "'>" . $categoryObj->name() . '</a>';
-        $item['who_when'] = $itemsObj[$i]->getWhoAndWhen();
+        $item['who_when']     = $itemsObj[$i]->getWhoAndWhen();
         $xoopsTpl->append('items', $item);
     }
 
     if (!empty($lastItemObj[$categoryObj->getVar('categoryid')])) {
-        $category['last_itemid'] = $lastItemObj[$categoryObj->getVar('categoryid')]->getVar('itemid');
+        $category['last_itemid']     = $lastItemObj[$categoryObj->getVar('categoryid')]->getVar('itemid');
         $category['last_title_link'] = $lastItemObj[$categoryObj->getVar('categoryid')]->getItemLink(false, $lastitemsize);
     }
 
     $xoopsTpl->assign('show_subtitle', $helper->getConfig('cat_disp_subtitle'));
 }
 
-$categories = [];
+$categories   = [];
 $categories[] = $category;
 $xoopsTpl->assign('category', $category);
 $xoopsTpl->assign('categories', $categories);

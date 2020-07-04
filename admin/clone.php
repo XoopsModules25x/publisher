@@ -46,12 +46,12 @@ if ('submit' === Request::getString('op', '', 'POST')) {
     }
 
     $patterns = [
-        mb_strtolower(PUBLISHER_DIRNAME) => mb_strtolower($clone),
-        mb_strtoupper(PUBLISHER_DIRNAME) => mb_strtoupper($clone),
+        mb_strtolower(PUBLISHER_DIRNAME)          => mb_strtolower($clone),
+        mb_strtoupper(PUBLISHER_DIRNAME)          => mb_strtoupper($clone),
         ucfirst(mb_strtolower(PUBLISHER_DIRNAME)) => ucfirst(mb_strtolower($clone)),
     ];
 
-    $patKeys = array_keys($patterns);
+    $patKeys   = array_keys($patterns);
     $patValues = array_values($patterns);
     Publisher\Cloner::cloneFileFolder(PUBLISHER_ROOT_PATH);
     $logocreated = Publisher\Cloner::createLogo(mb_strtolower($clone));
@@ -68,7 +68,7 @@ if ('submit' === Request::getString('op', '', 'POST')) {
     echo $msg;
 } else {
     require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
-    $form = new \XoopsThemeForm(sprintf(_AM_PUBLISHER_CLONE_TITLE, $helper->getModule()->getVar('name', 'E')), 'clone', 'clone.php', 'post', true);
+    $form  = new \XoopsThemeForm(sprintf(_AM_PUBLISHER_CLONE_TITLE, $helper->getModule()->getVar('name', 'E')), 'clone', 'clone.php', 'post', true);
     $clone = new \XoopsFormText(_AM_PUBLISHER_CLONE_NAME, 'clone', 20, 20, '');
     $clone->setDescription(_AM_PUBLISHER_CLONE_NAME_DSC);
     $form->addElement($clone, true);

@@ -35,37 +35,30 @@ class Metagen
      * @var Publisher\Helper
      */
     public $helper;
-
     /**
      * @var \MyTextSanitizer
      */
     public $myts;
-
     /**
      * @var string
      */
     public $title;
-
     /**
      * @var string
      */
     public $originalTitle;
-
     /**
      * @var string
      */
     public $keywords;
-
     /**
      * @var string
      */
     public $categoryPath;
-
     /**
      * @var string
      */
     public $description;
-
     /**
      * @var int
      */
@@ -81,7 +74,7 @@ class Metagen
     {
         /** @var \XoopsModules\Publisher\Helper $this ->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
-        $this->myts = \MyTextSanitizer::getInstance();
+        $this->myts   = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
         $this->setTitle($title);
         $this->setDescription($description);
@@ -96,10 +89,10 @@ class Metagen
      */
     public function setTitle($title)
     {
-        $this->title = $this->html2text($title);
+        $this->title         = $this->html2text($title);
         $this->originalTitle = $this->title;
-        $titleTag = [];
-        $titleTag['module'] = $this->helper->getModule()->getVar('name');
+        $titleTag            = [];
+        $titleTag['module']  = $this->helper->getModule()->getVar('name');
         if (isset($this->title) && ('' != $this->title) && (mb_strtoupper($this->title) != mb_strtoupper($titleTag['module']))) {
             $titleTag['title'] = $this->title;
         }
@@ -135,7 +128,7 @@ class Metagen
      */
     public function setCategoryPath($categoryPath)
     {
-        $categoryPath = $this->html2text($categoryPath);
+        $categoryPath       = $this->html2text($categoryPath);
         $this->categoryPath = $categoryPath;
     }
 
@@ -144,8 +137,8 @@ class Metagen
      */
     public function setDescription($description)
     {
-        $description = $this->html2text($description);
-        $description = $this->purifyText($description);
+        $description       = $this->html2text($description);
+        $description       = $this->purifyText($description);
         $this->description = $description;
     }
 
@@ -165,10 +158,10 @@ class Metagen
     {
         $description = $this->purifyText($this->description);
         $description = $this->html2text($description);
-        $words = \explode(' ', $description);
-        $ret = '';
-        $i = 1;
-        $wordCount = \count($words);
+        $words       = \explode(' ', $description);
+        $ret         = '';
+        $i           = 1;
+        $wordCount   = \count($words);
         foreach ($words as $word) {
             $ret .= $word;
             if ($i < $wordCount) {
@@ -188,9 +181,9 @@ class Metagen
      */
     public function findMetaKeywords($text, $minChar)
     {
-        $keywords = [];
-        $text = $this->purifyText($text);
-        $text = $this->html2text($text);
+        $keywords         = [];
+        $text             = $this->purifyText($text);
+        $text             = $this->html2text($text);
         $originalKeywords = \explode(' ', $text);
         foreach ($originalKeywords as $originalKeyword) {
             $secondRoundKeywords = \explode("'", $originalKeyword);
@@ -211,11 +204,11 @@ class Metagen
      */
     public function createMetaKeywords()
     {
-        $keywords = $this->findMetaKeywords($this->originalTitle . ' ' . $this->description, $this->minChar);
+        $keywords       = $this->findMetaKeywords($this->originalTitle . ' ' . $this->description, $this->minChar);
         $moduleKeywords = $this->helper->getConfig('seo_meta_keywords');
         if ('' != $moduleKeywords) {
             $moduleKeywords = \explode(',', $moduleKeywords);
-            $keywords = \array_merge($keywords, \array_map('\trim', $moduleKeywords));
+            $keywords       = \array_merge($keywords, \array_map('\trim', $moduleKeywords));
         }
         $ret = \implode(',', $keywords);
 
@@ -234,7 +227,7 @@ class Metagen
      */
     public function buildAutoMetaTags()
     {
-        $this->keywords = $this->createMetaKeywords();
+        $this->keywords    = $this->createMetaKeywords();
         $this->description = $this->createMetaDescription();
         //$this->title = $this->createTitleTag();
     }
@@ -315,8 +308,8 @@ class Metagen
             '/%7E/', // ~
             "/\./", // .
         ];
-        $repPat = ['-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-'];
-        $title = preg_replace($pattern, $repPat, $title);
+        $repPat  = ['-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-'];
+        $title   = preg_replace($pattern, $repPat, $title);
         // Transformation des caractères accentués
         $pattern = [
             '/%B0/', // °
@@ -336,11 +329,11 @@ class Metagen
             '/%F4/', // ô
             '/%F6/', // ö
         ];
-        $repPat = ['-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o'];
-        $title = \preg_replace($pattern, $repPat, $title);
+        $repPat  = ['-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o'];
+        $title   = \preg_replace($pattern, $repPat, $title);
         $tableau = \explode('-', $title); // Transforms the string in table //Transforme la chaine de caractères en tableau
         $tableau = \array_filter($tableau, ['XoopsModules\Publisher\Metagen', 'emptyString']); // Remove empty strings of the table //Supprime les chaines vides du tableau
-        $title = \implode('-', $tableau); // Transforms a character string in table separated by a hyphen //Transforme un tableau en chaine de caractères séparé par un tiret
+        $title   = \implode('-', $tableau); // Transforms a character string in table separated by a hyphen //Transforme un tableau en chaine de caractères séparé par un tiret
         if ($title && !(\is_array($title))) {
             if ($withExt) {
                 $title .= '.html';

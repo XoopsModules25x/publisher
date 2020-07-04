@@ -31,7 +31,7 @@ if (0 == $uid) {
 
 /** @var \XoopsMemberHandler $memberHandler */
 $memberHandler = xoops_getHandler('member');
-$thisuser = $memberHandler->getUser($uid);
+$thisuser      = $memberHandler->getUser($uid);
 if (!is_object($thisuser)) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
 }
@@ -69,9 +69,9 @@ if ($count > 0) {
         if (!isset($categories[$catId])) {
             $categories[$catId] = [
                 'count_items' => 0,
-                'count_hits' => 0,
-                'title' => $item->getCategoryName(),
-                'link' => $item->getCategoryLink(),
+                'count_hits'  => 0,
+                'title'       => $item->getCategoryName(),
+                'link'        => $item->getCategoryLink(),
             ];
         }
         //mb start
@@ -101,20 +101,20 @@ if ($count > 0) {
 
         $categories[$catId]['count_items']++;
         $categories[$catId]['count_hits'] += $item->counter();
-        $categories[$catId]['items'][] = [
-            'title' => $item->getTitle(),
-			'cleantitle' => strip_tags($item->getTitle()),
-			'itemurl' => $item->getItemUrl(),
-			'summary' => $item->getSummary(),
-			'comment' => $comment,
-			'cancomment' => $item->cancomment(),
-            'hits' => $item->counter(),
-            'link' => $item->getItemLink(),
-            'published' => $item->getDatesub(),
-			//'published' => $item->getDatesub(_SHORTDATESTRING),
+        $categories[$catId]['items'][]    = [
+            'title'      => $item->getTitle(),
+            'cleantitle' => strip_tags($item->getTitle()),
+            'itemurl'    => $item->getItemUrl(),
+            'summary'    => $item->getSummary(),
+            'comment'    => $comment,
+            'cancomment' => $item->cancomment(),
+            'hits'       => $item->counter(),
+            'link'       => $item->getItemLink(),
+            'published'  => $item->getDatesub(),
+            //'published' => $item->getDatesub(_SHORTDATESTRING),
             //'rating'    => $xoopsLocal->number_format((float)$item->rating())
-            'rating' => $item->rating(),
-			'image' => $image,
+            'rating'     => $item->rating(),
+            'image'      => $image,
         ];
     }
 }

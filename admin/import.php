@@ -28,7 +28,7 @@ $op = Request::getString('op', Request::getString('op', 'none', 'GET'), 'POST');
 
 switch ($op) {
     case 'importExecute':
-        $importfile = Request::getString('importfile', 'nonselected', 'POST');
+        $importfile      = Request::getString('importfile', 'nonselected', 'POST');
         $importfile_path = $GLOBALS['xoops']->path('modules/' . $helper->getModule()->dirname() . '/admin/import/' . $importfile . '.php');
         require_once $importfile_path;
         break;
@@ -58,67 +58,67 @@ switch ($op) {
 
         // News
         $news_version = 0;
-        $moduleObj = $moduleHandler->getByDirname('news');
+        $moduleObj    = $moduleHandler->getByDirname('news');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if ($from_module_version >= 1.1) {
                 $importfile_select_array['news'] = 'News ' . $from_module_version;
-                $news_version = $from_module_version;
+                $news_version                    = $from_module_version;
             }
         }
 
         // xNews
         $xnews_version = 0;
-        $moduleObj = $moduleHandler->getByDirname('xnews');
+        $moduleObj     = $moduleHandler->getByDirname('xnews');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if ($from_module_version >= 1.1) {
                 $importfile_select_array['xnews'] = 'xNews ' . $from_module_version;
-                $xnews_version = $from_module_version;
+                $xnews_version                    = $from_module_version;
             }
         }
 
         // AMS
         $ams_version = 0;
-        $moduleObj = $moduleHandler->getByDirname('AMS');
+        $moduleObj   = $moduleHandler->getByDirname('AMS');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if ($from_module_version >= 1.1) {
                 $importfile_select_array['ams'] = 'AMS ' . $from_module_version;
-                $ams_version = $from_module_version;
+                $ams_version                    = $from_module_version;
             }
         }
 
         // Smartsection
         $smartsection_version = 0;
-        $moduleObj = $moduleHandler->getByDirname('smartsection');
+        $moduleObj            = $moduleHandler->getByDirname('smartsection');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if ($from_module_version >= 1.1) {
                 $importfile_select_array['smartsection'] = 'Smartsection ' . $from_module_version;
-                $smartsection_version = $from_module_version;
+                $smartsection_version                    = $from_module_version;
             }
         }
 
         // C-Jay Content
         $cjaycontent_version = 0;
-        $moduleObj = $moduleHandler->getByDirname('cjaycontent');
+        $moduleObj           = $moduleHandler->getByDirname('cjaycontent');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if ($from_module_version >= 1.1) {
                 $importfile_select_array['cjaycontent'] = 'C-Jay Content ' . $from_module_version;
-                $cjaycontent_version = $from_module_version;
+                $cjaycontent_version                    = $from_module_version;
             }
         }
 
         // FmContent
         $fmcontent_version = 0;
-        $moduleObj = $moduleHandler->getByDirname('fmcontent');
+        $moduleObj         = $moduleHandler->getByDirname('fmcontent');
         if ($moduleObj) {
             $from_module_version = round($moduleObj->getVar('version') / 100, 2);
             if ($from_module_version >= 1.1) {
                 $importfile_select_array['fmcontent'] = 'FmContent ' . $from_module_version;
-                $fmcontent_version = $from_module_version;
+                $fmcontent_version                    = $from_module_version;
             }
         }
 
@@ -147,7 +147,7 @@ switch ($op) {
 
             // Buttons
             $buttonTray = new \XoopsFormElementTray('', '');
-            $hidden = new \XoopsFormHidden('op', 'importExecute');
+            $hidden     = new \XoopsFormHidden('op', 'importExecute');
             $buttonTray->addElement($hidden);
 
             $butt_import = new \XoopsFormButton('', '', _AM_PUBLISHER_IMPORT, 'submit');

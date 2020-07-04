@@ -33,13 +33,11 @@ interface Constants
     public const PUBLISHER_STATUS_PUBLISHED = 2;
     public const PUBLISHER_STATUS_OFFLINE = 3;
     public const PUBLISHER_STATUS_REJECTED = 4;
-
     // Notification Events
     public const PUBLISHER_NOT_CATEGORY_CREATED = 1;
     public const PUBLISHER_NOTIFY_ITEM_SUBMITTED = 2;
     public const PUBLISHER_NOTIFY_ITEM_PUBLISHED = 3;
     public const PUBLISHER_NOTIFY_ITEM_REJECTED = 4;
-
     // Form constants
     public const PUBLISHER_SUMMARY = 1;
     //const PUBLISHER_DISPLAY_SUMMARY = 2;
@@ -67,16 +65,13 @@ interface Constants
     public const PUBLISHER_SUBTITLE = 24;
     public const PUBLISHER_AUTHOR_ALIAS = 25;
     public const PUBLISHER_DATEEXPIRE = 26;
-
     // Global constants
     public const PUBLISHER_SEARCH = 1;
     public const PUBLISHER_RATE = 2;
-
     // File status
     public const PUBLISHER_STATUS_FILE_NOTSET = -1;
     public const PUBLISHER_STATUS_FILE_ACTIVE = 1;
     public const PUBLISHER_STATUS_FILE_INACTIVE = 2;
-
     // Image categories
     public const PUBLISHER_IMGCAT_ALL = 'all';
 }

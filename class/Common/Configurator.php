@@ -31,16 +31,16 @@ namespace XoopsModules\Publisher\Common;
 class Configurator
 {
     public $name;
-    public $paths = [];
-    public $icons = [];
-    public $uploadFolders = [];
-    public $copyBlankFiles = [];
+    public $paths           = [];
+    public $icons           = [];
+    public $uploadFolders   = [];
+    public $copyBlankFiles  = [];
     public $copyTestFolders = [];
     public $templateFolders = [];
-    public $oldFiles = [];
-    public $oldFolders = [];
-    public $renameTables = [];
-    public $moduleStats = [];
+    public $oldFiles        = [];
+    public $oldFolders      = [];
+    public $renameTables    = [];
+    public $moduleStats     = [];
     public $modCopyright;
 
     /**
@@ -50,16 +50,16 @@ class Configurator
     {
         $config = require \dirname(\dirname(__DIR__)) . '/config/config.php';
 
-        $this->name = $config->name;
-        $this->uploadFolders = $config->uploadFolders;
-        $this->copyBlankFiles = $config->copyBlankFiles;
+        $this->name            = $config->name;
+        $this->uploadFolders   = $config->uploadFolders;
+        $this->copyBlankFiles  = $config->copyBlankFiles;
         $this->copyTestFolders = $config->copyTestFolders;
         $this->templateFolders = $config->templateFolders;
-        $this->oldFiles = $config->oldFiles;
-        $this->oldFolders = $config->oldFolders;
-        $this->renameTables = $config->renameTables;
-        $this->moduleStats = $config->moduleStats;
-        $this->modCopyright = $config->modCopyright;
+        $this->oldFiles        = $config->oldFiles;
+        $this->oldFolders      = $config->oldFolders;
+        $this->renameTables    = $config->renameTables;
+        $this->moduleStats     = $config->moduleStats;
+        $this->modCopyright    = $config->modCopyright;
 
         $this->paths = require \dirname(\dirname(__DIR__)) . '/config/paths.php';
         $this->icons = require \dirname(\dirname(__DIR__)) . '/config/icons.php';

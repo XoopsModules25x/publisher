@@ -45,28 +45,28 @@ function publisher_date_to_date_show($options)
     // creating the ITEM objects that belong to the selected category
     /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
-    $itemsObj = $itemHandler->getObjects($criteria);
+    $itemsObj    = $itemHandler->getObjects($criteria);
     //    $totalItems = count($itemsObj);
 
     if ($itemsObj && is_array($itemsObj)) {
         foreach ($itemsObj as $iValue) {
-            $newItems['itemid'] = $iValue->itemid();
-            $newItems['title'] = $iValue->getTitle();
+            $newItems['itemid']       = $iValue->itemid();
+            $newItems['title']        = $iValue->getTitle();
             $newItems['categoryname'] = $iValue->getCategoryName();
-            $newItems['categoryid'] = $iValue->categoryid();
-            $newItems['date'] = $iValue->getDatesub();
-            $newItems['poster'] = $iValue->getLinkedPosterName();
-            $newItems['itemlink'] = $iValue->getItemLink(false, $options[3] ?? 65);
+            $newItems['categoryid']   = $iValue->categoryid();
+            $newItems['date']         = $iValue->getDatesub();
+            $newItems['poster']       = $iValue->getLinkedPosterName();
+            $newItems['itemlink']     = $iValue->getItemLink(false, $options[3] ?? 65);
             $newItems['categorylink'] = $iValue->getCategoryLink();
-            $block['items'][] = $newItems;
+            $block['items'][]         = $newItems;
         }
 
-        $block['lang_title'] = _MB_PUBLISHER_ITEMS;
-        $block['lang_category'] = _MB_PUBLISHER_CATEGORY;
-        $block['lang_poster'] = _MB_PUBLISHER_POSTEDBY;
-        $block['lang_date'] = _MB_PUBLISHER_DATE;
-        $moduleName = $myts->displayTarea($helper->getModule()->getVar('name'));
-        $block['lang_visitItem'] = _MB_PUBLISHER_VISITITEM . ' ' . $moduleName;
+        $block['lang_title']            = _MB_PUBLISHER_ITEMS;
+        $block['lang_category']         = _MB_PUBLISHER_CATEGORY;
+        $block['lang_poster']           = _MB_PUBLISHER_POSTEDBY;
+        $block['lang_date']             = _MB_PUBLISHER_DATE;
+        $moduleName                     = $myts->displayTarea($helper->getModule()->getVar('name'));
+        $block['lang_visitItem']        = _MB_PUBLISHER_VISITITEM . ' ' . $moduleName;
         $block['lang_articles_from_to'] = sprintf(_MB_PUBLISHER_ARTICLES_FROM_TO, $options[0], $options[1] ?? 0);
     }
 
@@ -88,7 +88,7 @@ function publisher_date_to_date_edit($options)
         $options[0] = formatTimestamp(1424860422);
     }
 
-    $form = new Publisher\BlockForm();
+    $form    = new Publisher\BlockForm();
     $fromEle = new \XoopsFormTextDateSelect(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));
     //    $fromEle->setNocolspan();
     $untilEle = new \XoopsFormTextDateSelect(_MB_PUBLISHER_UNTIL, 'options[1]', 15, isset($options[1]) ? strtotime($options[1]) : '');

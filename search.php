@@ -27,17 +27,17 @@ require_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
 //Checking general permissions
 /** @var \XoopsConfigHandler $configHandler */
-$configHandler = xoops_getHandler('config');
+$configHandler     = xoops_getHandler('config');
 $xoopsConfigSearch = $configHandler->getConfigsByCat(XOOPS_CONF_SEARCH);
 if (empty($xoopsConfigSearch['enable_search'])) {
     redirect_header(PUBLISHER_URL . '/index.php', 2, _NOPERM);
 }
 
 /** @var \XoopsModules\Publisher\Helper $helper */
-$helper = \XoopsModules\Publisher\Helper::getInstance();
-$groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+$helper           = \XoopsModules\Publisher\Helper::getInstance();
+$groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $grouppermHandler = $helper->getHandler('GroupPerm');
-$module_id = $helper->getModule()->mid();
+$module_id        = $helper->getModule()->mid();
 
 //Checking permissions
 if (!$helper->getConfig('perm_search') || !$grouppermHandler->checkRight('global', Constants::PUBLISHER_SEARCH, $groups, $module_id)) {
@@ -45,22 +45,22 @@ if (!$helper->getConfig('perm_search') || !$grouppermHandler->checkRight('global
 }
 
 $GLOBALS['xoopsConfig']['module_cache'][$module_id] = 0;
-$GLOBALS['xoopsOption']['template_main'] = 'publisher_search.tpl';
+$GLOBALS['xoopsOption']['template_main']            = 'publisher_search.tpl';
 require_once $GLOBALS['xoops']->path('header.php');
 
 $module_info_search = $helper->getModule()->getInfo('search');
 require_once PUBLISHER_ROOT_PATH . '/' . $module_info_search['file'];
 
-$limit = 10; //$helper->getConfig('idxcat_perpage');
-$uid = 0;
-$queries = [];
-$andor = Request::getString('andor', '', 'POST');
-$start = Request::getInt('start', 0, 'POST');
+$limit    = 10; //$helper->getConfig('idxcat_perpage');
+$uid      = 0;
+$queries  = [];
+$andor    = Request::getString('andor', '', 'POST');
+$start    = Request::getInt('start', 0, 'POST');
 $category = Request::getArray('category', [], 'POST');
 $username = Request::getString('uname', '', 'POST');
 $searchin = Request::getArray('searchin', [], 'POST');
-$sortby = Request::getString('sortby', '', 'POST');
-$term = Request::getString('term', '', 'POST');
+$sortby   = Request::getString('sortby', '', 'POST');
+$term     = Request::getString('term', '', 'POST');
 
 if (empty($category) || (is_array($category) && in_array('all', $category, true))) {
     $category = [];
@@ -69,18 +69,18 @@ if (empty($category) || (is_array($category) && in_array('all', $category, true)
     $category = array_map('\intval', $category);
 }
 
-$andor = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT'], true) ? mb_strtoupper($andor) : 'OR';
+$andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT'], true) ? mb_strtoupper($andor) : 'OR';
 $sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid'], true) ? mb_strtolower($sortby) : 'itemid';
 
 if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     $next_search['category'] = implode(',', $category);
-    $next_search['andor'] = $andor;
-    $next_search['term'] = $term;
-    $query = trim($term);
+    $next_search['andor']    = $andor;
+    $next_search['term']     = $term;
+    $query                   = trim($term);
 
     if ('EXACT' !== $andor) {
         $ignored_queries = []; // holds keywords that are shorter than allowed minimum length
-        $temp_queries = preg_split("/[\s,]+/", $query);
+        $temp_queries    = preg_split("/[\s,]+/", $query);
         foreach ($temp_queries as $q) {
             $q = trim($q);
             if (mb_strlen($q) >= $xoopsConfigSearch['keyword_min']) {
@@ -100,11 +100,11 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
         $queries = [$myts->addSlashes($query)];
     }
 
-    $uname_required = false;
-    $search_username = trim($username);
+    $uname_required       = false;
+    $search_username      = trim($username);
     $next_search['uname'] = $search_username;
     if (!empty($search_username)) {
-        $uname_required = true;
+        $uname_required  = true;
         $search_username = $myts->addSlashes($search_username);
         if (!$result = $GLOBALS['xoopsDB']->query('SELECT uid FROM ' . $GLOBALS['xoopsDB']->prefix('users') . ' WHERE uname LIKE ' . $GLOBALS['xoopsDB']->quoteString("%$search_username%"))) {
             redirect_header(PUBLISHER_URL . '/search.php', 1, _CO_PUBLISHER_ERROR);
@@ -117,7 +117,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
         $uid = 0;
     }
 
-    $next_search['sortby'] = $sortby;
+    $next_search['sortby']   = $sortby;
     $next_search['searchin'] = implode('|', $searchin);
 
     $extra = '';
@@ -152,16 +152,16 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     $search_url = PUBLISHER_URL . '/search.php?' . $paras;
 
     if (count($results)) {
-        $next = $start + $limit;
-        $queries = implode(',', $queries);
+        $next            = $start + $limit;
+        $queries         = implode(',', $queries);
         $search_url_next = $search_url . "&start={$next}";
-        $search_next = '<a href="' . htmlspecialchars($search_url_next, ENT_QUOTES | ENT_HTML5) . '">' . _SR_NEXT . '</a>';
+        $search_next     = '<a href="' . htmlspecialchars($search_url_next, ENT_QUOTES | ENT_HTML5) . '">' . _SR_NEXT . '</a>';
         $xoopsTpl->assign('search_next', $search_next);
     }
     if ($start > 0) {
-        $prev = $start - $limit;
+        $prev            = $start - $limit;
         $search_url_prev = $search_url . "&start={$prev}";
-        $search_prev = '<a href="' . htmlspecialchars($search_url_prev, ENT_QUOTES | ENT_HTML5) . '">' . _SR_PREVIOUS . '</a>';
+        $search_prev     = '<a href="' . htmlspecialchars($search_url_prev, ENT_QUOTES | ENT_HTML5) . '">' . _SR_PREVIOUS . '</a>';
         $xoopsTpl->assign('search_prev', $search_prev);
     }
 
@@ -198,7 +198,7 @@ $typeSelect .= '</select>';
 /* category */
 /** @var Publisher\CategoryHandler $categoryHandler */
 $categoryHandler = $helper->getHandler('Category');
-$categories = $categoryHandler->getCategoriesForSearch();
+$categories      = $categoryHandler->getCategoriesForSearch();
 
 $categorySelect = '<select name="category[]" size="5" multiple="multiple">';
 $categorySelect .= '<option value="all"';

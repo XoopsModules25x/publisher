@@ -44,13 +44,12 @@ class FileForm extends \XoopsThemeForm
      * @var Publisher\Helper
      */
     public $helper;
-
     public $targetObject;
 
     public function __construct(&$target)
     {
         /** @var Publisher\Helper $this ->helper */
-        $this->helper = Publisher\Helper::getInstance();
+        $this->helper       = Publisher\Helper::getInstance();
         $this->targetObject = &$target;
 
         parent::__construct(\_AM_PUBLISHER_UPLOAD_FILE, 'form', \xoops_getenv('SCRIPT_NAME'), 'post', true);
@@ -93,7 +92,7 @@ class FileForm extends \XoopsThemeForm
     public function createButtons()
     {
         $filesButtonTray = new \XoopsFormElementTray('', '');
-        $filesHidden = new \XoopsFormHidden('op', 'uploadfile');
+        $filesHidden     = new \XoopsFormHidden('op', 'uploadfile');
         $filesButtonTray->addElement($filesHidden);
 
         if (!$this->targetObject->fileid()) {

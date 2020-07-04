@@ -30,10 +30,10 @@ if ('delfileok' === Request::getString('op', '', 'POST')) {
         redirect_header(XOOPS_URL . '/modules/publisher/admin/item.php', 3, _AM_PUBLISHER_FILE_DELETE_ERROR);
     }
 
-    $dir = Publisher\Utility::getUploadDir(true, 'content');
+    $dir        = Publisher\Utility::getUploadDir(true, 'content');
     $check_path = realpath($dir);
 
-    $filename = Request::getString('address', '', 'POST');
+    $filename  = Request::getString('address', '', 'POST');
     $path_file = realpath($dir . '/' . $filename);
 
     try {

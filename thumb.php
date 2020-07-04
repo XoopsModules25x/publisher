@@ -256,27 +256,27 @@ Timthumb::start();
  */
 class Timthumb
 {
-    protected $src = '';
-    protected $is404 = false;
-    protected $docRoot = '';
-    protected $lastURLError = false;
-    protected $localImage = '';
-    protected $localImageMTime = 0.0;
-    protected $url = false;
-    protected $myHost = '';
-    protected $isURL = false;
-    protected $cachefile = '';
-    protected $errors = [];
-    protected $toDeletes = [];
-    protected $cacheDirectory = '';
-    protected $startTime = 0.0;
-    protected $lastBenchTime = 0.0;
-    protected $cropTop = false;
-    protected $salt = '';
-    protected $fileCacheVersion = 1; //Generally if timthumb.php is modifed (upgraded) then the salt changes and all cache files are recreated. This is a backup mechanism to force regen.
-    protected $filePrependSecurityBlock = "<?php exit('Execution denied!'); //"; //Designed to have three letter mime type, space, question mark and greater than symbol appended. 6 bytes total.
-    protected static $curlDataWritten = 0;
-    protected static $curlFH = false;
+    protected        $src                      = '';
+    protected        $is404                    = false;
+    protected        $docRoot                  = '';
+    protected        $lastURLError             = false;
+    protected        $localImage               = '';
+    protected        $localImageMTime          = 0.0;
+    protected        $url                      = false;
+    protected        $myHost                   = '';
+    protected        $isURL                    = false;
+    protected        $cachefile                = '';
+    protected        $errors                   = [];
+    protected        $toDeletes                = [];
+    protected        $cacheDirectory           = '';
+    protected        $startTime                = 0.0;
+    protected        $lastBenchTime            = 0.0;
+    protected        $cropTop                  = false;
+    protected        $salt                     = '';
+    protected        $fileCacheVersion         = 1; //Generally if timthumb.php is modifed (upgraded) then the salt changes and all cache files are recreated. This is a backup mechanism to force regen.
+    protected        $filePrependSecurityBlock = "<?php exit('Execution denied!'); //"; //Designed to have three letter mime type, space, question mark and greater than symbol appended. 6 bytes total.
+    protected static $curlDataWritten          = 0;
+    protected static $curlFH                   = false;
 
     public static function start()
     {
@@ -328,9 +328,9 @@ class Timthumb
         $this->cleanCache();
 
         $this->myHost = preg_replace('/^www\./i', '', \Xmf\Request::getString('HTTP_HOST', '', 'SERVER'));
-        $this->src = $this->param('src');
-        $this->url = parse_url($this->src);
-        $this->src = preg_replace('/https?:\/\/(?:www\.)?' . $this->myHost . '/i', '', $this->src);
+        $this->src    = $this->param('src');
+        $this->url    = parse_url($this->src);
+        $this->src    = preg_replace('/https?:\/\/(?:www\.)?' . $this->myHost . '/i', '', $this->src);
 
         if (mb_strlen($this->src) <= 3) {
             $this->error('No image specified');
@@ -686,7 +686,7 @@ class Timthumb
      */
     protected function processImageAndWriteToCache($localImage)
     {
-        $sData = getimagesize($localImage);
+        $sData    = getimagesize($localImage);
         $origType = $sData[2];
         $mimeType = $sData['mime'];
 
@@ -701,39 +701,39 @@ class Timthumb
 
         if (defined('IMG_FILTER_NEGATE') && function_exists('imagefilter')) {
             $imageFilters = [
-                1 => [IMG_FILTER_NEGATE, 0],
-                2 => [IMG_FILTER_GRAYSCALE, 0],
-                3 => [IMG_FILTER_BRIGHTNESS, 1],
-                4 => [IMG_FILTER_CONTRAST, 1],
-                5 => [IMG_FILTER_COLORIZE, 4],
-                6 => [IMG_FILTER_EDGEDETECT, 0],
-                7 => [IMG_FILTER_EMBOSS, 0],
-                8 => [IMG_FILTER_GAUSSIAN_BLUR, 0],
-                9 => [IMG_FILTER_SELECTIVE_BLUR, 0],
+                1  => [IMG_FILTER_NEGATE, 0],
+                2  => [IMG_FILTER_GRAYSCALE, 0],
+                3  => [IMG_FILTER_BRIGHTNESS, 1],
+                4  => [IMG_FILTER_CONTRAST, 1],
+                5  => [IMG_FILTER_COLORIZE, 4],
+                6  => [IMG_FILTER_EDGEDETECT, 0],
+                7  => [IMG_FILTER_EMBOSS, 0],
+                8  => [IMG_FILTER_GAUSSIAN_BLUR, 0],
+                9  => [IMG_FILTER_SELECTIVE_BLUR, 0],
                 10 => [IMG_FILTER_MEAN_REMOVAL, 0],
                 11 => [IMG_FILTER_SMOOTH, 0],
             ];
         }
 
         // get standard input properties
-        $newWidth = (int)abs($this->param('w', 0));
-        $newHeight = (int)abs($this->param('h', 0));
-        $zoom_crop = (int)$this->param('zc', DEFAULT_ZC);
-        $quality = (int)abs($this->param('q', DEFAULT_Q));
-        $align = $this->cropTop ? 't' : $this->param('a', 'c');
-        $filters = $this->param('f', DEFAULT_F);
-        $sharpen = (bool)$this->param('s', DEFAULT_S);
+        $newWidth     = (int)abs($this->param('w', 0));
+        $newHeight    = (int)abs($this->param('h', 0));
+        $zoom_crop    = (int)$this->param('zc', DEFAULT_ZC);
+        $quality      = (int)abs($this->param('q', DEFAULT_Q));
+        $align        = $this->cropTop ? 't' : $this->param('a', 'c');
+        $filters      = $this->param('f', DEFAULT_F);
+        $sharpen      = (bool)$this->param('s', DEFAULT_S);
         $canvas_color = $this->param('cc', DEFAULT_CC);
         $canvas_trans = (bool)$this->param('ct', '1');
 
         // set default width and height if neither are set already
         if (0 == $newWidth && 0 == $newHeight) {
-            $newWidth = DEFAULT_WIDTH;
+            $newWidth  = DEFAULT_WIDTH;
             $newHeight = DEFAULT_HEIGHT;
         }
 
         // ensure size limits can not be abused
-        $newWidth = min($newWidth, MAX_WIDTH);
+        $newWidth  = min($newWidth, MAX_WIDTH);
         $newHeight = min($newHeight, MAX_HEIGHT);
 
         // set memory limit to be able to have enough space to resize larger images
@@ -746,8 +746,8 @@ class Timthumb
         }
 
         // Get original width and height
-        $width = imagesx($image);
-        $height = imagesy($image);
+        $width    = imagesx($image);
+        $height   = imagesy($image);
         $origin_x = 0;
         $origin_y = 0;
 
@@ -803,9 +803,9 @@ class Timthumb
                 $newWidth = $width * ($newHeight / $height);
                 $origin_x = round($origin_x - ($newWidth / 2));
             } else {
-                $origin_y = $newHeight / 2;
+                $origin_y  = $newHeight / 2;
                 $newHeight = $final_height;
-                $origin_y = round($origin_y - ($newHeight / 2));
+                $origin_y  = round($origin_y - ($newHeight / 2));
             }
         }
 
@@ -900,7 +900,7 @@ class Timthumb
             ];
 
             $divisor = 8;
-            $offset = 0;
+            $offset  = 0;
 
             imageconvolution($canvas, $sharpenMatrix, $divisor, $offset);
         }
@@ -909,7 +909,7 @@ class Timthumb
             imagetruecolortopalette($canvas, false, imagecolorstotal($image));
         }
 
-        $imgType = '';
+        $imgType  = '';
         $tempfile = tempnam($this->cacheDirectory, 'timthumb_tmpimg_');
         if (preg_match('/^image\/(?:jpg|jpeg)$/i', $mimeType)) {
             $imgType = 'jpg';
@@ -928,10 +928,10 @@ class Timthumb
             $exec = OPTIPNG_PATH;
             $this->debug(3, "optipng'ing $tempfile");
             $presize = filesize($tempfile);
-            $out = shell_exec('$exec -o1 $tempfile'); //you can use up to -o7 but it really slows things down
+            $out     = shell_exec('$exec -o1 $tempfile'); //you can use up to -o7 but it really slows things down
             clearstatcache();
             $aftersize = filesize($tempfile);
-            $sizeDrop = $presize - $aftersize;
+            $sizeDrop  = $presize - $aftersize;
             if ($sizeDrop > 0) {
                 $this->debug(1, "optipng reduced size by $sizeDrop");
             } elseif ($sizeDrop < 0) {
@@ -940,16 +940,16 @@ class Timthumb
                 $this->debug(1, 'optipng did not change image size.');
             }
         } elseif ('png' === $imgType && PNGCRUSH_ENABLED && PNGCRUSH_PATH && @is_file(PNGCRUSH_PATH)) {
-            $exec = PNGCRUSH_PATH;
+            $exec      = PNGCRUSH_PATH;
             $tempfile2 = tempnam($this->cacheDirectory, 'timthumb_tmpimg_');
             $this->debug(3, "pngcrush'ing $tempfile to $tempfile2");
-            $out = shell_exec('$exec $tempfile $tempfile2');
+            $out   = shell_exec('$exec $tempfile $tempfile2');
             $todel = '';
             if (is_file($tempfile2)) {
                 $sizeDrop = filesize($tempfile) - filesize($tempfile2);
                 if ($sizeDrop > 0) {
                     $this->debug(1, "pngcrush was succesful and gave a $sizeDrop byte size reduction");
-                    $todel = $tempfile;
+                    $todel    = $tempfile;
                     $tempfile = $tempfile2;
                 } else {
                     $this->debug(1, "pngcrush did not reduce file size. Difference was $sizeDrop bytes.");
@@ -964,15 +964,15 @@ class Timthumb
 
         $this->debug(3, 'Rewriting image with security header.');
         $tempfile4 = tempnam($this->cacheDirectory, 'timthumb_tmpimg_');
-        $context = stream_context_create();
-        $fp = fopen($tempfile, 'rb', false, $context);
+        $context   = stream_context_create();
+        $fp        = fopen($tempfile, 'rb', false, $context);
         file_put_contents($tempfile4, $this->filePrependSecurityBlock . $imgType . ' ?' . '>'); //6 extra bytes, first 3 being image type
         file_put_contents($tempfile4, $fp, FILE_APPEND);
         fclose($fp);
         @unlink($tempfile);
         $this->debug(3, 'Locking and replacing cache file.');
         $lockFile = $this->cachefile . '.lock';
-        $fh = fopen($lockFile, 'wb');
+        $fh       = fopen($lockFile, 'wb');
         if (!$fh) {
             return $this->error('Could not open the lockfile for writing an image.');
         }
@@ -1137,20 +1137,20 @@ class Timthumb
         if (!is_file(WEBSHOT_XVFB)) {
             return $this->error("Xvfb is not installed. $instr");
         }
-        $cuty = WEBSHOT_CUTYCAPT;
-        $xv = WEBSHOT_XVFB;
-        $screenX = WEBSHOT_SCREEN_X;
-        $screenY = WEBSHOT_SCREEN_Y;
-        $colDepth = WEBSHOT_COLOR_DEPTH;
-        $format = WEBSHOT_IMAGE_FORMAT;
-        $timeout = WEBSHOT_TIMEOUT * 1000;
-        $ua = WEBSHOT_USER_AGENT;
-        $jsOn = WEBSHOT_JAVASCRIPT_ON ? 'on' : 'off';
-        $javaOn = WEBSHOT_JAVA_ON ? 'on' : 'off';
+        $cuty      = WEBSHOT_CUTYCAPT;
+        $xv        = WEBSHOT_XVFB;
+        $screenX   = WEBSHOT_SCREEN_X;
+        $screenY   = WEBSHOT_SCREEN_Y;
+        $colDepth  = WEBSHOT_COLOR_DEPTH;
+        $format    = WEBSHOT_IMAGE_FORMAT;
+        $timeout   = WEBSHOT_TIMEOUT * 1000;
+        $ua        = WEBSHOT_USER_AGENT;
+        $jsOn      = WEBSHOT_JAVASCRIPT_ON ? 'on' : 'off';
+        $javaOn    = WEBSHOT_JAVA_ON ? 'on' : 'off';
         $pluginsOn = WEBSHOT_PLUGINS_ON ? 'on' : 'off';
-        $proxy = WEBSHOT_PROXY ? ' --http-proxy=' . WEBSHOT_PROXY : '';
-        $tempfile = tempnam($this->cacheDirectory, 'timthumb_webshot');
-        $url = $this->src;
+        $proxy     = WEBSHOT_PROXY ? ' --http-proxy=' . WEBSHOT_PROXY : '';
+        $tempfile  = tempnam($this->cacheDirectory, 'timthumb_webshot');
+        $url       = $this->src;
         if (!preg_match('/^https?:\/\/[a-zA-Z0-9\.\-]+/i', $url)) {
             return $this->error('Invalid URL supplied.');
         }
@@ -1299,7 +1299,7 @@ class Timthumb
         if ('image/jpg' === mb_strtolower($mimeType)) {
             $mimeType = 'image/jpeg';
         }
-        $gmdate_expires = gmdate('D, d M Y H:i:s', strtotime('now +10 days')) . ' GMT';
+        $gmdate_expires  = gmdate('D, d M Y H:i:s', strtotime('now +10 days')) . ' GMT';
         $gmdate_modified = gmdate('D, d M Y H:i:s') . ' GMT';
         // send content headers then display image
         header('Content-Type: ' . $mimeType);
@@ -1377,8 +1377,8 @@ class Timthumb
     protected function getIP()
     {
         $rem = @$_SERVER['REMOTE_ADDR'];
-        $ff = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-        $ci = @$_SERVER['HTTP_CLIENT_IP'];
+        $ff  = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+        $ci  = @$_SERVER['HTTP_CLIENT_IP'];
         if (preg_match('/^(?:192\.168|172\.16|10\.|127\.)/', $rem)) {
             if ($ff) {
                 return $ff;
@@ -1410,7 +1410,7 @@ class Timthumb
     {
         if (DEBUG_ON && $level <= DEBUG_LEVEL) {
             $execTime = sprintf('%.6f', microtime(true) - $this->startTime);
-            $tick = sprintf('%.6f', 0);
+            $tick     = sprintf('%.6f', 0);
             if ($this->lastBenchTime > 0) {
                 $tick = sprintf('%.6f', microtime(true) - $this->lastBenchTime);
             }
@@ -1446,7 +1446,7 @@ class Timthumb
 
     protected function setMemoryLimit()
     {
-        $inimem = ini_get('memory_limit');
+        $inimem   = ini_get('memory_limit');
         $inibytes = self::returnBytes($inimem);
         $ourbytes = self::returnBytes(MEMORY_LIMIT);
         if ($inibytes < $ourbytes) {
@@ -1492,7 +1492,7 @@ class Timthumb
     protected function getURL($url, $tempfile)
     {
         $this->lastURLError = false;
-        $url = preg_replace('/ /', '%20', $url);
+        $url                = preg_replace('/ /', '%20', $url);
         if (function_exists('curl_init')) {
             $this->debug(3, 'Curl is installed so using it to fetch URL.');
             self::$curlFH = fopen($tempfile, 'wb');
@@ -1536,7 +1536,7 @@ class Timthumb
         }
         $img = @file_get_contents($url);
         if (false === $img) {
-            $err = error_get_last();
+            $err                = error_get_last();
             $this->lastURLError = $err;
             if (is_array($err) && $err['message']) {
                 $this->lastURLError = $err['message'];

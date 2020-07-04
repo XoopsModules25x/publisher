@@ -40,11 +40,8 @@ class CategoryForm extends \XoopsThemeForm
      * @var Publisher\Helper
      */
     public $helper;
-
     public $targetObject;
-
     public $subCatsCount = 4;
-
     public $userGroups = [];
 
     /**
@@ -59,7 +56,7 @@ class CategoryForm extends \XoopsThemeForm
         $this->targetObject = &$target;
         $this->subCatsCount = $subCatsCount;
 
-        $memberHandler = \xoops_getHandler('member');
+        $memberHandler    = \xoops_getHandler('member');
         $this->userGroups = $memberHandler->getGroupList();
 
         parent::__construct(\_AM_PUBLISHER_CATEGORY, 'form', \xoops_getenv('SCRIPT_NAME'), 'post', true);
@@ -76,9 +73,9 @@ class CategoryForm extends \XoopsThemeForm
         $criteria = new \Criteria(null);
         $criteria->setSort('weight');
         $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
-        $myTree = new \XoopsObjectTree($this->helper->getHandler('Category')->getObjects($criteria), 'categoryid', 'parentid');
-        $moduleDirName = \basename(\dirname(__DIR__));
-        $module = \XoopsModule::getByDirname($moduleDirName);
+        $myTree          = new \XoopsObjectTree($this->helper->getHandler('Category')->getObjects($criteria), 'categoryid', 'parentid');
+        $moduleDirName   = \basename(\dirname(__DIR__));
+        $module          = \XoopsModule::getByDirname($moduleDirName);
         if (Publisher\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
             $catSelect = $myTree->makeSelectElement('parentid', 'name', '--', $this->targetObject->parentid(), true, 0, '', \_AM_PUBLISHER_PARENT_CATEGORY_EXP);
             $this->addElement($catSelect);
@@ -94,11 +91,11 @@ class CategoryForm extends \XoopsThemeForm
         $this->addElement(new \XoopsFormTextArea(\_AM_PUBLISHER_COLDESCRIPT, 'description', $this->targetObject->description('e'), 7, 60));
 
         // EDITOR
-        $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        $groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $grouppermHandler = $this->helper->getHandler('GroupPerm');
-        $moduleId = $this->helper->getModule()->mid();
-        $allowedEditors = Publisher\Utility::getEditors($grouppermHandler->getItemIds('editors', $groups, $moduleId));
-        $nohtml = false;
+        $moduleId         = $this->helper->getModule()->mid();
+        $allowedEditors   = Publisher\Utility::getEditors($grouppermHandler->getItemIds('editors', $groups, $moduleId));
+        $nohtml           = false;
         if (\count($allowedEditors) > 0) {
             $editor = Request::getString('editor', '', 'POST');
             if (!empty($editor)) {
@@ -109,20 +106,20 @@ class CategoryForm extends \XoopsThemeForm
                     $editor = $GLOBALS['xoopsUser']->getVar('publisher_editor') ?? ''; // Need set through user profile
                 }
             }
-            $editor = (empty($editor) || !\in_array($editor, $allowedEditors, true)) ? $this->helper->getConfig('submit_editor') : $editor;
+            $editor     = (empty($editor) || !\in_array($editor, $allowedEditors, true)) ? $this->helper->getConfig('submit_editor') : $editor;
             $formEditor = new \XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowedEditors);
             $this->addElement($formEditor);
         } else {
             $editor = $this->helper->getConfig('submit_editor');
         }
 
-        $editorConfigs = [];
-        $editorConfigs['rows'] = '' == $this->helper->getConfig('submit_editor_rows') ? 35 : $this->helper->getConfig('submit_editor_rows');
-        $editorConfigs['cols'] = '' == $this->helper->getConfig('submit_editor_cols') ? 60 : $this->helper->getConfig('submit_editor_cols');
-        $editorConfigs['width'] = '' == $this->helper->getConfig('submit_editor_width') ? '100%' : $this->helper->getConfig('submit_editor_width');
+        $editorConfigs           = [];
+        $editorConfigs['rows']   = '' == $this->helper->getConfig('submit_editor_rows') ? 35 : $this->helper->getConfig('submit_editor_rows');
+        $editorConfigs['cols']   = '' == $this->helper->getConfig('submit_editor_cols') ? 60 : $this->helper->getConfig('submit_editor_cols');
+        $editorConfigs['width']  = '' == $this->helper->getConfig('submit_editor_width') ? '100%' : $this->helper->getConfig('submit_editor_width');
         $editorConfigs['height'] = '' == $this->helper->getConfig('submit_editor_height') ? '400px' : $this->helper->getConfig('submit_editor_height');
 
-        $editorConfigs['name'] = 'header';
+        $editorConfigs['name']  = 'header';
         $editorConfigs['value'] = $this->targetObject->header('e');
 
         $textHeader = new \XoopsFormEditor(\_AM_PUBLISHER_CATEGORY_HEADER, $editor, $editorConfigs, $nohtml, $onfailure = null);
@@ -130,7 +127,7 @@ class CategoryForm extends \XoopsThemeForm
         $this->addElement($textHeader);
 
         // IMAGE
-        $imageArray = \XoopsLists::getImgListAsArray(Publisher\Utility::getImageDir('category'));
+        $imageArray  = \XoopsLists::getImgListAsArray(Publisher\Utility::getImageDir('category'));
         $imageSelect = new \XoopsFormSelect('', 'image', $this->targetObject->getImage());
         //$imageSelect -> addOption ('-1', '---------------');
         $imageSelect->addOptionArray($imageArray);
@@ -143,7 +140,7 @@ class CategoryForm extends \XoopsThemeForm
 
         // IMAGE UPLOAD
         $max_size = 5000000;
-        $fileBox = new \XoopsFormFile(\_AM_PUBLISHER_IMAGE_UPLOAD, 'image_file', $max_size);
+        $fileBox  = new \XoopsFormFile(\_AM_PUBLISHER_IMAGE_UPLOAD, 'image_file', $max_size);
         $fileBox->setExtra("size ='45'");
         $fileBox->setDescription(\_AM_PUBLISHER_IMAGE_UPLOAD_DSC);
         $this->addElement($fileBox);
@@ -171,7 +168,7 @@ class CategoryForm extends \XoopsThemeForm
         $this->addElement(new \XoopsFormText('Custom template', 'template', 50, 255, $this->targetObject->getTemplate('e')), false);
 
         // READ PERMISSIONS
-        $readPermissionsTray = new \XoopsFormElementTray(\_AM_PUBLISHER_PERMISSIONS_CAT_READ, '');
+        $readPermissionsTray   = new \XoopsFormElementTray(\_AM_PUBLISHER_PERMISSIONS_CAT_READ, '');
         $selectAllReadCheckbox = new \XoopsFormCheckBox('', 'adminbox', 1);
         $selectAllReadCheckbox->addOption('allbox', \_AM_SYSTEM_ALL);
         $selectAllReadCheckbox->setExtra(" onclick='xoopsCheckGroup(\"form\", \"adminbox\" , \"groupsRead[]\");' ");
@@ -230,7 +227,7 @@ class CategoryForm extends \XoopsThemeForm
         for ($i = 0; $i < $this->subCatsCount; ++$i) {
             $subname = '';
             if ($i < (($scname = Request::getArray('scname', [], 'POST')) ? \count($scname) : 0)) {
-                $temp = Request::getArray('scname', [], 'POST');
+                $temp    = Request::getArray('scname', [], 'POST');
                 $subname = ($scname = Request::getArray('scname', '', 'POST')) ? $temp[$i] : '';
             }
             $catTray->addElement(new \XoopsFormText('', 'scname[' . $i . ']', 50, 255, $subname));

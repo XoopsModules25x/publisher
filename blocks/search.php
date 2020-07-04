@@ -36,14 +36,14 @@ function publisher_search_show($options)
     $helper = Publisher\Helper::getInstance();
     /** @var Publisher\CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');
-    $categories = $categoryHandler->getCategoriesForSearch();
+    $categories      = $categoryHandler->getCategoriesForSearch();
     if (0 === count($categories)) {
         return $block;
     }
 
     xoops_loadLanguage('search');
 
-    $andor = Request::getString('andor', Request::getString('andor', '', 'GET'), 'POST');
+    $andor    = Request::getString('andor', Request::getString('andor', '', 'GET'), 'POST');
     $username = Request::getString('uname', Request::getString('uname', null, 'GET'), 'POST');
     //  $searchin = isset($_POST["searchin"]) ? $_POST["searchin"] : (isset($_GET["searchin"]) ? explode("|", $_GET["searchin"]) : array());
     //  $searchin = Request::getArray('searchin', (explode("|", Request::getString('searchin', array(), 'GET'))), 'POST');
@@ -55,7 +55,7 @@ function publisher_search_show($options)
     }
 
     $sortby = Request::getString('sortby', Request::getString('sortby', null, 'GET'), 'POST');
-    $term = Request::getString('term', Request::getString('term', '', 'GET'));
+    $term   = Request::getString('term', Request::getString('term', '', 'GET'));
 
     //mb TODO simplify next lines with category
     $category = Request::getArray('category', [], 'POST') ?: Request::getArray('category', null, 'GET');
@@ -66,7 +66,7 @@ function publisher_search_show($options)
         $category = array_map('\intval', $category);
     }
 
-    $andor = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT'], true) ? mb_strtoupper($andor) : 'OR';
+    $andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT'], true) ? mb_strtoupper($andor) : 'OR';
     $sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid'], true) ? mb_strtolower($sortby) : 'itemid';
 
     /* type */
@@ -163,13 +163,13 @@ function publisher_search_show($options)
     $sortbySelect .= '>' . _CO_PUBLISHER_CATEGORY . '</option>';
     $sortbySelect .= '</select>';
 
-    $block['typeSelect'] = $typeSelect;
-    $block['searchSelect'] = $searchSelect;
+    $block['typeSelect']     = $typeSelect;
+    $block['searchSelect']   = $searchSelect;
     $block['categorySelect'] = $categorySelect;
-    $block['sortbySelect'] = $sortbySelect;
-    $block['search_term'] = htmlspecialchars($term, ENT_QUOTES);
-    $block['search_user'] = $username;
-    $block['publisher_url'] = PUBLISHER_URL;
+    $block['sortbySelect']   = $sortbySelect;
+    $block['search_term']    = htmlspecialchars($term, ENT_QUOTES);
+    $block['search_user']    = $username;
+    $block['publisher_url']  = PUBLISHER_URL;
 
     return $block;
 }

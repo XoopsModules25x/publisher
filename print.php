@@ -48,16 +48,16 @@ if (!$itemObj->accessGranted()) {
 $categoryObj = $itemObj->getCategory();
 
 $xoopsTpl = new \XoopsTpl();
-$myts = \MyTextSanitizer::getInstance();
+$myts     = \MyTextSanitizer::getInstance();
 
-$item['title'] = $itemObj->getTitle();
-$item['body'] = $itemObj->getBody();
+$item['title']        = $itemObj->getTitle();
+$item['body']         = $itemObj->getBody();
 $item['categoryname'] = $myts->displayTarea($categoryObj->name());
 
 $mainImage = $itemObj->getMainImage();
-  if (empty($mainImage['image_path'])) {
-      $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
-  }
+if (empty($mainImage['image_path'])) {
+    $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
+}
 if ('' != $mainImage['image_path']) {
     $item['image'] = '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '">';
 }
@@ -71,9 +71,9 @@ $xoopsTpl->assign('lang_category', _CO_PUBLISHER_CATEGORY);
 $xoopsTpl->assign('lang_author_date', sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemObj->getDatesub()));
 
 $doNotStartPrint = false;
-$noTitle = false;
-$noCategory = false;
-$smartPopup = false;
+$noTitle         = false;
+$noCategory      = false;
+$smartPopup      = false;
 
 $xoopsTpl->assign('doNotStartPrint', $doNotStartPrint);
 $xoopsTpl->assign('noTitle', $noTitle);

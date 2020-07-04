@@ -60,11 +60,11 @@ if ('start' === $op) {
             // Categories to be imported
             $sql = 'SELECT cat.categoryid, cat.parentid, cat.name, COUNT(art.itemid) FROM ' . $GLOBALS['xoopsDB']->prefix('smartsection_categories') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('smartsection_items') . ' AS art ON cat.categoryid=art.categoryid GROUP BY art.categoryid';
 
-            $result = $GLOBALS['xoopsDB']->query($sql);
+            $result           = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = [];
 
             while (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) {
-                $cat_title = $myts->displayTarea($cat_title);
+                $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }
 
@@ -100,13 +100,13 @@ if ('go' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Publisher\Utility::openCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /** @var XoopsModuleHandler $moduleHandler */
-    $moduleHandler = xoops_getHandler('module');
-    $moduleObj = $moduleHandler->getByDirname('smartsection');
+    $moduleHandler          = xoops_getHandler('module');
+    $moduleObj              = $moduleHandler->getByDirname('smartsection');
     $smartsection_module_id = $moduleObj->getVar('mid');
     /** @var XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
-    $cnt_imported_cat = 0;
+    $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
 
     $parentId = Request::getInt('parent_category', 0, 'POST');
@@ -115,13 +115,13 @@ if ('go' === $op) {
 
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
-    $newCatArray = [];
+    $newCatArray     = [];
     $newArticleArray = [];
 
     $oldToNew = [];
     while (false !== ($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat))) {
-        $newCat = [];
-        $newCat['oldid'] = $arrCat['categoryid'];
+        $newCat           = [];
+        $newCat['oldid']  = $arrCat['categoryid'];
         $newCat['oldpid'] = $arrCat['parentid'];
         /** @var Publisher\Category $categoryObj */
         $categoryObj = $helper->getHandler('Category')->create();
@@ -144,7 +144,7 @@ if ('go' === $op) {
 
         echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . "<br\>";
 
-        $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('smartsection_items') . ' WHERE categoryid=' . $arrCat['categoryid'];
+        $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('smartsection_items') . ' WHERE categoryid=' . $arrCat['categoryid'];
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
 
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
@@ -177,8 +177,8 @@ if ('go' === $op) {
                 continue;
             }
             // Linkes files
-            $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('smartsection_files') . ' WHERE itemid=' . $arrArticle['itemid'];
-            $resultFiles = $GLOBALS['xoopsDB']->query($sql);
+            $sql               = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('smartsection_files') . ' WHERE itemid=' . $arrArticle['itemid'];
+            $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
             $allowed_mimetypes = null;
             while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
                 $filename = $GLOBALS['xoops']->path('uploads/smartsection/' . $arrFile['filename']);
@@ -233,7 +233,7 @@ if ('go' === $op) {
     $publisher_module_id = $helper->getModule()->mid();
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
-    $criteria = new \CriteriaCompo();
+    $criteria       = new \CriteriaCompo();
     $criteria->add(new \Criteria('com_modid', $smartsection_module_id));
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);

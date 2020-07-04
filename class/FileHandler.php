@@ -88,7 +88,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
         if ('publisheritem' !== mb_strtolower(\get_class($itemObj))) {
             return false;
         }
-        $files = $this->getAllFiles($itemObj->itemid());
+        $files  = $this->getAllFiles($itemObj->itemid());
         $result = true;
         foreach ($files as $file) {
             if (!$this->delete($file)) {
@@ -122,9 +122,9 @@ class FileHandler extends \XoopsPersistableObjectHandler
         [$count] = $GLOBALS['xoopsDB']->fetchRow($result);
         if ($count > 0) {
             $this->field_object = 'itemid';
-            $this->field_link = 'itemid';
-            $hasStatusCriteria = false;
-            $criteriaStatus = new \CriteriaCompo();
+            $this->field_link   = 'itemid';
+            $hasStatusCriteria  = false;
+            $criteriaStatus     = new \CriteriaCompo();
             if (\is_array($status)) {
                 $hasStatusCriteria = true;
                 foreach ($status as $v) {
@@ -135,8 +135,8 @@ class FileHandler extends \XoopsPersistableObjectHandler
                 $criteriaStatus->add(new \Criteria('o.status', $status), 'OR');
             }
             $hasCategoryCriteria = false;
-            $criteriaCategory = new \CriteriaCompo();
-            $category = (array)$category;
+            $criteriaCategory    = new \CriteriaCompo();
+            $category            = (array)$category;
             if (isset($category[0]) && 0 != $category[0] && \count($category) > 0) {
                 $hasCategoryCriteria = true;
                 foreach ($category as $cat) {
@@ -144,7 +144,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
                 }
             }
             $criteriaItemid = new \Criteria('o.itemid', $itemid);
-            $criteria = new \CriteriaCompo();
+            $criteria       = new \CriteriaCompo();
             if (0 != $itemid) {
                 $criteria->add($criteriaItemid);
             }

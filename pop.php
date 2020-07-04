@@ -19,6 +19,6 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 $doNotStartPrint = true;
-$noTitle = true;
-$smartPopup = true;
+$noTitle         = true;
+$smartPopup      = true;
 require_once __DIR__ . '/print.php';

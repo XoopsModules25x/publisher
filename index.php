@@ -131,7 +131,7 @@ foreach ($categoriesObj as $catId => $category) {
 unset($categoriesObj);
 
 if (isset($categories[$catId])) {
-    $categories[$catId] = $category->toArraySimple($categories[$catId]);
+    $categories[$catId]                 = $category->toArraySimple($categories[$catId]);
     $categories[$catId]['categoryPath'] = $category->getCategoryPath($helper->getConfig('format_linked_path'));
 }
 
@@ -143,37 +143,37 @@ if ($helper->getConfig('index_display_last_items')) {
     // creating the Item objects that belong to the selected category
     switch ($helper->getConfig('format_order_by')) {
         case 'title':
-            $sort = 'title';
+            $sort  = 'title';
             $order = 'ASC';
             break;
         case 'date':
-            $sort = 'datesub';
+            $sort  = 'datesub';
             $order = 'DESC';
             break;
         case 'counter':
-            $sort = 'counter';
+            $sort  = 'counter';
             $order = 'DESC';
             break;
         case 'rating':
-            $sort = 'rating';
+            $sort  = 'rating';
             $order = 'DESC';
             break;
         case 'votes':
-            $sort = 'votes';
+            $sort  = 'votes';
             $order = 'DESC';
             break;
         case 'comments':
-            $sort = 'comments';
+            $sort  = 'comments';
             $order = 'DESC';
             break;
         default:
-            $sort = 'weight';
+            $sort  = 'weight';
             $order = 'ASC';
             break;
     }
 
     // Creating the last ITEMs
-    $itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, -1, $sort, $order);
+    $itemsObj   = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, -1, $sort, $order);
     $itemsCount = count($itemsObj);
 
     //todo: make config for summary size

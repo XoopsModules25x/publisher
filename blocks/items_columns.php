@@ -26,7 +26,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 /***
  * Function To Show Publisher Items From Categories In Their Own Columns
  *
- * @param    array $options Block Options
+ * @param array $options Block Options
  *
  * @return bool|array
  */
@@ -40,13 +40,13 @@ function publisher_items_columns_show($options)
     /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     //Column Settings
-    $optNumColumns = isset($options[0]) ? (int)$options[0] : '2';
-    $selCategories = isset($options[1]) ? explode(',', $options[1]) : [];
-    $optCatItems = (int)$options[2];
+    $optNumColumns  = isset($options[0]) ? (int)$options[0] : '2';
+    $selCategories  = isset($options[1]) ? explode(',', $options[1]) : [];
+    $optCatItems    = (int)$options[2];
     $optCatTruncate = isset($options[3]) ? (int)$options[3] : '0';
 
-    $block = [];
-    $block['lang_reads'] = _MB_PUBLISHER_READS;
+    $block                  = [];
+    $block['lang_reads']    = _MB_PUBLISHER_READS;
     $block['lang_comments'] = _MB_PUBLISHER_COMMENTS;
     $block['lang_readmore'] = _MB_PUBLISHER_READMORE;
 
@@ -77,22 +77,22 @@ function publisher_items_columns_show($options)
         $optNumColumns = $ccount;
     }
 
-    $k = 0;
+    $k       = 0;
     $columns = $mainItem = $subItem = [];
 
     foreach ($selCategoriesObj as $categoryId => $mainItemCatObj) {
         $categoryItemsObj = $itemHandler->getAllPublished($optCatItems, 0, $categoryId);
-        $scount = count($categoryItemsObj);
+        $scount           = count($categoryItemsObj);
         if ($scount > 0 && is_array($categoryItemsObj)) {
             reset($categoryItemsObj);
             //First Item
             $thisItem = array_values($categoryItemsObj)[0];
 
-            $mainItem['item_title'] = $thisItem->getTitle();
+            $mainItem['item_title']      = $thisItem->getTitle();
             $mainItem['item_cleantitle'] = strip_tags($thisItem->getTitle());
-            $mainItem['item_link'] = $thisItem->itemid();
-            $mainItem['itemurl'] = $thisItem->getItemUrl();
-            $mainItem['date'] = $thisItem->getDatesub();
+            $mainItem['item_link']       = $thisItem->itemid();
+            $mainItem['itemurl']         = $thisItem->getItemUrl();
+            $mainItem['date']            = $thisItem->getDatesub();
 
             $mainImage = $thisItem->getMainImage();
             if (empty($mainImage['image_path'])) {
@@ -107,22 +107,22 @@ function publisher_items_columns_show($options)
 
             $mainItem['item_summary'] = $thisItem->getBlockSummary($optCatTruncate);
 
-            $mainItem['item_cat_name'] = $mainItemCatObj->name();
+            $mainItem['item_cat_name']        = $mainItemCatObj->name();
             $mainItem['item_cat_description'] = '' !== $mainItemCatObj->description() ? $mainItemCatObj->description() : $mainItemCatObj->name();
-            $mainItem['item_cat_link'] = $mainItemCatObj->getCategoryLink();
-            $mainItem['categoryurl'] = $mainItemCatObj->getCategoryUrl();
+            $mainItem['item_cat_link']        = $mainItemCatObj->getCategoryLink();
+            $mainItem['categoryurl']          = $mainItemCatObj->getCategoryUrl();
 
             //The Rest
             if ($scount > 1) {
                 //                while ((list($itemid, $thisItem) = each($categoryItemsObj)) !== false) {
                 foreach ($categoryItemsObj as $itemid => $thisItem) {
                     //TODO do I need to start with 2nd element?
-                    $subItem['title'] = $thisItem->getTitle();
+                    $subItem['title']      = $thisItem->getTitle();
                     $subItem['cleantitle'] = strip_tags($thisItem->getTitle());
-                    $subItem['link'] = $thisItem->getItemLink();
-                    $subItem['itemurl'] = $thisItem->getItemUrl();
-                    $subItem['summary'] = $thisItem->getBlockSummary($optCatTruncate);
-                    $subItem['date'] = $thisItem->getDatesub();
+                    $subItem['link']       = $thisItem->getItemLink();
+                    $subItem['itemurl']    = $thisItem->getItemUrl();
+                    $subItem['summary']    = $thisItem->getBlockSummary($optCatTruncate);
+                    $subItem['date']       = $thisItem->getDatesub();
                     $mainItem['subitem'][] = $subItem;
                     unset($subItem);
                 }
@@ -138,11 +138,11 @@ function publisher_items_columns_show($options)
     }
     unset($categoryId, $mainItemCatObj);
 
-    $block['template'] = $options[4];
-    $block['columns'] = $columns;
-    $block['columnwidth'] = (int)(100 / $optNumColumns);
+    $block['template']             = $options[4];
+    $block['columns']              = $columns;
+    $block['columnwidth']          = (int)(100 / $optNumColumns);
     $block['display_datemainitem'] = $options[5] ?? '';
-    $block['display_datesubitem'] = $options[6] ?? '';
+    $block['display_datesubitem']  = $options[6] ?? '';
 
     $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/assets/css/publisher.css');
 
@@ -152,7 +152,7 @@ function publisher_items_columns_show($options)
 /***
  * Edit Function For Multi-Column Category Items Display Block
  *
- * @param    array $options Block Options
+ * @param array $options Block Options
  *
  * @return string
  */
@@ -161,15 +161,15 @@ function publisher_items_columns_edit($options)
     // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form = new Publisher\BlockForm();
+    $form   = new Publisher\BlockForm();
     $colEle = new \XoopsFormSelect(_MB_PUBLISHER_NUMBER_COLUMN_VIEW, 'options[0]', $options[0]);
     $colEle->addOptionArray(
         [
-                                '1' => 1,
-                                '2' => 2,
-                                '3' => 3,
-                                '4' => 4,
-                                '5' => 5,
+            '1' => 1,
+            '2' => 2,
+            '3' => 3,
+            '4' => 4,
+            '5' => 5,
         ]
     );
     $catEle = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[1], 0, true, 'options[1]'));
@@ -181,11 +181,12 @@ function publisher_items_columns_edit($options)
     $tempEle = new \XoopsFormSelect(_MB_PUBLISHER_TEMPLATE, 'options[4]', $options[4]);
     $tempEle->addOptionArray(
         [
-                                 'normal' => _MB_PUBLISHER_TEMPLATE_NORMAL,
-                                 'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED,
-                             ]);
+            'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
+            'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED,
+        ]
+    );
     $dateMain = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_DATE_MAINITEM, 'options[5]', $options[5]);
-    $dateSub = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_DATE_SUBITEM, 'options[6]', $options[6]);
+    $dateSub  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_DATE_SUBITEM, 'options[6]', $options[6]);
 
     $form->addElement($colEle);
     $form->addElement($catEle);

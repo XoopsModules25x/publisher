@@ -93,7 +93,7 @@ class File extends \XoopsObject
     {
         /** @var Publisher\MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $this->helper->getHandler('Mimetype');
-        $errors = [];
+        $errors          = [];
         if (!$mimetypeHandler->checkMimeTypes($postField)) {
             $errors[] = \_CO_PUBLISHER_MESSAGE_WRONG_MIMETYPE;
 
@@ -102,8 +102,8 @@ class File extends \XoopsObject
         if (0 === \count($allowedMimetypes)) {
             $allowedMimetypes = $mimetypeHandler->getArrayByType();
         }
-        $maxfilesize = $this->helper->getConfig('maximum_filesize');
-        $maxfilewidth = $this->helper->getConfig('maximum_image_width');
+        $maxfilesize   = $this->helper->getConfig('maximum_filesize');
+        $maxfilewidth  = $this->helper->getConfig('maximum_image_width');
         $maxfileheight = $this->helper->getConfig('maximum_image_height');
         \xoops_load('XoopsMediaUploader');
         $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
@@ -126,12 +126,12 @@ class File extends \XoopsObject
     {
         /** @var Publisher\MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $this->helper->getHandler('Mimetype');
-        $itemid = $this->getVar('itemid');
+        $itemid          = $this->getVar('itemid');
         if (0 === \count($allowedMimetypes)) {
             $allowedMimetypes = $mimetypeHandler->getArrayByType();
         }
-        $maxfilesize = $this->helper->getConfig('maximum_filesize');
-        $maxfilewidth = $this->helper->getConfig('maximum_image_width');
+        $maxfilesize   = $this->helper->getConfig('maximum_filesize');
+        $maxfilewidth  = $this->helper->getConfig('maximum_image_width');
         $maxfileheight = $this->helper->getConfig('maximum_image_height');
         if (!\is_dir(Publisher\Utility::getUploadDir())) {
             if (!\mkdir($concurrentDirectory = Publisher\Utility::getUploadDir(), 0757) && !\is_dir($concurrentDirectory)) {
@@ -171,7 +171,7 @@ class File extends \XoopsObject
     {
         if ($this->isNew()) {
             $errors = [];
-            $ret = true;
+            $ret    = true;
             if ($doupload) {
                 $ret = $this->storeUpload('item_upload_file', $allowedMimetypes, $errors);
             }
@@ -267,9 +267,9 @@ class File extends \XoopsObject
      */
     public function getNameFromFilename()
     {
-        $ret = $this->filename();
+        $ret    = $this->filename();
         $sepPos = mb_strpos($ret, '_');
-        $ret = mb_substr($ret, $sepPos + 1);
+        $ret    = mb_substr($ret, $sepPos + 1);
 
         return $ret;
     }

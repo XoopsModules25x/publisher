@@ -27,14 +27,14 @@ require_once __DIR__ . '/admin_header.php';
 /** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 
-$module = $helper->getModule();
-$modId = $module->mid();
+$module  = $helper->getModule();
+$modId   = $module->mid();
 $modname = $module->name();
 $dirName = $helper->getDirname();
 
 /** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$xoopsModule0 = $moduleHandler->getByDirname(basename(dirname(__DIR__)));
+$xoopsModule0  = $moduleHandler->getByDirname(basename(dirname(__DIR__)));
 global $xoopsModule;
 
 xoops_loadLanguage('admin', 'system');
@@ -57,17 +57,17 @@ if ('showmod' === $op) {
     $configHandler = xoops_getHandler('config');
 
     $config = $configHandler->getConfigs(new \Criteria('conf_modid', $modId));
-    $count = count($config);
+    $count  = count($config);
     if ($count < 1) {
         redirect_header($module->getInfo('adminindex'), 1);
     }
 
-    $xv_configs = $module->getInfo('config');
+    $xv_configs  = $module->getInfo('config');
     $config_cats = $module->getInfo('configcat');
 
     if (!array_key_exists('others', $config_cats)) {
         $config_cats['others'] = [
-            'name' => _MI_PUBLISHER_CONFCAT_OTHERS,
+            'name'        => _MI_PUBLISHER_CONFCAT_OTHERS,
             'description' => _MI_PUBLISHER_CONFCAT_OTHERS_DSC,
         ];
     }
@@ -102,7 +102,7 @@ if ('showmod' === $op) {
         unset($xv_config);
 
         if (!array_key_exists($formCat, $config_cats)) {
-            $formCat = 'others';
+            $formCat         = 'others';
             $cat_others_used = true;
         }
 
@@ -119,7 +119,7 @@ if ('showmod' === $op) {
                 }
                 break;
             case 'select':
-                $ele = new \XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput());
+                $ele     = new \XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput());
                 $options = $configHandler->getConfigOptions(new \Criteria('conf_id', $config[$i]->getVar('conf_id')));
                 $opcount = count($options);
                 for ($j = 0; $j < $opcount; ++$j) {
@@ -129,7 +129,7 @@ if ('showmod' === $op) {
                 }
                 break;
             case 'select_multi':
-                $ele = new \XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput(), 5, true);
+                $ele     = new \XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput(), 5, true);
                 $options = $configHandler->getConfigOptions(new \Criteria('conf_id', $config[$i]->getVar('conf_id')));
                 $opcount = count($options);
                 for ($j = 0; $j < $opcount; ++$j) {
@@ -159,20 +159,20 @@ if ('showmod' === $op) {
                 break;
             case 'password':
                 $myts = \MyTextSanitizer::getInstance();
-                $ele = new \XoopsFormPassword($title, $config[$i]->getVar('conf_name'), 50, 255, $myts->htmlSpecialChars($config[$i]->getConfValueForOutput()));
+                $ele  = new \XoopsFormPassword($title, $config[$i]->getVar('conf_name'), 50, 255, $myts->htmlSpecialChars($config[$i]->getConfValueForOutput()));
                 break;
             case 'color':
                 $myts = \MyTextSanitizer::getInstance();
-                $ele = new \XoopsFormColorPicker($title, $config[$i]->getVar('conf_name'), $myts->htmlSpecialChars($config[$i]->getConfValueForOutput()));
+                $ele  = new \XoopsFormColorPicker($title, $config[$i]->getVar('conf_name'), $myts->htmlSpecialChars($config[$i]->getConfValueForOutput()));
                 break;
             case 'hidden':
                 $myts = \MyTextSanitizer::getInstance();
-                $ele = new \XoopsFormHidden($config[$i]->getVar('conf_name'), $myts->htmlSpecialChars($config[$i]->getConfValueForOutput()));
+                $ele  = new \XoopsFormHidden($config[$i]->getVar('conf_name'), $myts->htmlSpecialChars($config[$i]->getConfValueForOutput()));
                 break;
             case 'textbox':
             default:
                 $myts = \MyTextSanitizer::getInstance();
-                $ele = new \XoopsFormText($title, $config[$i]->getVar('conf_name'), 50, 255, $myts->htmlSpecialChars($config[$i]->getConfValueForOutput()));
+                $ele  = new \XoopsFormText($title, $config[$i]->getVar('conf_name'), 50, 255, $myts->htmlSpecialChars($config[$i]->getConfValueForOutput()));
                 break;
         }
         $hidden = new \XoopsFormHidden('conf_ids[]', $config[$i]->getVar('conf_id'));
@@ -202,11 +202,11 @@ if ('save' === $op) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header($module->getInfo('adminindex'), 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
     }
-    $count = count($confIds);
+    $count         = count($confIds);
     $configHandler = xoops_getHandler('config');
     if ($count > 0) {
         for ($i = 0; $i < $count; ++$i) {
-            $config = $configHandler->getConfig($confIds[$i]);
+            $config   = $configHandler->getConfig($confIds[$i]);
             $newValue = ${$config->getVar('conf_name')};
             if (is_array($newValue) || $newValue != $config->getVar('conf_value')) {
                 $config->setConfValueForInput($newValue);

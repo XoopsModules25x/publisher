@@ -31,7 +31,6 @@ class Highlighter
      * @var bool
      */
     protected $simple = false;
-
     /**
      * Only match whole words in the string
      * (off by default)
@@ -39,7 +38,6 @@ class Highlighter
      * @var bool
      */
     protected $wholeWords = false;
-
     /**
      * Case sensitive matching
      * (off by default)
@@ -47,14 +45,12 @@ class Highlighter
      * @var bool
      */
     protected $caseSens = false;
-
     /**
      * Overwrite links if matched
      * This should be used when the replacement string is a link
      * (off by default)
      */
     protected $stripLinks = false;
-
     /**
      * Style for the output string
      *
@@ -114,15 +110,15 @@ class Highlighter
     {
         // Select pattern to use
         if ($this->simple) {
-            $pattern = '#(%s)#';
+            $pattern   = '#(%s)#';
             $slPattern = '#(%s)#';
         } else {
-            $pattern = '#(?!<.*?)(%s)(?![^<>]*?>)#';
+            $pattern   = '#(?!<.*?)(%s)(?![^<>]*?>)#';
             $slPattern = '#<a\s(?:.*?)>(%s)</a>#';
         }
         // Case sensitivity
         if (!$this->caseSens) {
-            $pattern .= 'i';
+            $pattern   .= 'i';
             $slPattern .= 'i';
         }
         $needle = (array)$needle;
@@ -135,10 +131,10 @@ class Highlighter
             // Strip links
             if ($this->stripLinks) {
                 $slRegex = \sprintf($slPattern, $needleS);
-                $text = \preg_replace($slRegex, '\1', $text);
+                $text    = \preg_replace($slRegex, '\1', $text);
             }
             $regex = \sprintf($pattern, $needleS);
-            $text = \preg_replace($regex, $this->replacementString, $text);
+            $text  = \preg_replace($regex, $this->replacementString, $text);
         }
 
         return $text;

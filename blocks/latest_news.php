@@ -41,17 +41,17 @@ function publisher_latest_news_show($options)
     $itemHandler = $helper->getHandler('Item');
     //    xoops_loadLanguage('main', 'publisher');
 
-    $start = $options[0]; // You can show articles from specified range
-    $limit = $options[1];
-    $columnCount = $options[2];
-    $letters = $options[3];
+    $start           = $options[0]; // You can show articles from specified range
+    $limit           = $options[1];
+    $columnCount     = $options[2];
+    $letters         = $options[3];
     $selectedStories = $options[4];
-    $sort = $options[9];
-    $order = Publisher\Utility::getOrderBy($sort);
-    $imgWidth = $options[11];
-    $imgHeight = $options[12];
-    $border = $options[13];
-    $bordercolor = $options[14];
+    $sort            = $options[9];
+    $order           = Publisher\Utility::getOrderBy($sort);
+    $imgWidth        = $options[11];
+    $imgHeight       = $options[12];
+    $border          = $options[13];
+    $bordercolor     = $options[14];
 
     $block['spec']['columnwidth'] = (1 / $columnCount * 100);
 
@@ -93,15 +93,15 @@ function publisher_latest_news_show($options)
     if (0 == $scount) {
         return false;
     }
-    $k = 0;
+    $k       = 0;
     $columns = [];
 
     foreach ($itemsObj as $itemid => $itemObj) {
-        $item = [];
+        $item            = [];
         $item['itemurl'] = $itemObj->getItemUrl();
-        $item['title'] = $itemObj->getItemLink();
-        $item['alt'] = strip_tags($itemObj->getItemLink());
-        $mainImage = $itemObj->getMainImage();
+        $item['title']   = $itemObj->getItemLink();
+        $item['alt']     = strip_tags($itemObj->getItemLink());
+        $mainImage       = $itemObj->getMainImage();
         if (empty($mainImage['image_path'])) {
             $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
         }
@@ -112,11 +112,11 @@ function publisher_latest_news_show($options)
             $item['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=' . $imgWidth; // No $imgHeight for autoheight option
             $item['image_path'] = $mainImage['image_path'];
         }
-        $item['text'] = $itemObj->getBlockSummary($letters);
+        $item['text']               = $itemObj->getBlockSummary($letters);
         $item['display_item_image'] = $options[10];
-        $item['display_summary'] = $options[16];
-        $item['display_adminlink'] = $options[29];
-        $item = $itemObj->getMainImage($item); //returns an array
+        $item['display_summary']    = $options[16];
+        $item['display_adminlink']  = $options[29];
+        $item                       = $itemObj->getMainImage($item); //returns an array
 
         $lsHeight = $imgPosition = $lsMargin = '';
         if (0 != $options[12]) {
@@ -124,32 +124,32 @@ function publisher_latest_news_show($options)
         } // set height = 0 in block option for auto height
 
         if ('LEFT' === $options[15]) {
-            $imgPosition = 'float: left';
-            $lsMargin = '-right';
+            $imgPosition       = 'float: left';
+            $lsMargin          = '-right';
             $block['position'] = $imgPosition;
-            $block['margin'] = $lsMargin;
+            $block['margin']   = $lsMargin;
         }
 
         if ('CENTER' === $options[15]) {
-            $imgPosition = 'text-align:center';
-            $lsMargin = '';
+            $imgPosition       = 'text-align:center';
+            $lsMargin          = '';
             $block['position'] = $imgPosition;
-            $block['margin'] = $lsMargin;
+            $block['margin']   = $lsMargin;
         }
 
         if ('RIGHT' === $options[15]) {
-            $imgPosition = 'float: right';
-            $lsMargin = '-left';
+            $imgPosition       = 'float: right';
+            $lsMargin          = '-left';
             $block['position'] = $imgPosition;
-            $block['margin'] = $lsMargin;
+            $block['margin']   = $lsMargin;
         }
 
         //Image
         if (1 == $options[10] && '' != $item['image_path']) {
             $startdiv = '<div style="' . $imgPosition . '"><a href="' . $item['itemurl'] . '">';
-            $style = 'style="margin' . $lsMargin . ': 10px; padding: 2px; border: ' . $border . 'px solid #' . $bordercolor . '"';
-            $enddiv = 'width="' . $imgWidth . '" ' . $lsHeight . '></a></div>';
-            $image = $startdiv . '<img ' . $style . ' src="' . $item['item_image'] . '" alt="' . $item['image_name'] . '" ' . $enddiv;
+            $style    = 'style="margin' . $lsMargin . ': 10px; padding: 2px; border: ' . $border . 'px solid #' . $bordercolor . '"';
+            $enddiv   = 'width="' . $imgWidth . '" ' . $lsHeight . '></a></div>';
+            $image    = $startdiv . '<img ' . $style . ' src="' . $item['item_image'] . '" alt="' . $item['image_name'] . '" ' . $enddiv;
 
             $item['image'] = $image;
         }
@@ -180,30 +180,30 @@ function publisher_latest_news_show($options)
 
         $item['poster'] = '';
         if (1 == $options[19]) {
-            $item['poster'] = $itemObj->posterName();
+            $item['poster']       = $itemObj->posterName();
             $block['lang_poster'] = _MB_PUBLISHER_POSTEDBY;
         }
 
         $item['posttime'] = '';
         if (1 == $options[20]) {
-            $item['posttime'] = $itemObj->getDatesub();
+            $item['posttime']   = $itemObj->getDatesub();
             $block['lang_date'] = _MB_PUBLISHER_ON;
         }
 
         $item['topic_title'] = '';
         if (1 == $options[21]) {
-            $item['topic_title'] = $itemObj->getCategoryLink();
-            $item['category'] = strip_tags($itemObj->getCategoryLink());
+            $item['topic_title']    = $itemObj->getCategoryLink();
+            $item['category']       = strip_tags($itemObj->getCategoryLink());
             $block['lang_category'] = _MB_PUBLISHER_CATEGORY;
         }
 
         $item['read'] = '';
         if (1 == $options[22]) {
-            $item['read'] = $itemObj->counter();
+            $item['read']        = $itemObj->counter();
             $block['lang_reads'] = _MB_PUBLISHER_READS;
         }
         $item['cancomment'] = $itemObj->cancomment();
-        $comments = $itemObj->comments();
+        $comments           = $itemObj->comments();
         if (1 == $options[23]) {
             if ($comments > 0) {
                 //shows 1 comment instead of 1 comm. if comments ==1
@@ -231,7 +231,7 @@ function publisher_latest_news_show($options)
 
         $item['email'] = '';
         if (1 == $options[26]) {
-            $maillink = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  ' . $itemObj->getItemUrl();
+            $maillink      = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  ' . $itemObj->getItemUrl();
             $item['email'] = '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '"></a>&nbsp;';
         }
 
@@ -251,14 +251,14 @@ function publisher_latest_news_show($options)
         }
 
         $block['scrollheight'] = $options[6];
-        $block['scrollspeed'] = $options[7];
-        $block['scrolldir'] = $options[8];
+        $block['scrollspeed']  = $options[7];
+        $block['scrolldir']    = $options[8];
 
         $block['template'] = $options[30];
 
-        $block['imgwidth'] = $options[11];
-        $block['imgheight'] = $options[12];
-        $block['border'] = $options[13];
+        $block['imgwidth']    = $options[11];
+        $block['imgheight']   = $options[12];
+        $block['border']      = $options[13];
         $block['bordercolor'] = $options[14];
 
         $block['letters'] = $letters;
@@ -407,11 +407,11 @@ function publisher_latest_news_edit($options)
     $form .= "<select size='1' name='options[30]'>";
 
     $templates = [
-        'normal' => _MB_PUBLISHER_TEMPLATE_NORMAL,
+        'normal'   => _MB_PUBLISHER_TEMPLATE_NORMAL,
         'extended' => _MB_PUBLISHER_TEMPLATE_EXTENDED,
-        'ticker' => _MB_PUBLISHER_TEMPLATE_TICKER,
-        'slider1' => _MB_PUBLISHER_TEMPLATE_SLIDER1,
-        'slider2' => _MB_PUBLISHER_TEMPLATE_SLIDER2,
+        'ticker'   => _MB_PUBLISHER_TEMPLATE_TICKER,
+        'slider1'  => _MB_PUBLISHER_TEMPLATE_SLIDER1,
+        'slider2'  => _MB_PUBLISHER_TEMPLATE_SLIDER2,
     ];
     foreach ($templates as $key => $value) {
         $form .= "<option value='{$key}'";
@@ -446,7 +446,7 @@ function publisher_mk_chkbox($options, $number)
         $chk = ' checked';
     }
     $chkbox = "<input type='radio' name='options[{$number}]' value='1'" . $chk . '>&nbsp;' . _YES . '&nbsp;&nbsp;';
-    $chk = '';
+    $chk    = '';
     if (0 == $options[$number]) {
         $chk = ' checked';
     }
@@ -468,12 +468,12 @@ function publisher_mk_select($options, $number)
         $slc = ' checked';
     }
     $select = "<input type='radio' name='options[{$number}]' value='2'" . $slc . '>&nbsp;' . _LEFT . '&nbsp;&nbsp;';
-    $slc = '';
+    $slc    = '';
     if (1 == $options[$number]) {
         $slc = ' checked';
     }
     $select = "<input type='radio' name='options[{$number}]' value='1'" . $slc . '>&nbsp;' . _CENTER . '&nbsp;&nbsp;';
-    $slc = '';
+    $slc    = '';
     if (0 == $options[$number]) {
         $slc = ' checked';
     }

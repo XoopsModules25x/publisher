@@ -37,17 +37,17 @@ function publisher_category_items_sel_show($options)
 
     /** @var Publisher\CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');
-    $categories = $categoryHandler->getCategories(0, 0, -1);
+    $categories      = $categoryHandler->getCategories(0, 0, -1);
 
     if (0 === count($categories)) {
         return $block;
     }
 
     $selectedcatids = explode(',', $options[0]);
-    $sort = $options[1];
-    $order = Publisher\Utility::getOrderBy($sort);
-    $limit = $options[2];
-    $start = 0;
+    $sort           = $options[1];
+    $order          = Publisher\Utility::getOrderBy($sort);
+    $limit          = $options[2];
+    $start          = 0;
 
     // creating the ITEM objects that belong to the selected category
     $block['categories'] = [];
@@ -77,13 +77,13 @@ function publisher_category_items_sel_show($options)
             continue;
         }
 
-        $item['title'] = $catObj->name();
-        $item['itemurl'] = 'none';
+        $item['title']                          = $catObj->name();
+        $item['itemurl']                        = 'none';
         $block['categories'][$catId]['items'][] = $item;
 
         foreach ($items[''] as $itemObj) {
-            $item['title'] = $itemObj->getTitle($options[3] ?? 0);
-            $item['itemurl'] = $itemObj->getItemUrl();
+            $item['title']                          = $itemObj->getTitle($options[3] ?? 0);
+            $item['itemurl']                        = $itemObj->getItemUrl();
             $block['categories'][$catId]['items'][] = $item;
         }
         $block['categories'][$catId]['name'] = $catObj->name();
@@ -110,16 +110,16 @@ function publisher_category_items_sel_edit($options)
 
     $form = new Publisher\BlockForm();
 
-    $catEle = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0]), 'options[0]');
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0]), 'options[0]');
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray(
         [
             'datesub' => _MB_PUBLISHER_DATE,
             'counter' => _MB_PUBLISHER_HITS,
-            'weight' => _MB_PUBLISHER_WEIGHT,
+            'weight'  => _MB_PUBLISHER_WEIGHT,
         ]
     );
-    $dispEle = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
+    $dispEle  = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $charsEle = new \XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);
 
     $form->addElement($catEle);

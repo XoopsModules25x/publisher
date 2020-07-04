@@ -46,8 +46,8 @@ class MimetypeHandler extends BaseObjectHandler
         }
 
         $this->publisherIsAdmin = $this->helper->isUserAdmin();
-        $this->db = $db;
-        $this->className = Mimetype::class;
+        $this->db               = $db;
+        $this->className        = Mimetype::class;
     }
 
     /**
@@ -90,9 +90,9 @@ class MimetypeHandler extends BaseObjectHandler
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
     {
-        $ret = [];
+        $ret   = [];
         $limit = $start = 0;
-        $sql = $this->selectQuery($criteria);
+        $sql   = $this->selectQuery($criteria);
         if (null !== $criteria) {
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
@@ -105,7 +105,7 @@ class MimetypeHandler extends BaseObjectHandler
         }
         // Add each returned record to the result array
         while (false !== ($myrow = $this->db->fetchArray($result))) {
-            $obj = new $this->className($myrow);
+            $obj   = new $this->className($myrow);
             $ret[] = $obj;
             unset($obj);
         }
@@ -160,7 +160,7 @@ class MimetypeHandler extends BaseObjectHandler
      */
     public function checkMimeTypes($postField)
     {
-        $ret = false;
+        $ret               = false;
         $allowed_mimetypes = $this->getArrayByType();
         if (empty($allowed_mimetypes)) {
             return $ret;

@@ -59,12 +59,12 @@ if ('start' === $op) {
             $form = new \XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
             // Categories to be imported
-            $sql = 'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_category') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('wfs_article') . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
-            $result = $GLOBALS['xoopsDB']->query($sql);
-            $cat_cbox_values = [];
+            $sql              = 'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_category') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('wfs_article') . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
+            $result           = $GLOBALS['xoopsDB']->query($sql);
+            $cat_cbox_values  = [];
             $cat_cbox_options = [];
             while (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) {
-                $cat_title = $myts->displayTarea($cat_title);
+                $cat_title              = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }
             $cat_label = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $cat_cbox_options));
@@ -99,7 +99,7 @@ if ('go' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Publisher\Utility::openCollapsableBar('wfsectionimportgo', 'wfsectionimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
-    $cnt_imported_cat = 0;
+    $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
 
     $parentId = Request::getInt('parent_category', 0, 'POST');
@@ -120,7 +120,7 @@ if ('go' === $op) {
 
         $newCat = [];
 
-        $newCat['oldid'] = $arrCat['id'];
+        $newCat['oldid']  = $arrCat['id'];
         $newCat['oldpid'] = $arrCat['pid'];
 
         $categoryObj->setVar('parentid', $arrCat['pid']);
@@ -154,7 +154,7 @@ if ('go' === $op) {
 
         echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . '<br\>';
 
-        $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_article') . ' WHERE categoryid=' . $arrCat['id'] . ' ORDER BY weight';
+        $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_article') . ' WHERE categoryid=' . $arrCat['id'] . ' ORDER BY weight';
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
@@ -192,8 +192,8 @@ if ('go' === $op) {
             }
             // Linkes files
 
-            $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_files') . ' WHERE articleid=' . $arrArticle['articleid'];
-            $resultFiles = $GLOBALS['xoopsDB']->query($sql);
+            $sql               = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_files') . ' WHERE articleid=' . $arrArticle['articleid'];
+            $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
             $allowed_mimetypes = '';
             while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
                 $filename = $GLOBALS['xoops']->path('modules/wfsection/cache/uploaded/' . $arrFile['filerealname']);
@@ -244,14 +244,14 @@ if ('go' === $op) {
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
     /** @var XoopsModuleHandler $moduleHandler */
-    $moduleHandler = xoops_getHandler('module');
-    $moduleObj = $moduleHandler->getByDirname('wfsection');
+    $moduleHandler  = xoops_getHandler('module');
+    $moduleObj      = $moduleHandler->getByDirname('wfsection');
     $news_module_id = $moduleObj->getVar('mid');
 
     $publisher_module_id = $helper->getModule()->mid();
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
-    $criteria = new \CriteriaCompo();
+    $criteria       = new \CriteriaCompo();
     $criteria->add(new \Criteria('com_modid', $news_module_id));
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);

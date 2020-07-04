@@ -113,7 +113,7 @@ final class Meta
                 $fbh .= '
 				<meta property="og:' . $fbkey . '" content="' . $fbrow . '">';
 
-        endforeach;
+            endforeach;
 
         endif;
 
@@ -133,7 +133,7 @@ final class Meta
             foreach ($tw as $twkey => $twrow):
                 $twh .= '<meta name="twitter:' . $twkey . '" content="' . $twrow . '">';
 
-        endforeach;
+            endforeach;
 
         endif;
 
@@ -153,7 +153,7 @@ final class Meta
             foreach ($icon as $iconkey => $iconrow):
                 $iconh .= '<meta name="' . $iconkey . '" href="' . $iconrow . '">';
 
-        endforeach;
+            endforeach;
 
         endif;
 
@@ -250,10 +250,10 @@ final class Meta
 				"@type": "BreadcrumbList",
 				"itemListElement":[';
 
-        foreach ($crumb as $crumbrow):
+            foreach ($crumb as $crumbrow):
                 ++$count;
 
-        $h .= '
+                $h .= '
 					{
 						"@type": "ListItem",
 						"position":"' . $crumbrow['position'] . '",
@@ -263,11 +263,11 @@ final class Meta
 						}
 					}';
 
-        $h .= $count == $bcount ? '' : ',';
+                $h .= $count == $bcount ? '' : ',';
 
-        endforeach;
+            endforeach;
 
-        $h .= ']}
+            $h .= ']}
        </script>';
 
         endif;

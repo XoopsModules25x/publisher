@@ -124,7 +124,7 @@ switch ($op) {
         $fileObj = $helper->getHandler('File')->get($fileid);
 
         $confirm = Request::getInt('confirm', 0, 'POST');
-        $title = Request::getString('title', '', 'POST');
+        $title   = Request::getString('title', '', 'POST');
 
         if ($confirm) {
             if (!$helper->getHandler('File')->delete($fileObj)) {

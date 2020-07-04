@@ -30,8 +30,8 @@ xoops_cp_header();
 $helper = \XoopsModules\Publisher\Helper::getInstance();
 $helper->loadLanguage('main');
 $helper->loadLanguage('admin');
-$adminObject = \Xmf\Module\Admin::getInstance();
-$utility = new Publisher\Utility();
+$adminObject  = \Xmf\Module\Admin::getInstance();
+$utility      = new Publisher\Utility();
 $configurator = new Publisher\Common\Configurator();
 
 /*
@@ -53,7 +53,7 @@ if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.p
     $adminObject->addConfigBoxLine('<span style="color:#ff0000;"><img src="' . $pathIcon16 . '/0.png" alt="!">' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
 }
 
-$modStats = [];
+$modStats    = [];
 $moduleStats = $utility::getModuleStats($configurator, $modStats);
 
 $adminObject->addInfoBox(constant('CO_' . $moduleDirNameUpper . '_' . 'STATS_SUMMARY'));
@@ -99,8 +99,8 @@ $adminObject->displayNavigation(basename(__FILE__));
 //------------- Test Data ----------------------------
 
 if ($helper->getConfig('displaySampleButton')) {
-    $yamlFile = dirname(__DIR__) . '/config/admin.yml';
-    $config = loadAdminConfig($yamlFile);
+    $yamlFile            = dirname(__DIR__) . '/config/admin.yml';
+    $config              = loadAdminConfig($yamlFile);
     $displaySampleButton = $config['displaySampleButton'];
 
     if (1 == $displaySampleButton) {

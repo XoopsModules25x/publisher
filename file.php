@@ -27,7 +27,7 @@ require_once __DIR__ . '/header.php';
 $helper->loadLanguage('admin');
 //xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
-$op = Request::getString('op', Request::getString('op', '', 'GET'), 'POST');
+$op     = Request::getString('op', Request::getString('op', '', 'GET'), 'POST');
 $fileid = Request::getInt('fileid', Request::getInt('fileid', 0, 'GET'), 'POST');
 
 if (0 == $fileid) {

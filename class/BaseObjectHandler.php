@@ -52,8 +52,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      * @var string
      */
     protected $idfield = 'id';
-
-    public $helper = null;
+    public $helper           = null;
     public $publisherIsAdmin = null;
 
     public function init(\XoopsDatabase $db = null)
@@ -118,10 +117,10 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
     {
-        $ret = [];
+        $ret   = [];
         $limit = $start = 0;
-        $sql = $this->selectQuery($criteria);
-        $id = $this->idfield;
+        $sql   = $this->selectQuery($criteria);
+        $id    = $this->idfield;
         if (null !== $criteria) {
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
@@ -146,7 +145,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param bool         $force
+     * @param bool $force
      *
      * @return bool
      */
@@ -215,8 +214,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * count objects matching a criteria
      *
-     * @param \CriteriaElement|null $criteria           {@link CriteriaElement}
-     *                                                  to match
+     * @param \CriteriaElement|null $criteria           {@link CriteriaElement}                                                  to match
      *
      * @return int count of objects
      */
@@ -296,7 +294,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null, $force = false) //updateAll($fieldname, $fieldvalue, $criteria = null)
     {
         $setClause = \is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
-        $sql = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
+        $sql       = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
@@ -348,7 +346,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
         static $instance;
         if (null === $instance) {
             $className = $this->className . 'Handler';
-            $instance = new $className($db);
+            $instance  = new $className($db);
         }
 
         return $instance;

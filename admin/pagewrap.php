@@ -47,7 +47,7 @@ echo '</form>';
 $form = new \XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
 
 $pWrapSelect = new \XoopsFormSelect(Publisher\Utility::getUploadDir(true, 'content'), 'address');
-$folder = dir($dir);
+$folder      = dir($dir);
 while ($file == $folder->read()) {
     if ('.' !== $file && '..' !== $file) {
         $pWrapSelect->addOption($file, $file);

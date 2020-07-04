@@ -32,7 +32,6 @@ use XoopsModules\Publisher;
 class Utility extends Common\SysUtility
 {
     //--------------- Custom module methods -----------------------------
-
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
      *
@@ -101,17 +100,17 @@ class Utility extends Common\SysUtility
 
         if (static::getPathStatus('root', true) < 0) {
             $thePath = static::getUploadDir();
-            $res = static::mkdir($thePath);
-            $msg = $res ? \_AM_PUBLISHER_DIRCREATED : \_AM_PUBLISHER_DIRNOTCREATED;
+            $res     = static::mkdir($thePath);
+            $msg     = $res ? \_AM_PUBLISHER_DIRCREATED : \_AM_PUBLISHER_DIRNOTCREATED;
         }
 
         if (static::getPathStatus('images', true) < 0) {
             $thePath = static::getImageDir();
-            $res = static::mkdir($thePath);
+            $res     = static::mkdir($thePath);
 
             if ($res) {
                 $source = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
-                $dest = $thePath . 'blank.png';
+                $dest   = $thePath . 'blank.png';
                 static::copyr($source, $dest);
             }
             $msg = $res ? \_AM_PUBLISHER_DIRCREATED : \_AM_PUBLISHER_DIRNOTCREATED;
@@ -119,11 +118,11 @@ class Utility extends Common\SysUtility
 
         if (static::getPathStatus('images/category', true) < 0) {
             $thePath = static::getImageDir('category');
-            $res = static::mkdir($thePath);
+            $res     = static::mkdir($thePath);
 
             if ($res) {
                 $source = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
-                $dest = $thePath . 'blank.png';
+                $dest   = $thePath . 'blank.png';
                 static::copyr($source, $dest);
             }
             $msg = $res ? \_AM_PUBLISHER_DIRCREATED : \_AM_PUBLISHER_DIRNOTCREATED;
@@ -131,11 +130,11 @@ class Utility extends Common\SysUtility
 
         if (static::getPathStatus('images/item', true) < 0) {
             $thePath = static::getImageDir('item');
-            $res = static::mkdir($thePath);
+            $res     = static::mkdir($thePath);
 
             if ($res) {
                 $source = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
-                $dest = $thePath . 'blank.png';
+                $dest   = $thePath . 'blank.png';
                 static::copyr($source, $dest);
             }
             $msg = $res ? \_AM_PUBLISHER_DIRCREATED : \_AM_PUBLISHER_DIRNOTCREATED;
@@ -143,8 +142,8 @@ class Utility extends Common\SysUtility
 
         if (static::getPathStatus('content', true) < 0) {
             $thePath = static::getUploadDir(true, 'content');
-            $res = static::mkdir($thePath);
-            $msg = $res ? \_AM_PUBLISHER_DIRCREATED : \_AM_PUBLISHER_DIRNOTCREATED;
+            $res     = static::mkdir($thePath);
+            $msg     = $res ? \_AM_PUBLISHER_DIRCREATED : \_AM_PUBLISHER_DIRNOTCREATED;
         }
     }
 
@@ -269,9 +268,9 @@ class Utility extends Common\SysUtility
             static::openCollapsableBar('subcatstable', 'subcatsicon', \_AM_PUBLISHER_SUBCAT_CAT, \_AM_PUBLISHER_SUBCAT_CAT_DSC);
             // Get the total number of sub-categories
             $categoriesObj = $helper->getHandler('Category')->get($selCat);
-            $totalsubs = $helper->getHandler('Category')->getCategoriesCount($selCat);
+            $totalsubs     = $helper->getHandler('Category')->getCategoriesCount($selCat);
             // creating the categories objects that are published
-            $subcatsObj = $helper->getHandler('Category')->getCategories(0, 0, $categoriesObj->categoryid());
+            $subcatsObj    = $helper->getHandler('Category')->getCategories(0, 0, $categoriesObj->categoryid());
             $totalSCOnPage = \count($subcatsObj);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
@@ -306,9 +305,9 @@ class Utility extends Common\SysUtility
             // Get the total number of published ITEMS
             $totalitems = $helper->getHandler('Item')->getItemsCount($selCat, [Constants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
-            $itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
+            $itemsObj         = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
             $totalitemsOnPage = \count($itemsObj);
-            $allcats = $helper->getHandler('Category')->getObjects(null, true);
+            $allcats          = $helper->getHandler('Category')->getObjects(null, true);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
             echo "<td width='40' class='bg3' align='center'><strong>" . \_AM_PUBLISHER_ITEMID . '</strong></td>';
@@ -320,8 +319,8 @@ class Utility extends Common\SysUtility
             if ($totalitems > 0) {
                 for ($i = 0; $i < $totalitemsOnPage; ++$i) {
                     $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
-                    $modify = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_EDITITEM . "' alt='" . \_AM_PUBLISHER_EDITITEM . "'></a>";
-                    $delete = "<a href='item.php?op=del&amp;itemid="
+                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_EDITITEM . "' alt='" . \_AM_PUBLISHER_EDITITEM . "'></a>";
+                    $delete      = "<a href='item.php?op=del&amp;itemid="
                                    . $itemsObj[$i]->itemid()
                                    . "'><img src='"
                                    . XOOPS_URL
@@ -348,7 +347,7 @@ class Utility extends Common\SysUtility
             }
             echo "</table>\n";
             echo "<br>\n";
-            $parentid = Request::getInt('parentid', 0, 'GET');
+            $parentid         = Request::getInt('parentid', 0, 'GET');
             $pagenavExtraArgs = "op=mod&categoryid=$selCat&parentid=$parentid";
             \xoops_load('XoopsPageNav');
             $pagenav = new \XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $startitem, 'startitem', $pagenavExtraArgs);
@@ -586,13 +585,13 @@ class Utility extends Common\SysUtility
         }
         if (\is_writable($thePath)) {
             $pathCheckResult = 1;
-            $pathStatus = \_AM_PUBLISHER_AVAILABLE;
+            $pathStatus      = \_AM_PUBLISHER_AVAILABLE;
         } elseif (!@\is_dir($thePath)) {
             $pathCheckResult = -1;
-            $pathStatus = \_AM_PUBLISHER_NOTAVAILABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=createdir&amp;path={$item}'>" . \_AM_PUBLISHER_CREATETHEDIR . '</a>';
+            $pathStatus      = \_AM_PUBLISHER_NOTAVAILABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=createdir&amp;path={$item}'>" . \_AM_PUBLISHER_CREATETHEDIR . '</a>';
         } else {
             $pathCheckResult = -2;
-            $pathStatus = \_AM_PUBLISHER_NOTWRITABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=setperm&amp;path={$item}'>" . \_AM_PUBLISHER_SETMPERM . '</a>';
+            $pathStatus      = \_AM_PUBLISHER_NOTWRITABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=setperm&amp;path={$item}'>" . \_AM_PUBLISHER_SETMPERM . '</a>';
         }
         if (!$getStatus) {
             return $pathStatus;
@@ -741,7 +740,7 @@ class Utility extends Common\SysUtility
     public static function userIsModerator($itemObj)
     {
         /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper            = Publisher\Helper::getInstance();
         $categoriesGranted = $helper->getHandler('Permission')->getGrantedItems('category_moderation');
 
         return (\is_object($itemObj) && \in_array($itemObj->categoryid(), $categoriesGranted, true));
@@ -787,10 +786,10 @@ class Utility extends Common\SysUtility
      */
     public static function openCollapsableBar($tablename = '', $iconname = '', $tabletitle = '', $tabledsc = '', $open = true)
     {
-        $image = 'open12.gif';
+        $image   = 'open12.gif';
         $display = 'none';
         if ($open) {
-            $image = 'close12.gif';
+            $image   = 'close12.gif';
             $display = 'block';
         }
 
@@ -815,7 +814,7 @@ class Utility extends Common\SysUtility
 
         $cookieName = $path . '_publisher_collaps_' . $name;
         $cookieName = \str_replace('.', '_', $cookieName);
-        $cookie = static::getCookieVar($cookieName, '');
+        $cookie     = static::getCookieVar($cookieName, '');
 
         if ('none' === $cookie) {
             echo '
@@ -864,8 +863,8 @@ class Utility extends Common\SysUtility
         //    $phpself     = $_SERVER['SCRIPT_NAME'];
         //    $httphost    = $_SERVER['HTTP_HOST'];
         //    $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
-        $phpself = Request::getString('SCRIPT_NAME', '', 'SERVER');
-        $httphost = Request::getString('HTTP_HOST', '', 'SERVER');
+        $phpself     = Request::getString('SCRIPT_NAME', '', 'SERVER');
+        $httphost    = Request::getString('HTTP_HOST', '', 'SERVER');
         $querystring = Request::getString('QUERY_STRING', '', 'SERVER');
 
         if ('' != $querystring) {
@@ -874,12 +873,12 @@ class Utility extends Common\SysUtility
 
         $currenturl = $http . $httphost . $phpself . $querystring;
 
-        $urls = [];
-        $urls['http'] = $http;
-        $urls['httphost'] = $httphost;
-        $urls['phpself'] = $phpself;
+        $urls                = [];
+        $urls['http']        = $http;
+        $urls['httphost']    = $httphost;
+        $urls['phpself']     = $phpself;
         $urls['querystring'] = $querystring;
-        $urls['full'] = $currenturl;
+        $urls['full']        = $currenturl;
 
         return $urls;
     }
@@ -943,8 +942,8 @@ class Utility extends Common\SysUtility
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
-        $selectedId = \explode(',', $selectedId);
-        $selectedId = \array_map('\intval', $selectedId);
+        $selectedId  = \explode(',', $selectedId);
+        $selectedId  = \array_map('\intval', $selectedId);
         $selMultiple = '';
         if ($multiple) {
             $selMultiple = " multiple='multiple'";
@@ -1051,7 +1050,7 @@ class Utility extends Common\SysUtility
 
         $qs = '';
         foreach ($vars as $key => $value) {
-            $qs .= $joinStr . $key . '=' . $value;
+            $qs      .= $joinStr . $key . '=' . $value;
             $joinStr = $amp;
         }
 
@@ -1074,8 +1073,8 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param bool         $another
-     * @param bool         $withRedirect
+     * @param bool $another
+     * @param bool $withRedirect
      * @return bool|string
      */
     public static function uploadFile($another, $withRedirect, &$itemObj)
@@ -1087,8 +1086,8 @@ class Utility extends Common\SysUtility
         /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
 
-        $itemId = Request::getInt('itemid', 0, 'POST');
-        $uid = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
+        $itemId  = Request::getInt('itemid', 0, 'POST');
+        $uid     = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
         $session = Publisher\Session::getInstance();
         $session->set('publisher_file_filename', Request::getString('item_file_name', '', 'POST'));
         $session->set('publisher_file_description', Request::getString('item_file_description', '', 'POST'));
@@ -1214,7 +1213,7 @@ class Utility extends Common\SysUtility
             // match closed tags
             if (\preg_match_all('/<\/([a-z]+)>/', $string, $endTags)) {
                 $completeTags = [];
-                $endTags = $endTags[1];
+                $endTags      = $endTags[1];
 
                 foreach ($startTags as $key => $val) {
                     $posb = \array_search($val, $endTags, true);
@@ -1245,20 +1244,20 @@ class Utility extends Common\SysUtility
     public static function ratingBar($itemId)
     {
         /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper          = Publisher\Helper::getInstance();
         $ratingUnitWidth = 30;
-        $units = 5;
+        $units           = 5;
 
-        $criteria = new \Criteria('itemid', $itemId);
+        $criteria   = new \Criteria('itemid', $itemId);
         $ratingObjs = $helper->getHandler('Rating')->getObjects($criteria);
         unset($criteria);
 
-        $uid = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
-        $count = \count($ratingObjs);
+        $uid           = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
+        $count         = \count($ratingObjs);
         $currentRating = 0;
-        $voted = false;
-        $ip = \getenv('REMOTE_ADDR');
-        $rating1 = $rating2 = $ratingWidth = 0;
+        $voted         = false;
+        $ip            = \getenv('REMOTE_ADDR');
+        $rating1       = $rating2 = $ratingWidth = 0;
 
         foreach ($ratingObjs as $ratingObj) {
             $currentRating += $ratingObj->getVar('rate');
@@ -1272,15 +1271,15 @@ class Utility extends Common\SysUtility
         // now draw the rating bar
         if (0 != $count) {
             $ratingWidth = \number_format($currentRating / $count, 2) * $ratingUnitWidth;
-            $rating1 = \number_format($currentRating / $count, 1);
-            $rating2 = \number_format($currentRating / $count, 2);
+            $rating1     = \number_format($currentRating / $count, 1);
+            $rating2     = \number_format($currentRating / $count, 2);
         }
         $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         /** @var GroupPermHandler $grouppermHandler */
         $grouppermHandler = $helper->getHandler('GroupPerm');
 
         if (!$grouppermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
-            $staticRater = [];
+            $staticRater   = [];
             $staticRater[] .= "\n" . '<div class="publisher_ratingblock">';
             $staticRater[] .= '<div id="unit_long' . $itemId . '">';
             $staticRater[] .= '<div id="unit_ul' . $itemId . '" class="publisher_unit-rating" style="width:' . $ratingUnitWidth * $units . 'px;">';
@@ -1307,8 +1306,8 @@ class Utility extends Common\SysUtility
         }
 
         $ncount = 0; // resets the count
-        $rater .= '  </div>';
-        $rater .= '  <div';
+        $rater  .= '  </div>';
+        $rater  .= '  <div';
 
         if ($voted) {
             $rater .= ' class="publisher_voted"';
@@ -1328,7 +1327,7 @@ class Utility extends Common\SysUtility
      */
     public static function getEditors($allowedEditors = null)
     {
-        $ret = [];
+        $ret    = [];
         $nohtml = false;
         \xoops_load('XoopsEditorHandler');
         $editorHandler = \XoopsEditorHandler::getInstance();
@@ -1343,7 +1342,7 @@ class Utility extends Common\SysUtility
                 }
             } else {
                 //for admin permissions page
-                $ret[$key]['name'] = $name;
+                $ret[$key]['name']  = $name;
                 $ret[$key]['title'] = $title;
             }
         }
@@ -1358,7 +1357,7 @@ class Utility extends Common\SysUtility
      */
     public static function stringToInt($string = '', $length = 5)
     {
-        $final = '';
+        $final     = '';
         $substring = mb_substr(\md5($string), $length);
         for ($i = 0; $i < $length; ++$i) {
             $final .= (int)$substring[$i];
@@ -1393,7 +1392,7 @@ class Utility extends Common\SysUtility
      * Verifies XOOPS version meets minimum requirements for this module
      * @static
      *
-     * @param null|string       $requiredVer
+     * @param null|string $requiredVer
      * @return bool true if meets requirements, false if not
      */
     public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
@@ -1428,7 +1427,7 @@ class Utility extends Common\SysUtility
      */
     public static function checkVerPhp(\XoopsModule $module = null)
     {
-        $moduleDirName = \basename(\dirname(\dirname(__DIR__)));
+        $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
@@ -1475,8 +1474,8 @@ class Utility extends Common\SysUtility
             // splits all html-tags to scanable lines
             \preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, \PREG_SET_ORDER);
             $total_length = mb_strlen($ending);
-            $open_tags = [];
-            $truncate = '';
+            $open_tags    = [];
+            $truncate     = '';
             foreach ($lines as $line_matchings) {
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
                 if (!empty($line_matchings[1])) {
@@ -1502,7 +1501,7 @@ class Utility extends Common\SysUtility
                 $content_length = mb_strlen(\preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
                 if ($total_length + $content_length > $length) {
                     // the number of characters which are left
-                    $left = $length - $total_length;
+                    $left            = $length - $total_length;
                     $entities_length = 0;
                     // search for html entities
                     if (\preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, \PREG_OFFSET_CAPTURE)) {
@@ -1521,7 +1520,7 @@ class Utility extends Common\SysUtility
                     // maximum lenght is reached, so get off the loop
                     break;
                 }
-                $truncate .= $line_matchings[2];
+                $truncate     .= $line_matchings[2];
                 $total_length += $content_length;
 
                 // if the maximum length is reached, get off the loop

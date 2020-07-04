@@ -50,7 +50,7 @@ class FormDateTime extends \XoopsFormElementTray
         $timearray = [];
         for ($i = 0; $i < 24; ++$i) {
             for ($j = 0; $j < 60; $j += 10) {
-                $key = ($i * 3600) + ($j * 60);
+                $key             = ($i * 3600) + ($j * 60);
                 $timearray[$key] = (0 != $j) ? $i . ':' . $j : $i . ':0' . $j;
             }
         }

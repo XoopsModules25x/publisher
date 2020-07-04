@@ -31,13 +31,13 @@ $op = Request::getString('addcategory', '', 'POST') ? 'addcategory' : $op;
 
 // Where do we start ?
 $startcategory = Request::getInt('startcategory', 0, 'GET');
-$categoryid = Request::getInt('categoryid', null);
+$categoryid    = Request::getInt('categoryid', null);
 
 switch ($op) {
     case 'del':
         $categoryObj = $helper->getHandler('Category')->get($categoryid);
-        $confirm = Request::getString('confirm', '', 'POST');
-        $name = Request::getString('name', '', 'POST');
+        $confirm     = Request::getString('confirm', '', 'POST');
+        $name        = Request::getString('name', '', 'POST');
         if ($confirm) {
             if (!$helper->getHandler('Category')->delete($categoryObj)) {
                 redirect_header('category.php', 1, _AM_PUBLISHER_DELETE_CAT_ERROR);
@@ -70,17 +70,17 @@ switch ($op) {
 
         // Uploading the image, if any
         // Retreive the filename to be uploaded
-        $temp = Request::getArray('image_file', '', 'FILES');
+        $temp       = Request::getArray('image_file', '', 'FILES');
         $image_file = $temp['name'];
         if ($image_file) {
             //            $filename = Request::getArray('xoops_upload_file', array(), 'POST')[0];
-            $temp2 = Request::getArray('xoops_upload_file', [], 'POST');
+            $temp2    = Request::getArray('xoops_upload_file', [], 'POST');
             $filename = $temp2[0];
             if ($filename) {
                 // TODO : implement publisher mimetype management
-                $max_size = $helper->getConfig('maximum_filesize');
-                $max_imgwidth = $helper->getConfig('maximum_image_width');
-                $max_imgheight = $helper->getConfig('maximum_image_height');
+                $max_size          = $helper->getConfig('maximum_filesize');
+                $max_imgwidth      = $helper->getConfig('maximum_image_width');
+                $max_imgheight     = $helper->getConfig('maximum_image_height');
                 $allowed_mimetypes = Publisher\Utility::getAllowedImagesTypes();
                 if (('' == $temp['tmp_name']) || !is_readable($temp['tmp_name'])) {
                     redirect_header('<script>javascript:history.go(-1)</script>', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
@@ -103,8 +103,8 @@ switch ($op) {
         $categoryObj->setVar('weight', Request::getInt('weight', 1, 'POST'));
 
         // Groups and permissions
-        $grpread = Request::getArray('groupsRead', [], 'POST');
-        $grpsubmit = Request::getArray('groupsSubmit', [], 'POST');
+        $grpread       = Request::getArray('groupsRead', [], 'POST');
+        $grpsubmit     = Request::getArray('groupsSubmit', [], 'POST');
         $grpmoderation = Request::getArray('groupsModeration', [], 'POST');
 
         $categoryObj->setVar('name', Request::getString('name', '', 'POST'));
@@ -120,10 +120,10 @@ switch ($op) {
 
         if ($categoryObj->isNew()) {
             $redirect_msg = _AM_PUBLISHER_CATCREATED;
-            $redirect_to = 'category.php?op=mod';
+            $redirect_to  = 'category.php?op=mod';
         } else {
             $redirect_msg = _AM_PUBLISHER_COLMODIFIED;
-            $redirect_to = 'category.php';
+            $redirect_to  = 'category.php';
         }
 
         if (!$categoryObj->store()) {
@@ -136,12 +136,12 @@ switch ($op) {
 
         //Added by fx2024
         $parentCat = $categoryObj->categoryid();
-        $sizeof = count(Request::getArray('scname', [], 'POST'));
+        $sizeof    = count(Request::getArray('scname', [], 'POST'));
         for ($i = 0; $i < $sizeof; ++$i) {
             $temp = Request::getArray('scname', [], 'POST');
             if ('' != $temp[$i]) {
                 $categoryObj = $helper->getHandler('Category')->create();
-                $temp2 = Request::getArray('scname', [], 'POST');
+                $temp2       = Request::getArray('scname', [], 'POST');
                 $categoryObj->setVar('name', $temp2[$i]);
                 $categoryObj->setVar('parentid', $parentCat);
 

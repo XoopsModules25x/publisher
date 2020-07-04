@@ -168,8 +168,12 @@ if (0 != $fromyear && 0 != $frommonth) {
 	
     // must adjust the selected time to server timestamp
     $timeoffset = $useroffset - $GLOBALS['xoopsConfig']['server_TZ'];
-    $monthstart = mktime(0 - $timeoffset, 0, 0, $frommonth, 1, $fromyear);
-    $monthend   = mktime(23 - $timeoffset, 59, 59, $frommonth + 1, 0, $fromyear);
+    $timeoffsethours = (int)$timeoffset;
+    $timeoffsetminutes = intval(($timeoffset - $timeoffsethours) * 60);
+
+    $monthstart = mktime(0 - $timeoffsethours, 0 - $timeoffsetminutes, 0, $frommonth, 1, $fromyear);
+    $monthend   = mktime(23 - $timeoffsethours, 59 - $timeoffsetminutes, 59, $frommonth + 1, 0, $fromyear);
+
     $monthend   = ($monthend > time()) ? time() : $monthend;
 
     $count = 0;
@@ -185,7 +189,7 @@ if (0 != $fromyear && 0 != $frommonth) {
     $criteria->add($grantedCategories, 'AND');
     $criteria->add(new \Criteria('o.status', 2), 'AND');
     $critdatesub = new \CriteriaCompo();
-    $critdatesub->add(new \Criteria('o.datesub', $monthstart, '>'), 'AND');
+    $critdatesub->add(new \Criteria('o.datesub', $monthstart, '>='), 'AND');
     $critdatesub->add(new \Criteria('o.datesub', $monthend, '<='), 'AND');
     $criteria->add($critdatesub);
     $criteria->setSort('o.datesub');
@@ -197,9 +201,7 @@ if (0 != $fromyear && 0 != $frommonth) {
     if (is_array($storyarray) && $count > 0) {
         /** @var \XoopsModules\Publisher\Item $item */
 
-
         foreach ($storyarray as $item) {
-
             $story               = [];
             $htmltitle           = '';			
             $story['title']      = "<a href='" . $item->getItemUrl() . "'" . $htmltitle . '>' . $item->getTitle() . '</a>';
@@ -238,20 +240,14 @@ if (0 != $fromyear && 0 != $frommonth) {
                 }
             } else {
                     $story['comment'] = '&nbsp;' . _MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
-            }   
-		   
-		   
-		   
-		   
+            }
             $xoopsTpl->append('stories', $story);
         }
             //unset($item);
-			
     }
     $xoopsTpl->assign('lang_printer', _MD_PUBLISHER_PRINTERFRIENDLY);
     $xoopsTpl->assign('lang_sendstory', _MD_PUBLISHER_SENDSTORY);
     $xoopsTpl->assign('lang_storytotal', _MD_PUBLISHER_TOTAL_ITEMS . ' ' . $count);
-	 
 } else {
     $xoopsTpl->assign('show_articles', false);
 }

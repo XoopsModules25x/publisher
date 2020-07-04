@@ -89,7 +89,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve an object from the database, based on. use in child classes
      *
-     * @param int  $id ID
+     * @param null $id ID
      *
      * @param null $fields
      * @return mixed object if id exists, false if not
@@ -116,11 +116,11 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
-     *                                   conditions to be met
-     * @param bool             $idAsKey  Should the department ID be used as array key
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement}
+     *                                        conditions to be met
+     * @param bool                  $idAsKey  Should the department ID be used as array key
      *
-     * @param bool             $asObject
+     * @param bool                  $asObject
      * @return array array of objects
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
@@ -202,7 +202,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link \CriteriaElement} to match
+     * @param \CriteriaElement|null $criteria {@link \CriteriaElement} to match
      *
      * @return string SQL query
      */
@@ -223,7 +223,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * count objects matching a criteria
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|null $criteria           {@link CriteriaElement}
      *                                                  to match
      *
      * @return int count of objects
@@ -272,10 +272,10 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * delete department matching a set of conditions
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement}
      *
-     * @param bool                            $force
-     * @param bool                            $asObject
+     * @param bool                  $force
+     * @param bool                  $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
@@ -294,11 +294,11 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Assign a value to 1 field for tickets matching a set of conditions
      *
-     * @param string                          $fieldname
-     * @param string                          $fieldvalue
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link \CriteriaElement}
+     * @param string                $fieldname
+     * @param string                $fieldvalue
+     * @param \CriteriaElement|null $criteria {@link \CriteriaElement}
      *
-     * @param bool                            $force
+     * @param bool                  $force
      * @return bool FALSE if update failed
      */
     public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null, $force = false) //updateAll($fieldname, $fieldvalue, $criteria = null)

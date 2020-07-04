@@ -51,7 +51,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
     public $helper;
 
     /**
-     * @param \XoopsDatabase                      $db
+     * @param \XoopsDatabase|null                 $db
      * @param \XoopsModules\Publisher\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)

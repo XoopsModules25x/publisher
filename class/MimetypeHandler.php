@@ -39,7 +39,7 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Constructor
      *
-     * @param \XoopsDatabase                      $db
+     * @param \XoopsDatabase|null                 $db
      * @param \XoopsModules\Publisher\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
@@ -59,7 +59,7 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * retrieve a mimetype object from the database
      *
-     * @param int  $id ID of mimetype
+     * @param null $id ID of mimetype
      *
      * @param null $fields
      * @return bool|Mimetype
@@ -86,13 +86,13 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
-     *                                   conditions to be met
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement}
+     *                                        conditions to be met
      *
-     * @param bool             $idAsKey
-     * @param bool             $asObject
+     * @param bool                  $idAsKey
+     * @param bool                  $asObject
      * @return array array of <a href='psi_element://Mimetype'>Mimetype</a> objects
-     *                                   objects
+     *                                        objects
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
     {
@@ -200,9 +200,9 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|null $criteria           {@link CriteriaElement}
      *                                                  to match
-     * @param bool                            $join
+     * @param bool                  $join
      *
      * @return string string SQL query
      */

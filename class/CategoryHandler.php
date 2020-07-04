@@ -46,7 +46,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public $publisherIsAdmin;
 
     /**
-     * @param \XoopsDatabase                      $db
+     * @param \XoopsDatabase|null                 $db
      * @param \XoopsModules\Publisher\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
@@ -163,10 +163,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve categories from the database
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement} conditions to be met
-     * @param bool             $idAsKey  use the categoryid as key for the array?
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement} conditions to be met
+     * @param bool                  $idAsKey  use the categoryid as key for the array?
      *
-     * @param bool             $as_object
+     * @param bool                  $as_object
      * @return array array of <a href='psi_element://XoopsItem'>XoopsItem</a> objects
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $as_object = true) //&getObjects($criteria = null, $idAsKey = false)
@@ -397,10 +397,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * delete categories matching a set of conditions
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement}
      *
-     * @param bool             $force
-     * @param bool             $asObject
+     * @param bool                  $force
+     * @param bool                  $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)

@@ -47,7 +47,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     protected $resultCatCounts = [];
 
     /**
-     * @param \XoopsDatabase                      $db
+     * @param \XoopsDatabase|null                 $db
      * @param \XoopsModules\Publisher\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
@@ -82,7 +82,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve an item
      *
-     * @param int  $id      itemid of the user
+     * @param null $id      itemid of the user
      *
      * @param null $fields
      * @return mixed reference to the <a href='psi_element://Item'>Item</a> object, FALSE if failed
@@ -168,11 +168,11 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve items from the database
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|null $criteria           {@link CriteriaElement}
      *                                                  conditions to be met
-     * @param bool|string                     $idKey    what shall we use as array key ? none, itemid, categoryid
-     * @param bool                            $as_object
-     * @param string|bool                     $notNullFields
+     * @param bool|string           $idKey              what shall we use as array key ? none, itemid, categoryid
+     * @param bool                  $as_object
+     * @param null                  $notNullFields
      * @return array           array of <a href='psi_element://Item'>Item</a> objects
      *                                                  objects
      */
@@ -230,9 +230,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * count items matching a condition
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|null $criteria           {@link CriteriaElement}
      *                                                  to match
-     * @param string                          $notNullFields
+     * @param string                $notNullFields
      *
      * @return int count of items
      */
@@ -600,10 +600,10 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * delete Items matching a set of conditions
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement}
      *
-     * @param bool             $force
-     * @param bool             $asObject
+     * @param bool                  $force
+     * @param bool                  $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)

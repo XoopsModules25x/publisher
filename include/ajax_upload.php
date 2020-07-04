@@ -58,11 +58,10 @@ if (!is_object($imgcat)) {
         if (!$imgcatpermHandler->checkRight('imgcat_write', $imgcat_id, $GLOBALS['xoopsUser']->getGroups())) {
             $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
         }
-    } else {
-        if (!$imgcatpermHandler->checkRight('imgcat_write', $imgcat_id, XOOPS_GROUP_ANONYMOUS)) {
+    } elseif (!$imgcatpermHandler->checkRight('imgcat_write', $imgcat_id, XOOPS_GROUP_ANONYMOUS)) {
             $error = _CO_PUBLISHER_IMAGE_CAT_NOPERM;
         }
-    }
+
 }
 
 if (false === $error) {

@@ -34,7 +34,6 @@ use XoopsModules\Publisher\Constants;
 class Utility extends Common\SysUtility
 {
     //--------------- Custom module methods -----------------------------
-
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
      *
@@ -244,10 +243,8 @@ class Utility extends Common\SysUtility
             if ($categoryObj->notLoaded()) {
                 \redirect_header('category.php', 1, \_AM_PUBLISHER_NOCOLTOEDIT);
             }
-        } else {
-            if (!$categoryObj) {
-                $categoryObj = $helper->getHandler('Category')->create();
-            }
+        } elseif (!$categoryObj) {
+            $categoryObj = $helper->getHandler('Category')->create();
         }
 
         if (0 != $categoryId) {
@@ -325,7 +322,17 @@ class Utility extends Common\SysUtility
                 for ($i = 0; $i < $totalitemsOnPage; ++$i) {
                     $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
                     $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_EDITITEM . "' alt='" . \_AM_PUBLISHER_EDITITEM . "'></a>";
-                    $delete      = "<a href='item.php?op=del&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/delete.png' title='" . \_AM_PUBLISHER_DELETEITEM . "' alt='" . \_AM_PUBLISHER_DELETEITEM . "'></a>";
+                    $delete      = "<a href='item.php?op=del&amp;itemid="
+                                   . $itemsObj[$i]->itemid()
+                                   . "'><img src='"
+                                   . XOOPS_URL
+                                   . '/modules/'
+                                   . $helper->getModule()->dirname()
+                                   . "/assets/images/links/delete.png' title='"
+                                   . \_AM_PUBLISHER_DELETEITEM
+                                   . "' alt='"
+                                   . \_AM_PUBLISHER_DELETEITEM
+                                   . "'></a>";
                     echo '<tr>';
                     echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
                     echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';
@@ -1318,7 +1325,7 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param array $allowedEditors
+     * @param null $allowedEditors
      * @return array
      */
     public static function getEditors($allowedEditors = null)
@@ -1387,9 +1394,9 @@ class Utility extends Common\SysUtility
     /**
      * Verifies XOOPS version meets minimum requirements for this module
      * @static
-     * @param \XoopsModule $module
+     * @param \XoopsModule|null $module
      *
-     * @param null|string  $requiredVer
+     * @param null|string       $requiredVer
      * @return bool true if meets requirements, false if not
      */
     public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)

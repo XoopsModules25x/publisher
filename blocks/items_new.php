@@ -146,14 +146,13 @@ function publisher_items_new_show($options)
                             $item['image'] = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name') . '&amp;w=50';
                         }
                     }
-                } else {
                     // check to see if GD function exist
-                    if (!function_exists('imagecreatetruecolor')) {
+                } elseif (!function_exists('imagecreatetruecolor')) {
                         $item['image'] = XOOPS_URL . '/uploads/' . $iValue->posterAvatar();
                     } else {
                         $item['image'] = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $iValue->posterAvatar() . '&amp;w=50';
                     }
-                }
+
                 $item['image_name'] = $iValue->posterName();
             }
 

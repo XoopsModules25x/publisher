@@ -348,15 +348,14 @@ class ItemForm extends Publisher\ThemeTabForm
             if ($obj->isNew()) {
                 $dateexpire     = \time();
                 $dateexpire_opt = 0;
-            } else {
-                if (0 == $obj->getVar('dateexpire')) {
+            } elseif (0 == $obj->getVar('dateexpire')) {
                     $dateexpire_opt = 0;
                     $dateexpire     = \time();
                 } else {
                     $dateexpire_opt = 1;
                     $dateexpire     = $obj->getVar('dateexpire');
                 }
-            }
+
 
             $dateExpireYesNo     = new \XoopsFormRadioYN('', 'use_expire_yn', $dateexpire_opt);
             $dateexpire = \strtotime(\formatTimestamp($dateexpire)); //set to user timezone

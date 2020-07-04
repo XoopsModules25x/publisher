@@ -49,7 +49,7 @@ class FormDateTime extends \XoopsFormElementTray
         }
         $datetime = \getdate($value);
 
-        $this->addElement(new \XoopsFormTextDateSelect('', $name . '[date]', $size, $value, $showtime));
+        $this->addElement(new \XoopsFormTextDateSelect('', $name . '[date]', $size, $value, $showtime=null));
         $timearray = [];
         for ($i = 0; $i < 24; ++$i) {
             for ($j = 0; $j < 60; $j += 10) {

@@ -1052,6 +1052,8 @@ class Item extends \XoopsObject
         //            $this->setVar('categoryid', $categoryid);}
         if (\is_object($GLOBALS['xoopsUser'])) {
             $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
+        }else{
+            $userTimeoffset = null;
         }
         $this->setVar('categoryid', Request::getInt('categoryid', 0, 'POST'));
         $this->setVar('title', Request::getString('title', '', 'POST'));

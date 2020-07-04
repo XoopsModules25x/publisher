@@ -147,6 +147,7 @@ class ItemForm extends Publisher\ThemeTabForm
         if (!\is_object($GLOBALS['xoopsUser'])) {
             $group      = [XOOPS_GROUP_ANONYMOUS];
             $currentUid = 0;
+            $timeoffset = null;
         } else {
             $group      = $GLOBALS['xoopsUser']->getGroups();
             $currentUid = $GLOBALS['xoopsUser']->uid();

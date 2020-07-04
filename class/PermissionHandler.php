@@ -19,15 +19,12 @@ namespace XoopsModules\Publisher;
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Class
- * @subpackage      Handlers
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -41,10 +38,6 @@ class PermissionHandler extends \XoopsObjectHandler
      */
     public $helper;
 
-    /**
-     * @param \XoopsDatabase|null                 $db
-     * @param \XoopsModules\Publisher\Helper|null $helper
-     */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
         /** @var \XoopsModules\Publisher\Helper $this ->helper */
@@ -69,18 +62,18 @@ class PermissionHandler extends \XoopsObjectHandler
         if (isset($items[$gpermName][$id])) {
             return $items[$gpermName][$id];
         }
-        $groups   = [];
+        $groups = [];
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('gperm_modid', $this->helper->getModule()->getVar('mid')));
         $criteria->add(new \Criteria('gperm_name', $gpermName));
         $criteria->add(new \Criteria('gperm_itemid', $id));
         //Instead of calling groupperm handler and get objects, we will save some memory and do it our way
         /** @var \XoopsMySQLDatabase $db */
-        $db    = \XoopsDatabaseFactory::getDatabaseConnection();
+        $db = \XoopsDatabaseFactory::getDatabaseConnection();
         $limit = $start = 0;
-        $sql   = 'SELECT gperm_groupid FROM ' . $db->prefix('group_permission');
+        $sql = 'SELECT gperm_groupid FROM ' . $db->prefix('group_permission');
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
-            $sql   .= ' ' . $criteria->renderWhere();
+            $sql .= ' ' . $criteria->renderWhere();
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
@@ -113,15 +106,15 @@ class PermissionHandler extends \XoopsObjectHandler
         $criteria->add(new \Criteria('gperm_modid', $this->helper->getModule()->getVar('mid')));
 
         //Get user's groups
-        $groups    = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
+        $groups = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
         $criteria2 = new \CriteriaCompo();
         foreach ($groups as $gid) {
             $criteria2->add(new \Criteria('gperm_groupid', $gid), 'OR');
         }
         $criteria->add($criteria2);
-        $db     = \XoopsDatabaseFactory::getDatabaseConnection();
-        $sql    = 'SELECT gperm_itemid FROM ' . $db->prefix('group_permission');
-        $sql    .= ' ' . $criteria->renderWhere();
+        $db = \XoopsDatabaseFactory::getDatabaseConnection();
+        $sql = 'SELECT gperm_itemid FROM ' . $db->prefix('group_permission');
+        $sql .= ' ' . $criteria->renderWhere();
         $result = $db->query($sql, 0, 0);
         while (false !== ($myrow = $db->fetchArray($result))) {
             $ret[$myrow['gperm_itemid']] = $myrow['gperm_itemid'];
@@ -162,9 +155,9 @@ class PermissionHandler extends \XoopsObjectHandler
      */
     public function saveItemPermissions($groups, $itemId, $permName)
     {
-        $result   = true;
+        $result = true;
         $moduleId = $this->helper->getModule()->getVar('mid');
-        /* @var  \XoopsGroupPermHandler $grouppermHandler */
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = \xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $grouppermHandler->deleteByModule($moduleId, $permName, $itemId);
@@ -190,7 +183,7 @@ class PermissionHandler extends \XoopsObjectHandler
      */
     public function deletePermissions($itemId, $gpermName)
     {
-        $result           = true;
+        $result = true;
         $grouppermHandler = \xoops_getHandler('groupperm');
         $grouppermHandler->deleteByModule($this->helper->getModule()->getVar('mid'), $gpermName, $itemId);
 

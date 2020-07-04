@@ -17,7 +17,7 @@ declare(strict_types=1);
  */
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirName = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
 $form = new \XoopsThemeForm($block['form_title'], 'blockform', 'blocksadmin.php', 'post', true);
@@ -43,11 +43,11 @@ $form->addElement(new \XoopsFormRadioYN(constant('CO_' . $moduleDirNameUpper . '
 $mod_select = new \XoopsFormSelect(constant('CO_' . $moduleDirNameUpper . '_' . 'VISIBLEIN'), 'bmodule', $block['modules'], 5, true);
 /** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$criteria      = new \CriteriaCompo(new \Criteria('hasmain', 1));
+$criteria = new \CriteriaCompo(new \Criteria('hasmain', 1));
 $criteria->add(new \Criteria('isactive', 1));
-$module_list     = $moduleHandler->getList($criteria);
+$module_list = $moduleHandler->getList($criteria);
 $module_list[-1] = _AM_SYSTEM_BLOCKS_TOPPAGE;
-$module_list[0]  = _AM_SYSTEM_BLOCKS_ALLPAGES;
+$module_list[0] = _AM_SYSTEM_BLOCKS_ALLPAGES;
 ksort($module_list);
 $mod_select->addOptionArray($module_list);
 $form->addElement($mod_select);
@@ -70,7 +70,7 @@ if ($block['is_custom']) {
     if ('' !== $block['template']) {
         /** @var \XoopsTplfileHandler $tplfileHandler */
         $tplfileHandler = xoops_getHandler('tplfile');
-        $btemplate      = $tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', $block['bid']);
+        $btemplate = $tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', $block['bid']);
         if (count($btemplate) > 0) {
             $form->addElement(new \XoopsFormLabel(_AM_SYSTEM_BLOCKS_CONTENT, '<a href="' . XOOPS_URL . '/modules/system/admin.php?fct=tplsets&amp;op=edittpl&amp;id=' . $btemplate[0]->getVar('tpl_id') . '">' . _AM_SYSTEM_BLOCKS_EDITTPL . '</a>'));
         } else {
@@ -87,16 +87,16 @@ if ($block['is_custom']) {
 $cache_select = new \XoopsFormSelect(_AM_SYSTEM_BLOCKS_BCACHETIME, 'bcachetime', $block['bcachetime']);
 $cache_select->addOptionArray(
     [
-        '0'       => _NOCACHE,
-        '30'      => sprintf(_SECONDS, 30),
-        '60'      => _MINUTE,
-        '300'     => sprintf(_MINUTES, 5),
-        '1800'    => sprintf(_MINUTES, 30),
-        '3600'    => _HOUR,
-        '18000'   => sprintf(_HOURS, 5),
-        '86400'   => _DAY,
-        '259200'  => sprintf(_DAYS, 3),
-        '604800'  => _WEEK,
+        '0' => _NOCACHE,
+        '30' => sprintf(_SECONDS, 30),
+        '60' => _MINUTE,
+        '300' => sprintf(_MINUTES, 5),
+        '1800' => sprintf(_MINUTES, 30),
+        '3600' => _HOUR,
+        '18000' => sprintf(_HOURS, 5),
+        '86400' => _DAY,
+        '259200' => sprintf(_DAYS, 3),
+        '604800' => _WEEK,
         '2592000' => _MONTH,
     ]
 );
@@ -104,7 +104,7 @@ $form->addElement($cache_select);
 
 /** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
-$groups           = $grouppermHandler->getGroupIds('block_read', $block['bid']);
+$groups = $grouppermHandler->getGroupIds('block_read', $block['bid']);
 
 $form->addElement(new \XoopsFormSelectGroup(_AM_SYSTEM_BLOCKS_GROUP, 'groups', true, $groups, 5, true));
 
@@ -119,7 +119,7 @@ if ($block['is_custom']) {
 }
 
 //Submit buttons
-$buttonTray    = new \XoopsFormElementTray('', '');
+$buttonTray = new \XoopsFormElementTray('', '');
 $submit_button = new \XoopsFormButton('', 'submitblock', _SUBMIT, 'submit');
 $buttonTray->addElement($submit_button);
 

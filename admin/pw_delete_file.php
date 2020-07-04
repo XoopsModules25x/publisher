@@ -14,7 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -31,10 +30,10 @@ if ('delfileok' === Request::getString('op', '', 'POST')) {
         redirect_header(XOOPS_URL . '/modules/publisher/admin/item.php', 3, _AM_PUBLISHER_FILE_DELETE_ERROR);
     }
 
-    $dir        = Publisher\Utility::getUploadDir(true, 'content');
+    $dir = Publisher\Utility::getUploadDir(true, 'content');
     $check_path = realpath($dir);
 
-    $filename  = Request::getString('address', '', 'POST');
+    $filename = Request::getString('address', '', 'POST');
     $path_file = realpath($dir . '/' . $filename);
 
     try {

@@ -19,15 +19,12 @@ namespace XoopsModules\Publisher;
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-
-
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -38,9 +35,6 @@ class MimetypeHandler extends BaseObjectHandler
 {
     /**
      * Constructor
-     *
-     * @param \XoopsDatabase|null                 $db
-     * @param \XoopsModules\Publisher\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
@@ -52,8 +46,8 @@ class MimetypeHandler extends BaseObjectHandler
         }
 
         $this->publisherIsAdmin = $this->helper->isUserAdmin();
-        $this->db               = $db;
-        $this->className        = Mimetype::class;
+        $this->db = $db;
+        $this->className = Mimetype::class;
     }
 
     /**
@@ -96,9 +90,9 @@ class MimetypeHandler extends BaseObjectHandler
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
     {
-        $ret   = [];
+        $ret = [];
         $limit = $start = 0;
-        $sql   = $this->selectQuery($criteria);
+        $sql = $this->selectQuery($criteria);
         if (null !== $criteria) {
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
@@ -111,7 +105,7 @@ class MimetypeHandler extends BaseObjectHandler
         }
         // Add each returned record to the result array
         while (false !== ($myrow = $this->db->fetchArray($result))) {
-            $obj   = new $this->className($myrow);
+            $obj = new $this->className($myrow);
             $ret[] = $obj;
             unset($obj);
         }
@@ -166,7 +160,7 @@ class MimetypeHandler extends BaseObjectHandler
      */
     public function checkMimeTypes($postField)
     {
-        $ret               = false;
+        $ret = false;
         $allowed_mimetypes = $this->getArrayByType();
         if (empty($allowed_mimetypes)) {
             return $ret;
@@ -219,7 +213,7 @@ class MimetypeHandler extends BaseObjectHandler
             if ($join) {
                 throw new \RuntimeException('no need for join...');
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             /** @var Publisher\Helper $helper */
             $helper = Publisher\Helper::getInstance();
             $helper->addLog($e);

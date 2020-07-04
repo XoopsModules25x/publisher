@@ -14,7 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -62,11 +61,11 @@ if ('start' === $op) {
             // Categories to be imported
             $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('news_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('news_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
-            $result           = $GLOBALS['xoopsDB']->query($sql);
+            $result = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_options = [];
 
             while (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) {
-                $cat_title              = $myts->displayTarea($cat_title);
+                $cat_title = $myts->displayTarea($cat_title);
                 $cat_cbox_options[$cid] = "$cat_title ($art_count)";
             }
 
@@ -101,14 +100,14 @@ if ('go' === $op) {
     Publisher\Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Publisher\Utility::openCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /* @var  XoopsModuleHandler $moduleHandler */
-    $moduleHandler  = xoops_getHandler('module');
-    $moduleObj      = $moduleHandler->getByDirname('news');
+    /** @var XoopsModuleHandler $moduleHandler */
+    $moduleHandler = xoops_getHandler('module');
+    $moduleObj = $moduleHandler->getByDirname('news');
     $news_module_id = $moduleObj->getVar('mid');
-    /* @var  XoopsGroupPermHandler $grouppermHandler */
+    /** @var XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
-    $cnt_imported_cat      = 0;
+    $cnt_imported_cat = 0;
     $cnt_imported_articles = 0;
 
     $parentId = Request::getInt('parent_category', 0, 'POST');
@@ -117,15 +116,15 @@ if ('go' === $op) {
 
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
-    $newCatArray     = [];
+    $newCatArray = [];
     $newArticleArray = [];
 
     $oldToNew = [];
     while (false !== ($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat))) {
-        $newCat           = [];
-        $newCat['oldid']  = $arrCat['topic_id'];
+        $newCat = [];
+        $newCat['oldid'] = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
-        /* @var  Publisher\Category $categoryObj */
+        /** @var Publisher\Category $categoryObj */
         $categoryObj = $helper->getHandler('Category')->create();
 
         $categoryObj->setVar('parentid', $arrCat['topic_pid']);
@@ -150,7 +149,7 @@ if ('go' === $op) {
 
         echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . '<br>';
 
-        $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('news_stories') . ' WHERE topicid=' . $arrCat['topic_id'];
+        $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('news_stories') . ' WHERE topicid=' . $arrCat['topic_id'];
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
@@ -260,7 +259,7 @@ if ('go' === $op) {
     $publisher_module_id = $helper->getModule()->mid();
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
-    $criteria       = new \CriteriaCompo();
+    $criteria = new \CriteriaCompo();
     $criteria->add(new \Criteria('com_modid', $news_module_id));
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);

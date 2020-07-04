@@ -15,7 +15,7 @@ error_reporting(E_ALL);
 
 require_once __DIR__ . '/header.php';
 
-$itemid       = Request::getInt('itemid', 0, 'GET');
+$itemid = Request::getInt('itemid', 0, 'GET');
 $item_page_id = Request::getInt('page', -1, 'GET');
 if (0 == $itemid) {
     redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
@@ -42,14 +42,14 @@ if (!$itemObj->accessGranted()) {
 
 $helper->loadLanguage('main');
 
-$dateformat    = $itemObj->getDatesub();
+$dateformat = $itemObj->getDatesub();
 $sender_inform = sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemObj->getDatesub());
-$mainImage     = $itemObj->getMainImage();
+$mainImage = $itemObj->getMainImage();
 
 $content = '';
   if (empty($mainImage['image_path'])) {
-             $content .= '<img src="' . PUBLISHER_URL . '/assets/images/default_image.jpg" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"><br>';
-		   }
+      $content .= '<img src="' . PUBLISHER_URL . '/assets/images/default_image.jpg" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"><br>';
+  }
 if ('' != $mainImage['image_path']) {
     $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"><br>';
 }
@@ -71,17 +71,17 @@ $content = str_replace('[pagebreak]', '', $content);
 
 // Configuration for TCPDF_for_XOOPS
 $pdf_data = [
-    'author'           => $itemObj->posterName(),
-    'title'            => $myts->undoHtmlSpecialChars($categoryObj->name()),
-    'page_format'      => 'A4',
+    'author' => $itemObj->posterName(),
+    'title' => $myts->undoHtmlSpecialChars($categoryObj->name()),
+    'page_format' => 'A4',
     'page_orientation' => 'P',
-    'unit'             => 'mm',
-    'rtl'              => false, //true if right to left
+    'unit' => 'mm',
+    'rtl' => false, //true if right to left
 ];
 
 $pdf = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
-$doc_title  = Publisher\Utility::convertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
+$doc_title = Publisher\Utility::convertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
 $docSubject = $myts->undoHtmlSpecialChars($categoryObj->name());
 
 $docKeywords = $myts->undoHtmlSpecialChars($itemObj->meta_keywords());
@@ -96,7 +96,7 @@ $pdf->SetSubject($docSubject);
 //$pdf->SetKeywords(XOOPS_URL . ', '.' by TCPDF_for_XOOPS (chg-web.org), '.$doc_title);
 $pdf->SetKeywords($docKeywords);
 
-$firstLine  = Publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
+$firstLine = Publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
 $secondLine = Publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['slogan']);
 
 $PDF_HEADER_LOGO = '_blank.png';

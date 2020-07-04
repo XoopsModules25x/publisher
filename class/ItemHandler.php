@@ -17,14 +17,12 @@ namespace XoopsModules\Publisher;
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -34,7 +32,6 @@ require_once \dirname(__DIR__) . '/include/common.php';
  * of Q&A class objects.
  *
  * @author  marcan <marcan@notrevie.ca>
- * @package Publisher
  */
 class ItemHandler extends \XoopsPersistableObjectHandler
 {
@@ -46,10 +43,6 @@ class ItemHandler extends \XoopsPersistableObjectHandler
 
     protected $resultCatCounts = [];
 
-    /**
-     * @param \XoopsDatabase|null                 $db
-     * @param \XoopsModules\Publisher\Helper|null $helper
-     */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
         /** @var Publisher\Helper $this ->helper */
@@ -178,8 +171,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idKey = 'none', $as_object = true, $notNullFields = null)
     {
-        $limit         = $start = 0;
-        $ret           = [];
+        $limit = $start = 0;
+        $ret = [];
         $notNullFields = (null !== $notNullFields) ?: '';
 
         $sql = 'SELECT * FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
@@ -420,7 +413,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getPreviousPublished($obj)
     {
-        $ret           = false;
+        $ret = false;
         $otherCriteria = new \CriteriaCompo();
         $otherCriteria->add(new \Criteria('datesub', $obj->getVar('datesub'), '<'));
         $objs = $this->getItems(1, 0, [Constants::PUBLISHER_STATUS_PUBLISHED], $obj->getVar('categoryid'), 'datesub', 'DESC', '', true, $otherCriteria, 'none');
@@ -438,7 +431,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getNextPublished($obj)
     {
-        $ret           = false;
+        $ret = false;
         $otherCriteria = new \CriteriaCompo();
         $otherCriteria->add(new \Criteria('datesub', $obj->getVar('datesub'), '>'));
         $otherCriteria->add(new \Criteria('datesub', \time(), '<='));
@@ -563,7 +556,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $criteria->setStart($start);
         $criteria->setSort($sort);
         $criteria->order = $order; // patch for XOOPS <= 2.5.10 does not set order correctly using setOrder() method
-        $ret             = &$this->getObjects($criteria, $idKey, $notNullFields);
+        $ret = &$this->getObjects($criteria, $idKey, $notNullFields);
 
         return $ret;
     }
@@ -573,13 +566,13 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      * @param string $status
      * @param int    $categoryId
      *
+     * @throws \Exception
+     * @throws \Exception
      * @return bool
-     * @throws \Exception
-     * @throws \Exception
      */
     public function getRandomItem($field = '', $status = '', $categoryId = -1)
     {
-        $ret           = false;
+        $ret = false;
         $notNullFields = $field;
         // Getting the number of published Items
         $totalItems = $this->getItemsCount($categoryId, $status, $notNullFields);
@@ -588,7 +581,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $entryNumber = \random_int(0, $totalItems); //TODO switch in PHP 7 to random_int()
 //            $entryNumber2 = random_int(0, $totalItems);
 
-            $item        = $this->getItems(1, $entryNumber, $status, $categoryId, $sort = 'datesub', $order = 'DESC', $notNullFields);
+            $item = $this->getItems(1, $entryNumber, $status, $categoryId, $sort = 'datesub', $order = 'DESC', $notNullFields);
             if ($item) {
                 $ret = $item[0];
             }
@@ -670,14 +663,14 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getItemsFromSearch($queryArray = [], $andor = 'AND', $limit = 0, $offset = 0, $userid = 0, $categories = [], $sortby = 0, $searchin = '', $extra = '')
     {
-        $count            = 0;
-        $ret              = [];
+        $count = 0;
+        $ret = [];
         $criteriaKeywords = $criteriaPermissions = $criteriaUser = null;
-        /* @var  \XoopsGroupPermHandler $grouppermHandler */
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = \xoops_getHandler('groupperm');
-        $groups           = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $searchin         = empty($searchin) ? ['title', 'body', 'summary'] : (\is_array($searchin) ? $searchin : [$searchin]);
-        if (\in_array('all', $searchin) || 0 === \count($searchin)) {
+        $groups = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        $searchin = empty($searchin) ? ['title', 'body', 'summary'] : (\is_array($searchin) ? $searchin : [$searchin]);
+        if (\in_array('all', $searchin, true) || 0 === \count($searchin)) {
             $searchin = ['title', 'subtitle', 'body', 'summary', 'meta_keywords'];
             //add support for searching in tags if Tag module exists and is active
             if (false !== $this->helper::getHelper('tag')) {
@@ -685,7 +678,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             }
         }
         if ($userid && \is_array($userid)) {
-            $userid       = \array_map('\intval', $userid);
+            $userid = \array_map('\intval', $userid);
             $criteriaUser = new \CriteriaCompo();
             $criteriaUser->add(new \Criteria('uid', '(' . \implode(',', $userid) . ')', 'IN'), 'OR');
         } elseif (\is_numeric($userid) && $userid > 0) {
@@ -736,7 +729,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $criteriaPermissions->add($grantedCategories, 'AND');
         } elseif (\count($categories) > 0) {
             $criteriaPermissions = new \CriteriaCompo();
-            $grantedCategories   = new \Criteria('categoryid', '(' . \implode(',', $categories) . ')', 'IN');
+            $grantedCategories = new \Criteria('categoryid', '(' . \implode(',', $categories) . ')', 'IN');
             $criteriaPermissions->add($grantedCategories, 'AND');
         }
         $criteriaItemsStatus = new \CriteriaCompo();
@@ -765,7 +758,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $order = 'DESC';
         }
         $criteria->order = $order; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
-        $ret             = &$this->getObjects($criteria);
+        $ret = &$this->getObjects($criteria);
 
         return $ret;
     }
@@ -778,11 +771,11 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getLastPublishedByCat($categoriesObj, $status = [Constants::PUBLISHER_STATUS_PUBLISHED])
     {
-        $ret    = [];
+        $ret = [];
         $catIds = [];
         foreach ($categoriesObj as $parentid) {
             foreach ($parentid as $category) {
-                $catId          = $category->getVar('categoryid');
+                $catId = $category->getVar('categoryid');
                 $catIds[$catId] = $catId;
             }
         }
@@ -815,12 +808,12 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             unset($item);
         }
         */
-        $sql    = 'SELECT mi.categoryid, mi.itemid, mi.title, mi.short_url, mi.uid, mi.datesub';
-        $sql    .= ' FROM (SELECT categoryid, MAX(datesub) AS date FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
-        $sql    .= ' WHERE status IN (' . \implode(',', $status) . ')';
-        $sql    .= ' AND categoryid IN (' . \implode(',', $catIds) . ')';
-        $sql    .= ' GROUP BY categoryid)mo';
-        $sql    .= ' JOIN ' . $this->db->prefix($this->helper->getDirname() . '_items') . ' mi ON mi.datesub = mo.date';
+        $sql = 'SELECT mi.categoryid, mi.itemid, mi.title, mi.short_url, mi.uid, mi.datesub';
+        $sql .= ' FROM (SELECT categoryid, MAX(datesub) AS date FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
+        $sql .= ' WHERE status IN (' . \implode(',', $status) . ')';
+        $sql .= ' AND categoryid IN (' . \implode(',', $catIds) . ')';
+        $sql .= ' GROUP BY categoryid)mo';
+        $sql .= ' JOIN ' . $this->db->prefix($this->helper->getDirname() . '_items') . ' mi ON mi.datesub = mo.date';
         $result = $this->db->query($sql);
         while (false !== ($row = $this->db->fetchArray($result))) {
             // $item = new Item();
@@ -843,12 +836,12 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     {
         //        global $resultCatCounts;
         $newspaces = $spaces . '--';
-        $thecount  = 0;
+        $thecount = 0;
         foreach ($catsCount[$parentid] as $subCatId => $count) {
-            $thecount                         += $count;
+            $thecount += $count;
             $this->resultCatCounts[$subCatId] = $count;
             if (isset($catsCount[$subCatId])) {
-                $thecount                         += $this->countArticlesByCat($subCatId, $catsCount, $newspaces);
+                $thecount += $this->countArticlesByCat($subCatId, $catsCount, $newspaces);
                 $this->resultCatCounts[$subCatId] = $thecount;
             }
         }
@@ -867,16 +860,16 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     {
         //        global $resultCatCounts;
 
-        $ret       = [];
+        $ret = [];
         $catsCount = [];
-        $sql       = 'SELECT c.parentid, i.categoryid, COUNT(*) AS count FROM ' . $this->db->prefix($this->helper->getDirname() . '_items') . ' AS i INNER JOIN ' . $this->db->prefix($this->helper->getDirname() . '_categories') . ' AS c ON i.categoryid=c.categoryid';
+        $sql = 'SELECT c.parentid, i.categoryid, COUNT(*) AS count FROM ' . $this->db->prefix($this->helper->getDirname() . '_items') . ' AS i INNER JOIN ' . $this->db->prefix($this->helper->getDirname() . '_categories') . ' AS c ON i.categoryid=c.categoryid';
         if ((int)$catId > 0) {
             $sql .= ' WHERE i.categoryid = ' . (int)$catId;
             $sql .= ' AND i.status IN (' . \implode(',', $status) . ')';
         } else {
             $sql .= ' WHERE i.status IN (' . \implode(',', $status) . ')';
         }
-        $sql    .= ' GROUP BY i.categoryid ORDER BY c.parentid ASC, i.categoryid ASC';
+        $sql .= ' GROUP BY i.categoryid ORDER BY c.parentid ASC, i.categoryid ASC';
         $result = $this->db->query($sql);
         if (!$result) {
             return $ret;

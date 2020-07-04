@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Comments
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
@@ -31,9 +29,9 @@ $helper = Publisher\Helper::getInstance();
 
 $com_itemid = Request::getInt('com_itemid', 0, 'GET');
 if ($com_itemid > 0) {
-    $itemObj       = $helper->getHandler('Item')->get($com_itemid);
+    $itemObj = $helper->getHandler('Item')->get($com_itemid);
     $com_replytext = _POSTEDBY . '&nbsp;<strong>' . $itemObj->getLinkedPosterName() . '</strong>&nbsp;' . _DATE . '&nbsp;<strong>' . $itemObj->dateSub() . '</strong><br><br>' . $itemObj->summary();
-    $bodytext      = $itemObj->body();
+    $bodytext = $itemObj->body();
     if ('' != $bodytext) {
         $com_replytext .= '<br><br>' . $bodytext . '';
     }

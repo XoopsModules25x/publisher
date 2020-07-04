@@ -38,7 +38,7 @@ trait FilesManagement
 
                 file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             echo 'Caught exception: ', $e->getMessage(), '<br>';
         }
     }
@@ -150,8 +150,8 @@ trait FilesManagement
                         break;
                     }
                 } elseif (!($success = \unlink($fileInfo->getRealPath()))) {
-                        break;
-                    }
+                    break;
+                }
             }
             // now delete this (sub)directory if all the files are gone
             if ($success) {
@@ -193,7 +193,7 @@ trait FilesManagement
         foreach ($iterator as $fObj) {
             if ($fObj->isFile()) {
                 $filename = $fObj->getPathname();
-                $fObj     = null; // clear this iterator object to close the file
+                $fObj = null; // clear this iterator object to close the file
                 if (!\unlink($filename)) {
                     return false; // couldn't delete the file
                 }

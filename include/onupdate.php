@@ -36,7 +36,7 @@ function xoops_module_pre_update_publisher(\XoopsModule $module)
     $utility = new Publisher\Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
-    $phpSuccess   = $utility::checkVerPhp($module);
+    $phpSuccess = $utility::checkVerPhp($module);
 
     return $xoopsSuccess && $phpSuccess;
 }
@@ -56,7 +56,7 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
 
     /** @var Publisher\Helper $helper */
     /** @var Publisher\Common\Configurator $configurator */
-    $helper       = Publisher\Helper::getInstance();
+    $helper = Publisher\Helper::getInstance();
     $configurator = new Publisher\Common\Configurator();
 
     $helper->loadLanguage('common');

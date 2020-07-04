@@ -116,7 +116,7 @@ define('_CO_PUBLISHER_BAD_TOKEN', 'Invalid token, please try again');
 
 //2017-11-22
 
-$moduleDirName      = basename(dirname(dirname(__DIR__)));
+$moduleDirName = basename(dirname(dirname(__DIR__)));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 define('CO_' . $moduleDirNameUpper . '_GDLIBSTATUS', 'GD library support: ');

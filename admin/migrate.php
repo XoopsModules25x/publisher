@@ -61,13 +61,13 @@ $configurator = new Publisher\Common\Configurator();
 /** @var \XoopsModules\Publisher\Common\Migrate $migrator */
 $migrator = new \XoopsModules\Publisher\Common\Migrate($configurator);
 
-$op        = Request::getCmd('op', 'show');
-$opShow    = Request::getCmd('show', null, 'POST');
+$op = Request::getCmd('op', 'show');
+$opShow = Request::getCmd('show', null, 'POST');
 $opMigrate = Request::getCmd('migrate', null, 'POST');
-$opSchema  = Request::getCmd('schema', null, 'POST');
-$op        = !empty($opShow) ? 'show' : $op;
-$op        = !empty($opMigrate) ? 'migrate' : $op;
-$op        = !empty($opSchema) ? 'schema' : $op;
+$opSchema = Request::getCmd('schema', null, 'POST');
+$op = !empty($opShow) ? 'show' : $op;
+$op = !empty($opMigrate) ? 'migrate' : $op;
+$op = !empty($opSchema) ? 'schema' : $op;
 
 $message = '';
 

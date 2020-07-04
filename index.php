@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -33,7 +31,7 @@ $catstart = Request::getInt('catstart', 0, 'GET');
 // At which record shall we start for the ITEM
 $start = Request::getInt('start', 0, 'GET');
 
-/* @var XoopsModules\Publisher\Helper $helper */
+/** @var XoopsModules\Publisher\Helper $helper */
 // Number of categories at the top level
 $totalCategories = $helper->getHandler('Category')->getCategoriesCount(0);
 
@@ -45,7 +43,7 @@ if (0 == $totalCategories) {
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
 require_once $GLOBALS['xoops']->path('header.php');
 require_once $helper->path('footer.php');
-/* @var  XoopsGroupPermHandler $grouppermHandler */
+/** @var XoopsGroupPermHandler $grouppermHandler */
 //$grouppermHandler = xoops_getHandler('groupperm');
 
 // Creating the top categories objects
@@ -133,7 +131,7 @@ foreach ($categoriesObj as $catId => $category) {
 unset($categoriesObj);
 
 if (isset($categories[$catId])) {
-    $categories[$catId]                 = $category->toArraySimple($categories[$catId]);
+    $categories[$catId] = $category->toArraySimple($categories[$catId]);
     $categories[$catId]['categoryPath'] = $category->getCategoryPath($helper->getConfig('format_linked_path'));
 }
 
@@ -145,37 +143,37 @@ if ($helper->getConfig('index_display_last_items')) {
     // creating the Item objects that belong to the selected category
     switch ($helper->getConfig('format_order_by')) {
         case 'title':
-            $sort  = 'title';
+            $sort = 'title';
             $order = 'ASC';
             break;
         case 'date':
-            $sort  = 'datesub';
+            $sort = 'datesub';
             $order = 'DESC';
             break;
         case 'counter':
-            $sort  = 'counter';
+            $sort = 'counter';
             $order = 'DESC';
             break;
         case 'rating':
-            $sort  = 'rating';
+            $sort = 'rating';
             $order = 'DESC';
             break;
         case 'votes':
-            $sort  = 'votes';
+            $sort = 'votes';
             $order = 'DESC';
             break;
         case 'comments':
-            $sort  = 'comments';
+            $sort = 'comments';
             $order = 'DESC';
             break;
         default:
-            $sort  = 'weight';
+            $sort = 'weight';
             $order = 'ASC';
             break;
     }
 
     // Creating the last ITEMs
-    $itemsObj   = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, -1, $sort, $order);
+    $itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, -1, $sort, $order);
     $itemsCount = count($itemsObj);
 
     //todo: make config for summary size

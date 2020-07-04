@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-namespace XoopsModules\Publisher\Helper;
 namespace XoopsModules\Publisher\Common;
 
 /*
@@ -19,7 +18,6 @@ namespace XoopsModules\Publisher\Common;
  */
 
 /**
- *
  * @license      https://www.fsf.org/copyleft/gpl.html GNU public license
  * @copyright    https://xoops.org 2000-2020 &copy; XOOPS Project
  * @author       ZySpec <zyspec@yahoo.com>
@@ -30,22 +28,19 @@ use MyTextSanitizer;
 use XoopsFormDhtmlTextArea;
 use XoopsFormTextArea;
 use XoopsModules\Publisher;
-
+use XoopsModules\Publisher\Helper;
 /**
  * Class SysUtility
  */
 class SysUtility
 {
     use VersionChecks;
-
     //checkVerXoops, checkVerPhp Traits
 
     use ServerStats;
-
     // getServerStats Trait
 
     use FilesManagement;
-
     // Files Management Trait
 
     use ModuleStats;
@@ -75,8 +70,8 @@ class SysUtility
             // splits all html-tags to scanable lines
             \preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, \PREG_SET_ORDER);
             $total_length = mb_strlen($ending);
-            $open_tags    = [];
-            $truncate     = '';
+            $open_tags = [];
+            $truncate = '';
             foreach ($lines as $line_matchings) {
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
                 if (!empty($line_matchings[1])) {
@@ -102,7 +97,7 @@ class SysUtility
                 $content_length = mb_strlen(\preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
                 if ($total_length + $content_length > $length) {
                     // the number of characters which are left
-                    $left            = $length - $total_length;
+                    $left = $length - $total_length;
                     $entities_length = 0;
                     // search for html entities
                     if (\preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, \PREG_OFFSET_CAPTURE)) {
@@ -121,7 +116,7 @@ class SysUtility
                     // maximum lenght is reached, so get off the loop
                     break;
                 }
-                $truncate     .= $line_matchings[2];
+                $truncate .= $line_matchings[2];
                 $total_length += $content_length;
 
                 // if the maximum length is reached, get off the loop
@@ -165,12 +160,12 @@ class SysUtility
     {
         /** @var Helper $helper */
         if (null === $options) {
-            $options           = [];
-            $options['name']   = 'Editor';
-            $options['value']  = 'Editor';
-            $options['rows']   = 10;
-            $options['cols']   = '100%';
-            $options['width']  = '100%';
+            $options = [];
+            $options['name'] = 'Editor';
+            $options['value'] = 'Editor';
+            $options['rows'] = 10;
+            $options['cols'] = '100%';
+            $options['width'] = '100%';
             $options['height'] = '400px';
         }
 

@@ -16,7 +16,6 @@ declare(strict_types=1);
  *
  * @copyright    The XOOPS Project (https://xoops.org)
  * @license      GNU GPL (https://www.gnu.org/licenses/gpl-2.0.html/)
- * @package      Publisher
  * @since        1.0
  * @author       Mage, Mamba
  */
@@ -31,8 +30,8 @@ xoops_cp_header();
 $helper = \XoopsModules\Publisher\Helper::getInstance();
 $helper->loadLanguage('main');
 $helper->loadLanguage('admin');
-$adminObject  = \Xmf\Module\Admin::getInstance();
-$utility      = new Publisher\Utility();
+$adminObject = \Xmf\Module\Admin::getInstance();
+$utility = new Publisher\Utility();
 $configurator = new Publisher\Common\Configurator();
 
 /*
@@ -54,7 +53,7 @@ if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.p
     $adminObject->addConfigBoxLine('<span style="color:#ff0000;"><img src="' . $pathIcon16 . '/0.png" alt="!">' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
 }
 
-$modStats    = [];
+$modStats = [];
 $moduleStats = $utility::getModuleStats($configurator, $modStats);
 
 $adminObject->addInfoBox(constant('CO_' . $moduleDirNameUpper . '_' . 'STATS_SUMMARY'));
@@ -100,13 +99,13 @@ $adminObject->displayNavigation(basename(__FILE__));
 //------------- Test Data ----------------------------
 
 if ($helper->getConfig('displaySampleButton')) {
-    $yamlFile            = dirname(__DIR__) . '/config/admin.yml';
-    $config              = loadAdminConfig($yamlFile);
+    $yamlFile = dirname(__DIR__) . '/config/admin.yml';
+    $config = loadAdminConfig($yamlFile);
     $displaySampleButton = $config['displaySampleButton'];
 
     if (1 == $displaySampleButton) {
         xoops_loadLanguage('admin/modulesadmin', 'system');
-        require  dirname(__DIR__) . '/testdata/index.php';
+        require dirname(__DIR__) . '/testdata/index.php';
 
         $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), './../testdata/index.php?op=load', 'add');
         $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), './../testdata/index.php?op=save', 'add');

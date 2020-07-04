@@ -108,21 +108,21 @@ class Highlighter
      * @param string       $text   Haystack - The text to search
      * @param array|string $needle Needle - The string to highlight
      *
-     * @return string $text with needle highlighted
+     * @return string $text (with needle highlighted)
      */
     public function highlight($text, $needle)
     {
         // Select pattern to use
         if ($this->simple) {
-            $pattern   = '#(%s)#';
+            $pattern = '#(%s)#';
             $slPattern = '#(%s)#';
         } else {
-            $pattern   = '#(?!<.*?)(%s)(?![^<>]*?>)#';
+            $pattern = '#(?!<.*?)(%s)(?![^<>]*?>)#';
             $slPattern = '#<a\s(?:.*?)>(%s)</a>#';
         }
         // Case sensitivity
         if (!$this->caseSens) {
-            $pattern   .= 'i';
+            $pattern .= 'i';
             $slPattern .= 'i';
         }
         $needle = (array)$needle;
@@ -135,10 +135,10 @@ class Highlighter
             // Strip links
             if ($this->stripLinks) {
                 $slRegex = \sprintf($slPattern, $needleS);
-                $text    = \preg_replace($slRegex, '\1', $text);
+                $text = \preg_replace($slRegex, '\1', $text);
             }
             $regex = \sprintf($pattern, $needleS);
-            $text  = \preg_replace($regex, $this->replacementString, $text);
+            $text = \preg_replace($regex, $this->replacementString, $text);
         }
 
         return $text;

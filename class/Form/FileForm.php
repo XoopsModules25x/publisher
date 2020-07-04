@@ -19,15 +19,12 @@ namespace XoopsModules\Publisher\Form;
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
 
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
-
-
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -50,13 +47,10 @@ class FileForm extends \XoopsThemeForm
 
     public $targetObject;
 
-    /**
-     * @param $target
-     */
     public function __construct(&$target)
     {
         /** @var Publisher\Helper $this ->helper */
-        $this->helper       = Publisher\Helper::getInstance();
+        $this->helper = Publisher\Helper::getInstance();
         $this->targetObject = &$target;
 
         parent::__construct(\_AM_PUBLISHER_UPLOAD_FILE, 'form', \xoops_getenv('SCRIPT_NAME'), 'post', true);
@@ -99,7 +93,7 @@ class FileForm extends \XoopsThemeForm
     public function createButtons()
     {
         $filesButtonTray = new \XoopsFormElementTray('', '');
-        $filesHidden     = new \XoopsFormHidden('op', 'uploadfile');
+        $filesHidden = new \XoopsFormHidden('op', 'uploadfile');
         $filesButtonTray->addElement($filesHidden);
 
         if (!$this->targetObject->fileid()) {

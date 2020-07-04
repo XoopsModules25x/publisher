@@ -18,19 +18,15 @@ namespace XoopsModules\Publisher;
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          John Neill <catzwolf@xoosla.com>
  */
-
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * XoopsThemeTabForm
  *
- * @package
  * @author    John
  * @copyright Copyright (c) 2009
  */
@@ -112,10 +108,10 @@ class ThemeTabForm extends \XoopsForm
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . '/modules/system/css/ui/' . \xoops_getModuleOption('jquery_theme', 'system') . '/ui.all.css');
 
-        $this->title   = $title;
-        $this->name    = $name;
-        $this->action  = $action;
-        $this->method  = $method;
+        $this->title = $title;
+        $this->name = $name;
+        $this->action = $action;
+        $this->method = $method;
         $this->summary = $summary;
         if ($addtoken) {
             $this->addElement(new \XoopsFormHiddenToken());
@@ -124,13 +120,10 @@ class ThemeTabForm extends \XoopsForm
 
     //function render() {}
 
-    /**
-     * @param \XoopsTpl $tpl
-     */
     public function assign(\XoopsTpl $tpl)
     {
-        $i        = -1;
-        $tab      = -1;
+        $i = -1;
+        $tab = -1;
         $elements = [];
         if (\count($this->getRequired()) > 0) {
             $this->elements[] = "<tr class='foot'><td colspan='2'>* = " . _REQUIRED . '</td></tr>';
@@ -147,16 +140,16 @@ class ThemeTabForm extends \XoopsForm
             }
             if (\is_string($ele)) {
                 $elements[$i]['body'] = $ele;
-                $elements[$i]['tab']  = $tab;
+                $elements[$i]['tab'] = $tab;
                 continue;
             }
-            $eleName                  = $ele->getName();
-            $eleDescription           = $ele->getDescription();
-            $n                        = $eleName ?: $i;
-            $elements[$n]['name']     = $eleName;
-            $elements[$n]['caption']  = $ele->getCaption();
-            $elements[$n]['body']     = $ele->render();
-            $elements[$n]['hidden']   = $ele->isHidden() ? true : false;
+            $eleName = $ele->getName();
+            $eleDescription = $ele->getDescription();
+            $n = $eleName ?: $i;
+            $elements[$n]['name'] = $eleName;
+            $elements[$n]['caption'] = $ele->getCaption();
+            $elements[$n]['body'] = $ele->render();
+            $elements[$n]['hidden'] = $ele->isHidden() ? true : false;
             $elements[$n]['required'] = $ele->isRequired();
             if ('' != $eleDescription) {
                 $elements[$n]['description'] = $eleDescription;
@@ -167,15 +160,15 @@ class ThemeTabForm extends \XoopsForm
         $tpl->assign(
             $this->getName(),
             [
-                'title'      => $this->getTitle(),
-                'id'         => 'tab_' . \preg_replace('/[^a-z0-9]+/i', '', $this->getTitle()),
-                'name'       => $this->getName(),
-                'action'     => $this->getAction(),
-                'method'     => $this->getMethod(),
-                'extra'      => 'onsubmit="return xoopsFormValidate_' . $this->getName() . '();"' . $this->getExtra(),
+                'title' => $this->getTitle(),
+                'id' => 'tab_' . \preg_replace('/[^a-z0-9]+/i', '', $this->getTitle()),
+                'name' => $this->getName(),
+                'action' => $this->getAction(),
+                'method' => $this->getMethod(),
+                'extra' => 'onsubmit="return xoopsFormValidate_' . $this->getName() . '();"' . $this->getExtra(),
                 'javascript' => $js,
-                'tabs'       => $this->formTabs,
-                'elements'   => $elements,
+                'tabs' => $this->formTabs,
+                'elements' => $elements,
             ]
         );
     }
@@ -210,7 +203,7 @@ class ThemeTabForm extends \XoopsForm
     public function startFormTabs($tabText)
     {
         $this->formTabs[] = $tabText;
-        $ret              = 'addTab';
+        $ret = 'addTab';
 
         return $ret;
     }
@@ -337,7 +330,7 @@ class ThemeTabForm extends \XoopsForm
      */
     public function getElementNames()
     {
-        $ret      = [];
+        $ret = [];
         $elements = &$this->getElements(true);
         foreach ($elements as $iValue) {
             $ret[] = $iValue->getName();
@@ -428,7 +421,7 @@ class ThemeTabForm extends \XoopsForm
     {
         // will not use getElementByName() for performance..
         $elements = &$this->getElements(true);
-        $values   = [];
+        $values = [];
         foreach ($elements as $i => $iValue) {
             $name = $iValue->getName(false);
             if ($name && \method_exists($elements[$i], 'getValue')) {
@@ -555,7 +548,7 @@ class ThemeTabForm extends \XoopsForm
             $js .= "\n<!-- Start Form Validation JavaScript //-->\n<script type='text/javascript'>\n<!--//\n";
         }
         $formname = $this->getName();
-        $js       .= "function xoopsFormValidate_{$formname}() { var myform = window.document.{$formname}; ";
+        $js .= "function xoopsFormValidate_{$formname}() { var myform = window.document.{$formname}; ";
         $elements = &$this->getElements(true);
         foreach ($elements as $elt) {
             if (\method_exists($elt, 'renderValidationJS')) {

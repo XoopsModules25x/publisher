@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -26,7 +24,7 @@ use XoopsModules\Publisher;
 
 require_once __DIR__ . '/header.php';
 
-$itemId     = Request::getInt('itemid', 0, 'GET');
+$itemId = Request::getInt('itemid', 0, 'GET');
 $itemPageId = Request::getInt('page', -1, 'GET');
 
 if (0 == $itemId) {
@@ -76,31 +74,31 @@ if (!$GLOBALS['xoopsUser']
 // creating the Item objects that belong to the selected category
 switch ($helper->getConfig('format_order_by')) {
     case 'title':
-        $sort  = 'title';
+        $sort = 'title';
         $order = 'ASC';
         break;
     case 'date':
-        $sort  = 'datesub';
+        $sort = 'datesub';
         $order = 'DESC';
         break;
     case 'counter':
-        $sort  = 'counter';
+        $sort = 'counter';
         $order = 'DESC';
         break;
     case 'rating':
-        $sort  = 'rating';
+        $sort = 'rating';
         $order = 'DESC';
         break;
     case 'votes':
-        $sort  = 'votes';
+        $sort = 'votes';
         $order = 'DESC';
         break;
     case 'comments':
-        $sort  = 'comments';
+        $sort = 'comments';
         $order = 'DESC';
         break;
     default:
-        $sort  = 'weight';
+        $sort = 'weight';
         $order = 'ASC';
         break;
 }
@@ -108,20 +106,20 @@ switch ($helper->getConfig('format_order_by')) {
 if ('previous_next' === $helper->getConfig('item_other_items_type')) {
     // Retrieving the next and previous object
     $previousItemLink = '';
-    $previousItemUrl  = '';
-    $nextItemLink     = '';
-    $nextItemUrl      = '';
+    $previousItemUrl = '';
+    $nextItemLink = '';
+    $nextItemUrl = '';
 
     $previousObj = $helper->getHandler('Item')->getPreviousPublished($itemObj);
-    $nextObj     = $helper->getHandler('Item')->getNextPublished($itemObj);
+    $nextObj = $helper->getHandler('Item')->getNextPublished($itemObj);
     if (is_object($previousObj)) {
         $previousItemLink = $previousObj->getItemLink();
-        $previousItemUrl  = $previousObj->getItemUrl();
+        $previousItemUrl = $previousObj->getItemUrl();
     }
 
     if (is_object($nextObj)) {
         $nextItemLink = $nextObj->getItemLink();
-        $nextItemUrl  = $nextObj->getItemUrl();
+        $nextItemUrl = $nextObj->getItemUrl();
     }
     unset($previousObj, $nextObj);
     $xoopsTpl->assign('previousItemLink', $previousItemLink);
@@ -133,50 +131,50 @@ if ('previous_next' === $helper->getConfig('item_other_items_type')) {
 //CAREFUL!! with many items this will exhaust memory
 if ('all' === $helper->getConfig('item_other_items_type')) {
     $itemsObj = $helper->getHandler('Item')->getAllPublished(0, 0, $categoryObj->categoryid(), $sort, $order, '', true, true);
-    $items    = [];
+    $items = [];
     foreach ($itemsObj[''] as $theItemObj) {
-        $theItem              = [];
-		$theItem['body']     = $theItemObj->getBody();
-		$theItem['title']     = $theItemObj->getTitle();
+        $theItem = [];
+        $theItem['body'] = $theItemObj->getBody();
+        $theItem['title'] = $theItemObj->getTitle();
         $theItem['titlelink'] = $theItemObj->getItemLink();
-		$theItem['itemid']    = $theItemObj->itemid();
-        $theItem['itemurl']   = $theItemObj->getItemUrl();
-        $theItem['datesub']   = $theItemObj->getDatesub();
-        $theItem['counter']   = $theItemObj->counter();
-		$theItem['who']       = $theItemObj->getWho();
+        $theItem['itemid'] = $theItemObj->itemid();
+        $theItem['itemurl'] = $theItemObj->getItemUrl();
+        $theItem['datesub'] = $theItemObj->getDatesub();
+        $theItem['counter'] = $theItemObj->counter();
+        $theItem['who'] = $theItemObj->getWho();
         $theItem['category'] = $theItemObj->getCategoryLink();
-	    $theItem['more']         = '<a href="' . $theItemObj->getItemUrl() . '">' . _MD_PUBLISHER_READMORE . '</a>';
- 
-		$summary = $theItemObj->getSummary(300);
-                if (!$summary) {
-                    $summary = $theItemObj->getBody(300);
-                }
-                $theItem['summary']   = $summary;
-		
-		$theItem['cancomment']   = $theItemObj->cancomment();
-		$comments = $theItemObj->comments();
-            if ($comments > 0) {
-                //shows 1 comment instead of 1 comm. if comments ==1
-                //langugage file modified accordingly
-                if (1 == $comments) {
-                    $theItem['comments'] = '&nbsp;' . _MD_PUBLISHER_ONECOMMENT . '&nbsp;';
-                } else {
-                    $theItem['comments'] = '&nbsp;' . $comments . '&nbsp;' . _MD_PUBLISHER_COMMENTS . '&nbsp;';
-                }
+        $theItem['more'] = '<a href="' . $theItemObj->getItemUrl() . '">' . _MD_PUBLISHER_READMORE . '</a>';
+
+        $summary = $theItemObj->getSummary(300);
+        if (!$summary) {
+            $summary = $theItemObj->getBody(300);
+        }
+        $theItem['summary'] = $summary;
+
+        $theItem['cancomment'] = $theItemObj->cancomment();
+        $comments = $theItemObj->comments();
+        if ($comments > 0) {
+            //shows 1 comment instead of 1 comm. if comments ==1
+            //langugage file modified accordingly
+            if (1 == $comments) {
+                $theItem['comments'] = '&nbsp;' . _MD_PUBLISHER_ONECOMMENT . '&nbsp;';
             } else {
-                $theItem['comments'] = '&nbsp;' . _MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
+                $theItem['comments'] = '&nbsp;' . $comments . '&nbsp;' . _MD_PUBLISHER_COMMENTS . '&nbsp;';
             }
-		
-		$mainImage = $theItemObj->getMainImage();
-            // check to see if GD function exist       
-			$theItem['item_image'] = $mainImage['image_path'];
-			if (!empty($mainImage['image_path']) && function_exists('imagecreatetruecolor')) {
-                $theItem['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=100';  
-			    $theItem['image_path'] = $mainImage['image_path'];  
-			}
-			
+        } else {
+            $theItem['comments'] = '&nbsp;' . _MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
+        }
+
+        $mainImage = $theItemObj->getMainImage();
+        // check to see if GD function exist       
+        $theItem['item_image'] = $mainImage['image_path'];
+        if (!empty($mainImage['image_path']) && function_exists('imagecreatetruecolor')) {
+            $theItem['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=100';  
+            $theItem['image_path'] = $mainImage['image_path'];
+        }
+
         if ($theItemObj->itemId() == $itemObj->itemId()) {
-			$theItem['titlelink'] = $theItemObj->getItemLink();
+            $theItem['titlelink'] = $theItemObj->getItemLink();
         }
         $items[] = $theItem;
         unset($theItem);
@@ -203,10 +201,10 @@ if ($itemObj->pagescount() > 0) {
 }
 
 // Creating the files object associated with this item
-$file         = [];
-$files        = [];
+$file = [];
+$files = [];
 $embededFiles = [];
-$filesObj     = $itemObj->getFiles();
+$filesObj = $itemObj->getFiles();
 
 // check if user has permission to modify files
 $hasFilePermissions = true;
@@ -215,7 +213,7 @@ if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsModerator($it
 }
 if (null !== $filesObj) {
     foreach ($filesObj as $fileObj) {
-        $file        = [];
+        $file = [];
         $file['mod'] = false;
         if ($hasFilePermissions || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid'))) {
             $file['mod'] = true;
@@ -229,19 +227,19 @@ if (null !== $filesObj) {
                 $embededFiles[] = $file;
             }
         } else {
-            $file['fileid']      = $fileObj->fileid();
-            $file['name']        = $fileObj->name();
+            $file['fileid'] = $fileObj->fileid();
+            $file['name'] = $fileObj->name();
             $file['description'] = $fileObj->description();
-            $file['name']        = $fileObj->name();
-            $file['type']        = $fileObj->mimetype();
-            $file['datesub']     = $fileObj->getDatesub();
-            $file['hits']        = $fileObj->counter();
-            $files[]             = $file;
+            $file['name'] = $fileObj->name();
+            $file['type'] = $fileObj->mimetype();
+            $file['datesub'] = $fileObj->getDatesub();
+            $file['hits'] = $fileObj->counter();
+            $files[] = $file;
         }
     }
 }
 
-$item['files']         = $files;
+$item['files'] = $files;
 $item['embeded_files'] = $embededFiles;
 unset($file, $embededFiles, $filesObj, $fileObj);
 
@@ -276,9 +274,9 @@ if ((0 != $helper->getConfig('com_rule')) && ((1 == $itemObj->cancomment()) || !
     // Problem with url_rewrite and posting comments :
     $xoopsTpl->assign(
         [
-            'editcomment_link'   => PUBLISHER_URL . '/comment_edit.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
+            'editcomment_link' => PUBLISHER_URL . '/comment_edit.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
             'deletecomment_link' => PUBLISHER_URL . '/comment_delete.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
-            'replycomment_link'  => PUBLISHER_URL . '/comment_reply.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
+            'replycomment_link' => PUBLISHER_URL . '/comment_reply.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
         ]
     );
     $xoopsTpl->_tpl_vars['commentsnav'] = str_replace("self.location.href='", "self.location.href='" . PUBLISHER_URL . '/', $xoopsTpl->_tpl_vars['commentsnav']);

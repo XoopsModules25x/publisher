@@ -18,6 +18,7 @@ final class Meta
      * @param string $locale_code
      * @return string
      */
+
     public static function getStatik($locale_code)
     {
         return '
@@ -34,6 +35,7 @@ final class Meta
     /**
      * @return string
      */
+
     public static function getRobot()
     {
         return '
@@ -46,6 +48,7 @@ final class Meta
     /**
      * @return string
      */
+
     public static function getNorobot()
     {
         return '
@@ -57,6 +60,7 @@ final class Meta
      * @param $title
      * @return string
      */
+
     public static function getTitle($title)
     {
         return '<title>' . $title . '</title>';
@@ -66,6 +70,7 @@ final class Meta
      * @param $desc
      * @return string
      */
+
     public static function getDescription($desc)
     {
         return '<meta itemprop="description" name="description" content="' . $desc . '">';
@@ -75,9 +80,11 @@ final class Meta
      * @param $langList
      * @return string
      */
+
     public static function getAlternate($langList)
     {
         $LL = '';
+
         if (\count($langList) > 1):
             foreach ($langList as $lang):
                 $LL .= '
@@ -86,7 +93,9 @@ final class Meta
         else:
             $LL = '
 			<link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '">';
+
         endif;
+
         return $LL;
     }
 
@@ -94,15 +103,20 @@ final class Meta
      * @param $fb
      * @return string
      */
+
     public static function getFacebook($fb)
     {
         $fbh = '';
+
         if (\is_array($fb)):
             foreach ($fb as $fbkey => $fbrow):
                 $fbh .= '
 				<meta property="og:' . $fbkey . '" content="' . $fbrow . '">';
-            endforeach;
+
+        endforeach;
+
         endif;
+
         return $fbh;
     }
 
@@ -110,14 +124,19 @@ final class Meta
      * @param $tw
      * @return string
      */
+
     public static function getTwitter($tw)
     {
         $twh = '';
+
         if (\is_array($tw)):
             foreach ($tw as $twkey => $twrow):
                 $twh .= '<meta name="twitter:' . $twkey . '" content="' . $twrow . '">';
-            endforeach;
+
+        endforeach;
+
         endif;
+
         return $twh;
     }
 
@@ -125,14 +144,19 @@ final class Meta
      * @param $icon
      * @return string
      */
+
     public static function getIcon($icon)
     {
         $iconh = '';
+
         if (\is_array($icon)):
             foreach ($icon as $iconkey => $iconrow):
                 $iconh .= '<meta name="' . $iconkey . '" href="' . $iconrow . '">';
-            endforeach;
+
+        endforeach;
+
         endif;
+
         return $iconh;
     }
 
@@ -140,6 +164,7 @@ final class Meta
      * @param $author
      * @return string
      */
+
     public static function getAuthor($author)
     {
         return '<meta name="author" itemprop="author" content="' . $author . '">';
@@ -149,6 +174,7 @@ final class Meta
      * @param $canonical
      * @return string
      */
+
     public static function getCanonical($canonical)
     {
         return '<link rel="canonical" itemprop="url" type="text/html" href="' . $canonical . '">';
@@ -158,6 +184,7 @@ final class Meta
      * @param $manifest
      * @return string
      */
+
     public static function getManifest($manifest)
     {
         return '<link rel="manifest" href="' . $manifest . '">';
@@ -167,6 +194,7 @@ final class Meta
      * @param $google
      * @return string
      */
+
     public static function getGoogle($google)
     {
         return '<meta name="google-site-verification" content="' . $google . '">';
@@ -176,6 +204,7 @@ final class Meta
      * @param $bing
      * @return string
      */
+
     public static function getBing($bing)
     {
         return '
@@ -186,6 +215,7 @@ final class Meta
      * @param $yandex
      * @return string
      */
+
     public static function getgetYandex($yandex)
     {
         return '<meta name="yandex-verification" content="' . $yandex . '">';
@@ -195,6 +225,7 @@ final class Meta
      * @param $amp
      * @return string
      */
+
     public static function getAmp($amp)
     {
         return '<meta rel="amphtml" content="' . $amp . '">';
@@ -204,19 +235,25 @@ final class Meta
      * @param $crumb
      * @return string
      */
+
     public static function getBreadcrumb($crumb)
     {
-        $h      = '';
-        $count  = 0;
+        $h = '';
+
+        $count = 0;
+
         $bcount = \count($crumb);
+
         if (\is_array($crumb)):
             $h .= '<script type="application/ld+json">{
 				"@context": "http://schema.org",
 				"@type": "BreadcrumbList",
 				"itemListElement":[';
-            foreach ($crumb as $crumbrow):
+
+        foreach ($crumb as $crumbrow):
                 ++$count;
-                $h .= '
+
+        $h .= '
 					{
 						"@type": "ListItem",
 						"position":"' . $crumbrow['position'] . '",
@@ -225,11 +262,16 @@ final class Meta
 							"name": "' . $crumbrow['name'] . '"
 						}
 					}';
-                $h .= $count == $bcount ? '' : ',';
-            endforeach;
-            $h .= ']}
+
+        $h .= $count == $bcount ? '' : ',';
+
+        endforeach;
+
+        $h .= ']}
        </script>';
+
         endif;
+
         return $h;
     }
 }

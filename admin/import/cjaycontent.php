@@ -14,7 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -91,11 +90,11 @@ if ('go' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
     Publisher\Utility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /* @var  XoopsModuleHandler $moduleHandler */
-    $moduleHandler         = xoops_getHandler('module');
-    $moduleObj             = $moduleHandler->getByDirname('cjaycontent');
+    /** @var XoopsModuleHandler $moduleHandler */
+    $moduleHandler = xoops_getHandler('module');
+    $moduleObj = $moduleHandler->getByDirname('cjaycontent');
     $cjaycontent_module_id = $moduleObj->getVar('mid');
-    /* @var  XoopsGroupPermHandler $grouppermHandler */
+    /** @var XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_articles = 0;
@@ -104,7 +103,7 @@ if ('go' === $op) {
 
     $oldToNew = [];
 
-    $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('cjaycontent');
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('cjaycontent');
     $resultArticles = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
         // insert article
@@ -164,7 +163,7 @@ if ('go' === $op) {
     $publisher_module_id = $helper->getModule()->mid();
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
-    $criteria       = new \CriteriaCompo();
+    $criteria = new \CriteriaCompo();
     $criteria->add(new \Criteria('com_modid', $cjaycontent_module_id));
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);

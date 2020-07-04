@@ -14,16 +14,12 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Include
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Sudhaker Raj <http://xoops.biz>
  */
 
 use Xmf\Request;
-
-
 
 //$seoOp = @$_GET['seoOp'];
 $seoOp = Request::getString('seoOp', '', 'GET');
@@ -40,16 +36,16 @@ if ('' == $seoOp && Request::getString('PATH_INFO', '', 'SERVER')) {
     $data = explode('/', Request::getString('PATH_INFO', '', 'SERVER'));
 
     $seoParts = explode('.', $data[1]);
-    $seoOp    = $seoParts[0];
-    $seoArg   = $seoParts[1];
+    $seoOp = $seoParts[0];
+    $seoArg = $seoParts[1];
     // for multi-argument modules, where itemid and catid both are required.
     // $seoArg = mb_substr($data[1], mb_strlen($seoOp) + 1);
 }
 
 $seoMap = [
     'category' => 'category.php',
-    'item'     => 'item.php',
-    'print'    => 'print.php',
+    'item' => 'item.php',
+    'print' => 'print.php',
 ];
 
 if (!empty($seoOp) && isset($seoMap[$seoOp])) {
@@ -57,23 +53,23 @@ if (!empty($seoOp) && isset($seoMap[$seoOp])) {
     // per their requirements.
 
     $url_arr = explode('/modules/', Request::getString('SCRIPT_NAME', '', 'SERVER'));
-    $newUrl  = $url_arr[0] . '/modules/' . PUBLISHER_DIRNAME . '/' . $seoMap[$seoOp];
+    $newUrl = $url_arr[0] . '/modules/' . PUBLISHER_DIRNAME . '/' . $seoMap[$seoOp];
 
-    $_ENV['SCRIPT_NAME']    = $newUrl;
+    $_ENV['SCRIPT_NAME'] = $newUrl;
     $_SERVER['SCRIPT_NAME'] = $newUrl;
     $_SERVER['SCRIPT_NAME'] = $newUrl;
     switch ($seoOp) {
         case 'category':
             $_SERVER['REQUEST_URI'] = $newUrl . '?categoryid=' . $seoArg;
-            $_GET['categoryid']     = $seoArg;
+            $_GET['categoryid'] = $seoArg;
             $_REQUEST['categoryid'] = $seoArg;
             break;
         case 'item':
         case 'print':
         default:
             $_SERVER['REQUEST_URI'] = $newUrl . '?itemid=' . $seoArg;
-            $_GET['itemid']         = $seoArg;
-            $_REQUEST['itemid']     = $seoArg;
+            $_GET['itemid'] = $seoArg;
+            $_REQUEST['itemid'] = $seoArg;
     }
     require PUBLISHER_ROOT_PATH . '/' . $seoMap[$seoOp];
     exit;

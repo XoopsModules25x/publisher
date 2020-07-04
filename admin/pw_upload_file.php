@@ -14,7 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -31,7 +30,7 @@ if (publisher_pagewrap_upload($errors)) {
     redirect_header(Request::getString('backto', '', 'POST'), 2, _AM_PUBLISHER_FILEUPLOAD_SUCCESS);
 } else {
     $errorstxt = implode('<br>', $errors);
-    $message   = sprintf(_CO_PUBLISHER_MESSAGE_FILE_ERROR, $errorstxt);
+    $message = sprintf(_CO_PUBLISHER_MESSAGE_FILE_ERROR, $errorstxt);
     redirect_header(Request::getString('backto', '', 'POST'), 5, $message);
 }
 
@@ -46,11 +45,11 @@ function publisher_pagewrap_upload(&$errors)
     xoops_load('XoopsMediaUploader');
 
     /** @var Publisher\Helper $helper */
-    $helper    = Publisher\Helper::getInstance();
+    $helper = Publisher\Helper::getInstance();
     $postField = 'fileupload';
 
-    $maxFileSize    = $helper->getConfig('maximum_filesize');
-    $maxImageWidth  = $helper->getConfig('maximum_image_width');
+    $maxFileSize = $helper->getConfig('maximum_filesize');
+    $maxImageWidth = $helper->getConfig('maximum_image_width');
     $maxImageHeight = $helper->getConfig('maximum_image_height');
 
     if (!is_dir(Publisher\Utility::getUploadDir(true, 'content'))) {
@@ -59,7 +58,7 @@ function publisher_pagewrap_upload(&$errors)
         }
     }
     $allowedMimeTypes = ['text/html', 'text/plain', 'application/xhtml+xml'];
-    $uploader         = new \XoopsMediaUploader(Publisher\Utility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
+    $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
     if ($uploader->fetchMedia($postField)) {
         $uploader->setTargetFileName($uploader->getMediaName());
         if ($uploader->upload()) {

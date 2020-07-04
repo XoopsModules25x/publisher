@@ -19,15 +19,12 @@ namespace XoopsModules\Publisher;
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-
-
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -36,7 +33,6 @@ require_once \dirname(__DIR__) . '/include/common.php';
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Nazar Aziz <nazar@panthersoftware.com>
@@ -57,12 +53,9 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      */
     protected $idfield = 'id';
 
-    public $helper           = null;
+    public $helper = null;
     public $publisherIsAdmin = null;
 
-    /**
-     * @param \XoopsDatabase|null $db
-     */
     public function init(\XoopsDatabase $db = null)
     {
         $this->db = $db;
@@ -125,10 +118,10 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
     {
-        $ret   = [];
+        $ret = [];
         $limit = $start = 0;
-        $sql   = $this->selectQuery($criteria);
-        $id    = $this->idfield;
+        $sql = $this->selectQuery($criteria);
+        $id = $this->idfield;
         if (null !== $criteria) {
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
@@ -153,7 +146,6 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $obj
      * @param bool         $force
      *
      * @return bool
@@ -304,7 +296,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null, $force = false) //updateAll($fieldname, $fieldvalue, $criteria = null)
     {
         $setClause = \is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
-        $sql       = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
+        $sql = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
@@ -349,7 +341,6 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      * Singleton - prevent multiple instances of this class
      *
      *
-     * @param \XoopsDatabase|null $db
      * @return \XoopsObject {@link pagesCategoryHandler}
      */
     public function getInstance(\XoopsDatabase $db = null)
@@ -357,7 +348,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
         static $instance;
         if (null === $instance) {
             $className = $this->className . 'Handler';
-            $instance  = new $className($db);
+            $instance = new $className($db);
         }
 
         return $instance;

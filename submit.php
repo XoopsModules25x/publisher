@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -36,14 +34,14 @@ if (!$categoriesArray) {
 }
 
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var \XoopsModules\Publisher\GroupPermHandler $grouppermHandler */
+/** @var \XoopsModules\Publisher\GroupPermHandler $grouppermHandler */
 $grouppermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
-$moduleId         = $helper->getModule()->getVar('mid');
+$moduleId = $helper->getModule()->getVar('mid');
 
 $itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
 if (0 != $itemId) {
     // We are editing or deleting an article
-    /* @var  Publisher\Item $itemObj */
+    /** @var Publisher\Item $itemObj */
     $itemObj = $helper->getHandler('Item')->get($itemId);
     if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($itemObj) || Publisher\Utility::userIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
@@ -55,7 +53,7 @@ if (0 != $itemId) {
             redirect_header('index.php', 1, _NOPERM);
         }
     }
-    /* @var  Publisher\Category $categoryObj */
+    /** @var Publisher\Category $categoryObj */
     $categoryObj = $itemObj->getCategory();
 } else {
     // we are submitting a new article
@@ -63,9 +61,9 @@ if (0 != $itemId) {
     if (!(Publisher\Utility::userIsAdmin() || (1 == $helper->getConfig('perm_submit') && (is_object($GLOBALS['xoopsUser']) || (1 == $helper->getConfig('perm_anon_submit')))))) {
         redirect_header('index.php', 1, _NOPERM);
     }
-    /* @var  Publisher\Item $itemObj */
+    /** @var Publisher\Item $itemObj */
     $itemObj = $helper->getHandler('Item')->create();
-    /* @var  Publisher\Category $categoryObj */
+    /** @var Publisher\Category $categoryObj */
     $categoryObj = $helper->getHandler('Category')->create();
 }
 
@@ -88,7 +86,7 @@ if (Request::getString('additem', '', 'POST')) {
 $tokenError = false;
 if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
     if ('preview' !== $op) {
-        $op         = 'preview';
+        $op = 'preview';
         $tokenError = true;
     }
 }
@@ -96,7 +94,7 @@ if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
 $op = Request::getString('op', Request::getString('op', $op, 'POST'), 'GET');
 
 $allowedEditors = Publisher\Utility::getEditors($grouppermHandler->getItemIds('editors', $groups, $moduleId));
-$formView       = $grouppermHandler->getItemIds('form_view', $groups, $moduleId);
+$formView = $grouppermHandler->getItemIds('form_view', $groups, $moduleId);
 
 // This code makes sure permissions are not manipulated
 $elements = [
@@ -124,7 +122,7 @@ $elements = [
 ];
 foreach ($elements as $element) {
     $classname = Constants::class;
-    if (Request::hasVar($element, 'POST') && !in_array(constant($classname . '::' . 'PUBLISHER_' . mb_strtoupper($element)), $formView)) {
+    if (Request::hasVar($element, 'POST') && !in_array(constant($classname . '::' . 'PUBLISHER_' . mb_strtoupper($element)), $formView, true)) {
         redirect_header('index.php', 1, _MD_PUBLISHER_SUBMIT_ERROR);
     }
 }
@@ -161,11 +159,11 @@ switch ($op) {
 
         $categoryObj = $helper->getHandler('Category')->get(Request::getInt('categoryid', 0, 'POST'));
 
-        $item                 = $itemObj->toArraySimple();
-        $item['summary']      = $itemObj->body();
+        $item = $itemObj->toArraySimple();
+        $item['summary'] = $itemObj->body();
         $item['categoryPath'] = $categoryObj->getCategoryPath(true);
-        $item['who_when']     = $itemObj->getWhoAndWhen();
-        $item['comments']     = -1;
+        $item['who_when'] = $itemObj->getWhoAndWhen();
+        $item['comments'] = -1;
         $xoopsTpl->assign('item', $item);
 
         $xoopsTpl->assign('op', 'preview');

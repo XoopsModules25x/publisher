@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Admin
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -30,15 +28,15 @@ xoops_load('XoopsPagenav');
 $start = Request::getInt('start', 0, 'GET');
 $limit = Request::getInt('limit', Request::getInt('limit', 15, 'GET'), 'POST');
 
-$aSortBy   = [
-    'mime_id'    => _AM_PUBLISHER_MIME_ID,
-    'mime_name'  => _AM_PUBLISHER_MIME_NAME,
-    'mime_ext'   => _AM_PUBLISHER_MIME_EXT,
+$aSortBy = [
+    'mime_id' => _AM_PUBLISHER_MIME_ID,
+    'mime_name' => _AM_PUBLISHER_MIME_NAME,
+    'mime_ext' => _AM_PUBLISHER_MIME_EXT,
     'mime_admin' => _AM_PUBLISHER_MIME_ADMIN,
-    'mime_user'  => _AM_PUBLISHER_MIME_USER,
+    'mime_user' => _AM_PUBLISHER_MIME_USER,
 ];
-$aOrderBy  = ['ASC' => _AM_PUBLISHER_TEXT_ASCENDING, 'DESC' => _AM_PUBLISHER_TEXT_DESCENDING];
-$aLimitBy  = ['10' => 10, '15' => 15, '20' => 20, '25' => 25, '50' => 50, '100' => 100];
+$aOrderBy = ['ASC' => _AM_PUBLISHER_TEXT_ASCENDING, 'DESC' => _AM_PUBLISHER_TEXT_DESCENDING];
+$aLimitBy = ['10' => 10, '15' => 15, '20' => 20, '25' => 25, '50' => 50, '100' => 100];
 $aSearchBy = ['mime_id' => _AM_PUBLISHER_MIME_ID, 'mime_name' => _AM_PUBLISHER_MIME_NAME, 'mime_ext' => _AM_PUBLISHER_MIME_EXT];
 
 $error = [];

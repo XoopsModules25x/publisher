@@ -14,7 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -28,7 +27,7 @@ require_once __DIR__ . '/header.php';
 $helper->loadLanguage('admin');
 //xoops_loadLanguage('admin', PUBLISHER_DIRNAME);
 
-$op     = Request::getString('op', Request::getString('op', '', 'GET'), 'POST');
+$op = Request::getString('op', Request::getString('op', '', 'GET'), 'POST');
 $fileid = Request::getInt('fileid', Request::getInt('fileid', 0, 'GET'), 'POST');
 
 if (0 == $fileid) {

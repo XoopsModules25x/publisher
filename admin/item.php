@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Admin
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -33,7 +31,7 @@ if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
 }
 
 $itemid = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
-$op     = ($itemid > 0 || Request::getString('editor', '', 'POST')) ? 'mod' : '';
+$op = ($itemid > 0 || Request::getString('editor', '', 'POST')) ? 'mod' : '';
 //$op     = Request::getString('op', $op, 'GET');
 
 $op = Request::getString('op', Request::getString('op', $op, 'POST'), 'GET');
@@ -43,9 +41,9 @@ $op = Request::getString('additem', '', 'POST') ? 'additem' : (Request::getStrin
 // Where shall we start ?
 $submittedstartitem = Request::getInt('submittedstartitem', Request::getInt('submittedstartitem', 0, 'GET'), 'POST');
 $publishedstartitem = Request::getInt('publishedstartitem', Request::getInt('publishedstartitem', 0, 'GET'), 'POST');
-$expiredstartitem   = Request::getInt('publishedstartitem', Request::getInt('expiredstartitem', 0, 'GET'), 'POST');
-$offlinestartitem   = Request::getInt('offlinestartitem', Request::getInt('offlinestartitem', 0, 'GET'), 'POST');
-$rejectedstartitem  = Request::getInt('rejectedstartitem', Request::getInt('submittedstartitem', 0, 'GET'), 'POST');
+$expiredstartitem = Request::getInt('publishedstartitem', Request::getInt('expiredstartitem', 0, 'GET'), 'POST');
+$offlinestartitem = Request::getInt('offlinestartitem', Request::getInt('offlinestartitem', 0, 'GET'), 'POST');
+$rejectedstartitem = Request::getInt('rejectedstartitem', Request::getInt('submittedstartitem', 0, 'GET'), 'POST');
 
 switch ($op) {
     case 'clone':
@@ -82,7 +80,7 @@ switch ($op) {
         $itemObj->setVarsFromRequest();
 
         $old_status = $itemObj->status();
-        $newStatus  = Request::getInt('status', Constants::PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
+        $newStatus = Request::getInt('status', Constants::PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
 
         switch ($newStatus) {
             case Constants::PUBLISHER_STATUS_SUBMITTED:
@@ -95,7 +93,7 @@ switch ($op) {
             case Constants::PUBLISHER_STATUS_PUBLISHED:
                 if ((Constants::PUBLISHER_STATUS_NOTSET == $old_status) || (Constants::PUBLISHER_STATUS_SUBMITTED == $old_status)) {
                     $redirect_msg = _AM_PUBLISHER_SUBMITTED_APPROVE_SUCCESS;
-                    $notifToDo    = [Constants::PUBLISHER_NOTIFY_ITEM_PUBLISHED];
+                    $notifToDo = [Constants::PUBLISHER_NOTIFY_ITEM_PUBLISHED];
                 } else {
                     $redirect_msg = _AM_PUBLISHER_PUBLISHED_MOD_SUCCESS;
                 }
@@ -166,7 +164,7 @@ switch ($op) {
         echo "<input type='button' name='button' onclick=\"location='item.php?op=mod'\" value='" . _AM_PUBLISHER_CREATEITEM . "'>&nbsp;&nbsp;";
         echo '</div></form>';
 
-        $orderBy   = 'datesub';
+        $orderBy = 'datesub';
         $ascOrDesc = 'DESC';
 
         // Display Submited articles
@@ -194,9 +192,9 @@ switch ($op) {
                 $categoryObj = $itemsObj[$i]->getCategory();
 
                 $approve = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/approve.gif' title='" . _AM_PUBLISHER_SUBMISSION_MODERATE . "' alt='" . _AM_PUBLISHER_SUBMISSION_MODERATE . "'></a>&nbsp;";
-                $clone   = '';
-                $delete  = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>";
-                $modify  = '';
+                $clone = '';
+                $delete = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>";
+                $modify = '';
 
                 echo '<tr>';
                 echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
@@ -249,7 +247,7 @@ switch ($op) {
 
                 $modify = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "'></a>";
                 $delete = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>";
-                $clone  = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>";
+                $clone = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>";
 
                 echo '<tr>';
                 echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
@@ -303,7 +301,7 @@ switch ($op) {
 
                 $modify = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "'></a>";
                 $delete = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>";
-                $clone  = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>";
+                $clone = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>";
 
                 echo '<tr>';
                 echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
@@ -335,7 +333,7 @@ switch ($op) {
 
         // Get the total number of Rejected ITEM
         $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_REJECTED]);
-        $itemsObj   = $helper->getHandler('Item')->getAllRejected($helper->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj = $helper->getHandler('Item')->getAllRejected($helper->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -356,7 +354,7 @@ switch ($op) {
 
                 $modify = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "'></a>";
                 $delete = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'></a>";
-                $clone  = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>";
+                $clone = "<a href='item.php?op=clone&itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif' title='" . _AM_PUBLISHER_CLONE_ITEM . "' alt='" . _AM_PUBLISHER_CLONE_ITEM . "'></a>";
 
                 echo '<tr>';
                 echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
@@ -423,51 +421,51 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
             case Constants::PUBLISHER_STATUS_SUBMITTED:
                 $breadcrumbAction1 = _CO_PUBLISHER_SUBMITTED;
                 $breadcrumbAction2 = _AM_PUBLISHER_APPROVING;
-                $pageTitle         = _AM_PUBLISHER_SUBMITTED_TITLE;
-                $pageInfo          = _AM_PUBLISHER_SUBMITTED_INFO;
-                $buttonCaption     = _AM_PUBLISHER_APPROVE;
-                $newStatus         = Constants::PUBLISHER_STATUS_PUBLISHED;
+                $pageTitle = _AM_PUBLISHER_SUBMITTED_TITLE;
+                $pageInfo = _AM_PUBLISHER_SUBMITTED_INFO;
+                $buttonCaption = _AM_PUBLISHER_APPROVE;
+                $newStatus = Constants::PUBLISHER_STATUS_PUBLISHED;
                 break;
             case Constants::PUBLISHER_STATUS_PUBLISHED:
                 $breadcrumbAction1 = _CO_PUBLISHER_PUBLISHED;
                 $breadcrumbAction2 = _AM_PUBLISHER_EDITING;
-                $pageTitle         = _AM_PUBLISHER_PUBLISHEDEDITING;
-                $pageInfo          = _AM_PUBLISHER_PUBLISHEDEDITING_INFO;
-                $buttonCaption     = _AM_PUBLISHER_MODIFY;
-                $newStatus         = Constants::PUBLISHER_STATUS_PUBLISHED;
+                $pageTitle = _AM_PUBLISHER_PUBLISHEDEDITING;
+                $pageInfo = _AM_PUBLISHER_PUBLISHEDEDITING_INFO;
+                $buttonCaption = _AM_PUBLISHER_MODIFY;
+                $newStatus = Constants::PUBLISHER_STATUS_PUBLISHED;
                 break;
             case Constants::PUBLISHER_STATUS_OFFLINE:
                 $breadcrumbAction1 = _CO_PUBLISHER_OFFLINE;
                 $breadcrumbAction2 = _AM_PUBLISHER_EDITING;
-                $pageTitle         = _AM_PUBLISHER_OFFLINEEDITING;
-                $pageInfo          = _AM_PUBLISHER_OFFLINEEDITING_INFO;
-                $buttonCaption     = _AM_PUBLISHER_MODIFY;
-                $newStatus         = Constants::PUBLISHER_STATUS_OFFLINE;
+                $pageTitle = _AM_PUBLISHER_OFFLINEEDITING;
+                $pageInfo = _AM_PUBLISHER_OFFLINEEDITING_INFO;
+                $buttonCaption = _AM_PUBLISHER_MODIFY;
+                $newStatus = Constants::PUBLISHER_STATUS_OFFLINE;
                 break;
             case Constants::PUBLISHER_STATUS_REJECTED:
                 $breadcrumbAction1 = _CO_PUBLISHER_REJECTED;
                 $breadcrumbAction2 = _AM_PUBLISHER_REJECTED;
-                $pageTitle         = _AM_PUBLISHER_REJECTED_EDIT;
-                $pageInfo          = _AM_PUBLISHER_REJECTED_EDIT_INFO;
-                $buttonCaption     = _AM_PUBLISHER_MODIFY;
-                $newStatus         = Constants::PUBLISHER_STATUS_REJECTED;
+                $pageTitle = _AM_PUBLISHER_REJECTED_EDIT;
+                $pageInfo = _AM_PUBLISHER_REJECTED_EDIT_INFO;
+                $buttonCaption = _AM_PUBLISHER_MODIFY;
+                $newStatus = Constants::PUBLISHER_STATUS_REJECTED;
                 break;
             case Constants::PUBLISHER_STATUS_NOTSET: // Then it's a clone...
                 $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;
                 $breadcrumbAction2 = _AM_PUBLISHER_CLONE_NEW;
-                $buttonCaption     = _AM_PUBLISHER_CREATE;
-                $newStatus         = Constants::PUBLISHER_STATUS_PUBLISHED;
-                $pageTitle         = _AM_PUBLISHER_ITEM_DUPLICATING;
-                $pageInfo          = _AM_PUBLISHER_ITEM_DUPLICATING_DSC;
+                $buttonCaption = _AM_PUBLISHER_CREATE;
+                $newStatus = Constants::PUBLISHER_STATUS_PUBLISHED;
+                $pageTitle = _AM_PUBLISHER_ITEM_DUPLICATING;
+                $pageInfo = _AM_PUBLISHER_ITEM_DUPLICATING_DSC;
                 break;
             case 'default':
             default:
                 $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;
                 $breadcrumbAction2 = _AM_PUBLISHER_EDITING;
-                $pageTitle         = _AM_PUBLISHER_PUBLISHEDEDITING;
-                $pageInfo          = _AM_PUBLISHER_PUBLISHEDEDITING_INFO;
-                $buttonCaption     = _AM_PUBLISHER_MODIFY;
-                $newStatus         = Constants::PUBLISHER_STATUS_PUBLISHED;
+                $pageTitle = _AM_PUBLISHER_PUBLISHEDEDITING;
+                $pageInfo = _AM_PUBLISHER_PUBLISHEDEDITING_INFO;
+                $buttonCaption = _AM_PUBLISHER_MODIFY;
+                $newStatus = Constants::PUBLISHER_STATUS_PUBLISHED;
                 break;
         }
 
@@ -487,11 +485,11 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
         $itemObj = $helper->getHandler('Item')->create();
         $itemObj->setVarsFromRequest();
 
-        $categoryObj       = $helper->getHandler('Category')->create();
+        $categoryObj = $helper->getHandler('Category')->create();
         $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;
         $breadcrumbAction2 = _AM_PUBLISHER_CREATINGNEW;
-        $buttonCaption     = _AM_PUBLISHER_CREATE;
-        $newStatus         = Constants::PUBLISHER_STATUS_PUBLISHED;
+        $buttonCaption = _AM_PUBLISHER_CREATE;
+        $newStatus = Constants::PUBLISHER_STATUS_PUBLISHED;
 
         $categoryObj->setVar('categoryid', Request::getInt('categoryid', 0, 'GET'));
 
@@ -527,7 +525,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     $form = new \XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
 
     $pWrapSelect = new \XoopsFormSelect(Publisher\Utility::getUploadDir(true, 'content'), 'address');
-    $folder      = dir($dir);
+    $folder = dir($dir);
     while (false !== ($file = $folder->read())) {
         if ('.' !== $file && '..' !== $file) {
             $pWrapSelect->addOption($file, $file);

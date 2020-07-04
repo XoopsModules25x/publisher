@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-/**
- * @return object
- */
+/** @return object */
 
 //function getPaths()
 //{
@@ -14,14 +12,14 @@ $moduleDirName = basename(dirname(__DIR__));
 return (object)[
     //        'name'          => mb_strtoupper($moduleDirName) . ' PathConfigurator',
     //        'paths'         => [
-    'dirname'    => $moduleDirName,
-    'admin'      => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
-    'modPath'    => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
-    'modUrl'     => XOOPS_URL . '/modules/' . $moduleDirName,
-    'uploadUrl'  => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
+    'dirname' => $moduleDirName,
+    'admin' => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
+    'modPath' => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
+    'modUrl' => XOOPS_URL . '/modules/' . $moduleDirName,
+    'uploadUrl' => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
     'uploadPath' => XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
 
-    'uploadPathCategory'    => XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
+    'uploadPathCategory' => XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
     'uploadPathScreenshots' => XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
     //        ],
     //        'uploadFolders' => [

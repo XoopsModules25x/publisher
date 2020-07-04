@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -50,16 +48,16 @@ if (!$itemObj->accessGranted()) {
 $categoryObj = $itemObj->getCategory();
 
 $xoopsTpl = new \XoopsTpl();
-$myts     = \MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
-$item['title']        = $itemObj->getTitle();
-$item['body']         = $itemObj->getBody();
+$item['title'] = $itemObj->getTitle();
+$item['body'] = $itemObj->getBody();
 $item['categoryname'] = $myts->displayTarea($categoryObj->name());
 
 $mainImage = $itemObj->getMainImage();
   if (empty($mainImage['image_path'])) {
-            $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
-           }
+      $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
+  }
 if ('' != $mainImage['image_path']) {
     $item['image'] = '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '">';
 }
@@ -73,9 +71,9 @@ $xoopsTpl->assign('lang_category', _CO_PUBLISHER_CATEGORY);
 $xoopsTpl->assign('lang_author_date', sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemObj->getDatesub()));
 
 $doNotStartPrint = false;
-$noTitle         = false;
-$noCategory      = false;
-$smartPopup      = false;
+$noTitle = false;
+$noCategory = false;
+$smartPopup = false;
 
 $xoopsTpl->assign('doNotStartPrint', $doNotStartPrint);
 $xoopsTpl->assign('noTitle', $noTitle);

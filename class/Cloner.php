@@ -39,7 +39,7 @@ class Cloner
             }
         } else {
             $noChangeExtensions = ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ttf'];
-            if (\in_array(mb_strtolower(\pathinfo($path, \PATHINFO_EXTENSION)), $noChangeExtensions)) {
+            if (\in_array(mb_strtolower(\pathinfo($path, \PATHINFO_EXTENSION)), $noChangeExtensions, true)) {
                 // image
                 \copy($path, $newPath);
             } else {
@@ -93,7 +93,7 @@ class Cloner
         \imagefilledrectangle($imageModule, 5, 35, 85, 46, $greyColor);
 
         // Write text
-        $textColor     = \imagecolorallocate($imageModule, 0, 0, 0);
+        $textColor = \imagecolorallocate($imageModule, 0, 0, 0);
         $spaceToBorder = intval((80 - mb_strlen($dirname) * 6.5) / 2);
         \imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, \ucfirst($dirname), []);
 

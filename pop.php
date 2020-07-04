@@ -14,13 +14,11 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 $doNotStartPrint = true;
-$noTitle         = true;
-$smartPopup      = true;
+$noTitle = true;
+$smartPopup = true;
 require_once __DIR__ . '/print.php';

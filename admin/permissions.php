@@ -14,7 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -35,7 +34,7 @@ $helper = Publisher\Helper::getInstance();
 
 // View Categories permissions
 $item_list_view = [];
-$block_view     = [];
+$block_view = [];
 Publisher\Utility::openCollapsableBar('permissionstable_view', 'permissionsicon_view', _AM_PUBLISHER_PERMISSIONSVIEWMAN, _AM_PUBLISHER_VIEW_CATS);
 
 $result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_categories') . ' ');
@@ -84,35 +83,35 @@ Publisher\Utility::closeCollapsableBar('permissionstable_moderation', 'permissio
 echo "<br>\n";
 Publisher\Utility::openCollapsableBar('permissionstable_form', 'permissionsicon_form', _AM_PUBLISHER_PERMISSIONS_FORM, _AM_PUBLISHER_PERMISSIONS_FORM_DSC);
 $form_options = [
-    Constants::PUBLISHER_SUMMARY               => _AM_PUBLISHER_SUMMARY,
+    Constants::PUBLISHER_SUMMARY => _AM_PUBLISHER_SUMMARY,
     //Constants::PUBLISHER_DISPLAY_SUMMARY        => _CO_PUBLISHER_DISPLAY_SUMMARY,
-    Constants::PUBLISHER_AVAILABLE_PAGE_WRAP   => _CO_PUBLISHER_AVAILABLE_PAGE_WRAP,
-    Constants::PUBLISHER_ITEM_TAG              => _AM_PUBLISHER_ITEM_TAG,
-    Constants::PUBLISHER_IMAGE_ITEM            => _AM_PUBLISHER_IMAGE_ITEM,
+    Constants::PUBLISHER_AVAILABLE_PAGE_WRAP => _CO_PUBLISHER_AVAILABLE_PAGE_WRAP,
+    Constants::PUBLISHER_ITEM_TAG => _AM_PUBLISHER_ITEM_TAG,
+    Constants::PUBLISHER_IMAGE_ITEM => _AM_PUBLISHER_IMAGE_ITEM,
     //_PUBLISHER_IMAGE_UPLOAD           => _AM_PUBLISHER_IMAGE_UPLOAD,
-    Constants::PUBLISHER_ITEM_UPLOAD_FILE      => _CO_PUBLISHER_ITEM_UPLOAD_FILE,
-    Constants::PUBLISHER_UID                   => _CO_PUBLISHER_UID,
-    Constants::PUBLISHER_DATESUB               => _CO_PUBLISHER_DATESUB,
-    Constants::PUBLISHER_DATEEXPIRE            => _CO_PUBLISHER_DATEEXPIRE,
-    Constants::PUBLISHER_STATUS                => _CO_PUBLISHER_STATUS,
-    Constants::PUBLISHER_ITEM_SHORT_URL        => _CO_PUBLISHER_ITEM_SHORT_URL,
-    Constants::PUBLISHER_ITEM_META_KEYWORDS    => _CO_PUBLISHER_ITEM_META_KEYWORDS,
+    Constants::PUBLISHER_ITEM_UPLOAD_FILE => _CO_PUBLISHER_ITEM_UPLOAD_FILE,
+    Constants::PUBLISHER_UID => _CO_PUBLISHER_UID,
+    Constants::PUBLISHER_DATESUB => _CO_PUBLISHER_DATESUB,
+    Constants::PUBLISHER_DATEEXPIRE => _CO_PUBLISHER_DATEEXPIRE,
+    Constants::PUBLISHER_STATUS => _CO_PUBLISHER_STATUS,
+    Constants::PUBLISHER_ITEM_SHORT_URL => _CO_PUBLISHER_ITEM_SHORT_URL,
+    Constants::PUBLISHER_ITEM_META_KEYWORDS => _CO_PUBLISHER_ITEM_META_KEYWORDS,
     Constants::PUBLISHER_ITEM_META_DESCRIPTION => _CO_PUBLISHER_ITEM_META_DESCRIPTION,
-    Constants::PUBLISHER_WEIGHT                => _CO_PUBLISHER_WEIGHT,
-    Constants::PUBLISHER_ALLOWCOMMENTS         => _CO_PUBLISHER_ALLOWCOMMENTS,
+    Constants::PUBLISHER_WEIGHT => _CO_PUBLISHER_WEIGHT,
+    Constants::PUBLISHER_ALLOWCOMMENTS => _CO_PUBLISHER_ALLOWCOMMENTS,
     //Constants::PUBLISHER_PERMISSIONS_ITEM => _CO_PUBLISHER_PERMISSIONS_ITEM,
     //Constants::PUBLISHER_PERMISSIONS_ITEM_DSC => _CO_PUBLISHER_PERMISSIONS_ITEM_DSC,
     // Constants::PUBLISHER_PARTIAL_VIEW => _CO_PUBLISHER_PARTIAL_VIEW,
-    Constants::PUBLISHER_DOHTML                => _CO_PUBLISHER_DOHTML,
-    Constants::PUBLISHER_DOSMILEY              => _CO_PUBLISHER_DOSMILEY,
-    Constants::PUBLISHER_DOXCODE               => _CO_PUBLISHER_DOXCODE,
-    Constants::PUBLISHER_DOIMAGE               => _CO_PUBLISHER_DOIMAGE,
-    Constants::PUBLISHER_DOLINEBREAK           => _CO_PUBLISHER_DOLINEBREAK,
-    Constants::PUBLISHER_NOTIFY                => _AM_PUBLISHER_NOTIFY,
-    Constants::PUBLISHER_SUBTITLE              => _CO_PUBLISHER_SUBTITLE,
-    Constants::PUBLISHER_AUTHOR_ALIAS          => _CO_PUBLISHER_AUTHOR_ALIAS,
+    Constants::PUBLISHER_DOHTML => _CO_PUBLISHER_DOHTML,
+    Constants::PUBLISHER_DOSMILEY => _CO_PUBLISHER_DOSMILEY,
+    Constants::PUBLISHER_DOXCODE => _CO_PUBLISHER_DOXCODE,
+    Constants::PUBLISHER_DOIMAGE => _CO_PUBLISHER_DOIMAGE,
+    Constants::PUBLISHER_DOLINEBREAK => _CO_PUBLISHER_DOLINEBREAK,
+    Constants::PUBLISHER_NOTIFY => _AM_PUBLISHER_NOTIFY,
+    Constants::PUBLISHER_SUBTITLE => _CO_PUBLISHER_SUBTITLE,
+    Constants::PUBLISHER_AUTHOR_ALIAS => _CO_PUBLISHER_AUTHOR_ALIAS,
 ];
-$form_submit  = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'form_view', '', 'admin/permissions.php');
+$form_submit = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'form_view', '', 'admin/permissions.php');
 foreach ($form_options as $key => $value) {
     $form_submit->addItem($key, $value);
 }
@@ -123,7 +122,7 @@ Publisher\Utility::closeCollapsableBar('permissionstable_form', 'permissionsicon
 // Editors permissions
 echo "<br>\n";
 Publisher\Utility::openCollapsableBar('permissionstable_editors', 'permissions_editors', _AM_PUBLISHER_PERMISSIONS_EDITORS, _AM_PUBLISHER_PERMISSIONS_EDITORS_DSC);
-$editors     = Publisher\Utility::getEditors();
+$editors = Publisher\Utility::getEditors();
 $form_submit = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'editors', '', 'admin/permissions.php');
 foreach ($editors as $key => $value) {
     $form_submit->addItem($key, $value['title']);
@@ -137,9 +136,9 @@ echo "<br>\n";
 Publisher\Utility::openCollapsableBar('permissionstable_global', 'permissionsicon_global', _AM_PUBLISHER_PERMISSIONS_GLOBAL, _AM_PUBLISHER_PERMISSIONS_GLOBAL_DSC);
 $form_options = [
     Constants::PUBLISHER_SEARCH => _AM_PUBLISHER_SEARCH,
-    Constants::PUBLISHER_RATE   => _AM_PUBLISHER_RATE,
+    Constants::PUBLISHER_RATE => _AM_PUBLISHER_RATE,
 ];
-$form_submit  = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'global', '', 'admin/permissions.php');
+$form_submit = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'global', '', 'admin/permissions.php');
 foreach ($form_options as $key => $value) {
     $form_submit->addItem($key, $value);
 }

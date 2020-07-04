@@ -17,15 +17,12 @@ namespace XoopsModules\Publisher;
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-
-
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -40,7 +37,6 @@ require_once \dirname(__DIR__) . '/include/common.php';
  * of File class objects.
  *
  * @author  marcan <marcan@notrevie.ca>
- * @package Publisher
  */
 class FileHandler extends \XoopsPersistableObjectHandler
 {
@@ -50,10 +46,6 @@ class FileHandler extends \XoopsPersistableObjectHandler
      */
     public $helper;
 
-    /**
-     * @param \XoopsDatabase|null                 $db
-     * @param \XoopsModules\Publisher\Helper|null $helper
-     */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
         /** @var \XoopsModules\Publisher\Helper $this ->helper */
@@ -96,7 +88,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
         if ('publisheritem' !== mb_strtolower(\get_class($itemObj))) {
             return false;
         }
-        $files  = $this->getAllFiles($itemObj->itemid());
+        $files = $this->getAllFiles($itemObj->itemid());
         $result = true;
         foreach ($files as $file) {
             if (!$this->delete($file)) {
@@ -130,9 +122,9 @@ class FileHandler extends \XoopsPersistableObjectHandler
         [$count] = $GLOBALS['xoopsDB']->fetchRow($result);
         if ($count > 0) {
             $this->field_object = 'itemid';
-            $this->field_link   = 'itemid';
-            $hasStatusCriteria  = false;
-            $criteriaStatus     = new \CriteriaCompo();
+            $this->field_link = 'itemid';
+            $hasStatusCriteria = false;
+            $criteriaStatus = new \CriteriaCompo();
             if (\is_array($status)) {
                 $hasStatusCriteria = true;
                 foreach ($status as $v) {
@@ -143,8 +135,8 @@ class FileHandler extends \XoopsPersistableObjectHandler
                 $criteriaStatus->add(new \Criteria('o.status', $status), 'OR');
             }
             $hasCategoryCriteria = false;
-            $criteriaCategory    = new \CriteriaCompo();
-            $category            = (array)$category;
+            $criteriaCategory = new \CriteriaCompo();
+            $category = (array)$category;
             if (isset($category[0]) && 0 != $category[0] && \count($category) > 0) {
                 $hasCategoryCriteria = true;
                 foreach ($category as $cat) {
@@ -152,7 +144,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
                 }
             }
             $criteriaItemid = new \Criteria('o.itemid', $itemid);
-            $criteria       = new \CriteriaCompo();
+            $criteria = new \CriteriaCompo();
             if (0 != $itemid) {
                 $criteria->add($criteriaItemid);
             }

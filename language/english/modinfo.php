@@ -355,8 +355,6 @@ define('_MI_PUBLISHER_CONF_GROUP_SUBMIT_DSC', 'Submit article layout and form de
 define('_MI_PUBLISHER_CONF_GROUP_SEARCH', 'Search page');
 define('_MI_PUBLISHER_CONF_GROUP_SEARCH_DSC', '');
 
-
-
 define('_MI_PUBLISHER_ADMENU5', 'Blocks Admin');
 
 // 2019-05-31 Goffy

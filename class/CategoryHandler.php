@@ -17,15 +17,12 @@ namespace XoopsModules\Publisher;
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-
-
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -35,7 +32,6 @@ require_once \dirname(__DIR__) . '/include/common.php';
  * of Category class objects.
  *
  * @author  marcan <marcan@notrevie.ca>
- * @package Publisher
  */
 class CategoryHandler extends \XoopsPersistableObjectHandler
 {
@@ -45,10 +41,6 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public $helper;
     public $publisherIsAdmin;
 
-    /**
-     * @param \XoopsDatabase|null                 $db
-     * @param \XoopsModules\Publisher\Helper|null $helper
-     */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
         /** @var \XoopsModules\Publisher\Helper $this ->helper */
@@ -92,7 +84,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         if (isset($cats[$id])) {
             return $cats[$id];
         }
-        $obj       = parent::get($id);
+        $obj = parent::get($id);
         $cats[$id] = $obj;
 
         return $obj;
@@ -171,7 +163,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $as_object = true) //&getObjects($criteria = null, $idAsKey = false)
     {
-        $ret        = [];
+        $ret = [];
         $theObjects = parent::getObjects($criteria, true);
         foreach ($theObjects as $theObject) {
             if (!$idAsKey) {
@@ -197,7 +189,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function &getCategories($limit = 0, $start = 0, $parentid = 0, $sort = 'weight', $order = 'ASC', $idAsKey = true)
     {
-        $ret      = [];
+        $ret = [];
         $criteria = new \CriteriaCompo();
         $criteria->setSort($sort);
         $criteria->order = $order; // used to fix bug in setOrder() for XOOPS < 2.5.10
@@ -252,7 +244,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function &getCategoriesForSubmit()
     {
         global $theresult;
-        $ret      = [];
+        $ret = [];
         $criteria = new \CriteriaCompo();
         $criteria->setSort('name');
         $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
@@ -295,7 +287,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     {
         global $theresult;
 
-        $ret      = [];
+        $ret = [];
         $criteria = new \CriteriaCompo();
         $criteria->setSort('name');
         $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
@@ -370,7 +362,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function getSubCats($categories)
     {
         $criteria = new \CriteriaCompo(new \Criteria('parentid', '(' . \implode(',', \array_keys($categories)) . ')', 'IN'));
-        $ret      = [];
+        $ret = [];
         if (!$this->publisherIsAdmin) {
             $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
             if (\count($categoriesGranted) > 0) {
@@ -385,7 +377,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         }
         $criteria->setSort('weight');
         $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
-        $subcats         = $this->getObjects($criteria, true);
+        $subcats = $this->getObjects($criteria, true);
         /** @var Publisher\Category $subcat */
         foreach ($subcats as $subcat) {
             $ret[$subcat->getVar('parentid')][$subcat->getVar('categoryid')] = $subcat;

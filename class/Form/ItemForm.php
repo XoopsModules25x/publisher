@@ -147,9 +147,11 @@ class ItemForm extends Publisher\ThemeTabForm
         if (!\is_object($GLOBALS['xoopsUser'])) {
             $group      = [XOOPS_GROUP_ANONYMOUS];
             $currentUid = 0;
+            $timeoffset = 0;
         } else {
             $group      = $GLOBALS['xoopsUser']->getGroups();
             $currentUid = $GLOBALS['xoopsUser']->uid();
+            $timeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
         }
 
         $this->setExtra('enctype="multipart/form-data"');
@@ -359,7 +361,7 @@ class ItemForm extends Publisher\ThemeTabForm
             }
 
             $dateExpireYesNo     = new \XoopsFormRadioYN('', 'use_expire_yn', $dateexpire_opt);
-            $dateexpire = \strtotime(\formatTimestamp($dateexpire)); //set to user timezone
+            $dateexpire = formatTimestamp($dateexpire, 'U', $timeoffset);
             $dateexpire_datetime = new \XoopsFormDateTime('', 'dateexpire', $size = 15, $dateexpire, true);
             if (0 == $dateexpire_opt) {
                 $dateexpire_datetime->setExtra('disabled="disabled"');

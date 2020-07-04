@@ -94,7 +94,7 @@ class Cloner
 
         // Write text
         $textColor     = \imagecolorallocate($imageModule, 0, 0, 0);
-        $spaceToBorder = (80 - mb_strlen($dirname) * 6.5) / 2;
+        $spaceToBorder = intval((80 - mb_strlen($dirname) * 6.5) / 2);
         \imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, \ucfirst($dirname), []);
 
         // Set transparency color

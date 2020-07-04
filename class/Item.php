@@ -1050,7 +1050,9 @@ class Item extends \XoopsObject
         //Required fields
         //        if (!empty($categoryid = Request::getInt('categoryid', 0, 'POST'))) {
         //            $this->setVar('categoryid', $categoryid);}
-        $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
+        if (\is_object($GLOBALS['xoopsUser'])) {
+            $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
+        }
         $this->setVar('categoryid', Request::getInt('categoryid', 0, 'POST'));
         $this->setVar('title', Request::getString('title', '', 'POST'));
         $this->setVar('body', Request::getText('body', '', 'POST'));
@@ -1103,9 +1105,8 @@ class Item extends \XoopsObject
             $resTime = Request::getArray('datesub', [], 'POST');
             $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resDate['date']);
             $dateTimeObj->setTime(0, 0, (int)$resTime['time']);
-            $gmtTimestamp = $dateTimeObj->getTimestamp() - ($userTimeoffset * 3600);
-            //always store the time as GMT/UTC Time
-            $this->setVar('datesub', $gmtTimestamp);
+            $serverTimestamp = userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
+            $this->setVar('datesub', $serverTimestamp);
             //            }
         } elseif ($this->isNew()) {
             $this->setVar('datesub', \time());
@@ -1118,9 +1119,8 @@ class Item extends \XoopsObject
                 $resExTime = Request::getArray('dateexpire', [], 'POST');
                 $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resExDate['date']);
                 $dateTimeObj->setTime(0, 0, (int)$resExTime['time']);
-                $gmtTimestamp = $dateTimeObj->getTimestamp() - ($userTimeoffset * 3600);
-                //always store the time as GMT/UTC Time
-                $this->setVar('dateexpire', $gmtTimestamp);
+                $serverTimestamp = userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
+                $this->setVar('dateexpire', $serverTimestamp);
             }
         } else {
             $this->setVar('dateexpire', 0);

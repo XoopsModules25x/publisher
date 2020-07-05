@@ -61,27 +61,27 @@ if ($moduleStats && is_array($moduleStats)) {
     foreach ($moduleStats as $key => $value) {
         switch ($key) {
             case 'totalcategories':
-                $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
+                $ret = '<span style=\\' . $value . '</span>';
                 $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALCAT));
                 break;
             case 'totalitems':
-                $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
+                $ret = '<span style=\\' . $value . '</span>';
                 $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_ITEMS));
                 break;
             case 'totaloffline':
-                $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
+                $ret = '<span style=\\' . $value . '</span>';
                 $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTAL_OFFLINE));
                 break;
             case 'totalpublished':
-                $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
+                $ret = '<span style=\\' . $value . '</span>';
                 $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALPUBLISHED));
                 break;
             case 'totalrejected':
-                $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
+                $ret = '<span style=\\' . $value . '</span>';
                 $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_REJECTED));
                 break;
             case 'totalsubmitted':
-                $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
+                $ret = '<span style=\\' . $value . '</span>';
                 $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALSUBMITTED));
                 break;
         }

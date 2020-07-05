@@ -485,7 +485,7 @@ class ThemeTabForm extends \XoopsForm
      * insert a break in the form
      * This method is abstract. It must be overwritten in the child classes.
      *
-     * @param null $extra extra information for the break
+     * @param string|null $extra extra information for the break
      *
      * @abstract
      */

@@ -53,7 +53,7 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * retrieve a mimetype object from the database
      *
-     * @param null $id ID of mimetype
+     * @param int|null $id ID of mimetype
      *
      * @param null $fields
      * @return bool|Mimetype

@@ -74,7 +74,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve an item
      *
-     * @param null $id      itemid of the user
+     * @param null|int $id      itemid of the user
      *
      * @param null $fields
      * @return mixed reference to the <a href='psi_element://Item'>Item</a> object, FALSE if failed

@@ -36,12 +36,15 @@ use XoopsModules\Publisher\Helper;
 class SysUtility
 {
     use VersionChecks;
+
     //checkVerXoops, checkVerPhp Traits
 
     use ServerStats;
+
     // getServerStats Trait
 
     use FilesManagement;
+
     // Files Management Trait
 
     use ModuleStats;
@@ -153,8 +156,8 @@ class SysUtility
     }
 
     /**
-     * @param null|\Helper       $helper
-     * @param array|null $options
+     * @param null|\Helper $helper
+     * @param array|null   $options
      * @return \XoopsFormDhtmlTextArea|\XoopsFormEditor
      */
     public static function getEditor($helper = null, $options = null)

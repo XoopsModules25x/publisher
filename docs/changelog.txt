@@ -53,6 +53,10 @@
 - move test data to ./testdata/english folder and rename it so import routine can find it (zyspec)
 - change from using $_SERVER['PHP_SELF'] to $_SERVER['SCRIPT_NAME'] for improved security (zyspec)
 - PHP 7.1 (mamba)
+- Various fixes (ihackcode)
+- timezone conversion (ihackcode)
+- Convert user time to Server time on saving items (ihackcode)
+
 
 TODO:
 - Set 'default' category/item permissions for test data

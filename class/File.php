@@ -48,7 +48,7 @@ class File extends \XoopsObject
     {
         /** @var \XoopsModules\Publisher\Helper $this ->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
-        /** @var \XoopsDatabase $db */
+        /** @var \XoopsMySQLDatabase $db */
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('fileid', \XOBJ_DTYPE_INT, 0, false);
         $this->initVar('itemid', \XOBJ_DTYPE_INT, null, true);

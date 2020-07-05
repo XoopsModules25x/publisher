@@ -27,7 +27,7 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
-/** @var \XoopsDatabase $db */
+/** @var \XoopsMySQLDatabase $db */
 /** @var \XoopsModules\Publisher\Helper $helper */
 /** @var \XoopsModules\Publisher\Utility $utility */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();

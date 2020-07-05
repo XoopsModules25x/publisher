@@ -153,7 +153,7 @@ function exportSchema()
  */
 function loadTableFromArrayWithReplace($table, $data, $search, $replace)
 {
-    /** @var \XoopsDatabase */
+    /** @var \XoopsMySQLDatabase $db */
     $db = \XoopsDatabaseFactory::getDatabaseConnection();
 
     $prefixedTable = $db->prefix($table);

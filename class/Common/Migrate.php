@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher\Common;
 
 /*
@@ -18,7 +20,7 @@ namespace XoopsModules\Publisher\Common;
  * @category  Migrate
  * @author    Richard Griffith <richard@geekwright.com>
  * @copyright 2016 XOOPS Project (https://xoops.org)
- * @license   GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license   GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @link      https://xoops.org
  */
 class Migrate extends \Xmf\Database\Migrate
@@ -32,11 +34,14 @@ class Migrate extends \Xmf\Database\Migrate
      */
     public function __construct()
     {
-        require_once  dirname(dirname(__DIR__)) . '/include/config.php';
-        $config = getConfig();
-        $this->renameTables = $config->renameTables;
+        $class = __NAMESPACE__ . '\\' . 'Configurator';
+        if (!\class_exists($class)) {
+            throw new \RuntimeException("Class '$class' not found");
+        }
+        $configurator       = new $class();
+        $this->renameTables = $configurator->renameTables;
 
-        $moduleDirName = basename(dirname(dirname(__DIR__)));
+        $moduleDirName = \basename(\dirname(\dirname(__DIR__)));
         parent::__construct($moduleDirName);
     }
 
@@ -78,16 +83,16 @@ class Migrate extends \Xmf\Database\Migrate
      */
     private function moveDoColumns()
     {
-        $tableName = 'newbb_posts_text';
+        $tableName    = 'newbb_posts_text';
         $srcTableName = 'newbb_posts';
-        if (false !== $this->tableHandler->useTable($tableName)
-            && false !== $this->tableHandler->useTable($srcTableName)) {
+        if ($this->tableHandler->useTable($tableName)
+            && $this->tableHandler->useTable($srcTableName)) {
             $attributes = $this->tableHandler->getColumnAttributes($tableName, 'dohtml');
             if (false === $attributes) {
                 $this->synchronizeTable($tableName);
                 $updateTable = $GLOBALS['xoopsDB']->prefix($tableName);
-                $joinTable = $GLOBALS['xoopsDB']->prefix($srcTableName);
-                $sql = "UPDATE `$updateTable` t1 INNER JOIN `$joinTable` t2 ON t1.post_id = t2.post_id \n" . "SET t1.dohtml = t2.dohtml,  t1.dosmiley = t2.dosmiley, t1.doxcode = t2.doxcode\n" . '  , t1.doimage = t2.doimage, t1.dobr = t2.dobr';
+                $joinTable   = $GLOBALS['xoopsDB']->prefix($srcTableName);
+                $sql         = "UPDATE `$updateTable` t1 INNER JOIN `$joinTable` t2 ON t1.post_id = t2.post_id \n" . "SET t1.dohtml = t2.dohtml,  t1.dosmiley = t2.dosmiley, t1.doxcode = t2.doxcode\n" . '  , t1.doimage = t2.doimage, t1.dobr = t2.dobr';
                 $this->tableHandler->addToQueue($sql);
             }
         }
@@ -102,6 +107,7 @@ class Migrate extends \Xmf\Database\Migrate
      */
     protected function preSyncActions()
     {
+        /*
         // change 'bb' table prefix to 'newbb'
         $this->changePrefix();
         // columns dohtml, dosmiley, doxcode, doimage and dobr moved between tables as some point
@@ -109,5 +115,6 @@ class Migrate extends \Xmf\Database\Migrate
         // Convert IP address columns from int to readable varchar(45) for IPv6
         $this->convertIPAddresses('newbb_posts', 'poster_ip');
         $this->convertIPAddresses('newbb_report', 'reporter_ip');
+        */
     }
 }

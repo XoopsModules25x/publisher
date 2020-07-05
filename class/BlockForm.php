@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -24,9 +26,9 @@ namespace XoopsModules\Publisher;
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-xoops_load('XoopsForm');
+
+\xoops_load('XoopsForm');
 
 /**
  * Form that will output formatted as a HTML table

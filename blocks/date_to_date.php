@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -21,7 +23,7 @@
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -58,7 +60,7 @@ function publisher_date_to_date_show($options)
             $newItems['categoryid']   = $iValue->categoryid();
             $newItems['date']         = $iValue->getDatesub();
             $newItems['poster']       = $iValue->getLinkedPosterName();
-            $newItems['itemlink']     = $iValue->getItemLink(false, isset($options[3]) ? $options[3] : 65);
+            $newItems['itemlink']     = $iValue->getItemLink(false, $options[3] ?? 65);
             $newItems['categorylink'] = $iValue->getCategoryLink();
             $block['items'][]         = $newItems;
         }
@@ -69,7 +71,7 @@ function publisher_date_to_date_show($options)
         $block['lang_date']             = _MB_PUBLISHER_DATE;
         $moduleName                     = $myts->displayTarea($helper->getModule()->getVar('name'));
         $block['lang_visitItem']        = _MB_PUBLISHER_VISITITEM . ' ' . $moduleName;
-        $block['lang_articles_from_to'] = sprintf(_MB_PUBLISHER_ARTICLES_FROM_TO, $options[0], isset($options[1]) ? $options[1] : 0);
+        $block['lang_articles_from_to'] = sprintf(_MB_PUBLISHER_ARTICLES_FROM_TO, $options[0], $options[1] ?? 0);
     }
 
     return $block;
@@ -87,9 +89,8 @@ function publisher_date_to_date_edit($options)
     xoops_load('XoopsFormTextDateSelect');
 
     if ('' === $options[0]) {
-        $options[0] =formatTimestamp(1424860422);
+        $options[0] = formatTimestamp(1424860422);
     }
-
 
     $form    = new Publisher\BlockForm();
     $fromEle = new \XoopsFormTextDateSelect(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));

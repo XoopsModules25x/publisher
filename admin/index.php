@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -13,7 +15,7 @@
  * Publisher
  *
  * @copyright    The XOOPS Project (https://xoops.org)
- * @license      GNU GPL (http://www.gnu.org/licenses/gpl-2.0.html/)
+ * @license      GNU GPL (https://www.gnu.org/licenses/gpl-2.0.html/)
  * @package      Publisher
  * @since        1.0
  * @author       Mage, Mamba
@@ -21,7 +23,6 @@
 
 use Xmf\Yaml;
 use XoopsModules\Publisher;
-use XoopsModules\Publisher\Common;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -62,27 +63,27 @@ if ($moduleStats && is_array($moduleStats)) {
         switch ($key) {
             case 'totalcategories':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf( $ret . ' ' . _AM_PUBLISHER_TOTALCAT ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALCAT));
                 break;
             case 'totalitems':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_ITEMS ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_ITEMS));
                 break;
             case 'totaloffline':
                 $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTAL_OFFLINE ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTAL_OFFLINE));
                 break;
             case 'totalpublished':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALPUBLISHED ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALPUBLISHED));
                 break;
             case 'totalrejected':
                 $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_REJECTED ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_REJECTED));
                 break;
             case 'totalsubmitted':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALSUBMITTED ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALSUBMITTED));
                 break;
         }
     }
@@ -91,10 +92,10 @@ if ($moduleStats && is_array($moduleStats)) {
 $adminObject->displayNavigation(basename(__FILE__));
 
 //check for latest release
-$newRelease = $utility::checkVerModule($helper);
-if (!empty($newRelease)) {
-    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
-}
+//$newRelease = $utility::checkVerModule($helper);
+//if (!empty($newRelease)) {
+//    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
+//}
 
 //------------- Test Data ----------------------------
 
@@ -105,7 +106,7 @@ if ($helper->getConfig('displaySampleButton')) {
 
     if (1 == $displaySampleButton) {
         xoops_loadLanguage('admin/modulesadmin', 'system');
-        require __DIR__ . '/../testdata/index.php';
+        require  dirname(__DIR__) . '/testdata/index.php';
 
         $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), './../testdata/index.php?op=load', 'add');
         $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), './../testdata/index.php?op=save', 'add');
@@ -128,7 +129,7 @@ $adminObject->displayIndex();
  */
 function loadAdminConfig($yamlFile)
 {
-    $config = Yaml::loadWrapped($yamlFile); // work with phpmyadmin YAML dumps
+    $config = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
     return $config;
 }
 

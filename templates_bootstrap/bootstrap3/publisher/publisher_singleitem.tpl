@@ -42,7 +42,7 @@
 
                 <{if $display_summary == 1}>
                 <div style="margin-top:10px;">
-                    <{$item.summary}><br /> 
+                    <{$item.summary}><br> 
                 </div>
                 <{/if}>
          

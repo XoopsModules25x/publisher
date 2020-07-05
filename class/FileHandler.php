@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -23,9 +25,9 @@ namespace XoopsModules\Publisher;
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(__DIR__) . '/include/common.php';
+
+require_once \dirname(__DIR__) . '/include/common.php';
 
 // File status
 //define("_PUBLISHER_STATUS_FILE_NOTSET", -1);
@@ -49,13 +51,17 @@ class FileHandler extends \XoopsPersistableObjectHandler
     public $helper;
 
     /**
-     * @param \XoopsDatabase $db
-     * @param null|\XoopsModules\Publisher\Helper           $helper
+     * @param \XoopsDatabase                      $db
+     * @param \XoopsModules\Publisher\Helper|null $helper
      */
-    public function __construct(\XoopsDatabase $db = null, $helper = null)
+    public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
-        $this->helper = $helper;
+        /** @var \XoopsModules\Publisher\Helper $this ->helper */
+        if (null === $helper) {
+            $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+        } else {
+            $this->helper = $helper;
+        }
         parent::__construct($db, 'publisher_files', File::class, 'fileid', 'name');
     }
 
@@ -71,7 +77,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
     {
         $ret = false;
         // Delete the actual file
-        if (is_file($file->getFilePath()) && unlink($file->getFilePath())) {
+        if (\is_file($file->getFilePath()) && \unlink($file->getFilePath())) {
             $ret = parent::delete($file, $force);
         }
 
@@ -87,7 +93,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
      */
     public function deleteItemFiles(\XoopsObject $itemObj)
     {
-        if ('publisheritem' !== mb_strtolower(get_class($itemObj))) {
+        if ('publisheritem' !== mb_strtolower(\get_class($itemObj))) {
             return false;
         }
         $files  = $this->getAllFiles($itemObj->itemid());
@@ -121,13 +127,13 @@ class FileHandler extends \XoopsPersistableObjectHandler
         $this->table_link = $this->db->prefix($this->helper->getDirname() . '_items');
 
         $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_files'));
-        list($count) = $GLOBALS['xoopsDB']->fetchRow($result);
+        [$count] = $GLOBALS['xoopsDB']->fetchRow($result);
         if ($count > 0) {
             $this->field_object = 'itemid';
             $this->field_link   = 'itemid';
             $hasStatusCriteria  = false;
             $criteriaStatus     = new \CriteriaCompo();
-            if (is_array($status)) {
+            if (\is_array($status)) {
                 $hasStatusCriteria = true;
                 foreach ($status as $v) {
                     $criteriaStatus->add(new \Criteria('o.status', $v), 'OR');
@@ -139,7 +145,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
             $hasCategoryCriteria = false;
             $criteriaCategory    = new \CriteriaCompo();
             $category            = (array)$category;
-            if (isset($category[0]) && 0 != $category[0] && count($category) > 0) {
+            if (isset($category[0]) && 0 != $category[0] && \count($category) > 0) {
                 $hasCategoryCriteria = true;
                 foreach ($category as $cat) {
                     $criteriaCategory->add(new \Criteria('l.categoryid', $cat), 'OR');
@@ -157,11 +163,10 @@ class FileHandler extends \XoopsPersistableObjectHandler
                 $criteria->add($criteriaCategory);
             }
             $criteria->setSort($sort);
-            $criteria->setOrder($order);
+            $criteria->order = $order; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
             $criteria->setLimit($limit);
             $criteria->setStart($start);
             $files = $this->getByLink($criteria, ['o.*'], true);
-
             //            return $files;
         }
 

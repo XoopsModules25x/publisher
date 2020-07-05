@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -22,22 +24,23 @@ use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once __DIR__ . '/preloads/autoloader.php';
 
-$moduleDirName = basename(__DIR__);
+$moduleDirName      = basename(__DIR__);
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 xoops_loadLanguage('common');
 
 xoops_load('xoopseditorhandler');
 $editorHandler = \XoopsEditorHandler::getInstance();
-$xoops_url     = parse_url(XOOPS_URL);
+
+$xoops_url = parse_url(XOOPS_URL);
 
 $modversion = [
-    'version'             => '1.07',
-    'module_status'       => 'Final',
-    'release_date'        => '2019/06/08',
+    'version'             => '1.08',
+    'module_status'       => 'Alpha 1',
+    'release_date'        => '2020/05/18',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -62,7 +65,7 @@ $modversion = [
     'onInstall'           => 'include/oninstall.php',
     'onUpdate'            => 'include/onupdate.php',
     // ------------------- Min Requirements -------------------
-    'min_php'             => '5.5',
+    'min_php'             =>  '7.1',
     'min_xoops'           => '2.5.10',
     'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],
@@ -205,7 +208,7 @@ $modversion['blocks'][] = [
     'description' => _MI_PUBLISHER_DATE_TO_DATE_DSC,
     'show_func'   => 'publisher_date_to_date_show',
     'edit_func'   => 'publisher_date_to_date_edit',
-    'options'     => formatTimestamp(1424860422, 'm/j/Y') . " | " . formatTimestamp(time(), 'm/j/Y'),
+    'options'     => formatTimestamp(1424860422, 'm/j/Y') . ' | ' . formatTimestamp(time(), 'm/j/Y'),
     'template'    => 'publisher_date_to_date.tpl',
 ];
 
@@ -270,7 +273,7 @@ $modversion['templates'] = [
 ];
 
 // Config categories
-
+/*
 $modversion['configcat']['seo']      = [
     'name'        => _MI_PUBLISHER_CONFCAT_SEO,
     'description' => _MI_PUBLISHER_CONFCAT_SEO_DSC,
@@ -340,12 +343,7 @@ $modversion['configcat']['format'] = [
     'name'        => _MI_PUBLISHER_CONFCAT_FORMAT,
     'description' => _MI_PUBLISHER_CONFCAT_FORMAT_DSC,
 ];
-
-//mb
-$modversion['configcat']['group_header'] = [
-    'name'        => _MI_PUBLISHER_CONFCAT_FORMAT,
-    'description' => _MI_PUBLISHER_CONFCAT_FORMAT_DSC,
-];
+*/
 
 // Config Settings (only for modules that need config settings generated automatically)
 
@@ -375,8 +373,11 @@ $modversion['config'][] = [
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'default'     => 'none',
-    'options'     => array_merge([_MI_PUBLISHER_URL_REWRITE_NONE => 'none'], [_MI_PUBLISHER_URL_REWRITE_PATHINFO => 'path-info'], // Is performing module install/update?
-                                 ($isModuleAction && in_array(PHP_SAPI, ['apache', 'apache2handler', 'cgi-fcgi', 'fpm-fcgi'])) ? [_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'] : []),
+    'options'     => array_merge(
+        [_MI_PUBLISHER_URL_REWRITE_NONE => 'none'],
+        [_MI_PUBLISHER_URL_REWRITE_PATHINFO => 'path-info'], // Is performing module install/update?
+        ($isModuleAction && in_array(PHP_SAPI, ['apache', 'apache2handler', 'cgi-fcgi', 'fpm-fcgi'])) ? [_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'] : []
+    ),
     'category'    => 'seo',
 ];
 
@@ -403,8 +404,8 @@ $modversion['config'][] = [
 // group header
 $modversion['config'][] = [
     'name'        => 'extrasystems_configs',
-    'title'       => '_MI_PUBLISHER_CONFCAT_INDEXCAT',
-    'description' => '_MI_PUBLISHER_CONFCAT_INDEXCAT_DSC',
+    'title'       => '_MI_PUBLISHER_CONFCAT_INDEX',
+    'description' => '_MI_PUBLISHER_CONFCAT_INDEX_DSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'even',
@@ -1536,9 +1537,9 @@ $modversion['config'][] = [
     'category'    => 'submit',
 ];
 
-$optCats = [_MI_PUBLISHER_IMGCAT_ALL => Constants::PUBLISHER_IMGCAT_ALL];
+$optCats              = [_MI_PUBLISHER_IMGCAT_ALL => Constants::PUBLISHER_IMGCAT_ALL];
 $imageCategoryHandler = xoops_getHandler('imagecategory');
-$catlist = $imageCategoryHandler->getList();
+$catlist              = $imageCategoryHandler->getList();
 foreach ($catlist as $key => $value) {
     $optCats[$value] = $value;
 }
@@ -1685,12 +1686,12 @@ $modversion['config'][] = [
  * Show Developer Tools?
  */
 $modversion['config'][] = [
-    'name' => 'displayDeveloperTools',
-    'title' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
+    'name'        => 'displayDeveloperTools',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
     'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC',
-    'formtype' => 'yesno',
-    'valuetype' => 'int',
-    'default' => 0,
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
 ];
 
 // Comments

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -40,7 +42,7 @@ if ('start' === $op) {
     Publisher\Utility::openCollapsableBar('newsimport', 'newsimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('news_topics'));
-    list($totalCat) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$totalCat] = $GLOBALS['xoopsDB']->fetchRow($result);
 
     if (0 == $totalCat) {
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_IMPORT_NO_CATEGORY . '</span>';
@@ -48,7 +50,7 @@ if ('start' === $op) {
         require_once $GLOBALS['xoops']->path('class/xoopstree.php');
 
         $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('news_stories'));
-        list($totalArticles) = $GLOBALS['xoopsDB']->fetchRow($result);
+        [$totalArticles] = $GLOBALS['xoopsDB']->fetchRow($result);
 
         if (0 == $totalArticles) {
             echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_PUBLISHER_IMPORT_MODULE_FOUND_NO_ITEMS, $importFromModuleName, $totalArticles) . '</span>';
@@ -159,7 +161,7 @@ if ('go' === $op) {
             $itemObj->setVar('title', $arrArticle['title']);
             $itemObj->setVar('uid', $arrArticle['uid']);
             $itemObj->setVar('summary', $arrArticle['hometext']);
-            $itemObj->setVar('body', $arrArticle['bodytext'] == '' ? $arrArticle['hometext'] : $arrArticle['bodytext']); /* use hometext if no bodytext is available */
+            $itemObj->setVar('body', '' == $arrArticle['bodytext'] ? $arrArticle['hometext'] : $arrArticle['bodytext']); /* use hometext if no bodytext is available */
             $itemObj->setVar('counter', $arrArticle['counter']);
             $itemObj->setVar('datesub', $arrArticle['created']);
             $itemObj->setVar('dohtml', !$arrArticle['nohtml']);

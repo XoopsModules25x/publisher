@@ -14,7 +14,7 @@
         Detailed instructions on installing modules are available in the
         <a target="_blank" href="https://xoops.gitbook.io/xoops-operations-guide/details">XOOPS Operations Manual</a></p>
 
-    <p class="even"><strong>2) PDF in XOOPS 2.5.8 </strong><br> <br>
+    <p class="even"><strong>2) PDF in XOOPS 2.5.10 </strong><br> <br>
     If you want to use the PDF feature in Publisher, you will need to copy the TCPDF library to your XOOPS folder:<br> <br>
 
     /class/libraries/vendor/<br> <br>

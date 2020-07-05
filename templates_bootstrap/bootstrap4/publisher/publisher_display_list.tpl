@@ -20,7 +20,7 @@
             <{if $item.image_path}>
                 <div class="article_list_img">
                     <a href="<{$item.itemurl}>" title="<{$item.title}>">
-                        <img src="<{$item.image_path}>" alt="<{$item.title}>"/>
+                        <img src="<{$item.image_path}>" alt="<{$item.title}>">
                     </a>
                 </div>
 				<{else}>

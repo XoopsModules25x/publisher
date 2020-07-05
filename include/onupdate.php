@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -18,7 +20,7 @@
 use XoopsModules\Publisher;
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
-    || !$GLOBALS['xoopsUser']->IsAdmin()) {
+    || !$GLOBALS['xoopsUser']->isAdmin()) {
     exit('Restricted access' . PHP_EOL);
 }
 
@@ -145,7 +147,7 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
 
         return $grouppermHandler->deleteByModule($module->getVar('mid'), 'item_read');
     }
-    
+
     // check table items for field `dateexpire`
     if (!$GLOBALS['xoopsDB']->query('SELECT dateexpire FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items'))) {
         $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items') . " ADD `dateexpire` INT(11) NULL DEFAULT '0' AFTER `datesub`";

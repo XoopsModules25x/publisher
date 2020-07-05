@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -20,7 +22,7 @@
 
 use XoopsModules\Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once __DIR__ . '/common.php';
 
@@ -83,12 +85,12 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
                 }
             }
             //End of highlight
-            $item['text']          = $sanitizedText;
-            $item['author']        = $obj->author_alias();
-            $item['datesub']       = $obj->getDatesub($helper->getConfig('format_date'));
-            $objUid = $obj->uid();
+            $item['text']      = $sanitizedText;
+            $item['author']    = $obj->author_alias();
+            $item['datesub']   = $obj->getDatesub($helper->getConfig('format_date'));
+            $objUid            = $obj->uid();
             $usersIds[$objUid] = $objUid;
-            $ret[]                 = $item;
+            $ret[]             = $item;
             unset($item, $sanitizedText);
         }
     }
@@ -96,7 +98,7 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
     $usersNames = \XoopsUserUtility::getUnameFromIds($usersIds, $helper->getConfig('format_realname'), true);
     foreach ($ret as $key => $item) {
         if ('' == $item['author']) {
-            $ret[$key]['author'] = isset($usersNames[$item['uid']]) ? $usersNames[$item['uid']] : '';
+            $ret[$key]['author'] = $usersNames[$item['uid']] ?? '';
         }
     }
     unset($usersNames, $usersIds);

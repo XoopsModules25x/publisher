@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -24,7 +26,7 @@ namespace XoopsModules\Publisher;
 
 use XoopsModules\Publisher;
 
-define('MYTEXTSANITIZER_EXTENDED_MEDIA', 1);
+\define('MYTEXTSANITIZER_EXTENDED_MEDIA', 1);
 
 /**
  * Class MyTextSanitizerExtension
@@ -76,7 +78,7 @@ class MyTextSanitizerExtension
     public function displayFlash($url, $width = false, $height = false)
     {
         if (!$width || !$height) {
-            if (!$dimension = @getimagesize($url)) {
+            if (!$dimension = @\getimagesize($url)) {
                 return "<a href='{$url}' target='_blank'>{$url}</a>";
             }
             if (!empty($width)) {
@@ -84,7 +86,7 @@ class MyTextSanitizerExtension
             } elseif (!empty($height)) {
                 $width = $dimension[0] * $height / $dimension[1];
             } else {
-                list($width, $height) = [$dimension[0], $dimension[1]];
+                [$width, $height] = [$dimension[0], $dimension[1]];
             }
         }
 

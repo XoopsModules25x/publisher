@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -125,18 +127,18 @@ class Highlighter
         }
         $needle = (array)$needle;
         foreach ($needle as $needleS) {
-            $needleS = preg_quote($needleS);
+            $needleS = preg_quote($needleS, '/');
             // Escape needle with optional whole word check
             if ($this->wholeWords) {
                 $needleS = '\b' . $needleS . '\b';
             }
             // Strip links
             if ($this->stripLinks) {
-                $slRegex = sprintf($slPattern, $needleS);
-                $text    = preg_replace($slRegex, '\1', $text);
+                $slRegex = \sprintf($slPattern, $needleS);
+                $text    = \preg_replace($slRegex, '\1', $text);
             }
-            $regex = sprintf($pattern, $needleS);
-            $text  = preg_replace($regex, $this->replacementString, $text);
+            $regex = \sprintf($pattern, $needleS);
+            $text  = \preg_replace($regex, $this->replacementString, $text);
         }
 
         return $text;

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -39,7 +41,7 @@ Publisher\Utility::openCollapsableBar('permissionstable_view', 'permissionsicon_
 $result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_categories') . ' ');
 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
     $form_submit = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'category_read', '', 'admin/permissions.php');
-    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
+    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetchArray($result_view))) {
         $form_submit->addItem($myrow_view['categoryid'], $myts->displayTarea($myrow_view['name']));
     }
     echo $form_submit->render();
@@ -54,7 +56,7 @@ Publisher\Utility::openCollapsableBar('permissionstable_submit', 'permissionsico
 $result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_categories') . ' ');
 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
     $form_submit = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'item_submit', '', 'admin/permissions.php');
-    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
+    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetchArray($result_view))) {
         $form_submit->addItem($myrow_view['categoryid'], $myts->displayTarea($myrow_view['name']));
     }
     echo $form_submit->render();
@@ -69,7 +71,7 @@ Publisher\Utility::openCollapsableBar('permissionstable_moderation', 'permission
 $result_view = $GLOBALS['xoopsDB']->query('SELECT categoryid, name FROM ' . $GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_categories') . ' ');
 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
     $form_submit = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'category_moderation', '', 'admin/permissions.php');
-    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
+    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetchArray($result_view))) {
         $form_submit->addItem($myrow_view['categoryid'], $myts->displayTarea($myrow_view['name']));
     }
     echo $form_submit->render();

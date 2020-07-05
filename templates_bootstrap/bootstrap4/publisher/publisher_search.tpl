@@ -87,7 +87,7 @@
                       <td class="head" width="10%" align="right">
                           <strong><{$smarty.const._SR_KEYWORDS}></strong></td>
                       <td class="even">
-                          <input type="text" name="term" value="<{$search_term}>" size="50"/>
+                          <input type="text" name="term" value="<{$search_term}>" size="50">
                       </td>
                   </tr>
 
@@ -115,7 +115,7 @@
                           <strong><{$smarty.const._CO_PUBLISHER_UID}></strong>&nbsp;
                       </td>
                       <td class="even">
-                          <input type="text" name="uname" value="<{$search_user}>"/>
+                          <input type="text" name="uname" value="<{$search_user}>">
                       </td>
                   </tr>
 
@@ -138,8 +138,8 @@
                   <tr>
                       <td class="head" align="right">&nbsp;</td>
                       <td class="even">
-                          <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>"/>&nbsp;
-                          <input type="reset" name="cancel" value="<{$smarty.const._CANCEL}>"/>
+                          <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>">&nbsp;
+                          <input type="reset" name="cancel" value="<{$smarty.const._CANCEL}>">
                       </td>
               </table>
           </td>

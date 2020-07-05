@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -13,20 +15,19 @@
  * Feedback plugin for xoops modules
  *
  * @copyright      XOOPS Project  (https://xoops.org)
- * @license        GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license        GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author         Michael Beck <mambax7@gmailc.com>
  * @author         Wedega - Email:<webmaster@wedega.com>
  * @author         Fernando Santos (topet05) <fernando@mastop.com.br>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\Common;
 
-include __DIR__ . '/admin_header.php';
+require __DIR__ . '/admin_header.php';
 
 $adminObject = \Xmf\Module\Admin::getInstance();
 
-$feedback = new \XoopsModules\Publisher\Common\ModuleFeedback;
+$feedback = new \XoopsModules\Publisher\Common\ModuleFeedback();
 
 // It recovered the value of argument op in URL$
 $op                 = Request::getString('op', 'list');
@@ -47,7 +48,6 @@ switch ($op) {
         $form = $feedback->getFormFeedback();
         echo $form->display();
         break;
-
     case 'send':
         // Security Check
         if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -97,4 +97,4 @@ switch ($op) {
 
         break;
 }
-include __DIR__ . '/admin_footer.php';
+require __DIR__ . '/admin_footer.php';

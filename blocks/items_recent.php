@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -22,7 +24,7 @@
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -59,7 +61,6 @@ function publisher_items_recent_show($options)
     } else {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('categoryid', '(' . $options[0] . ')', 'IN'));
-
     }
 
     $publisherIsAdmin = $helper->isUserAdmin();
@@ -85,7 +86,7 @@ function publisher_items_recent_show($options)
             $newItems['categoryid']   = $iValue->categoryid();
             $newItems['date']         = $iValue->getDatesub();
             $newItems['poster']       = $iValue->getLinkedPosterName();
-            $newItems['itemlink']     = $iValue->getItemLink(false, isset($options[3]) ? $options[3] : 65);
+            $newItems['itemlink']     = $iValue->getItemLink(false, $options[3] ?? 65);
             $newItems['categorylink'] = $iValue->getCategoryLink();
             $newItems['hits']         = '&nbsp;' . $iValue->counter() . ' ' . _READS . '';
 			$newItems['summary']      = $iValue->getBlockSummary(300, true); //show complete summary  but truncate to 300 if only body available
@@ -154,11 +155,13 @@ function publisher_items_recent_edit($options)
 
     $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
-    $orderEle->addOptionArray([
-                                  'datesub' => _MB_PUBLISHER_DATE,
-                                  'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT,
-                              ]);
+    $orderEle->addOptionArray(
+        [
+            'datesub' => _MB_PUBLISHER_DATE,
+            'counter' => _MB_PUBLISHER_HITS,
+            'weight'  => _MB_PUBLISHER_WEIGHT,
+        ]
+    );
     $dispEle  = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $charsEle = new \XoopsFormText(_MB_PUBLISHER_CHARS, 'options[3]', 10, 255, $options[3]);
     $showImage  = new \XoopsFormRadioYN(_MB_PUBLISHER_IMGDISPLAY, 'options[4]', $options[4]);

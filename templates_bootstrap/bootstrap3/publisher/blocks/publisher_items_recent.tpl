@@ -12,10 +12,10 @@
         <tr>
             <td>
              <{if $block.show_image == '1'}>
-	              <a href="<{$newitems.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.alt}>" title="<{$item.alt}>" align="left" style="padding:5px;"/></a><br> 
+	              <a href="<{$newitems.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.alt}>" title="<{$item.alt}>" align="left" style="padding:5px;"></a><br>
              <{/if}>
 			<{$item.itemlink}>
-			<{if $block.show_summary == '1'}><br><{$item.summary}><{/if}><br />
+			<{if $block.show_summary == '1'}><br><{$item.summary}><{/if}><br >
 			<small>
               <{if $block.show_hits == '1'}><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<{$item.hits}><{/if}> 
               <{if $block.show_comment == '1' && $item.cancomment && $item.comment != -1}><span class="glyphicon glyphicon-comment"></span>&nbsp;<{$item.comment}><{/if}>

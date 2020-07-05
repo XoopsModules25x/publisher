@@ -50,23 +50,23 @@
                 <{if $block.display_item_image}>
                   <{if $item.image_path}>
                     <div class="spot_article_wf_img">
-						 <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" alt="<{$item.clean_title}>" title="<{$item.clean_title}>"></a>
-                  	</div>
+                         <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" alt="<{$item.clean_title}>" title="<{$item.clean_title}>"></a>
+                      </div>
                   <{else}>
                      <div class="spot_article_wf_img">
-				       <a href="<{$item.itemurl}>"><img src="<{$block.publisher_url}>/assets/images/default_image.jpg" alt="<{$item.clean_title}>" title="<{$item.clean_title}>"></a>   
-			          </div>
+                       <a href="<{$item.itemurl}>"><img src="<{$block.publisher_url}>/assets/images/default_image.jpg" alt="<{$item.clean_title}>" title="<{$item.clean_title}>"></a>
+                      </div>
                    <{/if}>
                 <{/if}>
                 <div class="article_wf_summary">
                     <{$item.summary}>
-	                <{if $block.display_adminlink}>
-					<br><{$item.adminlink}>
-					<{/if}>	
+                    <{if $block.display_adminlink}>
+                    <br><{$item.adminlink}>
+                    <{/if}>
                 </div>
 
                 <{if $block.truncate}>
-                  <{if $block.display_readmore}>	
+                  <{if $block.display_readmore}>
                     <div class="pull-right" style="margin-top: 15px;">
                         <a href="<{$item.itemurl}>" class="btn btn-primary btn-xs">
                             <{$block.lang_readmore}>

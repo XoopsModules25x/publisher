@@ -12,10 +12,10 @@
             </div>
             <{else}>
                <div class="article_full_img_div">
-				<a href="<{$item.itemurl}>" title="<{$item.title}>">
+                <a href="<{$item.itemurl}>" title="<{$item.title}>">
                 <img src="<{$block.publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>">
                 </a>
-                </div>	
+                </div>
     <{/if}>
     <div style="padding: 10px;">
         <h4><{$item.titlelink}></h4>
@@ -44,21 +44,21 @@
          </small>
         <div style="margin-top:10px;">
             <{$item.summary}>
-			<{if $block.truncate}>
-			      <{if $block.display_readmore}>	
-			        <div class="pull-right" style="margin-top: 15px;">
+            <{if $block.truncate}>
+                  <{if $block.display_readmore}>
+                    <div class="pull-right" style="margin-top: 15px;">
                         <a href="<{$item.itemurl}>" class="btn btn-primary btn-xs">
                             <{$block.lang_readmore}>
                         </a>
                     </div>
                    <{/if}>
-			<{/if}>
+            <{/if}>
         </div>
         <div class="pull-left" style="margin-top: 15px;">
             <{if $op != 'preview'}>
                  <{if $block.display_adminlink}>
-					<span style="float: right; text-align: right;"><{$item.adminlink}></span>
-                 <{/if}>	
+                    <span style="float: right; text-align: right;"><{$item.adminlink}></span>
+                 <{/if}>
             <{else}>
                 <span style="float: right;">&nbsp;</span>
             <{/if}>

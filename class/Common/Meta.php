@@ -22,14 +22,14 @@ final class Meta
     public static function getStatik($locale_code)
     {
         return '
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" >
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="robots" content="index,follow">
-		<meta name="revisit-after" content="1 days">
-		<meta name="referrer" content="origin-when-cross-origin">
-		<meta name="locale" content="' . $locale_code . '">';
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="index,follow">
+        <meta name="revisit-after" content="1 days">
+        <meta name="referrer" content="origin-when-cross-origin">
+        <meta name="locale" content="' . $locale_code . '">';
     }
 
     /**
@@ -39,10 +39,10 @@ final class Meta
     public static function getRobot()
     {
         return '
-		<meta name="robots" content="all">
-		<meta name="googlebot" content="snippet">
-		<meta name="googlebot" content="index, follow">
-		<meta name="robots" content="index, follow">';
+        <meta name="robots" content="all">
+        <meta name="googlebot" content="snippet">
+        <meta name="googlebot" content="index, follow">
+        <meta name="robots" content="index, follow">';
     }
 
     /**
@@ -52,8 +52,8 @@ final class Meta
     public static function getNorobot()
     {
         return '
-		<meta name="googlebot" content="noindex, nofollow">
-		<meta name="robots" content="noindex, nofollow">';
+        <meta name="googlebot" content="noindex, nofollow">
+        <meta name="robots" content="noindex, nofollow">';
     }
 
     /**
@@ -88,11 +88,11 @@ final class Meta
         if (\count($langList) > 1):
             foreach ($langList as $lang):
                 $LL .= '
-				<link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '">';
+                <link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '">';
             endforeach;
         else:
             $LL = '
-			<link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '">';
+            <link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '">';
 
         endif;
 
@@ -111,7 +111,7 @@ final class Meta
         if (\is_array($fb)):
             foreach ($fb as $fbkey => $fbrow):
                 $fbh .= '
-				<meta property="og:' . $fbkey . '" content="' . $fbrow . '">';
+                <meta property="og:' . $fbkey . '" content="' . $fbrow . '">';
 
             endforeach;
 
@@ -208,7 +208,7 @@ final class Meta
     public static function getBing($bing)
     {
         return '
-		<meta name="msvalidate.01" content="' . $bing . '">';
+        <meta name="msvalidate.01" content="' . $bing . '">';
     }
 
     /**
@@ -246,22 +246,22 @@ final class Meta
 
         if (\is_array($crumb)):
             $h .= '<script type="application/ld+json">{
-				"@context": "http://schema.org",
-				"@type": "BreadcrumbList",
-				"itemListElement":[';
+                "@context": "http://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement":[';
 
             foreach ($crumb as $crumbrow):
                 ++$count;
 
                 $h .= '
-					{
-						"@type": "ListItem",
-						"position":"' . $crumbrow['position'] . '",
-						"item": {
-							"@id":"' . $crumbrow['id'] . '",
-							"name": "' . $crumbrow['name'] . '"
-						}
-					}';
+                    {
+                        "@type": "ListItem",
+                        "position":"' . $crumbrow['position'] . '",
+                        "item": {
+                            "@id":"' . $crumbrow['id'] . '",
+                            "name": "' . $crumbrow['name'] . '"
+                        }
+                    }';
 
                 $h .= $count == $bcount ? '' : ',';
 

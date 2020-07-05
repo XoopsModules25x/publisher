@@ -26,6 +26,7 @@ namespace XoopsModules\Publisher\Form;
 use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -93,7 +94,7 @@ class ItemForm extends Publisher\ThemeTabForm
     public function isGranted($item)
     {
         /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
         $ret    = false;
         if (!$this->checkperm || $helper->getHandler('Permission')->isGranted('form_view', $item)) {
             $ret = true;
@@ -132,14 +133,14 @@ class ItemForm extends Publisher\ThemeTabForm
     public function createElements($obj)
     {
         /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
+        $timeoffset = null;
 
         $allowedEditors = Publisher\Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
 
         if (!\is_object($GLOBALS['xoopsUser'])) {
             $group      = [XOOPS_GROUP_ANONYMOUS];
             $currentUid = 0;
-            $timeoffset = null;
         } else {
             $group      = $GLOBALS['xoopsUser']->getGroups();
             $currentUid = $GLOBALS['xoopsUser']->uid();

@@ -153,7 +153,7 @@ class SysUtility
     }
 
     /**
-     * @param null       $helper
+     * @param null|\Helper       $helper
      * @param array|null $options
      * @return \XoopsFormDhtmlTextArea|\XoopsFormEditor
      */

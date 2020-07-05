@@ -81,7 +81,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve an object from the database, based on. use in child classes
      *
-     * @param null $id ID
+     * @param int|null $id ID
      *
      * @param null $fields
      * @return mixed object if id exists, false if not

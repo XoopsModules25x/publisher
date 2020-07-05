@@ -25,6 +25,7 @@ namespace XoopsModules\Publisher\Form;
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper;
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -51,7 +52,7 @@ class CategoryForm extends \XoopsThemeForm
     public function __construct(&$target, $subCatsCount = 4)
     {
         /** @var \XoopsModules\Publisher\Helper $this ->helper */
-        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+        $this->helper = Helper::getInstance();
 
         $this->targetObject = &$target;
         $this->subCatsCount = $subCatsCount;

@@ -56,6 +56,7 @@
 - Various fixes (ihackcode)
 - timezone conversion (ihackcode)
 - Convert user time to Server time on saving items (ihackcode)
+- added Save/Load Permissions to test data - based on work by Goffy (mamba)
 
 
 TODO:

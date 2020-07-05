@@ -68,11 +68,18 @@ function loadSampleData()
         $language = $xoopsConfig['language'] . '/';
     }
 
+    // load module tables
     foreach ($tables as $table) {
         $tabledata = \Xmf\Yaml::readWrapped($language . $table . '.yml');
         \Xmf\Database\TableLoad::truncateTable($table);
         \Xmf\Database\TableLoad::loadTableFromArray($table, $tabledata);
     }
+
+    // load permissions
+    $table     = 'group_permission';
+    $tabledata = \Xmf\Yaml::readWrapped($language . $table . '.yml');
+    $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
+    loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $mid);
 
     //  ---  COPY test folder files ---------------
     if (is_array($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
@@ -101,9 +108,17 @@ function saveSampleData()
     $exportFolder = $languageFolder . '/Exports-' . date('Y-m-d-H-i-s') . '/';
     Utility::createFolder($exportFolder);
 
+    // save module tables
     foreach ($tables as $table) {
         \Xmf\Database\TableLoad::saveTableToYamlFile($table, $exportFolder . $table . '.yml');
     }
+
+    // save permissions
+    $criteria = new \CriteriaCompo();
+    $criteria->add(new \Criteria('gperm_modid', \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid')));
+    $skipColumns[] = 'gperm_id';
+    \Xmf\Database\TableLoad::saveTableToYamlFile('group_permission', $exportFolder . 'group_permission.yml', $criteria, $skipColumns);
+    unset($criteria);
 
     redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'SAMPLEDATA_SUCCESS'));
 }
@@ -122,4 +137,59 @@ function exportSchema()
     } catch (\Throwable $e) {
         exit(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR'));
     }
+}
+
+/**
+ * loadTableFromArrayWithReplace
+ *
+ * @param string $table  value with should be used insead of original value of $search
+ *
+ * @param array  $data   array of rows to insert
+ *                       Each element of the outer array represents a single table row.
+ *                       Each row is an associative array in 'column' => 'value' format.
+ * @param string $search name of column for which the value should be replaced
+ * @param        $replace
+ * @return int number of rows inserted
+ */
+function loadTableFromArrayWithReplace($table, $data, $search, $replace)
+{
+    /** @var \XoopsDatabase */
+    $db = \XoopsDatabaseFactory::getDatabaseConnection();
+
+    $prefixedTable = $db->prefix($table);
+    $count         = 0;
+
+    $sql = 'DELETE FROM ' . $prefixedTable . ' WHERE `' . $search . '`=' . $db->quote($replace);
+
+    $result = $db->queryF($sql);
+
+    foreach ($data as $row) {
+        $insertInto  = 'INSERT INTO ' . $prefixedTable . ' (';
+        $valueClause = ' VALUES (';
+        $first       = true;
+        foreach ($row as $column => $value) {
+            if ($first) {
+                $first = false;
+            } else {
+                $insertInto  .= ', ';
+                $valueClause .= ', ';
+            }
+
+            $insertInto .= $column;
+            if ($search === $column) {
+                $valueClause .= $db->quote($replace);
+            } else {
+                $valueClause .= $db->quote($value);
+            }
+        }
+
+        $sql = $insertInto . ') ' . $valueClause . ')';
+
+        $result = $db->queryF($sql);
+        if (false !== $result) {
+            ++$count;
+        }
+    }
+
+    return $count;
 }

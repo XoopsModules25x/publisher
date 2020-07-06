@@ -44,7 +44,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
 
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
-        /** @var Publisher\Helper $this ->helper */
+        /** @var Publisher\Helper $this->helper */
         if (null === $helper) {
             $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         } else {

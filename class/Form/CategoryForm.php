@@ -52,7 +52,7 @@ class CategoryForm extends \XoopsThemeForm
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
-        /** @var \XoopsModules\Publisher\Helper $this ->helper */
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
         $this->helper = Helper::getInstance();
 
         $this->targetObject = &$target;

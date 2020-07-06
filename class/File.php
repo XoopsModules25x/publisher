@@ -47,7 +47,7 @@ class File extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this ->helper */
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         /** @var \XoopsMySQLDatabase $db */
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();

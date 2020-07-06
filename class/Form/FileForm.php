@@ -51,7 +51,7 @@ class FileForm extends \XoopsThemeForm
      */
     public function __construct(&$target)
     {
-        /** @var Publisher\Helper $this ->helper */
+        /** @var Publisher\Helper $this->helper */
         $this->helper       = Publisher\Helper::getInstance();
         $this->targetObject = &$target;
 

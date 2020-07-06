@@ -20,12 +20,12 @@ $statusArray      = [
 ];
 
 $projectName = 'StartTuts';
-$projectManagement = new TrelloManagement();
-$statusResult = $projectManagement->getAllStatus();
+$trelloManagement = new TrelloManagement();
+$statusResult = $trelloManagement->getAllStatus();
 
 foreach ($statusResult as $statusRow) {
-//    $itemResult[] = $projectManagement->getProjectTaskByStatus($statusRow['id'], $projectName);
-//    $itemResult[] = $projectManagement->getProjectTaskByStatus($statusRow['itemid'], $statusRow['itemid']);
+//    $itemResult[] = $trelloManagement->getProjectTaskByStatus($statusRow['id'], $projectName);
+//    $itemResult[] = $trelloManagement->getProjectTaskByStatus($statusRow['itemid'], $statusRow['itemid']);
 }
 
 //$xoopsTpl->assign('taskResult', $itemResult);

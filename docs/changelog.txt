@@ -57,6 +57,7 @@
 - timezone conversion (ihackcode)
 - Convert user time to Server time on saving items (ihackcode)
 - added Save/Load Permissions to test data - based on work by Goffy (mamba)
+- added Trello board, based on https://phppot.com/php/trello-like-drag-and-drop-cards-for-project-management-software/ (mamba)
 
 
 TODO:

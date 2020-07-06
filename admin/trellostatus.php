@@ -2,9 +2,9 @@
 
 use XoopsModules\Publisher\TrelloManagement;
 
-$projectManagement = new TrelloManagement();
+$trelloManagement = new TrelloManagement();
 
 $statusId = $_GET['status'];
 $itemId = $_GET['itemid'];
 
-$result = $projectManagement->editTaskStatus($statusId, $itemId);
+$result = $trelloManagement->editTaskStatus($statusId, $itemId);

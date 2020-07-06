@@ -26,7 +26,7 @@
                     data-status-id="<{$item.status}>">
                     <{if $item.status == $k}>
                         <li class="text-row ui-sortable-handle"
-                            data-task-id="<{$item.itemid}>">
+                            data-item-id="<{$item.itemid}>">
                             <{$item.itemid}> <{$item.title}>
                         </li>
                     <{/if}>

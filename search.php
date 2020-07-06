@@ -36,14 +36,14 @@ if (empty($xoopsConfigSearch['enable_search'])) {
 $helper           = \XoopsModules\Publisher\Helper::getInstance();
 $groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $grouppermHandler = $helper->getHandler('GroupPerm');
-$module_id        = $helper->getModule()->mid();
+$moduleId        = $helper->getModule()->mid();
 
 //Checking permissions
-if (!$helper->getConfig('perm_search') || !$grouppermHandler->checkRight('global', Constants::PUBLISHER_SEARCH, $groups, $module_id)) {
+if (!$helper->getConfig('perm_search') || !$grouppermHandler->checkRight('global', Constants::PUBLISHER_SEARCH, $groups, $moduleId)) {
     redirect_header(PUBLISHER_URL, 2, _NOPERM);
 }
 
-$GLOBALS['xoopsConfig']['module_cache'][$module_id] = 0;
+$GLOBALS['xoopsConfig']['module_cache'][$moduleId] = 0;
 $GLOBALS['xoopsOption']['template_main']            = 'publisher_search.tpl';
 require_once $GLOBALS['xoops']->path('header.php');
 

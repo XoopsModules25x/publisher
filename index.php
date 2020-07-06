@@ -88,17 +88,17 @@ foreach ($categoriesObj as $catId => $category) {
         if (isset($subcats[$catId])) {
             foreach ($subcats[$catId] as $key => $subcat) {
                 // Get the items count of this very category
-                $subcat_total_items = $totalItems[$key] ?? 0;
+                $subcatTotalItems = $totalItems[$key] ?? 0;
                 // Do we display empty sub-cats ?
-                if (($subcat_total_items > 0) || ('all' === $helper->getConfig('idxcat_show_subcats'))) {
-                    $subcat_id = $subcat->getVar('categoryid');
+                if (($subcatTotalItems > 0) || ('all' === $helper->getConfig('idxcat_show_subcats'))) {
+                    $subcatId = $subcat->getVar('categoryid');
                     // if we retrieved the last item object for this category
-                    if (isset($lastItemObj[$subcat_id])) {
-                        $subcat->setVar('last_itemid', $lastItemObj[$subcat_id]->itemid());
-                        $subcat->setVar('last_title_link', $lastItemObj[$subcat_id]->getItemLink(false, $lastitemsize));
+                    if (isset($lastItemObj[$subcatId])) {
+                        $subcat->setVar('last_itemid', $lastItemObj[$subcatId]->itemid());
+                        $subcat->setVar('last_title_link', $lastItemObj[$subcatId]->getItemLink(false, $lastitemsize));
                     }
 
-                    $numItems = isset($totalItems[$subcat_id]) ? $totalItems[$key] : 0;
+                    $numItems = isset($totalItems[$subcatId]) ? $totalItems[$key] : 0;
                     $subcat->setVar('itemcount', $numItems);
                     // Put this subcat in the smarty variable
                     $categories[$catId]['subcats'][$key] = $subcat->toArrayTable();

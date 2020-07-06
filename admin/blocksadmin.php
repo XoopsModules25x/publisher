@@ -75,10 +75,10 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         $groups           = $memberHandler->getGroups();
         $criteria         = new \CriteriaCompo(new \Criteria('hasmain', 1));
         $criteria->add(new \Criteria('isactive', 1));
-        $module_list     = $moduleHandler->getList($criteria);
-        $module_list[-1] = _AM_SYSTEM_BLOCKS_TOPPAGE;
-        $module_list[0]  = _AM_SYSTEM_BLOCKS_ALLPAGES;
-        ksort($module_list);
+        $moduleList     = $moduleHandler->getList($criteria);
+        $moduleList[-1] = _AM_SYSTEM_BLOCKS_TOPPAGE;
+        $moduleList[0]  = _AM_SYSTEM_BLOCKS_ALLPAGES;
+        ksort($moduleList);
         echo "
         <h4 style='text-align:left;'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'BADMIN') . '</h4>';
         //        $moduleHandler = xoops_getHandler('module');
@@ -111,8 +111,8 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
              . constant('CO_' . $moduleDirNameUpper . '_' . 'ACTION')
              . '</th></tr>
         ';
-        $block_arr   = \XoopsBlock::getByModule($xoopsModule->mid());
-        $block_count = count($block_arr);
+        $blockArray   = \XoopsBlock::getByModule($xoopsModule->mid());
+        $blockCount = count($blockArray);
         $class       = 'even';
         $cachetimes  = [
             '0'       => _NOCACHE,
@@ -127,8 +127,8 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             '604800'  => _WEEK,
             '2592000' => _MONTH,
         ];
-        foreach ($block_arr as $i) {
-            $groups_perms = $grouppermHandler->getGroupIds('block_read', $i->getVar('bid'));
+        foreach ($blockArray as $i) {
+            $groupsPerms = $grouppermHandler->getGroupIds('block_read', $i->getVar('bid'));
             $sql          = 'SELECT module_id FROM ' . $db->prefix('block_module_link') . ' WHERE block_id=' . $i->getVar('bid');
             $result       = $db->query($sql);
             $modules      = [];
@@ -136,12 +136,12 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
                 $modules[] = (int)$row['module_id'];
             }
 
-            $cachetime_options = '';
-            foreach ($cachetimes as $cachetime => $cachetime_name) {
+            $cachetimeOptions = '';
+            foreach ($cachetimes as $cachetime => $cachetimeName) {
                 if ($i->getVar('bcachetime') == $cachetime) {
-                    $cachetime_options .= "<option value='$cachetime' selected='selected'>$cachetime_name</option>\n";
+                    $cachetimeOptions .= "<option value='$cachetime' selected='selected'>$cachetimeName</option>\n";
                 } else {
-                    $cachetime_options .= "<option value='$cachetime'>$cachetime_name</option>\n";
+                    $cachetimeOptions .= "<option value='$cachetime'>$cachetimeName</option>\n";
                 }
             }
 
@@ -240,19 +240,19 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
                  . '</td>';
 
             echo "<td class='$class' align='center'><select size='5' name='bmodule[" . $i->getVar('bid') . "][]' id='bmodule[" . $i->getVar('bid') . "][]' multiple='multiple'>";
-            foreach ($module_list as $k => $v) {
+            foreach ($moduleList as $k => $v) {
                 echo "<option value='$k'" . (in_array($k, $modules, true) ? " selected='selected'" : '') . ">$v</option>";
             }
             echo '</select></td>';
 
             echo "<td class='$class' align='center'><select size='5' name='groups[" . $i->getVar('bid') . "][]' id='groups[" . $i->getVar('bid') . "][]' multiple='multiple'>";
             foreach ($groups as $grp) {
-                echo "<option value='" . $grp->getVar('groupid') . "' " . (in_array($grp->getVar('groupid'), $groups_perms, true) ? " selected='selected'" : '') . '>' . $grp->getVar('name') . '</option>';
+                echo "<option value='" . $grp->getVar('groupid') . "' " . (in_array($grp->getVar('groupid'), $groupsPerms, true) ? " selected='selected'" : '') . '>' . $grp->getVar('name') . '</option>';
             }
             echo '</select></td>';
 
             // Cache lifetime
-            echo '<td class="' . $class . '" align="center"> <select name="bcachetime[' . $i->getVar('bid') . ']" size="1">' . $cachetime_options . '</select>
+            echo '<td class="' . $class . '" align="center"> <select name="bcachetime[' . $i->getVar('bid') . ']" size="1">' . $cachetimeOptions . '</select>
                                     </td>';
 
             // Actions
@@ -313,7 +313,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         while (false !== ($row = $db->fetchArray($result))) {
             $modules[] = (int)$row['module_id'];
         }
-        $is_custom = ('C' === $myblock->getVar('block_type') || 'E' === $myblock->getVar('block_type'));
+        $isCustom = ('C' === $myblock->getVar('block_type') || 'E' === $myblock->getVar('block_type'));
         $block     = [
             'title'      => $myblock->getVar('title') . ' Clone',
             'form_title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS_CLONEBLOCK'),
@@ -323,7 +323,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             'visible'    => $myblock->getVar('visible'),
             'content'    => $myblock->getVar('content', 'N'),
             'modules'    => $modules,
-            'is_custom'  => $is_custom,
+            'is_custom'  => $isCustom,
             'ctype'      => $myblock->getVar('c_type'),
             'bcachetime' => $myblock->getVar('bcachetime'),
             'op'         => 'clone_ok',
@@ -456,7 +456,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         while (false !== ($row = $db->fetchArray($result))) {
             $modules[] = (int)$row['module_id'];
         }
-        $is_custom = ('C' === $myblock->getVar('block_type') || 'E' === $myblock->getVar('block_type'));
+        $isCustom = ('C' === $myblock->getVar('block_type') || 'E' === $myblock->getVar('block_type'));
         $block     = [
             'title'      => $myblock->getVar('title'),
             'form_title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS_EDITBLOCK'),
@@ -466,7 +466,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             'visible'    => $myblock->getVar('visible'),
             'content'    => $myblock->getVar('content', 'N'),
             'modules'    => $modules,
-            'is_custom'  => $is_custom,
+            'is_custom'  => $isCustom,
             'ctype'      => $myblock->getVar('c_type'),
             'bcachetime' => $myblock->getVar('bcachetime'),
             'op'         => 'edit_ok',
@@ -506,10 +506,10 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         $myblock->setVar('bcachetime', $bcachetime);
         //update block options
         if (isset($options)) {
-            $options_count = count($options);
-            if ($options_count > 0) {
+            $optionsCount = count($options);
+            if ($optionsCount > 0) {
                 //Convert array values to comma-separated
-                for ($i = 0; $i < $options_count; ++$i) {
+                for ($i = 0; $i < $optionsCount; ++$i) {
                     if (is_array($options[$i])) {
                         $options[$i] = implode(',', $options[$i]);
                     }

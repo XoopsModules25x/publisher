@@ -41,7 +41,7 @@ class Category extends \XoopsObject
      * @var array
      */
     public $categoryPath = false;
-    public $categoryid;
+    public $categoryId;
     public $parentid;
     public $name;
     public $description;

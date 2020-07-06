@@ -15,11 +15,11 @@ namespace XoopsModules\Publisher\Common;
 final class Meta
 {
     /**
-     * @param string $locale_code
+     * @param string $localeCode
      * @return string
      */
 
-    public static function getStatik($locale_code)
+    public static function getStatik($localeCode)
     {
         return '
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -29,7 +29,7 @@ final class Meta
         <meta name="robots" content="index,follow">
         <meta name="revisit-after" content="1 days">
         <meta name="referrer" content="origin-when-cross-origin">
-        <meta name="locale" content="' . $locale_code . '">';
+        <meta name="locale" content="' . $localeCode . '">';
     }
 
     /**
@@ -83,20 +83,20 @@ final class Meta
 
     public static function getAlternate($langList)
     {
-        $LL = '';
+        $alternateLangList = '';
 
         if (\count($langList) > 1):
             foreach ($langList as $lang):
-                $LL .= '
+                $alternateLangList .= '
                 <link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '">';
             endforeach;
         else:
-            $LL = '
+            $alternateLangList = '
             <link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '">';
 
         endif;
 
-        return $LL;
+        return $alternateLangList;
     }
 
     /**

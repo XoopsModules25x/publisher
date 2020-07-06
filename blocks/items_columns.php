@@ -114,8 +114,8 @@ function publisher_items_columns_show($options)
 
             //The Rest
             if ($scount > 1) {
-                //                while ((list($itemid, $thisItem) = each($categoryItemsObj)) !== false) {
-                foreach ($categoryItemsObj as $itemid => $thisItem) {
+                //                while ((list($itemId, $thisItem) = each($categoryItemsObj)) !== false) {
+                foreach ($categoryItemsObj as $itemId => $thisItem) {
                     //TODO do I need to start with 2nd element?
                     $subItem['title']      = $thisItem->getTitle();
                     $subItem['cleantitle'] = strip_tags($thisItem->getTitle());

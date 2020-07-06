@@ -32,8 +32,8 @@ if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
     redirect_header('item.php', 2, _CO_PUBLISHER_BAD_TOKEN);
 }
 
-$itemid = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
-$op     = ($itemid > 0 || Request::getString('editor', '', 'POST')) ? 'mod' : '';
+$itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
+$op     = ($itemId > 0 || Request::getString('editor', '', 'POST')) ? 'mod' : '';
 //$op     = Request::getString('op', $op, 'GET');
 
 $op = Request::getString('op', Request::getString('op', $op, 'POST'), 'GET');
@@ -49,17 +49,17 @@ $rejectedstartitem  = Request::getInt('rejectedstartitem', Request::getInt('subm
 
 switch ($op) {
     case 'clone':
-        if (0 == $itemid) {
+        if (0 == $itemId) {
             $totalcategories = $helper->getHandler('Category')->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
             }
         }
         Utility::cpHeader();
-        publisher_editItem(true, $itemid, true);
+        publisher_editItem(true, $itemId, true);
         break;
     case 'mod':
-        if (0 == $itemid) {
+        if (0 == $itemId) {
             $totalcategories = $helper->getHandler('Category')->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
@@ -67,60 +67,60 @@ switch ($op) {
         }
 
         Utility::cpHeader();
-        publisher_editItem(true, $itemid);
+        publisher_editItem(true, $itemId);
         break;
     case 'additem':
-        $redirect_msg = $error_msg = '';
+        $redirectMsg = $errorMsg = '';
         // Creating the item object
         /** @var Publisher\Item $itemObj */
-        if (0 != $itemid) {
-            $itemObj = $helper->getHandler('Item')->get($itemid);
+        if (0 != $itemId) {
+            $itemObj = $helper->getHandler('Item')->get($itemId);
         } else {
             $itemObj = $helper->getHandler('Item')->create();
         }
 
         $itemObj->setVarsFromRequest();
 
-        $old_status = $itemObj->status();
+        $oldStatus = $itemObj->status();
         $newStatus  = Request::getInt('status', Constants::PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
 
         switch ($newStatus) {
             case Constants::PUBLISHER_STATUS_SUBMITTED:
-                $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
-                if (Constants::PUBLISHER_STATUS_NOTSET == $old_status) {
-                    $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
+                $errorMsg = _AM_PUBLISHER_ITEMNOTCREATED;
+                if (Constants::PUBLISHER_STATUS_NOTSET == $oldStatus) {
+                    $errorMsg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 }
-                $redirect_msg = _AM_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
+                $redirectMsg = _AM_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
                 break;
             case Constants::PUBLISHER_STATUS_PUBLISHED:
-                if ((Constants::PUBLISHER_STATUS_NOTSET == $old_status) || (Constants::PUBLISHER_STATUS_SUBMITTED == $old_status)) {
-                    $redirect_msg = _AM_PUBLISHER_SUBMITTED_APPROVE_SUCCESS;
+                if ((Constants::PUBLISHER_STATUS_NOTSET == $oldStatus) || (Constants::PUBLISHER_STATUS_SUBMITTED == $oldStatus)) {
+                    $redirectMsg = _AM_PUBLISHER_SUBMITTED_APPROVE_SUCCESS;
                     $notifToDo    = [Constants::PUBLISHER_NOTIFY_ITEM_PUBLISHED];
                 } else {
-                    $redirect_msg = _AM_PUBLISHER_PUBLISHED_MOD_SUCCESS;
+                    $redirectMsg = _AM_PUBLISHER_PUBLISHED_MOD_SUCCESS;
                 }
-                $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
+                $errorMsg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 break;
             case Constants::PUBLISHER_STATUS_OFFLINE:
-                $redirect_msg = _AM_PUBLISHER_OFFLINE_MOD_SUCCESS;
-                if (Constants::PUBLISHER_STATUS_NOTSET == $old_status) {
-                    $redirect_msg = _AM_PUBLISHER_OFFLINE_CREATED_SUCCESS;
+                $redirectMsg = _AM_PUBLISHER_OFFLINE_MOD_SUCCESS;
+                if (Constants::PUBLISHER_STATUS_NOTSET == $oldStatus) {
+                    $redirectMsg = _AM_PUBLISHER_OFFLINE_CREATED_SUCCESS;
                 }
-                $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
+                $errorMsg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 break;
             case Constants::PUBLISHER_STATUS_REJECTED:
-                $error_msg = _AM_PUBLISHER_ITEMNOTCREATED;
-                if (Constants::PUBLISHER_STATUS_NOTSET == $old_status) {
-                    $error_msg = _AM_PUBLISHER_ITEMNOTUPDATED;
+                $errorMsg = _AM_PUBLISHER_ITEMNOTCREATED;
+                if (Constants::PUBLISHER_STATUS_NOTSET == $oldStatus) {
+                    $errorMsg = _AM_PUBLISHER_ITEMNOTUPDATED;
                 }
-                $redirect_msg = _AM_PUBLISHER_ITEM_REJECTED;
+                $redirectMsg = _AM_PUBLISHER_ITEM_REJECTED;
                 break;
         }
         $itemObj->setVar('status', $newStatus);
 
         // Storing the item
         if (!$itemObj->store()) {
-            redirect_header('<script>javascript:history.go(-1)</script>', 3, $error_msg . Utility::formatErrors($itemObj->getErrors()));
+            redirect_header('<script>javascript:history.go(-1)</script>', 3, $errorMsg . Utility::formatErrors($itemObj->getErrors()));
         }
 
         // attach file if any
@@ -136,11 +136,11 @@ switch ($op) {
             $itemObj->sendNotifications($notifToDo);
         }
 
-        redirect_header('item.php', 2, $redirect_msg);
+        redirect_header('item.php', 2, $redirectMsg);
 
         break;
     case 'del':
-        $itemObj = $helper->getHandler('Item')->get($itemid);
+        $itemObj = $helper->getHandler('Item')->get($itemId);
         $confirm = Request::getInt('confirm', 0, 'POST');
 
         if ($confirm) {
@@ -209,7 +209,7 @@ switch ($op) {
                 echo '</tr>';
             }
         } else {
-            $itemid = 0;
+            $itemId = 0;
             echo '<tr>';
             echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOITEMS_SUBMITTED . '</td>';
             echo '</tr>';
@@ -263,7 +263,7 @@ switch ($op) {
                 echo '</tr>';
             }
         } else {
-            $itemid = 0;
+            $itemId = 0;
             echo '<tr>';
             echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOITEMS . '</td>';
             echo '</tr>';
@@ -317,7 +317,7 @@ switch ($op) {
                 echo '</tr>';
             }
         } else {
-            $itemid = 0;
+            $itemId = 0;
             echo '<tr>';
             echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOITEMS_OFFLINE . '</td>';
             echo '</tr>';
@@ -369,7 +369,7 @@ switch ($op) {
                 echo '</tr>';
             }
         } else {
-            $itemid = 0;
+            $itemId = 0;
             echo '<tr>';
             echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOITEMS_REJECTED . '</td>';
             echo '</tr>';
@@ -387,10 +387,10 @@ require_once __DIR__ . '/admin_footer.php';
 
 /**
  * @param bool $showmenu
- * @param int  $itemid
+ * @param int  $itemId
  * @param bool $clone
  */
-function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
+function publisher_editItem($showmenu = false, $itemId = 0, $clone = false)
 {
     $helper = Helper::getInstance();
     global $publisherCurrentPage;
@@ -402,10 +402,10 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
     // if there is a parameter, and the id exists, retrieve data: we're editing a item
 
-    if (0 !== $itemid) {
+    if (0 !== $itemId) {
         // Creating the ITEM object
         /** @var \XoopsModules\Publisher\Item $itemObj */
-        $itemObj = $helper->getHandler('Item')->get($itemid);
+        $itemObj = $helper->getHandler('Item')->get($itemId);
 
         if (null === $itemObj) {
             redirect_header('item.php', 1, _AM_PUBLISHER_NOITEMSELECTED);

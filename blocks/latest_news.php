@@ -96,7 +96,7 @@ function publisher_latest_news_show($options)
     $k       = 0;
     $columns = [];
 
-    foreach ($itemsObj as $itemid => $itemObj) {
+    foreach ($itemsObj as $itemId => $itemObj) {
         $item            = [];
         $item['itemurl'] = $itemObj->getItemUrl();
         $item['title']   = $itemObj->getItemLink();

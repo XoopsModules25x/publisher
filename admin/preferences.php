@@ -65,7 +65,7 @@ if ('showmod' === $op) {
     $xv_configs  = $module->getInfo('config');
     $config_cats = $module->getInfo('configcat');
 
-    if (!array_key_exists('others', $config_cats)) {
+    if (is_array($config_cats) && !array_key_exists('others', $config_cats)) {
         $config_cats['others'] = [
             'name'        => _MI_PUBLISHER_CONFCAT_OTHERS,
             'description' => _MI_PUBLISHER_CONFCAT_OTHERS_DSC,
@@ -85,10 +85,12 @@ if ('showmod' === $op) {
 
     xoops_load('XoopsFormLoader');
 
-    foreach ($config_cats as $formCat => $info) {
-        $$formCat = new \XoopsThemeForm($info['name'], 'pref_form_' . $formCat, 'preferences.php', 'post', true);
+    if (is_array($config_cats)) {
+        foreach ($config_cats as $formCat => $info) {
+            $$formCat = new \XoopsThemeForm($info['name'], 'pref_form_' . $formCat, 'preferences.php', 'post', true);
+        }
+        unset($formCat, $info);
     }
-    unset($formCat, $info);
 
     for ($i = 0; $i < $count; ++$i) {
         foreach ($xv_configs as $xv_config) {
@@ -101,7 +103,7 @@ if ('showmod' === $op) {
         $formCat = $xv_config['category'] ?? '';
         unset($xv_config);
 
-        if (!array_key_exists($formCat, $config_cats)) {
+        if (is_array($config_cats) && !array_key_exists($formCat, $config_cats)) {
             $formCat         = 'others';
             $cat_others_used = true;
         }
@@ -176,9 +178,11 @@ if ('showmod' === $op) {
                 break;
         }
         $hidden = new \XoopsFormHidden('conf_ids[]', $config[$i]->getVar('conf_id'));
-        $$formCat->addElement($ele);
-        $$formCat->addElement($hidden);
-        unset($ele, $hidden);
+        if (isset($$formCat) && null !== $$formCat) {
+            $$formCat->addElement($ele);
+            $$formCat->addElement($hidden);
+            unset($ele, $hidden);
+        }
     }
 
     Utility::cpHeader();

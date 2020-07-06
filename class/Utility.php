@@ -341,7 +341,7 @@ class Utility extends Common\SysUtility
                     echo '</tr>';
                 }
             } else {
-                $itemid = -1;
+                $itemId = -1;
                 echo '<tr>';
                 echo "<td class='head' align='center' colspan= '7'>" . \_AM_PUBLISHER_NOITEMS . '</td>';
                 echo '</tr>';

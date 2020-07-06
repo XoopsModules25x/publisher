@@ -163,11 +163,11 @@ class MimetypeHandler extends BaseObjectHandler
     public function checkMimeTypes($postField)
     {
         $ret               = false;
-        $allowed_mimetypes = $this->getArrayByType();
-        if (empty($allowed_mimetypes)) {
+        $allowedMimetypes = $this->getArrayByType();
+        if (empty($allowedMimetypes)) {
             return $ret;
         }
-        foreach ($allowed_mimetypes as $mime) {
+        foreach ($allowedMimetypes as $mime) {
             if ($mime == $_FILES[$postField]['type']) {
                 $ret = $mime;
                 break;

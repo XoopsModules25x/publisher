@@ -7,7 +7,7 @@
         <lastBuildDate><{$channel_lastbuild}></lastBuildDate>
         <docs>http://backend.userland.com/rss/</docs>
         <generator><{$channel_generator}></generator>
-        <category><{$channel_category}></category>
+        <category><{$channelCategory}></category>
         <managingEditor><{$channel_editor}></managingEditor>
         <webMaster><{$channel_webmaster}></webMaster>
         <language><{$channel_language}></language>

@@ -232,8 +232,8 @@ if (!defined('WEBSHOT_XVFB_RUNNING')) {
 }            //ADVANCED: Enable this if you've got Xvfb running in the background.
 
 // If ALLOW_EXTERNAL is true and ALLOW_ALL_EXTERNAL_SITES is false, then external images will only be fetched from these domains and their subdomains.
-if (!isset($ALLOWED_SITES)) {
-    $ALLOWED_SITES = [
+if (!isset($allowedSites)) {
+    $allowedSites = [
         'flickr.com',
         'staticflickr.com',
         'picasa.com',
@@ -298,7 +298,7 @@ class Timthumb
 
     public function __construct()
     {
-        global $ALLOWED_SITES;
+        global $allowedSites;
         $this->startTime = microtime(true);
         date_default_timezone_set('UTC');
         $this->debug(1, 'Starting new request from ' . $this->getIP() . ' to ' . Request::getString('REQUEST_URI', '', 'SERVER'));
@@ -367,14 +367,14 @@ class Timthumb
             } else {
                 $this->debug(2, 'Fetching only from selected external sites is enabled.');
                 $allowed = false;
-                foreach ($ALLOWED_SITES as $site) {
+                foreach ($allowedSites as $site) {
                     if ((mb_strtolower($this->url['host']) === mb_strtolower($site)) || (mb_strtolower(mb_substr($this->url['host'], -mb_strlen($site) - 1)) === mb_strtolower(".$site"))) {
                         $this->debug(3, "URL hostname {$this->url['host']} matches $site so allowing.");
                         $allowed = true;
                     }
                 }
                 if (!$allowed) {
-                    return $this->error('You may not fetch images from that site. To enable this site in timthumb, you can either add it to $ALLOWED_SITES and set ALLOW_EXTERNAL=true. Or you can set ALLOW_ALL_EXTERNAL_SITES=true, depending on your security needs.');
+                    return $this->error('You may not fetch images from that site. To enable this site in timthumb, you can either add it to $allowedSites and set ALLOW_EXTERNAL=true. Or you can set ALLOW_ALL_EXTERNAL_SITES=true, depending on your security needs.');
                 }
             }
         }
@@ -718,7 +718,7 @@ class Timthumb
         // get standard input properties
         $newWidth     = (int)abs($this->param('w', 0));
         $newHeight    = (int)abs($this->param('h', 0));
-        $zoom_crop    = (int)$this->param('zc', DEFAULT_ZC);
+        $zoomCrop    = (int)$this->param('zc', DEFAULT_ZC);
         $quality      = (int)abs($this->param('q', DEFAULT_Q));
         $align        = $this->cropTop ? 't' : $this->param('a', 'c');
         $filters      = $this->param('f', DEFAULT_F);
@@ -759,7 +759,7 @@ class Timthumb
         }
 
         // scale down and add borders
-        if (3 == $zoom_crop) {
+        if (3 == $zoomCrop) {
             $final_height = $height * ($newWidth / $width);
 
             if ($final_height > $newHeight) {
@@ -796,7 +796,7 @@ class Timthumb
         // Completely fill the background of the new image with allocated color.
         imagefill($canvas, 0, 0, $color);
         // scale down and add borders
-        if (2 == $zoom_crop) {
+        if (2 == $zoomCrop) {
             $final_height = $height * ($newWidth / $width);
             if ($final_height > $newHeight) {
                 $origin_x = $newWidth / 2;
@@ -812,7 +812,7 @@ class Timthumb
         // Restore transparency blending
         imagesavealpha($canvas, true);
 
-        if ($zoom_crop > 0) {
+        if ($zoomCrop > 0) {
             $src_x = $src_y = 0;
             $src_w = $width;
             $src_h = $height;
@@ -1299,7 +1299,7 @@ class Timthumb
         if ('image/jpg' === mb_strtolower($mimeType)) {
             $mimeType = 'image/jpeg';
         }
-        $gmdate_expires  = gmdate('D, d M Y H:i:s', strtotime('now +10 days')) . ' GMT';
+        $gmdateExpires  = gmdate('D, d M Y H:i:s', strtotime('now +10 days')) . ' GMT';
         $gmdate_modified = gmdate('D, d M Y H:i:s') . ' GMT';
         // send content headers then display image
         header('Content-Type: ' . $mimeType);
@@ -1314,7 +1314,7 @@ class Timthumb
         } else {
             $this->debug(3, 'Browser caching is enabled');
             header('Cache-Control: max-age=' . BROWSER_CACHE_MAX_AGE . ', must-revalidate');
-            header('Expires: ' . $gmdate_expires);
+            header('Expires: ' . $gmdateExpires);
         }
 
         return true;
@@ -1458,28 +1458,28 @@ class Timthumb
     }
 
     /**
-     * @param $size_str
+     * @param $sizeString
      *
      * @return int
      */
-    protected static function returnBytes($size_str)
+    protected static function returnBytes($sizeString)
     {
-        switch (mb_substr($size_str, -1)) {
+        switch (mb_substr($sizeString, -1)) {
             case 'M':
 
             case 'm':
 
-                return (int)$size_str * 1048576;
+                return (int)$sizeString * 1048576;
             case 'K':
             case 'k':
 
-                return (int)$size_str * 1024;
+                return (int)$sizeString * 1024;
             case 'G':
             case 'g':
 
-                return (int)$size_str * 1073741824;
+                return (int)$sizeString * 1073741824;
             default:
-                return $size_str;
+                return $sizeString;
         }
     }
 

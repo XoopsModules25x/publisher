@@ -30,14 +30,14 @@ require_once $GLOBALS['xoops']->path('class/pagenav.php');
 // require_once  dirname(__DIR__) . '/class/Utility.php';
 require_once dirname(__DIR__) . '/include/common.php';
 
-$itemid = Request::getInt('itemid', 0, 'POST');
+$itemId = Request::getInt('itemid', 0, 'POST');
 
 $pick      = Request::getInt('pick', Request::getInt('pick', 0, 'GET'), 'POST');
 $statussel = Request::getInt('statussel', Request::getInt('statussel', 0, 'GET'), 'POST');
 $sortsel   = Request::getString('sortsel', Request::getString('sortsel', 'itemid', 'GET'), 'POST');
 $ordersel  = Request::getString('ordersel', Request::getString('ordersel', 'DESC', 'GET'), 'POST');
 
-$module_id = $helper->getModule()->mid();
+$moduleId = $helper->getModule()->mid();
 /** @var XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
 $groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
@@ -159,31 +159,31 @@ switch ($statussel) {
         $selectedtxt0        = 'selected';
         $caption             = _AM_PUBLISHER_ALL;
         $cond                = '';
-        $status_explaination = _AM_PUBLISHER_ALL_EXP;
+        $statusExplanation = _AM_PUBLISHER_ALL_EXP;
         break;
     case Constants::PUBLISHER_STATUS_SUBMITTED:
         $selectedtxt1        = 'selected';
         $caption             = _CO_PUBLISHER_SUBMITTED;
         $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_SUBMITTED . ' ';
-        $status_explaination = _AM_PUBLISHER_SUBMITTED_EXP;
+        $statusExplanation = _AM_PUBLISHER_SUBMITTED_EXP;
         break;
     case Constants::PUBLISHER_STATUS_PUBLISHED:
         $selectedtxt2        = 'selected';
         $caption             = _CO_PUBLISHER_PUBLISHED;
         $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_PUBLISHED . ' ';
-        $status_explaination = _AM_PUBLISHER_PUBLISHED_EXP;
+        $statusExplanation = _AM_PUBLISHER_PUBLISHED_EXP;
         break;
     case Constants::PUBLISHER_STATUS_OFFLINE:
         $selectedtxt3        = 'selected';
         $caption             = _CO_PUBLISHER_OFFLINE;
         $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_OFFLINE . ' ';
-        $status_explaination = _AM_PUBLISHER_OFFLINE_EXP;
+        $statusExplanation = _AM_PUBLISHER_OFFLINE_EXP;
         break;
     case Constants::PUBLISHER_STATUS_REJECTED:
         $selectedtxt4        = 'selected';
         $caption             = _CO_PUBLISHER_REJECTED;
         $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_REJECTED . ' ';
-        $status_explaination = _AM_PUBLISHER_REJECTED_ITEM_EXP;
+        $statusExplanation = _AM_PUBLISHER_REJECTED_ITEM_EXP;
         break;
 }
 
@@ -315,7 +315,7 @@ if ($numrows > 0) {
     echo '</tr>';
 }
 echo "</table>\n";
-echo "<span style=\"color: #567; margin: 3px 0 18px 0; font-size: small; display: block; \">$status_explaination</span>";
+echo "<span style=\"color: #567; margin: 3px 0 18px 0; font-size: small; display: block; \">$statusExplanation</span>";
 $pagenav = new \XoopsPageNav($numrows, $helper->getConfig('idxcat_perpage'), $startentry, 'startentry', "statussel=$statussel&amp;sortsel=$sortsel&amp;ordersel=$ordersel");
 
 if (1 == $helper->getConfig('format_image_nav')) {

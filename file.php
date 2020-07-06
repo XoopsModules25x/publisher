@@ -81,15 +81,15 @@ switch ($op) {
             $oldfile = $fileObj->getFilePath();
 
             // Get available mimetypes for file uploading
-            $allowed_mimetypes = $helper->getHandler('Mimetype')->getArrayByType();
+            $allowedMimetypes = $helper->getHandler('Mimetype')->getArrayByType();
             // TODO : display the available mimetypes to the user
             $errors = [];
 
             //            if ($helper->getConfig('perm_upload') && is_uploaded_file(Request::getArray('item_upload_file', array(), 'FILES')['tmp_name'])) {
             $temp = Request::getArray('item_upload_file', [], 'FILES');
             if ($helper->getConfig('perm_upload') && is_uploaded_file($temp['tmp_name'])) {
-                if ($fileObj->checkUpload('item_upload_file', $allowed_mimetypes, $errors)) {
-                    if ($fileObj->storeUpload('item_upload_file', $allowed_mimetypes, $errors)) {
+                if ($fileObj->checkUpload('item_upload_file', $allowedMimetypes, $errors)) {
+                    if ($fileObj->storeUpload('item_upload_file', $allowedMimetypes, $errors)) {
                         unlink($oldfile);
                     }
                 }

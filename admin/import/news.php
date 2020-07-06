@@ -63,16 +63,16 @@ if ('start' === $op) {
             $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('news_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('news_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
             $result           = $GLOBALS['xoopsDB']->query($sql);
-            $cat_cbox_options = [];
+            $catCboxOptions = [];
 
-            while (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) {
-                $cat_title              = $myts->displayTarea($cat_title);
-                $cat_cbox_options[$cid] = "$cat_title ($art_count)";
+            while (list($cid, $pid, $catTitle, $articleCount) = $GLOBALS['xoopsDB']->fetchRow($result)) {
+                $catTitle              = $myts->displayTarea($catTitle);
+                $catCboxOptions[$cid] = "$catTitle ($articleCount)";
             }
 
-            $cat_label = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $cat_cbox_options));
-            $cat_label->setDescription(_AM_PUBLISHER_IMPORT_CATEGORIES_DSC);
-            $form->addElement($cat_label);
+            $catLabel = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $catCboxOptions));
+            $catLabel->setDescription(_AM_PUBLISHER_IMPORT_CATEGORIES_DSC);
+            $form->addElement($catLabel);
 
             // Publisher parent category
             $mytree = new \XoopsTree($GLOBALS['xoopsDB']->prefix($helper->getModule()->getVar('dirname', 'n') . '_categories'), 'categoryid', 'parentid');
@@ -199,7 +199,7 @@ if ('go' === $op) {
              // Linkes files
              $sql = 'SELECT * FROM '.$GLOBALS['xoopsDB']->prefix('wfs_files').' WHERE articleid=' . $arrArticle['articleid'];
              $resultFiles = $GLOBALS['xoopsDB']->query ($sql);
-             $allowed_mimetypes = '';
+             $allowedMimetypes = '';
              while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray ($resultFiles))) {
 
              $filename = $GLOBALS['xoops']->path('modules/wfsection/cache/uploaded/' . $arrFile['filerealname']);
@@ -216,7 +216,7 @@ if ('go' === $op) {
              $fileObj->setVar('counter', $arrFile['counter']);
              $fileObj->setVar('filename', $arrFile['filerealname']);
 
-             if ($fileObj->store($allowed_mimetypes, true, false)) {
+             if ($fileObj->store($allowedMimetypes, true, false)) {
              echo '&nbsp;&nbsp;&nbsp;&nbsp;'  . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE_FILE, $arrFile['filerealname']) . '<br>';
              }
              }

@@ -127,7 +127,7 @@ class File extends \XoopsObject
     {
         /** @var Publisher\MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $this->helper->getHandler('Mimetype');
-        $itemid          = $this->getVar('itemid');
+        $itemId          = $this->getVar('itemid');
         if (0 === \count($allowedMimetypes)) {
             $allowedMimetypes = $mimetypeHandler->getArrayByType();
         }
@@ -142,7 +142,7 @@ class File extends \XoopsObject
         \xoops_load('XoopsMediaUploader');
         $uploader = new \XoopsMediaUploader(Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
-            $uploader->setTargetFileName($itemid . '_' . $uploader->getMediaName());
+            $uploader->setTargetFileName($itemId . '_' . $uploader->getMediaName());
             if ($uploader->upload()) {
                 $this->setVar('filename', $uploader->getSavedFileName());
                 if ('' == $this->getVar('name')) {

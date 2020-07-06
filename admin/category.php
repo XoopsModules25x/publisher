@@ -32,11 +32,11 @@ $op = Request::getString('addcategory', '', 'POST') ? 'addcategory' : $op;
 
 // Where do we start ?
 $startcategory = Request::getInt('startcategory', 0, 'GET');
-$categoryid    = Request::getInt('categoryid', null);
+$categoryId    = Request::getInt('categoryid', null);
 
 switch ($op) {
     case 'del':
-        $categoryObj = $helper->getHandler('Category')->get($categoryid);
+        $categoryObj = $helper->getHandler('Category')->get($categoryId);
         $confirm     = Request::getString('confirm', '', 'POST');
         $name        = Request::getString('name', '', 'POST');
         if ($confirm) {
@@ -52,19 +52,19 @@ switch ($op) {
         break;
     case 'mod':
         //Added by fx2024
-        $nb_subcats = Request::getInt('nb_subcats', 0, 'POST');
-        $nb_subcats += Request::getInt('nb_sub_yet', 4, 'POST');
+        $numberSubcats = Request::getInt('nb_subcats', 0, 'POST');
+        $numberSubcats += Request::getInt('nb_sub_yet', 4, 'POST');
         //end of fx2024 code
 
         Utility::cpHeader();
-        Utility::editCategory(true, $categoryid, $nb_subcats);
+        Utility::editCategory(true, $categoryId, $numberSubcats);
         break;
     case 'addcategory':
         global $modify;
 
         $parentid = Request::getInt('parentid');
-        if (0 != $categoryid) {
-            $categoryObj = $helper->getHandler('Category')->get($categoryid);
+        if (0 != $categoryId) {
+            $categoryObj = $helper->getHandler('Category')->get($categoryId);
         } else {
             $categoryObj = $helper->getHandler('Category')->create();
         }
@@ -72,23 +72,23 @@ switch ($op) {
         // Uploading the image, if any
         // Retreive the filename to be uploaded
         $temp       = Request::getArray('image_file', '', 'FILES');
-        $image_file = $temp['name'];
-        if ($image_file) {
+        $imageFile = $temp['name'];
+        if ($imageFile) {
             //            $filename = Request::getArray('xoops_upload_file', array(), 'POST')[0];
             $temp2    = Request::getArray('xoops_upload_file', [], 'POST');
             $filename = $temp2[0];
             if ($filename) {
                 // TODO : implement publisher mimetype management
-                $max_size          = $helper->getConfig('maximum_filesize');
-                $max_imgwidth      = $helper->getConfig('maximum_image_width');
-                $max_imgheight     = $helper->getConfig('maximum_image_height');
-                $allowed_mimetypes = Utility::getAllowedImagesTypes();
+                $maxSize          = $helper->getConfig('maximum_filesize');
+                $maxImageWidth      = $helper->getConfig('maximum_image_width');
+                $maxImageHeight     = $helper->getConfig('maximum_image_height');
+                $allowedMimetypes = Utility::getAllowedImagesTypes();
                 if (('' == $temp['tmp_name']) || !is_readable($temp['tmp_name'])) {
                     redirect_header('<script>javascript:history.go(-1)</script>', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
                 }
 
                 xoops_load('XoopsMediaUploader');
-                $uploader = new \XoopsMediaUploader(Utility::getImageDir('category'), $allowed_mimetypes, $max_size, $max_imgwidth, $max_imgheight);
+                $uploader = new \XoopsMediaUploader(Utility::getImageDir('category'), $allowedMimetypes, $maxSize, $maxImageWidth, $maxImageHeight);
                 if ($uploader->fetchMedia($filename) && $uploader->upload()) {
                     $categoryObj->setVar('image', $uploader->getSavedFileName());
                 } else {
@@ -120,11 +120,11 @@ switch ($op) {
         $categoryObj->setVar('header', Request::getText('header', '', 'POST'));
 
         if ($categoryObj->isNew()) {
-            $redirect_msg = _AM_PUBLISHER_CATCREATED;
-            $redirect_to  = 'category.php?op=mod';
+            $redirectMsg = _AM_PUBLISHER_CATCREATED;
+            $redirectTo  = 'category.php?op=mod';
         } else {
-            $redirect_msg = _AM_PUBLISHER_COLMODIFIED;
-            $redirect_to  = 'category.php';
+            $redirectMsg = _AM_PUBLISHER_COLMODIFIED;
+            $redirectTo  = 'category.php';
         }
 
         if (!$categoryObj->store()) {
@@ -156,13 +156,13 @@ switch ($op) {
             }
         }
         //end of fx2024 code
-        redirect_header($redirect_to, 2, $redirect_msg);
+        redirect_header($redirectTo, 2, $redirectMsg);
         break;
     //Added by fx2024
 
     case 'addsubcats':
-        $categoryid = 0;
-        $nb_subcats = Request::getInt('nb_subcats', 0, 'POST') + Request::getInt('nb_sub_yet', 0, 'POST');
+        $categoryId = 0;
+        $numberSubcats = Request::getInt('nb_subcats', 0, 'POST') + Request::getInt('nb_sub_yet', 0, 'POST');
 
         $categoryObj = $helper->getHandler('Category')->create();
         $categoryObj->setVar('name', Request::getString('name', '', 'POST'));
@@ -173,7 +173,7 @@ switch ($op) {
         }
 
         Utility::cpHeader();
-        Utility::editCategory(true, $categoryid, $nb_subcats, $categoryObj);
+        Utility::editCategory(true, $categoryId, $numberSubcats, $categoryObj);
         exit();
         break;
     //end of fx2024 code
@@ -214,7 +214,7 @@ switch ($op) {
             echo '<tr>';
             echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOCAT . '</td>';
             echo '</tr>';
-            $categoryid = '0';
+            $categoryId = '0';
         }
         echo "</table>\n";
         require_once $GLOBALS['xoops']->path('class/pagenav.php');

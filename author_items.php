@@ -57,8 +57,8 @@ $xoopsTpl->assign('total_items', $count);
 $xoopsTpl->assign('permRating', $helper->getConfig('perm_rating'));
 
 xoops_load('XoopsUserUtility');
-$author_name = \XoopsUserUtility::getUnameFromId($uid, $helper->getConfig('format_realname'), true);
-$xoopsTpl->assign('author_name_with_link', $author_name);
+$authorName = \XoopsUserUtility::getUnameFromId($uid, $helper->getConfig('format_realname'), true);
+$xoopsTpl->assign('author_name_with_link', $authorName);
 $xoopsTpl->assign('user_avatarurl', XOOPS_URL . '/uploads/' . $thisuser->getVar('user_avatar'));
 //$xoopsLocal = new \XoopsLocal();
 $categories = [];
@@ -121,7 +121,7 @@ if ($count > 0) {
 unset($item);
 $xoopsTpl->assign('categories', $categories);
 
-$title = _MD_PUBLISHER_ITEMS_SAME_AUTHOR . ' - ' . $author_name;
+$title = _MD_PUBLISHER_ITEMS_SAME_AUTHOR . ' - ' . $authorName;
 
 /**
  * Generating meta information for this page

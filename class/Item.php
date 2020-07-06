@@ -254,8 +254,8 @@ class Item extends \XoopsObject
             while (!(false === $wrapPos)) {
                 $endWrapPos = mb_strpos($ret, ']', $wrapPos);
                 if ($endWrapPos) {
-                    $wrap_page_name = mb_substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
-                    $wrapPages[]    = $wrap_page_name;
+                    $wrapPagename = mb_substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
+                    $wrapPages[]    = $wrapPagename;
                 }
                 $wrapPos = mb_strpos($ret, '[pagewrap=', $endWrapPos - 1);
             }
@@ -718,10 +718,10 @@ class Item extends \XoopsObject
     public function getImages()
     {
         static $ret;
-        $itemid = $this->getVar('itemid');
-        if (!isset($ret[$itemid])) {
-            $ret[$itemid]['main']   = '';
-            $ret[$itemid]['others'] = [];
+        $itemId = $this->getVar('itemid');
+        if (!isset($ret[$itemId])) {
+            $ret[$itemId]['main']   = '';
+            $ret[$itemId]['others'] = [];
             $imagesIds              = [];
             $image                  = $this->getVar('image');
             $images                 = $this->getVar('images');
@@ -740,16 +740,16 @@ class Item extends \XoopsObject
             }
             foreach ($imageObjs as $id => $imageObj) {
                 if ($id == $image) {
-                    $ret[$itemid]['main'] = $imageObj;
+                    $ret[$itemId]['main'] = $imageObj;
                 } else {
-                    $ret[$itemid]['others'][] = $imageObj;
+                    $ret[$itemId]['others'][] = $imageObj;
                 }
                 unset($imageObj);
             }
             unset($imageObjs);
         }
 
-        return $ret[$itemid];
+        return $ret[$itemId];
     }
 
     /**
@@ -1048,8 +1048,8 @@ class Item extends \XoopsObject
     public function setVarsFromRequest()
     {
         //Required fields
-        //        if (!empty($categoryid = Request::getInt('categoryid', 0, 'POST'))) {
-        //            $this->setVar('categoryid', $categoryid);}
+        //        if (!empty($categoryId = Request::getInt('categoryid', 0, 'POST'))) {
+        //            $this->setVar('categoryid', $categoryId);}
         if (\is_object($GLOBALS['xoopsUser'])) {
             $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
         } else {

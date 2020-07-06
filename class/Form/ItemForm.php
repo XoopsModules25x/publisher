@@ -233,8 +233,8 @@ class ItemForm extends Publisher\ThemeTabForm
             || $this->isGranted(Constants::PUBLISHER_DOIMAGE)
             || $this->isGranted(Constants::PUBLISHER_DOLINEBREAK)) {
             if ($this->isGranted(Constants::PUBLISHER_DOHTML)) {
-                $html_radio = new \XoopsFormRadioYN(\_CO_PUBLISHER_DOHTML, 'dohtml', $obj->dohtml(), _YES, _NO);
-                $this->addElement($html_radio);
+                $htmlRadio = new \XoopsFormRadioYN(\_CO_PUBLISHER_DOHTML, 'dohtml', $obj->dohtml(), _YES, _NO);
+                $this->addElement($htmlRadio);
             }
             if ($this->isGranted(Constants::PUBLISHER_DOSMILEY)) {
                 $smiley_radio = new \XoopsFormRadioYN(\_CO_PUBLISHER_DOSMILEY, 'dosmiley', $obj->dosmiley(), _YES, _NO);

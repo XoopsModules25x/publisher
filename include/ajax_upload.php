@@ -37,15 +37,15 @@ if (!is_object($GLOBALS['xoopsUser'])) {
 }
 
 $filename       = basename($_FILES['publisher_upload_file']['name']);
-$image_nicename = Request::getString('image_nicename', '', 'POST');
-if ('' == $image_nicename || _CO_PUBLISHER_IMAGE_NICENAME == $image_nicename) {
-    $image_nicename = $filename;
+$imageNiceName = Request::getString('image_nicename', '', 'POST');
+if ('' == $imageNiceName || _CO_PUBLISHER_IMAGE_NICENAME == $imageNiceName) {
+    $imageNiceName = $filename;
 }
 
-$imgcat_id = Request::getInt('imgcat_id', 0, 'POST');
+$imgcatId = Request::getInt('imgcat_id', 0, 'POST');
 
 $imgcatHandler = xoops_getHandler('imagecategory');
-$imgcat        = $imgcatHandler->get($imgcat_id);
+$imgcat        = $imgcatHandler->get($imgcatId);
 
 $error = false;
 if (!is_object($imgcat)) {
@@ -54,10 +54,10 @@ if (!is_object($imgcat)) {
     /** @var XoopsGroupPermHandler $imgcatpermHandler */
     $imgcatpermHandler = xoops_getHandler('groupperm');
     if (is_object($GLOBALS['xoopsUser'])) {
-        if (!$imgcatpermHandler->checkRight('imgcat_write', $imgcat_id, $GLOBALS['xoopsUser']->getGroups())) {
+        if (!$imgcatpermHandler->checkRight('imgcat_write', $imgcatId, $GLOBALS['xoopsUser']->getGroups())) {
             $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
         }
-    } elseif (!$imgcatpermHandler->checkRight('imgcat_write', $imgcat_id, XOOPS_GROUP_ANONYMOUS)) {
+    } elseif (!$imgcatpermHandler->checkRight('imgcat_write', $imgcatId, XOOPS_GROUP_ANONYMOUS)) {
         $error = _CO_PUBLISHER_IMAGE_CAT_NOPERM;
     }
 }
@@ -76,12 +76,12 @@ if (false === $error) {
             $savedFilename = $uploader->getSavedFileName();
             $imageMimetype = $uploader->getMediaType();
             $image->setVar('image_name', 'images/' . $savedFilename);
-            $image->setVar('image_nicename', $image_nicename);
+            $image->setVar('image_nicename', $imageNiceName);
             $image->setVar('image_mimetype', $imageMimetype);
             $image->setVar('image_created', time());
             $image->setVar('image_display', 1);
             $image->setVar('image_weight', 0);
-            $image->setVar('imgcat_id', $imgcat_id);
+            $image->setVar('imgcat_id', $imgcatId);
             if ('db' === $imgcat->getVar('imgcat_storetype')) {
                 $fp      = @fopen($uploader->getSavedDestination(), 'rb');
                 $fbinary = @fread($fp, filesize($uploader->getSavedDestination()));

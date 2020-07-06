@@ -25,14 +25,14 @@ use XoopsModules\Publisher;
 require_once __DIR__ . '/header.php';
 require_once $GLOBALS['xoops']->path('class/template.php');
 
-$itemid = Request::getInt('itemid', 0, 'GET');
+$itemId = Request::getInt('itemid', 0, 'GET');
 
-if (0 == $itemid) {
+if (0 == $itemId) {
     redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 // Creating the ITEM object for the selected ITEM
-$itemObj = $helper->getHandler('Item')->get($itemid);
+$itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected ITEM was not found, exit
 if ($itemObj->notLoaded()) {

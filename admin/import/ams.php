@@ -126,16 +126,16 @@ if ('start' === $op) {
             $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('ams_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('nw_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
             $result           = $GLOBALS['xoopsDB']->query($sql);
-            $cat_cbox_options = [];
+            $catCboxOptions = [];
 
-            while (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) {
-                $cat_title              = $myts->displayTarea($cat_title);
-                $cat_cbox_options[$cid] = "$cat_title ($art_count)";
+            while (list($cid, $pid, $catTitle, $articleCount) = $GLOBALS['xoopsDB']->fetchRow($result)) {
+                $catTitle              = $myts->displayTarea($catTitle);
+                $catCboxOptions[$cid] = "$catTitle ($articleCount)";
             }
 
-            $cat_label = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $cat_cbox_options));
-            $cat_label->setDescription(_AM_PUBLISHER_IMPORT_CATEGORIES_DSC);
-            $form->addElement($cat_label);
+            $catLabel = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $catCboxOptions));
+            $catLabel->setDescription(_AM_PUBLISHER_IMPORT_CATEGORIES_DSC);
+            $form->addElement($catLabel);
 
             // Publisher parent category
             $mytree = new \XoopsTree($GLOBALS['xoopsDB']->prefix($helper->getModule()->dirname() . '_categories'), 'categoryid', 'parentid');
@@ -241,13 +241,13 @@ if ('go' === $op) {
                   $imageHandler = xoops_getHandler('image');
                   $image = $imageHandler->create();
                   $image->setVar('image_name', $arrCat['topic_imgurl']);//'images/' . $uploader->getSavedFileName());
-                  $image->setVar('image_nicename', mb_substr($arrCat['topic_imgurl'],-13)); //$image_nicename);
+                  $image->setVar('image_nicename', mb_substr($arrCat['topic_imgurl'],-13)); //$imageNiceName);
                   $image->setVar('image_mimetype', 'image/'. mb_substr($arrCat['topic_imgurl'],-3));//$uploader->getMediaType());
   //                $image->setVar('image_created', time());
   //                $image_display = empty($image_display) ? 0 : 1;
                   $image->setVar('image_display', 1); //$image_display);
                   $image->setVar('image_weight', 0);//$image_weight);
-                  $image->setVar('imgcat_id', $newid );//$imgcat_id);
+                  $image->setVar('imgcat_id', $newid );//$imgcatId);
                   if (!$imageHandler->insert($image)) {
                       $err[] = sprintf(_FAILSAVEIMG, $image->getVar('image_nicename'));
                   }
@@ -353,7 +353,7 @@ if ('go' === $op) {
             // Linkes files
             $sql               = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('ams_article_files') . ' WHERE storyid=' . $arrArticle['storyid'];
             $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
-            $allowed_mimetypes = '';
+            $allowedMimetypes = '';
             while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
                 $filename = $GLOBALS['xoops']->path('uploads/AMS/attached/' . $arrFile['downloadname']);
                 if (file_exists($filename)) {
@@ -371,7 +371,7 @@ if ('go' === $op) {
                         $fileObj->setVar('filename', $arrFile['filerealname']);
                         $fileObj->setVar('short_url', $arrFile['filerealname']);
 
-                        if ($fileObj->store($allowed_mimetypes, true, false)) {
+                        if ($fileObj->store($allowedMimetypes, true, false)) {
                             echo '&nbsp;&nbsp;&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE_FILE, $arrFile['filerealname']) . '<br>';
                         }
                     }

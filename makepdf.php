@@ -15,9 +15,9 @@ error_reporting(E_ALL);
 
 require_once __DIR__ . '/header.php';
 
-$itemid       = Request::getInt('itemid', 0, 'GET');
-$item_page_id = Request::getInt('page', -1, 'GET');
-if (0 == $itemid) {
+$itemId       = Request::getInt('itemid', 0, 'GET');
+$itemPageId = Request::getInt('page', -1, 'GET');
+if (0 == $itemId) {
     redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
@@ -25,7 +25,7 @@ if (0 == $itemid) {
 require_once XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php';
 
 // Creating the item object for the selected item
-$itemObj = $helper->getHandler('Item')->get($itemid);
+$itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected item was not found, exit
 if (!$itemObj) {
@@ -53,7 +53,7 @@ if (empty($mainImage['image_path'])) {
 if ('' != $mainImage['image_path']) {
     $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"><br>';
 }
-$content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" style="text-decoration: none; color: #000000; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '">' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '</a>';
+$content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemId . '" style="text-decoration: none; color: #000000; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '">' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '</a>';
 $content .= '<br><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">'
             . _CO_PUBLISHER_CATEGORY
             . ' : </span><a href="'

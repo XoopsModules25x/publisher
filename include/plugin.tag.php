@@ -35,21 +35,21 @@ function publisher_tag_iteminfo(&$items)
         return false;
     }
 
-    $items_id = [];
+    $itemsIds = [];
     foreach (array_keys($items) as $cat_id) {
         // Some handling here to build the link upon cat_id
         // if cat_id is not used, just skip it
-        foreach (array_keys($items[$cat_id]) as $item_id) {
+        foreach (array_keys($items[$cat_id]) as $itemId) {
             // In article, the item_id is "art_id"
-            $items_id[] = (int)$item_id;
+            $itemsIds[] = (int)$itemId;
         }
     }
-    $items_id = array_unique($items_id); // remove duplicate ids
+    $itemsIds = array_unique($itemsIds); // remove duplicate ids
 
     $helper = \XoopsModules\Publisher\Helper::getInstance();
     /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
-    $criteria    = new \Criteria('itemid', '(' . implode(', ', $items_id) . ')', 'IN');
+    $criteria    = new \Criteria('itemid', '(' . implode(', ', $itemsIds) . ')', 'IN');
     $items_obj   = $itemHandler->getObjects($criteria, 'itemid');
 
     //make sure Tag module tag_parse_tag() can be found
@@ -64,12 +64,12 @@ function publisher_tag_iteminfo(&$items)
 
     /** @var Publisher\Item $item_obj */
     foreach (array_keys($items) as $cat_id) {
-        foreach (array_keys($items[$cat_id]) as $item_id) {
-            $item_obj                 = $items_obj[$item_id];
-            $items[$cat_id][$item_id] = [
+        foreach (array_keys($items[$cat_id]) as $itemId) {
+            $item_obj                 = $items_obj[$itemId];
+            $items[$cat_id][$itemId] = [
                 'title'   => $item_obj->getVar('title'),
                 'uid'     => $item_obj->getVar('uid'),
-                'link'    => "item.php?itemid={$item_id}",
+                'link'    => "item.php?itemid={$itemId}",
                 'time'    => $item_obj->getVar('datesub'),
                 'tags'    => $parse_function($item_obj->getVar('item_tag', 'n')), // optional
                 'content' => '',

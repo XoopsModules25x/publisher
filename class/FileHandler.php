@@ -102,7 +102,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve all files
      *
-     * @param int       $itemid
+     * @param int       $itemId
      * @param int|array $status
      * @param int       $limit
      * @param int       $start
@@ -112,7 +112,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
      *
      * @return array array of {@link File} objects
      */
-    public function getAllFiles($itemid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = [])
+    public function getAllFiles($itemId = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = [])
     {
         $files = [];
 
@@ -143,9 +143,9 @@ class FileHandler extends \XoopsPersistableObjectHandler
                     $criteriaCategory->add(new \Criteria('l.categoryid', $cat), 'OR');
                 }
             }
-            $criteriaItemid = new \Criteria('o.itemid', $itemid);
+            $criteriaItemid = new \Criteria('o.itemid', $itemId);
             $criteria       = new \CriteriaCompo();
-            if (0 != $itemid) {
+            if (0 != $itemId) {
                 $criteria->add($criteriaItemid);
             }
             if ($hasStatusCriteria) {

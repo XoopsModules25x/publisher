@@ -254,13 +254,13 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int                 $categoryid
+     * @param int                 $categoryId
      * @param string|array        $status
      * @param string|null         $notNullFields
      * @param null|\CriteriaCompo $criteriaPermissions
      * @return \CriteriaCompo
      */
-    private function getItemsCriteria($categoryid = -1, $status = '', $notNullFields = null, $criteriaPermissions = null)
+    private function getItemsCriteria($categoryId = -1, $status = '', $notNullFields = null, $criteriaPermissions = null)
     {
         //        $notNullFields = (null !== $notNullFields) ?: '';
         //        global $publisherIsAdmin;
@@ -277,8 +277,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //            }
         //        }
         $criteriaCategory = null;
-        if (isset($categoryid) && -1 != $categoryid) {
-            $criteriaCategory = new \Criteria('categoryid', $categoryid);
+        if (isset($categoryId) && -1 != $categoryId) {
+            $criteriaCategory = new \Criteria('categoryid', $categoryId);
         }
         $criteriaStatus = new \CriteriaCompo();
         if (!empty($status) && \is_array($status)) {
@@ -303,13 +303,13 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param             $categoryid
+     * @param             $categoryId
      * @param string      $status
      * @param string|null $notNullFields
      *
      * @return int
      */
-    public function getItemsCount($categoryid = -1, $status = '', $notNullFields = null)
+    public function getItemsCount($categoryId = -1, $status = '', $notNullFields = null)
     {
         $notNullFields = (null !== $notNullFields) ?: '';
         $criteriaPermissions = null;
@@ -325,11 +325,11 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             }
         }
         //        $ret = [];
-        $criteria = $this->getItemsCriteria($categoryid, $status, $notNullFields, $criteriaPermissions);
+        $criteria = $this->getItemsCriteria($categoryId, $status, $notNullFields, $criteriaPermissions);
 
         /*
-                if (isset($categoryid) && $categoryid != -1) {
-                    $criteriaCategory = new \Criteria('categoryid', $categoryid);
+                if (isset($categoryId) && $categoryId != -1) {
+                    $criteriaCategory = new \Criteria('categoryid', $categoryId);
                 }
                 $criteriaStatus = new \CriteriaCompo();
                 if (!empty($status) && is_array($status)) {
@@ -358,7 +358,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * @param int    $limit
      * @param int    $start
-     * @param int    $categoryid
+     * @param int    $categoryId
      * @param string $sort
      * @param string $order
      * @param string|null $notNullFields
@@ -368,7 +368,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function getAllPublished($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $idKey = 'none', $excludeExpired = true)
+    public function getAllPublished($limit = 0, $start = 0, $categoryId = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $idKey = 'none', $excludeExpired = true)
     {
         $notNullFields = (null !== $notNullFields) ?: '';
         $otherCriteria = new \CriteriaCompo();
@@ -384,13 +384,13 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             $otherCriteria->add($criteriaExpire);
         }
 
-        return $this->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], $categoryid, $sort, $order, $notNullFields, $asObject, $otherCriteria, $idKey);
+        return $this->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], $categoryId, $sort, $order, $notNullFields, $asObject, $otherCriteria, $idKey);
     }
 
     /**
      * @param int         $limit
      * @param int         $start
-     * @param int         $categoryid
+     * @param int         $categoryId
      * @param string      $sort
      * @param string      $order
      * @param string|null $notNullFields
@@ -399,14 +399,14 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function getAllExpired($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $idKey = 'none')
+    public function getAllExpired($limit = 0, $start = 0, $categoryId = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $idKey = 'none')
     {
         $notNullFields = (null !== $notNullFields) ?: '';
         $otherCriteria = new \CriteriaCompo();
         $otherCriteria->add(new \Criteria('dateexpire', \time(), '<='));
         $otherCriteria->add(new \Criteria('dateexpire', 0, '>'));
 
-        return $this->getItems($limit, $start, -1, $categoryid, $sort, $order, $notNullFields, $asObject, $otherCriteria, $idKey);
+        return $this->getItems($limit, $start, -1, $categoryId, $sort, $order, $notNullFields, $asObject, $otherCriteria, $idKey);
     }
 
     /**
@@ -449,7 +449,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * @param int    $limit
      * @param int    $start
-     * @param int    $categoryid
+     * @param int    $categoryId
      * @param string $sort
      * @param string $order
      * @param string|null $notNullFields
@@ -458,16 +458,16 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function getAllSubmitted($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $idKey = 'none')
+    public function getAllSubmitted($limit = 0, $start = 0, $categoryId = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $idKey = 'none')
     {
         $notNullFields = (null !== $notNullFields) ?: '';
-        return $this->getItems($limit, $start, [Constants::PUBLISHER_STATUS_SUBMITTED], $categoryid, $sort, $order, $notNullFields, $asObject, null, $idKey);
+        return $this->getItems($limit, $start, [Constants::PUBLISHER_STATUS_SUBMITTED], $categoryId, $sort, $order, $notNullFields, $asObject, null, $idKey);
     }
 
     /**
      * @param int    $limit
      * @param int    $start
-     * @param int    $categoryid
+     * @param int    $categoryId
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
@@ -476,15 +476,15 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function getAllOffline($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none')
+    public function getAllOffline($limit = 0, $start = 0, $categoryId = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none')
     {
-        return $this->getItems($limit, $start, [Constants::PUBLISHER_STATUS_OFFLINE], $categoryid, $sort, $order, $notNullFields, $asObject, null, $idKey);
+        return $this->getItems($limit, $start, [Constants::PUBLISHER_STATUS_OFFLINE], $categoryId, $sort, $order, $notNullFields, $asObject, null, $idKey);
     }
 
     /**
      * @param int    $limit
      * @param int    $start
-     * @param int    $categoryid
+     * @param int    $categoryId
      * @param string $sort
      * @param string $order
      * @param string $notNullFields
@@ -493,16 +493,16 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function getAllRejected($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none')
+    public function getAllRejected($limit = 0, $start = 0, $categoryId = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none')
     {
-        return $this->getItems($limit, $start, [Constants::PUBLISHER_STATUS_REJECTED], $categoryid, $sort, $order, $notNullFields, $asObject, null, $idKey);
+        return $this->getItems($limit, $start, [Constants::PUBLISHER_STATUS_REJECTED], $categoryId, $sort, $order, $notNullFields, $asObject, null, $idKey);
     }
 
     /**
      * @param int                 $limit
      * @param int                 $start
      * @param array|string        $status
-     * @param int                 $categoryid
+     * @param int                 $categoryId
      * @param string              $sort
      * @param string              $order
      * @param string|null         $notNullFields
@@ -512,7 +512,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      * @return array
      * @internal param bool $asObject
      */
-    public function getItems($limit = 0, $start = 0, $status = '', $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $otherCriteria = null, $idKey = 'none')
+    public function getItems($limit = 0, $start = 0, $status = '', $categoryId = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $otherCriteria = null, $idKey = 'none')
     {
         $notNullFields = (null !== $notNullFields) ?: '';
         $criteriaPermissions = null;
@@ -528,10 +528,10 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             }
         }
 
-        $criteria = $this->getItemsCriteria($categoryid, $status, $notNullFields, $criteriaPermissions);
+        $criteria = $this->getItemsCriteria($categoryId, $status, $notNullFields, $criteriaPermissions);
         /*
-                if (isset($categoryid) && $categoryid != -1) {
-                    $criteriaCategory = new \Criteria('categoryid', $categoryid);
+                if (isset($categoryId) && $categoryId != -1) {
+                    $criteriaCategory = new \Criteria('categoryid', $categoryId);
                 }
                 $criteriaStatus = new \CriteriaCompo();
                 if (!empty($status) && is_array($status)) {
@@ -615,13 +615,13 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $itemid
+     * @param $itemId
      *
      * @return bool
      */
-    public function updateCounter($itemid)
+    public function updateCounter($itemId)
     {
-        $sql = 'UPDATE ' . $this->db->prefix($this->helper->getDirname() . '_items') . ' SET counter=counter+1 WHERE itemid = ' . $itemid;
+        $sql = 'UPDATE ' . $this->db->prefix($this->helper->getDirname() . '_items') . ' SET counter=counter+1 WHERE itemid = ' . $itemId;
         if ($this->db->queryF($sql)) {
             return true;
         }

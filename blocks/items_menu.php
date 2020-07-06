@@ -50,13 +50,13 @@ function publisher_items_menu_show($options)
 
     $catLinkClass = 'menuMain';
 
-    $categoryid = 0;
+    $categoryId = 0;
 
     if ($block['inModule']) {
         // Are we in a category and if yes, in which one ?
-        $categoryid = Request::getInt('categoryid', 0, 'GET');
+        $categoryId = Request::getInt('categoryid', 0, 'GET');
 
-        if (0 != $categoryid) {
+        if (0 != $categoryId) {
             // if we are in a category, then the $categoryObj is already defined in publisher/category.php
             global $categoryObj;
             $block['currentcat'] = $categoryObj->getCategoryLink('menuTop');
@@ -65,7 +65,7 @@ function publisher_items_menu_show($options)
     }
 
     foreach ($blockCategoriesObj as $catId => $blockCategoryObj) {
-        if ($catId != $categoryid) {
+        if ($catId != $categoryId) {
             $block['categories'][$catId]['categoryLink'] = $blockCategoryObj->getCategoryLink($catLinkClass);
         }
     }

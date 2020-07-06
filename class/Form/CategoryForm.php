@@ -141,8 +141,8 @@ class CategoryForm extends \XoopsThemeForm
         $this->addElement($imageTray);
 
         // IMAGE UPLOAD
-        $max_size = 5000000;
-        $fileBox  = new \XoopsFormFile(\_AM_PUBLISHER_IMAGE_UPLOAD, 'image_file', $max_size);
+        $maxSize = 5000000;
+        $fileBox  = new \XoopsFormFile(\_AM_PUBLISHER_IMAGE_UPLOAD, 'image_file', $maxSize);
         $fileBox->setExtra("size ='45'");
         $fileBox->setDescription(\_AM_PUBLISHER_IMAGE_UPLOAD_DSC);
         $this->addElement($fileBox);
@@ -179,8 +179,8 @@ class CategoryForm extends \XoopsThemeForm
 
         $groupsReadCheckbox = new \XoopsFormCheckBox('', 'groupsRead[]', $this->targetObject->getGroupsRead());
 
-        foreach ($this->userGroups as $group_id => $group_name) {
-            $groupsReadCheckbox->addOption($group_id, $group_name);
+        foreach ($this->userGroups as $groupId => $groupName) {
+            $groupsReadCheckbox->addOption($groupId, $groupName);
         }
         $readPermissionsTray->addElement($groupsReadCheckbox);
         $this->addElement($readPermissionsTray);
@@ -196,8 +196,8 @@ class CategoryForm extends \XoopsThemeForm
         $submitPermissionsTray->addElement($selectAllSubmitCheckbox);
 
         $groupsSubmitCheckbox = new \XoopsFormCheckBox('', 'groupsSubmit[]', $this->targetObject->getGroupsSubmit());
-        foreach ($this->userGroups as $group_id => $group_name) {
-            $groupsSubmitCheckbox->addOption($group_id, $group_name);
+        foreach ($this->userGroups as $groupId => $groupName) {
+            $groupsSubmitCheckbox->addOption($groupId, $groupName);
         }
         $submitPermissionsTray->addElement($groupsSubmitCheckbox);
         $this->addElement($submitPermissionsTray);
@@ -214,8 +214,8 @@ class CategoryForm extends \XoopsThemeForm
 
         $groupsModerationCheckbox = new \XoopsFormCheckBox('', 'groupsModeration[]', $this->targetObject->getGroupsModeration());
 
-        foreach ($this->userGroups as $group_id => $group_name) {
-            $groupsModerationCheckbox->addOption($group_id, $group_name);
+        foreach ($this->userGroups as $groupId => $groupName) {
+            $groupsModerationCheckbox->addOption($groupId, $groupName);
         }
         $moderatePermissionsTray->addElement($groupsModerationCheckbox);
         $this->addElement($moderatePermissionsTray);

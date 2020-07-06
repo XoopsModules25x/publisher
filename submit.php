@@ -218,8 +218,8 @@ switch ($op) {
                 // Send notifications
                 $itemObj->sendNotifications([Constants::PUBLISHER_NOTIFY_ITEM_PUBLISHED]);
 
-                $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_AND_PUBLISHED;
-                redirect_header($itemObj->getItemUrl(), 2, $redirect_msg);
+                $redirectMsg = _MD_PUBLISHER_ITEM_RECEIVED_AND_PUBLISHED;
+                redirect_header($itemObj->getItemUrl(), 2, $redirectMsg);
             } else {
                 // Subscribe the user to On Published notification, if requested
                 if ($itemObj->getVar('notifypub')) {
@@ -231,13 +231,13 @@ switch ($op) {
                 // Send notifications
                 $itemObj->sendNotifications([Constants::PUBLISHER_NOTIFY_ITEM_SUBMITTED]);
 
-                $redirect_msg = _MD_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
+                $redirectMsg = _MD_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
             }
         } else {
-            $redirect_msg = _MD_PUBLISHER_ITEMMODIFIED;
-            redirect_header($itemObj->getItemUrl(), 2, $redirect_msg);
+            $redirectMsg = _MD_PUBLISHER_ITEMMODIFIED;
+            redirect_header($itemObj->getItemUrl(), 2, $redirectMsg);
         }
-        redirect_header('index.php', 2, $redirect_msg);
+        redirect_header('index.php', 2, $redirectMsg);
 
         break;
     case 'add':

@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Utility;
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -34,7 +35,6 @@ function publisher_latest_news_show($options)
 {
     $block = [];
 
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     $helper->loadLanguage('main');
     /** @var Publisher\ItemHandler $itemHandler */
@@ -47,7 +47,7 @@ function publisher_latest_news_show($options)
     $letters         = $options[3];
     $selectedStories = $options[4];
     $sort            = $options[9];
-    $order           = Publisher\Utility::getOrderBy($sort);
+    $order           = Utility::getOrderBy($sort);
     $imgWidth        = $options[11];
     $imgHeight       = $options[12];
     $border          = $options[13];
@@ -425,7 +425,7 @@ function publisher_latest_news_edit($options)
     //Select Which Categories To Show
     $form .= $tabletag3 . _MB_PUBLISHER_TOPICSCONFIG . $tabletag4; // Topics Options
     $form .= $tabletag1 . _MB_PUBLISHER_TOPICSDISPLAY . $tabletag2;
-    $form .= Publisher\Utility::createCategorySelect($options[31], 0, true, 'options[31]');
+    $form .= Utility::createCategorySelect($options[31], 0, true, 'options[31]');
     $form .= '</td></tr>';
 
     $form .= '</table>';

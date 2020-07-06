@@ -22,12 +22,13 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
+use \XoopsModules\Publisher\Common\ModuleFeedback;
 
 require __DIR__ . '/admin_header.php';
 
 $adminObject = \Xmf\Module\Admin::getInstance();
 
-$feedback = new \XoopsModules\Publisher\Common\ModuleFeedback();
+$feedback = new ModuleFeedback();
 
 // It recovered the value of argument op in URL$
 $op                 = Request::getString('op', 'list');
@@ -44,8 +45,7 @@ switch ($op) {
         $feedback->name  = $GLOBALS['xoopsUser']->getVar('name');
         $feedback->email = $GLOBALS['xoopsUser']->getVar('email');
         $feedback->site  = XOOPS_URL;
-        /** @var \XoopsThemeForm $form */
-        $form = $feedback->getFormFeedback();
+    $form = $feedback->getFormFeedback();
         echo $form->display();
         break;
     case 'send':

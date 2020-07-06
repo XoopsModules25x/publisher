@@ -20,6 +20,7 @@ declare(strict_types=1);
  */
 
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -33,7 +34,6 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_columns_show($options)
 {
     //    global $xoTheme;
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     /** @var Publisher\CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');
@@ -172,7 +172,7 @@ function publisher_items_columns_edit($options)
             '5' => 5,
         ]
     );
-    $catEle = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[1], 0, true, 'options[1]'));
+    $catEle = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[1], 0, true, 'options[1]'));
 
     $cItemsEle = new \XoopsFormText(_MB_PUBLISHER_NUMBER_ITEMS_CAT, 'options[2]', 4, 255, $options[2]);
 

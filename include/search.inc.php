@@ -37,7 +37,6 @@ require_once __DIR__ . '/common.php';
  */
 function publisher_search($queryArray, $andor, $limit, $offset, $userid, $categories = [], $sortby = 0, $searchin = '', $extra = '')
 {
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     $ret    = $item = [];
     if ('' == $queryArray || (is_array($queryArray) && 0 === count($queryArray))) {

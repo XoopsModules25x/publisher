@@ -22,6 +22,8 @@ declare(strict_types=1);
 use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -53,7 +55,7 @@ switch ($op) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
             }
         }
-        Publisher\Utility::cpHeader();
+        Utility::cpHeader();
         publisher_editItem(true, $itemid, true);
         break;
     case 'mod':
@@ -64,7 +66,7 @@ switch ($op) {
             }
         }
 
-        Publisher\Utility::cpHeader();
+        Utility::cpHeader();
         publisher_editItem(true, $itemid);
         break;
     case 'additem':
@@ -118,12 +120,12 @@ switch ($op) {
 
         // Storing the item
         if (!$itemObj->store()) {
-            redirect_header('<script>javascript:history.go(-1)</script>', 3, $error_msg . Publisher\Utility::formatErrors($itemObj->getErrors()));
+            redirect_header('<script>javascript:history.go(-1)</script>', 3, $error_msg . Utility::formatErrors($itemObj->getErrors()));
         }
 
         // attach file if any
         if (($item_upload_file = Request::getArray('item_upload_file', '', 'FILES')) && '' !== $item_upload_file['name']) {
-            $file_upload_result = Publisher\Utility::uploadFile(false, false, $itemObj);
+            $file_upload_result = Utility::uploadFile(false, false, $itemObj);
             if (true !== $file_upload_result) {
                 redirect_header('<script>javascript:history.go(-1)</script>', 3, $file_upload_result);
             }
@@ -143,7 +145,7 @@ switch ($op) {
 
         if ($confirm) {
             if (!$helper->getHandler('Item')->delete($itemObj)) {
-                redirect_header('item.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . Publisher\Utility::formatErrors($itemObj->getErrors()));
+                redirect_header('item.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . Utility::formatErrors($itemObj->getErrors()));
             }
             redirect_header('item.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
         } else {
@@ -155,7 +157,7 @@ switch ($op) {
         break;
     case 'default':
     default:
-        Publisher\Utility::cpHeader();
+        Utility::cpHeader();
         //publisher_adminMenu(2, _AM_PUBLISHER_ITEMS);
         xoops_load('XoopsPageNav');
 
@@ -168,7 +170,7 @@ switch ($op) {
         $ascOrDesc = 'DESC';
 
         // Display Submited articles
-        Publisher\Utility::openCollapsableBar('submiteditemstable', 'submiteditemsicon', _AM_PUBLISHER_SUBMISSIONSMNGMT, _AM_PUBLISHER_SUBMITTED_EXP);
+        Utility::openCollapsableBar('submiteditemstable', 'submiteditemsicon', _AM_PUBLISHER_SUBMISSIONSMNGMT, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of submitted ITEM
         $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_SUBMITTED]);
@@ -218,10 +220,10 @@ switch ($op) {
         $pagenav = new \XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $submittedstartitem, 'submittedstartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 
-        Publisher\Utility::closeCollapsableBar('submiteditemstable', 'submiteditemsicon');
+        Utility::closeCollapsableBar('submiteditemstable', 'submiteditemsicon');
 
         // Display Published articles
-        Publisher\Utility::openCollapsableBar('item_publisheditemstable', 'item_publisheditemsicon', _AM_PUBLISHER_PUBLISHEDITEMS, _AM_PUBLISHER_PUBLISHED_DSC);
+        Utility::openCollapsableBar('item_publisheditemstable', 'item_publisheditemsicon', _AM_PUBLISHER_PUBLISHEDITEMS, _AM_PUBLISHER_PUBLISHED_DSC);
 
         // Get the total number of published ITEM
         $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_PUBLISHED]);
@@ -272,10 +274,10 @@ switch ($op) {
         $pagenav = new \XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $publishedstartitem, 'publishedstartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 
-        Publisher\Utility::closeCollapsableBar('item_publisheditemstable', 'item_publisheditemsicon');
+        Utility::closeCollapsableBar('item_publisheditemstable', 'item_publisheditemsicon');
 
         // Display Offline articles
-        Publisher\Utility::openCollapsableBar('offlineitemstable', 'offlineitemsicon', _AM_PUBLISHER_ITEMS . ' ' . _CO_PUBLISHER_OFFLINE, _AM_PUBLISHER_OFFLINE_EXP);
+        Utility::openCollapsableBar('offlineitemstable', 'offlineitemsicon', _AM_PUBLISHER_ITEMS . ' ' . _CO_PUBLISHER_OFFLINE, _AM_PUBLISHER_OFFLINE_EXP);
 
         $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_OFFLINE]);
 
@@ -326,10 +328,10 @@ switch ($op) {
         $pagenav = new \XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $offlinestartitem, 'offlinestartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 
-        Publisher\Utility::closeCollapsableBar('offlineitemstable', 'offlineitemsicon');
+        Utility::closeCollapsableBar('offlineitemstable', 'offlineitemsicon');
 
         // Display Rejected articles
-        Publisher\Utility::openCollapsableBar('Rejecteditemstable', 'rejecteditemsicon', _AM_PUBLISHER_REJECTED_ITEM, _AM_PUBLISHER_REJECTED_ITEM_EXP, _AM_PUBLISHER_SUBMITTED_EXP);
+        Utility::openCollapsableBar('Rejecteditemstable', 'rejecteditemsicon', _AM_PUBLISHER_REJECTED_ITEM, _AM_PUBLISHER_REJECTED_ITEM_EXP, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of Rejected ITEM
         $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_REJECTED]);
@@ -378,7 +380,7 @@ switch ($op) {
         $pagenav = new \XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $rejectedstartitem, 'rejectedstartitem');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 
-        Publisher\Utility::closeCollapsableBar('Rejecteditemstable', 'rejecteditemsicon');
+        Utility::closeCollapsableBar('Rejecteditemstable', 'rejecteditemsicon');
         break;
 }
 require_once __DIR__ . '/admin_footer.php';
@@ -390,8 +392,7 @@ require_once __DIR__ . '/admin_footer.php';
  */
 function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 {
-    /** @var Publisher\Helper $helper */
-    $helper = Publisher\Helper::getInstance();
+    $helper = Helper::getInstance();
     global $publisherCurrentPage;
 
     xoops_load('XoopsFormLoader');
@@ -472,7 +473,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
         $categoryObj = $itemObj->getCategory();
 
         echo "<br>\n";
-        Publisher\Utility::openCollapsableBar('edititemtable', 'edititemicon', $pageTitle, $pageInfo);
+        Utility::openCollapsableBar('edititemtable', 'edititemicon', $pageTitle, $pageInfo);
 
         if ($clone) {
             echo '<form><div style="margin-bottom: 10px;">';
@@ -493,7 +494,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
 
         $categoryObj->setVar('categoryid', Request::getInt('categoryid', 0, 'GET'));
 
-        Publisher\Utility::openCollapsableBar('createitemtable', 'createitemicon', _AM_PUBLISHER_ITEM_CREATING, _AM_PUBLISHER_ITEM_CREATING_DSC);
+        Utility::openCollapsableBar('createitemtable', 'createitemicon', _AM_PUBLISHER_ITEM_CREATING, _AM_PUBLISHER_ITEM_CREATING_DSC);
     }
 
     $sform = $itemObj->getForm(_AM_PUBLISHER_ITEMS);
@@ -501,11 +502,11 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     $sform->assign($formTpl);
     $formTpl->display('db:publisher_submit.tpl');
 
-    Publisher\Utility::closeCollapsableBar('edititemtable', 'edititemicon');
+    Utility::closeCollapsableBar('edititemtable', 'edititemicon');
 
-    Publisher\Utility::openCollapsableBar('pagewraptable', 'pagewrapicon', _AM_PUBLISHER_PAGEWRAP, _AM_PUBLISHER_PAGEWRAPDSC);
+    Utility::openCollapsableBar('pagewraptable', 'pagewrapicon', _AM_PUBLISHER_PAGEWRAP, _AM_PUBLISHER_PAGEWRAPDSC);
 
-    $dir = Publisher\Utility::getUploadDir(true, 'content');
+    $dir = Utility::getUploadDir(true, 'content');
 
     if (!is_writable($dir)) {
         echo "<span style='color:#ff0000;'><h4>" . _AM_PUBLISHER_PERMERROR . '</h4></span>';
@@ -524,7 +525,7 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     // Delete File
     $form = new \XoopsThemeForm(_CO_PUBLISHER_DELETEFILE, 'form_name', 'pw_delete_file.php');
 
-    $pWrapSelect = new \XoopsFormSelect(Publisher\Utility::getUploadDir(true, 'content'), 'address');
+    $pWrapSelect = new \XoopsFormSelect(Utility::getUploadDir(true, 'content'), 'address');
     $folder      = dir($dir);
     while (false !== ($file = $folder->read())) {
         if ('.' !== $file && '..' !== $file) {
@@ -542,5 +543,5 @@ function publisher_editItem($showmenu = false, $itemid = 0, $clone = false)
     $form->addElement(new \XoopsFormHidden('backto', $publisherCurrentPage));
     $form->display();
 
-    Publisher\Utility::closeCollapsableBar('pagewraptable', 'pagewrapicon');
+    Utility::closeCollapsableBar('pagewraptable', 'pagewrapicon');
 }

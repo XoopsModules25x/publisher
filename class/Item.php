@@ -24,6 +24,7 @@ namespace XoopsModules\Publisher;
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 //namespace Publisher;
 
@@ -129,7 +130,7 @@ class Item extends \XoopsObject
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (mb_strlen($ret) >= $maxLength) {
-                    $ret = Publisher\Utility::substr($ret, 0, $maxLength);
+                    $ret = Utility::substr($ret, 0, $maxLength);
                 }
             }
         }
@@ -149,7 +150,7 @@ class Item extends \XoopsObject
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (mb_strlen($ret) >= $maxLength) {
-                    $ret = Publisher\Utility::substr($ret, 0, $maxLength);
+                    $ret = Utility::substr($ret, 0, $maxLength);
                 }
             }
         }
@@ -173,9 +174,9 @@ class Item extends \XoopsObject
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (mb_strlen($ret) >= $maxLength) {
-                    //$ret = Publisher\Utility::substr($ret , 0, $maxLength);
-                    //                    $ret = Publisher\Utility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
-                    $ret = Publisher\Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
+                    //$ret = Utility::substr($ret , 0, $maxLength);
+                    //                    $ret = Utility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
+                    $ret = Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
             }
         }
@@ -212,7 +213,7 @@ class Item extends \XoopsObject
     public function wrapPage($fileName)
     {
         $content = '';
-        $page    = Publisher\Utility::getUploadDir(true, 'content') . $fileName;
+        $page    = Utility::getUploadDir(true, 'content') . $fileName;
         if (\file_exists($page)) {
             // this page uses smarty template
             \ob_start();
@@ -275,8 +276,8 @@ class Item extends \XoopsObject
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (mb_strlen($ret) >= $maxLength) {
-                    //$ret = Publisher\Utility::substr($ret , 0, $maxLength);
-                    $ret = Publisher\Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
+                    //$ret = Utility::substr($ret , 0, $maxLength);
+                    $ret = Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
             }
         }
@@ -441,7 +442,7 @@ class Item extends \XoopsObject
      */
     public function getCategoryImagePath()
     {
-        return Publisher\Utility::getImageDir('category', false) . $this->getCategory()->getImage();
+        return Utility::getImageDir('category', false) . $this->getCategory()->getImage();
     }
 
     /**
@@ -459,21 +460,21 @@ class Item extends \XoopsObject
     {
         $adminLinks = '';
         if (\is_object($GLOBALS['xoopsUser'])
-            && (Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($this)
+            && (Utility::userIsAdmin() || Utility::userIsAuthor($this)
                 || $this->helper->getHandler('Permission')->isGranted('item_submit', $this->categoryid()))) {
-            if (Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($this) || Publisher\Utility::userIsModerator($this)) {
-                if ($this->helper->getConfig('perm_edit') || Publisher\Utility::userIsModerator($this) || Publisher\Utility::userIsAdmin()) {
+            if (Utility::userIsAdmin() || Utility::userIsAuthor($this) || Utility::userIsModerator($this)) {
+                if ($this->helper->getConfig('perm_edit') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Edit button
                     $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . \_CO_PUBLISHER_EDIT . "' alt='" . \_CO_PUBLISHER_EDIT . "'></a>";
                     $adminLinks .= ' ';
                 }
-                if ($this->helper->getConfig('perm_delete') || Publisher\Utility::userIsModerator($this) || Publisher\Utility::userIsAdmin()) {
+                if ($this->helper->getConfig('perm_delete') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Delete button
                     $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . \_CO_PUBLISHER_DELETE . "' alt='" . \_CO_PUBLISHER_DELETE . "'></a>";
                     $adminLinks .= ' ';
                 }
             }
-            if ($this->helper->getConfig('perm_clone') || Publisher\Utility::userIsModerator($this) || Publisher\Utility::userIsAdmin()) {
+            if ($this->helper->getConfig('perm_clone') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                 // Duplicate button
                 $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif'" . " title='" . \_CO_PUBLISHER_CLONE . "' alt='" . \_CO_PUBLISHER_CLONE . "'></a>";
                 $adminLinks .= ' ';
@@ -491,7 +492,7 @@ class Item extends \XoopsObject
         $pdfButton = '';
         // PDF button
         if (!\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-            //                if (is_object($GLOBALS['xoopsUser']) && Publisher\Utility::userIsAdmin()) {
+            //                if (is_object($GLOBALS['xoopsUser']) && Utility::userIsAdmin()) {
             //                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
             //                    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
             //                    $adminLinks .= '<script type="text/javascript">
@@ -1027,7 +1028,7 @@ class Item extends \XoopsObject
      */
     public function accessGranted()
     {
-        if (Publisher\Utility::userIsAdmin()) {
+        if (Utility::userIsAdmin()) {
             return true;
         }
         if (Constants::PUBLISHER_STATUS_PUBLISHED != $this->getVar('status')) {

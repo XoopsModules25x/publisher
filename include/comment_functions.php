@@ -29,6 +29,9 @@ function publisher_com_update($itemId, $totalNum)
     $db->query($sql);
 }
 
+/**
+ * @param $comment
+ */
 function publisher_com_approve(&$comment)
 {
     // notification mail here

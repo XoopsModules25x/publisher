@@ -11,6 +11,7 @@ declare(strict_types=1);
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -21,6 +22,7 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Tag\Utility;
 
 /** Get item fields: title, content, time, link, uid, tags
  *
@@ -44,7 +46,6 @@ function publisher_tag_iteminfo(&$items)
     }
     $items_id = array_unique($items_id); // remove duplicate ids
 
-    /** @var \XoopsModules\Publisher\Helper $helper */
     $helper = \XoopsModules\Publisher\Helper::getInstance();
     /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
@@ -52,7 +53,7 @@ function publisher_tag_iteminfo(&$items)
     $items_obj   = $itemHandler->getObjects($criteria, 'itemid');
 
     //make sure Tag module tag_parse_tag() can be found
-    if (!method_exists('XoopsModules\Tag\Utility', 'tag_parse_tag')) {
+    if (!method_exists(Utility::class, 'tag_parse_tag')) {
         // allows this plugin to work with Tag <= v2.34
         require_once $GLOBALS['xoops']->path('modules/tag/include/functions.php');
         $parse_function = 'tag_parse_tag';

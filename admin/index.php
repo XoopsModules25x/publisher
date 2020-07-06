@@ -20,23 +20,26 @@ declare(strict_types=1);
  * @author       Mage, Mamba
  */
 
+use Xmf\Module\Admin;
+use Xmf\Request;
 use Xmf\Yaml;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
-/** @var \XoopsModules\Publisher\Helper $helper */
-$helper = \XoopsModules\Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 $helper->loadLanguage('main');
 $helper->loadLanguage('admin');
-$adminObject  = \Xmf\Module\Admin::getInstance();
-$utility      = new Publisher\Utility();
+$adminObject  = Admin::getInstance();
+$utility      = new Utility();
 $configurator = new Publisher\Common\Configurator();
 
 /*
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    Publisher\Utility::createFolder($uploadFolders[$i]);
+    Utility::createFolder($uploadFolders[$i]);
     $adminObject->addConfigBoxLine($uploadFolders[$i], 'folder');
     //    $adminObject->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
@@ -45,7 +48,7 @@ foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
 $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
 foreach (array_keys($copyFiles) as $i) {
     $dest = $copyFiles[$i] . '/blank.png';
-    Publisher\Utility::copyFile($file, $dest);
+    Utility::copyFile($file, $dest);
 }
 */
 
@@ -152,7 +155,7 @@ function showButtons($yamlFile)
     redirect_header('index.php', 0, '');
 }
 
-$op = \Xmf\Request::getString('op', 0, 'GET');
+$op = Request::getString('op', 0, 'GET');
 
 switch ($op) {
     case 'hide_buttons':

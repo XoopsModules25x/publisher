@@ -55,6 +55,9 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     public $helper           = null;
     public $publisherIsAdmin = null;
 
+    /**
+     * @param \XoopsDatabase|null $db
+     */
     public function init(\XoopsDatabase $db = null)
     {
         $this->db = $db;
@@ -83,7 +86,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      *
      * @param int|null $id ID
      *
-     * @param null $fields
+     * @param array|null $fields
      * @return mixed object if id exists, false if not
      */
     public function get($id = null, $fields = null)
@@ -145,7 +148,8 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param bool $force
+     * @param \XoopsObject $obj
+     * @param bool         $force
      *
      * @return bool
      */
@@ -339,6 +343,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      * Singleton - prevent multiple instances of this class
      *
      *
+     * @param \XoopsDatabase|null $db
      * @return \XoopsObject {@link pagesCategoryHandler}
      */
     public function getInstance(\XoopsDatabase $db = null)

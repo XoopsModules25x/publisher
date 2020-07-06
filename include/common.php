@@ -21,6 +21,7 @@ declare(strict_types=1);
  */
 
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
@@ -29,10 +30,10 @@ require dirname(__DIR__) . '/preloads/autoloader.php';
 
 /** @var \XoopsMySQLDatabase $db */
 /** @var \XoopsModules\Publisher\Helper $helper */
-/** @var \XoopsModules\Publisher\Utility $utility */
+/** @var Utility $utility */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
 $helper  = \XoopsModules\Publisher\Helper::getInstance();
-$utility = new \XoopsModules\Publisher\Utility();
+$utility = new Utility();
 //$configurator = new Publisher\Common\Configurator();
 
 $helper->loadLanguage('common');
@@ -95,9 +96,9 @@ global $publisherIsAdmin;
 // Load only if module is installed
 if (is_object($helper->getModule())) {
     // Find if the user is admin of the module
-    $publisherIsAdmin = Publisher\Utility::userIsAdmin();
+    $publisherIsAdmin = Utility::userIsAdmin();
     // get current page
-    $publisherCurrentPage = Publisher\Utility::getCurrentPage();
+    $publisherCurrentPage = Utility::getCurrentPage();
 }
 
 $pathIcon16 = Xmf\Module\Admin::iconUrl('', 16);

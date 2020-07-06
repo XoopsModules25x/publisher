@@ -25,12 +25,13 @@ trait VersionChecks
      * Verifies XOOPS version meets minimum requirements for this module
      * @static
      *
-     * @param null|string $requiredVer
+     * @param \XoopsModule|null $module
+     * @param null|string       $requiredVer
      * @return bool true if meets requirements, false if not
      */
     public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
     {
-        $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
+        $moduleDirName      = \basename(dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
@@ -57,11 +58,12 @@ trait VersionChecks
      * Verifies PHP version meets minimum requirements for this module
      * @static
      *
+     * @param \XoopsModule|null $module
      * @return bool true if meets requirements, false if not
      */
     public static function checkVerPhp(\XoopsModule $module = null)
     {
-        $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
+        $moduleDirName      = \basename(dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
@@ -96,7 +98,7 @@ trait VersionChecks
      */
     public static function checkVerModule($helper, $source = 'github', $default = 'master')
     {
-        $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
+        $moduleDirName      = \basename(dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         $update             = '';
         $repository         = 'XoopsModules25x/' . $moduleDirName;

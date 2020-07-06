@@ -30,6 +30,7 @@ class RatingHandler extends \XoopsPersistableObjectHandler
 {
     /**
      * RatingHandler constructor.
+     * @param \XoopsDatabase|null $db
      */
     public function __construct(\XoopsDatabase $db = null)
     {

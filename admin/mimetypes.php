@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\MimetypesUtility;
 
 require_once __DIR__ . '/admin_header.php';
 xoops_load('XoopsPagenav');
@@ -50,31 +51,31 @@ if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
 
 switch ($op) {
     case 'add':
-        Publisher\MimetypesUtility::add();
+        MimetypesUtility::add();
         break;
     case 'delete':
-        Publisher\MimetypesUtility::delete();
+        MimetypesUtility::delete();
         break;
     case 'edit':
-        Publisher\MimetypesUtility::edit();
+        MimetypesUtility::edit();
         break;
     case 'search':
-        Publisher\MimetypesUtility::search();
+        MimetypesUtility::search();
         break;
     case 'updateMimeValue':
-        Publisher\MimetypesUtility::updateMimeValue();
+        MimetypesUtility::updateMimeValue();
         break;
     case 'confirmUpdateMimeValue':
-        Publisher\MimetypesUtility::confirmUpdateMimeValue();
+        MimetypesUtility::confirmUpdateMimeValue();
         break;
     case 'clearAddSession':
-        Publisher\MimetypesUtility::clearAddSession();
+        MimetypesUtility::clearAddSession();
         break;
     case 'clearEditSession':
-        Publisher\MimetypesUtility::clearEditSession();
+        MimetypesUtility::clearEditSession();
         break;
     case 'manage':
     default:
-        Publisher\MimetypesUtility::manage();
+        MimetypesUtility::manage();
         break;
 }

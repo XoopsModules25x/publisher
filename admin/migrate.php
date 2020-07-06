@@ -55,11 +55,9 @@ EOF;
 
 //XoopsLoad::load('migrate', 'newbb');
 
-/** @var Publisher\Common\Configurator $configurator */
 $configurator = new Publisher\Common\Configurator();
 
-/** @var \XoopsModules\Publisher\Common\Migrate $migrator */
-$migrator = new \XoopsModules\Publisher\Common\Migrate($configurator);
+$migrator = new \XoopsModules\Publisher\Common\Migrate($configurator = null);
 
 $op        = Request::getCmd('op', 'show');
 $opShow    = Request::getCmd('show', null, 'POST');

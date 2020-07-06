@@ -23,6 +23,8 @@ namespace XoopsModules\Publisher;
  */
 
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -32,7 +34,7 @@ require_once \dirname(__DIR__) . '/include/common.php';
 class Category extends \XoopsObject
 {
     /**
-     * @var Publisher\Helper
+     * @var Helper
      */
     public $helper;
     /**
@@ -60,7 +62,7 @@ class Category extends \XoopsObject
     public function __construct()
     {
         /** @var \XoopsModules\Publisher\Helper $this ->helper */
-        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+        $this->helper = Helper::getInstance();
         $this->initVar('categoryid', \XOBJ_DTYPE_INT, null, false);
         $this->initVar('parentid', \XOBJ_DTYPE_INT, null, false);
         $this->initVar('name', \XOBJ_DTYPE_TXTBOX, null, true, 100);
@@ -109,7 +111,7 @@ class Category extends \XoopsObject
     public function checkPermission()
     {
         $ret = false;
-        if (Publisher\Utility::userIsAdmin()) {
+        if (Utility::userIsAdmin()) {
             return true;
         }
         if (\is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->getVar('uid') == $this->moderator) {
@@ -327,7 +329,7 @@ class Category extends \XoopsObject
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
         if ('blank.png' !== $this->getImage()) {
-            $category['image_path'] = Publisher\Utility::getImageDir('category', false) . $this->getImage();
+            $category['image_path'] = Utility::getImageDir('category', false) . $this->getImage();
         } else {
             $category['image_path'] = '';
         }
@@ -352,7 +354,7 @@ class Category extends \XoopsObject
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
         if ('blank.png' !== $this->getImage()) {
-            $category['image_path'] = Publisher\Utility::getImageDir('category', false) . $this->getImage();
+            $category['image_path'] = Utility::getImageDir('category', false) . $this->getImage();
         } else {
             $category['image_path'] = '';
         }

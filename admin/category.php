@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -55,8 +56,8 @@ switch ($op) {
         $nb_subcats += Request::getInt('nb_sub_yet', 4, 'POST');
         //end of fx2024 code
 
-        Publisher\Utility::cpHeader();
-        Publisher\Utility::editCategory(true, $categoryid, $nb_subcats);
+        Utility::cpHeader();
+        Utility::editCategory(true, $categoryid, $nb_subcats);
         break;
     case 'addcategory':
         global $modify;
@@ -81,13 +82,13 @@ switch ($op) {
                 $max_size          = $helper->getConfig('maximum_filesize');
                 $max_imgwidth      = $helper->getConfig('maximum_image_width');
                 $max_imgheight     = $helper->getConfig('maximum_image_height');
-                $allowed_mimetypes = Publisher\Utility::getAllowedImagesTypes();
+                $allowed_mimetypes = Utility::getAllowedImagesTypes();
                 if (('' == $temp['tmp_name']) || !is_readable($temp['tmp_name'])) {
                     redirect_header('<script>javascript:history.go(-1)</script>', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
                 }
 
                 xoops_load('XoopsMediaUploader');
-                $uploader = new \XoopsMediaUploader(Publisher\Utility::getImageDir('category'), $allowed_mimetypes, $max_size, $max_imgwidth, $max_imgheight);
+                $uploader = new \XoopsMediaUploader(Utility::getImageDir('category'), $allowed_mimetypes, $max_size, $max_imgwidth, $max_imgheight);
                 if ($uploader->fetchMedia($filename) && $uploader->upload()) {
                     $categoryObj->setVar('image', $uploader->getSavedFileName());
                 } else {
@@ -127,12 +128,12 @@ switch ($op) {
         }
 
         if (!$categoryObj->store()) {
-            redirect_header('<script>javascript:history.go(-1)</script>', 3, _AM_PUBLISHER_CATEGORY_SAVE_ERROR . Publisher\Utility::formatErrors($categoryObj->getErrors()));
+            redirect_header('<script>javascript:history.go(-1)</script>', 3, _AM_PUBLISHER_CATEGORY_SAVE_ERROR . Utility::formatErrors($categoryObj->getErrors()));
         }
         // TODO : put this function in the category class
-        Publisher\Utility::saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
-        Publisher\Utility::saveCategoryPermissions($grpsubmit, $categoryObj->categoryid(), 'item_submit');
-        Publisher\Utility::saveCategoryPermissions($grpmoderation, $categoryObj->categoryid(), 'category_moderation');
+        Utility::saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
+        Utility::saveCategoryPermissions($grpsubmit, $categoryObj->categoryid(), 'item_submit');
+        Utility::saveCategoryPermissions($grpmoderation, $categoryObj->categoryid(), 'category_moderation');
 
         //Added by fx2024
         $parentCat = $categoryObj->categoryid();
@@ -146,12 +147,12 @@ switch ($op) {
                 $categoryObj->setVar('parentid', $parentCat);
 
                 if (!$categoryObj->store()) {
-                    redirect_header('<script>javascript:history.go(-1)</script>', 3, _AM_PUBLISHER_SUBCATEGORY_SAVE_ERROR . Publisher\Utility::formatErrors($categoryObj->getErrors()));
+                    redirect_header('<script>javascript:history.go(-1)</script>', 3, _AM_PUBLISHER_SUBCATEGORY_SAVE_ERROR . Utility::formatErrors($categoryObj->getErrors()));
                 }
                 // TODO : put this function in the category class
-                Publisher\Utility::saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
-                Publisher\Utility::saveCategoryPermissions($grpsubmit, $categoryObj->categoryid(), 'item_submit');
-                Publisher\Utility::saveCategoryPermissions($grpmoderation, $categoryObj->categoryid(), 'category_moderation');
+                Utility::saveCategoryPermissions($grpread, $categoryObj->categoryid(), 'category_read');
+                Utility::saveCategoryPermissions($grpsubmit, $categoryObj->categoryid(), 'item_submit');
+                Utility::saveCategoryPermissions($grpmoderation, $categoryObj->categoryid(), 'category_moderation');
             }
         }
         //end of fx2024 code
@@ -171,8 +172,8 @@ switch ($op) {
             $categoryObj->setVar('parentid', $parentCat);
         }
 
-        Publisher\Utility::cpHeader();
-        Publisher\Utility::editCategory(true, $categoryid, $nb_subcats, $categoryObj);
+        Utility::cpHeader();
+        Utility::editCategory(true, $categoryid, $nb_subcats, $categoryObj);
         exit();
         break;
     //end of fx2024 code
@@ -182,7 +183,7 @@ switch ($op) {
         break;
     case 'default':
     default:
-        Publisher\Utility::cpHeader();
+        Utility::cpHeader();
         //publisher_adminMenu(1, _AM_PUBLISHER_CATEGORIES);
 
         echo "<br>\n";
@@ -194,7 +195,7 @@ switch ($op) {
         // Creating the objects for top categories
         $categoriesObj = $helper->getHandler('Category')->getCategories($helper->getConfig('idxcat_perpage'), $startcategory, 0);
 
-        Publisher\Utility::openCollapsableBar('createdcategories', 'createdcategoriesicon', _AM_PUBLISHER_CATEGORIES_TITLE, _AM_PUBLISHER_CATEGORIES_DSC);
+        Utility::openCollapsableBar('createdcategories', 'createdcategoriesicon', _AM_PUBLISHER_CATEGORIES_TITLE, _AM_PUBLISHER_CATEGORIES_DSC);
 
         echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
         echo '<tr>';
@@ -206,7 +207,7 @@ switch ($op) {
         $totalCategories = $helper->getHandler('Category')->getCategoriesCount(0);
         if (count($categoriesObj) > 0) {
             foreach ($categoriesObj as $key => $thiscat) {
-                Publisher\Utility::displayCategory($thiscat);
+                Utility::displayCategory($thiscat);
             }
             unset($key, $thiscat);
         } else {
@@ -220,7 +221,7 @@ switch ($op) {
         $pagenav = new \XoopsPageNav($totalCategories, $helper->getConfig('idxcat_perpage'), $startcategory, 'startcategory');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
         echo '<br>';
-        Publisher\Utility::closeCollapsableBar('createdcategories', 'createdcategoriesicon');
+        Utility::closeCollapsableBar('createdcategories', 'createdcategoriesicon');
         echo '<br>';
         //editcat(false);
         break;

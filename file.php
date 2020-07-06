@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/header.php';
 
@@ -44,7 +45,7 @@ if (!$fileObj) {
 $itemObj = $helper->getHandler('Item')->get($fileObj->getVar('itemid'));
 
 // if the user does not have permission to modify this file, exit
-if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
+if (!(Utility::userIsAdmin() || Utility::userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
     redirect_header('index.php', 1, _NOPERM);
 }
 
@@ -96,7 +97,7 @@ switch ($op) {
         }
 
         if (!$helper->getHandler('File')->insert($fileObj)) {
-            redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . Publisher\Utility::formatErrors($fileObj->getErrors()));
+            redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . Utility::formatErrors($fileObj->getErrors()));
         }
 
         redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, _AM_PUBLISHER_FILE_EDITING_SUCCESS);

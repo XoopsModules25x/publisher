@@ -31,7 +31,6 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_date_to_date_show($options)
 {
     $myts = \MyTextSanitizer::getInstance();
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
 
     $block = $newItems = [];

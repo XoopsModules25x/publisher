@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 error_reporting(0);
-require dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require dirname(__DIR__, 3) . '/mainfile.php';
 require_once __DIR__ . '/common.php';
 
 $GLOBALS['xoopsLogger']->activated = false;
-/** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 $helper->loadLanguage('common');
 
@@ -110,9 +110,9 @@ if (false === $error) {
     }
 }
 
-$arr = ['success', $image->getVar('image_name'), Publisher\Utility::convertCharset($image->getVar('image_nicename'))];
+$arr = ['success', $image->getVar('image_name'), Utility::convertCharset($image->getVar('image_nicename'))];
 if (false !== $error) {
-    $arr = ['error', Publisher\Utility::convertCharset($error)];
+    $arr = ['error', Utility::convertCharset($error)];
 }
 
 echo json_encode($arr);

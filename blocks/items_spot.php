@@ -20,6 +20,7 @@ declare(strict_types=1);
  */
 
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -31,7 +32,6 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_spot_show($options)
 {
     //    global $xoTheme;
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     /** @var Publisher\CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');
@@ -102,7 +102,7 @@ function publisher_items_spot_show($options)
                 $category['name']        = $cat->name;
                 $category['categoryurl'] = $cat->getCategoryUrl();
                 if ('blank.png' !== $cat->getImage()) {
-                    $category['image_path'] = Publisher\Utility::getImageDir('category', false) . $cat->getImage();
+                    $category['image_path'] = Utility::getImageDir('category', false) . $cat->getImage();
                 } else {
                     $category['image_path'] = '';
                 }
@@ -141,7 +141,7 @@ function publisher_items_spot_show($options)
                     }
                     if ($optTruncate > 0) {
                         $block['truncate'] = true;
-                        $item['summary']   = Publisher\Utility::truncateHtml($item['summary'], $optTruncate);
+                        $item['summary']   = Utility::truncateHtml($item['summary'], $optTruncate);
                     }
                     $block['items'][] = $item;
                     ++$i;
@@ -193,8 +193,7 @@ function publisher_items_spot_edit($options)
     $form     = new Publisher\BlockForm();
     $autoEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_AUTO_LAST_ITEMS, 'options[0]', $options[0]);
     $countEle = new \XoopsFormText(_MB_PUBLISHER_LAST_ITEMS_COUNT, 'options[1]', 2, 255, $options[1]);
-    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[2], 0, true, 'options[2]', false));
-    /** @var Publisher\Helper $helper */
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[2], 0, true, 'options[2]', false));
     $helper = Publisher\Helper::getInstance();
     /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');

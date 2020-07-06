@@ -33,7 +33,6 @@ if (empty($xoopsConfigSearch['enable_search'])) {
     redirect_header(PUBLISHER_URL . '/index.php', 2, _NOPERM);
 }
 
-/** @var \XoopsModules\Publisher\Helper $helper */
 $helper           = \XoopsModules\Publisher\Helper::getInstance();
 $groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $grouppermHandler = $helper->getHandler('GroupPerm');

@@ -25,6 +25,9 @@ namespace XoopsModules\Publisher;
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Category;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
 
 /**
  * Class Utility
@@ -168,13 +171,12 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param \XoopsModules\Publisher\Category $categoryObj
-     * @param int                              $level
+     * @param Category $categoryObj
+     * @param int      $level
      */
-    public static function displayCategory(Publisher\Category $categoryObj, $level = 0)
+    public static function displayCategory(Category $categoryObj, $level = 0)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $description = $categoryObj->description();
         if (!XOOPS_USE_MULTIBYTES) {
@@ -223,25 +225,24 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param bool $showmenu
-     * @param int  $categoryId
-     * @param int  $nbSubCats
-     * @param null $categoryObj
+     * @param bool          $showmenu
+     * @param int           $categoryId
+     * @param int           $nbSubCats
+     * @param Category|null $categoryObj
      */
     public static function editCategory($showmenu = false, $categoryId = 0, $nbSubCats = 4, $categoryObj = null)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
-        /** @var  Publisher\Category $categoryObj */
+        /** @var  Category $categoryObj */
         if (0 != $categoryId) {
             // Creating the category object for the selected category
             $categoryObj = $helper->getHandler('Category')->get($categoryId);
             if ($categoryObj->notLoaded()) {
                 \redirect_header('category.php', 1, \_AM_PUBLISHER_NOCOLTOEDIT);
             }
-        } elseif (!$categoryObj) {
+        } elseif (null === $categoryObj) {
             $categoryObj = $helper->getHandler('Category')->create();
         }
 
@@ -508,8 +509,7 @@ class Utility extends Common\SysUtility
      */
     public static function moduleHome($withLink = true)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         if (!$helper->getConfig('format_breadcrumb_modname')) {
             return '';
@@ -701,8 +701,7 @@ class Utility extends Common\SysUtility
      */
     public static function userIsAdmin()
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         static $publisherIsAdmin;
 
@@ -739,8 +738,7 @@ class Utility extends Common\SysUtility
      */
     public static function userIsModerator($itemObj)
     {
-        /** @var Publisher\Helper $helper */
-        $helper            = Publisher\Helper::getInstance();
+        $helper            = Helper::getInstance();
         $categoriesGranted = $helper->getHandler('Permission')->getGrantedItems('category_moderation');
 
         return (\is_object($itemObj) && \in_array($itemObj->categoryid(), $categoriesGranted, true));
@@ -756,8 +754,7 @@ class Utility extends Common\SysUtility
      */
     public static function saveCategoryPermissions($groups, $categoryId, $permName)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $result = true;
 
@@ -894,16 +891,15 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param null|Publisher\Category $categoryObj
-     * @param int|array               $selectedId
-     * @param int                     $level
-     * @param string                  $ret
+     * @param null|Category $categoryObj
+     * @param int|array     $selectedId
+     * @param int           $level
+     * @param string        $ret
      * @return string
      */
-    public static function addCategoryOption(Publisher\Category $categoryObj, $selectedId = 0, $level = 0, $ret = '')
+    public static function addCategoryOption(Category $categoryObj, $selectedId = 0, $level = 0, $ret = '')
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $spaces = '';
         for ($j = 0; $j < $level; ++$j) {
@@ -939,8 +935,7 @@ class Utility extends Common\SysUtility
      */
     public static function createCategorySelect($selectedId = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[1]', $multiple = true)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $selectedId  = \explode(',', $selectedId);
         $selectedId  = \array_map('\intval', $selectedId);
@@ -978,8 +973,7 @@ class Utility extends Common\SysUtility
      */
     public static function createCategoryOptions($selectedId = 0, $parentcategory = 0, $allCatOption = true)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $ret = '';
         if ($allCatOption) {
@@ -1075,6 +1069,7 @@ class Utility extends Common\SysUtility
     /**
      * @param bool $another
      * @param bool $withRedirect
+     * @param Item $itemObj
      * @return bool|string
      */
     public static function uploadFile($another, $withRedirect, &$itemObj)
@@ -1083,8 +1078,7 @@ class Utility extends Common\SysUtility
         //        require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
         //    global $publisherIsAdmin;
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $itemId  = Request::getInt('itemid', 0, 'POST');
         $uid     = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
@@ -1243,8 +1237,7 @@ class Utility extends Common\SysUtility
      */
     public static function ratingBar($itemId)
     {
-        /** @var Publisher\Helper $helper */
-        $helper          = Publisher\Helper::getInstance();
+        $helper          = Helper::getInstance();
         $ratingUnitWidth = 30;
         $units           = 5;
 
@@ -1322,7 +1315,7 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param null $allowedEditors
+     * @param array|null $allowedEditors
      * @return array
      */
     public static function getEditors($allowedEditors = null)
@@ -1392,7 +1385,8 @@ class Utility extends Common\SysUtility
      * Verifies XOOPS version meets minimum requirements for this module
      * @static
      *
-     * @param null|string $requiredVer
+     * @param \XoopsModule|null $module
+     * @param null|string       $requiredVer
      * @return bool true if meets requirements, false if not
      */
     public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
@@ -1423,11 +1417,12 @@ class Utility extends Common\SysUtility
      * Verifies PHP version meets minimum requirements for this module
      * @static
      *
+     * @param \XoopsModule|null $module
      * @return bool true if meets requirements, false if not
      */
     public static function checkVerPhp(\XoopsModule $module = null)
     {
-        $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
+        $moduleDirName      = \basename(dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);

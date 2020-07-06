@@ -23,6 +23,7 @@ declare(strict_types=1);
 use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Utility;
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
@@ -56,9 +57,9 @@ $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 if ('start' === $op) {
     xoops_load('XoopsFormLoader');
 
-    Publisher\Utility::cpHeader();
+    Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    Publisher\Utility::openCollapsableBar('cjaycontentimport', 'cjaycontentimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
+    Utility::openCollapsableBar('cjaycontentimport', 'cjaycontentimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('cjaycontent'));
     [$totalArticles] = $GLOBALS['xoopsDB']->fetchRow($result);
@@ -81,15 +82,15 @@ if ('start' === $op) {
     }
     //    }
 
-    Publisher\Utility::closeCollapsableBar('cjaycontentimport', 'cjaycontentimporticon');
+    Utility::closeCollapsableBar('cjaycontentimport', 'cjaycontentimporticon');
     xoops_cp_footer();
 }
 
 if ('go' === $op) {
-    Publisher\Utility::cpHeader();
+    Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
-    Publisher\Utility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
+    Utility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler         = xoops_getHandler('module');
     $moduleObj             = $moduleHandler->getByDirname('cjaycontent');
@@ -184,6 +185,6 @@ if ('go' === $op) {
     echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br>';
     echo "<br><a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br>';
 
-    Publisher\Utility::closeCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon');
+    Utility::closeCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon');
     xoops_cp_footer();
 }

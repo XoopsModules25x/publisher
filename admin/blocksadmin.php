@@ -16,6 +16,7 @@ declare(strict_types=1);
  * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  */
 
+use Xmf\Module\Admin;
 use Xmf\Request;
 
 require __DIR__ . '/admin_header.php';
@@ -294,7 +295,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         xoops_cp_header();
 
         /** @var \Xmf\Module\Admin $adminObject */
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation(basename(__FILE__));
         $moduleDirName      = basename(dirname(__DIR__));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
@@ -355,7 +356,6 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         xoops_loadLanguage('admin/blocksadmin', 'system');
         xoops_loadLanguage('admin/groups', 'system');
 
-        /** @var \XoopsBlock $block */
         $block = new \XoopsBlock($bid);
         $clone = $block->xoopsClone();
         if (empty($bmodule)) {
@@ -439,7 +439,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         require_once __DIR__ . '/admin_header.php';
         xoops_cp_header();
         /** @var \Xmf\Module\Admin $adminObject */
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation(basename(__FILE__));
         $moduleDirName      = basename(dirname(__DIR__));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
@@ -562,7 +562,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             if ($oldtitle[$i] !== $title[$i] || $oldweight[$i] !== $weight[$i] || $oldvisible[$i] !== $visible[$i]
                 || $oldside[$i] !== $side[$i]
                 || $oldbcachetime[$i] !== $bcachetime[$i]) {
-                setOrder($bid[$i], $title[$i], $weight[$i], $visible[$i], $side[$i], $bcachetime[$i], $bmodule[$i]);
+                setOrder($bid[$i], $title[$i], $weight[$i], $visible[$i], $side[$i], $bcachetime[$i], $bmodule[$i]=null);
             }
             if (!empty($bmodule[$i]) && count($bmodule[$i]) > 0) {
                 $sql = sprintf('DELETE FROM `%s` WHERE block_id = %u', $GLOBALS['xoopsDB']->prefix('block_module_link'), $bid[$i]);

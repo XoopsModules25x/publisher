@@ -31,7 +31,6 @@ use XoopsModules\Publisher\Constants;
 \xoops_load('XoopsFormLoader');
 //todo: move to admin?
 //xoops_loadLanguage('main', 'publisher');
-/** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 $helper->loadLanguage('main');
 
@@ -46,6 +45,10 @@ class FileForm extends \XoopsThemeForm
     public $helper;
     public $targetObject;
 
+    /**
+     * FileForm constructor.
+     * @param $target
+     */
     public function __construct(&$target)
     {
         /** @var Publisher\Helper $this ->helper */

@@ -112,6 +112,9 @@ class ThemeTabForm extends \XoopsForm
 
     //function render() {}
 
+    /**
+     * @param \XoopsTpl $tpl
+     */
     public function assign(\XoopsTpl $tpl)
     {
         $i        = -1;

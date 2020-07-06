@@ -27,6 +27,7 @@ use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -93,7 +94,6 @@ class ItemForm extends Publisher\ThemeTabForm
      */
     public function isGranted($item)
     {
-        /** @var Publisher\Helper $helper */
         $helper = Helper::getInstance();
         $ret    = false;
         if (!$this->checkperm || $helper->getHandler('Permission')->isGranted('form_view', $item)) {
@@ -132,11 +132,10 @@ class ItemForm extends Publisher\ThemeTabForm
      */
     public function createElements($obj)
     {
-        /** @var Publisher\Helper $helper */
         $helper = Helper::getInstance();
         $timeoffset = null;
 
-        $allowedEditors = Publisher\Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
+        $allowedEditors = Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
 
         if (!\is_object($GLOBALS['xoopsUser'])) {
             $group      = [XOOPS_GROUP_ANONYMOUS];
@@ -177,7 +176,6 @@ class ItemForm extends Publisher\ThemeTabForm
             require_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
             $textTags = new \XoopsModules\Tag\FormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
             $textTags->setClass('form-control');
-            /** @var \XoopsModules\Tag\FormTag $textTags */
             $this->addElement($textTags);
         }
 
@@ -188,9 +186,9 @@ class ItemForm extends Publisher\ThemeTabForm
         } elseif (\count($allowedEditors) > 0) {
             $editor = Request::getString('editor', '', 'POST');
             if (!empty($editor)) {
-                Publisher\Utility::setCookieVar('publisher_editor', $editor);
+                Utility::setCookieVar('publisher_editor', $editor);
             } else {
-                $editor = Publisher\Utility::getCookieVar('publisher_editor');
+                $editor = Utility::getCookieVar('publisher_editor');
                 if (empty($editor) && \is_object($GLOBALS['xoopsUser'])) {
                     //                    $editor = @ $GLOBALS['xoopsUser']->getVar('publisher_editor'); // Need set through user profile
                     $editor = $GLOBALS['xoopsUser']->getVar('publisher_editor') ?? ''; // Need set through user profile
@@ -258,7 +256,7 @@ class ItemForm extends Publisher\ThemeTabForm
 
         // Available pages to wrap
         if ($this->isGranted(Constants::PUBLISHER_AVAILABLE_PAGE_WRAP)) {
-            $wrapPages              = \XoopsLists::getHtmlListAsArray(Publisher\Utility::getUploadDir(true, 'content'));
+            $wrapPages              = \XoopsLists::getHtmlListAsArray(Utility::getUploadDir(true, 'content'));
             $availableWrapPagesText = [];
             foreach ($wrapPages as $page) {
                 $availableWrapPagesText[] = "<span onclick='publisherPageWrap(\"body\", \"[pagewrap=$page] \");' onmouseover='style.cursor=\"pointer\"'>$page</span>";

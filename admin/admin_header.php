@@ -18,22 +18,25 @@ declare(strict_types=1);
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
+
+use Xmf\Module\Admin;
+use XoopsModules\Publisher\Helper;
+
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(__DIR__, 3) . '/include/cp_header.php';
 //require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
 require_once dirname(__DIR__) . '/include/common.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 
-/** @var \XoopsModules\Publisher\Helper $helper */
-$helper = \XoopsModules\Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 /** @var Xmf\Module\Admin $adminObject */
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 
-$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32 = \Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16 = Admin::iconUrl('', 16);
+$pathIcon32 = Admin::iconUrl('', 32);
 if (is_object($helper->getModule())) {
     $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 }

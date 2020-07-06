@@ -23,6 +23,7 @@ namespace XoopsModules\Publisher;
  */
 
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -106,7 +107,7 @@ class File extends \XoopsObject
         $maxfilewidth  = $this->helper->getConfig('maximum_image_width');
         $maxfileheight = $this->helper->getConfig('maximum_image_height');
         \xoops_load('XoopsMediaUploader');
-        $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        $uploader = new \XoopsMediaUploader(Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
             return true;
         }
@@ -133,13 +134,13 @@ class File extends \XoopsObject
         $maxfilesize   = $this->helper->getConfig('maximum_filesize');
         $maxfilewidth  = $this->helper->getConfig('maximum_image_width');
         $maxfileheight = $this->helper->getConfig('maximum_image_height');
-        if (!\is_dir(Publisher\Utility::getUploadDir())) {
-            if (!\mkdir($concurrentDirectory = Publisher\Utility::getUploadDir(), 0757) && !\is_dir($concurrentDirectory)) {
+        if (!\is_dir(Utility::getUploadDir())) {
+            if (!\mkdir($concurrentDirectory = Utility::getUploadDir(), 0757) && !\is_dir($concurrentDirectory)) {
                 throw new \RuntimeException(\sprintf('Directory "%s" was not created', $concurrentDirectory));
             }
         }
         \xoops_load('XoopsMediaUploader');
-        $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        $uploader = new \XoopsMediaUploader(Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
             $uploader->setTargetFileName($itemid . '_' . $uploader->getMediaName());
             if ($uploader->upload()) {
@@ -213,7 +214,7 @@ class File extends \XoopsObject
      */
     public function getFileUrl()
     {
-        return Publisher\Utility::getUploadDir(false) . $this->filename();
+        return Utility::getUploadDir(false) . $this->filename();
     }
 
     /**
@@ -221,7 +222,7 @@ class File extends \XoopsObject
      */
     public function getFilePath()
     {
-        return Publisher\Utility::getUploadDir() . $this->filename();
+        return Utility::getUploadDir() . $this->filename();
     }
 
     /**

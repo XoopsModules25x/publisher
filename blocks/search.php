@@ -32,7 +32,6 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_search_show($options)
 {
     $block = [];
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     /** @var Publisher\CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');

@@ -39,7 +39,6 @@ function publisher_notify_iteminfo($category, $itemId)
     }
 
     global $xoopsModule;
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
 
     if ('category' === $category) {

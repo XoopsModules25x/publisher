@@ -21,10 +21,10 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 
-/** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 
 $module  = $helper->getModule();
@@ -181,7 +181,7 @@ if ('showmod' === $op) {
         unset($ele, $hidden);
     }
 
-    Publisher\Utility::cpHeader();
+    Utility::cpHeader();
     //publisher_adminMenu(5, _PREFERENCES);
     foreach ($config_cats as $formCat => $info) {
         if ('others' === $formCat && !$cat_others_used) {
@@ -189,9 +189,9 @@ if ('showmod' === $op) {
         }
         $$formCat->addElement(new \XoopsFormHidden('op', 'save'));
         $$formCat->addElement(new \XoopsFormButton('', 'button', _GO, 'submit'));
-        Publisher\Utility::openCollapsableBar($formCat . '_table', $formCat . '_icon', $info['name'], $info['description']);
+        Utility::openCollapsableBar($formCat . '_table', $formCat . '_icon', $info['name'], $info['description']);
         $$formCat->display();
-        Publisher\Utility::closeCollapsableBar($formCat . '_table', $formCat . '_icon');
+        Utility::closeCollapsableBar($formCat . '_table', $formCat . '_icon');
     }
     unset($formCat, $info);
     xoops_cp_footer();

@@ -18,6 +18,7 @@ declare(strict_types=1);
  */
 
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
     || !$GLOBALS['xoopsUser']->isAdmin()) {
@@ -32,8 +33,7 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUs
  */
 function xoops_module_pre_update_publisher(\XoopsModule $module)
 {
-    /** @var Publisher\Utility $utility */
-    $utility = new Publisher\Utility();
+    $utility = new Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
@@ -77,8 +77,7 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
         $xoopsDB->queryF($sql);
         $sql = '    ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' MODIFY `meta_description` TEXT NULL';
         $xoopsDB->queryF($sql);
-        /** @var Publisher\Utility $utility */
-        $utility = new Publisher\Utility();
+        $utility = new Utility();
 
         //delete old HTML templates
         if (count($configurator->templateFolders) > 0) {

@@ -22,6 +22,7 @@ declare(strict_types=1);
 use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 require_once $GLOBALS['xoops']->path('class/xoopslists.php');
@@ -45,7 +46,7 @@ $groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() :
 
 $startentry = Request::getInt('startentry', 0, 'GET');
 
-Publisher\Utility::cpHeader();
+Utility::cpHeader();
 //publisher_adminMenu(0, _AM_PUBLISHER_INDEX);
 
 // Total ITEMs -- includes everything on the table
@@ -67,15 +68,15 @@ $totaloffline = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLI
 $totalrejected = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_REJECTED]);
 
 // Check Path Configuration
-if ((Publisher\Utility::getPathStatus('root', true) < 0)
-    || (Publisher\Utility::getPathStatus('images', true) < 0)
-    || (Publisher\Utility::getPathStatus('images/category', true) < 0)
-    || (Publisher\Utility::getPathStatus('images/item', true) < 0)
-    || (Publisher\Utility::getPathStatus('content', true) < 0)) {
-    Publisher\Utility::createDir();
+if ((Utility::getPathStatus('root', true) < 0)
+    || (Utility::getPathStatus('images', true) < 0)
+    || (Utility::getPathStatus('images/category', true) < 0)
+    || (Utility::getPathStatus('images/item', true) < 0)
+    || (Utility::getPathStatus('content', true) < 0)) {
+    Utility::createDir();
 }
 
-Publisher\Utility::openCollapsableBar('inventorytable', 'inventoryicon', _AM_PUBLISHER_INVENTORY);
+Utility::openCollapsableBar('inventorytable', 'inventoryicon', _AM_PUBLISHER_INVENTORY);
 echo '<br>';
 echo "<table width='100%' class='outer' cellspacing='1' cellpadding='3' border='0' ><tr>";
 echo "<td class='head'>" . _AM_PUBLISHER_TOTALCAT . "</td><td align='center' class='even'>" . $totalcategories . '</td>';
@@ -90,10 +91,10 @@ echo "<input type='button' name='button' onclick=\"location='category.php?op=mod
 echo "<input type='button' name='button' onclick=\"location='item.php?op=mod'\" value='" . _AM_PUBLISHER_CREATEITEM . "'>&nbsp;&nbsp;";
 echo '</div></form>';
 
-Publisher\Utility::closeCollapsableBar('inventorytable', 'inventoryicon');
+Utility::closeCollapsableBar('inventorytable', 'inventoryicon');
 
 // Construction of lower table
-Publisher\Utility::openCollapsableBar('allitemstable', 'allitemsicon', _AM_PUBLISHER_ALLITEMS, _AM_PUBLISHER_ALLITEMSMSG);
+Utility::openCollapsableBar('allitemstable', 'allitemsicon', _AM_PUBLISHER_ALLITEMS, _AM_PUBLISHER_ALLITEMSMSG);
 
 $showingtxt   = '';
 $selectedtxt  = '';
@@ -233,7 +234,7 @@ $itemsObj = $helper->getHandler('Item')->getItems($helper->getConfig('idxcat_per
 
 $totalItemsOnPage = count($itemsObj);
 
-Publisher\Utility::buildTableItemTitleRow();
+Utility::buildTableItemTitleRow();
 
 if ($numrows > 0) {
     for ($i = 0; $i < $totalItemsOnPage; ++$i) {
@@ -323,7 +324,7 @@ if (1 == $helper->getConfig('format_image_nav')) {
     echo '<div style="text-align:right; background-color: #ffffff; margin: 10px 0;">' . $pagenav->renderNav() . '</div>';
 }
 // ENDs code to show active entries
-Publisher\Utility::closeCollapsableBar('allitemstable', 'allitemsicon');
+Utility::closeCollapsableBar('allitemstable', 'allitemsicon');
 // Close the collapsable div
 
 require_once __DIR__ . '/admin_footer.php';

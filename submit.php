@@ -22,6 +22,7 @@ declare(strict_types=1);
 use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/header.php';
 $helper->loadLanguage('admin');
@@ -43,10 +44,10 @@ if (0 != $itemId) {
     // We are editing or deleting an article
     /** @var Publisher\Item $itemObj */
     $itemObj = $helper->getHandler('Item')->get($itemId);
-    if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($itemObj) || Publisher\Utility::userIsModerator($itemObj))) {
+    if (!(Utility::userIsAdmin() || Utility::userIsAuthor($itemObj) || Utility::userIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
     }
-    if (!Publisher\Utility::userIsAdmin() || !Publisher\Utility::userIsModerator($itemObj)) {
+    if (!Utility::userIsAdmin() || !Utility::userIsModerator($itemObj)) {
         if ('del' === Request::getString('op', '', 'GET') && !$helper->getConfig('perm_delete')) {
             redirect_header('index.php', 1, _NOPERM);
         } elseif (!$helper->getConfig('perm_edit')) {
@@ -58,7 +59,7 @@ if (0 != $itemId) {
 } else {
     // we are submitting a new article
     // if the user is not admin AND we don't allow user submission, exit
-    if (!(Publisher\Utility::userIsAdmin() || (1 == $helper->getConfig('perm_submit') && (is_object($GLOBALS['xoopsUser']) || (1 == $helper->getConfig('perm_anon_submit')))))) {
+    if (!(Utility::userIsAdmin() || (1 == $helper->getConfig('perm_submit') && (is_object($GLOBALS['xoopsUser']) || (1 == $helper->getConfig('perm_anon_submit')))))) {
         redirect_header('index.php', 1, _NOPERM);
     }
     /** @var Publisher\Item $itemObj */
@@ -93,7 +94,7 @@ if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
 
 $op = Request::getString('op', Request::getString('op', $op, 'POST'), 'GET');
 
-$allowedEditors = Publisher\Utility::getEditors($grouppermHandler->getItemIds('editors', $groups, $moduleId));
+$allowedEditors = Utility::getEditors($grouppermHandler->getItemIds('editors', $groups, $moduleId));
 $formView       = $grouppermHandler->getItemIds('form_view', $groups, $moduleId);
 
 // This code makes sure permissions are not manipulated
@@ -137,7 +138,7 @@ switch ($op) {
 
         if ($confirm) {
             if (!$helper->getHandler('Item')->delete($itemObj)) {
-                redirect_header('index.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . Publisher\Utility::formatErrors($itemObj->getErrors()));
+                redirect_header('index.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . Utility::formatErrors($itemObj->getErrors()));
             }
             redirect_header('index.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
         } else {
@@ -167,7 +168,7 @@ switch ($op) {
         $xoopsTpl->assign('item', $item);
 
         $xoopsTpl->assign('op', 'preview');
-        $xoopsTpl->assign('module_home', Publisher\Utility::moduleHome());
+        $xoopsTpl->assign('module_home', Utility::moduleHome());
 
         if ($itemId) {
             $xoopsTpl->assign('categoryPath', _MD_PUBLISHER_EDIT_ARTICLE);
@@ -203,7 +204,7 @@ switch ($op) {
 
         // attach file if any
         if (is_array($itemUploadFile) && '' != $itemUploadFile['name']) {
-            $fileUploadResult = Publisher\Utility::uploadFile(false, true, $itemObj);
+            $fileUploadResult = Utility::uploadFile(false, true, $itemObj);
             if (true !== $fileUploadResult) {
                 redirect_header('<script>javascript:history.go(-1)</script>', 3, $fileUploadResult);
             }
@@ -249,7 +250,7 @@ switch ($op) {
 
         //mb        $itemObj->setVarsFromRequest();
 
-        $xoopsTpl->assign('module_home', Publisher\Utility::moduleHome());
+        $xoopsTpl->assign('module_home', Utility::moduleHome());
         if ('clone' === Request::getString('op', '', 'GET')) {
             $xoopsTpl->assign('categoryPath', _CO_PUBLISHER_CLONE);
             $xoopsTpl->assign('langIntroTitle', _CO_PUBLISHER_CLONE);

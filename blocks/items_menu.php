@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -33,7 +34,6 @@ function publisher_items_menu_show($options)
 {
     $block = [];
 
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
 
     // Getting all top cats
@@ -85,7 +85,7 @@ function publisher_items_menu_edit($options)
 
     $form = new Publisher\BlockForm();
 
-    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray(
         [

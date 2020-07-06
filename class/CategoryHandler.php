@@ -23,6 +23,7 @@ namespace XoopsModules\Publisher;
  */
 
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -41,11 +42,11 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public $helper;
     public $publisherIsAdmin;
 
-    public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
+    public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this ->helper */
+        /** @var Helper $this ->helper */
         if (null === $helper) {
-            $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+            $this->helper = Helper::getInstance();
         } else {
             $this->helper = $helper;
         }

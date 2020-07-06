@@ -266,7 +266,9 @@ $modversion['templates'] = [
     ['file' => 'publisher_addfile.tpl', 'description' => '_MI_PUBLISHER_ADDFILE_DSC'],
     ['file' => 'publisher_search.tpl', 'description' => '_MI_PUBLISHER_SEARCH_DSC'],
     ['file' => 'publisher_author_items.tpl', 'description' => '_MI_PUBLISHER_AUTHOR_ITEMS_DSC'],
-    ['file' => 'publisher_archive.tpl', 'description' => '_MI_PUBLISHER_ARCHIVE__DSC'],
+    ['file' => 'publisher_archive.tpl', 'description' => '_MI_PUBLISHER_ARCHIVE_DSC'],
+    //admin
+    ['file' => 'publisher_trello.tpl', 'description' => '_MI_PUBLISHER_TRELLO_DSC', 'type' => 'admin'],
 ];
 
 // Config categories

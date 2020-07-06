@@ -309,7 +309,7 @@ define('_MI_PUBLISHER_ORDERBY_HITS', 'Hits DESC');
 
 // The name of this module
 define('_MI_PUBLISHER_NAME', 'Publisher');
-define('_MI_PUBLISHER_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_PUBLISHER_DIRNAME', basename(dirname(__DIR__, 2)));
 define('_MI_PUBLISHER_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_PUBLISHER_BACK_2_ADMIN', 'Back to Administration of ');
 
@@ -457,3 +457,6 @@ define('_MI_PUBLISHER_AUTHORPAGE_SUMMARYDSC', 'Select “Yes” to display the a
 define('_MI_PUBLISHER_DISPRATING', 'Display Rating');
 define('_MI_PUBLISHER_AUTHORPAGE_RATINGDSC', 'Select “Yes” to display the rating in the Item by Same Author page');
 
+
+define('_MI_PUBLISHER_ADMENU7', 'Trello');
+define('_MI_PUBLISHER_TRELLO_DSC', 'Trello Management');

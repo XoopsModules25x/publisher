@@ -26,7 +26,6 @@ require_once dirname(__DIR__) . '/preloads/autoloader.php';
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-/** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
@@ -61,6 +60,15 @@ $adminmenu[] = [
     'link'  => 'admin/item.php',
     'icon'  => $pathIcon32 . '/content.png',
 ];
+
+// Trello
+$adminmenu[] = [
+    'title' => _MI_PUBLISHER_ADMENU7,
+    'link'  => 'admin/trello.php',
+    'icon'  => $pathIcon32 . '/extention.png',
+];
+
+
 // Permissions
 $adminmenu[] = [
     'title' => _MI_PUBLISHER_ADMENU4,

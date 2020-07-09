@@ -1,3 +1,12 @@
+<h5>1.08 Alpha 2       [2020-07-08]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.7
+<hr>
+- Various fixes (ihackcode)
+- timezone conversion (ihackcode)
+- Convert user time to Server time on saving items (ihackcode)
+- added Save/Load Permissions to test data - based on work by Goffy (mamba)
+- added Trello board, based on https://phppot.com/php/trello-like-drag-and-drop-cards-for-project-management-software/ (mamba)
+
+
 <h5>1.08 Alpha 1       [2020-05-18]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.6
 <hr>
 - added Option to display default image if no article image selected in article page (liomj)
@@ -54,8 +63,6 @@
 - change from using $_SERVER['PHP_SELF'] to $_SERVER['SCRIPT_NAME'] for improved security (zyspec)
 - PHP 7.1 (mamba)
 
-TODO:
-- Set 'default' category/item permissions for test data
 
 <h5>1.07 Final       [2019-06-08]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.6
 <hr>

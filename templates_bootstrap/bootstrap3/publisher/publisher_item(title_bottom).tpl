@@ -23,12 +23,12 @@
 </script>
 <{include file='db:publisher_header.tpl'}>
 
-			
+
              <{if $item.image_path==''}>
-			  <{if $display_defaultimage}>
-			  <img class="img-responsive" src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>">
-		      <{/if}>  
-			<{/if}>
+              <{if $display_defaultimage}>
+              <img class="img-responsive" src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>">
+              <{/if}>
+            <{/if}>
     <{if $item.image_path || $item.images}>
         <figure>
             <{if $item.images}>
@@ -50,7 +50,7 @@
     <div class="pub_article_t_top clearfix">
     <header>
         <h2><{$item.title}>    
-			<div class="pub_article_t_bottom_info">
+            <div class="pub_article_t_bottom_info">
             <{if $display_itemcategory}>
                 <span style="font-size: 11px; padding: 0; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                     <span class="glyphicon glyphicon-tag"></span>&nbsp;<{$item.category}>
@@ -76,15 +76,15 @@
                     <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<{$item.counter}> <{$smarty.const._MD_PUBLISHER_READS}>
                 </span>
              <{/if}>
-			</div> 
-			 </h2>
+            </div>
+             </h2>
             <{if $show_subtitle && $item.subtitle}>
             <h5><{$item.subtitle}></h5>
         <{/if}>
     </header>
 
-	
-	
+
+
         <{$item.maintext}>
 
         <div class='shareaholic-canvas' data-app='share_buttons' data-app-id=''></div>
@@ -219,36 +219,36 @@
         <{foreach item=item from=$items}>
             <tr>
                 <td class="even" align="left">
-                <{if $show_mainimage == 1}>					
-		         <{if $item.item_image==''}>
-		          <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>" align="left" width="100" style="padding:5px">
-		          <{else}>
-				   <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px" ></a>
+                <{if $show_mainimage == 1}>
+                 <{if $item.item_image==''}>
+                  <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>" align="left" width="100" style="padding:5px">
+                  <{else}>
+                   <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px" ></a>
                 <{/if}> 
-				<{/if}>
+                <{/if}>
                 <{$item.titlelink}>
-	               <{if $show_summary == 1}>
+                   <{if $show_summary == 1}>
                        <br><{$item.summary}><br >
                     <{/if}> 
-					<{if $show_readmore == 1}>
-					     <div class="pull-right">
+                    <{if $show_readmore == 1}>
+                         <div class="pull-right">
                         <a href="<{$item.itemurl}>" class="btn btn-primary btn-sm"> <{$smarty.const._MD_PUBLISHER_VIEW_MORE}></a>
                         </div>
                      <{/if}>
-					 <{if $display_category == 1}> 
-					   <span style="font-size: 11px; padding: 0; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
+                     <{if $display_category == 1}>
+                       <span style="font-size: 11px; padding: 0; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                        &nbsp;&nbsp;<span class="glyphicon glyphicon-tag"></span>&nbsp;<{$item.category}>
                        </span>
-					<{/if}>
-					 <{if $show_poster == 1}>
-                       <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
-				       &nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;<{$item.who}>
-				       </span>
                     <{/if}>
-					<{if $show_commentlink == 1 && $item.cancomment && $item.comments != -1}>
+                     <{if $show_poster == 1}>
                        <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
-				       &nbsp;&nbsp;<span class="glyphicon glyphicon-comment"></span>&nbsp;<{$item.comments}>
-				       </span>    
+                       &nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;<{$item.who}>
+                       </span>
+                    <{/if}>
+                    <{if $show_commentlink == 1 && $item.cancomment && $item.comments != -1}>
+                       <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
+                       &nbsp;&nbsp;<span class="glyphicon glyphicon-comment"></span>&nbsp;<{$item.comments}>
+                       </span>
                     <{/if}>
                     </td>
                 <{if $show_date_col == 1}>

@@ -14,7 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -24,6 +23,7 @@ declare(strict_types=1);
 use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Utility;
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
@@ -37,9 +37,9 @@ $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 if ('start' === $op) {
     xoops_load('XoopsFormLoader');
 
-    Publisher\Utility::cpHeader();
+    Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    Publisher\Utility::openCollapsableBar('amsimport', 'amsimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
+    Utility::openCollapsableBar('amsimport', 'amsimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('ams_topics'));
     [$totalCat] = $GLOBALS['xoopsDB']->fetchRow($result);
@@ -81,7 +81,7 @@ if ('start' === $op) {
 
             try {
                 $imageCategoryHandler->insert($imagecategory);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 echo 'Caught exception: could not insert Image Category' . $e->getMessage() . 'n';
             }
 
@@ -90,7 +90,7 @@ if ('start' === $op) {
             if (!isset($readgroup)) {
                 $readgroup = [];
             }
-            if (!in_array(XOOPS_GROUP_ADMIN, $readgroup)) {
+            if (!in_array(XOOPS_GROUP_ADMIN, $readgroup, true)) {
                 $readgroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($readgroup as $rgroup) {
@@ -106,7 +106,7 @@ if ('start' === $op) {
             if (!isset($writegroup)) {
                 $writegroup = [];
             }
-            if (!in_array(XOOPS_GROUP_ADMIN, $writegroup)) {
+            if (!in_array(XOOPS_GROUP_ADMIN, $writegroup, true)) {
                 $writegroup[] = XOOPS_GROUP_ADMIN;
             }
             foreach ($writegroup as $wgroup) {
@@ -126,16 +126,16 @@ if ('start' === $op) {
             $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('ams_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('nw_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
             $result           = $GLOBALS['xoopsDB']->query($sql);
-            $cat_cbox_options = [];
+            $catCboxOptions = [];
 
-            while (list($cid, $pid, $cat_title, $art_count) = $GLOBALS['xoopsDB']->fetchRow($result)) {
-                $cat_title              = $myts->displayTarea($cat_title);
-                $cat_cbox_options[$cid] = "$cat_title ($art_count)";
+            while (list($cid, $pid, $catTitle, $articleCount) = $GLOBALS['xoopsDB']->fetchRow($result)) {
+                $catTitle              = $myts->displayTarea($catTitle);
+                $catCboxOptions[$cid] = "$catTitle ($articleCount)";
             }
 
-            $cat_label = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $cat_cbox_options));
-            $cat_label->setDescription(_AM_PUBLISHER_IMPORT_CATEGORIES_DSC);
-            $form->addElement($cat_label);
+            $catLabel = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_CATEGORIES, implode('<br>', $catCboxOptions));
+            $catLabel->setDescription(_AM_PUBLISHER_IMPORT_CATEGORIES_DSC);
+            $form->addElement($catLabel);
 
             // Publisher parent category
             $mytree = new \XoopsTree($GLOBALS['xoopsDB']->prefix($helper->getModule()->dirname() . '_categories'), 'categoryid', 'parentid');
@@ -156,21 +156,21 @@ if ('start' === $op) {
         }
     }
 
-    Publisher\Utility::closeCollapsableBar('amsimport', 'amsimporticon');
+    Utility::closeCollapsableBar('amsimport', 'amsimporticon');
     xoops_cp_footer();
 }
 
 if ('go' === $op) {
-    Publisher\Utility::cpHeader();
+    Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
-    Publisher\Utility::openCollapsableBar('amsimportgo', 'amsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /* @var  XoopsModuleHandler $moduleHandler */
+    Utility::openCollapsableBar('amsimportgo', 'amsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
+    /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('ams');
     $ams_module_id = $moduleObj->getVar('mid');
 
-    /* @var  XoopsGroupPermHandler $grouppermHandler */
+    /** @var XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
@@ -219,7 +219,7 @@ if ('go' === $op) {
         $newCat           = [];
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
-        /* @var  Publisher\Category $categoryObj */
+        /** @var Publisher\Category $categoryObj */
         $categoryObj = $helper->getHandler('Category')->create();
 
         $categoryObj->setVar('parentid', $arrCat['topic_pid']);
@@ -241,13 +241,13 @@ if ('go' === $op) {
                   $imageHandler = xoops_getHandler('image');
                   $image = $imageHandler->create();
                   $image->setVar('image_name', $arrCat['topic_imgurl']);//'images/' . $uploader->getSavedFileName());
-                  $image->setVar('image_nicename', mb_substr($arrCat['topic_imgurl'],-13)); //$image_nicename);
+                  $image->setVar('image_nicename', mb_substr($arrCat['topic_imgurl'],-13)); //$imageNiceName);
                   $image->setVar('image_mimetype', 'image/'. mb_substr($arrCat['topic_imgurl'],-3));//$uploader->getMediaType());
   //                $image->setVar('image_created', time());
   //                $image_display = empty($image_display) ? 0 : 1;
                   $image->setVar('image_display', 1); //$image_display);
                   $image->setVar('image_weight', 0);//$image_weight);
-                  $image->setVar('imgcat_id', $newid );//$imgcat_id);
+                  $image->setVar('imgcat_id', $newid );//$imgcatId);
                   if (!$imageHandler->insert($image)) {
                       $err[] = sprintf(_FAILSAVEIMG, $image->getVar('image_nicename'));
                   }
@@ -267,7 +267,7 @@ if ('go' === $op) {
         $src = $GLOBALS['xoops']->path('uploads/AMS/topics/');
         $dst = $GLOBALS['xoops']->path('uploads');
 
-        Publisher\Utility::recurseCopy($src, $dst);
+        Utility::recurseCopy($src, $dst);
 
         //populate the Image Manager with images from xNews articles (by Bleekk)
 
@@ -353,7 +353,7 @@ if ('go' === $op) {
             // Linkes files
             $sql               = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('ams_article_files') . ' WHERE storyid=' . $arrArticle['storyid'];
             $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
-            $allowed_mimetypes = '';
+            $allowedMimetypes = '';
             while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
                 $filename = $GLOBALS['xoops']->path('uploads/AMS/attached/' . $arrFile['downloadname']);
                 if (file_exists($filename)) {
@@ -371,7 +371,7 @@ if ('go' === $op) {
                         $fileObj->setVar('filename', $arrFile['filerealname']);
                         $fileObj->setVar('short_url', $arrFile['filerealname']);
 
-                        if ($fileObj->store($allowed_mimetypes, true, false)) {
+                        if ($fileObj->store($allowedMimetypes, true, false)) {
                             echo '&nbsp;&nbsp;&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE_FILE, $arrFile['filerealname']) . '<br>';
                         }
                     }
@@ -387,12 +387,12 @@ if ('go' === $op) {
 
         // Saving category permissions
         $groupsIds = $grouppermHandler->getGroupIds('nw_view', $arrCat['topic_id'], $ams_module_id);
-        Publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
+        Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
         $groupsIds = $grouppermHandler->getGroupIds('nw_submit', $arrCat['topic_id'], $ams_module_id);
-        Publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
+        Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         $groupsIds = $grouppermHandler->getGroupIds('nw_approve', $arrCat['topic_id'], $ams_module_id);
-        Publisher\Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_moderation');
+        Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_moderation');
 
         $newCatArray[$newCat['oldid']] = $newCat;
         unset($newCat);
@@ -442,6 +442,6 @@ if ('go' === $op) {
     echo sprintf(_AM_PUBLISHER_IMPORTED_ARTICLES, $cnt_imported_articles) . '<br>';
     echo "<br><a href='" . PUBLISHER_URL . "/'>" . _AM_PUBLISHER_IMPORT_GOTOMODULE . '</a><br>';
 
-    Publisher\Utility::closeCollapsableBar('amsimportgo', 'amsimportgoicon');
+    Utility::closeCollapsableBar('amsimportgo', 'amsimportgoicon');
     xoops_cp_footer();
 }

@@ -16,8 +16,6 @@ declare(strict_types=1);
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GPL 2.0 or later
- * @package         Publisher
- * @subpackage      Config
  * @since           1.03
  * @author          XOOPS Development Team - ( https://xoops.org )
  */
@@ -26,13 +24,9 @@ use XoopsModules\Publisher\Constants;
 
 require __DIR__ . '/common.php';
 
-/**
- * @return object
- */
-
+/** @return object */
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-/** @var \XoopsModules\Publisher\Helper $helper */
 $helper = \XoopsModules\Publisher\Helper::getInstance();
 
 /** @var \XoopsModules\Publisher\CategoryHandler $helper ->getHandler('Category') */
@@ -102,5 +96,5 @@ return (object)[
         'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_REJECTED]),
     ],
     'modCopyright'    => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . constant($moduleDirNameUpper . '_AUTHOR_LOGOIMG') . "' alt='XOOPS Project'></a>",
+                     <img src='" . \Xmf\Module\Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
 ];

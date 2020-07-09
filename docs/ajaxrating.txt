@@ -109,7 +109,7 @@ CREATE TABLE `ratings` (
     $dbpass        = '###';
     $dbname        = '###';
     $tableName     = 'ratings';
-    $rating_unitwidth     = 30;
+    $ratingUnitWidth     = 30;
 
 
 =============================================================================

@@ -20,30 +20,30 @@
                 <div class="article_wf_title">
                     <h3><{$item.titlelink}></h3>
                      <{if $block.display_categorylink}>
-               	    <span>
+                       <span>
                         <span class="fa fa-tag"></span>&nbsp;<{$item.category}>
                     </span>
-					<{/if}>
-					<{if $block.display_who_link}> 
+                    <{/if}>
+                    <{if $block.display_who_link}>
                     <span>
                         <span class="fa fa-user"></span>&nbsp;<{$item.who}>
                     </span>
-					<{/if}>
-					 <{if $block.display_when_link}>
-					 <span>
+                    <{/if}>
+                     <{if $block.display_when_link}>
+                     <span>
                     <span class="fa fa-calendar"></span>&nbsp;<{$item.when}>
                     </span>
-					<{/if}>
-					<{if $block.display_reads}>
-					<span>
+                    <{/if}>
+                    <{if $block.display_reads}>
+                    <span>
                         <span class="fa fa-check-circle-o"></span>&nbsp;<{$item.counter}> <{$block.lang_reads}>
                     </span>
-					<{/if}>
+                    <{/if}>
                     <{if $block.display_comment_link && $item.cancomment && $item.comments != -1}>
-					<span>
+                    <span>
                         <span class="fa fa-comment"></span>&nbsp;<{$item.comments}>
                     </span>
-					<{/if}>
+                    <{/if}>
                 </div>
                 <{if $item.image_path}>
                     <div class="spot_article_wf_img">
@@ -52,20 +52,20 @@
                 <{/if}>
                 <div class="article_wf_summary">
                     <{$item.summary}>
-					<{if $block.display_adminlink}>
-					<br><{$item.adminlink}>
-					<{/if}>
+                    <{if $block.display_adminlink}>
+                    <br><{$item.adminlink}>
+                    <{/if}>
                 </div>
 
                 <{if $block.truncate}>
-				<{if $block.display_readmore}>
+                <{if $block.display_readmore}>
                     <div class="pull-right" style="margin-top: 15px;">
                         <a href="<{$item.itemurl}>" class="btn btn-primary btn-xs">
                             <{$block.lang_readmore}>
                         </a>
                     </div>
                 <{/if}>
-				<{/if}>
+                <{/if}>
                 <div style="clear: both;"></div>
             </div>
         <{/if}>

@@ -18,8 +18,6 @@ namespace XoopsModules\Publisher;
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Class
- * @subpackage      Utils
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
@@ -89,6 +87,7 @@ class Helper extends \Xmf\Module\Helper
         $helper = self::getInstance();
         $ret    = new $class($db, $helper);
         $this->addLog("Getting handler '{$name}'");
+
         return $ret;
     }
 }

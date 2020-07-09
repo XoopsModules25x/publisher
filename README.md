@@ -19,4 +19,4 @@ To contribute to the Tutorial, [fork it on GitHub](https://github.com/XoopsDocs/
 
 Please visit us on https://xoops.org
 
-Current and upcoming "next generation" versions of XOOPS CMS are being crafted on GitHub at: https://github.com/XOOPS
+Current and upcoming "next generation" versions of XOOPS CMS are crafted on GitHub at: https://github.com/XOOPS

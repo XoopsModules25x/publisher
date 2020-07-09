@@ -17,7 +17,6 @@ namespace XoopsModules\Publisher;
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -25,9 +24,9 @@ namespace XoopsModules\Publisher;
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 //namespace Publisher;
-
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -41,7 +40,6 @@ class Item extends \XoopsObject
      */
     public $helper;
     public $groupsRead = [];
-
     /**
      * @var Publisher\Category
      */
@@ -54,8 +52,8 @@ class Item extends \XoopsObject
     {
         /** @var \XoopsModules\Publisher\Helper $this->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
-        /** @var \XoopsDatabase $this->db */
-        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
+        /** @var \XoopsMySQLDatabase $this->db */
+        $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', \XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', \XOBJ_DTYPE_INT, 0, false);
         $this->initVar('title', \XOBJ_DTYPE_TXTBOX, '', true, 255);
@@ -132,7 +130,7 @@ class Item extends \XoopsObject
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (mb_strlen($ret) >= $maxLength) {
-                    $ret = Publisher\Utility::substr($ret, 0, $maxLength);
+                    $ret = Utility::substr($ret, 0, $maxLength);
                 }
             }
         }
@@ -152,7 +150,7 @@ class Item extends \XoopsObject
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (mb_strlen($ret) >= $maxLength) {
-                    $ret = Publisher\Utility::substr($ret, 0, $maxLength);
+                    $ret = Utility::substr($ret, 0, $maxLength);
                 }
             }
         }
@@ -176,9 +174,9 @@ class Item extends \XoopsObject
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (mb_strlen($ret) >= $maxLength) {
-                    //$ret = Publisher\Utility::substr($ret , 0, $maxLength);
-                    //                    $ret = Publisher\Utility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
-                    $ret = Publisher\Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
+                    //$ret = Utility::substr($ret , 0, $maxLength);
+                    //                    $ret = Utility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
+                    $ret = Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
             }
         }
@@ -215,7 +213,7 @@ class Item extends \XoopsObject
     public function wrapPage($fileName)
     {
         $content = '';
-        $page    = Publisher\Utility::getUploadDir(true, 'content') . $fileName;
+        $page    = Utility::getUploadDir(true, 'content') . $fileName;
         if (\file_exists($page)) {
             // this page uses smarty template
             \ob_start();
@@ -256,8 +254,8 @@ class Item extends \XoopsObject
             while (!(false === $wrapPos)) {
                 $endWrapPos = mb_strpos($ret, ']', $wrapPos);
                 if ($endWrapPos) {
-                    $wrap_page_name = mb_substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
-                    $wrapPages[]    = $wrap_page_name;
+                    $wrapPagename = mb_substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
+                    $wrapPages[]    = $wrapPagename;
                 }
                 $wrapPos = mb_strpos($ret, '[pagewrap=', $endWrapPos - 1);
             }
@@ -278,8 +276,8 @@ class Item extends \XoopsObject
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (mb_strlen($ret) >= $maxLength) {
-                    //$ret = Publisher\Utility::substr($ret , 0, $maxLength);
-                    $ret = Publisher\Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
+                    //$ret = Utility::substr($ret , 0, $maxLength);
+                    $ret = Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
             }
         }
@@ -319,7 +317,7 @@ class Item extends \XoopsObject
 
         return \formatTimestamp($this->getVar('dateexpire', $format), $dateFormat);
     }
-    
+
     /**
      * @param int $realName
      *
@@ -444,7 +442,7 @@ class Item extends \XoopsObject
      */
     public function getCategoryImagePath()
     {
-        return Publisher\Utility::getImageDir('category', false) . $this->getCategory()->getImage();
+        return Utility::getImageDir('category', false) . $this->getCategory()->getImage();
     }
 
     /**
@@ -462,21 +460,21 @@ class Item extends \XoopsObject
     {
         $adminLinks = '';
         if (\is_object($GLOBALS['xoopsUser'])
-            && (Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($this)
+            && (Utility::userIsAdmin() || Utility::userIsAuthor($this)
                 || $this->helper->getHandler('Permission')->isGranted('item_submit', $this->categoryid()))) {
-            if (Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($this) || Publisher\Utility::userIsModerator($this)) {
-                if ($this->helper->getConfig('perm_edit') || Publisher\Utility::userIsModerator($this) || Publisher\Utility::userIsAdmin()) {
+            if (Utility::userIsAdmin() || Utility::userIsAuthor($this) || Utility::userIsModerator($this)) {
+                if ($this->helper->getConfig('perm_edit') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Edit button
                     $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . \_CO_PUBLISHER_EDIT . "' alt='" . \_CO_PUBLISHER_EDIT . "'></a>";
                     $adminLinks .= ' ';
                 }
-                if ($this->helper->getConfig('perm_delete') || Publisher\Utility::userIsModerator($this) || Publisher\Utility::userIsAdmin()) {
+                if ($this->helper->getConfig('perm_delete') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Delete button
                     $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . \_CO_PUBLISHER_DELETE . "' alt='" . \_CO_PUBLISHER_DELETE . "'></a>";
                     $adminLinks .= ' ';
                 }
             }
-            if ($this->helper->getConfig('perm_clone') || Publisher\Utility::userIsModerator($this) || Publisher\Utility::userIsAdmin()) {
+            if ($this->helper->getConfig('perm_clone') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                 // Duplicate button
                 $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif'" . " title='" . \_CO_PUBLISHER_CLONE . "' alt='" . \_CO_PUBLISHER_CLONE . "'></a>";
                 $adminLinks .= ' ';
@@ -485,41 +483,43 @@ class Item extends \XoopsObject
 
         return $adminLinks;
     }
-	
-	    /**
+
+    /**
      * @return string
      */
     public function getPdfButton()
     {
-       $pdfButton = '';
+        $pdfButton = '';
         // PDF button
-            if (!\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-                //                if (is_object($GLOBALS['xoopsUser']) && Publisher\Utility::userIsAdmin()) {
-                //                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
-                //                    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
-                //                    $adminLinks .= '<script type="text/javascript">
-                //                    (function($){
-                //                        $(document).ready(function(){
-                //                            $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
-                //                        })(jQuery);
-                //                        </script>';
-                //                }
-            } else {
-                $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . \_CO_PUBLISHER_PDF . "' alt='" . \_CO_PUBLISHER_PDF . "'></a>&nbsp;";
-                $pdfButton .= ' ';
-            }
-        return $pdfButton;
+        if (!\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
+            //                if (is_object($GLOBALS['xoopsUser']) && Utility::userIsAdmin()) {
+            //                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
+            //                    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
+            //                    $adminLinks .= '<script type="text/javascript">
+            //                    (function($){
+            //                        $(document).ready(function(){
+            //                            $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
+            //                        })(jQuery);
+            //                        </script>';
+            //                }
+        } else {
+            $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . \_CO_PUBLISHER_PDF . "' alt='" . \_CO_PUBLISHER_PDF . "'></a>&nbsp;";
+            $pdfButton .= ' ';
         }
 
-	   /**
+        return $pdfButton;
+    }
+
+    /**
      * @return string
      */
     public function getPrintLinks()
     {
-		$printLinks = '';
+        $printLinks = '';
         // Print button
         $printLinks .= "<a href='" . Publisher\Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . \_CO_PUBLISHER_PRINT . "' alt='" . \_CO_PUBLISHER_PRINT . "'></a>&nbsp;";
         $printLinks .= ' ';
+
         return $printLinks;
     }
 
@@ -569,7 +569,7 @@ class Item extends \XoopsObject
     {
         $memberHandler = \xoops_getHandler('member');
         $groups        = $memberHandler->getGroupList();
-        $groupIds      = 0 < \count($groups) ? \array_keys($groups) : [];
+        $groupIds      = \count($groups) > 0 ? \array_keys($groups) : [];
         /*
         $j             = 0;
         $groupIds      = [];
@@ -718,10 +718,10 @@ class Item extends \XoopsObject
     public function getImages()
     {
         static $ret;
-        $itemid = $this->getVar('itemid');
-        if (!isset($ret[$itemid])) {
-            $ret[$itemid]['main']   = '';
-            $ret[$itemid]['others'] = [];
+        $itemId = $this->getVar('itemid');
+        if (!isset($ret[$itemId])) {
+            $ret[$itemId]['main']   = '';
+            $ret[$itemId]['others'] = [];
             $imagesIds              = [];
             $image                  = $this->getVar('image');
             $images                 = $this->getVar('images');
@@ -740,16 +740,16 @@ class Item extends \XoopsObject
             }
             foreach ($imageObjs as $id => $imageObj) {
                 if ($id == $image) {
-                    $ret[$itemid]['main'] = $imageObj;
+                    $ret[$itemId]['main'] = $imageObj;
                 } else {
-                    $ret[$itemid]['others'][] = $imageObj;
+                    $ret[$itemId]['others'][] = $imageObj;
                 }
                 unset($imageObj);
             }
             unset($imageObjs);
         }
 
-        return $ret[$itemid];
+        return $ret[$itemId];
     }
 
     /**
@@ -767,50 +767,50 @@ class Item extends \XoopsObject
             $itemPageId = $display;
             $display    = 'all';
         }
-        $item['itemid']     = $this->itemid();
-        $item['uid']        = $this->uid();
-        $item['itemurl']    = $this->getItemUrl();
-        $item['titlelink']  = $this->getItemLink('titlelink', $maxCharTitle);
-        $item['subtitle']   = $this->subtitle();
-        $item['datesub']    = $this->getDatesub();
-        $item['dateexpire'] = $this->getDateExpire();
-        $item['counter']    = $this->counter();
-        $item['hits']      = '&nbsp;' . $this->counter() . ' ' . _READS . '';
-        $item['who']        = $this->getWho();
-        $item['when']       = $this->getWhen();
-        $item['category']   = $this->getCategoryName();
-		$item['categorylink'] = $this->getCategoryLink();
-		$item['cancomment']   = $this->cancomment();
-        $comments = $this->comments();
-            if ($comments > 0) {
-                //shows 1 comment instead of 1 comm. if comments ==1
-                //langugage file modified accordingly
-                if (1 == $comments) {
-                    $item['comments'] = '&nbsp;' . \_MD_PUBLISHER_ONECOMMENT . '&nbsp;';
-                } else {
-                    $item['comments'] = '&nbsp;' . $comments . '&nbsp;' . \_MD_PUBLISHER_COMMENTS . '&nbsp;';
-                }
+        $item['itemid']       = $this->itemid();
+        $item['uid']          = $this->uid();
+        $item['itemurl']      = $this->getItemUrl();
+        $item['titlelink']    = $this->getItemLink('titlelink', $maxCharTitle);
+        $item['subtitle']     = $this->subtitle();
+        $item['datesub']      = $this->getDatesub();
+        $item['dateexpire']   = $this->getDateExpire();
+        $item['counter']      = $this->counter();
+        $item['hits']         = '&nbsp;' . $this->counter() . ' ' . _READS . '';
+        $item['who']          = $this->getWho();
+        $item['when']         = $this->getWhen();
+        $item['category']     = $this->getCategoryName();
+        $item['categorylink'] = $this->getCategoryLink();
+        $item['cancomment']   = $this->cancomment();
+        $comments             = $this->comments();
+        if ($comments > 0) {
+            //shows 1 comment instead of 1 comm. if comments ==1
+            //langugage file modified accordingly
+            if (1 == $comments) {
+                $item['comments'] = '&nbsp;' . \_MD_PUBLISHER_ONECOMMENT . '&nbsp;';
             } else {
-                $item['comments'] = '&nbsp;' . \_MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
+                $item['comments'] = '&nbsp;' . $comments . '&nbsp;' . \_MD_PUBLISHER_COMMENTS . '&nbsp;';
             }
-        $item               = $this->getMainImage($item);
+        } else {
+            $item['comments'] = '&nbsp;' . \_MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
+        }
+        $item = $this->getMainImage($item);
         switch ($display) {
             case 'summary':
-			    $item = $this->toArrayFull($item);
+                $item = $this->toArrayFull($item);
                 $item = $this->toArrayAll($item, $itemPageId);
             case 'list':
-			    $item = $this->toArrayFull($item);
+                $item = $this->toArrayFull($item);
                 $item = $this->toArrayAll($item, $itemPageId);
-                //break;
+            //break;
             case 'full':
-			    $item = $this->toArrayFull($item);
+                $item = $this->toArrayFull($item);
                 $item = $this->toArrayAll($item, $itemPageId);
             case 'wfsection':
-			    $item = $this->toArrayFull($item);
+                $item = $this->toArrayFull($item);
                 $item = $this->toArrayAll($item, $itemPageId);
             case 'default':
-			    $item = $this->toArrayFull($item);
-                $item = $this->toArrayAll($item, $itemPageId);
+                $item    = $this->toArrayFull($item);
+                $item    = $this->toArrayAll($item, $itemPageId);
                 $summary = $this->getSummary($maxCharSummary);
                 if (!$summary) {
                     $summary = $this->getBody($maxCharSummary);
@@ -847,20 +847,20 @@ class Item extends \XoopsObject
      */
     public function toArrayFull($item)
     {
-        $item['title']        = $this->getTitle();
-        $item['clean_title']  = $this->getTitle();
-        $item['itemurl']      = $this->getItemUrl();
-        
+        $item['title']       = $this->getTitle();
+        $item['clean_title'] = $this->getTitle();
+        $item['itemurl']     = $this->getItemUrl();
+
         $item['adminlink']    = $this->getAdminLinks();
-		$item['pdfbutton']    = $this->getPdfButton();
-		$item['printlink']    = $this->getPrintLinks();
+        $item['pdfbutton']    = $this->getPdfButton();
+        $item['printlink']    = $this->getPrintLinks();
         $item['categoryPath'] = $this->getCategoryPath($this->helper->getConfig('format_linked_path'));
         $item['who_when']     = $this->getWhoAndWhen();
         $item['who']          = $this->getWho();
         $item['when']         = $this->getWhen();
         $item['category']     = $this->getCategoryName();
-		$item['body']         = $this->getBody();
-		$item['more']         = $this->getItemUrl();
+        $item['body']         = $this->getBody();
+        $item['more']         = $this->getItemUrl();
         $item                 = $this->getMainImage($item);
 
         return $item;
@@ -1028,7 +1028,7 @@ class Item extends \XoopsObject
      */
     public function accessGranted()
     {
-        if (Publisher\Utility::userIsAdmin()) {
+        if (Utility::userIsAdmin()) {
             return true;
         }
         if (Constants::PUBLISHER_STATUS_PUBLISHED != $this->getVar('status')) {
@@ -1048,11 +1048,11 @@ class Item extends \XoopsObject
     public function setVarsFromRequest()
     {
         //Required fields
-        //        if (!empty($categoryid = Request::getInt('categoryid', 0, 'POST'))) {
-        //            $this->setVar('categoryid', $categoryid);}
+        //        if (!empty($categoryId = Request::getInt('categoryid', 0, 'POST'))) {
+        //            $this->setVar('categoryid', $categoryId);}
         if (\is_object($GLOBALS['xoopsUser'])) {
             $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
-        }else{
+        } else {
             $userTimeoffset = null;
         }
         $this->setVar('categoryid', Request::getInt('categoryid', 0, 'POST'));
@@ -1079,7 +1079,7 @@ class Item extends \XoopsObject
                 if ($imageName == $imageFeatured) {
                     $this->setVar('image', $id);
                 }
-                if (\in_array($imageName, $imageItem)) {
+                if (\in_array($imageName, $imageItem, true)) {
                     $imageItemIds[] = $id;
                 }
             }
@@ -1103,8 +1103,8 @@ class Item extends \XoopsObject
             //            if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
             //                $this->setVar('datesub', strtotime(Request::getArray('datesub', array(), 'POST')['date']) + Request::getArray('datesub', array(), 'POST')['time']);
             //            } else {
-            $resDate = Request::getArray('datesub', [], 'POST');
-            $resTime = Request::getArray('datesub', [], 'POST');
+            $resDate     = Request::getArray('datesub', [], 'POST');
+            $resTime     = Request::getArray('datesub', [], 'POST');
             $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resDate['date']);
             $dateTimeObj->setTime(0, 0, (int)$resTime['time']);
             $serverTimestamp = userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
@@ -1113,12 +1113,12 @@ class Item extends \XoopsObject
         } elseif ($this->isNew()) {
             $this->setVar('datesub', \time());
         }
-        
+
         // date expire
         if (0 !== Request::getInt('use_expire_yn', 0, 'POST')) {
             if ('' !== Request::getString('dateexpire', '', 'POST')) {
-                $resExDate = Request::getArray('dateexpire', [], 'POST');
-                $resExTime = Request::getArray('dateexpire', [], 'POST');
+                $resExDate   = Request::getArray('dateexpire', [], 'POST');
+                $resExTime   = Request::getArray('dateexpire', [], 'POST');
                 $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resExDate['date']);
                 $dateTimeObj->setTime(0, 0, (int)$resExTime['time']);
                 $serverTimestamp = userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);

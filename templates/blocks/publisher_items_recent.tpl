@@ -8,12 +8,12 @@
     <{foreach item=item from=$block.items}>
         <tr class="<{cycle values=" even,odd"}>">
             <td>
-			<{if $block.show_image == '1'}>
-	         <a href="<{$newitems.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.alt}>" title="<{$item.alt}>" align="left" style="padding:5px;"></a><br> 
+            <{if $block.show_image == '1'}>
+             <a href="<{$newitems.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.alt}>" title="<{$item.alt}>" align="left" style="padding:5px;"></a><br>
              <{/if}>
-			<{$item.itemlink}>
-			<{if $block.show_summary == '1'}><br><{$item.summary}><{/if}><br>
-			<small>
+            <{$item.itemlink}>
+            <{if $block.show_summary == '1'}><br><{$item.summary}><{/if}><br>
+            <small>
             <{if $block.show_hits == '1'}><{$item.hits}><{/if}> 
             <{if $block.show_comment == '1' && $item.cancomment && $item.comment != -1}> | <{$item.comment}><{/if}>
             </small>
@@ -21,7 +21,7 @@
 
             <{if $block.show_category == '1'}><td align="left"><{$item.categorylink}></td><{/if}>
             <{if $block.show_poster == '1'}><td align="center"><{$item.poster}></td><{/if}>
-            <{if $block.show_date == '1'}><td align="right"><{$item.date}></td><{/if}>	
+            <{if $block.show_date == '1'}><td align="right"><{$item.date}></td><{/if}>
          </tr>
     <{/foreach}>
 </table>
@@ -30,4 +30,4 @@
       <div style="text-align:right; padding: 5px;">
        <a href="<{$block.publisher_url}>"><{$block.lang_visitItem}></a>
       </div>
-   <{/if}>	
+   <{/if}>

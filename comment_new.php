@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Comments
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
@@ -23,10 +21,9 @@ declare(strict_types=1);
 use Xmf\Request;
 use XoopsModules\Publisher;
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
-/** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 
 $com_itemid = Request::getInt('com_itemid', 0, 'GET');

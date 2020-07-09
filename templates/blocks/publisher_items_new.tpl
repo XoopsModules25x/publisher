@@ -12,16 +12,16 @@
                     (<{$newitems.new}>)
                 <{/if}>
                 <br>
-				<{if $block.show_summary == '1'}><{$newitems.summary}><{/if}>
+                <{if $block.show_summary == '1'}><{$newitems.summary}><{/if}>
                 <br> 
                 <small>
-				<{if $block.show_poster == '1'}><{$newitems.lang_poster}> <{$newitems.poster}> |<{/if}>
-				<{if $block.show_date == '1'}> <{$newitems.date}> <{/if}>
-				<{if $block.show_category == '1'}> | <{$newitems.lang_category}> : <{$newitems.categorylink}> <{/if}>
-				<{if $block.show_hits == '1'}>| <{$newitems.hits}> <{$newitems.lang_hits}> |<{/if}>
-				<{if $block.show_comment == '1' && $newitems.cancomment && $newitems.comment != -1}><{$newitems.comment}> |<{/if}>
-				<{if $block.show_rating == '1'}><{$newitems.rating}><{/if}>
-				</small>
+                <{if $block.show_poster == '1'}><{$newitems.lang_poster}> <{$newitems.poster}> |<{/if}>
+                <{if $block.show_date == '1'}> <{$newitems.date}> <{/if}>
+                <{if $block.show_category == '1'}> | <{$newitems.lang_category}> : <{$newitems.categorylink}> <{/if}>
+                <{if $block.show_hits == '1'}>| <{$newitems.hits}> <{$newitems.lang_hits}> |<{/if}>
+                <{if $block.show_comment == '1' && $newitems.cancomment && $newitems.comment != -1}><{$newitems.comment}> |<{/if}>
+                <{if $block.show_rating == '1'}><{$newitems.rating}><{/if}>
+                </small>
 
             </td>
         </tr>

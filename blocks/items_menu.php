@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Blocks
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -23,8 +21,7 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher;
-
-
+use XoopsModules\Publisher\Utility;
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -37,7 +34,6 @@ function publisher_items_menu_show($options)
 {
     $block = [];
 
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
 
     // Getting all top cats
@@ -54,13 +50,13 @@ function publisher_items_menu_show($options)
 
     $catLinkClass = 'menuMain';
 
-    $categoryid = 0;
+    $categoryId = 0;
 
     if ($block['inModule']) {
         // Are we in a category and if yes, in which one ?
-        $categoryid = Request::getInt('categoryid', 0, 'GET');
+        $categoryId = Request::getInt('categoryid', 0, 'GET');
 
-        if (0 != $categoryid) {
+        if (0 != $categoryId) {
             // if we are in a category, then the $categoryObj is already defined in publisher/category.php
             global $categoryObj;
             $block['currentcat'] = $categoryObj->getCategoryLink('menuTop');
@@ -69,7 +65,7 @@ function publisher_items_menu_show($options)
     }
 
     foreach ($blockCategoriesObj as $catId => $blockCategoryObj) {
-        if ($catId != $categoryid) {
+        if ($catId != $categoryId) {
             $block['categories'][$catId]['categoryLink'] = $blockCategoryObj->getCategoryLink($catLinkClass);
         }
     }
@@ -89,7 +85,7 @@ function publisher_items_menu_edit($options)
 
     $form = new Publisher\BlockForm();
 
-    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray(
         [

@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Include
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  *
@@ -25,7 +23,7 @@ declare(strict_types=1);
 function publisher_com_update($itemId, $totalNum)
 {
     global $xoopsModule;
-    /** @var \XoopsDatabase $db */
+    /** @var \XoopsMySQLDatabase $db */
     $db  = \XoopsDatabaseFactory::getDatabaseConnection();
     $sql = 'UPDATE ' . $db->prefix($xoopsModule->getVar('dirname', 'n') . '_items') . ' SET comments = ' . $totalNum . ' WHERE itemid = ' . $itemId;
     $db->query($sql);

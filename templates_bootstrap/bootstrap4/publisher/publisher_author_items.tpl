@@ -12,7 +12,7 @@
     <{foreach item=category from=$categories}>
         <tr>
             <{if $permRating && $displayrating}>
-                <th colspan='4'>	
+                <th colspan='4'>
             <{else}>
                 <th colspan='3'>
             <{/if}> <{$category.link}>
@@ -21,9 +21,9 @@
         <tr>
             <td class="bold"><{$smarty.const._CO_PUBLISHER_DATESUB}></td>
             <td class="bold">&nbsp;<{$smarty.const._CO_PUBLISHER_TITLE}></td>
-			<{if $displayhits}>
+            <{if $displayhits}>
             <td class="bold" align='right'><{$smarty.const._MD_PUBLISHER_HITS}></td>
-			<{/if}>
+            <{/if}>
             <{if $permRating && $displayrating}>
                 <td class="bold" align='right'>&nbsp;&nbsp;&nbsp;<{$smarty.const._MD_PUBLISHER_VOTE_RATING}></td>
             <{/if}>          
@@ -32,23 +32,23 @@
             <tr>
                 <td><{$item.published}></td>
                 <td>
-				<{if $displaymainimage}>
-				<a href="<{$item.itemurl}>"><img src="<{$item.image}>" alt="<{$item.cleantitle}>" title="<{$item.cleantitle}>" align="left"></a>
-				<{/if}>
-				&nbsp;&nbsp;<{$item.link}>
-				<{if $displaysummary}>
-				<br>&nbsp;&nbsp;<{$item.summary}>
-	            <{/if}>
-				<{if $displaycomment && $item.cancomment && $item.comment != -1}>
-				<br>
-				<span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
-				&nbsp;&nbsp;<span class="fa fa-comment"></span>&nbsp;<{$item.comment}>
-				</span>
-				<{/if}>
-				</td>
+                <{if $displaymainimage}>
+                <a href="<{$item.itemurl}>"><img src="<{$item.image}>" alt="<{$item.cleantitle}>" title="<{$item.cleantitle}>" align="left"></a>
+                <{/if}>
+                &nbsp;&nbsp;<{$item.link}>
+                <{if $displaysummary}>
+                <br>&nbsp;&nbsp;<{$item.summary}>
+                <{/if}>
+                <{if $displaycomment && $item.cancomment && $item.comment != -1}>
+                <br>
+                <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
+                &nbsp;&nbsp;<span class="fa fa-comment"></span>&nbsp;<{$item.comment}>
+                </span>
+                <{/if}>
+                </td>
                 <{if $displayhits}>
-				<td align='right'><{$item.hits}>  </td>
-				<{/if}>
+                <td align='right'><{$item.hits}>  </td>
+                <{/if}>
                 <{if $permRating && $displayrating}>
                     <td align='right'>&nbsp;&nbsp;<{$item.rating}></td>
                 <{/if}>
@@ -57,9 +57,9 @@
         <tr>
             <td colspan='2' align='left'><br><{$smarty.const._MD_PUBLISHER_TOTAL_ITEMS}><{$category.count_items}></td>
             <{if $displayhits}>
-			<td align='right'><br><{$smarty.const._MD_PUBLISHER_TOTAL_HITS}><{$category.count_hits}></td>
+            <td align='right'><br><{$smarty.const._MD_PUBLISHER_TOTAL_HITS}><{$category.count_hits}></td>
             <{/if}>
-			<{if $permRating && $displayrating}>
+            <{if $permRating && $displayrating}>
                 <td>&nbsp;</td>
             <{/if}>
         </tr>

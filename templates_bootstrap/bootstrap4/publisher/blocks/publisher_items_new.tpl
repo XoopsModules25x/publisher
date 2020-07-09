@@ -9,7 +9,7 @@
         <{/if}>
         <td>
             <strong><{$newitems.link}></strong>
-			<{if $block.show_order == '1'}>
+            <{if $block.show_order == '1'}>
                     (<{$newitems.new}>)
                 <{/if}>
             <br>

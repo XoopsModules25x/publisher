@@ -14,16 +14,12 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Include
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Sudhaker Raj <http://xoops.biz>
  */
 
 use Xmf\Request;
-
-
 
 //$seoOp = @$_GET['seoOp'];
 $seoOp = Request::getString('seoOp', '', 'GET');

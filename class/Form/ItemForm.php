@@ -19,8 +19,6 @@ namespace XoopsModules\Publisher\Form;
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Class
- * @subpackage      Forms
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
@@ -28,8 +26,8 @@ namespace XoopsModules\Publisher\Form;
 use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
-
-
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -51,7 +49,6 @@ class ItemForm extends Publisher\ThemeTabForm
         \_CO_PUBLISHER_TAB_FILES  => 'filesTab',
         \_CO_PUBLISHER_TAB_OTHERS => 'othersTab',
     ];
-
     public $mainTab = [
         Constants::PUBLISHER_SUBTITLE,
         Constants::PUBLISHER_ITEM_SHORT_URL,
@@ -69,15 +66,12 @@ class ItemForm extends Publisher\ThemeTabForm
         Constants::PUBLISHER_AVAILABLE_PAGE_WRAP,
         Constants::PUBLISHER_UID,
     ];
-
     public $imagesTab = [
         Constants::PUBLISHER_IMAGE_ITEM,
     ];
-
     public $filesTab = [
         Constants::PUBLISHER_ITEM_UPLOAD_FILE,
     ];
-
     public $othersTab = [
         Constants::PUBLISHER_ITEM_META_KEYWORDS,
         Constants::PUBLISHER_ITEM_META_DESCRIPTION,
@@ -100,8 +94,7 @@ class ItemForm extends Publisher\ThemeTabForm
      */
     public function isGranted($item)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
         $ret    = false;
         if (!$this->checkperm || $helper->getHandler('Permission')->isGranted('form_view', $item)) {
             $ret = true;
@@ -139,15 +132,14 @@ class ItemForm extends Publisher\ThemeTabForm
      */
     public function createElements($obj)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
+        $timeoffset = null;
 
-        $allowedEditors = Publisher\Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
+        $allowedEditors = Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
 
         if (!\is_object($GLOBALS['xoopsUser'])) {
             $group      = [XOOPS_GROUP_ANONYMOUS];
             $currentUid = 0;
-            $timeoffset = null;
         } else {
             $group      = $GLOBALS['xoopsUser']->getGroups();
             $currentUid = $GLOBALS['xoopsUser']->uid();
@@ -184,7 +176,6 @@ class ItemForm extends Publisher\ThemeTabForm
             require_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
             $textTags = new \XoopsModules\Tag\FormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
             $textTags->setClass('form-control');
-            /** @var \XoopsModules\Tag\FormTag $textTags */
             $this->addElement($textTags);
         }
 
@@ -195,15 +186,15 @@ class ItemForm extends Publisher\ThemeTabForm
         } elseif (\count($allowedEditors) > 0) {
             $editor = Request::getString('editor', '', 'POST');
             if (!empty($editor)) {
-                Publisher\Utility::setCookieVar('publisher_editor', $editor);
+                Utility::setCookieVar('publisher_editor', $editor);
             } else {
-                $editor = Publisher\Utility::getCookieVar('publisher_editor');
+                $editor = Utility::getCookieVar('publisher_editor');
                 if (empty($editor) && \is_object($GLOBALS['xoopsUser'])) {
                     //                    $editor = @ $GLOBALS['xoopsUser']->getVar('publisher_editor'); // Need set through user profile
                     $editor = $GLOBALS['xoopsUser']->getVar('publisher_editor') ?? ''; // Need set through user profile
                 }
             }
-            $editor = (empty($editor) || !\in_array($editor, $allowedEditors)) ? $helper->getConfig('submit_editor') : $editor;
+            $editor = (empty($editor) || !\in_array($editor, $allowedEditors, true)) ? $helper->getConfig('submit_editor') : $editor;
 
             $formEditor = new \XoopsFormSelectEditor($this, 'editor', $editor, $nohtml, $allowedEditors);
             $this->addElement($formEditor);
@@ -242,8 +233,8 @@ class ItemForm extends Publisher\ThemeTabForm
             || $this->isGranted(Constants::PUBLISHER_DOIMAGE)
             || $this->isGranted(Constants::PUBLISHER_DOLINEBREAK)) {
             if ($this->isGranted(Constants::PUBLISHER_DOHTML)) {
-                $html_radio = new \XoopsFormRadioYN(\_CO_PUBLISHER_DOHTML, 'dohtml', $obj->dohtml(), _YES, _NO);
-                $this->addElement($html_radio);
+                $htmlRadio = new \XoopsFormRadioYN(\_CO_PUBLISHER_DOHTML, 'dohtml', $obj->dohtml(), _YES, _NO);
+                $this->addElement($htmlRadio);
             }
             if ($this->isGranted(Constants::PUBLISHER_DOSMILEY)) {
                 $smiley_radio = new \XoopsFormRadioYN(\_CO_PUBLISHER_DOSMILEY, 'dosmiley', $obj->dosmiley(), _YES, _NO);
@@ -265,7 +256,7 @@ class ItemForm extends Publisher\ThemeTabForm
 
         // Available pages to wrap
         if ($this->isGranted(Constants::PUBLISHER_AVAILABLE_PAGE_WRAP)) {
-            $wrapPages              = \XoopsLists::getHtmlListAsArray(Publisher\Utility::getUploadDir(true, 'content'));
+            $wrapPages              = \XoopsLists::getHtmlListAsArray(Utility::getUploadDir(true, 'content'));
             $availableWrapPagesText = [];
             foreach ($wrapPages as $page) {
                 $availableWrapPagesText[] = "<span onclick='publisherPageWrap(\"body\", \"[pagewrap=$page] \");' onmouseover='style.cursor=\"pointer\"'>$page</span>";
@@ -350,18 +341,16 @@ class ItemForm extends Publisher\ThemeTabForm
             if ($obj->isNew()) {
                 $dateexpire     = \time();
                 $dateexpire_opt = 0;
+            } elseif (0 == $obj->getVar('dateexpire')) {
+                $dateexpire_opt = 0;
+                $dateexpire     = \time();
             } else {
-                if (0 == $obj->getVar('dateexpire')) {
-                    $dateexpire_opt = 0;
-                    $dateexpire     = \time();
-                } else {
-                    $dateexpire_opt = 1;
-                    $dateexpire     = $obj->getVar('dateexpire');
-                }
+                $dateexpire_opt = 1;
+                $dateexpire     = $obj->getVar('dateexpire');
             }
 
             $dateExpireYesNo     = new \XoopsFormRadioYN('', 'use_expire_yn', $dateexpire_opt);
-            $dateexpire = formatTimestamp($dateexpire, 'U', $timeoffset);
+            $dateexpire          = \strtotime(\formatTimestamp($dateexpire)); //set to user timezone
             $dateexpire_datetime = new \XoopsFormDateTime('', 'dateexpire', $size = 15, $dateexpire, true);
             if (0 == $dateexpire_opt) {
                 $dateexpire_datetime->setExtra('disabled="disabled"');
@@ -401,7 +390,7 @@ class ItemForm extends Publisher\ThemeTabForm
                 $catlist = $imgcatHandler->getList($group, 'imgcat_read', 1);
             }
             $imgcatConfig = $helper->getConfig('submit_imgcat');
-            if (\in_array(Constants::PUBLISHER_IMGCAT_ALL, $imgcatConfig)) {
+            if (\in_array(Constants::PUBLISHER_IMGCAT_ALL, $imgcatConfig, true)) {
                 $catids = \array_keys($catlist);
             } else {
                 // compare selected in options with readable of user

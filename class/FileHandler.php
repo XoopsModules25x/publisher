@@ -17,15 +17,12 @@ namespace XoopsModules\Publisher;
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-
-
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -40,7 +37,6 @@ require_once \dirname(__DIR__) . '/include/common.php';
  * of File class objects.
  *
  * @author  marcan <marcan@notrevie.ca>
- * @package Publisher
  */
 class FileHandler extends \XoopsPersistableObjectHandler
 {
@@ -50,13 +46,9 @@ class FileHandler extends \XoopsPersistableObjectHandler
      */
     public $helper;
 
-    /**
-     * @param \XoopsDatabase                      $db
-     * @param \XoopsModules\Publisher\Helper|null $helper
-     */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this ->helper */
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
         if (null === $helper) {
             $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         } else {
@@ -110,7 +102,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve all files
      *
-     * @param int       $itemid
+     * @param int       $itemId
      * @param int|array $status
      * @param int       $limit
      * @param int       $start
@@ -120,7 +112,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
      *
      * @return array array of {@link File} objects
      */
-    public function getAllFiles($itemid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = [])
+    public function getAllFiles($itemId = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = [])
     {
         $files = [];
 
@@ -151,9 +143,9 @@ class FileHandler extends \XoopsPersistableObjectHandler
                     $criteriaCategory->add(new \Criteria('l.categoryid', $cat), 'OR');
                 }
             }
-            $criteriaItemid = new \Criteria('o.itemid', $itemid);
+            $criteriaItemid = new \Criteria('o.itemid', $itemId);
             $criteria       = new \CriteriaCompo();
-            if (0 != $itemid) {
+            if (0 != $itemId) {
                 $criteria->add($criteriaItemid);
             }
             if ($hasStatusCriteria) {

@@ -14,16 +14,13 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Blocks
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
 
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
-
-
+use XoopsModules\Publisher\Utility;
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -34,7 +31,6 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_category_items_sel_show($options)
 {
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
 
     $block = $item = [];
@@ -49,14 +45,14 @@ function publisher_category_items_sel_show($options)
 
     $selectedcatids = explode(',', $options[0]);
     $sort           = $options[1];
-    $order          = Publisher\Utility::getOrderBy($sort);
+    $order          = Utility::getOrderBy($sort);
     $limit          = $options[2];
     $start          = 0;
 
     // creating the ITEM objects that belong to the selected category
     $block['categories'] = [];
     foreach ($categories as $catId => $catObj) {
-        if (!in_array(0, $selectedcatids) && !in_array($catId, $selectedcatids)) {
+        if (!in_array(0, $selectedcatids, true) && !in_array($catId, $selectedcatids, true)) {
             continue;
         }
 
@@ -95,10 +91,6 @@ function publisher_category_items_sel_show($options)
 
     unset($items, $categories, $itemObj, $catId, $catObj);
 
-    if (0 === count($block['categories'])) {
-        return $block;
-    }
-
     return $block;
 }
 
@@ -114,7 +106,7 @@ function publisher_category_items_sel_edit($options)
 
     $form = new Publisher\BlockForm();
 
-    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0]), 'options[0]');
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[0]), 'options[0]');
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray(
         [

@@ -26,8 +26,6 @@ namespace XoopsModules\Publisher;
 
 use XoopsModules\Publisher;
 
-
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -115,7 +113,6 @@ class Seo
      */
     public static function generateUrl($op, $id, $shortUrl = '')
     {
-        /** @var Publisher\Helper $helper */
         $helper = Publisher\Helper::getInstance();
         if ('none' !== $helper->getConfig('seo_url_rewrite')) {
             if (!empty($shortUrl)) {

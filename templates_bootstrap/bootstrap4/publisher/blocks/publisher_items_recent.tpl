@@ -11,14 +11,14 @@
     <{foreach item=item from=$block.items}>
         <tr>
             <td>
-			 <{if $block.show_image == '1'}>
-	              <a href="<{$newitems.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.alt}>" title="<{$item.alt}>" align="left" style="padding:5px;"></a><br>
+             <{if $block.show_image == '1'}>
+                  <a href="<{$newitems.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.alt}>" title="<{$item.alt}>" align="left" style="padding:5px;"></a><br>
              <{/if}>
-			<{$item.itemlink}>
-			</td>
+            <{$item.itemlink}>
+            </td>
             <{if $block.show_category == '1'}><td align="left"><{$item.categorylink}></td><{/if}>
            <{if $block.show_date == '1'}><td align="right"><{$item.date}></td><{/if}>
-           <{if $block.show_poster == '1'}><td align="center"><{$item.poster}></td><{/if}>		   
+           <{if $block.show_poster == '1'}><td align="center"><{$item.poster}></td><{/if}>
         </tr>
     <{/foreach}>
     </tbody>

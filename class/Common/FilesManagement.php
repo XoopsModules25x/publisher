@@ -38,7 +38,7 @@ trait FilesManagement
 
                 file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             echo 'Caught exception: ', $e->getMessage(), '<br>';
         }
     }
@@ -149,11 +149,8 @@ trait FilesManagement
                     if (!$success = self::deleteDirectory($fileInfo->getRealPath())) {
                         break;
                     }
-                } else {
-                    // delete the file
-                    if (!($success = \unlink($fileInfo->getRealPath()))) {
-                        break;
-                    }
+                } elseif (!($success = \unlink($fileInfo->getRealPath()))) {
+                    break;
                 }
             }
             // now delete this (sub)directory if all the files are gone

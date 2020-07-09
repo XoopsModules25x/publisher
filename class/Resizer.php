@@ -19,7 +19,6 @@ namespace XoopsModules\Publisher;
  *
  * @copyright      module for xoops
  * @license        GPL 2.0 or later
- * @package        XOOPS common
  * @since          1.0
  * @min_xoops      2.5.9
  * @author         Goffy - Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com>
@@ -64,27 +63,27 @@ class Resizer
             // recalc image size based on this->maxWidth/this->maxHeight
             if ($width > $height) {
                 if ($width < $this->maxWidth) {
-                    $new_width = $width;
+                    $newWidth = $width;
                 } else {
-                    $new_width  = $this->maxWidth;
-                    $divisor    = $width / $new_width;
-                    $new_height = \floor($height / $divisor);
+                    $newWidth  = $this->maxWidth;
+                    $divisor    = $width / $newWidth;
+                    $newHeight = \floor($height / $divisor);
                 }
             } elseif ($height < $this->maxHeight) {
-                $new_height = $height;
+                $newHeight = $height;
             } else {
-                $new_height = $this->maxHeight;
-                $divisor    = $height / $new_height;
-                $new_width  = \floor($width / $divisor);
+                $newHeight = $this->maxHeight;
+                $divisor    = $height / $newHeight;
+                $newWidth  = \floor($width / $divisor);
             }
 
             // Create a new temporary image.
-            $tmpimg = \imagecreatetruecolor($new_width, $new_height);
+            $tmpimg = \imagecreatetruecolor($newWidth, $newHeight);
             imagealphablending($tmpimg, false);
             imagesavealpha($tmpimg, true);
 
             // Copy and resize old image into new image.
-            \imagecopyresampled($tmpimg, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+            \imagecopyresampled($tmpimg, $img, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 
             \unlink($this->endFile);
             //compressing the file
@@ -140,23 +139,23 @@ class Resizer
 
         // RESIZE IMAGE AND PRESERVE PROPORTIONS
         $max_width_resize  = $this->maxWidth;
-        $max_height_resize = $this->maxHeight;
+        $maxHeightResize = $this->maxHeight;
         if ($original_w > $original_h) {
             $max_height_ratio = $this->maxHeight / $original_h;
             $max_width_resize = (int)\round($original_w * $max_height_ratio);
         } else {
             $max_width_ratio   = $this->maxWidth / $original_w;
-            $max_height_resize = (int)\round($original_h * $max_width_ratio);
+            $maxHeightResize = (int)\round($original_h * $max_width_ratio);
         }
         if ($max_width_resize < $this->maxWidth) {
             $max_height_ratio  = $this->maxWidth / $max_width_resize;
-            $max_height_resize = (int)\round($this->maxHeight * $max_height_ratio);
+            $maxHeightResize = (int)\round($this->maxHeight * $max_height_ratio);
             $max_width_resize  = $this->maxWidth;
         }
 
         // CREATE THE PROPORTIONAL IMAGE RESOURCE
-        $thumb = \imagecreatetruecolor($max_width_resize, $max_height_resize);
-        if (!\imagecopyresampled($thumb, $original, 0, 0, 0, 0, $max_width_resize, $max_height_resize, $original_w, $original_h)) {
+        $thumb = \imagecreatetruecolor($max_width_resize, $maxHeightResize);
+        if (!\imagecopyresampled($thumb, $original, 0, 0, 0, 0, $max_width_resize, $maxHeightResize, $original_w, $original_h)) {
             return false;
         }
         // CREATE THE CENTERED CROPPED IMAGE TO THE SPECIFIED DIMENSIONS
@@ -167,10 +166,10 @@ class Resizer
         if ($this->maxWidth < $max_width_resize) {
             $max_width_offset = (int)\round(($max_width_resize - $this->maxWidth) / 2);
         } else {
-            $max_height_offset = (int)\round(($max_height_resize - $this->maxHeight) / 2);
+            $max_height_offset = (int)\round(($maxHeightResize - $this->maxHeight) / 2);
         }
 
-        if (!\imagecopy($final, $thumb, 0, 0, $max_width_offset, $max_height_offset, $max_width_resize, $max_height_resize)) {
+        if (!\imagecopy($final, $thumb, 0, 0, $max_width_offset, $max_height_offset, $max_width_resize, $maxHeightResize)) {
             return false;
         }
         // STORE THE FINAL IMAGE - WILL OVERWRITE $this->endFile

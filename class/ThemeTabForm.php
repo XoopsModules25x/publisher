@@ -18,75 +18,63 @@ namespace XoopsModules\Publisher;
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          John Neill <catzwolf@xoosla.com>
  */
-
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * XoopsThemeTabForm
  *
- * @package
  * @author    John
  * @copyright Copyright (c) 2009
  */
 class ThemeTabForm extends \XoopsForm
 {
     public $formTabs = [];
-
     /**
      * "action" attribute for the html form
      *
      * @var string
      */
     public $action;
-
     /**
      * "method" attribute for the form.
      *
      * @var string
      */
     public $method;
-
     /**
      * "name" attribute of the form
      *
      * @var string
      */
     public $name;
-
     /**
      * title for the form
      *
      * @var string
      */
     public $title;
-
     /**
      * summary for the form (WGAC2 Requirement)
      *
      * @var string
      */
     public $summary = '';
-
     /**
      * array of {@link XoopsFormElement} objects
      *
      * @var array
      */
     public $elements = [];
-
     /**
      * extra information for the <form> tag
      *
      * @var array
      */
     public $extra = [];
-
     /**
      * required elements
      *
@@ -500,7 +488,7 @@ class ThemeTabForm extends \XoopsForm
      * insert a break in the form
      * This method is abstract. It must be overwritten in the child classes.
      *
-     * @param string $extra extra information for the break
+     * @param string|null $extra extra information for the break
      *
      * @abstract
      */

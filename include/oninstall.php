@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Common;
+use XoopsModules\Publisher\Utility;
 
 /**
  * @param \XoopsModule $module
@@ -27,8 +28,7 @@ use XoopsModules\Publisher\Common;
 function xoops_module_pre_install_publisher(\XoopsModule $module)
 {
     require dirname(__DIR__) . '/preloads/autoloader.php';
-    /** @var Publisher\Utility $utility */
-    $utility = new Publisher\Utility();
+    $utility = new Utility();
 
     //check for minimum XOOPS version
     $xoopsSuccess = $utility::checkVerXoops($module);
@@ -54,10 +54,10 @@ function xoops_module_install_publisher(\XoopsModule $module)
 {
     require dirname(__DIR__) . '/preloads/autoloader.php';
 
-    /** @var Publisher\Helper $helper */ /** @var Publisher\Utility $utility */
+    /** @var Publisher\Helper $helper */ /** @var Utility $utility */
     /** @var Common\Configurator $configurator */
     $helper       = Publisher\Helper::getInstance();
-    $utility      = new Publisher\Utility();
+    $utility      = new Utility();
     $configurator = new Common\Configurator();
 
     // Load language files

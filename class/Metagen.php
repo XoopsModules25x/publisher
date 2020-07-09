@@ -17,15 +17,12 @@ namespace XoopsModules\Publisher;
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-
-
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -38,37 +35,30 @@ class Metagen
      * @var Publisher\Helper
      */
     public $helper;
-
     /**
      * @var \MyTextSanitizer
      */
     public $myts;
-
     /**
      * @var string
      */
     public $title;
-
     /**
      * @var string
      */
     public $originalTitle;
-
     /**
      * @var string
      */
     public $keywords;
-
     /**
      * @var string
      */
     public $categoryPath;
-
     /**
      * @var string
      */
     public $description;
-
     /**
      * @var int
      */
@@ -82,7 +72,7 @@ class Metagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        /** @var \XoopsModules\Publisher\Helper $this ->helper */
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         $this->myts   = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
@@ -199,7 +189,7 @@ class Metagen
             $secondRoundKeywords = \explode("'", $originalKeyword);
             foreach ($secondRoundKeywords as $secondRoundKeyword) {
                 if (mb_strlen($secondRoundKeyword) >= $minChar) {
-                    if (!\in_array($secondRoundKeyword, $keywords)) {
+                    if (!\in_array($secondRoundKeyword, $keywords, true)) {
                         $keywords[] = \trim($secondRoundKeyword);
                     }
                 }
@@ -342,14 +332,16 @@ class Metagen
         $repPat  = ['-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o'];
         $title   = \preg_replace($pattern, $repPat, $title);
         $tableau = \explode('-', $title); // Transforms the string in table //Transforme la chaine de caractères en tableau
-        $tableau = \array_filter($tableau, ['XoopsModules\Publisher\Metagen', 'emptyString']); // Remove empty strings of the table //Supprime les chaines vides du tableau
+        $tableau = \array_filter($tableau, [__CLASS__, 'emptyString']); // Remove empty strings of the table //Supprime les chaines vides du tableau
         $title   = \implode('-', $tableau); // Transforms a character string in table separated by a hyphen //Transforme un tableau en chaine de caractères séparé par un tiret
         if ($title && !(\is_array($title))) {
             if ($withExt) {
                 $title .= '.html';
             }
+
             return $title;
         }
+
         return '';
     }
 

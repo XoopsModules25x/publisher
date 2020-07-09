@@ -43,7 +43,7 @@
             <{/if}> <{if $display_hits_col == 1}>
                 <td align="center" class="itemHead" width="10%"><strong><{$smarty.const._MD_PUBLISHER_HITS}></strong></td>
             <{/if}>
-			<{if $display_poster == 1}>
+            <{if $display_poster == 1}>
                 <td align="center" class="itemHead" width="10%"><strong><{$smarty.const._MD_PUBLISHER_AUTHOR}></strong></td>
             <{/if}>
         </tr>
@@ -51,31 +51,31 @@
         <{foreach item=item from=$items}>
             <tr>
                 <td class="even" align="left">
-                    <{if $display_mainimage == 1}>					
+                    <{if $display_mainimage == 1}>
                       <{if $item.image_path!=''}>
-		              <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px"></a>
-		              <{else}>
-					   <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" align="left" width="100" style="padding:5px"></a>
-					   <{/if}>
-					<{/if}>
-					<strong><{$item.titlelink}></strong>
+                      <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px"></a>
+                      <{else}>
+                       <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" align="left" width="100" style="padding:5px"></a>
+                       <{/if}>
+                    <{/if}>
+                    <strong><{$item.titlelink}></strong>
                     <{if $show_subtitle && $item.subtitle}>
                         <br>
                         <em><{$item.subtitle}></em>
                     <{/if}>
-					<br >
-					<{if $display_summary == 1}>
+                    <br >
+                    <{if $display_summary == 1}>
                     <{$item.summary}><br >
                     <{/if}> 
 
-					<{if $display_readmore == 1}>
-					<a href="<{$item.more}>"><{$smarty.const._MD_PUBLISHER_READMORE}></a><br >
+                    <{if $display_readmore == 1}>
+                    <a href="<{$item.more}>"><{$smarty.const._MD_PUBLISHER_READMORE}></a><br >
                     <{/if}>
 
-					<small>
+                    <small>
                        <{if $display_category == 1}> <{$item.category}> | <{/if}> 
                        <{if $display_commentlink == 1 && $item.cancomment && $item.comments != -1}><{$item.comments}><{/if}></small>
-					
+
                 </td>
                 <{if $display_date_col == 1}>
                     <td class="odd" align="left">
@@ -87,7 +87,7 @@
                         <div align="center"><{$item.counter}></div>
                     </td>
                 <{/if}>
-				<{if $display_poster == 1}>
+                <{if $display_poster == 1}>
                     <td class="odd" align="left">
                         <div align="center"><{$item.who}></div>
                     </td>

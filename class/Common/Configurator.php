@@ -20,7 +20,6 @@ namespace XoopsModules\Publisher\Common;
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      XOOPS Development Team
- * @package     Publisher
  * @since       1.05
  */
 
@@ -49,7 +48,7 @@ class Configurator
      */
     public function __construct()
     {
-        $config = require \dirname(\dirname(__DIR__)) . '/config/config.php';
+        $config = require dirname(__DIR__, 2) . '/config/config.php';
 
         $this->name            = $config->name;
         $this->uploadFolders   = $config->uploadFolders;
@@ -62,7 +61,7 @@ class Configurator
         $this->moduleStats     = $config->moduleStats;
         $this->modCopyright    = $config->modCopyright;
 
-        $this->paths = require \dirname(\dirname(__DIR__)) . '/config/paths.php';
-        $this->icons = require \dirname(\dirname(__DIR__)) . '/config/icons.php';
+        $this->paths = require dirname(__DIR__, 2) . '/config/paths.php';
+        $this->icons = require dirname(__DIR__, 2) . '/config/icons.php';
     }
 }

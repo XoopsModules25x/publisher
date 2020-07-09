@@ -14,7 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -22,6 +21,7 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -37,13 +37,13 @@ switch ($op) {
     default:
         $importfile = 'none';
 
-        Publisher\Utility::cpHeader();
+        Utility::cpHeader();
         //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
 
-        Publisher\Utility::openCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
+        Utility::openCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
 
         xoops_load('XoopsFormLoader');
-        /* @var  \XoopsModuleHandler $moduleHandler */
+        /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
 
         // WF-Section
@@ -175,7 +175,7 @@ switch ($op) {
 
         // End of collapsable bar
 
-        Publisher\Utility::closeCollapsableBar('import', 'importicon');
+        Utility::closeCollapsableBar('import', 'importicon');
 
         break;
 }

@@ -16,25 +16,28 @@ declare(strict_types=1);
  * @author          Michael Beck (aka Mamba)
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Common;
-use XoopsModules\Publisher\Utility;
+use \Xmf\Request;
+use XoopsModules\Publisher\{
+    Helper,
+    Common,
+    Utility
+};
 
 require_once dirname(__DIR__, 3) . '/include/cp_header.php';
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
-$op = \Xmf\Request::getCmd('op', '');
+$op = Request::getCmd('op', '');
 
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-$helper = Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 // Load language files
 $helper->loadLanguage('common');
 
 switch ($op) {
     case 'load':
-        if (\Xmf\Request::hasVar('ok', 'REQUEST') && 1 == $_REQUEST['ok']) {
+        if (Request::hasVar('ok', 'REQUEST') && 1 === Request::getInt('ok', 0)) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('../admin/index.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -130,7 +133,7 @@ function exportSchema()
 
     try {
         // TODO set exportSchema
-        //        $migrate = new Publisher\Migrate($moduleDirName);
+        //        $migrate = new Migrate($moduleDirName);
         //        $migrate->saveCurrentSchema();
         //
         //        redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS'));

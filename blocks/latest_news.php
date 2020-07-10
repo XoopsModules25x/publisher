@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Blocks
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Bandit-x
@@ -24,8 +22,7 @@ declare(strict_types=1);
 
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
-
-
+use XoopsModules\Publisher\Utility;
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -38,7 +35,6 @@ function publisher_latest_news_show($options)
 {
     $block = [];
 
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     $helper->loadLanguage('main');
     /** @var Publisher\ItemHandler $itemHandler */
@@ -51,7 +47,7 @@ function publisher_latest_news_show($options)
     $letters         = $options[3];
     $selectedStories = $options[4];
     $sort            = $options[9];
-    $order           = Publisher\Utility::getOrderBy($sort);
+    $order           = Utility::getOrderBy($sort);
     $imgWidth        = $options[11];
     $imgHeight       = $options[12];
     $border          = $options[13];
@@ -62,7 +58,7 @@ function publisher_latest_news_show($options)
     $allcats = false;
     if (!isset($options[31])) {
         $allcats = true;
-    } elseif (in_array(0, explode(',', $options[31]))) {
+    } elseif (in_array(0, explode(',', $options[31]), true)) {
         $allcats = true;
     }
 
@@ -100,7 +96,7 @@ function publisher_latest_news_show($options)
     $k       = 0;
     $columns = [];
 
-    foreach ($itemsObj as $itemid => $itemObj) {
+    foreach ($itemsObj as $itemId => $itemObj) {
         $item            = [];
         $item['itemurl'] = $itemObj->getItemUrl();
         $item['title']   = $itemObj->getItemLink();
@@ -108,19 +104,19 @@ function publisher_latest_news_show($options)
         $mainImage       = $itemObj->getMainImage();
         if (empty($mainImage['image_path'])) {
             $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
-           }
+        }
         // check to see if GD function exist
         if (!empty($mainImage['image_path']) && !function_exists('imagecreatetruecolor')) {
             $item['item_image'] = $mainImage['image_path'];
         } else {
             $item['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=' . $imgWidth; // No $imgHeight for autoheight option
             $item['image_path'] = $mainImage['image_path'];
-		}
-        $item['text'] = $itemObj->getBlockSummary($letters);
-        $item['display_item_image']    =$options[10];
-        $item['display_summary']       =$options[16];
-		$item['display_adminlink']     =$options[29];
-        $item = $itemObj->getMainImage($item); //returns an array
+        }
+        $item['text']               = $itemObj->getBlockSummary($letters);
+        $item['display_item_image'] = $options[10];
+        $item['display_summary']    = $options[16];
+        $item['display_adminlink']  = $options[29];
+        $item                       = $itemObj->getMainImage($item); //returns an array
 
         $lsHeight = $imgPosition = $lsMargin = '';
         if (0 != $options[12]) {
@@ -128,24 +124,24 @@ function publisher_latest_news_show($options)
         } // set height = 0 in block option for auto height
 
         if ('LEFT' === $options[15]) {
-            $imgPosition = 'float: left';
-            $lsMargin    = '-right';
-			$block['position'] = $imgPosition;
-		    $block['margin'] = $lsMargin;
+            $imgPosition       = 'float: left';
+            $lsMargin          = '-right';
+            $block['position'] = $imgPosition;
+            $block['margin']   = $lsMargin;
         }
 
         if ('CENTER' === $options[15]) {
-            $imgPosition = 'text-align:center';
-            $lsMargin    = '';
-			$block['position'] = $imgPosition;
-		    $block['margin'] = $lsMargin;
+            $imgPosition       = 'text-align:center';
+            $lsMargin          = '';
+            $block['position'] = $imgPosition;
+            $block['margin']   = $lsMargin;
         }
 
         if ('RIGHT' === $options[15]) {
-            $imgPosition = 'float: right';
-            $lsMargin    = '-left';
-			$block['position'] = $imgPosition;
-		    $block['margin'] = $lsMargin;
+            $imgPosition       = 'float: right';
+            $lsMargin          = '-left';
+            $block['position'] = $imgPosition;
+            $block['margin']   = $lsMargin;
         }
 
         //Image
@@ -166,11 +162,11 @@ function publisher_latest_news_show($options)
         }
 
         $block['topiclink'] = '';
-        
+
         if (1 == $options[16]) {
-         $block['text'] = $itemObj->getBlockSummary($letters);
+            $block['text'] = $itemObj->getBlockSummary($letters);
         }
-         
+
         $block['archivelink'] = '';
         if (1 == $options[17]) {
             $block['archivelink'] = '| <a href="' . PUBLISHER_URL . '/archive.php">' . _MB_PUBLISHER_ARCHIVE . '</a> ';
@@ -184,30 +180,30 @@ function publisher_latest_news_show($options)
 
         $item['poster'] = '';
         if (1 == $options[19]) {
-            $item['poster'] = $itemObj->posterName();
-			$block['lang_poster']           = _MB_PUBLISHER_POSTEDBY;
+            $item['poster']       = $itemObj->posterName();
+            $block['lang_poster'] = _MB_PUBLISHER_POSTEDBY;
         }
 
         $item['posttime'] = '';
         if (1 == $options[20]) {
-            $item['posttime'] = $itemObj->getDatesub();
-			$block['lang_date']           = _MB_PUBLISHER_ON;
+            $item['posttime']   = $itemObj->getDatesub();
+            $block['lang_date'] = _MB_PUBLISHER_ON;
         }
 
         $item['topic_title'] = '';
         if (1 == $options[21]) {
-            $item['topic_title'] = $itemObj->getCategoryLink();
-            $item['category'] = strip_tags($itemObj->getCategoryLink());
-			$block['lang_category']           = _MB_PUBLISHER_CATEGORY;
-		}
+            $item['topic_title']    = $itemObj->getCategoryLink();
+            $item['category']       = strip_tags($itemObj->getCategoryLink());
+            $block['lang_category'] = _MB_PUBLISHER_CATEGORY;
+        }
 
         $item['read'] = '';
         if (1 == $options[22]) {
-            $item['read'] = $itemObj->counter();
-			$block['lang_reads']           = _MB_PUBLISHER_READS;
+            $item['read']        = $itemObj->counter();
+            $block['lang_reads'] = _MB_PUBLISHER_READS;
         }
-        $item['cancomment']   = $itemObj->cancomment();
-        $comments = $itemObj->comments();
+        $item['cancomment'] = $itemObj->cancomment();
+        $comments           = $itemObj->comments();
         if (1 == $options[23]) {
             if ($comments > 0) {
                 //shows 1 comment instead of 1 comm. if comments ==1
@@ -228,14 +224,14 @@ function publisher_latest_news_show($options)
         }
 
         $item['pdf'] = '';
-        
-            if (1 == $options[25]) {
-                $item['pdf'] = "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $itemObj->itemid() . "' rel='nofollow'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif' title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "'></a>&nbsp;";
-            }
-        
+
+        if (1 == $options[25]) {
+            $item['pdf'] = "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $itemObj->itemid() . "' rel='nofollow'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif' title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "'></a>&nbsp;";
+        }
+
         $item['email'] = '';
-            if (1 == $options[26]) {
-            $maillink  = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  ' . $itemObj->getItemUrl();
+        if (1 == $options[26]) {
+            $maillink      = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  ' . $itemObj->getItemUrl();
             $item['email'] = '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '"></a>&nbsp;';
         }
 
@@ -260,12 +256,12 @@ function publisher_latest_news_show($options)
 
         $block['template'] = $options[30];
 
-        $block['imgwidth']  = $options[11];
-        $block['imgheight'] = $options[12];
-        $block['border'] = $options[13];
+        $block['imgwidth']    = $options[11];
+        $block['imgheight']   = $options[12];
+        $block['border']      = $options[13];
         $block['bordercolor'] = $options[14];
-	
-		$block['letters'] = $letters;
+
+        $block['letters'] = $letters;
 
         $columns[$k][] = $item;
         ++$k;
@@ -429,7 +425,7 @@ function publisher_latest_news_edit($options)
     //Select Which Categories To Show
     $form .= $tabletag3 . _MB_PUBLISHER_TOPICSCONFIG . $tabletag4; // Topics Options
     $form .= $tabletag1 . _MB_PUBLISHER_TOPICSDISPLAY . $tabletag2;
-    $form .= Publisher\Utility::createCategorySelect($options[31], 0, true, 'options[31]');
+    $form .= Utility::createCategorySelect($options[31], 0, true, 'options[31]');
     $form .= '</td></tr>';
 
     $form .= '</table>';

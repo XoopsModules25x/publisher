@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-/**
- * @return object
- */
-
+/** @return object */
 $pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
 $moduleDirName = basename(dirname(__DIR__));
 

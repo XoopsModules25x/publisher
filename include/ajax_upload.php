@@ -14,20 +14,19 @@ declare(strict_types=1);
 /**
  * @copyright      {@link https://xoops.org/ XOOPS Project}
  * @license        {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package
  * @since
  * @author         XOOPS Development Team
  */
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 error_reporting(0);
-require dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require dirname(__DIR__, 3) . '/mainfile.php';
 require_once __DIR__ . '/common.php';
 
 $GLOBALS['xoopsLogger']->activated = false;
-/** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 $helper->loadLanguage('common');
 
@@ -38,30 +37,28 @@ if (!is_object($GLOBALS['xoopsUser'])) {
 }
 
 $filename       = basename($_FILES['publisher_upload_file']['name']);
-$image_nicename = Request::getString('image_nicename', '', 'POST');
-if ('' == $image_nicename || _CO_PUBLISHER_IMAGE_NICENAME == $image_nicename) {
-    $image_nicename = $filename;
+$imageNiceName = Request::getString('image_nicename', '', 'POST');
+if ('' == $imageNiceName || _CO_PUBLISHER_IMAGE_NICENAME == $imageNiceName) {
+    $imageNiceName = $filename;
 }
 
-$imgcat_id = Request::getInt('imgcat_id', 0, 'POST');
+$imgcatId = Request::getInt('imgcat_id', 0, 'POST');
 
 $imgcatHandler = xoops_getHandler('imagecategory');
-$imgcat        = $imgcatHandler->get($imgcat_id);
+$imgcat        = $imgcatHandler->get($imgcatId);
 
 $error = false;
 if (!is_object($imgcat)) {
     $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
 } else {
-    /* @var  XoopsGroupPermHandler $imgcatpermHandler */
+    /** @var XoopsGroupPermHandler $imgcatpermHandler */
     $imgcatpermHandler = xoops_getHandler('groupperm');
     if (is_object($GLOBALS['xoopsUser'])) {
-        if (!$imgcatpermHandler->checkRight('imgcat_write', $imgcat_id, $GLOBALS['xoopsUser']->getGroups())) {
+        if (!$imgcatpermHandler->checkRight('imgcat_write', $imgcatId, $GLOBALS['xoopsUser']->getGroups())) {
             $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
         }
-    } else {
-        if (!$imgcatpermHandler->checkRight('imgcat_write', $imgcat_id, XOOPS_GROUP_ANONYMOUS)) {
-            $error = _CO_PUBLISHER_IMAGE_CAT_NOPERM;
-        }
+    } elseif (!$imgcatpermHandler->checkRight('imgcat_write', $imgcatId, XOOPS_GROUP_ANONYMOUS)) {
+        $error = _CO_PUBLISHER_IMAGE_CAT_NOPERM;
     }
 }
 
@@ -79,12 +76,12 @@ if (false === $error) {
             $savedFilename = $uploader->getSavedFileName();
             $imageMimetype = $uploader->getMediaType();
             $image->setVar('image_name', 'images/' . $savedFilename);
-            $image->setVar('image_nicename', $image_nicename);
+            $image->setVar('image_nicename', $imageNiceName);
             $image->setVar('image_mimetype', $imageMimetype);
             $image->setVar('image_created', time());
             $image->setVar('image_display', 1);
             $image->setVar('image_weight', 0);
-            $image->setVar('imgcat_id', $imgcat_id);
+            $image->setVar('imgcat_id', $imgcatId);
             if ('db' === $imgcat->getVar('imgcat_storetype')) {
                 $fp      = @fopen($uploader->getSavedDestination(), 'rb');
                 $fbinary = @fread($fp, filesize($uploader->getSavedDestination()));
@@ -113,9 +110,9 @@ if (false === $error) {
     }
 }
 
-$arr = ['success', $image->getVar('image_name'), Publisher\Utility::convertCharset($image->getVar('image_nicename'))];
+$arr = ['success', $image->getVar('image_name'), Utility::convertCharset($image->getVar('image_nicename'))];
 if (false !== $error) {
-    $arr = ['error', Publisher\Utility::convertCharset($error)];
+    $arr = ['error', Utility::convertCharset($error)];
 }
 
 echo json_encode($arr);

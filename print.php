@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -27,14 +25,14 @@ use XoopsModules\Publisher;
 require_once __DIR__ . '/header.php';
 require_once $GLOBALS['xoops']->path('class/template.php');
 
-$itemid = Request::getInt('itemid', 0, 'GET');
+$itemId = Request::getInt('itemid', 0, 'GET');
 
-if (0 == $itemid) {
+if (0 == $itemId) {
     redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 // Creating the ITEM object for the selected ITEM
-$itemObj = $helper->getHandler('Item')->get($itemid);
+$itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected ITEM was not found, exit
 if ($itemObj->notLoaded()) {
@@ -57,9 +55,9 @@ $item['body']         = $itemObj->getBody();
 $item['categoryname'] = $myts->displayTarea($categoryObj->name());
 
 $mainImage = $itemObj->getMainImage();
-  if (empty($mainImage['image_path'])) {
-            $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
-           }
+if (empty($mainImage['image_path'])) {
+    $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
+}
 if ('' != $mainImage['image_path']) {
     $item['image'] = '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '">';
 }

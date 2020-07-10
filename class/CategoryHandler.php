@@ -17,15 +17,13 @@ namespace XoopsModules\Publisher;
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-
-
+use XoopsModules\Publisher\Helper;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -35,7 +33,6 @@ require_once \dirname(__DIR__) . '/include/common.php';
  * of Category class objects.
  *
  * @author  marcan <marcan@notrevie.ca>
- * @package Publisher
  */
 class CategoryHandler extends \XoopsPersistableObjectHandler
 {
@@ -45,15 +42,11 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public $helper;
     public $publisherIsAdmin;
 
-    /**
-     * @param \XoopsDatabase                      $db
-     * @param \XoopsModules\Publisher\Helper|null $helper
-     */
-    public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
+    public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this ->helper */
+        /** @var Helper $this->helper */
         if (null === $helper) {
-            $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+            $this->helper = Helper::getInstance();
         } else {
             $this->helper = $helper;
         }
@@ -163,10 +156,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve categories from the database
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement} conditions to be met
-     * @param bool             $idAsKey  use the categoryid as key for the array?
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement} conditions to be met
+     * @param bool                  $idAsKey  use the categoryid as key for the array?
      *
-     * @param bool             $as_object
+     * @param bool                  $as_object
      * @return array array of <a href='psi_element://XoopsItem'>XoopsItem</a> objects
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $as_object = true) //&getObjects($criteria = null, $idAsKey = false)
@@ -397,10 +390,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * delete categories matching a set of conditions
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement}
      *
-     * @param bool             $force
-     * @param bool             $asObject
+     * @param bool                  $force
+     * @param bool                  $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)

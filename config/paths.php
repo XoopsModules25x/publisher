@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-/**
- * @return object
- */
+/** @return object */
 
 //function getPaths()
 //{

@@ -20,14 +20,14 @@ namespace XoopsModules\Publisher;
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      XOOPS Development Team
- * @package     Publisher
  * @since       1.03
  */
 
 use Xmf\Request;
 use XoopsModules\Publisher;
-use XoopsModules\Publisher\Common;
-use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Category;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
 
 /**
  * Class Utility
@@ -35,7 +35,6 @@ use XoopsModules\Publisher\Constants;
 class Utility extends Common\SysUtility
 {
     //--------------- Custom module methods -----------------------------
-
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
      *
@@ -50,7 +49,7 @@ class Utility extends Common\SysUtility
                 }
                 file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             echo 'Caught exception: ', $e->getMessage(), "\n", '<br>';
         }
     }
@@ -172,13 +171,12 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param \XoopsModules\Publisher\Category $categoryObj
-     * @param int                              $level
+     * @param Category $categoryObj
+     * @param int      $level
      */
-    public static function displayCategory(Publisher\Category $categoryObj, $level = 0)
+    public static function displayCategory(Category $categoryObj, $level = 0)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $description = $categoryObj->description();
         if (!XOOPS_USE_MULTIBYTES) {
@@ -227,28 +225,25 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param bool $showmenu
-     * @param int  $categoryId
-     * @param int  $nbSubCats
-     * @param null $categoryObj
+     * @param bool          $showmenu
+     * @param int           $categoryId
+     * @param int           $nbSubCats
+     * @param Category|null $categoryObj
      */
     public static function editCategory($showmenu = false, $categoryId = 0, $nbSubCats = 4, $categoryObj = null)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
-        /* @var  Publisher\Category $categoryObj */
+        /** @var  Category $categoryObj */
         if (0 != $categoryId) {
             // Creating the category object for the selected category
             $categoryObj = $helper->getHandler('Category')->get($categoryId);
             if ($categoryObj->notLoaded()) {
                 \redirect_header('category.php', 1, \_AM_PUBLISHER_NOCOLTOEDIT);
             }
-        } else {
-            if (!$categoryObj) {
-                $categoryObj = $helper->getHandler('Category')->create();
-            }
+        } elseif (null === $categoryObj) {
+            $categoryObj = $helper->getHandler('Category')->create();
         }
 
         if (0 != $categoryId) {
@@ -326,7 +321,17 @@ class Utility extends Common\SysUtility
                 for ($i = 0; $i < $totalitemsOnPage; ++$i) {
                     $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
                     $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_EDITITEM . "' alt='" . \_AM_PUBLISHER_EDITITEM . "'></a>";
-                    $delete      = "<a href='item.php?op=del&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/delete.png' title='" . \_AM_PUBLISHER_DELETEITEM . "' alt='" . \_AM_PUBLISHER_DELETEITEM . "'></a>";
+                    $delete      = "<a href='item.php?op=del&amp;itemid="
+                                   . $itemsObj[$i]->itemid()
+                                   . "'><img src='"
+                                   . XOOPS_URL
+                                   . '/modules/'
+                                   . $helper->getModule()->dirname()
+                                   . "/assets/images/links/delete.png' title='"
+                                   . \_AM_PUBLISHER_DELETEITEM
+                                   . "' alt='"
+                                   . \_AM_PUBLISHER_DELETEITEM
+                                   . "'></a>";
                     echo '<tr>';
                     echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
                     echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';
@@ -336,7 +341,7 @@ class Utility extends Common\SysUtility
                     echo '</tr>';
                 }
             } else {
-                $itemid = -1;
+                $itemId = -1;
                 echo '<tr>';
                 echo "<td class='head' align='center' colspan= '7'>" . \_AM_PUBLISHER_NOITEMS . '</td>';
                 echo '</tr>';
@@ -504,8 +509,7 @@ class Utility extends Common\SysUtility
      */
     public static function moduleHome($withLink = true)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         if (!$helper->getConfig('format_breadcrumb_modname')) {
             return '';
@@ -697,8 +701,7 @@ class Utility extends Common\SysUtility
      */
     public static function userIsAdmin()
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         static $publisherIsAdmin;
 
@@ -735,11 +738,10 @@ class Utility extends Common\SysUtility
      */
     public static function userIsModerator($itemObj)
     {
-        /** @var Publisher\Helper $helper */
-        $helper            = Publisher\Helper::getInstance();
+        $helper            = Helper::getInstance();
         $categoriesGranted = $helper->getHandler('Permission')->getGrantedItems('category_moderation');
 
-        return (\is_object($itemObj) && \in_array($itemObj->categoryid(), $categoriesGranted));
+        return (\is_object($itemObj) && \in_array($itemObj->categoryid(), $categoriesGranted, true));
     }
 
     /**
@@ -752,13 +754,12 @@ class Utility extends Common\SysUtility
      */
     public static function saveCategoryPermissions($groups, $categoryId, $permName)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $result = true;
 
         $moduleId = $helper->getModule()->getVar('mid');
-        /* @var  \XoopsGroupPermHandler $grouppermHandler */
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = \xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $grouppermHandler->deleteByModule($moduleId, $permName, $categoryId);
@@ -890,16 +891,15 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param null|Publisher\Category $categoryObj
-     * @param int|array               $selectedId
-     * @param int                     $level
-     * @param string                  $ret
+     * @param null|Category $categoryObj
+     * @param int|array     $selectedId
+     * @param int           $level
+     * @param string        $ret
      * @return string
      */
-    public static function addCategoryOption(Publisher\Category $categoryObj, $selectedId = 0, $level = 0, $ret = '')
+    public static function addCategoryOption(Category $categoryObj, $selectedId = 0, $level = 0, $ret = '')
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $spaces = '';
         for ($j = 0; $j < $level; ++$j) {
@@ -907,7 +907,7 @@ class Utility extends Common\SysUtility
         }
 
         $ret .= "<option value='" . $categoryObj->categoryid() . "'";
-        if (\is_array($selectedId) && \in_array($categoryObj->categoryid(), $selectedId)) {
+        if (\is_array($selectedId) && \in_array($categoryObj->categoryid(), $selectedId, true)) {
             $ret .= ' selected';
         } elseif ($categoryObj->categoryid() == $selectedId) {
             $ret .= ' selected';
@@ -935,8 +935,7 @@ class Utility extends Common\SysUtility
      */
     public static function createCategorySelect($selectedId = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[1]', $multiple = true)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $selectedId  = \explode(',', $selectedId);
         $selectedId  = \array_map('\intval', $selectedId);
@@ -947,7 +946,7 @@ class Utility extends Common\SysUtility
         $ret = "<select name='" . $selectname . "[]'" . $selMultiple . " size='10'>";
         if ($allCatOption) {
             $ret .= "<option value='0'";
-            if (\in_array(0, $selectedId)) {
+            if (\in_array(0, $selectedId, true)) {
                 $ret .= ' selected';
             }
             $ret .= '>' . \_MB_PUBLISHER_ALLCAT . '</option>';
@@ -974,8 +973,7 @@ class Utility extends Common\SysUtility
      */
     public static function createCategoryOptions($selectedId = 0, $parentcategory = 0, $allCatOption = true)
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $ret = '';
         if ($allCatOption) {
@@ -1069,9 +1067,9 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param bool         $another
-     * @param bool         $withRedirect
-     * @param              $itemObj
+     * @param bool $another
+     * @param bool $withRedirect
+     * @param Item $itemObj
      * @return bool|string
      */
     public static function uploadFile($another, $withRedirect, &$itemObj)
@@ -1080,8 +1078,7 @@ class Utility extends Common\SysUtility
         //        require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
 
         //    global $publisherIsAdmin;
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $itemId  = Request::getInt('itemid', 0, 'POST');
         $uid     = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
@@ -1130,7 +1127,7 @@ class Utility extends Common\SysUtility
                 if ($withRedirect) {
                     throw new \RuntimeException(\_CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
                 }
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $helper->addLog($e);
                 \redirect_header('file.php?op=mod&itemid=' . $fileObj->itemid(), 3, \_CO_PUBLISHER_FILEUPLOAD_ERROR . static::formatErrors($fileObj->getErrors()));
             }
@@ -1240,8 +1237,7 @@ class Utility extends Common\SysUtility
      */
     public static function ratingBar($itemId)
     {
-        /** @var Publisher\Helper $helper */
-        $helper          = Publisher\Helper::getInstance();
+        $helper          = Helper::getInstance();
         $ratingUnitWidth = 30;
         $units           = 5;
 
@@ -1272,7 +1268,7 @@ class Utility extends Common\SysUtility
             $rating2     = \number_format($currentRating / $count, 2);
         }
         $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        /* @var GroupPermHandler $grouppermHandler */
+        /** @var GroupPermHandler $grouppermHandler */
         $grouppermHandler = $helper->getHandler('GroupPerm');
 
         if (!$grouppermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
@@ -1319,7 +1315,7 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param array $allowedEditors
+     * @param array|null $allowedEditors
      * @return array
      */
     public static function getEditors($allowedEditors = null)
@@ -1334,7 +1330,7 @@ class Utility extends Common\SysUtility
             $key = static::stringToInt($name);
             if (\is_array($allowedEditors)) {
                 //for submit page
-                if (\in_array($key, $allowedEditors)) {
+                if (\in_array($key, $allowedEditors, true)) {
                     $ret[] = $name;
                 }
             } else {
@@ -1383,174 +1379,5 @@ class Utility extends Common\SysUtility
         }
 
         return @\iconv('windows-1256', 'UTF-8', $item);
-    }
-
-    /**
-     * Verifies XOOPS version meets minimum requirements for this module
-     * @static
-     * @param \XoopsModule $module
-     *
-     * @param null|string  $requiredVer
-     * @return bool true if meets requirements, false if not
-     */
-    public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
-    {
-        $moduleDirName = \basename(\dirname(__DIR__));
-        if (null === $module) {
-            $module = \XoopsModule::getByDirname($moduleDirName);
-        }
-        \xoops_loadLanguage('admin', $moduleDirName);
-        \xoops_loadLanguage('common', $moduleDirName);
-
-        //check for minimum XOOPS version
-        $currentVer = mb_substr(\XOOPS_VERSION, 6); // get the numeric part of string
-        if (null === $requiredVer) {
-            $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
-        }
-        $success = true;
-
-        if (\version_compare($currentVer, $requiredVer, '<')) {
-            $success = false;
-            $module->setErrors(\sprintf(\_AM_PUBLISHER_ERROR_BAD_XOOPS, $requiredVer, $currentVer));
-        }
-
-        return $success;
-    }
-
-    /**
-     * Verifies PHP version meets minimum requirements for this module
-     * @static
-     *
-     * @param \XoopsModule|null $module
-     * @return bool true if meets requirements, false if not
-     */
-    public static function checkVerPhp(\XoopsModule $module = null)
-    {
-        $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
-        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-        if (null === $module) {
-            $module = \XoopsModule::getByDirname($moduleDirName);
-        }
-        \xoops_loadLanguage('admin', $moduleDirName);
-        \xoops_loadLanguage('common', $moduleDirName);
-
-        // check for minimum PHP version
-        $success = true;
-
-        $verNum = \PHP_VERSION;
-        $reqVer = &$module->getInfo('min_php');
-
-        if (false !== $reqVer && '' !== $reqVer) {
-            if (\version_compare($verNum, $reqVer, '<')) {
-                $module->setErrors(\sprintf(\constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_PHP'), $reqVer, $verNum));
-                $success = false;
-            }
-        }
-
-        return $success;
-    }
-
-    /**
-     * truncateHtml can truncate a string up to a number of characters while preserving whole words and HTML tags
-     * www.gsdesign.ro/blog/cut-html-string-without-breaking-the-tags
-     * www.cakephp.org
-     *
-     * @param string $text         String to truncate.
-     * @param int    $length       Length of returned string, including ellipsis.
-     * @param string $ending       Ending to be appended to the trimmed string.
-     * @param bool   $exact        If false, $text will not be cut mid-word
-     * @param bool   $considerHtml If true, HTML tags would be handled correctly
-     *
-     * @return string Trimmed string.
-     */
-    public static function truncateHtml($text, $length = 100, $ending = '...', $exact = false, $considerHtml = true)
-    {
-        if ($considerHtml) {
-            // if the plain text is shorter than the maximum length, return the whole text
-            if (mb_strlen(\preg_replace('/<.*?' . '>/', '', $text)) <= $length) {
-                return $text;
-            }
-            // splits all html-tags to scanable lines
-            \preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, \PREG_SET_ORDER);
-            $total_length = mb_strlen($ending);
-            $open_tags    = [];
-            $truncate     = '';
-            foreach ($lines as $line_matchings) {
-                // if there is any html-tag in this line, handle it and add it (uncounted) to the output
-                if (!empty($line_matchings[1])) {
-                    // if it's an "empty element" with or without xhtml-conform closing slash
-                    if (\preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $line_matchings[1])) {
-                        // do nothing
-                        // if tag is a closing tag
-                    } elseif (\preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
-                        // delete tag from $open_tags list
-                        $pos = \array_search($tag_matchings[1], $open_tags, true);
-                        if (false !== $pos) {
-                            unset($open_tags[$pos]);
-                        }
-                        // if tag is an opening tag
-                    } elseif (\preg_match('/^<\s*([^\s>!]+).*?' . '>$/s', $line_matchings[1], $tag_matchings)) {
-                        // add tag to the beginning of $open_tags list
-                        \array_unshift($open_tags, mb_strtolower($tag_matchings[1]));
-                    }
-                    // add html-tag to $truncate'd text
-                    $truncate .= $line_matchings[1];
-                }
-                // calculate the length of the plain text part of the line; handle entities as one character
-                $content_length = mb_strlen(\preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
-                if ($total_length + $content_length > $length) {
-                    // the number of characters which are left
-                    $left            = $length - $total_length;
-                    $entities_length = 0;
-                    // search for html entities
-                    if (\preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, \PREG_OFFSET_CAPTURE)) {
-                        // calculate the real length of all entities in the legal range
-                        foreach ($entities[0] as $entity) {
-                            if ($left >= $entity[1] + 1 - $entities_length) {
-                                $left--;
-                                $entities_length += mb_strlen($entity[0]);
-                            } else {
-                                // no more characters left
-                                break;
-                            }
-                        }
-                    }
-                    $truncate .= mb_substr($line_matchings[2], 0, $left + $entities_length);
-                    // maximum lenght is reached, so get off the loop
-                    break;
-                }
-                $truncate     .= $line_matchings[2];
-                $total_length += $content_length;
-
-                // if the maximum length is reached, get off the loop
-                if ($total_length >= $length) {
-                    break;
-                }
-            }
-        } else {
-            if (mb_strlen($text) <= $length) {
-                return $text;
-            }
-            $truncate = mb_substr($text, 0, $length - mb_strlen($ending));
-        }
-        // if the words shouldn't be cut in the middle...
-        if (!$exact) {
-            // ...search the last occurance of a space...
-            $spacepos = mb_strrpos($truncate, ' ');
-            if (isset($spacepos)) {
-                // ...and cut the text in this position
-                $truncate = mb_substr($truncate, 0, $spacepos);
-            }
-        }
-        // add the defined ending to the text
-        $truncate .= $ending;
-        if ($considerHtml) {
-            // close all unclosed html-tags
-            foreach ($open_tags as $tag) {
-                $truncate .= '</' . $tag . '>';
-            }
-        }
-
-        return $truncate;
     }
 }

@@ -17,15 +17,14 @@ namespace XoopsModules\Publisher;
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-
-
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -35,15 +34,14 @@ require_once \dirname(__DIR__) . '/include/common.php';
 class Category extends \XoopsObject
 {
     /**
-     * @var Publisher\Helper
+     * @var Helper
      */
     public $helper;
-
     /**
      * @var array
      */
     public $categoryPath = false;
-    public $categoryid;
+    public $categoryId;
     public $parentid;
     public $name;
     public $description;
@@ -63,8 +61,8 @@ class Category extends \XoopsObject
      */
     public function __construct()
     {
-        /** @var \XoopsModules\Publisher\Helper $this ->helper */
-        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        $this->helper = Helper::getInstance();
         $this->initVar('categoryid', \XOBJ_DTYPE_INT, null, false);
         $this->initVar('parentid', \XOBJ_DTYPE_INT, null, false);
         $this->initVar('name', \XOBJ_DTYPE_TXTBOX, null, true, 100);
@@ -113,7 +111,7 @@ class Category extends \XoopsObject
     public function checkPermission()
     {
         $ret = false;
-        if (Publisher\Utility::userIsAdmin()) {
+        if (Utility::userIsAdmin()) {
             return true;
         }
         if (\is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->getVar('uid') == $this->moderator) {
@@ -122,7 +120,7 @@ class Category extends \XoopsObject
         /** @var \XoopsModules\Publisher\PermissionHandler $permissionHandler */
         $permissionHandler = $this->helper->getHandler('Permission');
         $categoriesGranted = $permissionHandler->getGrantedItems('category_read');
-        if (\in_array($this->categoryid(), $categoriesGranted)) {
+        if (\in_array($this->categoryid(), $categoriesGranted, true)) {
             $ret = true;
         }
 
@@ -179,7 +177,7 @@ class Category extends \XoopsObject
                     if ($parentObj->notLoaded()) {
                         throw new \RuntimeException(_NOPERM);
                     }
-                } catch (\Exception $e) {
+                } catch (\Throwable $e) {
                     $this->helper->addLog($e);
                     //                    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
                 }
@@ -211,7 +209,7 @@ class Category extends \XoopsObject
                 if ($parentObj->notLoaded()) {
                     throw new \RuntimeException('NOT LOADED');
                 }
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $this->helper->addLog($e);
                 //                    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
             }
@@ -304,7 +302,7 @@ class Category extends \XoopsObject
         $tags['MODULE_NAME']   = $this->helper->getModule()->getVar('name');
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = $this->getCategoryUrl();
-        /* @var  \XoopsNotificationHandler $notificationHandler */
+        /** @var \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = \xoops_getHandler('notification');
         $notificationHandler->triggerEvent('global_item', 0, 'category_created', $tags);
     }
@@ -331,7 +329,7 @@ class Category extends \XoopsObject
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
         if ('blank.png' !== $this->getImage()) {
-            $category['image_path'] = Publisher\Utility::getImageDir('category', false) . $this->getImage();
+            $category['image_path'] = Utility::getImageDir('category', false) . $this->getImage();
         } else {
             $category['image_path'] = '';
         }
@@ -356,7 +354,7 @@ class Category extends \XoopsObject
             $category['last_title_link'] = $this->getVar('last_title_link', 'n');
         }
         if ('blank.png' !== $this->getImage()) {
-            $category['image_path'] = Publisher\Utility::getImageDir('category', false) . $this->getImage();
+            $category['image_path'] = Utility::getImageDir('category', false) . $this->getImage();
         } else {
             $category['image_path'] = '';
         }

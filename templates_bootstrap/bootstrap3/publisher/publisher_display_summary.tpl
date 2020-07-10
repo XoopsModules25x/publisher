@@ -48,44 +48,44 @@
         <{foreach item=item from=$items}>
             <tr>
                 <td class="even" align="left">
-                    <{if $display_mainimage == 1}>					
+                    <{if $display_mainimage == 1}>
                     <{if $item.image_path!=''}>
-		            <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px"></a>
-		           <{else}>
-					<a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" align="left" width="100"style="padding:5px"></a>
-					<{/if}>
-					<{/if}>
-					<strong><{$item.titlelink}></strong>
+                    <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px"></a>
+                   <{else}>
+                    <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" align="left" width="100"style="padding:5px"></a>
+                    <{/if}>
+                    <{/if}>
+                    <strong><{$item.titlelink}></strong>
                     <{if $show_subtitle && $item.subtitle}>
                         <br>
                         <em><{$item.subtitle}></em>
                     <{/if}>
-					
-					
-					<br >
-					<{if $display_summary == 1}><{$item.summary}><br ><{/if}>
-					<{if $display_readmore == 1}>
-					 <div class="pull-right">
+
+
+                    <br >
+                    <{if $display_summary == 1}><{$item.summary}><br ><{/if}>
+                    <{if $display_readmore == 1}>
+                     <div class="pull-right">
                     <a href="<{$item.itemurl}>" class="btn btn-primary btn-sm"> <{$smarty.const._MD_PUBLISHER_VIEW_MORE}></a>
                      </div><{/if}>
-					<small>
-					<{if $display_category == 1}> 
-					   <span style="font-size: 11px; padding: 0; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
+                    <small>
+                    <{if $display_category == 1}>
+                       <span style="font-size: 11px; padding: 0; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                        &nbsp;&nbsp;<span class="glyphicon glyphicon-tag"></span>&nbsp;<{$item.category}>
                        </span>
-					<{/if}>  
-					<{if $display_poster == 1}>
+                    <{/if}>
+                    <{if $display_poster == 1}>
                        <span style="font-size: 11px; padding: 0; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                        &nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;<{$item.who}>
                        </span>
                     <{/if}>
-					<{if $display_commentlink == 1 && $item.cancomment && $item.comments != -1}>
-					   <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
-				       &nbsp;&nbsp;<span class="glyphicon glyphicon-comment"></span>&nbsp;<{$item.comments}>
-				       </span>
-					<{/if}>
-					</small>
-					
+                    <{if $display_commentlink == 1 && $item.cancomment && $item.comments != -1}>
+                       <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
+                       &nbsp;&nbsp;<span class="glyphicon glyphicon-comment"></span>&nbsp;<{$item.comments}>
+                       </span>
+                    <{/if}>
+                    </small>
+
                 </td>
                 <{if $display_date_col == 1}>
                     <td class="odd" align="left">

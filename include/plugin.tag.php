@@ -11,8 +11,8 @@ declare(strict_types=1);
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+
 /**
- * @package         XoopsModules\Publisher
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
@@ -20,9 +20,9 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
 use Xmf\Request;
-
+use XoopsModules\Publisher;
+use XoopsModules\Tag\Utility;
 
 /** Get item fields: title, content, time, link, uid, tags
  *
@@ -35,26 +35,25 @@ function publisher_tag_iteminfo(&$items)
         return false;
     }
 
-    $items_id = [];
+    $itemsIds = [];
     foreach (array_keys($items) as $cat_id) {
         // Some handling here to build the link upon cat_id
         // if cat_id is not used, just skip it
-        foreach (array_keys($items[$cat_id]) as $item_id) {
+        foreach (array_keys($items[$cat_id]) as $itemId) {
             // In article, the item_id is "art_id"
-            $items_id[] = (int)$item_id;
+            $itemsIds[] = (int)$itemId;
         }
     }
-    $items_id = array_unique($items_id); // remove duplicate ids
+    $itemsIds = array_unique($itemsIds); // remove duplicate ids
 
-    /** @var \XoopsModules\Publisher\Helper $helper */
     $helper = \XoopsModules\Publisher\Helper::getInstance();
     /** @var Publisher\ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
-    $criteria    = new \Criteria('itemid', '(' . implode(', ', $items_id) . ')', 'IN');
+    $criteria    = new \Criteria('itemid', '(' . implode(', ', $itemsIds) . ')', 'IN');
     $items_obj   = $itemHandler->getObjects($criteria, 'itemid');
 
     //make sure Tag module tag_parse_tag() can be found
-    if (!method_exists('XoopsModules\Tag\Utility', 'tag_parse_tag')) {
+    if (!method_exists(Utility::class, 'tag_parse_tag')) {
         // allows this plugin to work with Tag <= v2.34
         require_once $GLOBALS['xoops']->path('modules/tag/include/functions.php');
         $parse_function = 'tag_parse_tag';
@@ -65,12 +64,12 @@ function publisher_tag_iteminfo(&$items)
 
     /** @var Publisher\Item $item_obj */
     foreach (array_keys($items) as $cat_id) {
-        foreach (array_keys($items[$cat_id]) as $item_id) {
-            $item_obj                 = $items_obj[$item_id];
-            $items[$cat_id][$item_id] = [
+        foreach (array_keys($items[$cat_id]) as $itemId) {
+            $item_obj                 = $items_obj[$itemId];
+            $items[$cat_id][$itemId] = [
                 'title'   => $item_obj->getVar('title'),
                 'uid'     => $item_obj->getVar('uid'),
-                'link'    => "item.php?itemid={$item_id}",
+                'link'    => "item.php?itemid={$itemId}",
                 'time'    => $item_obj->getVar('datesub'),
                 'tags'    => $parse_function($item_obj->getVar('item_tag', 'n')), // optional
                 'content' => '',
@@ -78,6 +77,7 @@ function publisher_tag_iteminfo(&$items)
         }
     }
     unset($items_obj);
+
     return true;
 }
 
@@ -106,7 +106,8 @@ function publisher_tag_synchronization($mid)
               . '        ( tag_itemid NOT IN '
               . "            ( SELECT DISTINCT {$itemHandler->keyName} "
               . "                FROM {$itemHandler->table} "
-            . "                WHERE {$itemHandler->table}.status = " . _CO_PUBLISHER_PUBLISHED
+              . "                WHERE {$itemHandler->table}.status = "
+              . _CO_PUBLISHER_PUBLISHED
               . '            ) '
               . '        )';
     $result = $linkHandler->db->queryF($sql);

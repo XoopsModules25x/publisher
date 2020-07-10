@@ -14,16 +14,12 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Include
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-
-
 
 //require_once __DIR__ . '/seo_functions.php';
 
@@ -43,7 +39,6 @@ function publisher_notify_iteminfo($category, $itemId)
     }
 
     global $xoopsModule;
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
 
     if ('category' === $category) {

@@ -14,10 +14,8 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Comments
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-require dirname(dirname(__DIR__)) . '/mainfile.php';
+require dirname(__DIR__, 2) . '/mainfile.php';
 require_once $GLOBALS['xoops']->path('include/comment_reply.php');

@@ -18,12 +18,9 @@ namespace XoopsModules\Publisher;
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**

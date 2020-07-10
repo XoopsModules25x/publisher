@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -50,5 +48,5 @@ if (!preg_match("/^ed2k*:\/\//i", $fileObj->getFileUrl())) {
     header('Location: ' . $fileObj->getFileUrl());
 }
 
-echo '<html><head><meta http-equiv="Refresh" content="0; URL=' . $myts->oopsHtmlSpecialChars($fileObj->getFileUrl()) . '"></head><body></body></html>';
+echo '<html><head><meta http-equiv="Refresh" content="0; URL=' . $myts->htmlSpecialChars($fileObj->getFileUrl()) . '"></head><body></body></html>';
 exit();

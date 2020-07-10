@@ -24,15 +24,15 @@
 <div id="pagelayer">
     <div style="text-align: center;">
         <img src="<{$printlogourl}>" border="0" alt="">
-	 <span style="padding-top: 5px; font-size: 18px; font-weight: bold;">
+     <span style="padding-top: 5px; font-size: 18px; font-weight: bold;">
        <br><{$xoops_sitename}> (<{$xoops_url}>)</span><small><br><{$xoops_slogan}> </small> <hr>
-		</div>
+        </div>
     
        <{if $printheader!=''}>
-	       <div style="text-align: left; margin-top: 10px; border: 1px solid; padding: 2px;"><{$printheader}></div>
+           <div style="text-align: left; margin-top: 10px; border: 1px solid; padding: 2px;"><{$printheader}></div>
        <{/if}>
-	
-	<{$item.image}>
+
+    <{$item.image}>
 
     <{if !$noTitle}>
         <h2><{$item.title}></h2>

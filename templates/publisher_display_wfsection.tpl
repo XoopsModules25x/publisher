@@ -74,31 +74,31 @@
             <{foreach item=item from=$items}>
                <div class="itemText" style="padding-left: 5px; padding-top: 5px;">
                 <div> 
-                      <{if $display_mainimage == 1}>					
+                      <{if $display_mainimage == 1}>
                          <{if $item.image_path!=''}>
-		                 <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" title="<{$item.title}>" alt="<{$item.title}>" width="120" style="padding:5px"></a>
-		                  <{else}>
-					      <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg"  title="<{$item.title}>" alt="<{$item.title}>" width="120" style="padding:5px"></a>
-					      <{/if}>
+                         <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" title="<{$item.title}>" alt="<{$item.title}>" width="120" style="padding:5px"></a>
+                          <{else}>
+                          <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg"  title="<{$item.title}>" alt="<{$item.title}>" width="120" style="padding:5px"></a>
+                          <{/if}>
                       <{/if}>
                 <br>
                    <{$item.titlelink}><br>
-				   <{if $show_subtitle && $item.subtitle}>
+                   <{if $show_subtitle && $item.subtitle}>
                        <em><{$item.subtitle}><br></em>
                     <{/if}>
-					<small> 
-                 <{if $display_category == 1}> <{$smarty.const._MD_PUBLISHER_CATEGORY}> : <{$item.category}> | <{/if}>				                       
+                    <small>
+                 <{if $display_category == 1}> <{$smarty.const._MD_PUBLISHER_CATEGORY}> : <{$item.category}> | <{/if}>
                  <{if $display_poster == 1}> <{$smarty.const._MD_PUBLISHER_POSTER}> <{$item.who}><{/if}> 
                  <{if $display_date_col == 1}> | <{$item.datesub}> <{/if}> <{if $display_hits_col == 1}> | 
                  <{$item.counter}> <{$smarty.const._MD_PUBLISHER_TOTALHITS}> <{/if}> 
                  <{if $display_commentlink == 1 && $item.cancomment && $item.comments != -1}> | <{$item.comments}><{/if}>
-					</small>
-				</div>
+                    </small>
+                </div>
                 <div>
 <{if $display_summary == 1}> <{$item.summary}><br> <{/if}>
-					
-						
-					</div>
+
+
+                    </div>
             </div>
             <div style="clear: both;"></div>
             
@@ -108,7 +108,7 @@
                 <a href="<{$item.more}>"><{$smarty.const._MD_PUBLISHER_READMORE}></a> </div><br >
            <{/if}>
 
-			 <div style="font-size: 10px; text-align: right; border-bottom: 1px dotted #000000;"></div>
+             <div style="font-size: 10px; text-align: right; border-bottom: 1px dotted #000000;"></div>
         
             <{/foreach}>
         </div>

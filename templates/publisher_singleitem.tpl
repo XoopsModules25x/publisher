@@ -1,7 +1,7 @@
 <div class="item">
     <div class="itemHead">
         <span class="itemTitle"><{$item.titlelink}></span>
-		<{if $show_subtitle && $item.subtitle}>
+        <{if $show_subtitle && $item.subtitle}>
                                 <br><em><{$item.subtitle}></em>
                     <{/if}>
     </div>
@@ -12,7 +12,7 @@
                 <span class="itemPoster">
                     <div class="publisher_item_head_who">
                        
-  <{if $display_category == 1}> <{$smarty.const._MD_PUBLISHER_CATEGORY}> : <{$item.category}> | <{/if}>				                       
+  <{if $display_category == 1}> <{$smarty.const._MD_PUBLISHER_CATEGORY}> : <{$item.category}> | <{/if}>
   <{if $display_poster == 1}> <{$smarty.const._MD_PUBLISHER_POSTER}> <{$item.who}><{/if}> 
   <{if $display_date_col == 1}> | <{$item.datesub}> <{/if}> 
   <{if $display_hits_col == 1}> | <{$item.counter}> <{$smarty.const._MD_PUBLISHER_TOTALHITS}> <{/if}> 
@@ -24,17 +24,17 @@
     
 
     <div class="itemBody">
-           <{if $display_mainimage == 1}>					
+           <{if $display_mainimage == 1}>
                     <{if $item.image_path!=''}>
-		            <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" title="<{$item.title}>" alt="<{$item.title}>" align="left" width="120" style="padding:5px"></a>
-		           <{else}>
-					<a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg"  title="<{$item.title}>" alt="<{$item.title}>" align="left" width="120" style="padding:5px"></a>
-					<{/if}>
+                    <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" title="<{$item.title}>" alt="<{$item.title}>" align="left" width="120" style="padding:5px"></a>
+                   <{else}>
+                    <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg"  title="<{$item.title}>" alt="<{$item.title}>" align="left" width="120" style="padding:5px"></a>
+                    <{/if}>
             <{/if}>
-         <{if $display_summary == 1}>	
+         <{if $display_summary == 1}>
               <div class="itemText"><{$item.summary}><br> <br> </div>
-          <{/if}>		
-		<br> <br> 
+          <{/if}>
+        <br> <br>
     </div>
 
     <{if $op != 'preview' && $item.summary!=''}>

@@ -14,8 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Blocks
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -23,8 +21,7 @@ declare(strict_types=1);
 
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
-
-
+use XoopsModules\Publisher\Utility;
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -35,7 +32,6 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_latest_files_show($options)
 {
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     /** @var Publisher\FileHandler $fileHandler */
     $fileHandler = $helper->getHandler('File');
@@ -50,7 +46,7 @@ function publisher_latest_files_show($options)
     $block = [];
 
     $sort           = $options[1];
-    $order          = Publisher\Utility::getOrderBy($sort);
+    $order          = Utility::getOrderBy($sort);
     $limit          = $options[2];
     $directDownload = $options[3];
 
@@ -84,7 +80,7 @@ function publisher_latest_files_edit($options)
 
     $form = new Publisher\BlockForm();
 
-    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray(
         [

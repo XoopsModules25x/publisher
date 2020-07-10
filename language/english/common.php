@@ -116,7 +116,7 @@ define('_CO_PUBLISHER_BAD_TOKEN', 'Invalid token, please try again');
 
 //2017-11-22
 
-$moduleDirName      = basename(dirname(dirname(__DIR__)));
+$moduleDirName      = basename(dirname(__DIR__, 2));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 define('CO_' . $moduleDirNameUpper . '_GDLIBSTATUS', 'GD library support: ');
@@ -154,7 +154,7 @@ define('CO_' . $moduleDirNameUpper . '_ERROR_BAD_REMOVE', 'Could not delete %s')
 define('CO_' . $moduleDirNameUpper . '_ERROR_NO_PLUGIN', 'Could not load plugin');
 
 //Help
-define('CO_' . $moduleDirNameUpper . '_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('CO_' . $moduleDirNameUpper . '_DIRNAME', basename(dirname(__DIR__, 2)));
 define('CO_' . $moduleDirNameUpper . '_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('CO_' . $moduleDirNameUpper . '_BACK_2_ADMIN', 'Back to Administration of ');
 define('CO_' . $moduleDirNameUpper . '_OVERVIEW', 'Overview');
@@ -228,6 +228,9 @@ define('CO_' . $moduleDirNameUpper . '_' . 'FOLDER_NO', 'Folder "%s" does not ex
 define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS', 'Show Development Tools Button?');
 define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC', 'If yes, the "Migrate" Tab and other Development tools will be visible to the Admin.');
 define('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_FEEDBACK', 'Feedback');
+define('CO_' . $moduleDirNameUpper . '_' . 'MIGRATE_OK', 'Database migrated to current schema.');
+define('CO_' . $moduleDirNameUpper . '_' . 'MIGRATE_WARNING', 'Warning! This is intended for developers only. Confirm write schema file from current database.');
+define('CO_' . $moduleDirNameUpper . '_' . 'MIGRATE_SCHEMA_OK', 'Current schema file written');
 
 //Latest Version Check
 define('CO_' . $moduleDirNameUpper . '_' . 'NEW_VERSION', 'New Version: ');

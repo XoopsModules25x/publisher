@@ -19,7 +19,6 @@ namespace XoopsModules\Publisher\Form;
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
@@ -27,14 +26,11 @@ namespace XoopsModules\Publisher\Form;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
-
-
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
 \xoops_load('XoopsFormLoader');
 //todo: move to admin?
 //xoops_loadLanguage('main', 'publisher');
-/** @var Publisher\Helper $helper */
 $helper = Publisher\Helper::getInstance();
 $helper->loadLanguage('main');
 
@@ -47,15 +43,15 @@ class FileForm extends \XoopsThemeForm
      * @var Publisher\Helper
      */
     public $helper;
-
     public $targetObject;
 
     /**
+     * FileForm constructor.
      * @param $target
      */
     public function __construct(&$target)
     {
-        /** @var Publisher\Helper $this ->helper */
+        /** @var Publisher\Helper $this->helper */
         $this->helper       = Publisher\Helper::getInstance();
         $this->targetObject = &$target;
 

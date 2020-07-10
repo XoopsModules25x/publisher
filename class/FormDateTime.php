@@ -18,12 +18,9 @@ namespace XoopsModules\Publisher;
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -49,7 +46,7 @@ class FormDateTime extends \XoopsFormElementTray
         }
         $datetime = \getdate($value);
 
-        $this->addElement(new \XoopsFormTextDateSelect('', $name . '[date]', $size, $value, $showtime));
+        $this->addElement(new \XoopsFormTextDateSelect('', $name . '[date]', $size, $value));
         $timearray = [];
         for ($i = 0; $i < 24; ++$i) {
             for ($j = 0; $j < 60; $j += 10) {

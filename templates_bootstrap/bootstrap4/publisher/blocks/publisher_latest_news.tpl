@@ -10,60 +10,60 @@
        <{$item.category}>
      </div>
      <{/if}>
-	  <div class="article_full">
+      <div class="article_full">
             <{if $item.display_item_image}>
-				 <{if $item.item_image != ''}>
+                 <{if $item.item_image != ''}>
             <div class="article_full_img_div">
              <a href="<{$item.itemurl}>"><img class="img-responsive" src="<{$item.item_image}>" alt="<{$item.alt}>" title="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>
             </div>
             <{else}>
              <div class="article_full_img_div">
-		    <a href="<{$item.itemurl}>"><img class="img-responsive" src="<{$block.publisher_url}>thumb.php?src=<{$block.publisher_url}>/assets/images/default_image.jpg&w=<{$block.imgheight}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>    
-		   </div>	
-			<{/if}>
+            <a href="<{$item.itemurl}>"><img class="img-responsive" src="<{$block.publisher_url}>thumb.php?src=<{$block.publisher_url}>/assets/images/default_image.jpg&w=<{$block.imgheight}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>
+           </div>
             <{/if}>
-			
+            <{/if}>
+
     <div style="padding: 10px;">
         <h4><{$item.title}></h4>
                                <{if $item.poster}>
-								<span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
+                                <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="fa fa-user"></span>&nbsp; <{$item.poster}></span>
                                 </span>
-                                <{/if}>	 
+                                <{/if}>
                                <{if $item.posttime}>
-								<span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
+                                <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="fa fa-calendar"></span>&nbsp;<{$item.posttime}>  
-								</span> 
-                                <{/if}>	
+                                </span>
+                                <{/if}>
                                <{if $item.read}>
-								<span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
+                                <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="fa fa-check-circle-o"></span>&nbsp;<{$item.read}> <{$block.lang_reads}>
                                 </span>
-                                <{/if}>	
-                                 <{if $item.comment && $item.cancomment && $item.comment != -1}>								
-								<span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
+                                <{/if}>
+                                 <{if $item.comment && $item.cancomment && $item.comment != -1}>
+                                <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="fa fa-comment"></span>&nbsp;<{$item.comment}>
-                                </span>	
-                                <{/if}>	
+                                </span>
+                                <{/if}>
                                 
         <div style="margin-top:10px;">
             <{if $item.display_summary}>
-			<{$item.text}>
-			 <div class="pull-right">
+            <{$item.text}>
+             <div class="pull-right">
                        <a href="<{$item.itemurl}>">
                             <{$item.more}>
                         </a>
              </div>
-			<{/if}>
+            <{/if}>
         </div>
         <div class="pull-left" style="margin-top: 15px;">
             <{if $op != 'preview'}>
                  
-					<span style="float: right; text-align: right;">
-                                <{if $item.print }>						
-		                          <{$item.print}> 
+                    <span style="float: right; text-align: right;">
+                                <{if $item.print }>
+                                  <{$item.print}>
                                  <{/if}>
-                                <{if $item.pdf }>	
+                                <{if $item.pdf }>
                                   <{$item.pdf}>
                                  <{/if}>
                                 <{if $item.email}>
@@ -72,7 +72,7 @@
                                   <{if $item.display_adminlink}> 
                                   <{$item.admin}>
                                    <{/if}> 
-				    </span>				  
+                    </span>
             <{else}>
                 <span style="float: right;">&nbsp;</span>
             <{/if}>
@@ -84,7 +84,7 @@
             <{/foreach}>
      
     <{/section}>
-	 <{if $block.latestnews_scroll }></marquee><{/if}>
+     <{if $block.latestnews_scroll }></marquee><{/if}>
 
     <div><{$block.morelink}><{$block.topiclink}><{$block.archivelink}><{$block.submitlink}></div>
 <{/if}>
@@ -108,59 +108,59 @@
     <{foreach item=item from=$block.columns[i]}>   
     <div class='col-md-4 col-sm-12'>
       <{if $item.display_item_image}>
-		            <{if $item.item_image != ''}>
-				   <a href="<{$item.itemurl}>"><img class="img-fluid" src="<{$item.item_image}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>
-				    <{else}>
-					<a href="<{$item.itemurl}>"><img class="img-fluid" src="<{$block.publisher_url}>thumb.php?src=<{$block.publisher_url}>/assets/images/default_image.jpg&w=<{$block.imgheight}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>"  style="border:<{$block.border}>px solid #<{$block.bordercolor}>></a>
-	                 <{/if}>
+                    <{if $item.item_image != ''}>
+                   <a href="<{$item.itemurl}>"><img class="img-fluid" src="<{$item.item_image}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>
+                    <{else}>
+                    <a href="<{$item.itemurl}>"><img class="img-fluid" src="<{$block.publisher_url}>thumb.php?src=<{$block.publisher_url}>/assets/images/default_image.jpg&w=<{$block.imgheight}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>"  style="border:<{$block.border}>px solid #<{$block.bordercolor}>></a>
+                     <{/if}>
           <{/if}>
-	 <p><{$item.title}></p>
+     <p><{$item.title}></p>
          
             <{if $block.letters != 0}>
                             <p>
-                        			<{if $item.display_summary}>
-									<{$item.text}> <br>
-									<{/if}>
-								<{$item.more}><br>
-	                            <{if $item.topic_title}>
+                                    <{if $item.display_summary}>
+                                    <{$item.text}> <br>
+                                    <{/if}>
+                                <{$item.more}><br>
+                                <{if $item.topic_title}>
                                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
-								<span class="fa fa-tag"></span>&nbsp;<{$item.topic_title}>
-								</span>
-                                <{/if}>	
+                                <span class="fa fa-tag"></span>&nbsp;<{$item.topic_title}>
+                                </span>
+                                <{/if}>
                                 <{if $item.poster}>
-								<span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
+                                <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="fa fa-user"></span>&nbsp; <{$item.poster}></span>
                                 </span>
-                                <{/if}>	 
+                                <{/if}>
                                <{if $item.posttime}>
-								<span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
+                                <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="fa fa-calendar"></span>&nbsp;<{$item.posttime}>  
-								</span> 
-                                <{/if}>	
+                                </span>
+                                <{/if}>
                                <{if $item.read }>
-								<span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
+                                <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="fa fa-check-circle-o"></span>&nbsp;<{$item.read}> <{$block.lang_reads}>
                                 </span>
-                                <{/if}>	
+                                <{/if}>
                                 <{if $item.comment && $item.cancomment && $item.comment != -1}>
-								<span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
+                                <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="fa fa-comment"></span>&nbsp;<{$item.comment}>
-                                </span>	
-                                <{/if}>	
-                                <{if $item.print }>						
+                                </span>
+                                <{/if}>
+                                <{if $item.print }>
                                 <{$item.print}> 
                                 
                                  <{/if}>
-                                <{if $item.pdf }>	
+                                <{if $item.pdf }>
                                   <{$item.pdf}>
                                  <{/if}>
                                 <{if $item.email}><{$item.email}>
                                   <{/if}>                             
                                   <{if $item.display_adminlink}><{$item.admin}>
                                   <{/if}>                     
-							</p>
-            <{/if}>	  
-		  
+                            </p>
+            <{/if}>
+
     </div>
     
    <{/foreach}>  

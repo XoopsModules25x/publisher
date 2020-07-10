@@ -14,15 +14,11 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Include
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
 
 use XoopsModules\Publisher;
-
-
 
 require_once __DIR__ . '/common.php';
 
@@ -41,7 +37,6 @@ require_once __DIR__ . '/common.php';
  */
 function publisher_search($queryArray, $andor, $limit, $offset, $userid, $categories = [], $sortby = 0, $searchin = '', $extra = '')
 {
-    /** @var Publisher\Helper $helper */
     $helper = Publisher\Helper::getInstance();
     $ret    = $item = [];
     if ('' == $queryArray || (is_array($queryArray) && 0 === count($queryArray))) {

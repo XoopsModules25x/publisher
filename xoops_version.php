@@ -14,7 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -23,8 +22,6 @@ declare(strict_types=1);
 use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
-
-
 
 require_once __DIR__ . '/preloads/autoloader.php';
 
@@ -39,8 +36,8 @@ $xoops_url = parse_url(XOOPS_URL);
 
 $modversion = [
     'version'             => '1.08',
-    'module_status'       => 'Alpha 1',
-    'release_date'        => '2020/05/18',
+    'module_status'       => 'Alpha 2',
+    'release_date'        => '2020/07/08',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -65,7 +62,7 @@ $modversion = [
     'onInstall'           => 'include/oninstall.php',
     'onUpdate'            => 'include/onupdate.php',
     // ------------------- Min Requirements -------------------
-    'min_php'             =>  '7.1',
+    'min_php'             => '7.2',
     'min_xoops'           => '2.5.10',
     'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],
@@ -228,8 +225,8 @@ $modversion['blocks'][] = [
     'description' => _MI_PUBLISHER_LATEST_NEWS_DSC,
     'show_func'   => 'publisher_latest_news_show',
     'edit_func'   => 'publisher_latest_news_edit',
-    'options'     => '0|6|1|300|0|0|300|30|up|datesub|1|900|400|1|dcdcdc|CENTER|1|0|0|1|1|1|1|0|0|0|0|0|1|0|normal|0',                     
-	'template'    => 'publisher_latest_news.tpl',
+    'options'     => '0|6|1|300|0|0|300|30|up|datesub|1|900|400|1|dcdcdc|CENTER|1|0|0|1|1|1|1|0|0|0|0|0|1|0|normal|0',
+    'template'    => 'publisher_latest_news.tpl',
 ];
 
 $modversion['blocks'][] = [
@@ -269,7 +266,9 @@ $modversion['templates'] = [
     ['file' => 'publisher_addfile.tpl', 'description' => '_MI_PUBLISHER_ADDFILE_DSC'],
     ['file' => 'publisher_search.tpl', 'description' => '_MI_PUBLISHER_SEARCH_DSC'],
     ['file' => 'publisher_author_items.tpl', 'description' => '_MI_PUBLISHER_AUTHOR_ITEMS_DSC'],
-    ['file' => 'publisher_archive.tpl', 'description' => '_MI_PUBLISHER_ARCHIVE__DSC'],
+    ['file' => 'publisher_archive.tpl', 'description' => '_MI_PUBLISHER_ARCHIVE_DSC'],
+    //admin
+    ['file' => 'publisher_trello.tpl', 'description' => '_MI_PUBLISHER_TRELLO_DSC', 'type' => 'admin'],
 ];
 
 // Config categories
@@ -376,7 +375,7 @@ $modversion['config'][] = [
     'options'     => array_merge(
         [_MI_PUBLISHER_URL_REWRITE_NONE => 'none'],
         [_MI_PUBLISHER_URL_REWRITE_PATHINFO => 'path-info'], // Is performing module install/update?
-        ($isModuleAction && in_array(PHP_SAPI, ['apache', 'apache2handler', 'cgi-fcgi', 'fpm-fcgi'])) ? [_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'] : []
+        ($isModuleAction && in_array(PHP_SAPI, ['apache', 'apache2handler', 'cgi-fcgi', 'fpm-fcgi'], true)) ? [_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'] : []
     ),
     'category'    => 'seo',
 ];
@@ -488,7 +487,6 @@ $modversion['config'][] = [
     'category'    => 'indexcat',
 ];
 
-
 $modversion['config'][] = [
     'name'        => 'cat_display_summary',
     'title'       => '_MI_PUBLISHER_DCS',
@@ -519,7 +517,6 @@ $modversion['config'][] = [
     'category'    => 'category',
 ];
 
-
 $modversion['config'][] = [
     'name'        => 'idxcat_display_art_count',
     'title'       => '_MI_PUBLISHER_ARTCOUNT',
@@ -529,7 +526,6 @@ $modversion['config'][] = [
     'default'     => 0,
     'category'    => 'indexcat',
 ];
-
 
 $modversion['config'][] = [
     'name'        => 'idxcat_show_rss_link',
@@ -604,8 +600,6 @@ $modversion['config'][] = [
     'category'    => 'indexcat',
 ];
 
-
-
 ################### LATEST PUBLISHED ARTICLES FOR INDEX AND CATEGORY PAGE  ####################
 
 // group header
@@ -644,8 +638,6 @@ $modversion['config'][] = [
     'default'     => 'full',
     'category'    => 'indexcattemplate',
 ];
-
-
 
 $modversion['config'][] = [
     'name'        => 'idxcat_display_date_col',
@@ -806,7 +798,7 @@ $modversion['config'][] = [
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
-	'category'    => 'item',
+    'category'    => 'item',
 ];
 
 $modversion['config'][] = [
@@ -849,7 +841,6 @@ $modversion['config'][] = [
     'category'    => 'item',
 ];
 
-
 $modversion['config'][] = [
     'name'        => 'item_disp_blocks_summary',
     'title'       => '_MI_PUBLISHER_DISP_BLOCK_SUM',
@@ -870,7 +861,6 @@ $modversion['config'][] = [
     'category'    => 'item',
 ];
 
-
 $modversion['config'][] = [
     'name'        => 'maximum_filesize',
     'title'       => '_MI_PUBLISHER_MAX_SIZE',
@@ -878,7 +868,7 @@ $modversion['config'][] = [
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '10485760', //10MB
-	'category'    => 'item',
+    'category'    => 'item',
 ];
 
 $modversion['config'][] = [
@@ -898,7 +888,7 @@ $modversion['config'][] = [
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '8000',
-	'category'    => 'item',
+    'category'    => 'item',
 ];
 
 $modversion['config'][] = [
@@ -908,7 +898,7 @@ $modversion['config'][] = [
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '8000',
-	'category'    => 'item',
+    'category'    => 'item',
 ];
 
 $modversion['config'][] = [
@@ -945,7 +935,6 @@ $modversion['config'][] = [
     'default'     => 'previous_next',
     'category'    => 'item',
 ];
-
 
 ################### LATEST ARTICLES IN ARTICLE PAGE  ####################
 
@@ -1211,7 +1200,6 @@ $modversion['config'][] = [
     'category'    => 'group_header',
 ];
 
-
 $modversion['config'][] = [
     'name'        => 'authorpage_display_image',
     'title'       => '_MI_PUBLISHER_MAINIMAGE',
@@ -1350,7 +1338,7 @@ $modversion['config'][] = [
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-	 'category'    => 'format',
+    'category'    => 'format',
 ];
 
 $modversion['config'][] = [
@@ -1636,8 +1624,6 @@ $modversion['config'][] = [
     'category'    => 'permissions',
 ];
 
-
-
 $modversion['config'][] = [
     'name'        => 'perm_com_art_level',
     'title'       => '_MI_PUBLISHER_COMMENTS',
@@ -1679,7 +1665,7 @@ $modversion['config'][] = [
     'description' => '_MI_PUBLISHER_SHOW_SAMPLE_BUTTON_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => 0,
+    'default'     => 1,
 ];
 
 /**

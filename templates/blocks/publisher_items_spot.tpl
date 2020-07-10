@@ -19,30 +19,30 @@
             <div class="itemText" style="padding-left: 5px; padding-top: 5px;">
                 <div>
                     <img style="vertical-align: middle;" src="<{$block.publisher_url}>/assets/images/links/doc.png" alt="">&nbsp;<{$item.titlelink}>
-					<br>
+                    <br>
                     <small> 
-					<{if $block.display_who_link}> <{$block.lang_poster}> <{$item.who}><{/if}> <{if $block.display_when_link}> | <{$item.when}><{/if}> <{if $block.display_reads}> | <{$item.counter}> <{$block.lang_reads}> <{/if}> <{if $block.display_categorylink}> | <{$block.lang_category}> : <{$item.categorylink}><{/if}>	
-					</small>
-				</div>
+                    <{if $block.display_who_link}> <{$block.lang_poster}> <{$item.who}><{/if}> <{if $block.display_when_link}> | <{$item.when}><{/if}> <{if $block.display_reads}> | <{$item.counter}> <{$block.lang_reads}> <{/if}> <{if $block.display_categorylink}> | <{$block.lang_category}> : <{$item.categorylink}><{/if}>
+                    </small>
+                </div>
 
                 <div>
                        <{if $block.display_item_image}>
                           <{if $item.image_path}>
-						  <a href="<{$item.itemurl}>"><img class="publisher_item_image" src="<{$item.image_path}>" align="left" alt="<{$item.clean_title}>" title="<{$item.clean_title}>" style="width:120px"></a>
-					      <{else}>
-				          <a href="<{$item.itemurl}>"><img class="publisher_item_image" src="<{$block.publisher_url}>/assets/images/default_image.jpg" align="left" alt="<{$item.clean_title}>" title="<{$item.clean_title}>" style="width:120px"></a>   
-			              <{/if}>
-					   <{/if}> 
+                          <a href="<{$item.itemurl}>"><img class="publisher_item_image" src="<{$item.image_path}>" align="left" alt="<{$item.clean_title}>" title="<{$item.clean_title}>" style="width:120px"></a>
+                          <{else}>
+                          <a href="<{$item.itemurl}>"><img class="publisher_item_image" src="<{$block.publisher_url}>/assets/images/default_image.jpg" align="left" alt="<{$item.clean_title}>" title="<{$item.clean_title}>" style="width:120px"></a>
+                          <{/if}>
+                       <{/if}>
                   <{$item.summary}><br>
-					
-			<{if $block.display_comment_link && $item.cancomment && $item.comments != -1}>
+
+            <{if $block.display_comment_link && $item.cancomment && $item.comments != -1}>
                 <span style="font-size: 10px; float: left;"><a href="<{$item.itemurl}>"><{$item.comments}></a></span>
             <{else}>
                 <span style="float: left;">&nbsp;</span>
-            <{/if}>	
-					<{if $block.display_adminlink}>
-					<span style="float: right; text-align: right;"><{$item.adminlink}></span>
-					<{/if}>	
+            <{/if}>
+                    <{if $block.display_adminlink}>
+                    <span style="float: right; text-align: right;"><{$item.adminlink}></span>
+                    <{/if}>
                 </div>
             </div>
             <div style="clear: both;"></div>
@@ -50,11 +50,11 @@
                 <div style="font-size: 10px; text-align: right; border-bottom: 1px dotted #000000;"></div>
             <{/if}>
             <{if $block.truncate}>
-			  <{if $block.display_readmore}>	
+              <{if $block.display_readmore}>
                 <div style="font-size: 10px; text-align: right;">
                     <a href="<{$item.itemurl}>"><{$block.lang_readmore}></a></div>
                <{/if}>
-			<{/if}>
+            <{/if}>
         <{/if}>
     <{/foreach}>
 <{/if}>

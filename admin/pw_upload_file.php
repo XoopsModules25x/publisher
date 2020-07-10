@@ -14,7 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -22,6 +21,7 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -45,7 +45,6 @@ function publisher_pagewrap_upload(&$errors)
     //    require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
     xoops_load('XoopsMediaUploader');
 
-    /** @var Publisher\Helper $helper */
     $helper    = Publisher\Helper::getInstance();
     $postField = 'fileupload';
 
@@ -53,13 +52,13 @@ function publisher_pagewrap_upload(&$errors)
     $maxImageWidth  = $helper->getConfig('maximum_image_width');
     $maxImageHeight = $helper->getConfig('maximum_image_height');
 
-    if (!is_dir(Publisher\Utility::getUploadDir(true, 'content'))) {
-        if (!mkdir($concurrentDirectory = Publisher\Utility::getUploadDir(true, 'content'), 0757) && !is_dir($concurrentDirectory)) {
+    if (!is_dir(Utility::getUploadDir(true, 'content'))) {
+        if (!mkdir($concurrentDirectory = Utility::getUploadDir(true, 'content'), 0757) && !is_dir($concurrentDirectory)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
         }
     }
     $allowedMimeTypes = ['text/html', 'text/plain', 'application/xhtml+xml'];
-    $uploader         = new \XoopsMediaUploader(Publisher\Utility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
+    $uploader         = new \XoopsMediaUploader(Utility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
     if ($uploader->fetchMedia($postField)) {
         $uploader->setTargetFileName($uploader->getMediaName());
         if ($uploader->upload()) {

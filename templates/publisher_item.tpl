@@ -13,32 +13,32 @@
     <{if $show_subtitle && $item.subtitle}>
         <h3><{$item.subtitle}></h3>
     <{/if}>
-	<{if $display_itemcategory}>
+    <{if $display_itemcategory}>
         <small>&nbsp;<{$smarty.const._MD_PUBLISHER_CATEGORY}> : <{$item.category}> </small>
     <{/if}>
      <{if $display_who_link}>
         <small>| <{$smarty.const._MD_PUBLISHER_POSTER}> <{$item.who}> </small>
     <{/if}>
-	<{if $display_when_link}>
+    <{if $display_when_link}>
         <small><{$item.when}> </small>
     <{/if}>
-	<{if $display_hits_link}>
-	    <small>(<{$item.counter}> <{$smarty.const._MD_PUBLISHER_READS}>)</small>
+    <{if $display_hits_link}>
+        <small>(<{$item.counter}> <{$smarty.const._MD_PUBLISHER_READS}>)</small>
     <{/if}>
-	
+
 
  
 
-	<div class="itemBody">
+    <div class="itemBody">
         <{if $pagenav}>
             <div class="publisher_pagenav_top"><{$smarty.const._MD_PUBLISHER_PAGE}>: <{$pagenav}></div>
         <{/if}>
         <div class="itemText">
-		    <{if $item.image_path==''}>
-			  <{if $display_defaultimage}>
-			     <img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>">
-		      <{/if}>  
-			<{/if}> 
+            <{if $item.image_path==''}>
+              <{if $display_defaultimage}>
+                 <img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>">
+              <{/if}>
+            <{/if}>
            <{if $item.image_path || $item.images}>
                 <div class="ppy" id="ppy3">
                     <ul class="ppy-imglist">
@@ -90,7 +90,7 @@
                 <{/foreach}>
             </div>
         <{/if}>
-		
+
 
         <{if $pagenav}>
             <div class="publisher_pagenav_bottom"><{$smarty.const._MD_PUBLISHER_PAGE}>: <{$pagenav}></div>
@@ -220,35 +220,35 @@
         <!-- Start item loop -->
         <{foreach item=item from=$items}>
             <tr>
-			  
+
                 <td class="even" align="left">
-				<{if $show_mainimage == 1}>					
-		           <{if $item.item_image==''}>
-		             <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>" align="left" width="100" style="padding:5px">
-		           <{else}>
-				     <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px"></a> 
+                <{if $show_mainimage == 1}>
+                   <{if $item.item_image==''}>
+                     <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>" align="left" width="100" style="padding:5px">
+                   <{else}>
+                     <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px"></a>
                    <{/if}> 
-				<{/if}>
-				<{$item.titlelink}>
-				
-				<{if $show_summary == 1}><br><{$item.summary}><br><{/if}> 
-					<{if $show_readmore == 1}>
-					    <{$item.more}><br>
+                <{/if}>
+                <{$item.titlelink}>
+
+                <{if $show_summary == 1}><br><{$item.summary}><br><{/if}>
+                    <{if $show_readmore == 1}>
+                        <{$item.more}><br>
                     <{/if}>
-					<small>
-					    <{if $show_poster == 1}>
+                    <small>
+                        <{if $show_poster == 1}>
                        <br> <{$smarty.const._MD_PUBLISHER_POSTER}>  <{$item.who}>
                     <{/if}>
-					<{if $show_commentlink == 1 && $item.cancomment && $item.comments != -1}>
+                    <{if $show_commentlink == 1 && $item.cancomment && $item.comments != -1}>
                         | <{$item.comments}>
                      <{/if}>
-				</td>
+                </td>
                 <{if $show_date_col == 1}>
                     <td class="odd" align="left">
                         <div align="center"><{$item.datesub}></div>
                     </td>
                 <{/if}>
-				</small>
+                </small>
                 <{if $show_hits_col == 1}>
                     <td class="odd" align="left">
                         <div align="center"><{$item.counter}></div>

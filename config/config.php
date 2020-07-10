@@ -14,14 +14,16 @@ declare(strict_types=1);
 /**
  * @copyright    XOOPS Project https://xoops.org/
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @package
  * @since
  * @author       XOOPS Development Team
  */
 
-require_once __DIR__ . '/../include/common.php';
-$moduleDirName = basename(dirname(__DIR__));
+use XoopsModules\Publisher\Constants;
+
+require_once dirname(__DIR__) . '/include/common.php';
+$moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$helper = \XoopsModules\Publisher\Helper::getInstance();
 
 return (object)[
     'name'           => $moduleDirNameUpper . ' Module Configurator',
@@ -82,11 +84,14 @@ return (object)[
     'renameTables' => [//         'XX_archive'     => 'ZZZZ_archive',
     ],
     'moduleStats'  => [
-        //            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
-        //            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
-        //            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_SUBMITTED]),
+        'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
+        'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
+        'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_SUBMITTED),
+        'totalpublished'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_PUBLISHED),
+        'totaloffline'    => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_OFFLINE),
+        'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_REJECTED),
     ],
     'modCopyright' => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . constant($moduleDirNameUpper . '_AUTHOR_LOGOIMG') . "' alt='XOOPS Project'></a>",
+                     <img src='" . \Xmf\Module\Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
 ];
 

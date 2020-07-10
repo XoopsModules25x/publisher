@@ -4,19 +4,19 @@
                 <{$item.category}>
                </div>
             <{/if}>
-		
-		<{if $display_mainimage == 1}>	
-			<{if $item.image_path!=''}>
+
+        <{if $display_mainimage == 1}>
+            <{if $item.image_path!=''}>
             <div class="article_full_img_div">
              <a href="<{$item.itemurl}>"><img class="img-responsive" src="<{$item.image_path}>" alt="<{$item.title}>"></a>
             </div>
             <{else}>
              <div class="article_full_img_div">
-				<a href="<{$item.itemurl}>"><img class="img-responsive" src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>"></a>     
-           </div>	
-			<{/if}>
+                <a href="<{$item.itemurl}>"><img class="img-responsive" src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>"></a>
+           </div>
             <{/if}>
-			
+            <{/if}>
+
             <div style="padding: 10px;">
                 <h4><{$item.titlelink}></h4>
                     <{if $show_subtitle && $item.subtitle}>
@@ -25,7 +25,7 @@
               <small>
                <{if $display_category == 1}>  
                    <span class="glyphicon glyphicon-tag"></span>&nbsp;<{$item.category}> 
-               <{/if}>				                       
+               <{/if}>
                <{if $display_poster == 1}> 
                    <span class="glyphicon glyphicon-user"></span>&nbsp;<{$item.who}>
                <{/if}> 
@@ -47,11 +47,10 @@
                 <{/if}>
          
                 <{if $display_readmore == 1}>
-				<div class="pull-right" style="margin-top: 15px;">
+                <div class="pull-right" style="margin-top: 15px;">
                     <a href="<{$item.itemurl}>" class="btn btn-primary btn-xs"> <{$smarty.const._MD_PUBLISHER_VIEW_MORE}></a>
                 </div>
                 <{/if}>
                 <div class="clearfix"></div>
             </div>
         </div>
-        

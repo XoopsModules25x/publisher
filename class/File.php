@@ -17,15 +17,13 @@ namespace XoopsModules\Publisher;
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-
-
+use XoopsModules\Publisher\Utility;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -49,9 +47,9 @@ class File extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this ->helper */
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
         $this->helper = \XoopsModules\Publisher\Helper::getInstance();
-        /** @var \XoopsDatabase $db */
+        /** @var \XoopsMySQLDatabase $db */
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('fileid', \XOBJ_DTYPE_INT, 0, false);
         $this->initVar('itemid', \XOBJ_DTYPE_INT, null, true);
@@ -109,7 +107,7 @@ class File extends \XoopsObject
         $maxfilewidth  = $this->helper->getConfig('maximum_image_width');
         $maxfileheight = $this->helper->getConfig('maximum_image_height');
         \xoops_load('XoopsMediaUploader');
-        $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        $uploader = new \XoopsMediaUploader(Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
             return true;
         }
@@ -129,22 +127,22 @@ class File extends \XoopsObject
     {
         /** @var Publisher\MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $this->helper->getHandler('Mimetype');
-        $itemid          = $this->getVar('itemid');
+        $itemId          = $this->getVar('itemid');
         if (0 === \count($allowedMimetypes)) {
             $allowedMimetypes = $mimetypeHandler->getArrayByType();
         }
         $maxfilesize   = $this->helper->getConfig('maximum_filesize');
         $maxfilewidth  = $this->helper->getConfig('maximum_image_width');
         $maxfileheight = $this->helper->getConfig('maximum_image_height');
-        if (!\is_dir(Publisher\Utility::getUploadDir())) {
-            if (!\mkdir($concurrentDirectory = Publisher\Utility::getUploadDir(), 0757) && !\is_dir($concurrentDirectory)) {
+        if (!\is_dir(Utility::getUploadDir())) {
+            if (!\mkdir($concurrentDirectory = Utility::getUploadDir(), 0757) && !\is_dir($concurrentDirectory)) {
                 throw new \RuntimeException(\sprintf('Directory "%s" was not created', $concurrentDirectory));
             }
         }
         \xoops_load('XoopsMediaUploader');
-        $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        $uploader = new \XoopsMediaUploader(Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
-            $uploader->setTargetFileName($itemid . '_' . $uploader->getMediaName());
+            $uploader->setTargetFileName($itemId . '_' . $uploader->getMediaName());
             if ($uploader->upload()) {
                 $this->setVar('filename', $uploader->getSavedFileName());
                 if ('' == $this->getVar('name')) {
@@ -216,7 +214,7 @@ class File extends \XoopsObject
      */
     public function getFileUrl()
     {
-        return Publisher\Utility::getUploadDir(false) . $this->filename();
+        return Utility::getUploadDir(false) . $this->filename();
     }
 
     /**
@@ -224,7 +222,7 @@ class File extends \XoopsObject
      */
     public function getFilePath()
     {
-        return Publisher\Utility::getUploadDir() . $this->filename();
+        return Utility::getUploadDir() . $this->filename();
     }
 
     /**

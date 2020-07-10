@@ -68,7 +68,7 @@ class ModuleFeedback extends \XoopsObject
         if (!$action) {
             $action = $_SERVER['REQUEST_URI'];
         }
-        $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
+        $moduleDirName      = \basename(dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         // Get Theme Form
         \xoops_load('XoopsFormLoader');
@@ -84,9 +84,9 @@ class ModuleFeedback extends \XoopsObject
         $your_site = new \XoopsFormText(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_SITE'), 'your_site', 50, 255, $this->site);
         $your_site->setExtra('placeholder="' . \constant('CO_' . $moduleDirNameUpper . '_' . 'FB_SITE_PLACEHOLER') . '"');
         $form->addElement($your_site);
-        $your_mail = new \XoopsFormText(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_MAIL'), 'your_mail', 50, 255, $this->email);
-        $your_mail->setExtra('placeholder="' . \constant('CO_' . $moduleDirNameUpper . '_' . 'FB_MAIL_PLACEHOLER') . '"');
-        $form->addElement($your_mail);
+        $yourMail = new \XoopsFormText(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_MAIL'), 'your_mail', 50, 255, $this->email);
+        $yourMail->setExtra('placeholder="' . \constant('CO_' . $moduleDirNameUpper . '_' . 'FB_MAIL_PLACEHOLER') . '"');
+        $form->addElement($yourMail);
 
         $fbtypeSelect = new \XoopsFormSelect(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_TYPE'), 'fb_type', $this->type);
         $fbtypeSelect->addOption('', '');

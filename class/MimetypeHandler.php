@@ -19,15 +19,12 @@ namespace XoopsModules\Publisher;
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use XoopsModules\Publisher;
-
-
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -38,13 +35,12 @@ class MimetypeHandler extends BaseObjectHandler
 {
     /**
      * Constructor
-     *
-     * @param \XoopsDatabase                      $db
+     * @param \XoopsDatabase|null                 $db
      * @param \XoopsModules\Publisher\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this ->helper */
+        /** @var \XoopsModules\Publisher\Helper $this->helper */
         if (null === $helper) {
             $this->helper = \XoopsModules\Publisher\Helper::getInstance();
         } else {
@@ -59,9 +55,9 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * retrieve a mimetype object from the database
      *
-     * @param int  $id ID of mimetype
+     * @param int|null $id ID of mimetype
      *
-     * @param null $fields
+     * @param array|null $fields
      * @return bool|Mimetype
      */
     public function get($id = null, $fields = null)
@@ -86,13 +82,13 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
-     *                                   conditions to be met
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement}
+     *                                        conditions to be met
      *
-     * @param bool             $idAsKey
-     * @param bool             $asObject
+     * @param bool                  $idAsKey
+     * @param bool                  $asObject
      * @return array array of <a href='psi_element://Mimetype'>Mimetype</a> objects
-     *                                   objects
+     *                                        objects
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
     {
@@ -167,11 +163,11 @@ class MimetypeHandler extends BaseObjectHandler
     public function checkMimeTypes($postField)
     {
         $ret               = false;
-        $allowed_mimetypes = $this->getArrayByType();
-        if (empty($allowed_mimetypes)) {
+        $allowedMimetypes = $this->getArrayByType();
+        if (empty($allowedMimetypes)) {
             return $ret;
         }
-        foreach ($allowed_mimetypes as $mime) {
+        foreach ($allowedMimetypes as $mime) {
             if ($mime == $_FILES[$postField]['type']) {
                 $ret = $mime;
                 break;
@@ -200,9 +196,9 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|null $criteria           {@link CriteriaElement}
      *                                                  to match
-     * @param bool                            $join
+     * @param bool                  $join
      *
      * @return string string SQL query
      */
@@ -219,8 +215,7 @@ class MimetypeHandler extends BaseObjectHandler
             if ($join) {
                 throw new \RuntimeException('no need for join...');
             }
-        } catch (\Exception $e) {
-            /** @var Publisher\Helper $helper */
+        } catch (\Throwable $e) {
             $helper = Publisher\Helper::getInstance();
             $helper->addLog($e);
             echo 'no need for join...';

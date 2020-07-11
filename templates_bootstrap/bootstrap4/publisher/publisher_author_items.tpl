@@ -1,5 +1,5 @@
-<h2><{$smarty.const._MD_PUBLISHER_ITEMS_SAME_AUTHOR}> <{$author_name_with_link}></h2>
-<br><img src='<{$user_avatarurl}>' border='0' alt='' class="rounded-circle"><br><br>
+<h2><{$smarty.const._MD_PUBLISHER_ITEMS_SAME_AUTHOR}> : <{$author_name_with_link}></h2>
+<br><img src='<{$user_avatarurl}>' border='0' alt='' width='100' height='100' class="img-fluid"><br><br>
 <div class="table-responsive">
 <table class="table table-hover">
 

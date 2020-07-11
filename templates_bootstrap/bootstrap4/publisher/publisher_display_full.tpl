@@ -42,10 +42,10 @@
                 <{if $display_poster == 1}>
                 <small class="text-muted"><{$item.who}> </small>
                 <{/if}>
-                 <{if $display_poster == 1}>
+				<{if $display_date_col == 1}>
                 <small class="text-muted"><{$item.when}> </small>
                 <{/if}>
-                 <{if $display_poster == 1}>
+				<{if $display_hits_col == 1}>
                <small class="text-muted">(<{$item.counter}> <{$smarty.const._MD_PUBLISHER_READS}>)</small>
                 <{/if}>
                 </p>

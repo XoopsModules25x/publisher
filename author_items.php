@@ -91,12 +91,12 @@ if ($count > 0) {
             //shows 1 comment instead of 1 comm. if comments ==1
             //langugage file modified accordingly
             if (1 == $comments) {
-                $comment = '&nbsp;' . _MB_PUBLISHER_ONECOMMENT . '&nbsp;';
+                $comment = '&nbsp;' . _MD_PUBLISHER_ONECOMMENT . '&nbsp;';
             } else {
-                $comment = '&nbsp;' . $comments . '&nbsp;' . _MB_PUBLISHER_COMMENTS . '&nbsp;';
+                $comment = '&nbsp;' . $comments . '&nbsp;' . _MD_PUBLISHER_COMMENTS . '&nbsp;';
             }
         } else {
-            $comment = '&nbsp;' . _MB_PUBLISHER_NO_COMMENTS . '&nbsp;';
+            $comment = '&nbsp;' . _MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
         }
 
         $categories[$catId]['count_items']++;

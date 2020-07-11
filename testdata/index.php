@@ -39,7 +39,7 @@ switch ($op) {
     case 'load':
         if (Request::hasVar('ok', 'REQUEST') && 1 === Request::getInt('ok', 0)) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('../admin/index.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+                redirect_header($helper->url('admin/index.php'), 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             loadSampleData();
         } else {

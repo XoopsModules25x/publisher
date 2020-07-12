@@ -23,7 +23,6 @@ namespace XoopsModules\Publisher;
  */
 
 use XoopsModules\Publisher\{
-    CategoryHandler,
     Form,
     Helper,
     Metagen,

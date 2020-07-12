@@ -25,7 +25,8 @@ use XoopsModules\Publisher\{
     CategoryHandler,
     Helper,
     Item,
-    ItemHandler
+    ItemHandler,
+    Utility
 };
 
 require_once dirname(__DIR__) . '/include/common.php';

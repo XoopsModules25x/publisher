@@ -20,6 +20,7 @@ declare(strict_types=1);
  */
 
 use XoopsModules\Publisher\{
+    Constants,
     BlockForm,
     CategoryHandler,
     Helper,

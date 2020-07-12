@@ -24,10 +24,12 @@ namespace XoopsModules\Publisher;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Category;
-use XoopsModules\Publisher\Helper;
-use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\{
+    Category,
+    Helper,
+    Item,
+    Session
+};
 
 /**
  * Class Utility
@@ -1082,7 +1084,7 @@ class Utility extends Common\SysUtility
 
         $itemId  = Request::getInt('itemid', 0, 'POST');
         $uid     = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
-        $session = Publisher\Session::getInstance();
+        $session = Session::getInstance();
         $session->set('publisher_file_filename', Request::getString('item_file_name', '', 'POST'));
         $session->set('publisher_file_description', Request::getString('item_file_description', '', 'POST'));
         $session->set('publisher_file_status', Request::getInt('item_file_status', 1, 'POST'));

@@ -20,12 +20,14 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Helper,
+    Utility
+};
 
 require_once __DIR__ . '/admin_header.php';
 
-$helper = Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 
 $module  = $helper->getModule();
 $modId   = $module->mid();
@@ -89,7 +91,7 @@ if ('showmod' === $op) {
         foreach ($config_cats as $formCat => $info) {
             $$formCat = new \XoopsThemeForm($info['name'], 'pref_form_' . $formCat, 'preferences.php', 'post', true);
         }
-        unset($formCat, $info);
+        unset($formCat);
     }
 
     for ($i = 0; $i < $count; ++$i) {
@@ -197,7 +199,7 @@ if ('showmod' === $op) {
         $$formCat->display();
         Utility::closeCollapsableBar($formCat . '_table', $formCat . '_icon');
     }
-    unset($formCat, $info);
+    unset($formCat);
     xoops_cp_footer();
     exit();
 }

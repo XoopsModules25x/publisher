@@ -25,6 +25,10 @@ declare(strict_types=1);
 ######################################################################
 
 use Xmf\Request;
+use XoopsModules\Publisher\{
+    Item
+};
+
 
 require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_archive.tpl';
@@ -198,7 +202,7 @@ if (0 != $fromyear && 0 != $frommonth) {
 
     $count = count($storyarray);
     if (is_array($storyarray) && $count > 0) {
-        /** @var \XoopsModules\Publisher\Item $item */
+        /** @var Item $item */
 
         foreach ($storyarray as $item) {
             $story               = [];

@@ -20,7 +20,10 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    CategoryHandler,
+    Helper
+};
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -32,8 +35,8 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_search_show($options)
 {
     $block = [];
-    $helper = Publisher\Helper::getInstance();
-    /** @var Publisher\CategoryHandler $categoryHandler */
+    $helper = Helper::getInstance();
+    /** @var CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');
     $categories      = $categoryHandler->getCategoriesForSearch();
     if (0 === count($categories)) {
@@ -102,7 +105,7 @@ function publisher_search_show($options)
         }
         $categorySelect .= '>' . $cat . '</option>';
     }
-    unset($id, $cat);
+    unset($id);
     $categorySelect .= '</select>';
 
     /* scope */

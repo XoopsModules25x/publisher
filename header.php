@@ -17,12 +17,17 @@ declare(strict_types=1);
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
+
+use XoopsModules\Publisher\{
+    Helper
+};
+
 require_once dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
 $myts = \MyTextSanitizer::getInstance();
 
-/** @var \XoopsModules\Publisher\Helper $helper
+/** @var Helper $helper
  * {@internal $helper defined in ./include/common.php }}
  */
 if ('none' !== $helper->getConfig('seo_url_rewrite')) {

@@ -18,12 +18,15 @@ declare(strict_types=1);
  * @author       XOOPS Development Team
  */
 
-use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\{
+    Constants,
+    Helper
+};
 
 require_once dirname(__DIR__) . '/include/common.php';
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-$helper = \XoopsModules\Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 
 return (object)[
     'name'           => $moduleDirNameUpper . ' Module Configurator',

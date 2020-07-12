@@ -23,8 +23,15 @@ namespace XoopsModules\Publisher;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Category,
+    Constants,
+    Form,
+    Metagen,
+    Helper,
+    Seo,
+    Utility
+};
 
 //namespace Publisher;
 
@@ -36,12 +43,12 @@ require_once \dirname(__DIR__) . '/include/common.php';
 class Item extends \XoopsObject
 {
     /**
-     * @var Publisher\Helper
+     * @var Helper
      */
     public $helper;
     public $groupsRead = [];
     /**
-     * @var Publisher\Category
+     * @var Category
      */
     public $category;
 
@@ -50,8 +57,8 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
-        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+        /** @var Helper $this->helper */
+        $this->helper = Helper::getInstance();
         /** @var \XoopsMySQLDatabase $this->db */
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', \XOBJ_DTYPE_INT, 0);
@@ -107,7 +114,7 @@ class Item extends \XoopsObject
     }
 
     /**
-     * @return null|Publisher\Category
+     * @return null|Category
      */
     public function getCategory()
     {
@@ -517,7 +524,7 @@ class Item extends \XoopsObject
     {
         $printLinks = '';
         // Print button
-        $printLinks .= "<a href='" . Publisher\Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . \_CO_PUBLISHER_PRINT . "' alt='" . \_CO_PUBLISHER_PRINT . "'></a>&nbsp;";
+        $printLinks .= "<a href='" . Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . \_CO_PUBLISHER_PRINT . "' alt='" . \_CO_PUBLISHER_PRINT . "'></a>&nbsp;";
         $printLinks .= ' ';
 
         return $printLinks;
@@ -617,7 +624,7 @@ class Item extends \XoopsObject
      */
     public function getItemUrl()
     {
-        return Publisher\Seo::generateUrl('item', $this->itemid(), $this->short_url());
+        return Seo::generateUrl('item', $this->itemid(), $this->short_url());
     }
 
     /**
@@ -959,7 +966,7 @@ class Item extends \XoopsObject
      */
     public function createMetaTags()
     {
-        $publisherMetagen = new Publisher\Metagen($this->getTitle(), $this->meta_keywords(), $this->meta_description(), $this->category->categoryPath);
+        $publisherMetagen = new Metagen($this->getTitle(), $this->meta_keywords(), $this->meta_description(), $this->category->categoryPath);
         $publisherMetagen->createMetaTags();
     }
 
@@ -1006,12 +1013,12 @@ class Item extends \XoopsObject
      * @param string $title
      * @param bool   $checkperm
      *
-     * @return \XoopsModules\Publisher\Form\ItemForm
+     * @return Form\ItemForm
      */
     public function getForm($title = 'default', $checkperm = true)
     {
         //        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/item.php');
-        $form = new Publisher\Form\ItemForm($title, 'form', \xoops_getenv('SCRIPT_NAME'), 'post', true);
+        $form = new Form\ItemForm($title, 'form', \xoops_getenv('SCRIPT_NAME'), 'post', true);
         $form->setCheckPermissions($checkperm);
         $form->createElements($this);
 

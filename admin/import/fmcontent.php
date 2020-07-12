@@ -22,9 +22,12 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Category,
+    Constants,
+    Item,
+    Utility
+};
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
@@ -162,7 +165,7 @@ if ('go' === $op) {
         ++$cnt_imported_cat; //count category if there was content to import
 
         // create Publsher category to hold FmContent Content items with no Topic (content_topic=0)
-        /** @var Publisher\Category $categoryObj */
+        /** @var Category $categoryObj */
         $categoryObj = $helper->getHandler('Category')->create();
         $categoryObj->setVars(
             [
@@ -284,7 +287,7 @@ if ('go' === $op) {
         $fmContentObjs = $fmContentHdlr->getAll($criteria);
 
         // insert articles for this category
-        /** @var Publisher\Item $itemObj */
+        /** @var Item $itemObj */
         foreach ($fmContentObjs as $thisFmContentObj) {
             $itemObj = $helper->getHandler('Item')->create();
             $itemObj->setVars(
@@ -346,7 +349,7 @@ if ('go' === $op) {
         $helper->getHandler('Category')->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
-    unset($oldid, $catIds);
+    unset($oldid);
 
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . "<br>\n";

@@ -20,8 +20,11 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Helper,
+    Metagen,
+    Utility
+};
 
 require_once __DIR__ . '/header.php';
 
@@ -32,7 +35,7 @@ if (0 == $itemId) {
     redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
-$helper = Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 
 // Creating the item object for the selected item
 $itemObj = $helper->getHandler('Item')->get($itemId);
@@ -179,7 +182,7 @@ if ('all' === $helper->getConfig('item_other_items_type')) {
         $items[] = $theItem;
         unset($theItem);
     }
-    unset($itemsObj, $theItemObj);
+    unset($itemsObj);
     $xoopsTpl->assign('items', $items);
     unset($items);
 }
@@ -265,7 +268,7 @@ if (xoops_isActiveModule('tag')) {
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new Publisher\Metagen($itemObj->getVar('title'), $itemObj->getVar('meta_keywords', 'n'), $itemObj->getVar('meta_description', 'n'), $itemObj->getCategoryPath());
+$publisherMetagen = new Metagen($itemObj->getVar('title'), $itemObj->getVar('meta_keywords', 'n'), $itemObj->getVar('meta_description', 'n'), $itemObj->getCategoryPath());
 $publisherMetagen->createMetaTags();
 
 // Include the comments if the selected ITEM supports comments

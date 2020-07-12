@@ -19,8 +19,13 @@ declare(strict_types=1);
  * @author          Bandit-x
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    BlockForm,
+    CategoryHandler,
+    Helper,
+    ItemHandler,
+    Utility
+};
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -34,10 +39,10 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_columns_show($options)
 {
     //    global $xoTheme;
-    $helper = Publisher\Helper::getInstance();
-    /** @var Publisher\CategoryHandler $categoryHandler */
+    $helper = Helper::getInstance();
+    /** @var CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');
-    /** @var Publisher\ItemHandler $itemHandler */
+    /** @var ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     //Column Settings
     $optNumColumns  = isset($options[0]) ? (int)$options[0] : '2';
@@ -136,7 +141,7 @@ function publisher_items_columns_show($options)
             }
         }
     }
-    unset($categoryId, $mainItemCatObj);
+    unset($categoryId);
 
     $block['template']             = $options[4];
     $block['columns']              = $columns;
@@ -161,7 +166,7 @@ function publisher_items_columns_edit($options)
     // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form   = new Publisher\BlockForm();
+    $form   = new BlockForm();
     $colEle = new \XoopsFormSelect(_MB_PUBLISHER_NUMBER_COLUMN_VIEW, 'options[0]', $options[0]);
     $colEle->addOptionArray(
         [

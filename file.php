@@ -122,6 +122,5 @@ switch ($op) {
             require_once $GLOBALS['xoops']->path('footer.php');
         }
         exit();
-        break;
 }
 require_once $GLOBALS['xoops']->path('footer.php');

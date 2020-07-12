@@ -19,9 +19,11 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Constants,
+    Helper,
+    Utility
+};
 
 require_once __DIR__ . '/admin_header.php';
 require_once dirname(__DIR__) . '/include/common.php';
@@ -30,7 +32,7 @@ $myts = \MyTextSanitizer::getInstance();
 
 Utility::cpHeader();
 //publisher_adminMenu(3, _AM_PUBLISHER_PERMISSIONS);
-$helper = Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 
 // View Categories permissions
 $item_list_view = [];
@@ -115,7 +117,7 @@ $form_submit  = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'form_v
 foreach ($form_options as $key => $value) {
     $form_submit->addItem($key, $value);
 }
-unset($key, $value);
+unset($key);
 echo $form_submit->render();
 Utility::closeCollapsableBar('permissionstable_form', 'permissionsicon_form');
 
@@ -127,7 +129,7 @@ $form_submit = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'editors
 foreach ($editors as $key => $value) {
     $form_submit->addItem($key, $value['title']);
 }
-unset($key, $value);
+unset($key);
 echo $form_submit->render();
 Utility::closeCollapsableBar('permissionstable_editors', 'permissionsicon_editors');
 
@@ -142,7 +144,7 @@ $form_submit  = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'global
 foreach ($form_options as $key => $value) {
     $form_submit->addItem($key, $value);
 }
-unset($key, $value);
+unset($key);
 echo $form_submit->render();
 Utility::closeCollapsableBar('permissionstable_global', 'permissionsicon_global');
 

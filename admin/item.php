@@ -20,10 +20,11 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
-use XoopsModules\Publisher\Helper;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{Constants,
+    Helper,
+    Item,
+    Utility
+};
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -72,7 +73,7 @@ switch ($op) {
     case 'additem':
         $redirectMsg = $errorMsg = '';
         // Creating the item object
-        /** @var Publisher\Item $itemObj */
+        /** @var Item $itemObj */
         if (0 != $itemId) {
             $itemObj = $helper->getHandler('Item')->get($itemId);
         } else {
@@ -154,7 +155,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         exit();
-        break;
     case 'default':
     default:
         Utility::cpHeader();
@@ -404,7 +404,7 @@ function publisher_editItem($showmenu = false, $itemId = 0, $clone = false)
 
     if (0 !== $itemId) {
         // Creating the ITEM object
-        /** @var \XoopsModules\Publisher\Item $itemObj */
+        /** @var Item $itemObj */
         $itemObj = $helper->getHandler('Item')->get($itemId);
 
         if (null === $itemObj) {
@@ -482,7 +482,7 @@ function publisher_editItem($showmenu = false, $itemId = 0, $clone = false)
         }
     } else {
         // there's no parameter, so we're adding an item
-        /** @var \XoopsModules\Publisher\Item $itemObj */
+        /** @var Item $itemObj */
         $itemObj = $helper->getHandler('Item')->create();
         $itemObj->setVarsFromRequest();
 

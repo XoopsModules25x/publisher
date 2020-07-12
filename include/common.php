@@ -20,8 +20,12 @@ declare(strict_types=1);
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use Xmf\Module\Admin;
+use XoopsModules\Publisher\{
+    Common,
+    Helper,
+    Utility
+};
 
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
@@ -29,12 +33,12 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
 /** @var \XoopsMySQLDatabase $db */
-/** @var \XoopsModules\Publisher\Helper $helper */
+/** @var Helper $helper */
 /** @var Utility $utility */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
-$helper  = \XoopsModules\Publisher\Helper::getInstance();
+$helper  = Helper::getInstance();
 $utility = new Utility();
-//$configurator = new Publisher\Common\Configurator();
+//$configurator = new Common\Configurator();
 
 $helper->loadLanguage('common');
 
@@ -101,8 +105,8 @@ if (is_object($helper->getModule())) {
     $publisherCurrentPage = Utility::getCurrentPage();
 }
 
-$pathIcon16 = Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32 = Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16 = Admin::iconUrl('', 16);
+$pathIcon32 = Admin::iconUrl('', 32);
 //$pathModIcon16 = $helper->getModule()->getInfo('modicons16');
 //$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 

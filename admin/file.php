@@ -20,9 +20,11 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Helper;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    File,
+    Helper,
+    Utility
+};
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -62,7 +64,7 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemId = 0)
     }
 
     // FILES UPLOAD FORM
-    /** @var Publisher\File $fileObj */
+    /** @var File $fileObj */
     $uploadForm = $fileObj->getForm();
     $uploadForm->display();
 
@@ -79,11 +81,9 @@ switch ($op) {
     case 'uploadfile':
         Utility::uploadFile(false, true, $false);
         exit;
-        break;
     case 'uploadanother':
         Utility::uploadFile(true, true, $false);
         exit;
-        break;
     case 'mod':
         $fileid = Request::getInt('fileid', 0, 'GET');
         $itemId = Request::getInt('itemid', 0, 'GET');
@@ -143,7 +143,6 @@ switch ($op) {
         }
 
         exit();
-        break;
     case 'default':
     default:
         Utility::cpHeader();

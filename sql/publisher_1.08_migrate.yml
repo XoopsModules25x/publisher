@@ -82,7 +82,7 @@ publisher_items:
             attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
         -
             name: dateexpire
-            attributes: ' int(11)  DEFAULT ''0'' '
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
         -
             name: status
             attributes: ' int(1)  NOT NULL  DEFAULT ''-1'' '

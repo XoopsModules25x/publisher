@@ -21,9 +21,13 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Constants,
+    Category,
+    File,
+    Item,
+    Utility
+};
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
@@ -116,7 +120,7 @@ if ('go' === $op) {
 
     $newCatArray = [];
     while (false !== ($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat))) {
-        /** @var Publisher\Category $categoryObj */
+        /** @var Category $categoryObj */
         $categoryObj = $helper->getHandler('Category')->create();
 
         $newCat = [];
@@ -159,7 +163,7 @@ if ('go' === $op) {
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
-            /** @var Publisher\Item $itemObj */
+            /** @var Item $itemObj */
             $itemObj = $helper->getHandler('Item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
@@ -200,7 +204,7 @@ if ('go' === $op) {
                 $filename = $GLOBALS['xoops']->path('modules/wfsection/cache/uploaded/' . $arrFile['filerealname']);
                 if (file_exists($filename)) {
                     if (copy($filename, PUBLISHER_UPLOAD_PATH . '/' . $arrFile['filerealname'])) {
-                        /** @var Publisher\File $fileObj */
+                        /** @var File $fileObj */
                         $fileObj = $helper->getHandler('File')->create();
                         $fileObj->setVar('name', $arrFile['fileshowname']);
                         $fileObj->setVar('description', $arrFile['filedescript']);
@@ -240,7 +244,7 @@ if ('go' === $op) {
         $helper->getHandler('Category')->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
-    unset($oldid, $newCat);
+    unset($oldid);
 
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';

@@ -19,8 +19,13 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\{
+    Constants,
+    BlockForm,
+    CategoryHandler,
+    Helper,
+    ItemHandler
+};
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -35,8 +40,8 @@ function publisher_items_random_item_show($options)
 {
     $block = [];
 
-    $helper = Publisher\Helper::getInstance();
-    /** @var Publisher\ItemHandler $itemHandler */
+    $helper = Helper::getInstance();
+    /** @var ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     // creating the ITEM object
     $itemsObj = $itemHandler->getRandomItem('', [Constants::PUBLISHER_STATUS_PUBLISHED]);
@@ -107,7 +112,7 @@ function publisher_items_random_item_edit($options)
     // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form         = new Publisher\BlockForm();
+    $form         = new BlockForm();
     $showSummary  = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_SUMMARY, 'options[0]', $options[0]);
     $showImage    = new \XoopsFormRadioYN(_MB_PUBLISHER_IMGDISPLAY, 'options[1]', $options[1]);
     $showPoster   = new \XoopsFormRadioYN(_MB_PUBLISHER_DISPLAY_POSTEDBY, 'options[2]', $options[2]);

@@ -24,10 +24,14 @@ namespace XoopsModules\Publisher\Form;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
-use XoopsModules\Publisher\Helper;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Constants,
+    Form,
+    FormDateTime,
+    Helper,
+    ThemeTabForm,
+    Utility
+};
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -40,7 +44,7 @@ require_once $GLOBALS['xoops']->path('class/tree.php');
 /**
  * Class ItemForm
  */
-class ItemForm extends Publisher\ThemeTabForm
+class ItemForm extends ThemeTabForm
 {
     public $checkperm = true;
     public $tabs      = [
@@ -329,7 +333,7 @@ class ItemForm extends Publisher\ThemeTabForm
             } else {
                 $datesub = (0 == $obj->getVar('datesub')) ? \time() : $obj->getVar('datesub');
             }
-            $datesub_datetime = new Publisher\FormDateTime(\_CO_PUBLISHER_DATESUB, 'datesub', $size = 15, $datesub, true, true);
+            $datesub_datetime = new FormDateTime(\_CO_PUBLISHER_DATESUB, 'datesub', $size = 15, $datesub, true, true);
             // $datesub_datetime = new \XoopsFormDateTime(_CO_PUBLISHER_DATESUB, 'datesub', $size = 15, $datesub, true, true);
 
             $datesub_datetime->setDescription(\_CO_PUBLISHER_DATESUB_DSC);

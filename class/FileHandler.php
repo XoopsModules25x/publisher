@@ -22,7 +22,7 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -42,15 +42,15 @@ class FileHandler extends \XoopsPersistableObjectHandler
 {
     public $table_link = '';
     /**
-     * @var Publisher\Helper
+     * @var Helper
      */
     public $helper;
 
-    public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
+    public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        /** @var Helper $this->helper */
         if (null === $helper) {
-            $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+            $this->helper = Helper::getInstance();
         } else {
             $this->helper = $helper;
         }

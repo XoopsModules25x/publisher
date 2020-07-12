@@ -22,8 +22,15 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\{
+    Category,
+    Form,
+    Helper,
+    ItemHandler,
+    Metagen,
+    PermissionHandler,
+    Seo
+};
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -76,7 +83,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * @param int|null $id  itemid of the user
      *
      * @param null     $fields
-     * @return mixed reference to the <a href='psi_element://Publisher\Category'>Publisher\Category</a> object, FALSE if failed
+     * @return mixed reference to the <a href='psi_element://Category'>Category</a> object, FALSE if failed
      *                      object, FALSE if failed
      */
     public function get($id = null, $fields = null)
@@ -94,16 +101,16 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * insert a new category in the database
      *
-     * @param \XoopsObject $category reference to the {@link Publisher\Category}
+     * @param \XoopsObject $category reference to the {@link Category}
      * @param bool         $force
      * @return bool        FALSE if failed, TRUE if already present and unchanged or successful
      */
     public function insert(\XoopsObject $category, $force = false) //insert(&$category, $force = false)
     {
         // Auto create meta tags if empty
-        /** @var \XoopsModules\Publisher\Category $category */
+        /** @var Category $category */
         if (!$category->meta_keywords || !$category->meta_description) {
-            $publisherMetagen = new Publisher\Metagen($category->name, $category->getVar('meta_keywords'), $category->getVar('description'));
+            $publisherMetagen = new Metagen($category->name, $category->getVar('meta_keywords'), $category->getVar('description'));
             if (!$category->meta_keywords) {
                 $category->setVar('meta_keywords', $publisherMetagen->keywords);
             }
@@ -113,7 +120,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         }
         // Auto create short_url if empty
         if (!$category->short_url) {
-            $category->setVar('short_url', Publisher\Metagen::generateSeoTitle($category->name('n'), false));
+            $category->setVar('short_url', Metagen::generateSeoTitle($category->name('n'), false));
         }
         $ret = parent::insert($category, $force);
 
@@ -130,7 +137,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function delete(\XoopsObject $category, $force = false) //delete(&$category, $force = false)
     {
-        /** @var \XoopsModules\Publisher\Category $category */
+        /** @var Category $category */
         // Deleting this category ITEMs
         $criteria = new \Criteria('categoryid', $category->categoryid());
         $this->helper->getHandler('Item')->deleteAll($criteria);
@@ -198,7 +205,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('parentid', (int)$parentid));
         }
         if (!$this->publisherIsAdmin) {
-            /** @var \XoopsModules\Publisher\PermissionHandler $permissionHandler */
+            /** @var PermissionHandler $permissionHandler */
             $permissionHandler = $this->helper->getHandler('Permission');
             $categoriesGranted = $permissionHandler->getGrantedItems('category_read');
             if (\count($categoriesGranted) > 0) {
@@ -379,7 +386,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $criteria->setSort('weight');
         $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
         $subcats         = $this->getObjects($criteria, true);
-        /** @var Publisher\Category $subcat */
+        /** @var Category $subcat */
         foreach ($subcats as $subcat) {
             $ret[$subcat->getVar('parentid')][$subcat->getVar('categoryid')] = $subcat;
         }
@@ -426,7 +433,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function itemsCount($catId = 0, $status = '')
     {
-        /** @var Publisher\ItemHandler $itemHandler */
+        /** @var ItemHandler $itemHandler */
         $itemHandler = $this->helper->getHandler('Item');
 
         return $itemHandler->getCountsByCat($catId, $status);

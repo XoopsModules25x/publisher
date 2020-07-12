@@ -24,9 +24,11 @@ namespace XoopsModules\Publisher\Form;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Helper;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Category,
+    Helper,
+    Utility
+};
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -34,12 +36,12 @@ use XoopsModules\Publisher\Utility;
 require_once $GLOBALS['xoops']->path('class/tree.php');
 
 /**
- * Class Publisher\CategoryForm
+ * Class CategoryForm
  */
 class CategoryForm extends \XoopsThemeForm
 {
     /**
-     * @var Publisher\Helper
+     * @var Helper
      */
     public $helper;
     public $targetObject;
@@ -47,12 +49,12 @@ class CategoryForm extends \XoopsThemeForm
     public $userGroups = [];
 
     /**
-     * @param \XoopsModules\Publisher\Category $target
+     * @param Category $target
      * @param int                              $subCatsCount
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        /** @var Helper $this->helper */
         $this->helper = Helper::getInstance();
 
         $this->targetObject = &$target;

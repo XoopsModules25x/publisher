@@ -20,9 +20,13 @@ declare(strict_types=1);
  * @author          Mowaffak
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Constants,
+    Helper,
+    ItemHandler,
+    Seo,
+    Utility
+};
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -35,9 +39,9 @@ function publisher_latest_news_show($options)
 {
     $block = [];
 
-    $helper = Publisher\Helper::getInstance();
+    $helper = Helper::getInstance();
     $helper->loadLanguage('main');
-    /** @var Publisher\ItemHandler $itemHandler */
+    /** @var ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     //    xoops_loadLanguage('main', 'publisher');
 
@@ -220,7 +224,7 @@ function publisher_latest_news_show($options)
 
         $item['print'] = '';
         if (1 == $options[24]) {
-            $item['print'] = '<a href="' . Publisher\Seo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '"></a>&nbsp;';
+            $item['print'] = '<a href="' . Seo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow"><img src="' . PUBLISHER_URL . '/assets/images/links/print.gif" title="' . _CO_PUBLISHER_PRINT . '" alt="' . _CO_PUBLISHER_PRINT . '"></a>&nbsp;';
         }
 
         $item['pdf'] = '';

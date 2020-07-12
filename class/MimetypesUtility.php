@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -26,7 +25,12 @@ use XoopsModules\Publisher\Utility;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Helper,
+    MimetypeHandler,
+    Session,
+    Utility
+};
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -37,8 +41,8 @@ class MimetypesUtility
 {
     public static function add()
     {
-        $helper = Publisher\Helper::getInstance();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $helper = Helper::getInstance();
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');
         global $limit, $start;
         $error = [];
@@ -48,7 +52,7 @@ class MimetypesUtility
 
             Utility::openCollapsableBar('mimemaddtable', 'mimeaddicon', \_AM_PUBLISHER_MIME_ADD_TITLE);
 
-            $session    = Publisher\Session::getInstance();
+            $session    = Session::getInstance();
             $mimeType   = $session->get('publisher_addMime');
             $mimeErrors = $session->get('publisher_addMimeErr');
 
@@ -152,7 +156,7 @@ class MimetypesUtility
             }
 
             if ($hasErrors) {
-                $session            = Publisher\Session::getInstance();
+                $session            = Session::getInstance();
                 $mime               = [];
                 $mime['mime_ext']   = $mimeExt;
                 $mime['mime_name']  = $mimeName;
@@ -182,8 +186,8 @@ class MimetypesUtility
 
     public static function delete()
     {
-        $helper = Publisher\Helper::getInstance();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $helper = Helper::getInstance();
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');
         global $start, $limit;
         $mimeId = 0;
@@ -202,8 +206,8 @@ class MimetypesUtility
 
     public static function edit()
     {
-        $helper = Publisher\Helper::getInstance();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $helper = Helper::getInstance();
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');
         global $start, $limit;
         $mimeId    = 0;
@@ -217,7 +221,7 @@ class MimetypesUtility
         $mimeTypeObj = $mimetypeHandler->get($mimeId); // Retrieve mimetype object
 
         if (!Request::getString('edit_mime', '', 'POST')) {
-            $session    = Publisher\Session::getInstance();
+            $session    = Session::getInstance();
             $mimeType   = $session->get('publisher_editMime_' . $mimeId);
             $mimeErrors = $session->get('publisher_editMimeErr_' . $mimeId);
 
@@ -318,7 +322,7 @@ class MimetypesUtility
             }
 
             if ($hasErrors) {
-                $session            = Publisher\Session::getInstance();
+                $session            = Session::getInstance();
                 $mime               = [];
                 $mime['mime_ext']   = Request::getString('mime_ext', '', 'POST');
                 $mime['mime_name']  = Request::getString('mime_name', '', 'POST');
@@ -347,9 +351,9 @@ class MimetypesUtility
 
     public static function manage()
     {
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
         $utility = new Utility();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');
         global $imagearray, $start, $limit, $aSortBy, $aOrderBy, $aLimitBy, $aSearchBy;
 
@@ -400,7 +404,7 @@ class MimetypesUtility
             ($sort == $value) ? $selected = 'selected' : $selected = '';
             echo "<option value='$value' $selected>$text</option>";
         }
-        unset($value, $text);
+        unset($value);
         echo '</select></td>';
         echo "<td align='right'>" . \_AM_PUBLISHER_TEXT_SEARCH_TEXT . '</td>';
         echo "<td align='left'><input type='text' name='search_text' id='search_text' value=''></td>";
@@ -417,7 +421,7 @@ class MimetypesUtility
             ($sort == $value) ? $selected = 'selected' : $selected = '';
             echo "<option value='$value' $selected>$text</option>";
         }
-        unset($value, $text);
+        unset($value);
         echo '</select>
     &nbsp;&nbsp;&nbsp;
     ' . \_AM_PUBLISHER_TEXT_ORDER_BY . "
@@ -426,7 +430,7 @@ class MimetypesUtility
             ($order == $value) ? $selected = 'selected' : $selected = '';
             echo "<option value='$value' $selected>$text</option>";
         }
-        unset($value, $text);
+        unset($value);
         echo '</select>
     &nbsp;&nbsp;&nbsp;
     ' . \_AM_PUBLISHER_TEXT_NUMBER_PER_PAGE . "
@@ -435,7 +439,7 @@ class MimetypesUtility
             ($limit == $value) ? $selected = 'selected' : $selected = '';
             echo "<option value='$value' $selected>$text</option>";
         }
-        unset($value, $text);
+        unset($value);
         echo "</select>
     <input type='submit' name='mime_sort' id='mime_sort' value='" . \_AM_PUBLISHER_BUTTON_SUBMIT . "'>
     </td>
@@ -490,8 +494,8 @@ class MimetypesUtility
 
     public static function search()
     {
-        $helper = Publisher\Helper::getInstance();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $helper = Helper::getInstance();
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');
         global $limit, $start, $imagearray, $aSearchBy, $aOrderBy, $aLimitBy, $aSortBy;
 
@@ -530,7 +534,7 @@ class MimetypesUtility
             foreach ($aSortBy as $value => $text) {
                 echo "<option value='$value'>$text</option>";
             }
-            unset($value, $text);
+            unset($value);
             echo '</select>
         </td>
         </tr>';
@@ -573,7 +577,7 @@ class MimetypesUtility
                 ($searchField == $value) ? $selected = 'selected' : $selected = '';
                 echo "<option value='$value' $selected>$text</option>";
             }
-            unset($value, $text);
+            unset($value);
             echo '</select></td>';
             echo "<td align='right'>" . \_AM_PUBLISHER_TEXT_SEARCH_TEXT . '</td>';
             echo "<td align='left'><input type='text' name='search_text' id='search_text' value='" . \htmlentities($searchText, \ENT_QUOTES) . "'></td>";
@@ -590,7 +594,7 @@ class MimetypesUtility
                 ($sort == $value) ? $selected = 'selected' : $selected = '';
                 echo "<option value='$value' $selected>$text</option>";
             }
-            unset($value, $text);
+            unset($value);
             echo '</select>
         &nbsp;&nbsp;&nbsp;
         ' . \_AM_PUBLISHER_TEXT_ORDER_BY . "
@@ -599,7 +603,7 @@ class MimetypesUtility
                 ($order == $value) ? $selected = 'selected' : $selected = '';
                 echo "<option value='$value' $selected>$text</option>";
             }
-            unset($value, $text);
+            unset($value);
             echo '</select>
         &nbsp;&nbsp;&nbsp;
         ' . \_AM_PUBLISHER_TEXT_NUMBER_PER_PAGE . "
@@ -608,7 +612,7 @@ class MimetypesUtility
                 ($limit == $value) ? $selected = 'selected' : $selected = '';
                 echo "<option value='$value' $selected>$text</option>";
             }
-            unset($value, $text);
+            unset($value);
             echo "</select>
         <input type='submit' name='mime_sort' id='mime_sort' value='" . \_AM_PUBLISHER_BUTTON_SUBMIT . "'>
         <input type='hidden' name='mime_search' id='mime_search' value='1'>
@@ -683,8 +687,8 @@ class MimetypesUtility
             'limit' => Request::getInt('limit', 15, 'GET'),
         ];
 
-        $helper = Publisher\Helper::getInstance();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $helper = Helper::getInstance();
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimeTypeObj = $helper->getHandler('Mimetype')->get($hiddens['id']);
         if (Request::hasVar('mime_admin')) {
             $hiddens['mime_admin'] = Request::getInt('mime_admin', 0, 'GET');
@@ -703,8 +707,8 @@ class MimetypesUtility
 
     public static function confirmUpdateMimeValue()
     {
-        $helper = Publisher\Helper::getInstance();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $helper = Helper::getInstance();
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');
         $limit           = Request::getInt('limit', 0, 'POST');
         $start           = Request::getInt('start', 0, 'POST');
@@ -747,7 +751,7 @@ class MimetypesUtility
 
     protected static function clearAddSessionVars()
     {
-        $session = Publisher\Session::getInstance();
+        $session = Session::getInstance();
         $session->del('publisher_addMime');
         $session->del('publisher_addMimeErr');
     }
@@ -764,7 +768,7 @@ class MimetypesUtility
     public static function clearEditSessionVars($id)
     {
         $id      = (int)$id;
-        $session = Publisher\Session::getInstance();
+        $session = Session::getInstance();
         $session->del("publisher_editMime_$id");
         $session->del("publisher_editMimeErr_$id");
     }

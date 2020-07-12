@@ -19,7 +19,11 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    BlockForm,
+    Helper,
+    ItemHandler
+};
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -31,7 +35,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_date_to_date_show($options)
 {
     $myts = \MyTextSanitizer::getInstance();
-    $helper = Publisher\Helper::getInstance();
+    $helper = Helper::getInstance();
 
     $block = $newItems = [];
 
@@ -42,7 +46,7 @@ function publisher_date_to_date_show($options)
     $criteria->setOrder('DESC');
 
     // creating the ITEM objects that belong to the selected category
-    /** @var Publisher\ItemHandler $itemHandler */
+    /** @var ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     $itemsObj    = $itemHandler->getObjects($criteria);
     //    $totalItems = count($itemsObj);
@@ -87,7 +91,7 @@ function publisher_date_to_date_edit($options)
         $options[0] = formatTimestamp(1424860422);
     }
 
-    $form    = new Publisher\BlockForm();
+    $form    = new BlockForm();
     $fromEle = new \XoopsFormTextDateSelect(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));
     //    $fromEle->setNocolspan();
     $untilEle = new \XoopsFormTextDateSelect(_MB_PUBLISHER_UNTIL, 'options[1]', 15, isset($options[1]) ? strtotime($options[1]) : '');

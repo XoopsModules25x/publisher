@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
-use XoopsModules\Publisher\TrelloManagement;
+use XoopsModules\Publisher\{
+    Constants,
+    TrelloManagement
+};
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_trello.tpl';
 require_once __DIR__ . '/admin_header.php';

@@ -24,7 +24,7 @@ namespace XoopsModules\Publisher;
  * @var    string $title   title of the article
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -113,7 +113,7 @@ class Seo
      */
     public static function generateUrl($op, $id, $shortUrl = '')
     {
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
         if ('none' !== $helper->getConfig('seo_url_rewrite')) {
             if (!empty($shortUrl)) {
                 $shortUrl .= '.html';

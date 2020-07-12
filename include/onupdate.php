@@ -17,8 +17,11 @@ declare(strict_types=1);
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Common,
+    Helper,
+    Utility
+};
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
     || !$GLOBALS['xoopsUser']->isAdmin()) {
@@ -54,10 +57,10 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
     $moduleDirName = basename(dirname(__DIR__));
     //    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-    /** @var Publisher\Helper $helper */
-    /** @var Publisher\Common\Configurator $configurator */
-    $helper       = Publisher\Helper::getInstance();
-    $configurator = new Publisher\Common\Configurator();
+    /** @var Helper $helper */
+    /** @var Common\Configurator $configurator */
+    $helper       = Helper::getInstance();
+    $configurator = new Common\Configurator();
 
     $helper->loadLanguage('common');
 

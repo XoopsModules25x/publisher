@@ -5,7 +5,7 @@
 
 Contributions are **welcome** and will be fully **credited**.
 
-We accept contributions via Pull Requests on [Github](https://github.com/XoopsModules25x/xoopseditors).
+We accept contributions via Pull Requests on [Github](https://github.com/XoopsModules25x/publisher).
 
 ## Pull Requests
 

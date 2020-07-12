@@ -20,9 +20,14 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Category,
+    Constants,
+    GroupPermHandler,
+    Helper,
+    Item,
+    Utility
+};
 
 require_once __DIR__ . '/header.php';
 $helper->loadLanguage('admin');
@@ -35,14 +40,14 @@ if (!$categoriesArray) {
 }
 
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/** @var \XoopsModules\Publisher\GroupPermHandler $grouppermHandler */
-$grouppermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
+/** @var GroupPermHandler $grouppermHandler */
+$grouppermHandler = Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
 $moduleId         = $helper->getModule()->getVar('mid');
 
 $itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
 if (0 != $itemId) {
     // We are editing or deleting an article
-    /** @var Publisher\Item $itemObj */
+    /** @var Item $itemObj */
     $itemObj = $helper->getHandler('Item')->get($itemId);
     if (!(Utility::userIsAdmin() || Utility::userIsAuthor($itemObj) || Utility::userIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
@@ -54,7 +59,7 @@ if (0 != $itemId) {
             redirect_header('index.php', 1, _NOPERM);
         }
     }
-    /** @var Publisher\Category $categoryObj */
+    /** @var Category $categoryObj */
     $categoryObj = $itemObj->getCategory();
 } else {
     // we are submitting a new article
@@ -62,9 +67,9 @@ if (0 != $itemId) {
     if (!(Utility::userIsAdmin() || (1 == $helper->getConfig('perm_submit') && (is_object($GLOBALS['xoopsUser']) || (1 == $helper->getConfig('perm_anon_submit')))))) {
         redirect_header('index.php', 1, _NOPERM);
     }
-    /** @var Publisher\Item $itemObj */
+    /** @var Item $itemObj */
     $itemObj = $helper->getHandler('Item')->create();
-    /** @var Publisher\Category $categoryObj */
+    /** @var Category $categoryObj */
     $categoryObj = $helper->getHandler('Category')->create();
 }
 
@@ -147,7 +152,6 @@ switch ($op) {
             require_once $GLOBALS['xoops']->path('footer.php');
         }
         exit();
-        break;
     case 'preview':
         // Putting the values about the ITEM in the ITEM object
         $itemObj->setVarsFromRequest();
@@ -187,8 +191,6 @@ switch ($op) {
         $sform->assign($xoopsTpl);
         require_once $GLOBALS['xoops']->path('footer.php');
         exit();
-
-        break;
     case 'post':
         // Putting the values about the ITEM in the ITEM object
         // print_r($itemObj->getVars());

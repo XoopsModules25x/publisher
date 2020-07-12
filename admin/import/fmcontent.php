@@ -22,9 +22,9 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{Constants,
+    Utility
+};
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();

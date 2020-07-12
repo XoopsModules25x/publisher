@@ -19,8 +19,13 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\{
+    BlockForm,
+    Constants,
+    Helper,
+    ItemHandler,
+    Utility
+};
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -31,8 +36,8 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_items_recent_show($options)
 {
-    $helper = Publisher\Helper::getInstance();
-    /** @var Publisher\ItemHandler $itemHandler */
+    $helper = Helper::getInstance();
+    /** @var ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     $myts        = \MyTextSanitizer::getInstance();
 
@@ -46,7 +51,7 @@ function publisher_items_recent_show($options)
     }
 
     $sort  = $options[1];
-    $order = Publisher\Utility::getOrderBy($sort);
+    $order = Utility::getOrderBy($sort);
     $limit = $options[2];
     $start = 0;
 
@@ -143,9 +148,9 @@ function publisher_items_recent_edit($options)
     // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form = new Publisher\BlockForm();
+    $form = new BlockForm();
 
-    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
     $orderEle->addOptionArray(
         [

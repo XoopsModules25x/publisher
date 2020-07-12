@@ -24,9 +24,10 @@ namespace XoopsModules\Publisher\Form;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Helper;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Helper,
+    Utility
+};
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
+
 use XoopsModules\Publisher\Utility;
 
 /*

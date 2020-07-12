@@ -17,9 +17,10 @@ declare(strict_types=1);
  * @author          luciorota <lucio.rota@gmail.com>
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Common;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Common,
+    Utility
+};
 
 /**
  * @param \XoopsModule $module

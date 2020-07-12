@@ -24,10 +24,11 @@ namespace XoopsModules\Publisher;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Category;
-use XoopsModules\Publisher\Helper;
-use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\{
+    Category,
+    Helper,
+    Item
+};
 
 /**
  * Class Utility

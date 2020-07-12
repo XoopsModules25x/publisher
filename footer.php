@@ -19,11 +19,14 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Helper,
+    Utility
+};
 
 require_once __DIR__ . '/include/common.php';
 
-$helper = Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 
 $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
@@ -36,7 +39,7 @@ $xoTheme->addScript(PUBLISHER_URL . '/assets/js/funcs.js');
 $xoopsTpl->assign('xoops_module_header', '<link rel="alternate" type="application/rss+xml" title="' . $helper->getModule()->name() . '" href="' . PUBLISHER_URL . '/backend.php">' . @$xoopsTpl->get_template_vars('xoops_module_header'));
 
 $xoopsTpl->assign('publisher_adminpage', "<a href='" . PUBLISHER_URL . "/admin/index.php'>" . _MD_PUBLISHER_ADMIN_PAGE . '</a>');
-$xoopsTpl->assign('isAdmin', Publisher\Utility::userIsAdmin());
+$xoopsTpl->assign('isAdmin', Utility::userIsAdmin());
 $xoopsTpl->assign('publisher_url', PUBLISHER_URL);
 $xoopsTpl->assign('publisherImagesUrl', PUBLISHER_IMAGES_URL);
 

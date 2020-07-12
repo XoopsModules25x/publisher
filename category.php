@@ -20,14 +20,22 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Category,
+    Constants,
+    Helper,
+    Item,
+    Metagen,
+    Seo,
+    Utility
+};
 
 require_once __DIR__ . '/header.php';
 
 $categoryId = Request::getInt('categoryid', 0, 'GET');
 
 // Creating the category object for the selected category
-/** @var \XoopsModules\Publisher\Helper $helper  */
+/** @var Helper $helper  */
 $categoryObj = $helper->getHandler('Category')->get($categoryId);
 
 // if the selected category was not found, exit
@@ -54,7 +62,7 @@ if (!isset($totalItems[$categoryId]) || 0 == $totalItems[$categoryId]) {
 }
 
 // Added by skalpa: custom template support
-/** @var Publisher\Category $categoryObj */
+/** @var Category $categoryObj */
 $GLOBALS['xoopsOption']['template_main'] = $categoryObj->getTemplate();
 if (empty($GLOBALS['xoopsOption']['template_main'])) {
     $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
@@ -192,7 +200,7 @@ if (count($itemsObj) > 0) {
     for ($i = 0; $i < $totalItemOnPage; ++$i) {
         $item                 = $itemsObj[$i]->toArraySimple('default', $helper->getConfig('item_title_size'));
         $item['categoryname'] = $categoryObj->name();
-        $item['categorylink'] = "<a href='" . Publisher\Seo::generateUrl('category', $itemsObj[$i]->categoryid(), $categoryObj->short_url()) . "'>" . $categoryObj->name() . '</a>';
+        $item['categorylink'] = "<a href='" . Seo::generateUrl('category', $itemsObj[$i]->categoryid(), $categoryObj->short_url()) . "'>" . $categoryObj->name() . '</a>';
         $item['who_when']     = $itemsObj[$i]->getWhoAndWhen();
         $xoopsTpl->append('items', $item);
     }
@@ -217,7 +225,7 @@ $xoopsTpl->assign('module_dirname', $helper->getDirname());
 $xoopsTpl->assign('lang_category_summary', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY, $categoryObj->name()));
 $xoopsTpl->assign('lang_category_summary_info', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY_INFO, $categoryObj->name()));
 $xoopsTpl->assign('lang_items_title', sprintf(_MD_PUBLISHER_ITEMS_TITLE, $categoryObj->name()));
-$xoopsTpl->assign('module_home', Publisher\Utility::moduleHome($helper->getConfig('format_linked_path')));
+$xoopsTpl->assign('module_home', Utility::moduleHome($helper->getConfig('format_linked_path')));
 $xoopsTpl->assign('categoryPath', '<li>' . $category['categoryPath'] . '</li>');
 $xoopsTpl->assign('selected_category', $categoryId);
 
@@ -234,7 +242,7 @@ $xoopsTpl->assign('navbar', $navbar);
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new Publisher\Metagen($categoryObj->getVar('name'), $categoryObj->getVar('meta_keywords', 'n'), $categoryObj->getVar('meta_description', 'n'), $categoryObj->getCategoryPathForMetaTitle());
+$publisherMetagen = new Metagen($categoryObj->getVar('name'), $categoryObj->getVar('meta_keywords', 'n'), $categoryObj->getVar('meta_description', 'n'), $categoryObj->getCategoryPathForMetaTitle());
 $publisherMetagen->createMetaTags();
 
 // RSS Link

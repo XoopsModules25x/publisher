@@ -9,7 +9,9 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Utility
+};
 
 error_reporting(E_ALL);
 
@@ -81,7 +83,7 @@ $pdf_data = [
 
 $pdf = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
-$doc_title  = Publisher\Utility::convertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
+$doc_title  = Utility::convertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
 $docSubject = $myts->undoHtmlSpecialChars($categoryObj->name());
 
 $docKeywords = $myts->undoHtmlSpecialChars($itemObj->meta_keywords());
@@ -96,8 +98,8 @@ $pdf->SetSubject($docSubject);
 //$pdf->SetKeywords(XOOPS_URL . ', '.' by TCPDF_for_XOOPS (chg-web.org), '.$doc_title);
 $pdf->SetKeywords($docKeywords);
 
-$firstLine  = Publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
-$secondLine = Publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['slogan']);
+$firstLine  = Utility::convertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
+$secondLine = Utility::convertCharset($GLOBALS['xoopsConfig']['slogan']);
 
 $PDF_HEADER_LOGO       = '_blank.png';
 $PDF_HEADER_LOGO_WIDTH = '';

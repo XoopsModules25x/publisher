@@ -20,9 +20,10 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Constants,
+    Utility
+};
 
 require_once __DIR__ . '/header.php';
 $helper->loadLanguage('admin');

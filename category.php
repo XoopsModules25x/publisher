@@ -174,7 +174,7 @@ if ('no' !== $helper->getConfig('idxcat_show_subcats')) {
                 //$total += $numItems;
             }
         }
-        unset($key, $subcat, $subcatsObj);
+        unset($key, $subcatsObj);
     }
 }
 

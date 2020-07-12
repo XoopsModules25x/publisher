@@ -209,7 +209,7 @@ switch ($op) {
             foreach ($categoriesObj as $key => $thiscat) {
                 Utility::displayCategory($thiscat);
             }
-            unset($key, $thiscat);
+            unset($key);
         } else {
             echo '<tr>';
             echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOCAT . '</td>';

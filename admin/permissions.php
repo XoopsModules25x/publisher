@@ -117,7 +117,7 @@ $form_submit  = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'form_v
 foreach ($form_options as $key => $value) {
     $form_submit->addItem($key, $value);
 }
-unset($key, $value);
+unset($key);
 echo $form_submit->render();
 Utility::closeCollapsableBar('permissionstable_form', 'permissionsicon_form');
 
@@ -129,7 +129,7 @@ $form_submit = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'editors
 foreach ($editors as $key => $value) {
     $form_submit->addItem($key, $value['title']);
 }
-unset($key, $value);
+unset($key);
 echo $form_submit->render();
 Utility::closeCollapsableBar('permissionstable_editors', 'permissionsicon_editors');
 
@@ -144,7 +144,7 @@ $form_submit  = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'global
 foreach ($form_options as $key => $value) {
     $form_submit->addItem($key, $value);
 }
-unset($key, $value);
+unset($key);
 echo $form_submit->render();
 Utility::closeCollapsableBar('permissionstable_global', 'permissionsicon_global');
 

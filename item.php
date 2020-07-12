@@ -182,7 +182,7 @@ if ('all' === $helper->getConfig('item_other_items_type')) {
         $items[] = $theItem;
         unset($theItem);
     }
-    unset($itemsObj, $theItemObj);
+    unset($itemsObj);
     $xoopsTpl->assign('items', $items);
     unset($items);
 }

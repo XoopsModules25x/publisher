@@ -91,7 +91,7 @@ if ('showmod' === $op) {
         foreach ($config_cats as $formCat => $info) {
             $$formCat = new \XoopsThemeForm($info['name'], 'pref_form_' . $formCat, 'preferences.php', 'post', true);
         }
-        unset($formCat, $info);
+        unset($formCat);
     }
 
     for ($i = 0; $i < $count; ++$i) {
@@ -199,7 +199,7 @@ if ('showmod' === $op) {
         $$formCat->display();
         Utility::closeCollapsableBar($formCat . '_table', $formCat . '_icon');
     }
-    unset($formCat, $info);
+    unset($formCat);
     xoops_cp_footer();
     exit();
 }

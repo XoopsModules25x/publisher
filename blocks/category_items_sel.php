@@ -90,7 +90,7 @@ function publisher_category_items_sel_show($options)
         $block['categories'][$catId]['name'] = $catObj->name();
     }
 
-    unset($items, $categories, $itemObj, $catId, $catObj);
+    unset($items, $categories, $catId);
 
     return $block;
 }

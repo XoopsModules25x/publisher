@@ -140,7 +140,7 @@ function publisher_items_columns_show($options)
             }
         }
     }
-    unset($categoryId, $mainItemCatObj);
+    unset($categoryId);
 
     $block['template']             = $options[4];
     $block['columns']              = $columns;

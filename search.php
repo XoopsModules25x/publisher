@@ -212,7 +212,7 @@ foreach ($categories as $id => $cat) {
     }
     $categorySelect .= '>' . $cat . '</option>';
 }
-unset($id, $cat);
+unset($id);
 $categorySelect .= '</select>';
 
 /* scope */

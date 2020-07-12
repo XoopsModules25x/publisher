@@ -240,7 +240,7 @@ if ('go' === $op) {
         $helper->getHandler('Category')->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
-    unset($oldid, $newCat);
+    unset($oldid);
 
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';

@@ -404,7 +404,7 @@ class MimetypesUtility
             ($sort == $value) ? $selected = 'selected' : $selected = '';
             echo "<option value='$value' $selected>$text</option>";
         }
-        unset($value, $text);
+        unset($value);
         echo '</select></td>';
         echo "<td align='right'>" . \_AM_PUBLISHER_TEXT_SEARCH_TEXT . '</td>';
         echo "<td align='left'><input type='text' name='search_text' id='search_text' value=''></td>";
@@ -421,7 +421,7 @@ class MimetypesUtility
             ($sort == $value) ? $selected = 'selected' : $selected = '';
             echo "<option value='$value' $selected>$text</option>";
         }
-        unset($value, $text);
+        unset($value);
         echo '</select>
     &nbsp;&nbsp;&nbsp;
     ' . \_AM_PUBLISHER_TEXT_ORDER_BY . "
@@ -430,7 +430,7 @@ class MimetypesUtility
             ($order == $value) ? $selected = 'selected' : $selected = '';
             echo "<option value='$value' $selected>$text</option>";
         }
-        unset($value, $text);
+        unset($value);
         echo '</select>
     &nbsp;&nbsp;&nbsp;
     ' . \_AM_PUBLISHER_TEXT_NUMBER_PER_PAGE . "
@@ -439,7 +439,7 @@ class MimetypesUtility
             ($limit == $value) ? $selected = 'selected' : $selected = '';
             echo "<option value='$value' $selected>$text</option>";
         }
-        unset($value, $text);
+        unset($value);
         echo "</select>
     <input type='submit' name='mime_sort' id='mime_sort' value='" . \_AM_PUBLISHER_BUTTON_SUBMIT . "'>
     </td>
@@ -534,7 +534,7 @@ class MimetypesUtility
             foreach ($aSortBy as $value => $text) {
                 echo "<option value='$value'>$text</option>";
             }
-            unset($value, $text);
+            unset($value);
             echo '</select>
         </td>
         </tr>';
@@ -577,7 +577,7 @@ class MimetypesUtility
                 ($searchField == $value) ? $selected = 'selected' : $selected = '';
                 echo "<option value='$value' $selected>$text</option>";
             }
-            unset($value, $text);
+            unset($value);
             echo '</select></td>';
             echo "<td align='right'>" . \_AM_PUBLISHER_TEXT_SEARCH_TEXT . '</td>';
             echo "<td align='left'><input type='text' name='search_text' id='search_text' value='" . \htmlentities($searchText, \ENT_QUOTES) . "'></td>";
@@ -594,7 +594,7 @@ class MimetypesUtility
                 ($sort == $value) ? $selected = 'selected' : $selected = '';
                 echo "<option value='$value' $selected>$text</option>";
             }
-            unset($value, $text);
+            unset($value);
             echo '</select>
         &nbsp;&nbsp;&nbsp;
         ' . \_AM_PUBLISHER_TEXT_ORDER_BY . "
@@ -603,7 +603,7 @@ class MimetypesUtility
                 ($order == $value) ? $selected = 'selected' : $selected = '';
                 echo "<option value='$value' $selected>$text</option>";
             }
-            unset($value, $text);
+            unset($value);
             echo '</select>
         &nbsp;&nbsp;&nbsp;
         ' . \_AM_PUBLISHER_TEXT_NUMBER_PER_PAGE . "
@@ -612,7 +612,7 @@ class MimetypesUtility
                 ($limit == $value) ? $selected = 'selected' : $selected = '';
                 echo "<option value='$value' $selected>$text</option>";
             }
-            unset($value, $text);
+            unset($value);
             echo "</select>
         <input type='submit' name='mime_sort' id='mime_sort' value='" . \_AM_PUBLISHER_BUTTON_SUBMIT . "'>
         <input type='hidden' name='mime_search' id='mime_search' value='1'>

@@ -104,7 +104,7 @@ function publisher_search_show($options)
         }
         $categorySelect .= '>' . $cat . '</option>';
     }
-    unset($id, $cat);
+    unset($id);
     $categorySelect .= '</select>';
 
     /* scope */

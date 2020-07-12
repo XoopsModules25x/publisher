@@ -47,7 +47,7 @@ class FormDateTime extends \XoopsFormElementTray
             }else{
                 $timeoffset = null;
             }
-            $value = intval(\formatTimestamp($value, 'U', $timeoffset));
+            $value = (int)\formatTimestamp($value, 'U', $timeoffset);
         }
         $datetime = \getdate($value);
 

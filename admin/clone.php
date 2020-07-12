@@ -19,8 +19,10 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Cloner,
+    Utility
+};
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -54,8 +56,8 @@ if ('submit' === Request::getString('op', '', 'POST')) {
 
     $patKeys   = array_keys($patterns);
     $patValues = array_values($patterns);
-    Publisher\Cloner::cloneFileFolder(PUBLISHER_ROOT_PATH);
-    $logocreated = Publisher\Cloner::createLogo(mb_strtolower($clone));
+    Cloner::cloneFileFolder(PUBLISHER_ROOT_PATH);
+    $logocreated = Cloner::createLogo(mb_strtolower($clone));
 
     $msg = '';
     if (is_dir($GLOBALS['xoops']->path('modules/' . mb_strtolower($clone)))) {

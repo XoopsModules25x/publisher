@@ -21,8 +21,14 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Tag\Utility;
+use XoopsModules\Publisher\{
+    Common,
+    Helper,
+    Item,
+    ItemHandler,
+    Utility
+};
+use XoopsModules\Tag;
 
 /** Get item fields: title, content, time, link, uid, tags
  *
@@ -46,8 +52,8 @@ function publisher_tag_iteminfo(&$items)
     }
     $itemsIds = array_unique($itemsIds); // remove duplicate ids
 
-    $helper = \XoopsModules\Publisher\Helper::getInstance();
-    /** @var Publisher\ItemHandler $itemHandler */
+    $helper = Helper::getInstance();
+    /** @var ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     $criteria    = new \Criteria('itemid', '(' . implode(', ', $itemsIds) . ')', 'IN');
     $items_obj   = $itemHandler->getObjects($criteria, 'itemid');
@@ -62,7 +68,7 @@ function publisher_tag_iteminfo(&$items)
         $parse_function = 'XoopsModules\Tag\Utility::tag_parse_tag';
     }
 
-    /** @var Publisher\Item $item_obj */
+    /** @var Item $item_obj */
     foreach (array_keys($items) as $cat_id) {
         foreach (array_keys($items[$cat_id]) as $itemId) {
             $item_obj                 = $items_obj[$itemId];
@@ -89,8 +95,8 @@ function publisher_tag_iteminfo(&$items)
 function publisher_tag_synchronization($mid)
 {
     // Optional
-    /** @var \XoopsModules\Publisher\ItemHandler $itemHandler */
-    $itemHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('Item');
+    /** @var ItemHandler $itemHandler */
+    $itemHandler = Helper::getInstance()->getHandler('Item');
 
     /** @var \XoopsModules\Tag\LinkHandler $itemHandler */
     $linkHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Link');

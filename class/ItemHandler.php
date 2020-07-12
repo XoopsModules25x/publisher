@@ -22,7 +22,10 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Helper,
+    Metagen
+};
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -36,17 +39,17 @@ require_once \dirname(__DIR__) . '/include/common.php';
 class ItemHandler extends \XoopsPersistableObjectHandler
 {
     /**
-     * @var Publisher\Helper
+     * @var Helper
      */
     public    $helper;
     public    $publisherIsAdmin;
     protected $resultCatCounts = [];
 
-    public function __construct(\XoopsDatabase $db = null, \XoopsModules\Publisher\Helper $helper = null)
+    public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Publisher\Helper $this->helper */
+        /** @var Helper $this->helper */
         if (null === $helper) {
-            $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+            $this->helper = Helper::getInstance();
         } else {
             $this->helper = $helper;
         }
@@ -102,7 +105,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function insert(\XoopsObject $item, $force = false)  //insert(&$item, $force = false)
     {
         if (!$item->meta_keywords() || !$item->meta_description() || !$item->short_url()) {
-            $publisherMetagen = new Publisher\Metagen($item->getTitle(), $item->getVar('meta_keywords'), $item->getVar('summary'));
+            $publisherMetagen = new Metagen($item->getTitle(), $item->getVar('meta_keywords'), $item->getVar('summary'));
             // Auto create meta tags if empty
             if (!$item->meta_keywords()) {
                 $item->setVar('meta_keywords', $publisherMetagen->keywords);
@@ -112,7 +115,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             }
             // Auto create short_url if empty
             if (!$item->short_url()) {
-                $item->setVar('short_url', mb_substr(Publisher\Metagen::generateSeoTitle($item->getVar('title', 'n'), false), 0, 254));
+                $item->setVar('short_url', mb_substr(Metagen::generateSeoTitle($item->getVar('title', 'n'), false), 0, 254));
             }
         }
         if (!parent::insert($item, $force)) {

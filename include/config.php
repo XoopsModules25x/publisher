@@ -20,17 +20,22 @@ declare(strict_types=1);
  * @author          XOOPS Development Team - ( https://xoops.org )
  */
 
-use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\{
+    CategoryHandler,
+    Constants,
+    Helper,
+    ItemHandler
+};
 
 require __DIR__ . '/common.php';
 
 /** @return object */
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-$helper = \XoopsModules\Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 
-/** @var \XoopsModules\Publisher\CategoryHandler $helper ->getHandler('Category') */
-/** @var \XoopsModules\Publisher\ItemHandler $helper ->getHandler('Item') */
+/** @var CategoryHandler $helper ->getHandler('Category') */
+/** @var ItemHandler $helper ->getHandler('Item') */
 return (object)[
     'name'           => $moduleDirNameUpper . ' Module Configurator',
     'paths'          => [

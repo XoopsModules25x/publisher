@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 use XoopsModules\Publisher\{
     Common,
+    Helper,
     Utility
 };
 
@@ -55,9 +56,10 @@ function xoops_module_install_publisher(\XoopsModule $module)
 {
     require dirname(__DIR__) . '/preloads/autoloader.php';
 
-    /** @var Publisher\Helper $helper */ /** @var Utility $utility */
+    /** @var Helper $helper */
+    /** @var Utility $utility */
     /** @var Common\Configurator $configurator */
-    $helper       = Publisher\Helper::getInstance();
+    $helper       = Helper::getInstance();
     $utility      = new Utility();
     $configurator = new Common\Configurator();
 

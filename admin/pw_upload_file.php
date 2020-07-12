@@ -20,8 +20,10 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Helper,
+    Utility
+};
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -45,7 +47,7 @@ function publisher_pagewrap_upload(&$errors)
     //    require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
     xoops_load('XoopsMediaUploader');
 
-    $helper    = Publisher\Helper::getInstance();
+    $helper    = Helper::getInstance();
     $postField = 'fileupload';
 
     $maxFileSize    = $helper->getConfig('maximum_filesize');

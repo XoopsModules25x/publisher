@@ -18,7 +18,11 @@ declare(strict_types=1);
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Helper,
+    Item,
+    ItemHandler
+};
 
 require_once __DIR__ . '/common.php';
 
@@ -37,7 +41,7 @@ require_once __DIR__ . '/common.php';
  */
 function publisher_search($queryArray, $andor, $limit, $offset, $userid, $categories = [], $sortby = 0, $searchin = '', $extra = '')
 {
-    $helper = Publisher\Helper::getInstance();
+    $helper = Helper::getInstance();
     $ret    = $item = [];
     if ('' == $queryArray || (is_array($queryArray) && 0 === count($queryArray))) {
         $hightlightKey = '';
@@ -45,13 +49,13 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
         $keywords      = implode('+', $queryArray);
         $hightlightKey = '&amp;keywords=' . $keywords;
     }
-    /** @var Publisher\ItemHandler $itemHandler */
+    /** @var ItemHandler $itemHandler */
     $itemHandler      = $helper->getHandler('Item');
     $itemsObjs        = $itemHandler->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
     $withCategoryPath = $helper->getConfig('search_cat_path');
     //xoops_load("xoopslocal");
     $usersIds = [];
-    /** @var Publisher\Item $obj */
+    /** @var Item $obj */
     if (0 !== count($itemsObjs)) {
         foreach ($itemsObjs as $obj) {
             $item['image'] = 'assets/images/item_icon.gif';

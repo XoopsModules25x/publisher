@@ -19,7 +19,9 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{Constants,
+use XoopsModules\Publisher\{
+    Constants,
+    Helper,
     Utility
 };
 
@@ -30,7 +32,7 @@ $myts = \MyTextSanitizer::getInstance();
 
 Utility::cpHeader();
 //publisher_adminMenu(3, _AM_PUBLISHER_PERMISSIONS);
-$helper = Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 
 // View Categories permissions
 $item_list_view = [];

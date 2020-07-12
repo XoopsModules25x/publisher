@@ -20,8 +20,12 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    BlockForm,
+    CategoryHandler,
+    Helper,
+    ItemHandler
+};
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -34,10 +38,10 @@ function publisher_items_menu_show($options)
 {
     $block = [];
 
-    $helper = Publisher\Helper::getInstance();
+    $helper = Helper::getInstance();
 
     // Getting all top cats
-    /** @var Publisher\CategoryHandler $categoryHandler */
+    /** @var CategoryHandler $categoryHandler */
     $categoryHandler    = $helper->getHandler('Category');
     $blockCategoriesObj = $categoryHandler->getCategories(0, 0, 0);
 
@@ -83,7 +87,7 @@ function publisher_items_menu_edit($options)
     // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form = new Publisher\BlockForm();
+    $form = new BlockForm();
 
     $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);

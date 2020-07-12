@@ -19,8 +19,14 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    BlockForm,
+    Category,
+    CategoryHandler,
+    Helper,
+    Item,
+    ItemHandler
+};
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -32,10 +38,10 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_items_spot_show($options)
 {
     //    global $xoTheme;
-    $helper = Publisher\Helper::getInstance();
-    /** @var Publisher\CategoryHandler $categoryHandler */
+    $helper = Helper::getInstance();
+    /** @var CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');
-    /** @var Publisher\ItemHandler $itemHandler */
+    /** @var ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     xoops_loadLanguage('main', 'publisher');
 
@@ -97,7 +103,7 @@ function publisher_items_spot_show($options)
         $itemsCount = count($itemsObj);
         if ($itemsObj) {
             if (-1 != $optCategoryId) {
-                /** @var Publisher\Category $cat */
+                /** @var Category $cat */
                 $cat                     = $categoryHandler->get($optCategoryId);
                 $category['name']        = $cat->name;
                 $category['categoryurl'] = $cat->getCategoryUrl();
@@ -129,7 +135,7 @@ function publisher_items_spot_show($options)
         if ($selItems && is_array($selItems)) {
             $itemsCount = count($selItems);
             foreach ($selItems as $itemId) {
-                /** @var Publisher\Item $itemObj */
+                /** @var Item $itemObj */
                 $itemObj = $itemHandler->get($itemId);
                 if (null !== $itemObj && !$itemObj->notLoaded()) {
                     $item             = $itemObj->toArraySimple();
@@ -190,12 +196,12 @@ function publisher_items_spot_edit($options)
 {
     // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
-    $form     = new Publisher\BlockForm();
+    $form     = new BlockForm();
     $autoEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_AUTO_LAST_ITEMS, 'options[0]', $options[0]);
     $countEle = new \XoopsFormText(_MB_PUBLISHER_LAST_ITEMS_COUNT, 'options[1]', 2, 255, $options[1]);
     $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[2], 0, true, 'options[2]', false));
-    $helper = Publisher\Helper::getInstance();
-    /** @var Publisher\ItemHandler $itemHandler */
+    $helper = Helper::getInstance();
+    /** @var ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     $criteria    = new \CriteriaCompo();
     $criteria->setSort('datesub');

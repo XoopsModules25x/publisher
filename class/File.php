@@ -22,8 +22,14 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Form,
+    Helper,
+    Metagen,
+    MimetypeHandler,
+    MyTextSanitizerExtension,
+    PermissionHandler
+};
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -47,8 +53,8 @@ class File extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
-        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+        /** @var Helper $this->helper */
+        $this->helper = Helper::getInstance();
         /** @var \XoopsMySQLDatabase $db */
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('fileid', \XOBJ_DTYPE_INT, 0, false);
@@ -92,7 +98,7 @@ class File extends \XoopsObject
      */
     public function checkUpload($postField, $allowedMimetypes, &$errors)
     {
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $this->helper->getHandler('Mimetype');
         $errors          = [];
         if (!$mimetypeHandler->checkMimeTypes($postField)) {
@@ -125,7 +131,7 @@ class File extends \XoopsObject
      */
     public function storeUpload($postField, $allowedMimetypes, &$errors)
     {
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $this->helper->getHandler('Mimetype');
         $itemId          = $this->getVar('itemid');
         if (0 === \count($allowedMimetypes)) {
@@ -258,7 +264,7 @@ class File extends \XoopsObject
         //        if (!defined('MYTEXTSANITIZER_EXTENDED_MEDIA')) {
         //            require_once PUBLISHER_ROOT_PATH . '/include/media.textsanitizer.php';
         //        }
-        $mediaTs = Publisher\MyTextSanitizerExtension::getInstance();
+        $mediaTs = MyTextSanitizerExtension::getInstance();
 
         return $mediaTs->displayFlash($this->getFileUrl());
     }
@@ -276,12 +282,12 @@ class File extends \XoopsObject
     }
 
     /**
-     * @return \XoopsModules\Publisher\Form\FileForm
+     * @return Form\FileForm
      */
     public function getForm()
     {
         //        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/file.php');
-        $form = new Publisher\Form\FileForm($this);
+        $form = new Form\FileForm($this);
 
         return $form;
     }

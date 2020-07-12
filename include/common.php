@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 use Xmf\Module\Admin;
 use XoopsModules\Publisher\{
+    Common,
     Helper,
     Utility
 };
@@ -37,7 +38,7 @@ require dirname(__DIR__) . '/preloads/autoloader.php';
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
 $helper  = Helper::getInstance();
 $utility = new Utility();
-//$configurator = new Publisher\Common\Configurator();
+//$configurator = new Common\Configurator();
 
 $helper->loadLanguage('common');
 

@@ -20,12 +20,14 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Helper,
+    Utility
+};
 
 require_once __DIR__ . '/admin_header.php';
 
-$helper = Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 
 $module  = $helper->getModule();
 $modId   = $module->mid();

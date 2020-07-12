@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
-use XoopsModules\Publisher\Utility;
-
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -27,7 +25,12 @@ use XoopsModules\Publisher\Utility;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Helper,
+    MimetypeHandler,
+    Session,
+    Utility
+};
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -38,8 +41,8 @@ class MimetypesUtility
 {
     public static function add()
     {
-        $helper = Publisher\Helper::getInstance();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $helper = Helper::getInstance();
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');
         global $limit, $start;
         $error = [];
@@ -49,7 +52,7 @@ class MimetypesUtility
 
             Utility::openCollapsableBar('mimemaddtable', 'mimeaddicon', \_AM_PUBLISHER_MIME_ADD_TITLE);
 
-            $session    = Publisher\Session::getInstance();
+            $session    = Session::getInstance();
             $mimeType   = $session->get('publisher_addMime');
             $mimeErrors = $session->get('publisher_addMimeErr');
 
@@ -153,7 +156,7 @@ class MimetypesUtility
             }
 
             if ($hasErrors) {
-                $session            = Publisher\Session::getInstance();
+                $session            = Session::getInstance();
                 $mime               = [];
                 $mime['mime_ext']   = $mimeExt;
                 $mime['mime_name']  = $mimeName;
@@ -183,8 +186,8 @@ class MimetypesUtility
 
     public static function delete()
     {
-        $helper = Publisher\Helper::getInstance();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $helper = Helper::getInstance();
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');
         global $start, $limit;
         $mimeId = 0;
@@ -203,8 +206,8 @@ class MimetypesUtility
 
     public static function edit()
     {
-        $helper = Publisher\Helper::getInstance();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $helper = Helper::getInstance();
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');
         global $start, $limit;
         $mimeId    = 0;
@@ -218,7 +221,7 @@ class MimetypesUtility
         $mimeTypeObj = $mimetypeHandler->get($mimeId); // Retrieve mimetype object
 
         if (!Request::getString('edit_mime', '', 'POST')) {
-            $session    = Publisher\Session::getInstance();
+            $session    = Session::getInstance();
             $mimeType   = $session->get('publisher_editMime_' . $mimeId);
             $mimeErrors = $session->get('publisher_editMimeErr_' . $mimeId);
 
@@ -319,7 +322,7 @@ class MimetypesUtility
             }
 
             if ($hasErrors) {
-                $session            = Publisher\Session::getInstance();
+                $session            = Session::getInstance();
                 $mime               = [];
                 $mime['mime_ext']   = Request::getString('mime_ext', '', 'POST');
                 $mime['mime_name']  = Request::getString('mime_name', '', 'POST');
@@ -348,9 +351,9 @@ class MimetypesUtility
 
     public static function manage()
     {
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
         $utility = new Utility();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');
         global $imagearray, $start, $limit, $aSortBy, $aOrderBy, $aLimitBy, $aSearchBy;
 
@@ -491,8 +494,8 @@ class MimetypesUtility
 
     public static function search()
     {
-        $helper = Publisher\Helper::getInstance();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $helper = Helper::getInstance();
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');
         global $limit, $start, $imagearray, $aSearchBy, $aOrderBy, $aLimitBy, $aSortBy;
 
@@ -684,8 +687,8 @@ class MimetypesUtility
             'limit' => Request::getInt('limit', 15, 'GET'),
         ];
 
-        $helper = Publisher\Helper::getInstance();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $helper = Helper::getInstance();
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimeTypeObj = $helper->getHandler('Mimetype')->get($hiddens['id']);
         if (Request::hasVar('mime_admin')) {
             $hiddens['mime_admin'] = Request::getInt('mime_admin', 0, 'GET');
@@ -704,8 +707,8 @@ class MimetypesUtility
 
     public static function confirmUpdateMimeValue()
     {
-        $helper = Publisher\Helper::getInstance();
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        $helper = Helper::getInstance();
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');
         $limit           = Request::getInt('limit', 0, 'POST');
         $start           = Request::getInt('start', 0, 'POST');
@@ -748,7 +751,7 @@ class MimetypesUtility
 
     protected static function clearAddSessionVars()
     {
-        $session = Publisher\Session::getInstance();
+        $session = Session::getInstance();
         $session->del('publisher_addMime');
         $session->del('publisher_addMimeErr');
     }
@@ -765,7 +768,7 @@ class MimetypesUtility
     public static function clearEditSessionVars($id)
     {
         $id      = (int)$id;
-        $session = Publisher\Session::getInstance();
+        $session = Session::getInstance();
         $session->del("publisher_editMime_$id");
         $session->del("publisher_editMimeErr_$id");
     }

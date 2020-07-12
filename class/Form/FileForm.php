@@ -23,15 +23,16 @@ namespace XoopsModules\Publisher\Form;
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\{
+    Helper
+};
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
 \xoops_load('XoopsFormLoader');
 //todo: move to admin?
 //xoops_loadLanguage('main', 'publisher');
-$helper = Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 $helper->loadLanguage('main');
 
 /**
@@ -40,7 +41,7 @@ $helper->loadLanguage('main');
 class FileForm extends \XoopsThemeForm
 {
     /**
-     * @var Publisher\Helper
+     * @var Helper
      */
     public $helper;
     public $targetObject;
@@ -51,8 +52,8 @@ class FileForm extends \XoopsThemeForm
      */
     public function __construct(&$target)
     {
-        /** @var Publisher\Helper $this->helper */
-        $this->helper       = Publisher\Helper::getInstance();
+        /** @var Helper $this->helper */
+        $this->helper       = Helper::getInstance();
         $this->targetObject = &$target;
 
         parent::__construct(\_AM_PUBLISHER_UPLOAD_FILE, 'form', \xoops_getenv('SCRIPT_NAME'), 'post', true);

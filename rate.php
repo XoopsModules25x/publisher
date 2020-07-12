@@ -19,7 +19,12 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\{
+    Constants,
+    GroupPermHandler,
+    Helper,
+    Utility
+};
 
 require_once __DIR__ . '/header.php';
 
@@ -28,8 +33,8 @@ $rating = Request::getInt('rating', 0, 'GET');
 $itemId = Request::getInt('itemid', 0, 'GET');
 
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/** @var \XoopsModules\Publisher\GroupPermHandler $grouppermHandler */
-$grouppermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
+/** @var GroupPermHandler $grouppermHandler */
+$grouppermHandler = Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
 /** @var XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleId     = $helper->getModule()->getVar('mid');

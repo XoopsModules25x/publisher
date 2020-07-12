@@ -22,7 +22,7 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -32,7 +32,7 @@ require_once \dirname(__DIR__) . '/include/common.php';
 class Metagen
 {
     /**
-     * @var Publisher\Helper
+     * @var Helper
      */
     public $helper;
     /**
@@ -72,8 +72,8 @@ class Metagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
-        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+        /** @var Helper $this->helper */
+        $this->helper = Helper::getInstance();
         $this->myts   = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
         $this->setTitle($title);

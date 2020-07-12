@@ -23,9 +23,11 @@ declare(strict_types=1);
 use Xmf\Module\Admin;
 use Xmf\Request;
 use Xmf\Yaml;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Helper;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Common,
+    Helper,
+    Utility
+};
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -35,7 +37,7 @@ $helper->loadLanguage('main');
 $helper->loadLanguage('admin');
 $adminObject  = Admin::getInstance();
 $utility      = new Utility();
-$configurator = new Publisher\Common\Configurator();
+$configurator = new Common\Configurator();
 
 /*
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {

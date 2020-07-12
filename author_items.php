@@ -19,8 +19,11 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\{
+    Helper,
+    Item,
+    Metagen
+};
 
 require_once __DIR__ . '/header.php';
 
@@ -36,6 +39,7 @@ if (!is_object($thisuser)) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
 }
 
+/** @var Helper $helper */
 if (!$helper->getConfig('perm_author_items')) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
 }
@@ -63,7 +67,7 @@ $xoopsTpl->assign('user_avatarurl', XOOPS_URL . '/uploads/' . $thisuser->getVar(
 //$xoopsLocal = new \XoopsLocal();
 $categories = [];
 if ($count > 0) {
-    /** @var Publisher\Item $item */
+    /** @var Item $item */
     foreach ($items as $item) {
         $catId = $item->categoryid();
         if (!isset($categories[$catId])) {
@@ -126,7 +130,7 @@ $title = _MD_PUBLISHER_ITEMS_SAME_AUTHOR . ' - ' . $authorName;
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new Publisher\Metagen($title, '', $title);
+$publisherMetagen = new Metagen($title, '', $title);
 $publisherMetagen->createMetaTags();
 
 require_once $GLOBALS['xoops']->path('footer.php');

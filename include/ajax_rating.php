@@ -20,10 +20,13 @@ declare(strict_types=1);
 //  E-Mail: lusopoemas@gmail.com
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Helper,
+    Rating
+};
 
 require_once dirname(__DIR__) . '/header.php';
-$helper = Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 
 error_reporting(0);
 $xoopsLogger->activated = false;
@@ -37,7 +40,7 @@ $itemId = Request::getInt('itemid', 0, 'GET');
 
 $helper->loadLanguage('main');
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/** @var Publisher\GroupPermHandler $grouppermHandler */
+/** @var \GroupPermHandler $grouppermHandler */
 $grouppermHandler = $helper->getHandler('GroupPerm');
 /** @var XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
@@ -90,7 +93,7 @@ $currentRating = 0;
 $voted          = false;
 $ip             = getenv('REMOTE_ADDR');
 
-/** @var Publisher\Rating $ratingObj */
+/** @var Rating $ratingObj */
 foreach ($ratingObjs as $ratingObj) {
     $currentRating += $ratingObj->getVar('rate');
     if ($ratingObj->getVar('ip') == $ip || ($uid > 0 && $uid == $ratingObj->getVar('uid'))) {

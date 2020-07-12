@@ -32,7 +32,9 @@ declare(strict_types=1);
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Common
+};
 
 require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
@@ -55,9 +57,9 @@ EOF;
 
 //XoopsLoad::load('migrate', 'newbb');
 
-$configurator = new Publisher\Common\Configurator();
+$configurator = new Common\Configurator();
 
-$migrator = new \XoopsModules\Publisher\Common\Migrate($configurator = null);
+$migrator = new Common\Migrate($configurator = null);
 
 $op        = Request::getCmd('op', 'show');
 $opShow    = Request::getCmd('show', null, 'POST');

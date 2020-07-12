@@ -19,15 +19,18 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Helper,
+    Resizer,
+    Utility
+};
 
 error_reporting(0);
 require dirname(__DIR__, 3) . '/mainfile.php';
 require_once __DIR__ . '/common.php';
 
 $GLOBALS['xoopsLogger']->activated = false;
-$helper = Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 $helper->loadLanguage('common');
 
 if (!is_object($GLOBALS['xoopsUser'])) {
@@ -93,7 +96,7 @@ if (false === $error) {
             } else {
                 $maxwidth                  = $imgcat->getVar('imgcat_maxwidth');
                 $maxheight                 = $imgcat->getVar('imgcat_maxheight');
-                $imgHandler                = new Publisher\Resizer();
+                $imgHandler                = new Resizer();
                 $imgHandler->sourceFile    = $uploader->getSavedDestination();
                 $imgHandler->endFile       = $uploader->getSavedDestination();
                 $imgHandler->imageMimetype = $imageMimetype;

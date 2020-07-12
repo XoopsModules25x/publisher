@@ -22,14 +22,19 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Helper;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    CategoryHandler,
+    Form,
+    Helper,
+    Metagen,
+    PermissionHandler,
+    Seo
+};
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
- * Class Publisher\Category
+ * Class Category
  */
 class Category extends \XoopsObject
 {
@@ -61,7 +66,7 @@ class Category extends \XoopsObject
      */
     public function __construct()
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
+        /** @var Helper $this->helper */
         $this->helper = Helper::getInstance();
         $this->initVar('categoryid', \XOBJ_DTYPE_INT, null, false);
         $this->initVar('parentid', \XOBJ_DTYPE_INT, null, false);
@@ -117,7 +122,7 @@ class Category extends \XoopsObject
         if (\is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->getVar('uid') == $this->moderator) {
             return true;
         }
-        /** @var \XoopsModules\Publisher\PermissionHandler $permissionHandler */
+        /** @var PermissionHandler $permissionHandler */
         $permissionHandler = $this->helper->getHandler('Permission');
         $categoriesGranted = $permissionHandler->getGrantedItems('category_read');
         if (\in_array($this->categoryid(), $categoriesGranted, true)) {
@@ -166,7 +171,7 @@ class Category extends \XoopsObject
             }
             $parentid = $this->parentid();
             if (0 != $parentid) {
-                /** @var Publisher\CategoryHandler $categoryHandler */
+                /** @var CategoryHandler $categoryHandler */
                 $categoryHandler = $this->helper->getHandler('Category');
                 $parentObj       = $categoryHandler->get($parentid);
                 //                if ($parentObj->notLoaded()) {
@@ -198,7 +203,7 @@ class Category extends \XoopsObject
         $ret      = '';
         $parentid = $this->parentid();
         if (0 != $parentid) {
-            /** @var Publisher\CategoryHandler $categoryHandler */
+            /** @var CategoryHandler $categoryHandler */
             $categoryHandler = $this->helper->getHandler('Category');
             $parentObj       = $categoryHandler->get($parentid);
             //            if ($parentObj->notLoaded()) {
@@ -226,7 +231,7 @@ class Category extends \XoopsObject
      */
     public function getGroupsRead()
     {
-        /** @var Publisher\PermissionHandler $permissionHandler */
+        /** @var PermissionHandler $permissionHandler */
         $permissionHandler = $this->helper->getHandler('Permission');
 
         return $permissionHandler->getGrantedGroupsById('category_read', $this->categoryid());
@@ -237,7 +242,7 @@ class Category extends \XoopsObject
      */
     public function getGroupsSubmit()
     {
-        /** @var Publisher\PermissionHandler $permissionHandler */
+        /** @var PermissionHandler $permissionHandler */
         $permissionHandler = $this->helper->getHandler('Permission');
 
         return $permissionHandler->getGrantedGroupsById('item_submit', $this->categoryid());
@@ -248,7 +253,7 @@ class Category extends \XoopsObject
      */
     public function getGroupsModeration()
     {
-        /** @var Publisher\PermissionHandler $permissionHandler */
+        /** @var PermissionHandler $permissionHandler */
         $permissionHandler = $this->helper->getHandler('Permission');
 
         return $permissionHandler->getGrantedGroupsById('category_moderation', $this->categoryid());
@@ -259,7 +264,7 @@ class Category extends \XoopsObject
      */
     public function getCategoryUrl()
     {
-        return Publisher\Seo::generateUrl('category', $this->categoryid(), $this->short_url());
+        return Seo::generateUrl('category', $this->categoryid(), $this->short_url());
     }
 
     /**
@@ -365,19 +370,19 @@ class Category extends \XoopsObject
 
     public function createMetaTags()
     {
-        $publisherMetagen = new Publisher\Metagen($this->name(), $this->meta_keywords(), $this->meta_description());
+        $publisherMetagen = new Metagen($this->name(), $this->meta_keywords(), $this->meta_description());
         $publisherMetagen->createMetaTags();
     }
 
     /**
      * @param int $subCatsCount
      *
-     * @return \XoopsModules\Publisher\Form\CategoryForm
+     * @return Form\CategoryForm
      */
     public function getForm($subCatsCount = 4)
     {
         //        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/category.php');
-        $form = new Publisher\Form\CategoryForm($this, $subCatsCount);
+        $form = new Form\CategoryForm($this, $subCatsCount);
 
         return $form;
     }

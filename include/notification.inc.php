@@ -19,7 +19,10 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Helper,
+    Seo
+};
 
 //require_once __DIR__ . '/seo_functions.php';
 
@@ -39,7 +42,7 @@ function publisher_notify_iteminfo($category, $itemId)
     }
 
     global $xoopsModule;
-    $helper = Publisher\Helper::getInstance();
+    $helper = Helper::getInstance();
 
     if ('category' === $category) {
         // Assume we have a valid category id
@@ -47,7 +50,7 @@ function publisher_notify_iteminfo($category, $itemId)
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
         $resultArray  = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $resultArray['name'];
-        $item['url']  = Publisher\Seo::generateUrl('category', $itemId, $resultArray['short_url']);
+        $item['url']  = Seo::generateUrl('category', $itemId, $resultArray['short_url']);
 
         return $item;
     }
@@ -58,7 +61,7 @@ function publisher_notify_iteminfo($category, $itemId)
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
         $resultArray  = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $resultArray['title'];
-        $item['url']  = Publisher\Seo::generateUrl('item', $itemId, $resultArray['short_url']);
+        $item['url']  = Seo::generateUrl('item', $itemId, $resultArray['short_url']);
 
         return $item;
     }

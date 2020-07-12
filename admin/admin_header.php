@@ -32,7 +32,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 $moduleDirName = basename(dirname(__DIR__));
 
 $helper = Helper::getInstance();
-/** @var Xmf\Module\Admin $adminObject */
+/** @var Admin $adminObject */
 $adminObject = Admin::getInstance();
 
 $pathIcon16 = Admin::iconUrl('', 16);

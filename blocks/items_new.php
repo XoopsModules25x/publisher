@@ -20,6 +20,7 @@ declare(strict_types=1);
  */
 
 use XoopsModules\Publisher\{
+    BlockForm,
     Constants,
     Helper,
     ItemHandler,
@@ -194,7 +195,7 @@ function publisher_items_new_edit($options)
     // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form = new Publisher\BlockForm();
+    $form = new BlockForm();
 
     $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);

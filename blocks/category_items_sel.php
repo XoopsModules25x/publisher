@@ -19,7 +19,11 @@ declare(strict_types=1);
  */
 
 use XoopsModules\Publisher\{
+    BlockForm,
+    CategoryHandler,
     Constants,
+    Helper,
+    ItemHandler,
     Utility
 };
 
@@ -32,11 +36,11 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_category_items_sel_show($options)
 {
-    $helper = Publisher\Helper::getInstance();
+    $helper = Helper::getInstance();
 
     $block = $item = [];
 
-    /** @var Publisher\CategoryHandler $categoryHandler */
+    /** @var CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');
     $categories      = $categoryHandler->getCategories(0, 0, -1);
 
@@ -62,7 +66,7 @@ function publisher_category_items_sel_show($options)
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('categoryid', $catId));
 
-        /** @var Publisher\ItemHandler $itemHandler */
+        /** @var ItemHandler $itemHandler */
         $itemHandler = $helper->getHandler('Item');
 
         $publisherIsAdmin = $helper->isUserAdmin();
@@ -105,7 +109,7 @@ function publisher_category_items_sel_edit($options)
     // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form = new Publisher\BlockForm();
+    $form = new BlockForm();
 
     $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[0]), 'options[0]');
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);

@@ -24,6 +24,7 @@ namespace XoopsModules\Publisher\Form;
  */
 
 use XoopsModules\Publisher\{
+    Constants,
     Helper
 };
 

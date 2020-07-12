@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher\{
+    GroupPermHandler,
     Helper,
     Rating
 };
@@ -40,9 +41,9 @@ $itemId = Request::getInt('itemid', 0, 'GET');
 
 $helper->loadLanguage('main');
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/** @var \GroupPermHandler $grouppermHandler */
+/** @var GroupPermHandler $grouppermHandler */
 $grouppermHandler = $helper->getHandler('GroupPerm');
-/** @var XoopsConfigHandler $configHandler */
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleId     = $helper->getModule()->getVar('mid');
 

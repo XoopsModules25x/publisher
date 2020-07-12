@@ -19,6 +19,7 @@ declare(strict_types=1);
  * @author          phppp
  */
 
+use Xmf\Request;
 use XoopsModules\Publisher\{
     CategoryHandler,
     Helper

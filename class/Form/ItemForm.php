@@ -350,7 +350,7 @@ class ItemForm extends Publisher\ThemeTabForm
             }
 
             $dateExpireYesNo     = new \XoopsFormRadioYN('', 'use_expire_yn', $dateexpire_opt);
-            $dateexpire          = \strtotime(\formatTimestamp($dateexpire)); //set to user timezone
+            $dateexpire = (int)formatTimestamp($dateexpire, 'U', $timeoffset); //set to user timezone
             $dateexpire_datetime = new \XoopsFormDateTime('', 'dateexpire', $size = 15, $dateexpire, true);
             if (0 == $dateexpire_opt) {
                 $dateexpire_datetime->setExtra('disabled="disabled"');

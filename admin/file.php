@@ -80,11 +80,9 @@ switch ($op) {
     case 'uploadfile':
         Utility::uploadFile(false, true, $false);
         exit;
-        break;
     case 'uploadanother':
         Utility::uploadFile(true, true, $false);
         exit;
-        break;
     case 'mod':
         $fileid = Request::getInt('fileid', 0, 'GET');
         $itemId = Request::getInt('itemid', 0, 'GET');
@@ -144,7 +142,6 @@ switch ($op) {
         }
 
         exit();
-        break;
     case 'default':
     default:
         Utility::cpHeader();

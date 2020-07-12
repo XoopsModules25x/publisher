@@ -155,7 +155,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         exit();
-        break;
     case 'default':
     default:
         Utility::cpHeader();

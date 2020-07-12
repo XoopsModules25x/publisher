@@ -152,7 +152,6 @@ switch ($op) {
             require_once $GLOBALS['xoops']->path('footer.php');
         }
         exit();
-        break;
     case 'preview':
         // Putting the values about the ITEM in the ITEM object
         $itemObj->setVarsFromRequest();
@@ -192,8 +191,6 @@ switch ($op) {
         $sform->assign($xoopsTpl);
         require_once $GLOBALS['xoops']->path('footer.php');
         exit();
-
-        break;
     case 'post':
         // Putting the values about the ITEM in the ITEM object
         // print_r($itemObj->getVars());

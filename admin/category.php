@@ -176,7 +176,6 @@ switch ($op) {
         Utility::cpHeader();
         Utility::editCategory(true, $categoryId, $numberSubcats, $categoryObj);
         exit();
-        break;
     //end of fx2024 code
 
     case 'cancel':

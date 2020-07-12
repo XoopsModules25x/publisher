@@ -21,7 +21,9 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Constants,
+use XoopsModules\Publisher\{
+    Constants,
+    Item,
     Utility
 };
 
@@ -108,7 +110,7 @@ if ('go' === $op) {
     $resultArticles = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
         // insert article
-        /** @var Publisher\Item $itemObj */
+        /** @var Item $itemObj */
         $itemObj = $helper->getHandler('Item')->create();
         $itemObj->setVar('itemid', $arrArticle['id']);
         //      $itemObj->setVar('categoryid', $categoryObj->categoryid());

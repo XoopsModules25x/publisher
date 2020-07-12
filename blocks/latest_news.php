@@ -23,6 +23,7 @@ declare(strict_types=1);
 use XoopsModules\Publisher\{
     Constants,
     Helper,
+    ItemHandler,
     Seo,
     Utility
 };
@@ -40,7 +41,7 @@ function publisher_latest_news_show($options)
 
     $helper = Helper::getInstance();
     $helper->loadLanguage('main');
-    /** @var Publisher\ItemHandler $itemHandler */
+    /** @var ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     //    xoops_loadLanguage('main', 'publisher');
 

@@ -22,7 +22,9 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher\{
+    Category,
     Constants,
+    File,
     Utility
 };
 
@@ -220,7 +222,7 @@ if ('go' === $op) {
         $newCat           = [];
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
-        /** @var Publisher\Category $categoryObj */
+        /** @var Category $categoryObj */
         $categoryObj = $helper->getHandler('Category')->create();
 
         $categoryObj->setVar('parentid', $arrCat['topic_pid']);
@@ -359,7 +361,7 @@ if ('go' === $op) {
                 $filename = $GLOBALS['xoops']->path('uploads/AMS/attached/' . $arrFile['downloadname']);
                 if (file_exists($filename)) {
                     if (copy($filename, $GLOBALS['xoops']->path('uploads/publisher/' . $arrFile['filerealname']))) {
-                        /** @var Publisher\File $fileObj */
+                        /** @var File $fileObj */
                         $fileObj = $helper->getHandler('File')->create();
                         $fileObj->setVar('name', $arrFile['filerealname']);
                         $fileObj->setVar('description', $arrFile['filerealname']);

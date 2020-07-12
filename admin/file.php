@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher\{
+    File,
     Helper,
     Utility
 };
@@ -63,7 +64,7 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemId = 0)
     }
 
     // FILES UPLOAD FORM
-    /** @var Publisher\File $fileObj */
+    /** @var File $fileObj */
     $uploadForm = $fileObj->getForm();
     $uploadForm->display();
 

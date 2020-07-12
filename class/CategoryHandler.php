@@ -137,7 +137,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function delete(\XoopsObject $category, $force = false) //delete(&$category, $force = false)
     {
-        /** @var \XoopsModules\Category $category */
+        /** @var Category $category */
         // Deleting this category ITEMs
         $criteria = new \Criteria('categoryid', $category->categoryid());
         $this->helper->getHandler('Item')->deleteAll($criteria);
@@ -205,7 +205,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('parentid', (int)$parentid));
         }
         if (!$this->publisherIsAdmin) {
-            /** @var \XoopsModules\PermissionHandler $permissionHandler */
+            /** @var PermissionHandler $permissionHandler */
             $permissionHandler = $this->helper->getHandler('Permission');
             $categoriesGranted = $permissionHandler->getGrantedItems('category_read');
             if (\count($categoriesGranted) > 0) {

@@ -22,7 +22,9 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher\{
+    Category,
     Constants,
+    Item,
     Utility
 };
 
@@ -126,7 +128,7 @@ if ('go' === $op) {
         $newCat           = [];
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
-        /** @var Publisher\Category $categoryObj */
+        /** @var Category $categoryObj */
         $categoryObj = $helper->getHandler('Category')->create();
 
         $categoryObj->setVar('parentid', $arrCat['topic_pid']);
@@ -155,7 +157,7 @@ if ('go' === $op) {
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
-            /** @var Publisher\Item $itemObj */
+            /** @var Item $itemObj */
             $itemObj = $helper->getHandler('Item')->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());

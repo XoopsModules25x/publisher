@@ -25,12 +25,7 @@ namespace XoopsModules\Publisher;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Helper,
-    MimetypeHandler,
-    Session,
-    Utility
-};
+use XoopsModules\Publisher;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 

@@ -23,11 +23,7 @@ namespace XoopsModules\Publisher;
  */
 
 use XoopsModules\Publisher\{
-    Form,
-    Helper,
-    Metagen,
-    PermissionHandler,
-    Seo
+    Form
 };
 
 require_once \dirname(__DIR__) . '/include/common.php';

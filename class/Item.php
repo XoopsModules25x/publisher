@@ -24,13 +24,7 @@ namespace XoopsModules\Publisher;
 
 use Xmf\Request;
 use XoopsModules\Publisher\{
-    Category,
-    Constants,
-    Form,
-    Metagen,
-    Helper,
-    Seo,
-    Utility
+    Form
 };
 
 //namespace Publisher;

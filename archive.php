@@ -115,7 +115,7 @@ if (!($itemsCount > 0)) {
                 $lastmonth                    = $thisMonth;
                 $months[$lastmonth]['string'] = $monthsArray[$lastmonth];
                 $months[$lastmonth]['number'] = $lastmonth;
-                //                $months[$lastmonth]['articlesMonthCount'] = 1;
+                $months[$lastmonth]['articlesMonthCount'] = 1;
                 $articlesThisMonth = 0;
             }
             //new year
@@ -150,6 +150,7 @@ if (!($itemsCount > 0)) {
     }
     //    unset($item);
     $years[$i]['number'] = $thisYear;
+    $months[$lastmonth]['articlesMonthCount'] = $articlesThisMonth;
     $years[$i]['months'] = $months;
 
     $years[$i]['articlesYearCount'] = $articlesThisYear;

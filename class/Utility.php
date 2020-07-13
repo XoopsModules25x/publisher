@@ -24,12 +24,7 @@ namespace XoopsModules\Publisher;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
-    Helper,
-    Item,
-    Session
-};
+use XoopsModules\Publisher;
 
 /**
  * Class Utility

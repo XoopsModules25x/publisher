@@ -22,10 +22,7 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    Helper,
-    Metagen
-};
+use XoopsModules\Publisher;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 

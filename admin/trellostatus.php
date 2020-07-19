@@ -2,9 +2,13 @@
 
 use XoopsModules\Publisher\TrelloManagement;
 
-$trelloManagement = new TrelloManagement();
+require_once __DIR__ . '/admin_header.php';
 
-$statusId = $_GET['status'];
-$itemId = $_GET['itemid'];
+$xoopsDb = \XoopsDatabaseFactory::getDatabaseConnection();
+
+$trelloManagement = new TrelloManagement($xoopsDb);
+
+$statusId = $_GET['statusId'];
+$itemId = $_GET['itemId'];
 
 $result = $trelloManagement->editTaskStatus($statusId, $itemId);

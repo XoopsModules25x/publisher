@@ -11,9 +11,9 @@ class TrelloDBController
     /** @var \XoopsMySQLDatabase $db */
     private $db;
 
-    public function __construct()
+    public function __construct($xoopsDb)
     {
-        $this->db =  \XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db = $xoopsDb;
     }
 
     /**
@@ -67,10 +67,13 @@ class TrelloDBController
         for ($i = 0, $iMax = count($paramValueArray); $i < $iMax; ++$i) {
             $paramValueReference[] = &$paramValueArray[$i];
         }
-        call_user_func_array([
-            $sql,
-            'bind_param',
-        ], $paramValueReference);
+        call_user_func_array(
+            [
+                $sql,
+                'bind_param',
+            ],
+            $paramValueReference
+        );
     }
 
     /**

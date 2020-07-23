@@ -13,6 +13,10 @@ class TrelloManagement
 {
     private $xoopsDb;
 
+    /**
+     * TrelloManagement constructor.
+     * @param $xoopsDb
+     */
     public function __construct( $xoopsDb){
         $this->xoopsDb = $xoopsDb;
     }

@@ -11,6 +11,10 @@ class TrelloDBController
     /** @var \XoopsMySQLDatabase $db */
     private $db;
 
+    /**
+     * TrelloDBController constructor.
+     * @param $xoopsDb
+     */
     public function __construct($xoopsDb)
     {
         $this->db = $xoopsDb;

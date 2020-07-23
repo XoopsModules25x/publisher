@@ -40,7 +40,7 @@ class Utility extends Common\SysUtility
     public static function createFolder($folder)
     {
         try {
-            if (!\file_exists($folder)) {
+            if (!\is_dir($folder)) {
                 if (!\is_dir($folder) && !\mkdir($folder) && !\is_dir($folder)) {
                     throw new \RuntimeException(\sprintf('Unable to create the %s directory', $folder));
                 }
@@ -611,12 +611,12 @@ class Utility extends Common\SysUtility
             return true; // best case check first
         }
 
-        if (\file_exists($target) && !\is_dir($target)) {
+        if (\is_dir($target) && !\is_dir($target)) {
             return false;
         }
 
         if (static::mkdir(mb_substr($target, 0, mb_strrpos($target, '/')))) {
-            if (!\file_exists($target)) {
+            if (!\is_dir($target)) {
                 $res = \mkdir($target, 0777); // crawl back up & create dir tree
                 static::chmod($target);
 

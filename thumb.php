@@ -528,7 +528,7 @@ class Timthumb
     protected function tryServerCache()
     {
         $this->debug(3, 'Trying server cache');
-        if (file_exists($this->cachefile)) {
+        if (is_file($this->cachefile)) {
             $this->debug(3, "Cachefile {$this->cachefile} exists");
             if ($this->isURL) {
                 $this->debug(3, 'This is an external request, so checking if the cachefile is empty which means the request failed previously.');

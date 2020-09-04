@@ -90,7 +90,6 @@ function publisher_tag_iteminfo(&$items)
 /** Remove orphan tag-item links *
  * @param int $mid
  * @return bool
- * @return bool
  */
 function publisher_tag_synchronization($mid)
 {
@@ -98,7 +97,7 @@ function publisher_tag_synchronization($mid)
     /** @var ItemHandler $itemHandler */
     $itemHandler = Helper::getInstance()->getHandler('Item');
 
-    /** @var \XoopsModules\Tag\LinkHandler $itemHandler */
+    /** @var \XoopsModules\Tag\LinkHandler $linkHandler */
     $linkHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Link');
 
     //$mid = XoopsFilterInput::clean($mid, 'INT');

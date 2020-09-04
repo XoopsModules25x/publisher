@@ -11,6 +11,8 @@ require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 
+$xoopsDb = \XoopsDatabaseFactory::getDatabaseConnection();
+
 $adminObject->displayNavigation(basename(__FILE__));
 
 $statusArray      = [
@@ -20,18 +22,10 @@ $statusArray      = [
     Constants::PUBLISHER_STATUS_REJECTED  => \_CO_PUBLISHER_REJECTED,
 ];
 
-$projectName = 'StartTuts';
-$trelloManagement = new TrelloManagement();
+$trelloManagement = new TrelloManagement($xoopsDb);
 $statusResult = $trelloManagement->getAllStatus();
 
-foreach ($statusResult as $statusRow) {
-//    $itemResult[] = $trelloManagement->getProjectTaskByStatus($statusRow['id'], $projectName);
-//    $itemResult[] = $trelloManagement->getProjectTaskByStatus($statusRow['itemid'], $statusRow['itemid']);
-}
-
-//$xoopsTpl->assign('taskResult', $itemResult);
 $xoopsTpl->assign('statusResult', $statusResult);
-$xoopsTpl->assign('itemResult', $statusResult);
 $xoopsTpl->assign('statusArray', $statusArray);
 $xoopsTpl->assign('publisher_url', PUBLISHER_URL);
 

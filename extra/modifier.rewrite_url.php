@@ -79,7 +79,7 @@ function smarty_modifier_rewrite_url($url, $insert_param, $param_value = null, $
 
     //remove params from array
     if (isset($remove_params_arr) && ('' != $remove_params_arr)) {
-        !is_array($remove_params_arr) ? $remove_params_arr = explode(",", $remove_params_arr) : '';
+        !is_array($remove_params_arr) ? $remove_params_arr = explode(',', $remove_params_arr) : '';
         foreach ($remove_params_arr as $param) {
             unset($url_arr[$param]);
         }
@@ -87,8 +87,8 @@ function smarty_modifier_rewrite_url($url, $insert_param, $param_value = null, $
 
     //add current param to array, params separated by semi-colon
     if (isset($insert_param) && ('' != $insert_param)) {
-        !is_array($insert_param) ? $insert_param = explode(",", $insert_param) : '';
-        !is_array($param_value) ? $param_value = explode(",", $param_value) : '';
+        !is_array($insert_param) ? $insert_param = explode(',', $insert_param) : '';
+        !is_array($param_value) ? $param_value = explode(',', $param_value) : '';
         for ($i = 0, $size = count($param_value); $i < $size; $i++) {
             if ('' != trim($param_value[$i])) {
                 $url_arr[trim($insert_param[$i])] = trim($param_value[$i]);

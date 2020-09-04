@@ -215,7 +215,7 @@ class Item extends \XoopsObject
     {
         $content = '';
         $page    = Utility::getUploadDir(true, 'content') . $fileName;
-        if (\file_exists($page)) {
+        if (\is_file($page)) {
             // this page uses smarty template
             \ob_start();
             require $page;

@@ -24,7 +24,10 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\{
+    Helper
+};
+/** @var Helper $this->helper */
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -40,7 +43,6 @@ class PermissionHandler extends \XoopsObjectHandler
 
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Helper $this->helper */
         if (null === $helper) {
             $this->helper = Helper::getInstance();
         } else {
@@ -117,7 +119,7 @@ class PermissionHandler extends \XoopsObjectHandler
         $sql    .= ' ' . $criteria->renderWhere();
         $result = $db->query($sql, 0, 0);
         while (false !== ($myrow = $db->fetchArray($result))) {
-            $ret[$myrow['gperm_itemid']] = $myrow['gperm_itemid'];
+            $ret[$myrow['gperm_itemid']] = (int)$myrow['gperm_itemid'];
         }
         $items[$gpermName] = $ret;
 

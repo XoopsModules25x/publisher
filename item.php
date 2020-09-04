@@ -22,6 +22,7 @@ declare(strict_types=1);
 use Xmf\Request;
 use XoopsModules\Publisher\{
     Helper,
+    Item,
     Metagen,
     Utility
 };
@@ -38,6 +39,7 @@ if (0 == $itemId) {
 $helper = Helper::getInstance();
 
 // Creating the item object for the selected item
+/** @var Item $itemObj */
 $itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected item was not found, exit

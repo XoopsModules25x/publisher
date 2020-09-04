@@ -21,11 +21,13 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher\{
+    Category,
     Helper,
     Item,
     Metagen,
     Utility
 };
+/** @var Category $categoryObj */
 
 require_once __DIR__ . '/header.php';
 

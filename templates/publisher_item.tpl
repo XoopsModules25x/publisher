@@ -95,12 +95,12 @@
         <{if $pagenav}>
             <div class="publisher_pagenav_bottom"><{$smarty.const._MD_PUBLISHER_PAGE}>: <{$pagenav}></div>
         <{/if}>
-        <{if $tagbar}>
+        <{if $tagbar|default:false}>
             <p><{include file="db:tag_bar.tpl"}></p>
         <{/if}>
     </div>
 
-    <{if $rating_enabled}>
+    <{if $rating_enabled|default:false}>
        <small><{$item.ratingbar}></small>
     <{/if}>
 

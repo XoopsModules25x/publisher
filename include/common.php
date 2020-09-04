@@ -22,10 +22,11 @@ declare(strict_types=1);
 
 use Xmf\Module\Admin;
 use XoopsModules\Publisher\{
-    Common,
     Helper,
     Utility
 };
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
@@ -33,12 +34,9 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
 /** @var \XoopsMySQLDatabase $db */
-/** @var Helper $helper */
-/** @var Utility $utility */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
 $helper  = Helper::getInstance();
 $utility = new Utility();
-//$configurator = new Common\Configurator();
 
 $helper->loadLanguage('common');
 
@@ -132,7 +130,7 @@ if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)
     $GLOBALS['xoopsTpl'] = new \XoopsTpl();
 }
 
-$GLOBALS['xoopsTpl']->assign('mod_url', XOOPS_URL . '/modules/' . $moduleDirName);
+$GLOBALS['xoopsTpl']->assign('mod_url', $helper->url());
 // Local icons path
 if (is_object($helper->getModule())) {
     $pathModIcon16 = $helper->getModule()->getInfo('modicons16');

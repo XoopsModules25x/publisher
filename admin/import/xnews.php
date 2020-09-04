@@ -171,11 +171,13 @@ if ('go' === $op) {
     // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
     Utility::openCollapsableBar('xnewsimportgo', 'xnewsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /** @var XoopsModuleHandler $moduleHandler */
-    $moduleHandler   = xoops_getHandler('module');
+    /** @var \XoopsModuleHandler $moduleHandler */
+$moduleHandler = xoops_getHandler('module');
     $moduleObj       = $moduleHandler->getByDirname('xnews');
     $xnews_module_id = $moduleObj->getVar('mid');
     /** @var XoopsGroupPermHandler $grouppermHandler */
-    $grouppermHandler = xoops_getHandler('groupperm');
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
+$grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;

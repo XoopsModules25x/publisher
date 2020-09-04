@@ -4,7 +4,6 @@ namespace XoopsModules\Publisher;
 
 /**
  * Class TrelloDBController
- * @package XoopsModules\Publisher
  */
 class TrelloDBController
 {

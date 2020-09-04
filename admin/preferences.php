@@ -56,7 +56,7 @@ $configcat = Request::getString('configcat', '', 'GET');
 
 if ('showmod' === $op) {
     /** @var \XoopsConfigHandler $configHandler */
-    $configHandler = xoops_getHandler('config');
+$configHandler = xoops_getHandler('config');
 
     $config = $configHandler->getConfigs(new \Criteria('conf_modid', $modId));
     $count  = count($config);
@@ -209,7 +209,8 @@ if ('save' === $op) {
         redirect_header($module->getInfo('adminindex'), 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
     }
     $count         = count($confIds);
-    $configHandler = xoops_getHandler('config');
+    /** @var \XoopsConfigHandler $configHandler */
+$configHandler = xoops_getHandler('config');
     if ($count > 0) {
         for ($i = 0; $i < $count; ++$i) {
             $config   = $configHandler->getConfig($confIds[$i]);

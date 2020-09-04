@@ -23,8 +23,12 @@ namespace XoopsModules\Publisher;
  */
 
 use XoopsModules\Publisher\{
-    Form
+    Form,
+    Helper,
+    Utility
 };
+
+/** @var Helper $this->helper */
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -61,7 +65,6 @@ class Category extends \XoopsObject
      */
     public function __construct()
     {
-        /** @var Helper $this->helper */
         $this->helper = Helper::getInstance();
         $this->initVar('categoryid', \XOBJ_DTYPE_INT, null, false);
         $this->initVar('parentid', \XOBJ_DTYPE_INT, null, false);

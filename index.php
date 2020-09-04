@@ -48,7 +48,8 @@ $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->
 require_once $GLOBALS['xoops']->path('header.php');
 require_once $helper->path('footer.php');
 /** @var \XoopsGroupPermHandler $grouppermHandler */
-//$grouppermHandler = xoops_getHandler('groupperm');
+///** @var \XoopsGroupPermHandler $grouppermHandler */
+$grouppermHandler = xoops_getHandler('groupperm');
 
 // Creating the top categories objects
 $categoriesObj = $helper->getHandler('Category')->getCategories($helper->getConfig('idxcat_cat_perpage'), $catstart);

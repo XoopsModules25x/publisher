@@ -1,4 +1,4 @@
-<{if $indexfooter}>
+<{if $indexfooter|default:false}>
        <{$indexfooter}>
     <{/if}>
 
@@ -6,7 +6,7 @@
     <div class="publisher_adminlinks"><{$publisher_adminpage}></div>
 <{/if}>
 
-<{if ($commentatarticlelevel && $item.cancomment) || $com_rule != 0}>
+<{if ($commentatarticlelevel|default:false && $item.cancomment) || $com_rule|default:0 != 0}>
     <table border="0" width="100%" cellspacing="1" cellpadding="0" align="center">
         <tr>
             <td colspan="3" align="left">
@@ -27,8 +27,8 @@
     </table>
 <{/if}>
 
-<{if $rssfeed_link != ""}>
-    <div id="publisher_rpublisher_feed"><{$rssfeed_link}></div>
+<{if $rssfeed_link|default:false != ""}>
+    <div id="publisher_rpublisher_feed"><{$rssfeed_link|default:false}></div>
 <{/if}>
 
 <{include file='db:system_notification_select.tpl'}>

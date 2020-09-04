@@ -7,7 +7,6 @@ use XoopsModules\Publisher\Helper;
 
 /**
  * Class TrelloManagement
- * @package XoopsModules\Publisher
  */
 class TrelloManagement
 {

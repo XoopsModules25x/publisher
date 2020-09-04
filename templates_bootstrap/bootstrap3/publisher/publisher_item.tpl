@@ -94,13 +94,13 @@
     </div>
 <{/if}>
 <div class="clearfix"></div>
-<{if $tagbar}>
+<{if $tagbar|default:false}>
     <p><{include file="db:tag_bar.tpl"}></p>
 <{/if}>
 
 
 <div class="pub_article_extras">
-    <{if $rating_enabled}>
+    <{if $rating_enabled|default:false}>
         <div class="pull-left">
             <small><{$item.ratingbar}></small>
         </div>

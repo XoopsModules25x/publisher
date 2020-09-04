@@ -21,8 +21,10 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Publisher\{
+    Helper,
     Utility
 };
+/** @var Helper $helper */
 
 require_once __DIR__ . '/admin_header.php';
 

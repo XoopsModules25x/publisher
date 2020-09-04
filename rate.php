@@ -36,6 +36,7 @@ $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GRO
 /** @var GroupPermHandler $grouppermHandler */
 $grouppermHandler = Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
 /** @var XoopsConfigHandler $configHandler */
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleId     = $helper->getModule()->getVar('mid');
 

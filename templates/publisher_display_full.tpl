@@ -2,7 +2,7 @@
 
 <!-- if we are on the index page OR inside a category that has subcats OR (inside a category with no subcats
      AND $display_category_summary is set to TRUE), let's display the summary table ! //-->
-<{if $indexpage || $category.subcats || ($category && $display_category_summary)}>
+<{if $indexpage|default:false || $category.subcats || ($category && $display_category_summary)}>
 
     <{if $collapsable_heading == 1}>
         <div class="publisher_collaps_title">

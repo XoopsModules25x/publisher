@@ -661,7 +661,7 @@ class Timthumb
             if (!touch($lastCleanFile)) {
                 $this->error('Could not create cache clean timestamp file.');
             }
-            $files = glob($this->cacheDirectory . '/*' . FILE_CACHE_SUFFIX);
+            $files = glob($this->cacheDirectory . '/*' . FILE_CACHE_SUFFIX, GLOB_NOSORT);
             if ($files) {
                 $timeAgo = time() - FILE_CACHE_MAX_FILE_AGE;
                 foreach ($files as $file) {

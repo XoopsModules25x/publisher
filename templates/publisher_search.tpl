@@ -1,4 +1,4 @@
-<{if $search_info}>
+<{if $search_info|default:false}>
     <div class="resultMsg"> <{$search_info}></div>
     <{if $results}>
         <{foreach item=result from=$results}>

@@ -27,7 +27,7 @@ require_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
 //Checking general permissions
 /** @var \XoopsConfigHandler $configHandler */
-$configHandler     = xoops_getHandler('config');
+$configHandler = xoops_getHandler('config');
 $xoopsConfigSearch = $configHandler->getConfigsByCat(XOOPS_CONF_SEARCH);
 if (empty($xoopsConfigSearch['enable_search'])) {
     redirect_header(PUBLISHER_URL . '/index.php', 2, _NOPERM);

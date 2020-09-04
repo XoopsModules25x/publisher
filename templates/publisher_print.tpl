@@ -52,7 +52,7 @@
 
     <{if $itemfooter}>    
         <div style="text-align: center; font-weight: bold; border: 1px solid; padding: 2px; margin-top: 10px;"><{$itemfooter}></div>
-    <{/if}> <br><br><br> <{if $indexfooter}>
+    <{/if}> <br><br><br> <{if $indexfooter|default:false}>
         <div style="text-align: center; margin-top: 10px; border: 1px solid; padding: 2px;"><{$indexfooter}></div>
     <{/if}>
 

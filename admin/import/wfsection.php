@@ -249,7 +249,8 @@ if ('go' === $op) {
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
     /** @var XoopsModuleHandler $moduleHandler */
-    $moduleHandler  = xoops_getHandler('module');
+    /** @var \XoopsModuleHandler $moduleHandler */
+$moduleHandler = xoops_getHandler('module');
     $moduleObj      = $moduleHandler->getByDirname('wfsection');
     $news_module_id = $moduleObj->getVar('mid');
 

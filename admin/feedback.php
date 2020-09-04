@@ -21,12 +21,13 @@ declare(strict_types=1);
  * @author         Fernando Santos (topet05) <fernando@mastop.com.br>
  */
 
+use Xmf\Module\Admin;
 use Xmf\Request;
 use \XoopsModules\Publisher\Common\ModuleFeedback;
 
 require __DIR__ . '/admin_header.php';
 
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 
 $feedback = new ModuleFeedback();
 

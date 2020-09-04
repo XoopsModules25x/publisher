@@ -26,6 +26,7 @@ use XoopsModules\Publisher\{
     Helper,
     ItemHandler
 };
+use Xmf\Module\Admin;
 
 require __DIR__ . '/common.php';
 
@@ -101,5 +102,5 @@ return (object)[
         'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_REJECTED]),
     ],
     'modCopyright'    => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . \Xmf\Module\Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
+                     <img src='" . Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
 ];

@@ -22,6 +22,7 @@ declare(strict_types=1);
 use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
 
 require_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
@@ -33,7 +34,7 @@ if (empty($xoopsConfigSearch['enable_search'])) {
     redirect_header(PUBLISHER_URL . '/index.php', 2, _NOPERM);
 }
 
-$helper           = \XoopsModules\Publisher\Helper::getInstance();
+$helper           = Helper::getInstance();
 $groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $grouppermHandler = $helper->getHandler('GroupPerm');
 $moduleId        = $helper->getModule()->mid();

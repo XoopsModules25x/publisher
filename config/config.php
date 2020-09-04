@@ -22,6 +22,7 @@ use XoopsModules\Publisher\{
     Constants,
     Helper
 };
+use Xmf\Module\Admin;
 
 require_once dirname(__DIR__) . '/include/common.php';
 $moduleDirName      = basename(dirname(__DIR__));
@@ -95,6 +96,6 @@ return (object)[
         'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_REJECTED),
     ],
     'modCopyright' => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . \Xmf\Module\Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
+                     <img src='" . Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
 ];
 

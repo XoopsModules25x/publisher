@@ -19,6 +19,7 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use Xmf\Module\Admin;
 use XoopsModules\Publisher\Helper;
 
 require_once dirname(__DIR__) . '/preloads/autoloader.php';
@@ -31,7 +32,7 @@ $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
 
 // get path to icons
-$pathIcon32    = \Xmf\Module\Admin::menuIconPath('');
+$pathIcon32    = Admin::menuIconPath('');
 $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
 $adminmenu[] = [

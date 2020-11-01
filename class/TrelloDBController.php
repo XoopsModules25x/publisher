@@ -25,6 +25,7 @@ class TrelloDBController
      */
     public function runBaseQuery($query)
     {
+        $resultset = [];
         $result = $this->db->conn->query($query);
         if ($result->num_rows > 0) {
             while (null !== ($row = $result->fetch_assoc())) {
@@ -67,10 +68,10 @@ class TrelloDBController
     public function bindQueryParams($sql, $paramType, $paramValueArray)
     {
         $paramValueReference[] = &$paramType;
-        for ($i = 0, $iMax = count($paramValueArray); $i < $iMax; ++$i) {
+        for ($i = 0, $iMax = \count($paramValueArray); $i < $iMax; ++$i) {
             $paramValueReference[] = &$paramValueArray[$i];
         }
-        call_user_func_array(
+        \call_user_func_array(
             [
                 $sql,
                 'bind_param',

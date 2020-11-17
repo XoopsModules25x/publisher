@@ -1,9 +1,67 @@
-<h5>1.08????
+<h5>1.08 Alpha 2       [2020-07-08]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.7
 <hr>
+- Various fixes (ihackcode)
+- timezone conversion (ihackcode)
+- Convert user time to Server time on saving items (ihackcode)
+- added Save/Load Permissions to test data - based on work by Goffy (mamba)
+- added Trello board, based on https://phppot.com/php/trello-like-drag-and-drop-cards-for-project-management-software/ (mamba)
+
+
+<h5>1.08 Alpha 1       [2020-05-18]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.6
+<hr>
+- added Option to display default image if no article image selected in article page (liomj)
+- separate Latest Published Article in Index/Category and Article Page (liomj)
+- changed Preferences order and add new option for better readibility (liomj)  
+ --Latest Published Articles in Index and Category Page 
+ --Article page 
+ --All Latest Published Articles in Article Page 
+ --Archive Page 
+ --Item by The Same Author Page 
+- added new options to enabled/disable item in article page (liomj)
+- added new options to enabled/disable item in item by the same author page (liomj)
+- added new options to enabled/disable item in blocks (liomj)
+ -- Random Block
+ -- Latest News Block
+ -- Spotlight Block
+ -- Recent Block
+ -- Column Block
+ -- New Block
+- restructured blocks and article templates (liomj)
+- restructured Latest Published Article templates (liomj)
+- added new options in preferences to enable/disable item in archive page (liomj)
+- restructured Archive page templates (liomj)
+- restructured Item by the same Author page templates (liomj)
+- separate Poster and Date in index,article page & blocks (liomj)   
+- separate PDF and Print Button from AdminLinks (liomj)
+- removed unused tellafriend module support from AdminLinks (liomj)
+- removed unused Poster avatar from article page (liomj)
+- changed date format to 12 Hour format as default (liomj)
+- change XOOPS logo.gif to logo.png as default (liomj)
+- changed file.gif to transparent file.png in article page (liomj)
+- fixed Extended Column Block (liomj)
+- removed unused Topic Link (News Module) from Latest News Block (liomj)
+- added Default Article Image in PDF (liomj)
+- change TCPDF Logo to Blank.png in PDF Page (liomj)
+- change Text Header color from Blue to Black in PDF Page (liomj)
+- added PDF Protection in PDF Page (liomj)
+- added site name and slogan in Print Page (liomj)
+- fixed Default Template Breadcrumb (liomj)
+- fixed Category Image in Spotlight block (liomj)
+- fixed Footer that will be displayed at the index page of the module (liomj)
 - added check uid (goffy)
   -- new item get current uid as default
   -- if access user is not granted then current uid will be used as default
-- added option to display number of reads in block spotlight (goffy)
+- added option to display number of reads in block spotlight (goffy)  
+- Notification Title tag inadvertently overloaded (zyspec)
+- config updates, moved to /config (mamba)
+- use __NAMESPACE__ in Helper (mamba)
+- code cosmetics, PSR12 (mamba)
+- fixed return-by-ref error in CategoryHandler::getCategories() method (zyspec)
+- fixed mimetypes not loaded into dB on initial install (zyspec)
+- minor update to help text for XOOPS version (zyspec)
+- move test data to ./testdata/english folder and rename it so import routine can find it (zyspec)
+- change from using $_SERVER['PHP_SELF'] to $_SERVER['SCRIPT_NAME'] for improved security (zyspec)
+- PHP 7.1 (mamba)
 
 
 <h5>1.07 Final       [2019-06-08]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.6

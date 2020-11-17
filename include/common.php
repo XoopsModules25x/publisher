@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -14,26 +16,29 @@
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Include
- * @subpackage      Functions
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher;
+use Xmf\Module\Admin;
+use XoopsModules\Publisher\{
+    Common,
+    Helper,
+    Utility
+};
 
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
-/** @var \XoopsDatabase $db */
-/** @var \XoopsModules\Publisher\Helper $helper */
-/** @var \XoopsModules\Publisher\Utility $utility */
+/** @var \XoopsMySQLDatabase $db */
+/** @var Helper $helper */
+/** @var Utility $utility */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
-$helper  = \XoopsModules\Publisher\Helper::getInstance();
-$utility = new \XoopsModules\Publisher\Utility();
-//$configurator = new Publisher\Common\Configurator();
+$helper  = Helper::getInstance();
+$utility = new Utility();
+//$configurator = new Common\Configurator();
 
 $helper->loadLanguage('common');
 
@@ -95,13 +100,13 @@ global $publisherIsAdmin;
 // Load only if module is installed
 if (is_object($helper->getModule())) {
     // Find if the user is admin of the module
-    $publisherIsAdmin = Publisher\Utility::userIsAdmin();
+    $publisherIsAdmin = Utility::userIsAdmin();
     // get current page
-    $publisherCurrentPage = Publisher\Utility::getCurrentPage();
+    $publisherCurrentPage = Utility::getCurrentPage();
 }
 
-$pathIcon16 = Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32 = Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16 = Admin::iconUrl('', 16);
+$pathIcon32 = Admin::iconUrl('', 32);
 //$pathModIcon16 = $helper->getModule()->getInfo('modicons16');
 //$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 

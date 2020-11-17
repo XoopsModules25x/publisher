@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,7 +14,6 @@
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          Bandit-X
  * @author          trabis <lusopoemas@gmail.com>
@@ -24,6 +25,10 @@
 ######################################################################
 
 use Xmf\Request;
+use XoopsModules\Publisher\{
+    Item
+};
+
 
 require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_archive.tpl';
@@ -110,7 +115,7 @@ if (!($itemsCount > 0)) {
                 $lastmonth                    = $thisMonth;
                 $months[$lastmonth]['string'] = $monthsArray[$lastmonth];
                 $months[$lastmonth]['number'] = $lastmonth;
-                //                $months[$lastmonth]['articlesMonthCount'] = 1;
+                $months[$lastmonth]['articlesMonthCount'] = 1;
                 $articlesThisMonth = 0;
             }
             //new year
@@ -145,6 +150,7 @@ if (!($itemsCount > 0)) {
     }
     //    unset($item);
     $years[$i]['number'] = $thisYear;
+    $months[$lastmonth]['articlesMonthCount'] = $articlesThisMonth;
     $years[$i]['months'] = $months;
 
     $years[$i]['articlesYearCount'] = $articlesThisYear;
@@ -155,18 +161,24 @@ unset($items);
 
 if (0 != $fromyear && 0 != $frommonth) {
     $xoopsTpl->assign('show_articles', true);
-    $xoopsTpl->assign('lang_articles', _MD_PUBLISHER_ITEM);
+    $xoopsTpl->assign('lang_articles', _MD_PUBLISHER_ITEMS);
     $xoopsTpl->assign('currentmonth', $monthsArray[$frommonth]);
     $xoopsTpl->assign('currentyear', $fromyear);
     $xoopsTpl->assign('lang_actions', _MD_PUBLISHER_ACTIONS);
     $xoopsTpl->assign('lang_date', _MD_PUBLISHER_DATE);
     $xoopsTpl->assign('lang_views', _MD_PUBLISHER_HITS);
+    $xoopsTpl->assign('lang_category', _MD_PUBLISHER_CATEGORY);
+    $xoopsTpl->assign('lang_author', _MD_PUBLISHER_AUTHOR);
 
     // must adjust the selected time to server timestamp
-    $timeoffset = $useroffset - $GLOBALS['xoopsConfig']['server_TZ'];
-    $monthstart = mktime(0 - $timeoffset, 0, 0, $frommonth, 1, $fromyear);
-    $monthend   = mktime(23 - $timeoffset, 59, 59, $frommonth + 1, 0, $fromyear);
-    $monthend   = ($monthend > time()) ? time() : $monthend;
+    $timeoffset        = $useroffset - $GLOBALS['xoopsConfig']['server_TZ'];
+    $timeoffsethours   = (int)$timeoffset;
+    $timeoffsetminutes = (int)(($timeoffset - $timeoffsethours) * 60);
+
+    $monthstart = mktime(0 - $timeoffsethours, 0 - $timeoffsetminutes, 0, $frommonth, 1, $fromyear);
+    $monthend   = mktime(23 - $timeoffsethours, 59 - $timeoffsetminutes, 59, $frommonth + 1, 0, $fromyear);
+
+    $monthend = ($monthend > time()) ? time() : $monthend;
 
     $count = 0;
 
@@ -181,7 +193,7 @@ if (0 != $fromyear && 0 != $frommonth) {
     $criteria->add($grantedCategories, 'AND');
     $criteria->add(new \Criteria('o.status', 2), 'AND');
     $critdatesub = new \CriteriaCompo();
-    $critdatesub->add(new \Criteria('o.datesub', $monthstart, '>'), 'AND');
+    $critdatesub->add(new \Criteria('o.datesub', $monthstart, '>='), 'AND');
     $critdatesub->add(new \Criteria('o.datesub', $monthend, '<='), 'AND');
     $criteria->add($critdatesub);
     $criteria->setSort('o.datesub');
@@ -191,19 +203,51 @@ if (0 != $fromyear && 0 != $frommonth) {
 
     $count = count($storyarray);
     if (is_array($storyarray) && $count > 0) {
-        /** @var \XoopsModules\Publisher\Item $item */
+        /** @var Item $item */
+
         foreach ($storyarray as $item) {
             $story               = [];
             $htmltitle           = '';
-            $story['title']      = "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . "</a>: <a href='" . $item->getItemUrl() . "'" . $htmltitle . '>' . $item->getTitle() . '</a>';
+            $story['title']      = "<a href='" . $item->getItemUrl() . "'" . $htmltitle . '>' . $item->getTitle() . '</a>';
+            $story['cleantitle'] = strip_tags($item->getTitle());
+            $story['itemurl']    = $item->getItemUrl();
+            $story['category']   = "<a href='" . XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/category.php?categoryid=' . $item->categoryid() . "'>" . $item->getCategoryName() . '</a>';
             $story['counter']    = $item->counter();
             $story['date']       = $item->getDatesub();
             $story['print_link'] = XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/print.php?itemid=' . $item->itemid();
             $story['mail_link']  = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  ' . $item->getItemUrl();
+            $story['pdf_link']   = XOOPS_URL . '/modules/' . PUBLISHER_DIRNAME . '/makepdf.php?itemid=' . $item->itemid();
+            $story['author']     = $item->getWho();
+            $story['summary']    = $item->getSummary();
+            $story['cancomment'] = $item->cancomment();
 
+            $mainImage = $item->getMainImage();
+            if (empty($mainImage['image_path'])) {
+                $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
+            }
+            //check to see if GD function exist
+            if (!empty($mainImage['image_path']) && !function_exists('imagecreatetruecolor')) {
+                $story['item_image'] = $mainImage['path'];
+            } else {
+                $story['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '';
+                $story['image_path'] = $mainImage['image_path'];
+            }
+
+            $comments = $item->comments();
+            if ($comments > 0) {
+                //shows 1 comment instead of 1 comm. if comments ==1
+                //langugage file modified accordingly
+                if (1 == $comments) {
+                    $story['comment'] = '&nbsp;' . _MD_PUBLISHER_ONECOMMENT . '&nbsp;';
+                } else {
+                    $story['comment'] = '&nbsp;' . $comments . '&nbsp;' . _MD_PUBLISHER_COMMENTS . '&nbsp;';
+                }
+            } else {
+                $story['comment'] = '&nbsp;' . _MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
+            }
             $xoopsTpl->append('stories', $story);
         }
-        //        unset($item);
+        //unset($item);
     }
     $xoopsTpl->assign('lang_printer', _MD_PUBLISHER_PRINTERFRIENDLY);
     $xoopsTpl->assign('lang_sendstory', _MD_PUBLISHER_SENDSTORY);

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * File : makepdf.php for publisher
  * For tcpdf_for_xoops 2.01 and higher
@@ -6,15 +9,17 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Utility
+};
 
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/header.php';
 
-$itemid       = Request::getInt('itemid', 0, 'GET');
-$item_page_id = Request::getInt('page', -1, 'GET');
-if (0 == $itemid) {
+$itemId       = Request::getInt('itemid', 0, 'GET');
+$itemPageId = Request::getInt('page', -1, 'GET');
+if (0 == $itemId) {
     redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
@@ -22,7 +27,7 @@ if (0 == $itemid) {
 require_once XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php';
 
 // Creating the item object for the selected item
-$itemObj = $helper->getHandler('Item')->get($itemid);
+$itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected item was not found, exit
 if (!$itemObj) {
@@ -44,10 +49,13 @@ $sender_inform = sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemOb
 $mainImage     = $itemObj->getMainImage();
 
 $content = '';
+if (empty($mainImage['image_path'])) {
+    $content .= '<img src="' . PUBLISHER_URL . '/assets/images/default_image.jpg" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"><br>';
+}
 if ('' != $mainImage['image_path']) {
     $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"><br>';
 }
-$content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" style="text-decoration: none; color: #000000; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '">' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '</a>';
+$content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemId . '" style="text-decoration: none; color: #000000; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '">' . $myts->undoHtmlSpecialChars($itemObj->getTitle()) . '</a>';
 $content .= '<br><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">'
             . _CO_PUBLISHER_CATEGORY
             . ' : </span><a href="'
@@ -73,9 +81,9 @@ $pdf_data = [
     'rtl'              => false, //true if right to left
 ];
 
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
+$pdf = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
-$doc_title  = Publisher\Utility::convertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
+$doc_title  = Utility::convertCharset($myts->undoHtmlSpecialChars($itemObj->getTitle()));
 $docSubject = $myts->undoHtmlSpecialChars($categoryObj->name());
 
 $docKeywords = $myts->undoHtmlSpecialChars($itemObj->meta_keywords());
@@ -90,13 +98,27 @@ $pdf->SetSubject($docSubject);
 //$pdf->SetKeywords(XOOPS_URL . ', '.' by TCPDF_for_XOOPS (chg-web.org), '.$doc_title);
 $pdf->SetKeywords($docKeywords);
 
-$firstLine  = Publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
-$secondLine = Publisher\Utility::convertCharset($GLOBALS['xoopsConfig']['slogan']);
+$firstLine  = Utility::convertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
+$secondLine = Utility::convertCharset($GLOBALS['xoopsConfig']['slogan']);
+
+$PDF_HEADER_LOGO       = '_blank.png';
+$PDF_HEADER_LOGO_WIDTH = '';
 
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
-$pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine, [0, 64, 255], [0, 64, 128]);
-
+$pdf->setHeaderData($PDF_HEADER_LOGO, $PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+//print : disable the possibility to print the PDF from any PDF viewer.
+//modify : prevent the modification of contents of the document by operations other than those controlled by 'fill-forms', 'extract' and 'assemble';
+//copy : prevent the copy or otherwise extract text and graphics from the document;
+//annot-forms : Add or modify text annotations, fill in interactive form fields, and, if 'modify' is also set, create or modify interactive form fields (including signature fields);
+//fill-forms : Fill in existing interactive form fields (including signature fields), even if 'annot-forms' is not specified;
+//extract : Extract text and graphics (in support of accessibility to users with disabilities or for other purposes);
+//assemble : Assemble the document (insert, rotate, or delete pages and create bookmarks or thumbnail images), even if 'modify' is not set;
+//print-high : Print the document to a representation from which a faithful digital copy of the PDF content could be generated. When this is not set, printing is limited to a low-level representation of the appearance, possibly of degraded quality.
+//owner : (inverted logic - only for public-key) when set permits change of encryption and enables all other permissions.
+
+$pdf->SetProtection(['modify', 'copy', 'annot-forms', 'fill-forms', 'extract', 'assemble']);
 
 //set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);

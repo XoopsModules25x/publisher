@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -13,30 +15,33 @@
  * Publisher
  *
  * @copyright    The XOOPS Project (https://xoops.org)
- * @license      GNU GPL (http://www.gnu.org/licenses/gpl-2.0.html/)
- * @package      Publisher
+ * @license      GNU GPL (https://www.gnu.org/licenses/gpl-2.0.html/)
  * @since        1.0
  * @author       Mage, Mamba
  */
 
+use Xmf\Module\Admin;
+use Xmf\Request;
 use Xmf\Yaml;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Common;
+use XoopsModules\Publisher\{
+    Common,
+    Helper,
+    Utility
+};
 
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
-/** @var \XoopsModules\Publisher\Helper $helper */
-$helper = \XoopsModules\Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 $helper->loadLanguage('main');
 $helper->loadLanguage('admin');
-$adminObject  = \Xmf\Module\Admin::getInstance();
-$utility      = new Publisher\Utility();
-$configurator = new Publisher\Common\Configurator();
+$adminObject  = Admin::getInstance();
+$utility      = new Utility();
+$configurator = new Common\Configurator();
 
 /*
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    Publisher\Utility::createFolder($uploadFolders[$i]);
+    Utility::createFolder($uploadFolders[$i]);
     $adminObject->addConfigBoxLine($uploadFolders[$i], 'folder');
     //    $adminObject->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
@@ -45,7 +50,7 @@ foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
 $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
 foreach (array_keys($copyFiles) as $i) {
     $dest = $copyFiles[$i] . '/blank.png';
-    Publisher\Utility::copyFile($file, $dest);
+    Utility::copyFile($file, $dest);
 }
 */
 
@@ -62,27 +67,27 @@ if ($moduleStats && is_array($moduleStats)) {
         switch ($key) {
             case 'totalcategories':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf( $ret . ' ' . _AM_PUBLISHER_TOTALCAT ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALCAT));
                 break;
             case 'totalitems':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_ITEMS ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_ITEMS));
                 break;
             case 'totaloffline':
                 $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTAL_OFFLINE ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTAL_OFFLINE));
                 break;
             case 'totalpublished':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALPUBLISHED ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALPUBLISHED));
                 break;
             case 'totalrejected':
                 $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_REJECTED ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_REJECTED));
                 break;
             case 'totalsubmitted':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALSUBMITTED ));
+                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALSUBMITTED));
                 break;
         }
     }
@@ -91,10 +96,10 @@ if ($moduleStats && is_array($moduleStats)) {
 $adminObject->displayNavigation(basename(__FILE__));
 
 //check for latest release
-$newRelease = $utility::checkVerModule($helper);
-if (!empty($newRelease)) {
-    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
-}
+//$newRelease = $utility::checkVerModule($helper);
+//if (!empty($newRelease)) {
+//    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
+//}
 
 //------------- Test Data ----------------------------
 
@@ -105,7 +110,7 @@ if ($helper->getConfig('displaySampleButton')) {
 
     if (1 == $displaySampleButton) {
         xoops_loadLanguage('admin/modulesadmin', 'system');
-        require __DIR__ . '/../testdata/index.php';
+        require dirname(__DIR__) . '/testdata/index.php';
 
         $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), './../testdata/index.php?op=load', 'add');
         $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), './../testdata/index.php?op=save', 'add');
@@ -128,7 +133,7 @@ $adminObject->displayIndex();
  */
 function loadAdminConfig($yamlFile)
 {
-    $config = Yaml::loadWrapped($yamlFile); // work with phpmyadmin YAML dumps
+    $config = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
     return $config;
 }
 
@@ -152,7 +157,7 @@ function showButtons($yamlFile)
     redirect_header('index.php', 0, '');
 }
 
-$op = \Xmf\Request::getString('op', 0, 'GET');
+$op = Request::getString('op', 0, 'GET');
 
 switch ($op) {
     case 'hide_buttons':

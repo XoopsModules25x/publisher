@@ -5,10 +5,47 @@
     <{section name=i loop=$block.columns}>
         <ul>
             <{foreach item=item from=$block.columns[i]}>
-                <li><{if $item.posttime }>[ <{$item.posttime}> ]:<{/if}> <{$item.topic_title}> <{$item.title}></li>
+                <li> <{$item.title}><br>
+    <{if $item.display_item_image}>
+         <{if $item.item_image != ''}>
+            <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="margin<{$block.margin}>: 10px; padding: 2px; border:<{$block.border}>px solid #<{$block.bordercolor}>"></a><br >
+            <{else}>
+            <a href="<{$item.itemurl}>"><img src="<{$block.publisher_url}>thumb.php?src=<{$block.publisher_url}>/assets/images/default_image.jpg&w=<{$block.imgheight}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="margin<{$block.margin}>: 10px; padding: 2px; border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>
+         <{/if}>
+     <{/if}>
+
+                    <{if $item.display_summary}>
+                           <{$item.text}> <br>
+                    <{/if}>
+                <{$item.more}><br><br>
+                                <{if $item.topic_title}>                 
+                                    <span><{$block.lang_category}> : <{$item.topic_title}> | </span>
+                                <{/if}>
+                                <{if $item.poster}>
+                                    <span class="itemPoster"><{$block.lang_poster}> <{$item.poster}> |</span>
+                                <{/if}>
+                                <{if $item.posttime}>
+                                    <span class="itemPostDate"><{$item.posttime}> |</span>
+                                <{/if}>
+                                <{if $item.read }>
+                                    <span><{$item.read}> <{$block.lang_reads}> |</span>
+                                <{/if}>
+                                <{if $item.comment && $item.cancomment && $item.comment != -1}>
+                                    <span><{$item.comment}></span>
+                                <{/if}>
+               
+                <p class="itemPermaLink" align="right">
+                <{$item.email}><{$item.print}><{$item.pdf}>
+                <{if $item.display_adminlink}> 
+                <{$item.admin}><{/if}>
+                </p>
+
+                </li>
             <{/foreach}>
         </ul>
     <{/section}>
+    <br><{$block.topiclink}><{$block.morelink}><{$block.archivelink}><{$block.submitlink}>
+
     <{if $block.latestnews_scroll }>
         </marquee>
     <{/if}>
@@ -17,8 +54,6 @@
 <{if $block.template == 'extended'}>
 
     <{php}>
-        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
-        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
         $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
     <{/php}>
 
@@ -30,24 +65,56 @@
             <{section name=i loop=$block.columns}>
                 <td width="<{$block.spec.columnwidth}>%">
                     <{foreach item=item from=$block.columns[i]}>
-                        <div class="itemHead"><{$item.admin}>
-                            <span class="itemTitle"><{$item.topic_title}><{$item.title}></span>
+                        <div class="itemHead">
+                            <span class="itemTitle"><{$item.title}></span>
                         </div>
-                        <{if $block.poster || $item.posttime || $item.read }>
+                        
                             <div class="itemInfo">
-                                <span class="itemPoster"><{$item.poster}></span>
-                                <span class="itemPostDate"><{$item.posttime}><{$item.read}></span>
-                            </div>
-                        <{/if}>
-                        <{$item.image}>
+
+                                <{if $item.topic_title}>                 
+                                    <span><{$block.lang_category}> : <{$item.topic_title}> |</span>
+                                 <{/if}>
+                                <{if $item.poster}>
+                                    <span class="itemPoster"><{$block.lang_poster}> <{$item.poster}> |</span>
+                                <{/if}>
+                                <{if $item.posttime}>
+                                    <span class="itemPostDate"><{$item.posttime}> |</span>
+                                <{/if}>
+                               <{if $item.read }>
+                                    <span><{$item.read}> <{$block.lang_reads}> |</span>
+                                <{/if}>
+                                <{if $item.comment && $item.cancomment && $item.comment != -1}>
+                                    <span><{$item.comment}></span>
+                                <{/if}>
+                             </div>
+
+                 <{if $item.display_item_image}>
+                       <{if $item.item_image != ''}>
+                       <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="margin<{$block.margin}>: 10px; padding: 2px; border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>
+                       <{else}>
+                       <a href="<{$item.itemurl}>"><img src="<{$block.publisher_url}>thumb.php?src=<{$block.publisher_url}>/assets/images/default_image.jpg&w=<{$block.imgheight}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="margin<{$block.margin}>: 10px; padding: 2px; border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>
+                       <{/if}>
+                 <{/if}>
+
+
+
+
+
                         <{if $block.letters != 0}>
                             <div style="text-align:justify; padding:5px;">
-                                <{$item.text}>
+                                    <{if $item.display_summary}>
+                                      <{$item.text}> <br>
+                                    <{/if}>
+                                <{$item.more}>
                                 <div style="clear:both;"></div>
                             </div>
                         <{/if}>
                         <div class="itemFoot">
-                            <span class="itemPermaLink"><{$item.more}><{$item.comment}><{$item.print}><{$item.pdf}><{$item.email}></span>
+                            <span class="itemPermaLink">
+                            <{$item.print}><{$item.pdf}><{$item.email}>
+                            <{if $item.display_adminlink}> <{$item.admin}>
+                            <{/if}>
+                            </span>
                         </div>
                     <{/foreach}>
                 </td>
@@ -55,8 +122,7 @@
         </tr>
     </table>
     <{if $block.latestnews_scroll }></marquee><{/if}>
-
-    <div><{$block.morelink}><{$block.topiclink}><{$block.archivelink}><{$block.submitlink}></div>
+    <div><br ><{$block.morelink}><{$block.archivelink}><{$block.submitlink}><br ></div>
 <{/if}>
 
 <{if $block.template == 'ticker'}>
@@ -69,6 +135,7 @@
         <{/section}>
     </marquee>
 <{/if}>
+
 
 <{if $block.template == 'slider1'}>
 
@@ -150,7 +217,7 @@
 
         }
     </script>
-    <{section name=i}>
+    <{section name=i loop=$block.columns}>
 
         <ul class="pub_slideshow1">
         <{foreach item=item from=$block.columns[i]}>
@@ -181,7 +248,7 @@
         });
 
     </script>
-    <{section name=i}>
+   <{section name=i loop=$block.columns}>
         <div id="lofslidecontent45" class="lof-slidecontent">
 
             <div class="lof-main-outer">

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -16,16 +18,13 @@ namespace XoopsModules\Publisher;
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Harry Fuecks (PHP Anthology Volume II)
  */
 //namespace Publisher;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Session
@@ -40,7 +39,9 @@ class Session
      */
     protected function __construct()
     {
-        @session_start();
+        if (!@\session_start()) {
+            throw new \RuntimeException('Session could not start.');
+        }
     }
 
     /**
@@ -63,11 +64,7 @@ class Session
      */
     public function get($name)
     {
-        if (isset($_SESSION[$name])) {
-            return $_SESSION[$name];
-        }
-
-        return false;
+        return $_SESSION[$name] ?? false;
     }
 
     /**
@@ -86,7 +83,7 @@ class Session
     public function destroy()
     {
         $_SESSION = [];
-        session_destroy();
+        \session_destroy();
     }
 
     /**

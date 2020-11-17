@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -15,17 +17,16 @@ namespace XoopsModules\Publisher;
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Form
+};
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 // File status
 //define("_PUBLISHER_STATUS_FILE_NOTSET", -1);
@@ -47,21 +48,21 @@ class File extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var \XoopsModules\Publisher\Helper $this->helper */
-        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
-        /** @var \XoopsDatabase $db */
-        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
-        $this->initVar('fileid', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('itemid', XOBJ_DTYPE_INT, null, true);
-        $this->initVar('name', XOBJ_DTYPE_TXTBOX, null, true, 255);
-        $this->initVar('description', XOBJ_DTYPE_TXTBOX, null, false, 255);
-        $this->initVar('filename', XOBJ_DTYPE_TXTBOX, null, true, 255);
-        $this->initVar('mimetype', XOBJ_DTYPE_TXTBOX, null, true, 64);
-        $this->initVar('uid', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('datesub', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('status', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('notifypub', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('counter', XOBJ_DTYPE_INT, null, false);
+        /** @var Helper $this->helper */
+        $this->helper = Helper::getInstance();
+        /** @var \XoopsMySQLDatabase $db */
+        $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
+        $this->initVar('fileid', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('itemid', \XOBJ_DTYPE_INT, null, true);
+        $this->initVar('name', \XOBJ_DTYPE_TXTBOX, null, true, 255);
+        $this->initVar('description', \XOBJ_DTYPE_TXTBOX, null, false, 255);
+        $this->initVar('filename', \XOBJ_DTYPE_TXTBOX, null, true, 255);
+        $this->initVar('mimetype', \XOBJ_DTYPE_TXTBOX, null, true, 64);
+        $this->initVar('uid', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('datesub', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('status', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('notifypub', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('counter', \XOBJ_DTYPE_INT, null, false);
         if (null !== $id) {
             $file = $this->helper->getHandler('File')->get($id);
             foreach ($file->vars as $k => $v) {
@@ -78,7 +79,7 @@ class File extends \XoopsObject
      */
     public function __call($method, $args)
     {
-        $arg = isset($args[0]) ? $args[0] : null;
+        $arg = $args[0] ?? null;
 
         return $this->getVar($method, $arg);
     }
@@ -92,26 +93,26 @@ class File extends \XoopsObject
      */
     public function checkUpload($postField, $allowedMimetypes, &$errors)
     {
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $this->helper->getHandler('Mimetype');
         $errors          = [];
         if (!$mimetypeHandler->checkMimeTypes($postField)) {
-            $errors[] = _CO_PUBLISHER_MESSAGE_WRONG_MIMETYPE;
+            $errors[] = \_CO_PUBLISHER_MESSAGE_WRONG_MIMETYPE;
 
             return false;
         }
-        if (0 === count($allowedMimetypes)) {
+        if (0 === \count($allowedMimetypes)) {
             $allowedMimetypes = $mimetypeHandler->getArrayByType();
         }
         $maxfilesize   = $this->helper->getConfig('maximum_filesize');
         $maxfilewidth  = $this->helper->getConfig('maximum_image_width');
         $maxfileheight = $this->helper->getConfig('maximum_image_height');
-        xoops_load('XoopsMediaUploader');
-        $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        \xoops_load('XoopsMediaUploader');
+        $uploader = new \XoopsMediaUploader(Utility::getUploadDir(), $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
             return true;
         }
-        $errors = array_merge($errors, $uploader->getErrors(false));
+        $errors = \array_merge($errors, $uploader->getErrors(false));
 
         return false;
     }
@@ -125,24 +126,24 @@ class File extends \XoopsObject
      */
     public function storeUpload($postField, $allowedMimetypes, &$errors)
     {
-        /** @var Publisher\MimetypeHandler $mimetypeHandler */
+        /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $this->helper->getHandler('Mimetype');
-        $itemid          = $this->getVar('itemid');
-        if (0 === count($allowedMimetypes)) {
+        $itemId          = $this->getVar('itemid');
+        if (0 === \count($allowedMimetypes)) {
             $allowedMimetypes = $mimetypeHandler->getArrayByType();
         }
         $maxfilesize   = $this->helper->getConfig('maximum_filesize');
         $maxfilewidth  = $this->helper->getConfig('maximum_image_width');
         $maxfileheight = $this->helper->getConfig('maximum_image_height');
-        if (!is_dir(Publisher\Utility::getUploadDir())) {
-            if (!mkdir($concurrentDirectory = Publisher\Utility::getUploadDir(), 0757) && !is_dir($concurrentDirectory)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+        if (!\is_dir(Utility::getUploadDir())) {
+            if (!\mkdir($concurrentDirectory = Utility::getUploadDir(), 0757) && !\is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(\sprintf('Directory "%s" was not created', $concurrentDirectory));
             }
         }
-        xoops_load('XoopsMediaUploader');
-        $uploader = new \XoopsMediaUploader(Publisher\Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+        \xoops_load('XoopsMediaUploader');
+        $uploader = new \XoopsMediaUploader(Utility::getUploadDir() . '/', $allowedMimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
         if ($uploader->fetchMedia($postField)) {
-            $uploader->setTargetFileName($itemid . '_' . $uploader->getMediaName());
+            $uploader->setTargetFileName($itemId . '_' . $uploader->getMediaName());
             if ($uploader->upload()) {
                 $this->setVar('filename', $uploader->getSavedFileName());
                 if ('' == $this->getVar('name')) {
@@ -152,11 +153,11 @@ class File extends \XoopsObject
 
                 return true;
             }
-            $errors = array_merge($errors, $uploader->getErrors(false));
+            $errors = \array_merge($errors, $uploader->getErrors(false));
 
             return false;
         }
-        $errors = array_merge($errors, $uploader->getErrors(false));
+        $errors = \array_merge($errors, $uploader->getErrors(false));
 
         return false;
     }
@@ -198,7 +199,7 @@ class File extends \XoopsObject
     {
         //mb        xoops_load('XoopsLocal');
         //mb        return XoopsLocal::formatTimestamp($this->getVar('datesub', $format), $dateFormat);
-        return formatTimestamp($this->getVar('datesub', $format), $dateFormat);
+        return \formatTimestamp($this->getVar('datesub', $format), $dateFormat);
     }
 
     /**
@@ -214,7 +215,7 @@ class File extends \XoopsObject
      */
     public function getFileUrl()
     {
-        return Publisher\Utility::getUploadDir(false) . $this->filename();
+        return Utility::getUploadDir(false) . $this->filename();
     }
 
     /**
@@ -222,7 +223,7 @@ class File extends \XoopsObject
      */
     public function getFilePath()
     {
-        return Publisher\Utility::getUploadDir() . $this->filename();
+        return Utility::getUploadDir() . $this->filename();
     }
 
     /**
@@ -258,7 +259,7 @@ class File extends \XoopsObject
         //        if (!defined('MYTEXTSANITIZER_EXTENDED_MEDIA')) {
         //            require_once PUBLISHER_ROOT_PATH . '/include/media.textsanitizer.php';
         //        }
-        $mediaTs = Publisher\MyTextSanitizerExtension::getInstance();
+        $mediaTs = MyTextSanitizerExtension::getInstance();
 
         return $mediaTs->displayFlash($this->getFileUrl());
     }
@@ -276,12 +277,12 @@ class File extends \XoopsObject
     }
 
     /**
-     * @return \XoopsModules\Publisher\Form\FileForm
+     * @return Form\FileForm
      */
     public function getForm()
     {
         //        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/file.php');
-        $form = new Publisher\Form\FileForm($this);
+        $form = new Form\FileForm($this);
 
         return $form;
     }

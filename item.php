@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,15 +14,18 @@
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Helper,
+    Item,
+    Metagen,
+    Utility
+};
 
 require_once __DIR__ . '/header.php';
 
@@ -31,10 +36,10 @@ if (0 == $itemId) {
     redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
-/** @var Publisher\Helper $helper */
-$helper = Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 
 // Creating the item object for the selected item
+/** @var Item $itemObj */
 $itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected item was not found, exit
@@ -134,16 +139,52 @@ if ('all' === $helper->getConfig('item_other_items_type')) {
     $items    = [];
     foreach ($itemsObj[''] as $theItemObj) {
         $theItem              = [];
+        $theItem['body']      = $theItemObj->getBody();
+        $theItem['title']     = $theItemObj->getTitle();
         $theItem['titlelink'] = $theItemObj->getItemLink();
+        $theItem['itemid']    = $theItemObj->itemid();
+        $theItem['itemurl']   = $theItemObj->getItemUrl();
         $theItem['datesub']   = $theItemObj->getDatesub();
         $theItem['counter']   = $theItemObj->counter();
+        $theItem['who']       = $theItemObj->getWho();
+        $theItem['category']  = $theItemObj->getCategoryLink();
+        $theItem['more']      = '<a href="' . $theItemObj->getItemUrl() . '">' . _MD_PUBLISHER_READMORE . '</a>';
+
+        $summary = $theItemObj->getSummary(300);
+        if (!$summary) {
+            $summary = $theItemObj->getBody(300);
+        }
+        $theItem['summary'] = $summary;
+
+        $theItem['cancomment'] = $theItemObj->cancomment();
+        $comments              = $theItemObj->comments();
+        if ($comments > 0) {
+            //shows 1 comment instead of 1 comm. if comments ==1
+            //langugage file modified accordingly
+            if (1 == $comments) {
+                $theItem['comments'] = '&nbsp;' . _MD_PUBLISHER_ONECOMMENT . '&nbsp;';
+            } else {
+                $theItem['comments'] = '&nbsp;' . $comments . '&nbsp;' . _MD_PUBLISHER_COMMENTS . '&nbsp;';
+            }
+        } else {
+            $theItem['comments'] = '&nbsp;' . _MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
+        }
+
+        $mainImage = $theItemObj->getMainImage();
+        // check to see if GD function exist       
+        $theItem['item_image'] = $mainImage['image_path'];
+        if (!empty($mainImage['image_path']) && function_exists('imagecreatetruecolor')) {
+            $theItem['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=100';
+            $theItem['image_path'] = $mainImage['image_path'];
+        }
+
         if ($theItemObj->itemId() == $itemObj->itemId()) {
-            $theItem['titlelink'] = $theItemObj->getTitle();
+            $theItem['titlelink'] = $theItemObj->getItemLink();
         }
         $items[] = $theItem;
         unset($theItem);
     }
-    unset($itemsObj, $theItemObj);
+    unset($itemsObj);
     $xoopsTpl->assign('items', $items);
     unset($items);
 }
@@ -172,7 +213,7 @@ $filesObj     = $itemObj->getFiles();
 
 // check if user has permission to modify files
 $hasFilePermissions = true;
-if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsModerator($itemObj))) {
+if (!(Utility::userIsAdmin() || Utility::userIsModerator($itemObj))) {
     $hasFilePermissions = false;
 }
 if (null !== $filesObj) {
@@ -212,7 +253,7 @@ $xoopsTpl->assign('mail_link', 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITE
 $xoopsTpl->assign('itemid', $itemObj->itemId());
 $xoopsTpl->assign('sectionname', $helper->getModule()->getVar('name'));
 $xoopsTpl->assign('module_dirname', $helper->getDirname());
-$xoopsTpl->assign('module_home', Publisher\Utility::moduleHome($helper->getConfig('format_linked_path')));
+$xoopsTpl->assign('module_home', Utility::moduleHome($helper->getConfig('format_linked_path')));
 $xoopsTpl->assign('categoryPath', '<li>' . $item['categoryPath'] . '</li><li> ' . $item['title'] . '</li>');
 $xoopsTpl->assign('commentatarticlelevel', $helper->getConfig('perm_com_art_level'));
 $xoopsTpl->assign('com_rule', $helper->getConfig('com_rule'));
@@ -229,25 +270,27 @@ if (xoops_isActiveModule('tag')) {
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new Publisher\Metagen($itemObj->getVar('title'), $itemObj->getVar('meta_keywords', 'n'), $itemObj->getVar('meta_description', 'n'), $itemObj->getCategoryPath());
+$publisherMetagen = new Metagen($itemObj->getVar('title'), $itemObj->getVar('meta_keywords', 'n'), $itemObj->getVar('meta_description', 'n'), $itemObj->getCategoryPath());
 $publisherMetagen->createMetaTags();
 
 // Include the comments if the selected ITEM supports comments
 if ((0 != $helper->getConfig('com_rule')) && ((1 == $itemObj->cancomment()) || !$helper->getConfig('perm_com_art_level'))) {
     require_once $GLOBALS['xoops']->path('include/comment_view.php');
     // Problem with url_rewrite and posting comments :
-    $xoopsTpl->assign([
-                          'editcomment_link'   => PUBLISHER_URL . '/comment_edit.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
-                          'deletecomment_link' => PUBLISHER_URL . '/comment_delete.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
-                          'replycomment_link'  => PUBLISHER_URL . '/comment_reply.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
-                      ]);
+    $xoopsTpl->assign(
+        [
+            'editcomment_link'   => PUBLISHER_URL . '/comment_edit.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
+            'deletecomment_link' => PUBLISHER_URL . '/comment_delete.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
+            'replycomment_link'  => PUBLISHER_URL . '/comment_reply.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
+        ]
+    );
     $xoopsTpl->_tpl_vars['commentsnav'] = str_replace("self.location.href='", "self.location.href='" . PUBLISHER_URL . '/', $xoopsTpl->_tpl_vars['commentsnav']);
 }
 
 // Include support for AJAX rating
 if ($helper->getConfig('perm_rating')) {
     $xoopsTpl->assign('rating_enabled', true);
-    $item['ratingbar'] = Publisher\Utility::ratingBar($itemId);
+    $item['ratingbar'] = Utility::ratingBar($itemId);
     $xoTheme->addScript(PUBLISHER_URL . '/assets/js/behavior.js');
     $xoTheme->addScript(PUBLISHER_URL . '/assets/js/rating.js');
 }

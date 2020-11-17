@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,49 +14,51 @@
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\{
+    Constants,
+    GroupPermHandler,
+    Helper,
+    Utility
+};
 
 require_once __DIR__ . '/header.php';
 
 //getting the values
 $rating = Request::getInt('rating', 0, 'GET');
-$itemid = Request::getInt('itemid', 0, 'GET');
+$itemId = Request::getInt('itemid', 0, 'GET');
 
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-/* @var \XoopsModules\Publisher\GroupPermHandler $grouppermHandler */
-$grouppermHandler = \XoopsModules\Publisher\Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
-/* @var XoopsConfigHandler $configHandler */
+/** @var GroupPermHandler $grouppermHandler */
+$grouppermHandler = Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
+/** @var XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
-$module_id     = $helper->getModule()->getVar('mid');
+$moduleId     = $helper->getModule()->getVar('mid');
 
 //Checking permissions
-if (!$helper->getConfig('perm_rating') || !$grouppermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $module_id)) {
-    redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _NOPERM);
+if (!$helper->getConfig('perm_rating') || !$grouppermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $moduleId)) {
+    redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemId, 2, _NOPERM);
 }
 
 if ($rating > 5 || $rating < 1) {
-    redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _MD_PUBLISHER_VOTE_BAD);
+    redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemId, 2, _MD_PUBLISHER_VOTE_BAD);
 }
 
-$criteria   = new \Criteria('itemid', $itemid);
+$criteria   = new \Criteria('itemid', $itemId);
 $ratingObjs = $helper->getHandler('Rating')->getObjects($criteria);
 
 $uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
 $count          = count($ratingObjs);
-$current_rating = 0;
+$currentRating = 0;
 $voted          = false;
 $ip             = getenv('REMOTE_ADDR');
 
 foreach ($ratingObjs as $ratingObj) {
-    $current_rating += $ratingObj->getVar('rate');
+    $currentRating += $ratingObj->getVar('rate');
     if ($ratingObj->getVar('ip') == $ip || ($uid > 0 && $uid == $ratingObj->getVar('uid'))) {
         $voted = true;
     }
@@ -62,22 +66,22 @@ foreach ($ratingObjs as $ratingObj) {
 //unset($ratingObj);
 
 if ($voted) {
-    redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _MD_PUBLISHER_VOTE_ALREADY);
+    redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemId, 2, _MD_PUBLISHER_VOTE_ALREADY);
 }
 
 $newRatingObj = $helper->getHandler('Rating')->create();
-$newRatingObj->setVar('itemid', $itemid);
+$newRatingObj->setVar('itemid', $itemId);
 $newRatingObj->setVar('ip', $ip);
 $newRatingObj->setVar('uid', $uid);
 $newRatingObj->setVar('rate', $rating);
 $newRatingObj->setVar('date', time());
 $helper->getHandler('Rating')->insert($newRatingObj);
 
-$current_rating += $rating;
+$currentRating += $rating;
 ++$count;
 
-$helper->getHandler('Item')->updateAll('rating', number_format($current_rating / $count, 4), $criteria, true);
+$helper->getHandler('Item')->updateAll('rating', number_format($currentRating / $count, 4), $criteria, true);
 $helper->getHandler('Item')->updateAll('votes', $count, $criteria, true);
 
-redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemid, 2, _MD_PUBLISHER_VOTE_THANKS);
+redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemId, 2, _MD_PUBLISHER_VOTE_THANKS);
 //exit();

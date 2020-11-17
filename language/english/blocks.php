@@ -1,9 +1,12 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Module: Publisher
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
+
 // Blocks
 define('_MB_PUBLISHER_ALLCAT', 'All categories');
 define('_MB_PUBLISHER_AUTO_LAST_ITEMS', 'Automatically display last item(s)?');
@@ -41,7 +44,7 @@ define('_MB_PUBLISHER_SHOWITEMS', 'Show Items');
 //--/bd
 define('_MB_PUBLISHER_FILES', 'files');
 define('_MB_PUBLISHER_DIRECTDOWNLOAD', 'Direct link to download the file instead of a link to the article?');
-define('_MB_PUBLISHER_FROM', 'Select articles <br>from ');
+define('_MB_PUBLISHER_FROM', 'SELECT articles <br>FROM ');
 define('_MB_PUBLISHER_UNTIL', '&nbsp;&nbsp;to');
 define('_MB_PUBLISHER_DATE_FORMAT', 'Date format must be mm/dd/yyy');
 define('_MB_PUBLISHER_ARTICLES_FROM_TO', 'Articles published between  %s  and  %s ');
@@ -107,3 +110,12 @@ define('_MB_PUBLISHER_TEMPLATE_SLIDER2', 'Tabbed Slider');
 define('_MB_PUBLISHER_ARCHIVE', 'Archive');
 //25-11-2012
 define('_MB_PUBLISHER_ONECOMMENT', '1 comment');
+//Lio-MJ
+define('_MB_PUBLISHER_DISPLAY_READ_FULLITEM', 'Display \'Read Full Article\'?');
+define('_MB_PUBLISHER_DISPLAY_ADMINLINK', 'Display \'Administrator Icon\'?');
+define('_MB_PUBLISHER_DISPLAY_SUMMARY', 'Display \'Article Summary\'?');
+define('_MB_PUBLISHER_DISPLAY_RATING', 'Display \'Article Rating\'?');
+define('_MB_PUBLISHER_DISPLAY_DATE_MAINITEM', 'Display Date in Main Item?');
+define('_MB_PUBLISHER_DISPLAY_DATE_SUBITEM', 'Display Date in Sub Item?');
+define('_MB_PUBLISHER_ON', 'on');
+define('_MB_PUBLISHER_TOTALHITS', 'hits');

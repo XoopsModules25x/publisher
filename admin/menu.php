@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,22 +14,19 @@
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 require_once dirname(__DIR__) . '/preloads/autoloader.php';
 
-$moduleDirName = basename(dirname(__DIR__));
+$moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-/** @var Publisher\Helper $helper */
-$helper = Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
 
@@ -61,6 +60,15 @@ $adminmenu[] = [
     'link'  => 'admin/item.php',
     'icon'  => $pathIcon32 . '/content.png',
 ];
+
+// Trello
+$adminmenu[] = [
+    'title' => _MI_PUBLISHER_ADMENU7,
+    'link'  => 'admin/trello.php',
+    'icon'  => $pathIcon32 . '/extention.png',
+];
+
+
 // Permissions
 $adminmenu[] = [
     'title' => _MI_PUBLISHER_ADMENU4,
@@ -125,11 +133,11 @@ $adminmenu[] = [
     'icon'  => $pathIcon32 . '/mail_foward.png',
 ];
 
-if ($helper->getConfig('displayDeveloperTools')) {
+if (is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools')) {
     $adminmenu[] = [
         'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
-        'link' => 'admin/migrate.php',
-        'icon' => $pathIcon32 . '/database_go.png',
+        'link'  => 'admin/migrate.php',
+        'icon'  => $pathIcon32 . '/database_go.png',
     ];
 }
 

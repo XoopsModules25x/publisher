@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,16 +14,18 @@
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\{
+    Constants,
+    Helper,
+    Metagen,
+    Utility
+};
 
 require_once __DIR__ . '/header.php';
 
@@ -31,6 +35,7 @@ $catstart = Request::getInt('catstart', 0, 'GET');
 // At which record shall we start for the ITEM
 $start = Request::getInt('start', 0, 'GET');
 
+/** @var Helper $helper */
 // Number of categories at the top level
 $totalCategories = $helper->getHandler('Category')->getCategoriesCount(0);
 
@@ -41,9 +46,9 @@ if (0 == $totalCategories) {
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
 require_once $GLOBALS['xoops']->path('header.php');
-require_once PUBLISHER_ROOT_PATH . '/footer.php';
-/* @var  XoopsGroupPermHandler $grouppermHandler */
-$grouppermHandler = xoops_getHandler('groupperm');
+require_once $helper->path('footer.php');
+/** @var \XoopsGroupPermHandler $grouppermHandler */
+//$grouppermHandler = xoops_getHandler('groupperm');
 
 // Creating the top categories objects
 $categoriesObj = $helper->getHandler('Category')->getCategories($helper->getConfig('idxcat_cat_perpage'), $catstart);
@@ -86,17 +91,17 @@ foreach ($categoriesObj as $catId => $category) {
         if (isset($subcats[$catId])) {
             foreach ($subcats[$catId] as $key => $subcat) {
                 // Get the items count of this very category
-                $subcat_total_items = isset($totalItems[$key]) ? $totalItems[$key] : 0;
+                $subcatTotalItems = $totalItems[$key] ?? 0;
                 // Do we display empty sub-cats ?
-                if (($subcat_total_items > 0) || ('all' === $helper->getConfig('idxcat_show_subcats'))) {
-                    $subcat_id = $subcat->getVar('categoryid');
+                if (($subcatTotalItems > 0) || ('all' === $helper->getConfig('idxcat_show_subcats'))) {
+                    $subcatId = $subcat->getVar('categoryid');
                     // if we retrieved the last item object for this category
-                    if (isset($lastItemObj[$subcat_id])) {
-                        $subcat->setVar('last_itemid', $lastItemObj[$subcat_id]->itemid());
-                        $subcat->setVar('last_title_link', $lastItemObj[$subcat_id]->getItemLink(false, $lastitemsize));
+                    if (isset($lastItemObj[$subcatId])) {
+                        $subcat->setVar('last_itemid', $lastItemObj[$subcatId]->itemid());
+                        $subcat->setVar('last_title_link', $lastItemObj[$subcatId]->getItemLink(false, $lastitemsize));
                     }
 
-                    $numItems = isset($totalItems[$subcat_id]) ? $totalItems[$key] : 0;
+                    $numItems = isset($totalItems[$subcatId]) ? $totalItems[$key] : 0;
                     $subcat->setVar('itemcount', $numItems);
                     // Put this subcat in the smarty variable
                     $categories[$catId]['subcats'][$key] = $subcat->toArrayTable();
@@ -191,7 +196,7 @@ $xoopsTpl->assign('title_and_welcome', $helper->getConfig('index_title_and_welco
 $xoopsTpl->assign('lang_mainintro', $myts->displayTarea($helper->getConfig('index_welcome_msg'), 1));
 $xoopsTpl->assign('sectionname', $helper->getModule()->getVar('name'));
 $xoopsTpl->assign('whereInSection', $helper->getModule()->getVar('name'));
-$xoopsTpl->assign('module_home', Publisher\Utility::moduleHome(false));
+$xoopsTpl->assign('module_home', Utility::moduleHome(false));
 $xoopsTpl->assign('indexfooter', $myts->displayTarea($helper->getConfig('index_footer'), 1));
 
 $xoopsTpl->assign('lang_category_summary', _MD_PUBLISHER_INDEX_CATEGORIES_SUMMARY);
@@ -221,7 +226,7 @@ $xoopsTpl->assign('displaylastitems', $helper->getConfig('index_display_last_ite
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new Publisher\Metagen($helper->getModule()->getVar('name'));
+$publisherMetagen = new Metagen($helper->getModule()->getVar('name'));
 $publisherMetagen->createMetaTags();
 
 // RSS Link

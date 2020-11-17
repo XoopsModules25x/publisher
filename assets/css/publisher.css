@@ -258,10 +258,27 @@ h4.pub_last_articles_full {
     line-height: 18px;
 }
 
-.publisher_breadcrumb {
-    font-size: 0.9em;
-    line-height: 18px;
-    width: 100%;
+ul.publisher_breadcrumb {
+  padding: 10px 16px;
+  list-style: none;
+  background-color: #eee;
+}
+ul.publisher_breadcrumb li {
+  display: inline;
+  font-size: 0.9em;
+}
+ul.publisher_breadcrumb li+li:before {
+  padding: 8px;
+  color: #000000;
+  content: "/\00a0";
+}
+ul.publisher_breadcrumb li a {
+  color: #0275d8;
+  text-decoration: none;
+}
+ul.publisher_breadcrumb li a:hover {
+  color: #01447e;
+  text-decoration: none;
 }
 
 .publisher_infotitle {

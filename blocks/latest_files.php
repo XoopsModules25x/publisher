@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,17 +14,18 @@
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Blocks
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
-
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+use XoopsModules\Publisher\{
+    BlockForm,
+    Constants,
+    FileHandler,
+    Helper,
+    Utility
+};
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -33,9 +36,8 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_latest_files_show($options)
 {
-    /** @var Publisher\Helper $helper */
-    $helper = Publisher\Helper::getInstance();
-    /** @var Publisher\FileHandler $fileHandler */
+    $helper = Helper::getInstance();
+    /** @var FileHandler $fileHandler */
     $fileHandler = $helper->getHandler('File');
 
     /**
@@ -48,7 +50,7 @@ function publisher_latest_files_show($options)
     $block = [];
 
     $sort           = $options[1];
-    $order          = Publisher\Utility::getOrderBy($sort);
+    $order          = Utility::getOrderBy($sort);
     $limit          = $options[2];
     $directDownload = $options[3];
 
@@ -80,15 +82,17 @@ function publisher_latest_files_edit($options)
     // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form = new Publisher\BlockForm();
+    $form = new BlockForm();
 
-    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
-    $orderEle->addOptionArray([
-                                  'datesub' => _MB_PUBLISHER_DATE,
-                                  'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT,
-                              ]);
+    $orderEle->addOptionArray(
+        [
+            'datesub' => _MB_PUBLISHER_DATE,
+            'counter' => _MB_PUBLISHER_HITS,
+            'weight'  => _MB_PUBLISHER_WEIGHT,
+        ]
+    );
     $dispEle   = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
     $directEle = new \XoopsFormRadioYN(_MB_PUBLISHER_DIRECTDOWNLOAD, 'options[3]', $options[3]);
 

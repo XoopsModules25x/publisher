@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,7 +14,6 @@
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -20,6 +21,7 @@
 
 use Xmf\Request;
 use XoopsModules\Publisher;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/header.php';
 
@@ -43,7 +45,7 @@ if (!$fileObj) {
 $itemObj = $helper->getHandler('Item')->get($fileObj->getVar('itemid'));
 
 // if the user does not have permission to modify this file, exit
-if (!(Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
+if (!(Utility::userIsAdmin() || Utility::userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
     redirect_header('index.php', 1, _NOPERM);
 }
 
@@ -79,15 +81,15 @@ switch ($op) {
             $oldfile = $fileObj->getFilePath();
 
             // Get available mimetypes for file uploading
-            $allowed_mimetypes = $helper->getHandler('Mimetype')->getArrayByType();
+            $allowedMimetypes = $helper->getHandler('Mimetype')->getArrayByType();
             // TODO : display the available mimetypes to the user
             $errors = [];
 
             //            if ($helper->getConfig('perm_upload') && is_uploaded_file(Request::getArray('item_upload_file', array(), 'FILES')['tmp_name'])) {
             $temp = Request::getArray('item_upload_file', [], 'FILES');
             if ($helper->getConfig('perm_upload') && is_uploaded_file($temp['tmp_name'])) {
-                if ($fileObj->checkUpload('item_upload_file', $allowed_mimetypes, $errors)) {
-                    if ($fileObj->storeUpload('item_upload_file', $allowed_mimetypes, $errors)) {
+                if ($fileObj->checkUpload('item_upload_file', $allowedMimetypes, $errors)) {
+                    if ($fileObj->storeUpload('item_upload_file', $allowedMimetypes, $errors)) {
                         unlink($oldfile);
                     }
                 }
@@ -95,7 +97,7 @@ switch ($op) {
         }
 
         if (!$helper->getHandler('File')->insert($fileObj)) {
-            redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . Publisher\Utility::formatErrors($fileObj->getErrors()));
+            redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . Utility::formatErrors($fileObj->getErrors()));
         }
 
         redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, _AM_PUBLISHER_FILE_EDITING_SUCCESS);
@@ -120,6 +122,5 @@ switch ($op) {
             require_once $GLOBALS['xoops']->path('footer.php');
         }
         exit();
-        break;
 }
 require_once $GLOBALS['xoops']->path('footer.php');

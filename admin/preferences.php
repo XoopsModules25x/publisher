@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,19 +14,20 @@
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Kazumi Ono (AKA onokazu)
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Helper,
+    Utility
+};
 
 require_once __DIR__ . '/admin_header.php';
 
-/** @var Publisher\Helper $helper */
-$helper = Publisher\Helper::getInstance();
+$helper = Helper::getInstance();
 
 $module  = $helper->getModule();
 $modId   = $module->mid();
@@ -64,7 +67,7 @@ if ('showmod' === $op) {
     $xv_configs  = $module->getInfo('config');
     $config_cats = $module->getInfo('configcat');
 
-    if (!array_key_exists('others', $config_cats)) {
+    if (is_array($config_cats) && !array_key_exists('others', $config_cats)) {
         $config_cats['others'] = [
             'name'        => _MI_PUBLISHER_CONFCAT_OTHERS,
             'description' => _MI_PUBLISHER_CONFCAT_OTHERS_DSC,
@@ -84,10 +87,12 @@ if ('showmod' === $op) {
 
     xoops_load('XoopsFormLoader');
 
-    foreach ($config_cats as $formCat => $info) {
-        $$formCat = new \XoopsThemeForm($info['name'], 'pref_form_' . $formCat, 'preferences.php', 'post', true);
+    if (is_array($config_cats)) {
+        foreach ($config_cats as $formCat => $info) {
+            $$formCat = new \XoopsThemeForm($info['name'], 'pref_form_' . $formCat, 'preferences.php', 'post', true);
+        }
+        unset($formCat);
     }
-    unset($formCat, $info);
 
     for ($i = 0; $i < $count; ++$i) {
         foreach ($xv_configs as $xv_config) {
@@ -97,10 +102,10 @@ if ('showmod' === $op) {
         }
 
         $formCat = @$xv_config['category'];
-        $formCat = isset($xv_config['category']) ? $xv_config['category'] : '';
+        $formCat = $xv_config['category'] ?? '';
         unset($xv_config);
 
-        if (!array_key_exists($formCat, $config_cats)) {
+        if (is_array($config_cats) && !array_key_exists($formCat, $config_cats)) {
             $formCat         = 'others';
             $cat_others_used = true;
         }
@@ -175,12 +180,14 @@ if ('showmod' === $op) {
                 break;
         }
         $hidden = new \XoopsFormHidden('conf_ids[]', $config[$i]->getVar('conf_id'));
-        $$formCat->addElement($ele);
-        $$formCat->addElement($hidden);
-        unset($ele, $hidden);
+        if (isset($$formCat) && null !== $$formCat) {
+            $$formCat->addElement($ele);
+            $$formCat->addElement($hidden);
+            unset($ele, $hidden);
+        }
     }
 
-    Publisher\Utility::cpHeader();
+    Utility::cpHeader();
     //publisher_adminMenu(5, _PREFERENCES);
     foreach ($config_cats as $formCat => $info) {
         if ('others' === $formCat && !$cat_others_used) {
@@ -188,11 +195,11 @@ if ('showmod' === $op) {
         }
         $$formCat->addElement(new \XoopsFormHidden('op', 'save'));
         $$formCat->addElement(new \XoopsFormButton('', 'button', _GO, 'submit'));
-        Publisher\Utility::openCollapsableBar($formCat . '_table', $formCat . '_icon', $info['name'], $info['description']);
+        Utility::openCollapsableBar($formCat . '_table', $formCat . '_icon', $info['name'], $info['description']);
         $$formCat->display();
-        Publisher\Utility::closeCollapsableBar($formCat . '_table', $formCat . '_icon');
+        Utility::closeCollapsableBar($formCat . '_table', $formCat . '_icon');
     }
-    unset($formCat, $info);
+    unset($formCat);
     xoops_cp_footer();
     exit();
 }

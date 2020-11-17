@@ -23,27 +23,34 @@
 
 <div id="pagelayer">
     <div style="text-align: center;">
-        <img src="<{$printlogourl}>" border="0" alt=""></div>
-    <div style="text-align: right; margin-top: 10px; border: 1px solid; padding: 2px;"><{$printheader}></div>
+        <img src="<{$printlogourl}>" border="0" alt="">
+     <span style="padding-top: 5px; font-size: 18px; font-weight: bold;">
+       <br><{$xoops_sitename}> (<{$xoops_url}>)</span><small><br><{$xoops_slogan}> </small> <hr>
+        </div>
+    
+       <{if $printheader!=''}>
+           <div style="text-align: left; margin-top: 10px; border: 1px solid; padding: 2px;"><{$printheader}></div>
+       <{/if}>
+
     <{$item.image}>
 
     <{if !$noTitle}>
-        <div style="padding-top: 5px; font-size: 14px; font-weight: bold;"><{$item.title}></div>
+        <h2><{$item.title}></h2>
     <{/if}>
 
     <{if !$noCategory}>
-        <div style="padding-top: 2px; "><{$lang_category}> : <{$item.categoryname}></div>
+       <{$lang_category}> : <{$item.categoryname}>
     <{/if}>
 
-    <{if $display_whowhen_link}>
-        <div style="padding-top: 2px; "><{$lang_author_date}></div>
+    <{if $display_who_link}>
+        | <{$lang_author_date}>
     <{/if}>
 
     <{if $item.body}>
         <div style="padding-top: 8px; text-align: justify;"><{$item.body}></div>
     <{/if}>
 
-    <{if $itemfooter}>    <!--<div style="text-align: left; font-weight: bold; padding-top: 10px;"><{$itemfooter}></div>-->
+    <{if $itemfooter}>    
         <div style="text-align: center; font-weight: bold; border: 1px solid; padding: 2px; margin-top: 10px;"><{$itemfooter}></div>
     <{/if}> <br><br><br> <{if $indexfooter}>
         <div style="text-align: center; margin-top: 10px; border: 1px solid; padding: 2px;"><{$indexfooter}></div>

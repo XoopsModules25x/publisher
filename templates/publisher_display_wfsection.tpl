@@ -72,29 +72,44 @@
         <div align="right"><{$navbar}></div>
         <div class="item">
             <{foreach item=item from=$items}>
-                <table>
-                    <tr>
-                        <td style="background-color: #e7e7e7; font-weight: bold;"><{$item.datesub}></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;"><{$item.title}></td>
-                    </tr>
-                </table>
-                <table style="border-bottom: 1px solid #e7e7e7;">
-                    <tr>
-                        <td style="padding-left: 35px;"><{$item.summary}></td>
-                    </tr>
-                    <tr></tr>
-                </table>
-                <table>
-                    <tr>
-                        <td style="text-align: right;" align="right">
-                            <a href="javascript:openWithSelfMain('<{$publisher_url}>/pop.php?itemid=<{$item.itemid}>', 'smartpopup', 700, 519);"><img
-                                        src="<{$publisher_url}>/assets/images/links/print.gif" alt="" style="vertical-align: bottom;" align="right"></a>
-                        </td>
-                    </tr>
-                    <tr></tr>
-                </table>
+               <div class="itemText" style="padding-left: 5px; padding-top: 5px;">
+                <div> 
+                      <{if $display_mainimage == 1}>
+                         <{if $item.image_path!=''}>
+                         <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" title="<{$item.title}>" alt="<{$item.title}>" width="120" style="padding:5px"></a>
+                          <{else}>
+                          <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg"  title="<{$item.title}>" alt="<{$item.title}>" width="120" style="padding:5px"></a>
+                          <{/if}>
+                      <{/if}>
+                <br>
+                   <{$item.titlelink}><br>
+                   <{if $show_subtitle && $item.subtitle}>
+                       <em><{$item.subtitle}><br></em>
+                    <{/if}>
+                    <small>
+                 <{if $display_category == 1}> <{$smarty.const._MD_PUBLISHER_CATEGORY}> : <{$item.category}> | <{/if}>
+                 <{if $display_poster == 1}> <{$smarty.const._MD_PUBLISHER_POSTER}> <{$item.who}><{/if}> 
+                 <{if $display_date_col == 1}> | <{$item.datesub}> <{/if}> <{if $display_hits_col == 1}> | 
+                 <{$item.counter}> <{$smarty.const._MD_PUBLISHER_TOTALHITS}> <{/if}> 
+                 <{if $display_commentlink == 1 && $item.cancomment && $item.comments != -1}> | <{$item.comments}><{/if}>
+                    </small>
+                </div>
+                <div>
+<{if $display_summary == 1}> <{$item.summary}><br> <{/if}>
+
+
+                    </div>
+            </div>
+            <div style="clear: both;"></div>
+            
+              
+           <{if $display_readmore == 1}>
+                <div align="right">
+                <a href="<{$item.more}>"><{$smarty.const._MD_PUBLISHER_READMORE}></a> </div><br >
+           <{/if}>
+
+             <div style="font-size: 10px; text-align: right; border-bottom: 1px dotted #000000;"></div>
+        
             <{/foreach}>
         </div>
         <div align="right"><{$navbar}></div>

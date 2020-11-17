@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -15,17 +17,14 @@ namespace XoopsModules\Publisher;
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Metagen
@@ -33,40 +32,33 @@ require_once dirname(__DIR__) . '/include/common.php';
 class Metagen
 {
     /**
-     * @var Publisher\Helper
+     * @var Helper
      */
     public $helper;
-
     /**
      * @var \MyTextSanitizer
      */
     public $myts;
-
     /**
      * @var string
      */
     public $title;
-
     /**
      * @var string
      */
     public $originalTitle;
-
     /**
      * @var string
      */
     public $keywords;
-
     /**
      * @var string
      */
     public $categoryPath;
-
     /**
      * @var string
      */
     public $description;
-
     /**
      * @var int
      */
@@ -80,8 +72,8 @@ class Metagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        /** @var Publisher\Helper $this->helper */
-        $this->helper = \XoopsModules\Publisher\Helper::getInstance();
+        /** @var Helper $this->helper */
+        $this->helper = Helper::getInstance();
         $this->myts   = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
         $this->setTitle($title);
@@ -107,7 +99,7 @@ class Metagen
         if (isset($this->categoryPath) && ('' != $this->categoryPath)) {
             $titleTag['category'] = $this->categoryPath;
         }
-        $ret = isset($titleTag['title']) ? $titleTag['title'] : '';
+        $ret = $titleTag['title'] ?? '';
         if (isset($titleTag['category']) && '' != $titleTag['category']) {
             if ('' != $ret) {
                 $ret .= ' - ';
@@ -166,10 +158,10 @@ class Metagen
     {
         $description = $this->purifyText($this->description);
         $description = $this->html2text($description);
-        $words       = explode(' ', $description);
+        $words       = \explode(' ', $description);
         $ret         = '';
         $i           = 1;
-        $wordCount   = count($words);
+        $wordCount   = \count($words);
         foreach ($words as $word) {
             $ret .= $word;
             if ($i < $wordCount) {
@@ -192,13 +184,13 @@ class Metagen
         $keywords         = [];
         $text             = $this->purifyText($text);
         $text             = $this->html2text($text);
-        $originalKeywords = explode(' ', $text);
+        $originalKeywords = \explode(' ', $text);
         foreach ($originalKeywords as $originalKeyword) {
-            $secondRoundKeywords = explode("'", $originalKeyword);
+            $secondRoundKeywords = \explode("'", $originalKeyword);
             foreach ($secondRoundKeywords as $secondRoundKeyword) {
                 if (mb_strlen($secondRoundKeyword) >= $minChar) {
-                    if (!in_array($secondRoundKeyword, $keywords)) {
-                        $keywords[] = trim($secondRoundKeyword);
+                    if (!\in_array($secondRoundKeyword, $keywords, true)) {
+                        $keywords[] = \trim($secondRoundKeyword);
                     }
                 }
             }
@@ -215,10 +207,10 @@ class Metagen
         $keywords       = $this->findMetaKeywords($this->originalTitle . ' ' . $this->description, $this->minChar);
         $moduleKeywords = $this->helper->getConfig('seo_meta_keywords');
         if ('' != $moduleKeywords) {
-            $moduleKeywords = explode(',', $moduleKeywords);
-            $keywords       = array_merge($keywords, array_map('trim', $moduleKeywords));
+            $moduleKeywords = \explode(',', $moduleKeywords);
+            $keywords       = \array_merge($keywords, \array_map('\trim', $moduleKeywords));
         }
-        $ret = implode(',', $keywords);
+        $ret = \implode(',', $keywords);
 
         return $ret;
     }
@@ -275,7 +267,7 @@ class Metagen
      * @credit psylove
      *
      * @param string|array $title   title of the article
-     * @param bool   $withExt do we add an html extension or not
+     * @param bool         $withExt do we add an html extension or not
      *
      * @return string short url for article
      */
@@ -283,7 +275,7 @@ class Metagen
     {
         // Transformation de la chaine en minuscule
         // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus
-        $title = rawurlencode(mb_strtolower($title));
+        $title = \rawurlencode(mb_strtolower($title));
         // Transformation des ponctuations
 
         $pattern = [
@@ -317,7 +309,7 @@ class Metagen
             "/\./", // .
         ];
         $repPat  = ['-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-'];
-        $title   = str_replace($pattern, $repPat, $title);
+        $title   = preg_replace($pattern, $repPat, $title);
         // Transformation des caractères accentués
         $pattern = [
             '/%B0/', // °
@@ -338,11 +330,11 @@ class Metagen
             '/%F6/', // ö
         ];
         $repPat  = ['-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o'];
-        $title   = str_replace($pattern, $repPat, $title);
-        $tableau = explode('-', $title); // Transforms the string in table //Transforme la chaine de caractères en tableau
-        $tableau = array_filter($tableau, ['Metagen', 'emptyString']); // Remove empty strings of the table //Supprime les chaines vides du tableau
-        $title   = implode('-', $tableau); // Transforms a character string in table separated by a hyphen //Transforme un tableau en chaine de caractères séparé par un tiret
-        if ($title && is_array($title)) {
+        $title   = \preg_replace($pattern, $repPat, $title);
+        $tableau = \explode('-', $title); // Transforms the string in table //Transforme la chaine de caractères en tableau
+        $tableau = \array_filter($tableau, [__CLASS__, 'emptyString']); // Remove empty strings of the table //Supprime les chaines vides du tableau
+        $title   = \implode('-', $tableau); // Transforms a character string in table separated by a hyphen //Transforme un tableau en chaine de caractères séparé par un tiret
+        if ($title && !(\is_array($title))) {
             if ($withExt) {
                 $title .= '.html';
             }
@@ -362,33 +354,33 @@ class Metagen
     public function purifyText($text, $keyword = false)
     {
         //        $text = str_replace(['&nbsp;', ' '], ['<br>', ' '], $text); //for php 5.4
-        $text = str_replace('&nbsp;', ' ', $text);
-        $text = str_replace('<br>', ' ', $text);
-        $text = strip_tags($text);
-        $text = html_entity_decode($text);
+        $text = \str_replace('&nbsp;', ' ', $text);
+        $text = \str_replace('<br>', ' ', $text);
+        $text = \strip_tags($text);
+        $text = \html_entity_decode($text);
         $text = $this->myts->undoHtmlSpecialChars($text);
 
-        $text = str_replace(')', ' ', $text);
-        $text = str_replace('(', ' ', $text);
-        $text = str_replace(':', ' ', $text);
-        $text = str_replace('&euro', ' euro ', $text);
-        $text = str_replace('&hellip', '...', $text);
-        $text = str_replace('&rsquo', ' ', $text);
-        $text = str_replace('!', ' ', $text);
-        $text = str_replace('?', ' ', $text);
-        $text = str_replace('"', ' ', $text);
-        $text = str_replace('-', ' ', $text);
-        $text = str_replace('\n', ' ', $text);
+        $text = \str_replace(')', ' ', $text);
+        $text = \str_replace('(', ' ', $text);
+        $text = \str_replace(':', ' ', $text);
+        $text = \str_replace('&euro', ' euro ', $text);
+        $text = \str_replace('&hellip', '...', $text);
+        $text = \str_replace('&rsquo', ' ', $text);
+        $text = \str_replace('!', ' ', $text);
+        $text = \str_replace('?', ' ', $text);
+        $text = \str_replace('"', ' ', $text);
+        $text = \str_replace('-', ' ', $text);
+        $text = \str_replace('\n', ' ', $text);
 
         //        $text = str_replace([')','(',':','&euro','&hellip','&rsquo','!','?','"','-','\n'], [' ' , ' ',  ' ',  ' euro ',  '...',  ' ', ' ', ' ',  ' ', ' ',  ' '], $text); //for PHP 5.4
 
         if ($keyword) {
-            $text = str_replace('.', ' ', $text);
-            $text = str_replace(',', ' ', $text);
-            $text = str_replace('\'', ' ', $text);
+            $text = \str_replace('.', ' ', $text);
+            $text = \str_replace(',', ' ', $text);
+            $text = \str_replace('\'', ' ', $text);
             //            $text = str_replace(['.', ' '], [',', ' '], ['\'', ' '], $text); //for PHP 5.4
         }
-        $text = str_replace(';', ' ', $text);
+        $text = \str_replace(';', ' ', $text);
 
         return $text;
     }
@@ -432,17 +424,21 @@ class Metagen
             '<',
             '>',
             ' ',
-            chr(161),
-            chr(162),
-            chr(163),
-            chr(169),
+            \chr(161),
+            \chr(162),
+            \chr(163),
+            \chr(169),
         ];
 
-        $text = preg_replace($search, $replace, $document);
+        $text = \preg_replace($search, $replace, $document);
 
-        preg_replace_callback('/&#(\d+);/', static function ($matches) {
-            return chr($matches[1]);
-        }, $document);
+        \preg_replace_callback(
+            '/&#(\d+);/',
+            static function ($matches) {
+                return \chr($matches[1]);
+            },
+            $document
+        );
 
         return $text;
     }

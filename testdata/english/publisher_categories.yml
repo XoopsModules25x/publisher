@@ -1,0 +1,90 @@
+-
+    categoryid: '1'
+    parentid: '0'
+    name: 'Example Category 1'
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    image: ''
+    total: '0'
+    weight: '1'
+    created: '1033141070'
+    template: ''
+    header: ''
+    meta_keywords: 'XOOPS,Publisher'
+    meta_description: 'This is a Meta Description'
+    short_url: example_category_1
+    moderator: '0'
+-
+    categoryid: '2'
+    parentid: '0'
+    name: 'Example Category 2'
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    image: ''
+    total: '0'
+    weight: '1'
+    created: '1033141070'
+    template: ''
+    header: ''
+    meta_keywords: 'XOOPS,Publisher'
+    meta_description: 'This is a Meta Description'
+    short_url: example_category_2
+    moderator: '0'
+-
+    categoryid: '3'
+    parentid: '2'
+    name: 'Example category 3'
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    image: ''
+    total: '0'
+    weight: '1'
+    created: '1033141070'
+    template: ''
+    header: ''
+    meta_keywords: 'XOOPS,Publisher'
+    meta_description: 'This is a Meta Description'
+    short_url: example_category_3
+    moderator: '0'
+-
+    categoryid: '4'
+    parentid: '1'
+    name: 'Example Sub-Category 4'
+    description: 'Example Sub-Category 4'
+    image: blank.png
+    total: '0'
+    weight: '1'
+    created: '1033141070'
+    template: ''
+    header: '<p>Example Sub-Category 4</p>'
+    meta_keywords: 'Example, Sub-Category, 4'
+    meta_description: 'Example Sub Category 4'
+    short_url: ''
+    moderator: '0'
+-
+    categoryid: '5'
+    parentid: '0'
+    name: TEST
+    description: zzzzzz
+    image: blank.png
+    total: '0'
+    weight: '1'
+    created: '1033141070'
+    template: ''
+    header: '<p>Testing Category</p>'
+    meta_keywords: zzzzzz
+    meta_description: zzzzzz
+    short_url: ''
+    moderator: '0'
+-
+    categoryid: '6'
+    parentid: '5'
+    name: SUB-TEST
+    description: 'Subtest of the Test category'
+    image: blank.png
+    total: '0'
+    weight: '1'
+    created: '1033141070'
+    template: ''
+    header: '<p>Subtest of the Test category</p>'
+    meta_keywords: sntsntns
+    meta_description: 'Subtest of the Test category'
+    short_url: ''
+    moderator: '0'

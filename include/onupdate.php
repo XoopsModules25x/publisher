@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -15,10 +17,14 @@
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Common,
+    Helper,
+    Utility
+};
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
-    || !$GLOBALS['xoopsUser']->IsAdmin()) {
+    || !$GLOBALS['xoopsUser']->isAdmin()) {
     exit('Restricted access' . PHP_EOL);
 }
 
@@ -30,8 +36,7 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUs
  */
 function xoops_module_pre_update_publisher(\XoopsModule $module)
 {
-    /** @var Publisher\Utility $utility */
-    $utility = new Publisher\Utility();
+    $utility = new Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
@@ -52,10 +57,10 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
     $moduleDirName = basename(dirname(__DIR__));
     //    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-    /** @var Publisher\Helper $helper */
-    /** @var Publisher\Common\Configurator $configurator */
-    $helper       = Publisher\Helper::getInstance();
-    $configurator = new Publisher\Common\Configurator();
+    /** @var Helper $helper */
+    /** @var Common\Configurator $configurator */
+    $helper       = Helper::getInstance();
+    $configurator = new Common\Configurator();
 
     $helper->loadLanguage('common');
 
@@ -75,8 +80,7 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
         $xoopsDB->queryF($sql);
         $sql = '    ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' MODIFY `meta_description` TEXT NULL';
         $xoopsDB->queryF($sql);
-        /** @var Publisher\Utility $utility */
-        $utility = new Publisher\Utility();
+        $utility = new Utility();
 
         //delete old HTML templates
         if (count($configurator->templateFolders) > 0) {
@@ -145,7 +149,7 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
 
         return $grouppermHandler->deleteByModule($module->getVar('mid'), 'item_read');
     }
-    
+
     // check table items for field `dateexpire`
     if (!$GLOBALS['xoopsDB']->query('SELECT dateexpire FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items'))) {
         $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items') . " ADD `dateexpire` INT(11) NULL DEFAULT '0' AFTER `datesub`";

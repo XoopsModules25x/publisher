@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,17 +14,16 @@
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Blocks
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          phppp
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+use XoopsModules\Publisher\{
+    CategoryHandler,
+    Helper
+};
 
 require_once dirname(__DIR__) . '/include/common.php';
 
@@ -34,9 +35,8 @@ require_once dirname(__DIR__) . '/include/common.php';
 function publisher_search_show($options)
 {
     $block = [];
-    /** @var Publisher\Helper $helper */
-    $helper = Publisher\Helper::getInstance();
-    /** @var Publisher\CategoryHandler $categoryHandler */
+    $helper = Helper::getInstance();
+    /** @var CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');
     $categories      = $categoryHandler->getCategoriesForSearch();
     if (0 === count($categories)) {
@@ -61,15 +61,15 @@ function publisher_search_show($options)
 
     //mb TODO simplify next lines with category
     $category = Request::getArray('category', [], 'POST') ?: Request::getArray('category', null, 'GET');
-    if (empty($category) || (is_array($category) && in_array('all', $category))) {
+    if (empty($category) || (is_array($category) && in_array('all', $category, true))) {
         $category = [];
     } else {
         $category = (!is_array($category)) ? explode(',', $category) : $category;
-        $category = array_map('intval', $category);
+        $category = array_map('\intval', $category);
     }
 
-    $andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT']) ? mb_strtoupper($andor) : 'OR';
-    $sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid']) ? mb_strtolower($sortby) : 'itemid';
+    $andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT'], true) ? mb_strtoupper($andor) : 'OR';
+    $sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid'], true) ? mb_strtolower($sortby) : 'itemid';
 
     /* type */
     $typeSelect = '<select name="andor">';
@@ -100,43 +100,43 @@ function publisher_search_show($options)
     $categorySelect .= '>' . _ALL . '</option>';
     foreach ($categories as $id => $cat) {
         $categorySelect .= '<option value="' . $id . '"';
-        if (in_array($id, $category)) {
+        if (in_array($id, $category, true)) {
             $categorySelect .= 'selected="selected"';
         }
         $categorySelect .= '>' . $cat . '</option>';
     }
-    unset($id, $cat);
+    unset($id);
     $categorySelect .= '</select>';
 
     /* scope */
     $searchSelect = '';
     $searchSelect .= '<input type="checkbox" name="searchin[]" value="title"';
-    if (is_array($searchin) && in_array('title', $searchin)) {
+    if (is_array($searchin) && in_array('title', $searchin, true)) {
         $searchSelect .= ' checked';
     }
     $searchSelect .= '>' . _CO_PUBLISHER_TITLE . '&nbsp;&nbsp;';
     $searchSelect .= '<input type="checkbox" name="searchin[]" value="subtitle"';
-    if (is_array($searchin) && in_array('subtitle', $searchin)) {
+    if (is_array($searchin) && in_array('subtitle', $searchin, true)) {
         $searchSelect .= ' checked';
     }
     $searchSelect .= '>' . _CO_PUBLISHER_SUBTITLE . '&nbsp;&nbsp;';
     $searchSelect .= '<input type="checkbox" name="searchin[]" value="summary"';
-    if (is_array($searchin) && in_array('summary', $searchin)) {
+    if (is_array($searchin) && in_array('summary', $searchin, true)) {
         $searchSelect .= ' checked';
     }
     $searchSelect .= '>' . _CO_PUBLISHER_SUMMARY . '&nbsp;&nbsp;';
     $searchSelect .= '<input type="checkbox" name="searchin[]" value="text"';
-    if (is_array($searchin) && in_array('body', $searchin)) {
+    if (is_array($searchin) && in_array('body', $searchin, true)) {
         $searchSelect .= ' checked';
     }
     $searchSelect .= '>' . _CO_PUBLISHER_BODY . '&nbsp;&nbsp;';
     $searchSelect .= '<input type="checkbox" name="searchin[]" value="keywords"';
-    if (is_array($searchin) && in_array('meta_keywords', $searchin)) {
+    if (is_array($searchin) && in_array('meta_keywords', $searchin, true)) {
         $searchSelect .= ' checked';
     }
     $searchSelect .= '>' . _CO_PUBLISHER_ITEM_META_KEYWORDS . '&nbsp;&nbsp;';
     $searchSelect .= '<input type="checkbox" name="searchin[]" value="all"';
-    if (empty($searchin) || (is_array($searchin) && in_array('all', $searchin))) {
+    if (empty($searchin) || (is_array($searchin) && in_array('all', $searchin, true))) {
         $searchSelect .= ' checked';
     }
     $searchSelect .= '>' . _ALL . '&nbsp;&nbsp;';

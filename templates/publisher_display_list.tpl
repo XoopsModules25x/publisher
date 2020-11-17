@@ -1,8 +1,8 @@
 <{include file='db:publisher_header.tpl'}>
 
 <!-- Display type is bullet list -->
-<div class="publisher_infotitle"><{$lang_category_summary}></div>
-<span class="publisher_collaps_info"><{$category.description}><br><br></span><!-- if the option is set, add the last item column -->
+<h4><{$lang_category_summary}></h4>
+<span class="publisher_collaps_info"><{$category.description}><br></span><!-- if the option is set, add the last item column -->
 <{if $category && $displaylastitem == 1 && $items}>
     <div id="publisher_bullet_lastitem">
         <strong><{$smarty.const._MD_PUBLISHER_LAST_SMARTITEM}> : <{$category.last_title_link}>
@@ -27,49 +27,52 @@
             <div class="publisher_collaps_title"><strong><{$lang_items_title}></strong></div>
         <{/if}><!-- Content under the collapsable bar //-->    
     <{/if}>
-    <table border="0" width="90%" cellspacing="0" cellpadding="0" align="center" class="outer">
-        <tr>
-            <td align="left" class="itemHead" width='60%'>
-                <strong>&nbsp;&nbsp;<{$smarty.const._CO_PUBLISHER_TITLE}></strong></td>
-            <{if $display_date_col == 1}>
-                <td align="center" class="itemHead" width="30%"><strong><{$smarty.const._MD_PUBLISHER_DATESUB}></strong></td>
-            <{/if}>
-            <{if $display_hits_col == 1}>
-                <td align="center" class="itemHead" width="10%"><strong><{$smarty.const._MD_PUBLISHER_HITS}></strong></td>
-            <{/if}>
-        </tr>
+
         <!-- Start item loop -->
-        <ul>
+       
             <{foreach item=item from=$items}>
-                <tr>
-                    <td class="odd">
-                        <div class="publisher_list" align="left">
-                            <li><{$item.titlelink}></li>
-                            <{if $show_subtitle && $item.subtitle}>
-                                <br>
-                                <em><{$item.subtitle}></em>
-                            <{/if}>
-                        </div>
-                    </td>
-
-                    <{if $display_date_col == 1}>
-                        <td class="odd" align="left">
-                            <div class="publisher_list" align="center"><{$item.datesub}></div>
-                        </td>
+            
+            <div class="itemText" style="padding-left: 5px; padding-top: 5px;">
+                <div>
+                   <{$item.titlelink}><br>
+                   <{if $show_subtitle && $item.subtitle}>
+                                <em><{$item.subtitle}><br></em>
                     <{/if}>
+                    <small>
+                      <{if $display_category == 1}> <{$smarty.const._MD_PUBLISHER_CATEGORY}> : <{$item.category}> | <{/if}>
+                      <{if $display_poster == 1}> <{$smarty.const._MD_PUBLISHER_POSTER}> <{$item.who}><{/if}> 
+                      <{if $display_date_col == 1}> | <{$item.datesub}> <{/if}> <{if $display_hits_col == 1}> | 
+                      <{$item.counter}> <{$smarty.const._MD_PUBLISHER_TOTALHITS}> <{/if}> 
+                      <{if $display_commentlink == 1 && $item.cancomment && $item.comments != -1}> | <{$item.comments}><{/if}>
+                    </small>
+                </div>
+                
+             <div> 
+                   <{if $display_mainimage == 1}>
+                      <{if $item.image_path!=''}>
+                      <a href="<{$item.itemurl}>"><img src="<{$item.image_path}>" title="<{$item.title}>" alt="<{$item.title}>" align="left" width="120" style="padding:5px"></a>
+                      <{else}>
+                       <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg"  title="<{$item.title}>" alt="<{$item.title}>" align="left" width="120" style="padding:5px"></a>
+                      <{/if}>
+                  <{/if}>
 
-                    <{if $display_hits_col == 1}>
-                        <td class="odd" align="left">
-                            <div class="publisher_list" align="center"><{$item.counter}></div>
-                        </td>
-                    <{/if}>
+              <{if $display_summary == 1}><{$item.summary}><br><{/if}>
+                    </div>
+            </div>
+            <div style="clear: both;"></div>
+            
+               
+           <{if $display_readmore == 1}>
+               <div align="right">
+                <a href="<{$item.more}>"><{$smarty.const._MD_PUBLISHER_READMORE}></a><br >
+               </div><br >
+           <{/if}>
 
-                </tr>
+             <div style="font-size: 10px; text-align: right; border-bottom: 1px dotted #000000;"></div>
             <{/foreach}>
-        </ul>
+        
         <!-- End item loop -->
-        <tr></tr>
-    </table>
+      
     <div align="right"><{$navbar}></div>
     <{if $collapsable_heading == 1}>
         </div>

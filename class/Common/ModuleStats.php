@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher\Common;
 
 /**
@@ -8,18 +10,18 @@ namespace XoopsModules\Publisher\Common;
  * Date: 2015-07-06
  * Time: 11:27
  */
-
 trait ModuleStats
 {
     /**
      * @param \XoopsModules\Publisher\Common\Configurator $configurator
-     * @param array $moduleStats
+     * @param array                                       $moduleStats
      * @return array
      */
+
     public static function getModuleStats($configurator, $moduleStats)
     {
-        if (count($configurator->moduleStats) > 0) {
-            foreach (array_keys($configurator->moduleStats) as $i) {
+        if (\count($configurator->moduleStats) > 0) {
+            foreach (\array_keys($configurator->moduleStats) as $i) {
                 $moduleStats[$i] = $configurator->moduleStats[$i];
             }
         }

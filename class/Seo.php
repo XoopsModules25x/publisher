@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Publisher;
 
 /*
@@ -17,16 +19,14 @@ namespace XoopsModules\Publisher;
  *
  * @credit psylove
  *
- * @var    string $title   title of the article
- * @var    string $withExt do we add an html extension or not
  * @return string sort_url for the article
+ * @var    string $withExt do we add an html extension or not
+ * @var    string $title   title of the article
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Seo
@@ -45,13 +45,13 @@ class Seo
          * if XOOPS ML is present, let's sanitize the title with the current language
          */
         $myts = \MyTextSanitizer::getInstance();
-        if (method_exists($myts, 'formatForML')) {
+        if (\method_exists($myts, 'formatForML')) {
             $title = $myts->formatForML($title);
         }
 
         // Transformation de la chaine en minuscule
         // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus
-        $title = rawurlencode(mb_strtolower($title));
+        $title = \rawurlencode(mb_strtolower($title));
 
         // Transformation des ponctuations
         $pattern    = [
@@ -85,15 +85,15 @@ class Seo
             "/\./", // .
         ];
         $repPattern = ['-', '-', '', '', '', '-100', '', '-', '', '', '', '-', '', '', '', '-', '', '', '-at-', '', '-', '', '-', '', '-', '', '-', ''];
-        $title      = preg_replace($pattern, $repPattern, $title);
+        $title      = \preg_replace($pattern, $repPattern, $title);
 
         // Transformation des caractères accentués
         //                  è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
         $pattern    = ['/%B0/', '/%E8/', '/%E9/', '/%EA/', '/%EB/', '/%E7/', '/%E0/', '/%E2/', '/%E4/', '/%EE/', '/%EF/', '/%F9/', '/%FC/', '/%FB/', '/%F4/', '/%F6/'];
         $repPattern = ['-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o'];
-        $title      = preg_replace($pattern, $repPattern, $title);
+        $title      = \preg_replace($pattern, $repPattern, $title);
 
-        if (count($title) > 0) {
+        if (\count($title) > 0) {
             if ($withExt) {
                 $title .= '.html';
             }
@@ -107,14 +107,13 @@ class Seo
     /**
      * @param        $op
      * @param        $id
-     * @param string $shortUrl
+     * @param string|array $shortUrl
      *
      * @return string
      */
     public static function generateUrl($op, $id, $shortUrl = '')
     {
-        /** @var Publisher\Helper $helper */
-        $helper = Publisher\Helper::getInstance();
+        $helper = Helper::getInstance();
         if ('none' !== $helper->getConfig('seo_url_rewrite')) {
             if (!empty($shortUrl)) {
                 $shortUrl .= '.html';

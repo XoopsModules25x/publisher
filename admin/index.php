@@ -23,8 +23,7 @@ declare(strict_types=1);
 use Xmf\Module\Admin;
 use Xmf\Request;
 use Xmf\Yaml;
-use XoopsModules\Publisher\{
-    Common,
+use XoopsModules\Publisher\{Common,
     Helper,
     Utility
 };

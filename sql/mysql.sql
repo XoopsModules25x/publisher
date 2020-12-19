@@ -152,6 +152,19 @@ CREATE TABLE `publisher_rating` (
 )
   ENGINE = MyISAM;
 
+
+CREATE TABLE `publisher_liking` (
+    `rate_id`     INT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `rate_itemid` INT(8)          NOT NULL DEFAULT '0',
+    `rate_source` INT(8)          NOT NULL DEFAULT '0',
+    `rate_value`  INT(1)          NOT NULL DEFAULT '0',
+    `rate_uid`    INT(8)          NOT NULL DEFAULT '0',
+    `rate_ip`     VARCHAR(45)     NOT NULL DEFAULT '',
+    `rate_date`   INT(8)          NOT NULL DEFAULT '0',
+    PRIMARY KEY (`rate_id`)
+)
+    ENGINE = MyISAM;
+
 # --------------------------------------------------------
 
 #

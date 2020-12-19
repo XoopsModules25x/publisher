@@ -83,6 +83,7 @@ $xoopsTpl->assign('displaysummary', $helper->getConfig('authorpage_disp_summary'
 $xoopsTpl->assign('displayhits', $helper->getConfig('authorpage_display_hits'));
 $xoopsTpl->assign('displaycomment', $helper->getConfig('authorpage_disp_comment'));
 $xoopsTpl->assign('displayrating', $helper->getConfig('authorpage_display_rating'));
+$xoopsTpl->assign('displaylike', $helper->getConfig('ratingbars'));
 
 $xoopsTpl->assign('show_date_col', $helper->getConfig('allitem_display_date_col'));
 $xoopsTpl->assign('show_hits_col', $helper->getConfig('allitem_display_hits_col'));

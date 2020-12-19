@@ -27,6 +27,7 @@ use XoopsModules\Publisher\{
     Metagen,
     Utility
 };
+
 /** @var Category $categoryObj */
 
 require_once __DIR__ . '/header.php';
@@ -297,5 +298,64 @@ if ($helper->getConfig('perm_rating')) {
     $xoTheme->addScript(PUBLISHER_URL . '/assets/js/rating.js');
 }
 
+//=============== START ======================================
+
+$start = Request::getInt('start', 0);
+$limit = Request::getInt('limit', $helper->getConfig('userpager'));
+$id    = Request::getInt('itemid', 0, 'GET');
+
+$ratingbars = (int)$helper->getConfig('ratingbars');
+if ($ratingbars > 0) {
+    $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/rating.css', null);
+    $GLOBALS['xoopsTpl']->assign('rating', $ratingbars);
+    $GLOBALS['xoopsTpl']->assign('rating_5stars', (Constants::RATING_5STARS === $ratingbars));
+    $GLOBALS['xoopsTpl']->assign('rating_10stars', (Constants::RATING_10STARS === $ratingbars));
+    $GLOBALS['xoopsTpl']->assign('rating_10num', (Constants::RATING_10NUM === $ratingbars));
+    $GLOBALS['xoopsTpl']->assign('rating_likes', (Constants::RATING_LIKES === $ratingbars));
+    $GLOBALS['xoopsTpl']->assign('rating_reaction', (Constants::RATING_REACTION === $ratingbars));
+    $GLOBALS['xoopsTpl']->assign('itemid', 'id');
+    $GLOBALS['xoopsTpl']->assign('blog_icon_url_16', PUBLISHER_URL . '/' . $modPathIcon16);
+}
+$crArticle = new \CriteriaCompo();
+if ($id > 0) {
+    $crArticle->add(new \Criteria('itemid', $id));
+}
+
+/** @var ItemHandler $itemHandler */
+$itemHandler    = $helper->getHandler('Item');
+$ratingsHandler = $helper->getHandler('Ratings');
+
+$articleCount = $itemHandler->getCount($crArticle);
+$GLOBALS['xoopsTpl']->assign('articleCount', $articleCount);
+$crArticle->setStart($start);
+$crArticle->setLimit($limit);
+$articleAll = $itemHandler->getAll($crArticle);
+if ($articleCount > 0) {
+    $article = [];
+    // Get All Article
+    foreach (\array_keys($articleAll) as $i) {
+        $article[$i]           = $articleAll[$i]->toArraySimple();
+        $keywords[$i]          = $articleAll[$i]->getVar('title');
+        $rating                = $ratingsHandler->getItemRating($articleAll[$i]->getVar('itemid'), Constants::TABLE_ARTICLE);
+        $article[$i]['rating'] = $rating;
+    }
+    //    $GLOBALS['xoopsTpl']->assign('article', $article);
+    $xoopsTpl->assign('article', $article);
+    $xoopsTpl->assign('rating', $rating);
+    unset($article);
+    // Display Navigation
+    if ($articleCount > $limit) {
+        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+        $pagenav = new \XoopsPageNav($articleCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
+        $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
+    }
+    $GLOBALS['xoopsTpl']->assign('type', $helper->getConfig('table_type'));
+    $GLOBALS['xoopsTpl']->assign('divideby', $helper->getConfig('divideby'));
+    $GLOBALS['xoopsTpl']->assign('numb_col', $helper->getConfig('numb_col'));
+}
+
+//=================== END =========================================
+
+//$xoopsTpl->assign('article', $article);
 $xoopsTpl->assign('item', $item);
 require_once XOOPS_ROOT_PATH . '/footer.php';

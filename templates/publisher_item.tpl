@@ -122,10 +122,10 @@
             <{/if}>
             <span style="float: right; text-align: right;"><{$item.adminlink}></span>
             <span style="float: right; text-align: right;">
-             <{if $display_print_link}>
+             <{if $display_print_link|default:0 !=0}>
                  <{$item.printlink}> 
              <{/if}>
-             <{if $display_pdf_button}>
+             <{if $display_pdf_button|default:0 !=0}>
                   <{$item.pdfbutton}>
               <{/if}>
              </span>

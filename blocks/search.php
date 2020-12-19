@@ -20,8 +20,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    CategoryHandler,
+use XoopsModules\Publisher\{CategoryHandler,
     Helper
 };
 
@@ -34,7 +33,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_search_show($options)
 {
-    $block = [];
+    $block  = [];
     $helper = Helper::getInstance();
     /** @var CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');

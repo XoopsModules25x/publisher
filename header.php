@@ -22,14 +22,17 @@ use XoopsModules\Publisher\{
     Helper
 };
 
+/** @var Helper $helper
+ * {@internal $helper defined in ./include/common.php }}
+ */
+
 require_once dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
 $myts = \MyTextSanitizer::getInstance();
-
-/** @var Helper $helper
- * {@internal $helper defined in ./include/common.php }}
- */
 if ('none' !== $helper->getConfig('seo_url_rewrite')) {
     require_once $helper->path('include/seo.inc.php');
 }
+
+$modPathIcon16 = $GLOBALS['xoopsModule']->getInfo('modicons16');
+$modPathIcon32 = $GLOBALS['xoopsModule']->getInfo('modicons16');

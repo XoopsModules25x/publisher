@@ -44,7 +44,7 @@ switch ($op) {
 
         xoops_load('XoopsFormLoader');
         /** @var \XoopsModuleHandler $moduleHandler */
-$moduleHandler = xoops_getHandler('module');
+        $moduleHandler = xoops_getHandler('module');
 
         // WF-Section
         /*$wfs_version = 0;

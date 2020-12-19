@@ -77,12 +77,13 @@ $modversion = [
     'sqlfile'             => ['mysql' => 'sql/mysql.sql'],
     // ------------------- Tables -------------------
     'tables'              => [
-        $moduleDirName . '_categories',
-        $moduleDirName . '_items',
-        $moduleDirName . '_files',
-        $moduleDirName . '_meta',
-        $moduleDirName . '_mimetypes',
-        $moduleDirName . '_rating',
+        $moduleDirName . '_' . 'categories',
+        $moduleDirName . '_' . 'items',
+        $moduleDirName . '_' . 'files',
+        $moduleDirName . '_' . 'meta',
+        $moduleDirName . '_' . 'mimetypes',
+        $moduleDirName . '_' . 'rating',
+        $moduleDirName . '_' . 'liking',
     ],
 ];
 
@@ -267,6 +268,9 @@ $modversion['templates'] = [
     ['file' => 'publisher_search.tpl', 'description' => '_MI_PUBLISHER_SEARCH_DSC'],
     ['file' => 'publisher_author_items.tpl', 'description' => '_MI_PUBLISHER_AUTHOR_ITEMS_DSC'],
     ['file' => 'publisher_archive.tpl', 'description' => '_MI_PUBLISHER_ARCHIVE_DSC'],
+
+    ['file' => 'publisher_like.tpl', 'description' => ''],
+
     //admin
     ['file' => 'publisher_trello.tpl', 'description' => '_MI_PUBLISHER_TRELLO_DSC', 'type' => 'admin'],
 ];
@@ -839,6 +843,65 @@ $modversion['config'][] = [
     'valuetype'   => 'int',
     'default'     => 0,
     'category'    => 'item',
+];
+
+// Get groups
+$memberHandler    = \xoops_getHandler('member');
+$xoopsGroups      = $memberHandler->getGroupList();
+$ratingbar_groups = [];
+foreach ($xoopsGroups as $key => $group) {
+    $ratingbar_groups[$group] = $key;
+}
+// Rating: Groups with rating permissions
+$modversion['config'][] = [
+    'name'        => 'ratingbar_groups',
+    'title'       => '_MI_BLOG_RATINGBAR_GROUPS',
+    'description' => '_MI_BLOG_RATINGBAR_GROUPS_DESC',
+    'formtype'    => 'select_multi',
+    'valuetype'   => 'array',
+    'default'     => [1],
+    'options'     => $ratingbar_groups,
+];
+// Rating : used ratingbar
+$modversion['config'][] = [
+    'name'        => 'ratingbars',
+    'title'       => '_MI_BLOG_RATINGBARS',
+    'description' => '_MI_BLOG_RATINGBARS_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'options'     => ['_MI_BLOG_RATING_NONE' => 0, '_MI_BLOG_RATING_5STARS' => 1, '_MI_BLOG_RATING_10STARS' => 2, '_MI_BLOG_RATING_LIKES' => 3, '_MI_BLOG_RATING_10NUM' => 4, '_MI_BLOG_RATING_REACTION' => 5],
+];
+
+// Number column
+$modversion['config'][] = [
+    'name'        => 'numb_col',
+    'title'       => '_MI_BLOG_NUMB_COL',
+    'description' => '_MI_BLOG_NUMB_COL_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'options'     => [1 => '1', 2 => '2', 3 => '3', 4 => '4'],
+];
+// Divide by
+$modversion['config'][] = [
+    'name'        => 'divideby',
+    'title'       => '_MI_BLOG_DIVIDEBY',
+    'description' => '_MI_BLOG_DIVIDEBY_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'options'     => [1 => '1', 2 => '2', 3 => '3', 4 => '4'],
+];
+// Table type
+$modversion['config'][] = [
+    'name'        => 'table_type',
+    'title'       => '_MI_BLOG_TABLE_TYPE',
+    'description' => '_MI_BLOG_DIVIDEBY_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => 'bordered',
+    'options'     => ['bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed'],
 ];
 
 $modversion['config'][] = [

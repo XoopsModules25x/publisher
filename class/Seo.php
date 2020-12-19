@@ -105,8 +105,8 @@ class Seo
     }
 
     /**
-     * @param        $op
-     * @param        $id
+     * @param              $op
+     * @param              $id
      * @param string|array $shortUrl
      *
      * @return string

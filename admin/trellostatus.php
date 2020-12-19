@@ -9,7 +9,7 @@ $xoopsDb = \XoopsDatabaseFactory::getDatabaseConnection();
 
 $trelloManagement = new TrelloManagement($xoopsDb);
 
-$statusId = Request::getInt('statusId',0, 'GET');
-$itemId = Request::getInt('itemId',0, 'GET');
+$statusId = Request::getInt('statusId', 0, 'GET');
+$itemId   = Request::getInt('itemId', 0, 'GET');
 
 $result = $trelloManagement->editTaskStatus($statusId, $itemId);

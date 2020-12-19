@@ -346,7 +346,7 @@ class MimetypesUtility
 
     public static function manage()
     {
-        $helper = Helper::getInstance();
+        $helper  = Helper::getInstance();
         $utility = new Utility();
         /** @var MimetypeHandler $mimetypeHandler */
         $mimetypeHandler = $helper->getHandler('Mimetype');

@@ -45,7 +45,7 @@ $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GRO
 $grouppermHandler = $helper->getHandler('GroupPerm');
 /** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
-$moduleId     = $helper->getModule()->getVar('mid');
+$moduleId      = $helper->getModule()->getVar('mid');
 
 //Checking permissions
 //if (!$helper->getConfig('perm_rating') || !$grouppermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $moduleId)) {
@@ -66,7 +66,7 @@ try {
 }
 
 $ratingUnitWidth = 30;
-$units            = 5;
+$units           = 5;
 
 //if ($rating > 5 || $rating < 1) {
 //    $output = "unit_long$itemId|" . _MD_PUBLISHER_VOTE_BAD . "\n";
@@ -88,11 +88,11 @@ try {
 $criteria   = new \Criteria('itemid', $itemId);
 $ratingObjs = $helper->getHandler('Rating')->getObjects($criteria);
 
-$uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
-$count          = count($ratingObjs);
+$uid           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
+$count         = count($ratingObjs);
 $currentRating = 0;
-$voted          = false;
-$ip             = getenv('REMOTE_ADDR');
+$voted         = false;
+$ip            = getenv('REMOTE_ADDR');
 
 /** @var Rating $ratingObj */
 foreach ($ratingObjs as $ratingObj) {

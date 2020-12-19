@@ -89,7 +89,7 @@ function smarty_modifier_rewrite_url($url, $insert_param, $param_value = null, $
     if (isset($insert_param) && ('' != $insert_param)) {
         !is_array($insert_param) ? $insert_param = explode(',', $insert_param) : '';
         !is_array($param_value) ? $param_value = explode(',', $param_value) : '';
-        for ($i = 0, $size = count($param_value); $i < $size; $i++) {
+        for ($i = 0, $size = count($param_value); $i < $size; ++$i) {
             if ('' != trim($param_value[$i])) {
                 $url_arr[trim($insert_param[$i])] = trim($param_value[$i]);
             }

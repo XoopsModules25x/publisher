@@ -25,6 +25,7 @@ use XoopsModules\Publisher\{
     Helper,
     Utility
 };
+
 /** @var Helper $helper */
 /** @var Utility $utility */
 

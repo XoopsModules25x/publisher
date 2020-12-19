@@ -72,7 +72,7 @@ class Metagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper = Helper::getInstance();
         $this->myts   = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
@@ -392,6 +392,9 @@ class Metagen
      */
     public function html2text($document)
     {
+        if (empty($document)) {
+            return '';
+        }
         // PHP Manual:: function preg_replace
         // $document should contain an HTML document.
         // This will remove HTML tags, javascript sections

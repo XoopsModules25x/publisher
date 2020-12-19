@@ -457,6 +457,58 @@ define('_MI_PUBLISHER_AUTHORPAGE_SUMMARYDSC', 'Select “Yes” to display the a
 define('_MI_PUBLISHER_DISPRATING', 'Display Rating');
 define('_MI_PUBLISHER_AUTHORPAGE_RATINGDSC', 'Select “Yes” to display the rating in the Item by Same Author page');
 
-
 define('_MI_PUBLISHER_ADMENU7', 'Trello');
 define('_MI_PUBLISHER_TRELLO_DSC', 'Trello Management');
+
+// Rating bars
+\define('_MI_BLOG_RATINGBAR_GROUPS', 'Groups with rating rights');
+\define('_MI_BLOG_RATINGBAR_GROUPS_DESC', 'Select groups which should have the right to rate');
+\define('_MI_BLOG_RATINGBARS', 'Allow rating');
+\define('_MI_BLOG_RATINGBARS_DESC', 'Define whether rating should be possible and which kind of rating should be used');
+\define('_MI_BLOG_RATING_NONE', 'Do not use rating');
+\define('_MI_BLOG_RATING_5STARS', 'Rating with 5 stars');
+\define('_MI_BLOG_RATING_10STARS', 'Rating with 10 stars');
+\define('_MI_BLOG_RATING_LIKES', 'Rating with likes and dislikes');
+\define('_MI_BLOG_RATING_10NUM', 'Rating with 10 points');
+\define('_MI_BLOG_RATING_REACTION', 'Rating with Reactions');
+
+// Config
+\define('_MI_BLOG_EDITOR_ADMIN', 'Editor admin');
+\define('_MI_BLOG_EDITOR_ADMIN_DESC', 'Select the editor which should be used in admin area for text area fields');
+\define('_MI_BLOG_EDITOR_USER', 'Editor user');
+\define('_MI_BLOG_EDITOR_USER_DESC', 'Select the editor which should be used in user area for text area fields');
+\define('_MI_BLOG_EDITOR_MAXCHAR', 'Text max characters');
+\define('_MI_BLOG_EDITOR_MAXCHAR_DESC', 'Max characters for showing text of a textarea or editor field in admin area');
+\define('_MI_BLOG_KEYWORDS', 'Keywords');
+\define('_MI_BLOG_KEYWORDS_DESC', 'Insert here the keywords (separate by comma)');
+\define('_MI_BLOG_SIZE_MB', 'MB');
+\define('_MI_BLOG_MAXSIZE_IMAGE', 'Max size image');
+\define('_MI_BLOG_MAXSIZE_IMAGE_DESC', 'Define the max size for uploading images');
+\define('_MI_BLOG_MIMETYPES_IMAGE', 'Mime types image');
+\define('_MI_BLOG_MIMETYPES_IMAGE_DESC', 'Define the allowed mime types for uploading images');
+\define('_MI_BLOG_MAXWIDTH_IMAGE', 'Max width image');
+\define('_MI_BLOG_MAXWIDTH_IMAGE_DESC', 'Set the max width to which uploaded images should be scaled (in pixel)<br>0 means, that images keeps the original size. <br>If an image is smaller than maximum value then the image will be not enlarge, it will be save in original width.');
+\define('_MI_BLOG_MAXHEIGHT_IMAGE', 'Max height image');
+\define('_MI_BLOG_MAXHEIGHT_IMAGE_DESC', 'Set the max height to which uploaded images should be scaled (in pixel)<br>0 means, that images keeps the original size. <br>If an image is smaller than maximum value then the image will be not enlarge, it will be save in original height');
+\define('_MI_BLOG_USE_TAG', 'Use TAG');
+\define('_MI_BLOG_USE_TAG_DESC', 'If you use tag module, check this option to yes');
+\define('_MI_BLOG_NUMB_COL', 'Number Columns');
+\define('_MI_BLOG_NUMB_COL_DESC', 'Number Columns to View.');
+\define('_MI_BLOG_DIVIDEBY', 'Divide By');
+\define('_MI_BLOG_DIVIDEBY_DESC', 'Divide by columns number.');
+\define('_MI_BLOG_TABLE_TYPE', 'Table Type');
+\define('_MI_BLOG_TABLE_TYPE_DESC', 'Table Type is the bootstrap html table.');
+\define('_MI_BLOG_PANEL_TYPE', 'Panel Type');
+\define('_MI_BLOG_PANEL_TYPE_DESC', 'Panel Type is the bootstrap html div.');
+\define('_MI_BLOG_IDPAYPAL', 'Paypal ID');
+\define('_MI_BLOG_IDPAYPAL_DESC', 'Insert here your PayPal ID for donactions.');
+\define('_MI_BLOG_ADVERTISE', 'Advertisement Code');
+\define('_MI_BLOG_ADVERTISE_DESC', 'Insert here the advertisement code');
+\define('_MI_BLOG_MAINTAINEDBY', 'Maintained By');
+\define('_MI_BLOG_MAINTAINEDBY_DESC', 'Allow url of support site or community');
+\define('_MI_BLOG_BOOKMARKS', 'Social Bookmarks');
+\define('_MI_BLOG_BOOKMARKS_DESC', 'Show Social Bookmarks in the single page');
+\define('_MI_BLOG_FACEBOOK_COMMENTS', 'Facebook comments');
+\define('_MI_BLOG_FACEBOOK_COMMENTS_DESC', 'Allow Facebook comments in the single page');
+\define('_MI_BLOG_DISQUS_COMMENTS', 'Disqus comments');
+\define('_MI_BLOG_DISQUS_COMMENTS_DESC', 'Allow Disqus comments in the single page');

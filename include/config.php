@@ -33,7 +33,7 @@ require __DIR__ . '/common.php';
 /** @return object */
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-$helper = Helper::getInstance();
+$helper             = Helper::getInstance();
 
 /** @var CategoryHandler $helper ->getHandler('Category') */
 /** @var ItemHandler $helper ->getHandler('Item') */

@@ -51,9 +51,9 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper = Helper::getInstance();
-        /** @var \XoopsMySQLDatabase $this->db */
+        /** @var \XoopsMySQLDatabase $this- >db */
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', \XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', \XOBJ_DTYPE_INT, 0, false);
@@ -256,7 +256,7 @@ class Item extends \XoopsObject
                 $endWrapPos = mb_strpos($ret, ']', $wrapPos);
                 if ($endWrapPos) {
                     $wrapPagename = mb_substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
-                    $wrapPages[]    = $wrapPagename;
+                    $wrapPages[]  = $wrapPagename;
                 }
                 $wrapPos = mb_strpos($ret, '[pagewrap=', $endWrapPos - 1);
             }
@@ -829,7 +829,7 @@ class Item extends \XoopsObject
         $highlight = true;
         if ($highlight && Request::getString('keywords', '', 'GET')) {
             $myts     = \MyTextSanitizer::getInstance();
-            $keywords = $myts->htmlSpecialChars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))));
+            $keywords = \htmlspecialchars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))));
             $fields   = ['title', 'maintext', 'summary'];
             foreach ($fields as $field) {
                 if (isset($item[$field])) {

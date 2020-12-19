@@ -46,15 +46,15 @@ class CategoryForm extends \XoopsThemeForm
     public $helper;
     public $targetObject;
     public $subCatsCount = 4;
-    public $userGroups = [];
+    public $userGroups   = [];
 
     /**
      * @param Category $target
-     * @param int                              $subCatsCount
+     * @param int      $subCatsCount
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper = Helper::getInstance();
 
         $this->targetObject = &$target;

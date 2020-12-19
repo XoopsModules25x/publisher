@@ -718,7 +718,7 @@ class Timthumb
         // get standard input properties
         $newWidth     = (int)abs($this->param('w', 0));
         $newHeight    = (int)abs($this->param('h', 0));
-        $zoomCrop    = (int)$this->param('zc', DEFAULT_ZC);
+        $zoomCrop     = (int)$this->param('zc', DEFAULT_ZC);
         $quality      = (int)abs($this->param('q', DEFAULT_Q));
         $align        = $this->cropTop ? 't' : $this->param('a', 'c');
         $filters      = $this->param('f', DEFAULT_F);
@@ -1299,7 +1299,7 @@ class Timthumb
         if ('image/jpg' === mb_strtolower($mimeType)) {
             $mimeType = 'image/jpeg';
         }
-        $gmdateExpires  = gmdate('D, d M Y H:i:s', strtotime('now +10 days')) . ' GMT';
+        $gmdateExpires   = gmdate('D, d M Y H:i:s', strtotime('now +10 days')) . ' GMT';
         $gmdate_modified = gmdate('D, d M Y H:i:s') . ' GMT';
         // send content headers then display image
         header('Content-Type: ' . $mimeType);

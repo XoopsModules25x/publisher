@@ -20,8 +20,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
+use XoopsModules\Publisher\{Category,
     Constants,
     Helper,
     Item,
@@ -35,7 +34,7 @@ require_once __DIR__ . '/header.php';
 $categoryId = Request::getInt('categoryid', 0, 'GET');
 
 // Creating the category object for the selected category
-/** @var Helper $helper  */
+/** @var Helper $helper */
 $categoryObj = $helper->getHandler('Category')->get($categoryId);
 
 // if the selected category was not found, exit
@@ -129,7 +128,7 @@ if (1 == $helper->getConfig('idxcat_display_last_item')) {
 $lastitemsize = (int)$helper->getConfig('idxcat_last_item_size');
 
 // Creating the sub-categories objects that belong to the selected category
-$subcatsObj    = $helper->getHandler('Category')->getCategories(0, 0, $categoryId);
+$subcatsObj   = $helper->getHandler('Category')->getCategories(0, 0, $categoryId);
 $totalSubcats = count($subcatsObj);
 
 $total_items = 0;

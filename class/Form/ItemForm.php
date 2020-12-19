@@ -32,6 +32,7 @@ use XoopsModules\Publisher\{
     ThemeTabForm,
     Utility
 };
+use XoopsModules\Tag\FormTag;
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -53,7 +54,7 @@ class ItemForm extends ThemeTabForm
         \_CO_PUBLISHER_TAB_FILES  => 'filesTab',
         \_CO_PUBLISHER_TAB_OTHERS => 'othersTab',
     ];
-    public $mainTab = [
+    public $mainTab   = [
         Constants::PUBLISHER_SUBTITLE,
         Constants::PUBLISHER_ITEM_SHORT_URL,
         Constants::PUBLISHER_ITEM_TAG,
@@ -73,7 +74,7 @@ class ItemForm extends ThemeTabForm
     public $imagesTab = [
         Constants::PUBLISHER_IMAGE_ITEM,
     ];
-    public $filesTab = [
+    public $filesTab  = [
         Constants::PUBLISHER_ITEM_UPLOAD_FILE,
     ];
     public $othersTab = [
@@ -136,7 +137,7 @@ class ItemForm extends ThemeTabForm
      */
     public function createElements($obj)
     {
-        $helper = Helper::getInstance();
+        $helper     = Helper::getInstance();
         $timeoffset = null;
 
         $allowedEditors = Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
@@ -178,7 +179,7 @@ class ItemForm extends ThemeTabForm
         // TAGS
         if (\xoops_isActiveModule('tag') && $this->isGranted(Constants::PUBLISHER_ITEM_TAG)) {
             require_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
-            $textTags = new \XoopsModules\Tag\FormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
+            $textTags = new FormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
             $textTags->setClass('form-control');
             $this->addElement($textTags);
         }

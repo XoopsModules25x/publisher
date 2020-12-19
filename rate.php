@@ -26,6 +26,8 @@ use XoopsModules\Publisher\{
     Utility
 };
 
+/** @var Helper $helper */
+
 require_once __DIR__ . '/header.php';
 
 //getting the values
@@ -35,10 +37,9 @@ $itemId = Request::getInt('itemid', 0, 'GET');
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 /** @var GroupPermHandler $grouppermHandler */
 $grouppermHandler = Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
-/** @var XoopsConfigHandler $configHandler */
 /** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
-$moduleId     = $helper->getModule()->getVar('mid');
+$moduleId      = $helper->getModule()->getVar('mid');
 
 //Checking permissions
 if (!$helper->getConfig('perm_rating') || !$grouppermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $moduleId)) {
@@ -52,11 +53,11 @@ if ($rating > 5 || $rating < 1) {
 $criteria   = new \Criteria('itemid', $itemId);
 $ratingObjs = $helper->getHandler('Rating')->getObjects($criteria);
 
-$uid            = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
-$count          = count($ratingObjs);
+$uid           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
+$count         = count($ratingObjs);
 $currentRating = 0;
-$voted          = false;
-$ip             = getenv('REMOTE_ADDR');
+$voted         = false;
+$ip            = getenv('REMOTE_ADDR');
 
 foreach ($ratingObjs as $ratingObj) {
     $currentRating += $ratingObj->getVar('rate');

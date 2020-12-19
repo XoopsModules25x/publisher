@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 
-
 namespace XoopsModules\Publisher;
 
 use XoopsModules\Publisher\Helper;
@@ -16,9 +15,11 @@ class TrelloManagement
      * TrelloManagement constructor.
      * @param $xoopsDb
      */
-    public function __construct( $xoopsDb){
+    public function __construct($xoopsDb)
+    {
         $this->xoopsDb = $xoopsDb;
     }
+
     /**
      * @param $statusId
      * @param $itemId
@@ -26,10 +27,10 @@ class TrelloManagement
      */
     public function getProjectTaskByStatus($statusId, $itemId)
     {
-        $helper = Helper::getInstance();
+        $helper   = Helper::getInstance();
         $dbHandle = new TrelloDBController($this->xoopsDb);
-        $query = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_items') .  'WHERE status= ? AND itemid = ?';
-        $result = $dbHandle->runQuery($query, 'ii', [$statusId, $itemId]);
+        $query    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_items') . 'WHERE status= ? AND itemid = ?';
+        $result   = $dbHandle->runQuery($query, 'ii', [$statusId, $itemId]);
 
         return $result;
     }
@@ -39,10 +40,10 @@ class TrelloManagement
      */
     public function getAllStatus()
     {
-        $helper = Helper::getInstance();
+        $helper   = Helper::getInstance();
         $dbHandle = new TrelloDBController($this->xoopsDb);
-        $query = 'SELECT itemid, title, status FROM ' . $GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_items');
-        $result = $dbHandle->runBaseQuery($query);
+        $query    = 'SELECT itemid, title, status FROM ' . $GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_items');
+        $result   = $dbHandle->runBaseQuery($query);
 
         return $result;
     }
@@ -53,10 +54,10 @@ class TrelloManagement
      */
     public function editTaskStatus($statusId, $itemId)
     {
-        $helper = Helper::getInstance();
+        $helper   = Helper::getInstance();
         $dbHandle = new TrelloDBController($this->xoopsDb);
-        $query = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_items') . ' SET status = ? WHERE itemid = ?';
-        $result = $dbHandle->update($query, 'ii', [$statusId, $itemId]);
+        $query    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_items') . ' SET status = ? WHERE itemid = ?';
+        $result   = $dbHandle->update($query, 'ii', [$statusId, $itemId]);
 
         return $result;
     }

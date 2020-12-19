@@ -176,7 +176,7 @@ class Utility extends Common\SysUtility
         $helper = Helper::getInstance();
 
         $description = $categoryObj->description();
-        if (!XOOPS_USE_MULTIBYTES) {
+        if (!XOOPS_USE_MULTIBYTES and !is_null($description)) {
             if (mb_strlen($description) >= 100) {
                 $description = mb_substr($description, 0, 100 - 1) . '...';
             }

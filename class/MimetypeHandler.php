@@ -223,7 +223,7 @@ class MimetypeHandler extends BaseObjectHandler
 
         $sql = \sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
 
-        if (null !== $criteria && $criteria instanceof \CriteriaCompo) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement ) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();

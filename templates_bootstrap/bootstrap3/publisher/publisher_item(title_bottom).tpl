@@ -82,11 +82,7 @@
             <h5><{$item.subtitle}></h5>
         <{/if}>
     </header>
-
-
-
         <{$item.maintext}>
-
         <div class='shareaholic-canvas' data-app='share_buttons' data-app-id=''></div>
     </div>
 

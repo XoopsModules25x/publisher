@@ -35,10 +35,13 @@ require_once \dirname(__DIR__) . '/include/common.php';
  */
 class Item extends \XoopsObject
 {
+    const PAGEWRAP = '[pagewrap=';
     /**
      * @var Helper
      */
     public $helper;
+    /** @var \XoopsMySQLDatabase $db */
+    public $db;
     public $groupsRead = [];
     /**
      * @var Category
@@ -50,10 +53,8 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var Helper $this- >helper */
         $this->helper = Helper::getInstance();
-        /** @var \XoopsMySQLDatabase $this- >db */
-        $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', \XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', \XOBJ_DTYPE_INT, 0, false);
         $this->initVar('title', \XOBJ_DTYPE_TXTBOX, '', true, 255);
@@ -247,17 +248,17 @@ class Item extends \XoopsObject
     public function getBody($maxLength = 0, $format = 'S', $stripTags = '')
     {
         $ret     = $this->getVar('body', $format);
-        $wrapPos = \mb_strpos($ret, '[pagewrap=');
+        $wrapPos = \mb_strpos($ret, self::PAGEWRAP);
         if (!(false === $wrapPos)) {
             $wrapPages      = [];
-            $wrapCodeLength = \mb_strlen('[pagewrap=');
+            $wrapCodeLength = \mb_strlen(self::PAGEWRAP);
             while (!(false === $wrapPos)) {
                 $endWrapPos = \mb_strpos($ret, ']', $wrapPos);
                 if ($endWrapPos) {
                     $wrapPagename = \mb_substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
                     $wrapPages[]  = $wrapPagename;
                 }
-                $wrapPos = \mb_strpos($ret, '[pagewrap=', $endWrapPos - 1);
+                $wrapPos = \mb_strpos($ret, self::PAGEWRAP, $endWrapPos - 1);
             }
             foreach ($wrapPages as $page) {
                 $wrapPageContent = $this->wrapPage($page);

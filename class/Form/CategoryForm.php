@@ -78,14 +78,9 @@ class CategoryForm extends \XoopsThemeForm
         $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
         $myTree          = new \XoopsObjectTree($this->helper->getHandler('Category')->getObjects($criteria), 'categoryid', 'parentid');
         $moduleDirName   = \basename(\dirname(__DIR__));
-        $module          = \XoopsModule::getByDirname($moduleDirName);
-        if (Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
-            $catSelect = $myTree->makeSelectElement('parentid', 'name', '--', $this->targetObject->parentid(), true, 0, '', \_AM_PUBLISHER_PARENT_CATEGORY_EXP);
-            $this->addElement($catSelect);
-        } else {
-            $catSelect = $myTree->makeSelBox('parentid', 'name', '--', $this->targetObject->parentid(), true);
-            $this->addElement(new \XoopsFormLabel(\_AM_PUBLISHER_PARENT_CATEGORY_EXP, $catSelect));
-        }
+        $module = \XoopsModule::getByDirname($moduleDirName);
+        $catSelect = $myTree->makeSelectElement('parentid', 'name', '--', $this->targetObject->parentid(), true, 0, '', \_AM_PUBLISHER_PARENT_CATEGORY_EXP);
+        $this->addElement($catSelect);
 
         // Name
         $this->addElement(new \XoopsFormText(\_AM_PUBLISHER_CATEGORY, 'name', 50, 255, $this->targetObject->name('e')), true);

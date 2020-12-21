@@ -84,12 +84,12 @@ class MimetypeHandler extends BaseObjectHandler
      *
      * @param \Criteria|\CriteriaCompo|null $criteria conditions to be met
      *
-     * @param bool                          $idAsKey
-     * @param bool                          $asObject
+     * @param bool                          $id_as_key
+     * @param bool                          $as_object
      * @return array array of <a href='psi_element://Mimetype'>Mimetype</a> objects
      *                                                objects
      */
-    public function &getObjects($criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
+    public function &getObjects($criteria = null, $id_as_key = false, $as_object = true) //&getObjects($criteria = null)
     {
         $ret   = [];
         $limit = $start = 0;

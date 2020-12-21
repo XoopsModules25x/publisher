@@ -6,7 +6,7 @@
                     <{/if}>
     </div>
 
-    <{if $op|default:false != 'preview'}>
+    <{if $op|default:'' != 'preview'}>
        
             <div class="itemInfo">
                 <span class="itemPoster">
@@ -37,7 +37,7 @@
         <br> <br>
     </div>
 
-    <{if $op|default:false != 'preview' && $item.summary!=''}>
+    <{if $op|default:'' != 'preview' && $item.summary!=''}>
         <div align="right">
            <a href="<{$item.itemurl}>"> <{$smarty.const._MD_PUBLISHER_VIEW_MORE}></a>&nbsp;
         </div>

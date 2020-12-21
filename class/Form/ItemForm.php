@@ -31,6 +31,7 @@ use XoopsModules\Publisher\{Constants,
     ThemeTabForm,
     Utility
 };
+use XoopsModules\Tag\FormTag;
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -177,7 +178,7 @@ class ItemForm extends ThemeTabForm
         // TAGS
         if (\xoops_isActiveModule('tag') && $this->isGranted(Constants::PUBLISHER_ITEM_TAG)) {
             require_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
-            $textTags = new \XoopsModules\Tag\FormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
+            $textTags = new FormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
             $textTags->setClass('form-control');
             $this->addElement($textTags);
         }

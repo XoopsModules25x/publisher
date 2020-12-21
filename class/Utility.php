@@ -1371,7 +1371,7 @@ class Utility extends Common\SysUtility
             return \utf8_encode($item);
         }
 
-        if ($unserialize == \unserialize($item)) {
+        if (false !== ($unserialize = \unserialize($item))) {
             foreach ($unserialize as $key => $value) {
                 $unserialize[$key] = @\iconv('windows-1256', 'UTF-8', $value);
             }

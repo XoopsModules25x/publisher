@@ -111,14 +111,13 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param \CriteriaElement|null $criteria {@link CriteriaElement}
-     *                                        conditions to be met
-     * @param bool                  $idAsKey  Should the department ID be used as array key
+     * @param \Criteria|null $criteria {@link Criteria} conditions to be met
+     * @param bool           $idAsKey  Should the department ID be used as array key
      *
-     * @param bool                  $asObject
+     * @param bool           $asObject
      * @return array array of objects
      */
-    public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
+    public function &getObjects(\Criteria $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
     {
         $ret   = [];
         $limit = $start = 0;
@@ -197,14 +196,14 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param \CriteriaElement|null $criteria {@link \CriteriaElement} to match
+     * @param \Criteria|null $criteria {@link \Criteria} to match
      *
      * @return string SQL query
      */
-    private function selectQuery(\CriteriaElement $criteria = null)
+    private function selectQuery(\Criteria $criteria = null)
     {
         $sql = \sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (null !== $criteria && $criteria instanceof \Criteria) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . '

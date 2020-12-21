@@ -82,7 +82,7 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param \CriteriaElement|null $criteria {@link CriteriaElement}
+     * @param \Criteria|null $criteria {@link Criteria}
      *                                        conditions to be met
      *
      * @param bool                  $idAsKey
@@ -90,7 +90,7 @@ class MimetypeHandler extends BaseObjectHandler
      * @return array array of <a href='psi_element://Mimetype'>Mimetype</a> objects
      *                                        objects
      */
-    public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
+    public function &getObjects(\Criteria $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
     {
         $ret   = [];
         $limit = $start = 0;
@@ -196,13 +196,13 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param \CriteriaElement|null $criteria           {@link CriteriaElement}
+     * @param \Criteria|null $criteria           {@link Criteria}
      *                                                  to match
      * @param bool                  $join
      *
      * @return string string SQL query
      */
-    private function selectQuery(\CriteriaElement $criteria = null, $join = false)
+    private function selectQuery(\Criteria $criteria = null, $join = false)
     {
         //        if (!$join) {
         //            $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
@@ -223,7 +223,7 @@ class MimetypeHandler extends BaseObjectHandler
 
         $sql = \sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
 
-        if (null !== $criteria && $criteria instanceof \CriteriaElement ) {
+        if (null !== $criteria && $criteria instanceof \Criteria ) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();

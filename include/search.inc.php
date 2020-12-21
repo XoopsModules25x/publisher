@@ -22,11 +22,12 @@ use XoopsModules\Publisher\{Helper,
     Item,
     ItemHandler
 };
+/** @var ItemHandler $itemHandler */
 
 require_once __DIR__ . '/common.php';
 
 /**
- * @param string|array $queryArray
+ * @param array        $queryArray
  * @param              $andor
  * @param              $limit
  * @param              $offset
@@ -42,13 +43,12 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
 {
     $helper = Helper::getInstance();
     $ret    = $item = [];
-    if ('' == $queryArray || (is_array($queryArray) && 0 === count($queryArray))) {
+    if (is_array($queryArray) && 0 === count($queryArray)) {
         $hightlightKey = '';
     } else {
         $keywords      = implode('+', $queryArray);
         $hightlightKey = '&amp;keywords=' . $keywords;
     }
-    /** @var ItemHandler $itemHandler */
     $itemHandler      = $helper->getHandler('Item');
     $itemsObjs        = $itemHandler->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
     $withCategoryPath = $helper->getConfig('search_cat_path');

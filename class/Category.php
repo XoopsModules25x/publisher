@@ -22,9 +22,7 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{Form,
-    Helper,
-    Utility
+use XoopsModules\Publisher\{Form
 };
 
 /** @var Helper $this- >helper */

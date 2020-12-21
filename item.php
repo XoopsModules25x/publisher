@@ -29,6 +29,7 @@ use XoopsModules\Publisher\{Category,
 };
 
 /** @var Category $categoryObj */
+/** @var Item $itemObj */
 
 require_once __DIR__ . '/header.php';
 
@@ -42,11 +43,10 @@ if (0 == $itemId) {
 $helper = Helper::getInstance();
 
 // Creating the item object for the selected item
-/** @var Item $itemObj */
 $itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected item was not found, exit
-if (!$itemObj) {
+if (!empty($itemObj)) {
     redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
@@ -139,7 +139,7 @@ if ('previous_next' === $helper->getConfig('item_other_items_type')) {
 
 //CAREFUL!! with many items this will exhaust memory
 if ('all' === $helper->getConfig('item_other_items_type')) {
-    $itemsObj = $helper->getHandler('Item')->getAllPublished(0, 0, $categoryObj->categoryid(), $sort, $order, '', true, true);
+    $itemsObj = $helper->getHandler('Item')->getAllPublished(0, 0, $categoryObj->categoryId, $sort, $order, '', true, true);
     $items    = [];
     foreach ($itemsObj[''] as $theItemObj) {
         $theItem              = [];

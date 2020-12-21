@@ -74,9 +74,9 @@ class Ratings extends \XoopsObject
 
     /**
      * Get Values
-     * @param null $keys
-     * @param null $format
-     * @param null $maxDepth
+     * @param array|null  $keys
+     * @param string|null $format
+     * @param int|null    $maxDepth
      * @return array
      */
     public function getValuesRatings($keys = null, $format = null, $maxDepth = null)

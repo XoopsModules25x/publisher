@@ -827,7 +827,6 @@ class Item extends \XoopsObject
         // Highlighting searched words
         $highlight = true;
         if ($highlight && Request::getString('keywords', '', 'GET')) {
-            $myts     = \MyTextSanitizer::getInstance();
             $keywords = \htmlspecialchars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))));
             $fields   = ['title', 'maintext', 'summary'];
             foreach ($fields as $field) {

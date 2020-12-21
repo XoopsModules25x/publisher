@@ -61,7 +61,7 @@ function xoops_module_install_publisher(\XoopsModule $module)
 
     $helper       = Helper::getInstance();
     $utility      = new Utility();
-    $configurator = new Common\Configurator();
+    $configurator = new Configurator();
 
     // Load language files
     $helper->loadLanguage('admin');

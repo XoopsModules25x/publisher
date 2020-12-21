@@ -982,6 +982,7 @@ $modversion['config'][] = [
 ];
 
 // Get groups
+/** @var \XoopsMemberHandler $memberHandler */
 $memberHandler    = \xoops_getHandler('member');
 $xoopsGroups      = $memberHandler->getGroupList();
 $ratingbar_groups = [];

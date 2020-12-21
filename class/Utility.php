@@ -389,16 +389,19 @@ class Utility extends Common\SysUtility
         if ('datesub' === $sort) {
             return 'DESC';
         }
-
         if ('counter' === $sort) {
             return 'DESC';
-        } elseif ('weight' === $sort) {
+        }
+        if ('weight' === $sort) {
             return 'ASC';
-        } elseif ('votes' === $sort) {
+        }
+        if ('votes' === $sort) {
             return 'DESC';
-        } elseif ('rating' === $sort) {
+        }
+        if ('rating' === $sort) {
             return 'DESC';
-        } elseif ('comments' === $sort) {
+        }
+        if ('comments' === $sort) {
             return 'DESC';
         }
 

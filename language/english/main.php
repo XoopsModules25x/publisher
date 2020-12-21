@@ -145,7 +145,7 @@ define('_MD_PUBLISHER_NO_COMMENTS', 'No comments');
 \define('_MA_BLOG_FORM_SURE_DELETE', "Are you sure to delete: <b><span style='color : Red;'>%s </span></b>");
 \define('_MA_BLOG_FORM_SURE_RENEW', "Are you sure to update: <b><span style='color : Red;'>%s </span></b>");
 \define('_MA_BLOG_FORM_SURE_BROKEN', "Are you sure to notify as broken: <b><span style='color : Red;'>%s </span></b>");
-\define('_MA_BLOG_INVALID_PARAM', "Invalid parameter");
+\define('_MA_BLOG_INVALID_PARAM', 'Invalid parameter');
 // ---------------- Ratings ----------------
 \define('_MA_BLOG_RATING_CURRENT_1', 'Rating: %c / %m (%t rating totally)');
 \define('_MA_BLOG_RATING_CURRENT_X', 'Rating: %c / %m (%t ratings totally)');

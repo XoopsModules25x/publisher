@@ -35,8 +35,8 @@ require_once \dirname(__DIR__) . '/include/common.php';
  */
 class Item extends \XoopsObject
 {
-    const PAGEWRAP = '[pagewrap=';
-    const BODYTAG = '<body>';
+    public const PAGEWRAP = '[pagewrap=';
+    public const BODYTAG = '<body>';
     /**
      * @var Helper
      */

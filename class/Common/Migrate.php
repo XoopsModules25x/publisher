@@ -29,20 +29,18 @@ class Migrate extends \Xmf\Database\Migrate
 
     /**
      * Migrate constructor.
+     * @param Configurator $configurator
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function __construct()
+    public function __construct(Configurator $configurator = null)
     {
-        $class = __NAMESPACE__ . '\\' . 'Configurator';
-        if (!\class_exists($class)) {
-            throw new \RuntimeException("Class '$class' not found");
-        }
-        $configurator       = new $class();
-        $this->renameTables = $configurator->renameTables;
+        if (null !== $configurator) {
+            $this->renameTables = $configurator->renameTables;
 
-        $moduleDirName = \basename(\dirname(__DIR__, 2));
-        parent::__construct($moduleDirName);
+            $moduleDirName = \basename(\dirname(__DIR__, 2));
+            parent::__construct($moduleDirName);
+        }
     }
 
     /**

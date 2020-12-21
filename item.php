@@ -46,7 +46,7 @@ $helper = Helper::getInstance();
 $itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected item was not found, exit
-if (null !== $itemObj) {
+if (!$itemObj) {
     redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 

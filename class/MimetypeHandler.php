@@ -195,13 +195,12 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param \Criteria|null $criteria                  {@link Criteria}
-     *                                                  to match
-     * @param bool           $join
+     * @param \Criteria|\CriteriaCompo|null $criteria to match
+     * @param bool                          $join
      *
      * @return string string SQL query
      */
-    private function selectQuery(\Criteria $criteria = null, $join = false)
+    private function selectQuery($criteria = null, $join = false)
     {
         //        if (!$join) {
         //            $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));

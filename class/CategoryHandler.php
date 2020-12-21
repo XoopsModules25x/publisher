@@ -417,7 +417,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function publishedItemsCount($catId = 0)
     {
-        return $this->itemsCount($catId, $status = [Constants::PUBLISHER_STATUS_PUBLISHED]);
+        $status = [Constants::PUBLISHER_STATUS_PUBLISHED];
+        return $this->itemsCount($catId, $status);
     }
 
     /**

@@ -830,7 +830,8 @@ class Utility extends Common\SysUtility
         if (0 === $time) {
             $time = \time() + 3600 * 24 * 365;
         }
-        setcookie($name, $value, $time, '/');
+//        setcookie($name, $value, $time, '/');
+        setcookie($name, $value, $time, '/', ini_get('session.cookie_domain'), ini_get('session.cookie_secure'), ini_get('session.cookie_httponly'));
     }
 
     /**

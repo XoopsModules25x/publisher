@@ -36,6 +36,7 @@ require_once \dirname(__DIR__) . '/include/common.php';
 class Item extends \XoopsObject
 {
     const PAGEWRAP = '[pagewrap=';
+    const BODYTAG = '<body>';
     /**
      * @var Helper
      */
@@ -221,10 +222,10 @@ class Item extends \XoopsObject
             require $page;
             $content = \ob_get_clean();
             // Cleaning the content
-            $bodyStartPos = \mb_strpos($content, '<body>');
+            $bodyStartPos = \mb_strpos($content, self::BODYTAG);
             if ($bodyStartPos) {
                 $bodyEndPos = \mb_strpos($content, '</body>', $bodyStartPos);
-                $content    = \mb_substr($content, $bodyStartPos + \mb_strlen('<body>'), $bodyEndPos - \mb_strlen('<body>') - $bodyStartPos);
+                $content    = \mb_substr($content, $bodyStartPos + \mb_strlen(self::BODYTAG), $bodyEndPos - \mb_strlen(self::BODYTAG) - $bodyStartPos);
             }
             // Check if ML Hack is installed, and if yes, parse the $content in formatForML
             $myts = \MyTextSanitizer::getInstance();

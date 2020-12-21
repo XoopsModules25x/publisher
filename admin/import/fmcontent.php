@@ -104,13 +104,10 @@ if ('start' === $op) {
             $catObjs       = $categoryHdlr->getAll();
             $myObjTree     = new \XoopsObjectTree($catObjs, 'categoryid', 'parentid');
             $moduleDirName = basename(dirname(__DIR__));
-            $module        = \XoopsModule::getByDirname($moduleDirName);
-            if (Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
-                $catSelBox = $myObjTree->makeSelectElement('parent_category', 'name', '-', 0, true, 0, '', '')->render();
-                //$form->addElement($catSelBox);
-            } else {
-                $catSelBox = $myObjTree->makeSelBox('parent_category', 'name', '-', 0, true);
-            }
+            $module = \XoopsModule::getByDirname($moduleDirName);
+            $catSelBox = $myObjTree->makeSelectElement('parent_category', 'name', '-', 0, true, 0, '', '')->render();
+            //$form->addElement($catSelBox);
+
             $parent_cat_sel = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_PARENT_CATEGORY, $catSelBox);
             $parent_cat_sel->setDescription(_AM_PUBLISHER_IMPORT_PARENT_CATEGORY_DSC);
             $form->addElement($parent_cat_sel);

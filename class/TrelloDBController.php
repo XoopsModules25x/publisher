@@ -7,12 +7,12 @@ namespace XoopsModules\Publisher;
  */
 class TrelloDBController
 {
-    /** @var \XoopsMySQLDatabase $db */
+    /** @var \XoopsMySQLDatabase*/
     private $db;
 
     /**
      * TrelloDBController constructor.
-     * @param $xoopsDb
+     * @param \XoopsMySQLDatabase $xoopsDb
      */
     public function __construct($xoopsDb)
     {
@@ -20,7 +20,7 @@ class TrelloDBController
     }
 
     /**
-     * @param $query
+     * @param string $query
      * @return mixed
      */
     public function runBaseQuery($query)
@@ -37,9 +37,9 @@ class TrelloDBController
     }
 
     /**
-     * @param $query
-     * @param $paramType
-     * @param $paramValueArray
+     * @param string $query
+     * @param string $paramType
+     * @param array $paramValueArray
      * @return mixed
      */
     public function runQuery($query, $paramType, $paramValueArray)
@@ -58,15 +58,18 @@ class TrelloDBController
         if (!empty($resultset)) {
             return $resultset;
         }
+
+        return false;
     }
 
     /**
-     * @param $sql
-     * @param $paramType
-     * @param $paramValueArray
+     * @param string $sql
+     * @param string $paramType
+     * @param array $paramValueArray
      */
     public function bindQueryParams($sql, $paramType, $paramValueArray)
     {
+        $paramValueReference = [];
         $paramValueReference[] = &$paramType;
         for ($i = 0, $iMax = \count($paramValueArray); $i < $iMax; ++$i) {
             $paramValueReference[] = &$paramValueArray[$i];
@@ -81,9 +84,9 @@ class TrelloDBController
     }
 
     /**
-     * @param $query
-     * @param $paramType
-     * @param $paramValueArray
+     * @param string $query
+     * @param string $paramType
+     * @param array $paramValueArray
      */
     public function insert($query, $paramType, $paramValueArray)
     {
@@ -93,9 +96,9 @@ class TrelloDBController
     }
 
     /**
-     * @param $query
-     * @param $paramType
-     * @param $paramValueArray
+     * @param string $query
+     * @param string $paramType
+     * @param array $paramValueArray
      */
     public function update($query, $paramType, $paramValueArray)
     {

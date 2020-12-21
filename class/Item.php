@@ -41,7 +41,7 @@ class Item extends \XoopsObject
      * @var Helper
      */
     public $helper;
-    /** @var \XoopsMySQLDatabase $db */
+    /** @var \XoopsMySQLDatabase */
     public $db;
     public $groupsRead = [];
     /**

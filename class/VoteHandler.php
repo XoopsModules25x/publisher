@@ -88,6 +88,7 @@ class VoteHandler extends \XoopsPersistableObjectHandler
         $voted                 = false;
         $ip                    = getenv('REMOTE_ADDR');
         $current_rating        = 0;
+        $count                 = 0;
 
         if (Constants::RATING_5STARS === (int)$helper->getConfig('ratingbars')
             || Constants::RATING_10STARS === (int)$helper->getConfig('ratingbars')

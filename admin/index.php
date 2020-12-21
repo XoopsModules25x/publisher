@@ -23,8 +23,8 @@ declare(strict_types=1);
 use Xmf\Module\Admin;
 use Xmf\Request;
 use Xmf\Yaml;
-use XoopsModules\Publisher\{
-    Common,
+use XoopsModules\Publisher\{Common,
+    Common\TestdataButtons,
     Helper,
     Utility
 };
@@ -32,12 +32,12 @@ use XoopsModules\Publisher\{
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
-$helper = Helper::getInstance();
-$helper->loadLanguage('main');
-$helper->loadLanguage('admin');
 $adminObject  = Admin::getInstance();
 $utility      = new Utility();
 $configurator = new Common\Configurator();
+$helper       = Helper::getInstance();
+$helper->loadLanguage('main');
+$helper->loadLanguage('admin');
 
 /*
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
@@ -101,73 +101,24 @@ $adminObject->displayNavigation(basename(__FILE__));
 //    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
 //}
 
-//------------- Test Data ----------------------------
-
+//------------- Test Data Buttons ----------------------------
 if ($helper->getConfig('displaySampleButton')) {
-    $yamlFile            = dirname(__DIR__) . '/config/admin.yml';
-    $config              = loadAdminConfig($yamlFile);
-    $displaySampleButton = $config['displaySampleButton'];
-
-    if (1 == $displaySampleButton) {
-        xoops_loadLanguage('admin/modulesadmin', 'system');
-        require dirname(__DIR__) . '/testdata/index.php';
-
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), './../testdata/index.php?op=load', 'add');
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), './../testdata/index.php?op=save', 'add');
-        //    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), './../testdata/index.php?op=exportschema', 'add');
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'HIDE_SAMPLEDATA_BUTTONS'), '?op=hide_buttons', 'delete');
-    } else {
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLEDATA_BUTTONS'), '?op=show_buttons', 'add');
-        $displaySampleButton = $config['displaySampleButton'];
-    }
-    $adminObject->displayButton('left', '');
+    TestdataButtons::loadButtonConfig($adminObject);
+    $adminObject->displayButton('left', '');;
 }
-
-//------------- End Test Data ----------------------------
-
-$adminObject->displayIndex();
-
-/**
- * @param $yamlFile
- * @return array|bool
- */
-function loadAdminConfig($yamlFile)
-{
-    $config = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
-    return $config;
-}
-
-/**
- * @param $yamlFile
- */
-function hideButtons($yamlFile)
-{
-    $app['displaySampleButton'] = 0;
-    Yaml::save($app, $yamlFile);
-    redirect_header('index.php', 0, '');
-}
-
-/**
- * @param $yamlFile
- */
-function showButtons($yamlFile)
-{
-    $app['displaySampleButton'] = 1;
-    Yaml::save($app, $yamlFile);
-    redirect_header('index.php', 0, '');
-}
-
-$op = Request::getString('op', 0, 'GET');
-
+$op = \Xmf\Request::getString('op', 0, 'GET');
 switch ($op) {
     case 'hide_buttons':
-        hideButtons($yamlFile);
+        TestdataButtons::hideButtons();
         break;
     case 'show_buttons':
-        showButtons($yamlFile);
+        TestdataButtons::showButtons();
         break;
 }
+//------------- End Test Data Buttons ----------------------------
 
+$adminObject->displayIndex();
 echo $utility::getServerStats();
 
-require_once __DIR__ . '/admin_footer.php';
+//codeDump(__FILE__);
+require __DIR__ . '/admin_footer.php';

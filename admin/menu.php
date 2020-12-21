@@ -69,7 +69,6 @@ $adminmenu[] = [
     'icon'  => $pathIcon32 . '/extention.png',
 ];
 
-
 // Permissions
 $adminmenu[] = [
     'title' => _MI_PUBLISHER_ADMENU4,

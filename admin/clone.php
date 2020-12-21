@@ -19,8 +19,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Cloner,
+use XoopsModules\Publisher\{Cloner,
     Utility
 };
 

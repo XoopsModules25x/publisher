@@ -119,7 +119,7 @@ if ($block['is_custom']) {
 }
 
 //Submit buttons
-$buttonTray    = new \XoopsFormElementTray('', '');
+$buttonTray   = new \XoopsFormElementTray('', '');
 $submitButton = new \XoopsFormButton('', 'submitblock', _SUBMIT, 'submit');
 $buttonTray->addElement($submitButton);
 

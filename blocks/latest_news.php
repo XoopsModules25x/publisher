@@ -20,8 +20,7 @@ declare(strict_types=1);
  * @author          Mowaffak
  */
 
-use XoopsModules\Publisher\{
-    Constants,
+use XoopsModules\Publisher\{Constants,
     Helper,
     ItemHandler,
     Seo,

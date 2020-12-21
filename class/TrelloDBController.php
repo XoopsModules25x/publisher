@@ -26,7 +26,7 @@ class TrelloDBController
     public function runBaseQuery($query)
     {
         $resultset = [];
-        $result = $this->db->conn->query($query);
+        $result    = $this->db->conn->query($query);
         if ($result->num_rows > 0) {
             while (null !== ($row = $result->fetch_assoc())) {
                 $resultset[] = $row;

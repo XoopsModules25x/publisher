@@ -25,10 +25,8 @@ declare(strict_types=1);
 ######################################################################
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Item
+use XoopsModules\Publisher\{Item
 };
-
 
 require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_archive.tpl';
@@ -69,7 +67,7 @@ if ('' === $dateformat) {
 }
 
 $myts = \MyTextSanitizer::getInstance();
-$xoopsTpl->assign('xoops_pagetitle', $myts->htmlSpecialChars(_MD_PUBLISHER_ARCHIVES) . $pgtitle . ' - ' . $myts->htmlSpecialChars($GLOBALS['xoopsModule']->name()));
+$xoopsTpl->assign('xoops_pagetitle', htmlspecialchars(_MD_PUBLISHER_ARCHIVES) . $pgtitle . ' - ' . htmlspecialchars($GLOBALS['xoopsModule']->name()));
 
 $useroffset = '';
 if (is_object($GLOBALS['xoopsUser'])) {
@@ -112,11 +110,11 @@ if (!($itemsCount > 0)) {
             }
             //first month of the year reset
             if (0 == $lastmonth) {
-                $lastmonth                    = $thisMonth;
-                $months[$lastmonth]['string'] = $monthsArray[$lastmonth];
-                $months[$lastmonth]['number'] = $lastmonth;
+                $lastmonth                                = $thisMonth;
+                $months[$lastmonth]['string']             = $monthsArray[$lastmonth];
+                $months[$lastmonth]['number']             = $lastmonth;
                 $months[$lastmonth]['articlesMonthCount'] = 1;
-                $articlesThisMonth = 0;
+                $articlesThisMonth                        = 0;
             }
             //new year
             if ($lastyear != $thisYear) {
@@ -149,9 +147,9 @@ if (!($itemsCount > 0)) {
         }
     }
     //    unset($item);
-    $years[$i]['number'] = $thisYear;
+    $years[$i]['number']                      = $thisYear;
     $months[$lastmonth]['articlesMonthCount'] = $articlesThisMonth;
-    $years[$i]['months'] = $months;
+    $years[$i]['months']                      = $months;
 
     $years[$i]['articlesYearCount'] = $articlesThisYear;
 
@@ -173,7 +171,7 @@ if (0 != $fromyear && 0 != $frommonth) {
     // must adjust the selected time to server timestamp
     $timeoffset        = $useroffset - $GLOBALS['xoopsConfig']['server_TZ'];
     $timeoffsethours   = (int)$timeoffset;
-    $timeoffsetminutes = (($timeoffset - $timeoffsethours) * 60);
+    $timeoffsetminutes = (int)(($timeoffset - $timeoffsethours) * 60);
 
     $monthstart = mktime(0 - $timeoffsethours, 0 - $timeoffsetminutes, 0, $frommonth, 1, $fromyear);
     $monthend   = mktime(23 - $timeoffsethours, 59 - $timeoffsetminutes, 59, $frommonth + 1, 0, $fromyear);

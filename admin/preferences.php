@@ -20,8 +20,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Helper,
+use XoopsModules\Publisher\{Helper,
     Utility
 };
 
@@ -56,7 +55,7 @@ $configcat = Request::getString('configcat', '', 'GET');
 
 if ('showmod' === $op) {
     /** @var \XoopsConfigHandler $configHandler */
-$configHandler = xoops_getHandler('config');
+    $configHandler = xoops_getHandler('config');
 
     $config = $configHandler->getConfigs(new \Criteria('conf_modid', $modId));
     $count  = count($config);
@@ -117,9 +116,9 @@ $configHandler = xoops_getHandler('config');
                 $myts = \MyTextSanitizer::getInstance();
                 if ('array' === $config[$i]->getVar('conf_valuetype')) {
                     // this is exceptional.. only when value type is arrayneed a smarter way for this
-                    $ele = ('' != $config[$i]->getVar('conf_value')) ? new \XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), $myts->htmlSpecialChars(implode('|', $config[$i]->getConfValueForOutput())), 5, 50) : new \XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), '', 5, 50);
+                    $ele = ('' != $config[$i]->getVar('conf_value')) ? new \XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), htmlspecialchars(implode('|', $config[$i]->getConfValueForOutput())), 5, 50) : new \XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), '', 5, 50);
                 } else {
-                    $ele = new \XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), $myts->htmlSpecialChars($config[$i]->getConfValueForOutput()), 5, 50);
+                    $ele = new \XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), htmlspecialchars($config[$i]->getConfValueForOutput()), 5, 50);
                 }
                 break;
             case 'select':
@@ -163,20 +162,20 @@ $configHandler = xoops_getHandler('config');
                 break;
             case 'password':
                 $myts = \MyTextSanitizer::getInstance();
-                $ele  = new \XoopsFormPassword($title, $config[$i]->getVar('conf_name'), 50, 255, $myts->htmlSpecialChars($config[$i]->getConfValueForOutput()));
+                $ele  = new \XoopsFormPassword($title, $config[$i]->getVar('conf_name'), 50, 255, htmlspecialchars($config[$i]->getConfValueForOutput()));
                 break;
             case 'color':
                 $myts = \MyTextSanitizer::getInstance();
-                $ele  = new \XoopsFormColorPicker($title, $config[$i]->getVar('conf_name'), $myts->htmlSpecialChars($config[$i]->getConfValueForOutput()));
+                $ele  = new \XoopsFormColorPicker($title, $config[$i]->getVar('conf_name'), htmlspecialchars($config[$i]->getConfValueForOutput()));
                 break;
             case 'hidden':
                 $myts = \MyTextSanitizer::getInstance();
-                $ele  = new \XoopsFormHidden($config[$i]->getVar('conf_name'), $myts->htmlSpecialChars($config[$i]->getConfValueForOutput()));
+                $ele  = new \XoopsFormHidden($config[$i]->getVar('conf_name'), htmlspecialchars($config[$i]->getConfValueForOutput()));
                 break;
             case 'textbox':
             default:
                 $myts = \MyTextSanitizer::getInstance();
-                $ele  = new \XoopsFormText($title, $config[$i]->getVar('conf_name'), 50, 255, $myts->htmlSpecialChars($config[$i]->getConfValueForOutput()));
+                $ele  = new \XoopsFormText($title, $config[$i]->getVar('conf_name'), 50, 255, htmlspecialchars($config[$i]->getConfValueForOutput()));
                 break;
         }
         $hidden = new \XoopsFormHidden('conf_ids[]', $config[$i]->getVar('conf_id'));
@@ -208,9 +207,9 @@ if ('save' === $op) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header($module->getInfo('adminindex'), 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
     }
-    $count         = count($confIds);
+    $count = count($confIds);
     /** @var \XoopsConfigHandler $configHandler */
-$configHandler = xoops_getHandler('config');
+    $configHandler = xoops_getHandler('config');
     if ($count > 0) {
         for ($i = 0; $i < $count; ++$i) {
             $config   = $configHandler->getConfig($confIds[$i]);

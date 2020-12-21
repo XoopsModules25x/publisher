@@ -20,8 +20,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
+use XoopsModules\Publisher\{Category,
     Constants,
     GroupPermHandler,
     Helper,

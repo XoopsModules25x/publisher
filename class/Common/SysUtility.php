@@ -75,7 +75,7 @@ class SysUtility
             \preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, \PREG_SET_ORDER);
             $totalLength = mb_strlen($ending);
             $openTags    = [];
-            $truncate     = '';
+            $truncate    = '';
             foreach ($lines as $lineMatchings) {
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
                 if (!empty($lineMatchings[1])) {
@@ -101,7 +101,7 @@ class SysUtility
                 $content_length = mb_strlen(\preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $lineMatchings[2]));
                 if ($totalLength + $content_length > $length) {
                     // the number of characters which are left
-                    $left            = $length - $totalLength;
+                    $left           = $length - $totalLength;
                     $entitiesLength = 0;
                     // search for html entities
                     if (\preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $lineMatchings[2], $entities, \PREG_OFFSET_CAPTURE)) {
@@ -120,7 +120,7 @@ class SysUtility
                     // maximum lenght is reached, so get off the loop
                     break;
                 }
-                $truncate     .= $lineMatchings[2];
+                $truncate    .= $lineMatchings[2];
                 $totalLength += $content_length;
 
                 // if the maximum length is reached, get off the loop
@@ -206,5 +206,30 @@ class SysUtility
         $result = $xoopsDB->queryF("SHOW COLUMNS FROM   $table LIKE '$fieldname'");
 
         return ($xoopsDB->getRowsNum($result) > 0);
+    }
+
+    /**
+     * @param array|string $tableName
+     * @param int          $id_field
+     * @param int          $id
+     *
+     * @return mixed
+     */
+    public static function cloneRecord($tableName, $id_field, $id)
+    {
+        $new_id = false;
+        $table  = $GLOBALS['xoopsDB']->prefix($tableName);
+        // copy content of the record you wish to clone
+        $tempTable = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query("SELECT * FROM $table WHERE $id_field='$id' "), MYSQLI_ASSOC) or exit('Could not select record');
+        // set the auto-incremented id's value to blank.
+        unset($tempTable[$id_field]);
+        // insert cloned copy of the original  record
+        $result = $GLOBALS['xoopsDB']->queryF("INSERT INTO $table (" . implode(', ', array_keys($tempTable)) . ") VALUES ('" . implode("', '", array_values($tempTable)) . "')") or exit ($GLOBALS['xoopsDB']->error());
+
+        if ($result) {
+            // Return the new id
+            $new_id = $GLOBALS['xoopsDB']->getInsertId();
+        }
+        return $new_id;
     }
 }

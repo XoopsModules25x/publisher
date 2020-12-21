@@ -21,8 +21,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
+use XoopsModules\Publisher\{Category,
     Constants,
     File,
     Utility
@@ -128,11 +127,11 @@ if ('start' === $op) {
             // Categories to be imported
             $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('ams_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('nw_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
-            $result           = $GLOBALS['xoopsDB']->query($sql);
+            $result         = $GLOBALS['xoopsDB']->query($sql);
             $catCboxOptions = [];
 
             while (list($cid, $pid, $catTitle, $articleCount) = $GLOBALS['xoopsDB']->fetchRow($result)) {
-                $catTitle              = $myts->displayTarea($catTitle);
+                $catTitle             = $myts->displayTarea($catTitle);
                 $catCboxOptions[$cid] = "$catTitle ($articleCount)";
             }
 
@@ -170,13 +169,13 @@ if ('go' === $op) {
     Utility::openCollapsableBar('amsimportgo', 'amsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /** @var XoopsModuleHandler $moduleHandler */
     /** @var \XoopsModuleHandler $moduleHandler */
-$moduleHandler = xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('ams');
     $ams_module_id = $moduleObj->getVar('mid');
 
     /** @var XoopsGroupPermHandler $grouppermHandler */
     /** @var \XoopsGroupPermHandler $grouppermHandler */
-$grouppermHandler = xoops_getHandler('groupperm');
+    $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;
@@ -356,8 +355,8 @@ $grouppermHandler = xoops_getHandler('groupperm');
             }
             //--------------------------------------------
             // Linkes files
-            $sql               = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('ams_article_files') . ' WHERE storyid=' . $arrArticle['storyid'];
-            $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
+            $sql              = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('ams_article_files') . ' WHERE storyid=' . $arrArticle['storyid'];
+            $resultFiles      = $GLOBALS['xoopsDB']->query($sql);
             $allowedMimetypes = '';
             while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
                 $filename = $GLOBALS['xoops']->path('uploads/AMS/attached/' . $arrFile['downloadname']);

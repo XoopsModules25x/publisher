@@ -11,7 +11,6 @@ declare(strict_types=1);
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -21,8 +20,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Common,
+use XoopsModules\Publisher\{Common,
     Helper,
     Item,
     ItemHandler,
@@ -71,7 +69,7 @@ function publisher_tag_iteminfo(&$items)
     /** @var Item $item_obj */
     foreach (array_keys($items) as $cat_id) {
         foreach (array_keys($items[$cat_id]) as $itemId) {
-            $item_obj                 = $items_obj[$itemId];
+            $item_obj                = $items_obj[$itemId];
             $items[$cat_id][$itemId] = [
                 'title'   => $item_obj->getVar('title'),
                 'uid'     => $item_obj->getVar('uid'),

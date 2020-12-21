@@ -51,7 +51,7 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     if (method_exists($myts, 'formatForML')) {
         $GLOBALS['xoopsConfig']['sitename'] = $myts->formatForML($GLOBALS['xoopsConfig']['sitename']);
         $GLOBALS['xoopsConfig']['slogan']   = $myts->formatForML($GLOBALS['xoopsConfig']['slogan']);
-        $channelCategory                   = $myts->formatForML($channelCategory);
+        $channelCategory                    = $myts->formatForML($channelCategory);
     }
     $tpl->assign('channel_charset', _CHARSET);
     $tpl->assign('channel_title', htmlspecialchars($GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES | ENT_HTML5));

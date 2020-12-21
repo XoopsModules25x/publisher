@@ -83,7 +83,7 @@ switch ($op) {
         $itemObj->setVarsFromRequest();
 
         $oldStatus = $itemObj->status();
-        $newStatus  = Request::getInt('status', Constants::PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
+        $newStatus = Request::getInt('status', Constants::PUBLISHER_STATUS_PUBLISHED); //_PUBLISHER_STATUS_NOTSET;
 
         switch ($newStatus) {
             case Constants::PUBLISHER_STATUS_SUBMITTED:
@@ -96,7 +96,7 @@ switch ($op) {
             case Constants::PUBLISHER_STATUS_PUBLISHED:
                 if ((Constants::PUBLISHER_STATUS_NOTSET == $oldStatus) || (Constants::PUBLISHER_STATUS_SUBMITTED == $oldStatus)) {
                     $redirectMsg = _AM_PUBLISHER_SUBMITTED_APPROVE_SUCCESS;
-                    $notifToDo    = [Constants::PUBLISHER_NOTIFY_ITEM_PUBLISHED];
+                    $notifToDo   = [Constants::PUBLISHER_NOTIFY_ITEM_PUBLISHED];
                 } else {
                     $redirectMsg = _AM_PUBLISHER_PUBLISHED_MOD_SUCCESS;
                 }

@@ -18,8 +18,7 @@ declare(strict_types=1);
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher\{
-    BlockForm,
+use XoopsModules\Publisher\{BlockForm,
     CategoryHandler,
     Constants,
     Helper,

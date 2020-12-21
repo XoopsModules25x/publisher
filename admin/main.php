@@ -157,33 +157,33 @@ switch ($ordersel) {
 
 switch ($statussel) {
     case Constants::PUBLISHER_STATUS_ALL:
-        $selectedtxt0        = 'selected';
-        $caption             = _AM_PUBLISHER_ALL;
-        $cond                = '';
+        $selectedtxt0      = 'selected';
+        $caption           = _AM_PUBLISHER_ALL;
+        $cond              = '';
         $statusExplanation = _AM_PUBLISHER_ALL_EXP;
         break;
     case Constants::PUBLISHER_STATUS_SUBMITTED:
-        $selectedtxt1        = 'selected';
-        $caption             = _CO_PUBLISHER_SUBMITTED;
-        $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_SUBMITTED . ' ';
+        $selectedtxt1      = 'selected';
+        $caption           = _CO_PUBLISHER_SUBMITTED;
+        $cond              = ' WHERE status = ' . Constants::PUBLISHER_STATUS_SUBMITTED . ' ';
         $statusExplanation = _AM_PUBLISHER_SUBMITTED_EXP;
         break;
     case Constants::PUBLISHER_STATUS_PUBLISHED:
-        $selectedtxt2        = 'selected';
-        $caption             = _CO_PUBLISHER_PUBLISHED;
-        $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_PUBLISHED . ' ';
+        $selectedtxt2      = 'selected';
+        $caption           = _CO_PUBLISHER_PUBLISHED;
+        $cond              = ' WHERE status = ' . Constants::PUBLISHER_STATUS_PUBLISHED . ' ';
         $statusExplanation = _AM_PUBLISHER_PUBLISHED_EXP;
         break;
     case Constants::PUBLISHER_STATUS_OFFLINE:
-        $selectedtxt3        = 'selected';
-        $caption             = _CO_PUBLISHER_OFFLINE;
-        $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_OFFLINE . ' ';
+        $selectedtxt3      = 'selected';
+        $caption           = _CO_PUBLISHER_OFFLINE;
+        $cond              = ' WHERE status = ' . Constants::PUBLISHER_STATUS_OFFLINE . ' ';
         $statusExplanation = _AM_PUBLISHER_OFFLINE_EXP;
         break;
     case Constants::PUBLISHER_STATUS_REJECTED:
-        $selectedtxt4        = 'selected';
-        $caption             = _CO_PUBLISHER_REJECTED;
-        $cond                = ' WHERE status = ' . Constants::PUBLISHER_STATUS_REJECTED . ' ';
+        $selectedtxt4      = 'selected';
+        $caption           = _CO_PUBLISHER_REJECTED;
+        $cond              = ' WHERE status = ' . Constants::PUBLISHER_STATUS_REJECTED . ' ';
         $statusExplanation = _AM_PUBLISHER_REJECTED_ITEM_EXP;
         break;
 }

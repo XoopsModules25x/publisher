@@ -19,8 +19,7 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    Helper,
+use XoopsModules\Publisher\{Helper,
     Seo
 };
 

@@ -9,15 +9,14 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Utility
+use XoopsModules\Publisher\{Utility
 };
 
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/header.php';
 
-$itemId       = Request::getInt('itemid', 0, 'GET');
+$itemId     = Request::getInt('itemid', 0, 'GET');
 $itemPageId = Request::getInt('page', -1, 'GET');
 if (0 == $itemId) {
     redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);

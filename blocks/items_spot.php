@@ -19,8 +19,7 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    BlockForm,
+use XoopsModules\Publisher\{BlockForm,
     Category,
     CategoryHandler,
     Helper,
@@ -201,7 +200,7 @@ function publisher_items_spot_edit($options)
     $autoEle  = new \XoopsFormRadioYN(_MB_PUBLISHER_AUTO_LAST_ITEMS, 'options[0]', $options[0]);
     $countEle = new \XoopsFormText(_MB_PUBLISHER_LAST_ITEMS_COUNT, 'options[1]', 2, 255, $options[1]);
     $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[2], 0, true, 'options[2]', false));
-    $helper = Helper::getInstance();
+    $helper   = Helper::getInstance();
     /** @var ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     $criteria    = new \CriteriaCompo();

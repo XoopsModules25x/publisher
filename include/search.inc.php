@@ -18,8 +18,7 @@ declare(strict_types=1);
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher\{
-    Helper,
+use XoopsModules\Publisher\{Helper,
     Item,
     ItemHandler
 };

@@ -19,8 +19,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Helper,
+use XoopsModules\Publisher\{Helper,
     Resizer,
     Utility
 };
@@ -30,7 +29,7 @@ require dirname(__DIR__, 3) . '/mainfile.php';
 require_once __DIR__ . '/common.php';
 
 $GLOBALS['xoopsLogger']->activated = false;
-$helper = Helper::getInstance();
+$helper                            = Helper::getInstance();
 $helper->loadLanguage('common');
 
 if (!is_object($GLOBALS['xoopsUser'])) {
@@ -39,7 +38,7 @@ if (!is_object($GLOBALS['xoopsUser'])) {
     $group = $GLOBALS['xoopsUser']->getGroups();
 }
 
-$filename       = basename($_FILES['publisher_upload_file']['name']);
+$filename      = basename($_FILES['publisher_upload_file']['name']);
 $imageNiceName = Request::getString('image_nicename', '', 'POST');
 if ('' == $imageNiceName || _CO_PUBLISHER_IMAGE_NICENAME == $imageNiceName) {
     $imageNiceName = $filename;

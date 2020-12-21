@@ -66,14 +66,14 @@ class Resizer
                     $newWidth = $width;
                 } else {
                     $newWidth  = $this->maxWidth;
-                    $divisor    = $width / $newWidth;
+                    $divisor   = $width / $newWidth;
                     $newHeight = \floor($height / $divisor);
                 }
             } elseif ($height < $this->maxHeight) {
                 $newHeight = $height;
             } else {
                 $newHeight = $this->maxHeight;
-                $divisor    = $height / $newHeight;
+                $divisor   = $height / $newHeight;
                 $newWidth  = \floor($width / $divisor);
             }
 
@@ -138,19 +138,19 @@ class Resizer
         [$original_w, $original_h] = \getimagesize($this->sourceFile);
 
         // RESIZE IMAGE AND PRESERVE PROPORTIONS
-        $max_width_resize  = $this->maxWidth;
-        $maxHeightResize = $this->maxHeight;
+        $max_width_resize = $this->maxWidth;
+        $maxHeightResize  = $this->maxHeight;
         if ($original_w > $original_h) {
             $max_height_ratio = $this->maxHeight / $original_h;
             $max_width_resize = (int)\round($original_w * $max_height_ratio);
         } else {
-            $max_width_ratio   = $this->maxWidth / $original_w;
+            $max_width_ratio = $this->maxWidth / $original_w;
             $maxHeightResize = (int)\round($original_h * $max_width_ratio);
         }
         if ($max_width_resize < $this->maxWidth) {
-            $max_height_ratio  = $this->maxWidth / $max_width_resize;
-            $maxHeightResize = (int)\round($this->maxHeight * $max_height_ratio);
-            $max_width_resize  = $this->maxWidth;
+            $max_height_ratio = $this->maxWidth / $max_width_resize;
+            $maxHeightResize  = (int)\round($this->maxHeight * $max_height_ratio);
+            $max_width_resize = $this->maxWidth;
         }
 
         // CREATE THE PROPORTIONAL IMAGE RESOURCE

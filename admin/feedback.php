@@ -46,7 +46,7 @@ switch ($op) {
         $feedback->name  = $GLOBALS['xoopsUser']->getVar('name');
         $feedback->email = $GLOBALS['xoopsUser']->getVar('email');
         $feedback->site  = XOOPS_URL;
-    $form = $feedback->getFormFeedback();
+        $form            = $feedback->getFormFeedback();
         echo $form->display();
         break;
     case 'send':
@@ -59,7 +59,7 @@ switch ($op) {
 
         $your_name  = Request::getString('your_name', '');
         $your_site  = Request::getString('your_site', '');
-        $yourMail  = Request::getString('your_mail', '');
+        $yourMail   = Request::getString('your_mail', '');
         $fb_type    = Request::getString('fb_type', '');
         $fb_content = Request::getText('fb_content', '');
         $fb_content = str_replace(["\r\n", "\n", "\r"], '<br>', $fb_content); //clean line break from dhtmltextarea

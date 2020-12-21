@@ -51,9 +51,9 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      *
      * @var string
      */
-    protected $idfield = 'id';
-    public $helper           = null;
-    public $publisherIsAdmin = null;
+    protected $idfield          = 'id';
+    public    $helper           = null;
+    public    $publisherIsAdmin = null;
 
     /**
      * @param \XoopsDatabase|null $db
@@ -84,7 +84,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve an object from the database, based on. use in child classes
      *
-     * @param int|null $id ID
+     * @param int|null   $id ID
      *
      * @param array|null $fields
      * @return mixed object if id exists, false if not
@@ -218,7 +218,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * count objects matching a criteria
      *
-     * @param \CriteriaElement|null $criteria           {@link CriteriaElement}                                                  to match
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement}                                                  to match
      *
      * @return int count of objects
      */

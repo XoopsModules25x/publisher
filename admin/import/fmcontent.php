@@ -22,8 +22,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
+use XoopsModules\Publisher\{Category,
     Constants,
     Item,
     Utility
@@ -46,7 +45,7 @@ if ('start' === $op) {
     Utility::openCollapsableBar('fmimport', 'fmimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
     /** @var XoopsModuleHandler $moduleHandler */
     /** @var \XoopsModuleHandler $moduleHandler */
-$moduleHandler = xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('fmcontent');
     $fm_module_id  = $moduleObj->getVar('mid');
 
@@ -75,11 +74,11 @@ $moduleHandler = xoops_getHandler('module');
                    . $GLOBALS['xoopsDB']->prefix('fmcontent_content')
                    . " AS art ON ((cat.topic_id=art.content_topic) AND (cat.topic_modid=art.content_modid)) WHERE cat.topic_modid={$fm_module_id} GROUP BY art.content_topic";
 
-            $result           = $GLOBALS['xoopsDB']->query($sql);
+            $result         = $GLOBALS['xoopsDB']->query($sql);
             $catCboxOptions = [];
 
             while (list($cid, $pid, $catTitle, $articleCount) = $GLOBALS['xoopsDB']->fetchRow($result)) {
-                $catTitle              = $myts->displayTarea($catTitle);
+                $catTitle             = $myts->displayTarea($catTitle);
                 $catCboxOptions[$cid] = "{$catTitle} ($articleCount)";
             }
             // now get articles in the top level category (content_topic=0)
@@ -144,12 +143,12 @@ if ('go' === $op) {
     Utility::openCollapsableBar('fmimportgo', 'fmimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
 
     /** @var \XoopsModuleHandler $moduleHandler */
-$moduleHandler = xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('fmcontent');
     $fm_module_id  = $moduleObj->getVar('mid');
     /** @var XoopsGroupPermHandler $grouppermHandler */
     /** @var \XoopsGroupPermHandler $grouppermHandler */
-$grouppermHandler = xoops_getHandler('groupperm');
+    $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
     $cnt_imported_articles = 0;

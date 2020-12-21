@@ -23,8 +23,7 @@ namespace XoopsModules\Publisher\Form;
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher\{
-    Constants,
+use XoopsModules\Publisher\{Constants,
     Helper
 };
 
@@ -53,7 +52,7 @@ class FileForm extends \XoopsThemeForm
      */
     public function __construct(&$target)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper       = Helper::getInstance();
         $this->targetObject = &$target;
 

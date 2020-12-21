@@ -35,12 +35,12 @@ class MimetypeHandler extends BaseObjectHandler
 {
     /**
      * Constructor
-     * @param \XoopsDatabase|null                 $db
-     * @param Helper|null $helper
+     * @param \XoopsDatabase|null $db
+     * @param Helper|null         $helper
      */
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         if (null === $helper) {
             $this->helper = Helper::getInstance();
         } else {
@@ -55,7 +55,7 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * retrieve a mimetype object from the database
      *
-     * @param int|null $id ID of mimetype
+     * @param int|null   $id ID of mimetype
      *
      * @param array|null $fields
      * @return bool|Mimetype
@@ -162,7 +162,7 @@ class MimetypeHandler extends BaseObjectHandler
      */
     public function checkMimeTypes($postField)
     {
-        $ret               = false;
+        $ret              = false;
         $allowedMimetypes = $this->getArrayByType();
         if (empty($allowedMimetypes)) {
             return $ret;
@@ -223,7 +223,7 @@ class MimetypeHandler extends BaseObjectHandler
 
         $sql = \sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
 
-        if (null !== $criteria && $criteria instanceof \CriteriaCompo) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();

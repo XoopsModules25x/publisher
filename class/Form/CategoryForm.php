@@ -24,8 +24,7 @@ namespace XoopsModules\Publisher\Form;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
+use XoopsModules\Publisher\{Category,
     Helper,
     Utility
 };
@@ -46,15 +45,15 @@ class CategoryForm extends \XoopsThemeForm
     public $helper;
     public $targetObject;
     public $subCatsCount = 4;
-    public $userGroups = [];
+    public $userGroups   = [];
 
     /**
      * @param Category $target
-     * @param int                              $subCatsCount
+     * @param int      $subCatsCount
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper = Helper::getInstance();
 
         $this->targetObject = &$target;
@@ -144,7 +143,7 @@ class CategoryForm extends \XoopsThemeForm
 
         // IMAGE UPLOAD
         $maxSize = 5000000;
-        $fileBox  = new \XoopsFormFile(\_AM_PUBLISHER_IMAGE_UPLOAD, 'image_file', $maxSize);
+        $fileBox = new \XoopsFormFile(\_AM_PUBLISHER_IMAGE_UPLOAD, 'image_file', $maxSize);
         $fileBox->setExtra("size ='45'");
         $fileBox->setDescription(\_AM_PUBLISHER_IMAGE_UPLOAD_DSC);
         $this->addElement($fileBox);

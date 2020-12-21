@@ -22,8 +22,7 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    Form
+use XoopsModules\Publisher\{Form
 };
 
 require_once \dirname(__DIR__) . '/include/common.php';
@@ -45,7 +44,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
 
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         if (null === $helper) {
             $this->helper = Helper::getInstance();
         } else {
@@ -199,17 +198,19 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('parentid', (int)$parentid));
         }
         if (!$this->publisherIsAdmin) {
+            $criteria2 = new \CriteriaCompo();
             /** @var PermissionHandler $permissionHandler */
             $permissionHandler = $this->helper->getHandler('Permission');
             $categoriesGranted = $permissionHandler->getGrantedItems('category_read');
             if (\count($categoriesGranted) > 0) {
-                $criteria->add(new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN'));
+                $criteria2->add(new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN'));
             } else {
                 return $ret;
             }
             if (\is_object($GLOBALS['xoopsUser'])) {
-                $criteria->add(new \Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
+                $criteria2->add(new \Criteria('moderator', $GLOBALS['xoopsUser']->getVar('uid')), 'OR');
             }
+            $criteria->add($criteria2);
         }
         $criteria->setStart($start);
         $criteria->setLimit($limit);

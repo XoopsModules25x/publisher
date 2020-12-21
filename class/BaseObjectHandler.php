@@ -289,12 +289,12 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      *
      * @param string                $fieldname
      * @param string                $fieldvalue
-     * @param \CriteriaElement|null $criteria {@link \CriteriaElement}
+     * @param \Criteria|\CriteriaCompo|null $criteria
      *
      * @param bool                  $force
      * @return bool FALSE if update failed
      */
-    public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null, $force = false) //updateAll($fieldname, $fieldvalue, $criteria = null)
+    public function updateAll($fieldname, $fieldvalue, $criteria = null, $force = false) //updateAll($fieldname, $fieldvalue, $criteria = null)
     {
         $setClause = \is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql       = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;

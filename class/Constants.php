@@ -75,8 +75,8 @@ interface Constants
     // Image categories
     public const PUBLISHER_IMGCAT_ALL = 'all';
     // Constants for tables
-    const TABLE_CATEGORY = 0;
-    const TABLE_ARTICLE = 1;
+    public const TABLE_CATEGORY = 0;
+    public const TABLE_ARTICLE = 1;
     // Constants for status
     public const STATUS_NONE = 0;
     public const STATUS_OFFLINE = 1;

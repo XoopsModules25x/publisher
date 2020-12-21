@@ -24,8 +24,7 @@ namespace XoopsModules\Publisher\Form;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Constants,
+use XoopsModules\Publisher\{Constants,
     Form,
     FormDateTime,
     Helper,
@@ -53,7 +52,7 @@ class ItemForm extends ThemeTabForm
         \_CO_PUBLISHER_TAB_FILES  => 'filesTab',
         \_CO_PUBLISHER_TAB_OTHERS => 'othersTab',
     ];
-    public $mainTab = [
+    public $mainTab   = [
         Constants::PUBLISHER_SUBTITLE,
         Constants::PUBLISHER_ITEM_SHORT_URL,
         Constants::PUBLISHER_ITEM_TAG,
@@ -73,7 +72,7 @@ class ItemForm extends ThemeTabForm
     public $imagesTab = [
         Constants::PUBLISHER_IMAGE_ITEM,
     ];
-    public $filesTab = [
+    public $filesTab  = [
         Constants::PUBLISHER_ITEM_UPLOAD_FILE,
     ];
     public $othersTab = [
@@ -136,7 +135,7 @@ class ItemForm extends ThemeTabForm
      */
     public function createElements($obj)
     {
-        $helper = Helper::getInstance();
+        $helper     = Helper::getInstance();
         $timeoffset = null;
 
         $allowedEditors = Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
@@ -354,7 +353,7 @@ class ItemForm extends ThemeTabForm
             }
 
             $dateExpireYesNo     = new \XoopsFormRadioYN('', 'use_expire_yn', $dateexpire_opt);
-            $dateexpire = (int)formatTimestamp($dateexpire, 'U', $timeoffset); //set to user timezone
+            $dateexpire          = (int)\formatTimestamp($dateexpire, 'U', $timeoffset); //set to user timezone
             $dateexpire_datetime = new \XoopsFormDateTime('', 'dateexpire', $size = 15, $dateexpire, true);
             if (0 == $dateexpire_opt) {
                 $dateexpire_datetime->setExtra('disabled="disabled"');
@@ -377,7 +376,7 @@ class ItemForm extends ThemeTabForm
             $this->startTab(\_CO_PUBLISHER_TAB_IMAGES);
         }
 
-        // IMAGE
+        // IMAGE ---------------------------------------
         if ($this->isGranted(Constants::PUBLISHER_IMAGE_ITEM)) {
             $objimages      = $obj->getImages();
             $mainarray      = \is_object($objimages['main']) ? [$objimages['main']] : [];
@@ -540,6 +539,7 @@ $publisher(document).ready(function () {
             $this->addElement($image_preview);
         }
 
+        // FILES -----------------------------------
         if ($this->hasTab(\_CO_PUBLISHER_TAB_FILES)) {
             $this->startTab(\_CO_PUBLISHER_TAB_FILES);
         }
@@ -607,6 +607,7 @@ $publisher(document).ready(function () {
             }
         }
 
+        // OTHERS -----------------------------------
         if ($this->hasTab(\_CO_PUBLISHER_TAB_OTHERS)) {
             $this->startTab(\_CO_PUBLISHER_TAB_OTHERS);
         }

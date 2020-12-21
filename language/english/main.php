@@ -101,12 +101,6 @@ define('_MD_PUBLISHER_TOTALHITS', 'hits');
 define('_MD_PUBLISHER_ONECOMMENT', '1 comment');
 define('_MD_PUBLISHER_NO_COMMENTS', 'No comments');
 
-
-
-
-
-
-
 // ---------------- Contents ----------------
 // Category
 \define('_MA_BLOG_CATEGORY', 'Category');

@@ -35,7 +35,7 @@
                 <td><{$item.published}></td>
                 <td>
                 <{if $displaymainimage}>
-                <a href="<{$item.itemurl}>"><img src="<{$item.image}>" alt="<{$item.cleantitle}>" title="<{$item.cleantitle}>" align="left"></a>
+                <a href="<{$item.itemurl}>"><img class="img-responsive" src="<{$item.image}>" alt="<{$item.cleantitle}>" title="<{$item.cleantitle}>" align="left"></a>
                 <{/if}>
                 &nbsp;&nbsp;<{$item.link}>
                 <{if $displaysummary}>

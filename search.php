@@ -20,24 +20,30 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Constants;
-use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\{CategoryHandler,
+    Constants,
+    Helper
+};
+
+/** @var CategoryHandler $categoryHandler */
+/** @var Helper $helper
+ * {@internal $helper defined in ./include/common.php }}
+ */
 
 require_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
 //Checking general permissions
 /** @var \XoopsConfigHandler $configHandler */
-$configHandler = xoops_getHandler('config');
+$configHandler     = xoops_getHandler('config');
 $xoopsConfigSearch = $configHandler->getConfigsByCat(XOOPS_CONF_SEARCH);
 if (empty($xoopsConfigSearch['enable_search'])) {
     redirect_header(PUBLISHER_URL . '/index.php', 2, _NOPERM);
 }
 
-$helper           = Helper::getInstance();
+//$helper           = Helper::getInstance();
 $groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $grouppermHandler = $helper->getHandler('GroupPerm');
-$moduleId        = $helper->getModule()->mid();
+$moduleId         = $helper->getModule()->mid();
 
 //Checking permissions
 if (!$helper->getConfig('perm_search') || !$grouppermHandler->checkRight('global', Constants::PUBLISHER_SEARCH, $groups, $moduleId)) {
@@ -45,7 +51,7 @@ if (!$helper->getConfig('perm_search') || !$grouppermHandler->checkRight('global
 }
 
 $GLOBALS['xoopsConfig']['module_cache'][$moduleId] = 0;
-$GLOBALS['xoopsOption']['template_main']            = 'publisher_search.tpl';
+$GLOBALS['xoopsOption']['template_main']           = 'publisher_search.tpl';
 require_once $GLOBALS['xoops']->path('header.php');
 
 $module_info_search = $helper->getModule()->getInfo('search');
@@ -166,12 +172,12 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     }
 
     unset($results);
-    $search_info = _SR_KEYWORDS . ': ' . $myts->htmlSpecialChars($term);
+    $search_info = _SR_KEYWORDS . ': ' . htmlspecialchars($term);
     if ($uname_required) {
         if ($search_info) {
             $search_info .= '<br>';
         }
-        $search_info .= _CO_PUBLISHER_UID . ': ' . $myts->htmlSpecialChars($search_username);
+        $search_info .= _CO_PUBLISHER_UID . ': ' . htmlspecialchars($search_username);
     }
     $xoopsTpl->assign('search_info', $search_info);
 }
@@ -196,7 +202,6 @@ $typeSelect .= '>' . _SR_EXACT . '</option>';
 $typeSelect .= '</select>';
 
 /* category */
-/** @var Publisher\CategoryHandler $categoryHandler */
 $categoryHandler = $helper->getHandler('Category');
 $categories      = $categoryHandler->getCategoriesForSearch();
 

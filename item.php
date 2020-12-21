@@ -20,13 +20,14 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
+use XoopsModules\Publisher\{Category,
+    Constants,
     Helper,
     Item,
     Metagen,
     Utility
 };
+
 /** @var Category $categoryObj */
 
 require_once __DIR__ . '/header.php';
@@ -58,7 +59,8 @@ require_once $GLOBALS['xoops']->path('header.php');
 //
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
-//$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
+$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
+$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/rating.css');
 
 require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
@@ -289,13 +291,78 @@ if ((0 != $helper->getConfig('com_rule')) && ((1 == $itemObj->cancomment()) || !
     $xoopsTpl->_tpl_vars['commentsnav'] = str_replace("self.location.href='", "self.location.href='" . PUBLISHER_URL . '/', $xoopsTpl->_tpl_vars['commentsnav']);
 }
 
-// Include support for AJAX rating
+// Original AJAX rating
 if ($helper->getConfig('perm_rating')) {
     $xoopsTpl->assign('rating_enabled', true);
     $item['ratingbar'] = Utility::ratingBar($itemId);
     $xoTheme->addScript(PUBLISHER_URL . '/assets/js/behavior.js');
     $xoTheme->addScript(PUBLISHER_URL . '/assets/js/rating.js');
+    //}
+
+    //=============== START VOTE RATING ======================================
+
+    $start = Request::getInt('start', 0);
+    $limit = Request::getInt('limit', $helper->getConfig('userpager'));
+    $id    = Request::getInt('itemid', 0, 'GET');
+
+    $ratingbars = (int)$helper->getConfig('ratingbars');
+    if ($ratingbars > 0) {
+        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/rating.css', null);
+        $GLOBALS['xoopsTpl']->assign('rating', $ratingbars);
+        $GLOBALS['xoopsTpl']->assign('rating_5stars', (Constants::RATING_5STARS === $ratingbars));
+        $GLOBALS['xoopsTpl']->assign('rating_10stars', (Constants::RATING_10STARS === $ratingbars));
+        $GLOBALS['xoopsTpl']->assign('rating_10num', (Constants::RATING_10NUM === $ratingbars));
+        $GLOBALS['xoopsTpl']->assign('rating_likes', (Constants::RATING_LIKES === $ratingbars));
+        $GLOBALS['xoopsTpl']->assign('rating_reaction', (Constants::RATING_REACTION === $ratingbars));
+        $GLOBALS['xoopsTpl']->assign('itemid', 'itemid');
+        $GLOBALS['xoopsTpl']->assign('blog_icon_url_16', PUBLISHER_URL . '/' . $modPathIcon16);
+    }
+    $crArticle = new \CriteriaCompo();
+    if ($id > 0) {
+        $crArticle->add(new \Criteria('itemid', $id));
+    }
+
+    /** @var ItemHandler $itemHandler */
+    /** @var VoteHandler $voteHandler */
+    $itemHandler = $helper->getHandler('Item');
+    $voteHandler = $helper->getHandler('Vote');
+
+    $articleCount = $itemHandler->getCount($crArticle);
+    $GLOBALS['xoopsTpl']->assign('articleCount', $articleCount);
+    $crArticle->setStart($start);
+    $crArticle->setLimit($limit);
+    $articleAll = $itemHandler->getAll($crArticle);
+    if ($articleCount > 0) {
+        $article = [];
+        // Get All Article
+        foreach (\array_keys($articleAll) as $i) {
+            $article[$i]           = $articleAll[$i]->toArraySimple();
+            $keywords[$i]          = $articleAll[$i]->getVar('title');
+            $rating                = $voteHandler->getItemRating($articleAll[$i]->getVar('itemid'), Constants::TABLE_ARTICLE);
+            $article[$i]['rating'] = $rating;
+
+            $item['rating'] = $rating;
+        }
+        //    $GLOBALS['xoopsTpl']->assign('article', $article);
+        $xoopsTpl->assign('article', $article);
+        $xoopsTpl->assign('item2', $item);
+        $xoopsTpl->assign('rating', $rating);
+        unset($article);
+    }
+
+    // Display Navigation
+    if ($articleCount > $limit) {
+        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+        $pagenav = new \XoopsPageNav($articleCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
+        $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
+    }
+    $GLOBALS['xoopsTpl']->assign('type', $helper->getConfig('table_type'));
+    $GLOBALS['xoopsTpl']->assign('divideby', $helper->getConfig('divideby'));
+    $GLOBALS['xoopsTpl']->assign('numb_col', $helper->getConfig('numb_col'));
 }
 
+//=================== END VOTE RATING =========================================
+
+//$xoopsTpl->assign('article', $article);
 $xoopsTpl->assign('item', $item);
 require_once XOOPS_ROOT_PATH . '/footer.php';

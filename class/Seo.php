@@ -51,7 +51,7 @@ class Seo
 
         // Transformation de la chaine en minuscule
         // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus
-        $title = \rawurlencode(mb_strtolower($title));
+        $title = \rawurlencode(\mb_strtolower($title));
 
         // Transformation des ponctuations
         $pattern    = [
@@ -105,8 +105,8 @@ class Seo
     }
 
     /**
-     * @param        $op
-     * @param        $id
+     * @param              $op
+     * @param              $id
      * @param string|array $shortUrl
      *
      * @return string

@@ -20,12 +20,13 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Constants,
+use XoopsModules\Publisher\{Constants,
     Helper,
     Metagen,
     Utility
 };
+
+/** @var Helper $helper */
 
 require_once __DIR__ . '/header.php';
 
@@ -35,7 +36,6 @@ $catstart = Request::getInt('catstart', 0, 'GET');
 // At which record shall we start for the ITEM
 $start = Request::getInt('start', 0, 'GET');
 
-/** @var Helper $helper */
 // Number of categories at the top level
 $totalCategories = $helper->getHandler('Category')->getCategoriesCount(0);
 
@@ -48,7 +48,6 @@ $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->
 require_once $GLOBALS['xoops']->path('header.php');
 require_once $helper->path('footer.php');
 /** @var \XoopsGroupPermHandler $grouppermHandler */
-///** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
 
 // Creating the top categories objects

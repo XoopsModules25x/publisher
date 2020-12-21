@@ -19,8 +19,7 @@ declare(strict_types=1);
  * @author          Bandit-x
  */
 
-use XoopsModules\Publisher\{
-    BlockForm,
+use XoopsModules\Publisher\{BlockForm,
     CategoryHandler,
     Helper,
     ItemHandler,
@@ -46,7 +45,7 @@ function publisher_items_columns_show($options)
     $itemHandler = $helper->getHandler('Item');
     //Column Settings
     $optNumColumns  = isset($options[0]) ? (int)$options[0] : '2';
-    $selCategories  = isset($options[1]) ? array_map('intval', explode(',', $options[1])) : [];
+    $selCategories  = isset($options[1]) ? array_map('\intval', explode(',', $options[1])) : [];
     $optCatItems    = (int)$options[2];
     $optCatTruncate = isset($options[3]) ? (int)$options[3] : '0';
 

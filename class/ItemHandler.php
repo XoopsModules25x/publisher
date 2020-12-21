@@ -44,7 +44,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
 
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         if (null === $helper) {
             $this->helper = Helper::getInstance();
         } else {
@@ -112,7 +112,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             }
             // Auto create short_url if empty
             if (!$item->short_url()) {
-                $item->setVar('short_url', mb_substr(Metagen::generateSeoTitle($item->getVar('title', 'n'), false), 0, 254));
+                $item->setVar('short_url', \mb_substr(Metagen::generateSeoTitle($item->getVar('title', 'n'), false), 0, 254));
             }
         }
         if (!parent::insert($item, $force)) {
@@ -223,14 +223,14 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      *
      * @param \CriteriaElement|null $criteria           {@link CriteriaElement}
      *                                                  to match
-     * @param string|null                $notNullFields
+     * @param string|null           $notNullFields
      *
      * @return int count of items
      */
     public function getCount(\CriteriaElement $criteria = null, $notNullFields = null)
     {
-        $notNullFields = (null !== $notNullFields) ?: '';
-        $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
+        $notNullFields = $notNullFields ?? null;
+        $sql           = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
@@ -311,7 +311,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getItemsCount($categoryId = -1, $status = '', $notNullFields = null)
     {
-        $notNullFields = (null !== $notNullFields) ?: '';
+        $notNullFields       = $notNullFields ?? null;
         $criteriaPermissions = null;
         if (!$this->publisherIsAdmin) {
             $criteriaPermissions = new \CriteriaCompo();
@@ -356,15 +356,15 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int    $limit
-     * @param int    $start
-     * @param int    $categoryId
-     * @param string $sort
-     * @param string $order
+     * @param int         $limit
+     * @param int         $start
+     * @param int         $categoryId
+     * @param string      $sort
+     * @param string      $order
      * @param string|null $notNullFields
-     * @param bool   $asObject
-     * @param string $idKey
-     * @param bool   $excludeExpired
+     * @param bool        $asObject
+     * @param string      $idKey
+     * @param bool        $excludeExpired
      *
      * @return array
      */
@@ -447,14 +447,14 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int    $limit
-     * @param int    $start
-     * @param int    $categoryId
-     * @param string $sort
-     * @param string $order
+     * @param int         $limit
+     * @param int         $start
+     * @param int         $categoryId
+     * @param string      $sort
+     * @param string      $order
      * @param string|null $notNullFields
-     * @param bool   $asObject
-     * @param string $idKey
+     * @param bool        $asObject
+     * @param string      $idKey
      *
      * @return array
      */
@@ -514,7 +514,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getItems($limit = 0, $start = 0, $status = '', $categoryId = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $otherCriteria = null, $idKey = 'none')
     {
-        $notNullFields = (null !== $notNullFields) ?: '';
+        $notNullFields       = (null !== $notNullFields) ?: '';
         $criteriaPermissions = null;
         if (!$this->publisherIsAdmin) {
             $criteriaPermissions = new \CriteriaCompo();

@@ -177,8 +177,8 @@ class Utility extends Common\SysUtility
 
         $description = $categoryObj->description();
         if (!XOOPS_USE_MULTIBYTES) {
-            if (mb_strlen($description) >= 100) {
-                $description = mb_substr($description, 0, 100 - 1) . '...';
+            if (\mb_strlen($description) >= 100) {
+                $description = \mb_substr($description, 0, 100 - 1) . '...';
             }
         }
         $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_EDITCOL . "' alt='" . \_AM_PUBLISHER_EDITCOL . "'></a>";
@@ -424,12 +424,12 @@ class Utility extends Common\SysUtility
         $reversedString = \strrev(\xoops_substr($str, $start, $length, ''));
 
         // find first space in reversed string
-        $positionOfSpace = mb_strpos($reversedString, ' ', 0);
+        $positionOfSpace = \mb_strpos($reversedString, ' ', 0);
 
         // truncate the original string to a length of $length
         // minus the position of the last space
         // plus the length of the $trimMarker
-        $truncatedString = \xoops_substr($str, $start, $length - $positionOfSpace + mb_strlen($trimMarker), $trimMarker);
+        $truncatedString = \xoops_substr($str, $start, $length - $positionOfSpace + \mb_strlen($trimMarker), $trimMarker);
 
         return $truncatedString;
     }
@@ -615,7 +615,7 @@ class Utility extends Common\SysUtility
             return false;
         }
 
-        if (static::mkdir(mb_substr($target, 0, mb_strrpos($target, '/')))) {
+        if (static::mkdir(\mb_substr($target, 0, \mb_strrpos($target, '/')))) {
             if (!\is_dir($target)) {
                 $res = \mkdir($target, 0777); // crawl back up & create dir tree
                 static::chmod($target);
@@ -853,7 +853,7 @@ class Utility extends Common\SysUtility
      */
     public static function getCurrentUrls()
     {
-        $http = false === mb_strpos(XOOPS_URL, 'https://') ? 'http://' : 'https://';
+        $http = false === \mb_strpos(XOOPS_URL, 'https://') ? 'http://' : 'https://';
         //    $phpself     = $_SERVER['SCRIPT_NAME'];
         //    $httphost    = $_SERVER['HTTP_HOST'];
         //    $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
@@ -1054,7 +1054,7 @@ class Utility extends Common\SysUtility
      */
     public static function tellAFriend($subject = '')
     {
-        if (false !== mb_strpos($subject, '%')) {
+        if (false !== \mb_strpos($subject, '%')) {
             $subject = \rawurldecode($subject);
         }
 
@@ -1176,10 +1176,10 @@ class Utility extends Common\SysUtility
             return '';
         }
 
-        if (mb_strlen($string) > $length) {
-            $length -= mb_strlen($etc);
+        if (\mb_strlen($string) > $length) {
+            $length -= \mb_strlen($etc);
             if (!$breakWords) {
-                $string = \preg_replace('/\s+?(\S+)?$/', '', mb_substr($string, 0, $length + 1));
+                $string = \preg_replace('/\s+?(\S+)?$/', '', \mb_substr($string, 0, $length + 1));
                 $string = \preg_replace('/<[^>]*$/', '', $string);
                 $string = static::closeTags($string);
             }
@@ -1229,6 +1229,7 @@ class Utility extends Common\SysUtility
     }
 
     /**
+     * Get the rating for 5 stars (the original rating)
      * @param int $itemId
      * @return string
      */
@@ -1348,7 +1349,7 @@ class Utility extends Common\SysUtility
     public static function stringToInt($string = '', $length = 5)
     {
         $final     = '';
-        $substring = mb_substr(\md5($string), $length);
+        $substring = \mb_substr(\md5($string), $length);
         for ($i = 0; $i < $length; ++$i) {
             $final .= (int)$substring[$i];
         }
@@ -1363,7 +1364,7 @@ class Utility extends Common\SysUtility
     public static function convertCharset($item)
     {
         if (_CHARSET !== 'windows-1256') {
-            return utf8_encode($item);
+            return \utf8_encode($item);
         }
 
         if ($unserialize == \unserialize($item)) {

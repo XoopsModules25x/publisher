@@ -355,6 +355,9 @@ define('_MI_PUBLISHER_CONF_GROUP_SUBMIT_DSC', 'Submit article layout and form de
 define('_MI_PUBLISHER_CONF_GROUP_SEARCH', 'Search page');
 define('_MI_PUBLISHER_CONF_GROUP_SEARCH_DSC', '');
 
+define('_MI_PUBLISHER_CONF_GROUP_RATING_VOTING', 'Rating/Voting');
+define('_MI_PUBLISHER_CONF_GROUP_RATING_VOTING_DSC', 'Set the preferred type of Rating/Voting for the Articles');
+
 define('_MI_PUBLISHER_ADMENU5', 'Blocks Admin');
 
 // 2019-05-31 Goffy
@@ -393,6 +396,9 @@ define('_MI_PUBLISHER_CONFCAT_SUBMIT', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_
 define('_MI_PUBLISHER_CONFCAT_SUBMIT_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_SUBMIT_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
 define('_MI_PUBLISHER_CONFCAT_SEARCH', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_SEARCH . _MI_PUBLISHER_CONFIG_STYLING_END);
 define('_MI_PUBLISHER_CONFCAT_SEARCH_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_SEARCH_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+//Rating/Voting
+define('_MI_PUBLISHER_RATING_VOTING', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_RATING_VOTING . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_RATING_VOTING_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_RATING_VOTING_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
 
 // Lio-MJ
 define('_MI_PUBLISHER_WHO', 'Display the poster?');
@@ -457,23 +463,20 @@ define('_MI_PUBLISHER_AUTHORPAGE_SUMMARYDSC', 'Select “Yes” to display the a
 define('_MI_PUBLISHER_DISPRATING', 'Display Rating');
 define('_MI_PUBLISHER_AUTHORPAGE_RATINGDSC', 'Select “Yes” to display the rating in the Item by Same Author page');
 
-
 define('_MI_PUBLISHER_ADMENU7', 'Trello');
 define('_MI_PUBLISHER_TRELLO_DSC', 'Trello Management');
-
 
 // Rating bars
 \define('_MI_BLOG_RATINGBAR_GROUPS', 'Groups with rating rights');
 \define('_MI_BLOG_RATINGBAR_GROUPS_DESC', 'Select groups which should have the right to rate');
-\define('_MI_BLOG_RATINGBARS', 'Allow rating');
-\define('_MI_BLOG_RATINGBARS_DESC', 'Define whether rating should be possible and which kind of rating should be used');
+\define('_MI_BLOG_RATINGBARS', 'Select type of rating/voting');
+\define('_MI_BLOG_RATINGBARS_DESC', 'Define whether rating should be possible and which type of rating should be used');
 \define('_MI_BLOG_RATING_NONE', 'Do not use rating');
 \define('_MI_BLOG_RATING_5STARS', 'Rating with 5 stars');
 \define('_MI_BLOG_RATING_10STARS', 'Rating with 10 stars');
 \define('_MI_BLOG_RATING_LIKES', 'Rating with likes and dislikes');
 \define('_MI_BLOG_RATING_10NUM', 'Rating with 10 points');
 \define('_MI_BLOG_RATING_REACTION', 'Rating with Reactions');
-
 
 // Config
 \define('_MI_BLOG_EDITOR_ADMIN', 'Editor admin');

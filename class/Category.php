@@ -22,13 +22,12 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    Form,
+use XoopsModules\Publisher\{Form,
     Helper,
     Utility
 };
 
-/** @var Helper $this->helper */
+/** @var Helper $this- >helper */
 
 require_once \dirname(__DIR__) . '/include/common.php';
 

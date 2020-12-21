@@ -23,8 +23,7 @@ namespace XoopsModules\Publisher;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Form
+use XoopsModules\Publisher\{Form
 };
 
 //namespace Publisher;
@@ -51,9 +50,9 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper = Helper::getInstance();
-        /** @var \XoopsMySQLDatabase $this->db */
+        /** @var \XoopsMySQLDatabase $this- >db */
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', \XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', \XOBJ_DTYPE_INT, 0, false);
@@ -130,7 +129,7 @@ class Item extends \XoopsObject
         $ret = $this->getVar('title', $format);
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (mb_strlen($ret) >= $maxLength) {
+                if (\mb_strlen($ret) >= $maxLength) {
                     $ret = Utility::substr($ret, 0, $maxLength);
                 }
             }
@@ -150,7 +149,7 @@ class Item extends \XoopsObject
         $ret = $this->getVar('subtitle', $format);
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (mb_strlen($ret) >= $maxLength) {
+                if (\mb_strlen($ret) >= $maxLength) {
                     $ret = Utility::substr($ret, 0, $maxLength);
                 }
             }
@@ -174,7 +173,7 @@ class Item extends \XoopsObject
         }
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (mb_strlen($ret) >= $maxLength) {
+                if (\mb_strlen($ret) >= $maxLength) {
                     //$ret = Utility::substr($ret , 0, $maxLength);
                     //                    $ret = Utility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
                     $ret = Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
@@ -221,10 +220,10 @@ class Item extends \XoopsObject
             require $page;
             $content = \ob_get_clean();
             // Cleaning the content
-            $bodyStartPos = mb_strpos($content, '<body>');
+            $bodyStartPos = \mb_strpos($content, '<body>');
             if ($bodyStartPos) {
-                $bodyEndPos = mb_strpos($content, '</body>', $bodyStartPos);
-                $content    = mb_substr($content, $bodyStartPos + mb_strlen('<body>'), $bodyEndPos - mb_strlen('<body>') - $bodyStartPos);
+                $bodyEndPos = \mb_strpos($content, '</body>', $bodyStartPos);
+                $content    = \mb_substr($content, $bodyStartPos + \mb_strlen('<body>'), $bodyEndPos - \mb_strlen('<body>') - $bodyStartPos);
             }
             // Check if ML Hack is installed, and if yes, parse the $content in formatForML
             $myts = \MyTextSanitizer::getInstance();
@@ -248,17 +247,17 @@ class Item extends \XoopsObject
     public function getBody($maxLength = 0, $format = 'S', $stripTags = '')
     {
         $ret     = $this->getVar('body', $format);
-        $wrapPos = mb_strpos($ret, '[pagewrap=');
+        $wrapPos = \mb_strpos($ret, '[pagewrap=');
         if (!(false === $wrapPos)) {
             $wrapPages      = [];
-            $wrapCodeLength = mb_strlen('[pagewrap=');
+            $wrapCodeLength = \mb_strlen('[pagewrap=');
             while (!(false === $wrapPos)) {
-                $endWrapPos = mb_strpos($ret, ']', $wrapPos);
+                $endWrapPos = \mb_strpos($ret, ']', $wrapPos);
                 if ($endWrapPos) {
-                    $wrapPagename = mb_substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
-                    $wrapPages[]    = $wrapPagename;
+                    $wrapPagename = \mb_substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
+                    $wrapPages[]  = $wrapPagename;
                 }
-                $wrapPos = mb_strpos($ret, '[pagewrap=', $endWrapPos - 1);
+                $wrapPos = \mb_strpos($ret, '[pagewrap=', $endWrapPos - 1);
             }
             foreach ($wrapPages as $page) {
                 $wrapPageContent = $this->wrapPage($page);
@@ -276,7 +275,7 @@ class Item extends \XoopsObject
         }
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (mb_strlen($ret) >= $maxLength) {
+                if (\mb_strlen($ret) >= $maxLength) {
                     //$ret = Utility::substr($ret , 0, $maxLength);
                     $ret = Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
@@ -817,7 +816,7 @@ class Item extends \XoopsObject
                     $summary = $this->getBody($maxCharSummary);
                 }
                 $item['summary']   = $summary;
-                $item['truncated'] = $maxCharSummary > 0 && mb_strlen($summary) > $maxCharSummary;
+                $item['truncated'] = $maxCharSummary > 0 && \mb_strlen($summary) > $maxCharSummary;
                 $item              = $this->toArrayFull($item);
                 break;
             case 'all':
@@ -829,7 +828,7 @@ class Item extends \XoopsObject
         $highlight = true;
         if ($highlight && Request::getString('keywords', '', 'GET')) {
             $myts     = \MyTextSanitizer::getInstance();
-            $keywords = $myts->htmlSpecialChars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))));
+            $keywords = \htmlspecialchars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))));
             $fields   = ['title', 'maintext', 'summary'];
             foreach ($fields as $field) {
                 if (isset($item[$field])) {
@@ -945,7 +944,7 @@ class Item extends \XoopsObject
     public function highlight($content, $keywords)
     {
         $color = $this->helper->getConfig('format_highlight_color');
-        if (0 !== mb_strpos($color, '#')) {
+        if (0 !== \mb_strpos($color, '#')) {
             $color = '#' . $color;
         }
         require_once __DIR__ . '/Highlighter.php';
@@ -984,18 +983,18 @@ class Item extends \XoopsObject
         $os      = '';
         $browser = '';
         //        if (preg_match("/Win/i", $agent)) {
-        if (false !== mb_stripos($agent, 'Win')) {
+        if (false !== \mb_stripos($agent, 'Win')) {
             $os = 'win';
         }
         //        if (preg_match("/MSIE/i", $agent)) {
-        if (false !== mb_stripos($agent, 'MSIE')) {
+        if (false !== \mb_stripos($agent, 'MSIE')) {
             $browser = 'msie';
         }
         // if msie
         if (('win' === $os) && ('msie' === $browser)) {
             // if multibyte
             if (\function_exists('mb_convert_encoding')) {
-                $str = mb_convert_encoding($str, 'SJIS', 'EUC-JP');
+                $str = \mb_convert_encoding($str, 'SJIS', 'EUC-JP');
                 $str = \rawurlencode($str);
             }
         }
@@ -1108,7 +1107,7 @@ class Item extends \XoopsObject
             $resTime     = Request::getArray('datesub', [], 'POST');
             $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resDate['date']);
             $dateTimeObj->setTime(0, 0, (int)$resTime['time']);
-            $serverTimestamp = userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
+            $serverTimestamp = \userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
             $this->setVar('datesub', $serverTimestamp);
             //            }
         } elseif ($this->isNew()) {
@@ -1122,7 +1121,7 @@ class Item extends \XoopsObject
                 $resExTime   = Request::getArray('dateexpire', [], 'POST');
                 $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resExDate['date']);
                 $dateTimeObj->setTime(0, 0, (int)$resExTime['time']);
-                $serverTimestamp = userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
+                $serverTimestamp = \userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
                 $this->setVar('dateexpire', $serverTimestamp);
             }
         } else {

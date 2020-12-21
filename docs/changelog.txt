@@ -1,6 +1,7 @@
-<h5>1.08 Alpha 3       [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.9, 8.0 Beta 2
+<h5>1.08 Alpha 3       [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.13, 8.0
 <hr>
 - fix in_array() for anonymous permissions (oswaldo/mamba)
+- new voting/rating system (goffy/mamba)
 
 <h5>1.08 Alpha 2       [2020-07-08]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.7
 <hr>

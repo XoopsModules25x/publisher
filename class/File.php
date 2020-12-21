@@ -22,8 +22,7 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    Form
+use XoopsModules\Publisher\{Form
 };
 
 require_once \dirname(__DIR__) . '/include/common.php';
@@ -48,7 +47,7 @@ class File extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper = Helper::getInstance();
         /** @var \XoopsMySQLDatabase $db */
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
@@ -270,8 +269,8 @@ class File extends \XoopsObject
     public function getNameFromFilename()
     {
         $ret    = $this->filename();
-        $sepPos = mb_strpos($ret, '_');
-        $ret    = mb_substr($ret, $sepPos + 1);
+        $sepPos = \mb_strpos($ret, '_');
+        $ret    = \mb_substr($ret, $sepPos + 1);
 
         return $ret;
     }

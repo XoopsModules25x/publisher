@@ -99,7 +99,11 @@ class FileForm extends \XoopsThemeForm
         $filesHidden     = new \XoopsFormHidden('op', 'uploadfile');
         $filesButtonTray->addElement($filesHidden);
 
-        if (!$this->targetObject->fileid()) {
+        if ($this->targetObject->fileid()) {
+            $filesButtonCreate = new \XoopsFormButton('', '', \_MD_PUBLISHER_MODIFY, 'submit');
+            $filesButtonCreate->setExtra('onclick="this.form.elements.op.value=\'modify\'"');
+            $filesButtonTray->addElement($filesButtonCreate);
+        } else {
             $filesButtonCreate = new \XoopsFormButton('', '', \_MD_PUBLISHER_UPLOAD, 'submit');
             $filesButtonCreate->setExtra('onclick="this.form.elements.op.value=\'uploadfile\'"');
             $filesButtonTray->addElement($filesButtonCreate);
@@ -107,10 +111,6 @@ class FileForm extends \XoopsThemeForm
             $filesButtonAnother = new \XoopsFormButton('', '', \_CO_PUBLISHER_FILE_UPLOAD_ANOTHER, 'submit');
             $filesButtonAnother->setExtra('onclick="this.form.elements.op.value=\'uploadanother\'"');
             $filesButtonTray->addElement($filesButtonAnother);
-        } else {
-            $filesButtonCreate = new \XoopsFormButton('', '', \_MD_PUBLISHER_MODIFY, 'submit');
-            $filesButtonCreate->setExtra('onclick="this.form.elements.op.value=\'modify\'"');
-            $filesButtonTray->addElement($filesButtonCreate);
         }
 
         $filesButtonClear = new \XoopsFormButton('', '', \_MD_PUBLISHER_CLEAR, 'reset');

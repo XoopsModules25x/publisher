@@ -41,7 +41,57 @@ class MimetypesUtility
         $mimetypeHandler = $helper->getHandler('Mimetype');
         global $limit, $start;
         $error = [];
-        if (!Request::getString('add_mime', '', 'POST')) {
+        if (Request::getString('add_mime', '', 'POST')) {
+            $hasErrors = false;
+            $mimeExt   = Request::getString('mime_ext', '', 'POST');
+            $mimeName  = Request::getString('mime_name', '', 'POST');
+            $mimeTypes = Request::getText('mime_types', '', 'POST');
+            $mimeAdmin = Request::getInt('mime_admin', 0, 'POST');
+            $mimeUser  = Request::getInt('mime_user', 0, 'POST');
+
+            //Validate Mimetype entry
+            if ('' === \trim($mimeExt)) {
+                $hasErrors           = true;
+                $error['mime_ext'][] = \_AM_PUBLISHER_VALID_ERR_MIME_EXT;
+            }
+
+            if ('' === \trim($mimeName)) {
+                $hasErrors            = true;
+                $error['mime_name'][] = \_AM_PUBLISHER_VALID_ERR_MIME_NAME;
+            }
+
+            if ('' === \trim($mimeTypes)) {
+                $hasErrors             = true;
+                $error['mime_types'][] = \_AM_PUBLISHER_VALID_ERR_MIME_TYPES;
+            }
+
+            if ($hasErrors) {
+                $session            = Session::getInstance();
+                $mime               = [];
+                $mime['mime_ext']   = $mimeExt;
+                $mime['mime_name']  = $mimeName;
+                $mime['mime_types'] = $mimeTypes;
+                $mime['mime_admin'] = $mimeAdmin;
+                $mime['mime_user']  = $mimeUser;
+                $session->set('publisher_addMime', $mime);
+                $session->set('publisher_addMimeErr', $error);
+                \header('Location: ' . Utility::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', ['op' => 'add'], false));
+            }
+
+            $mimeType = $mimetypeHandler->create();
+            $mimeType->setVar('mime_ext', $mimeExt);
+            $mimeType->setVar('mime_name', $mimeName);
+            $mimeType->setVar('mime_types', $mimeTypes);
+            $mimeType->setVar('mime_admin', $mimeAdmin);
+            $mimeType->setVar('mime_user', $mimeUser);
+
+            if ($mimetypeHandler->insert($mimeType)) {
+                self::clearAddSessionVars();
+                \header('Location: ' . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage&limit=$limit&start=$start");
+            } else {
+                \redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage&limit=$limit&start=$start", 3, \_AM_PUBLISHER_MESSAGE_ADD_MIME_ERROR);
+            }
+        } else {
             Utility::cpHeader();
             //publisher_adminMenu(4, _AM_PUBLISHER_MIMETYPES);
 
@@ -126,56 +176,6 @@ class MimetypesUtility
             Utility::closeCollapsableBar('mimeaddtable', 'mimeaddicon');
 
             \xoops_cp_footer();
-        } else {
-            $hasErrors = false;
-            $mimeExt   = Request::getString('mime_ext', '', 'POST');
-            $mimeName  = Request::getString('mime_name', '', 'POST');
-            $mimeTypes = Request::getText('mime_types', '', 'POST');
-            $mimeAdmin = Request::getInt('mime_admin', 0, 'POST');
-            $mimeUser  = Request::getInt('mime_user', 0, 'POST');
-
-            //Validate Mimetype entry
-            if ('' === \trim($mimeExt)) {
-                $hasErrors           = true;
-                $error['mime_ext'][] = \_AM_PUBLISHER_VALID_ERR_MIME_EXT;
-            }
-
-            if ('' === \trim($mimeName)) {
-                $hasErrors            = true;
-                $error['mime_name'][] = \_AM_PUBLISHER_VALID_ERR_MIME_NAME;
-            }
-
-            if ('' === \trim($mimeTypes)) {
-                $hasErrors             = true;
-                $error['mime_types'][] = \_AM_PUBLISHER_VALID_ERR_MIME_TYPES;
-            }
-
-            if ($hasErrors) {
-                $session            = Session::getInstance();
-                $mime               = [];
-                $mime['mime_ext']   = $mimeExt;
-                $mime['mime_name']  = $mimeName;
-                $mime['mime_types'] = $mimeTypes;
-                $mime['mime_admin'] = $mimeAdmin;
-                $mime['mime_user']  = $mimeUser;
-                $session->set('publisher_addMime', $mime);
-                $session->set('publisher_addMimeErr', $error);
-                \header('Location: ' . Utility::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', ['op' => 'add'], false));
-            }
-
-            $mimeType = $mimetypeHandler->create();
-            $mimeType->setVar('mime_ext', $mimeExt);
-            $mimeType->setVar('mime_name', $mimeName);
-            $mimeType->setVar('mime_types', $mimeTypes);
-            $mimeType->setVar('mime_admin', $mimeAdmin);
-            $mimeType->setVar('mime_user', $mimeUser);
-
-            if (!$mimetypeHandler->insert($mimeType)) {
-                \redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage&limit=$limit&start=$start", 3, \_AM_PUBLISHER_MESSAGE_ADD_MIME_ERROR);
-            } else {
-                self::clearAddSessionVars();
-                \header('Location: ' . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage&limit=$limit&start=$start");
-            }
         }
     }
 
@@ -192,10 +192,10 @@ class MimetypesUtility
             $mimeId = Request::getInt('id', 0, 'GET');
         }
         $mimeType = $mimetypeHandler->get($mimeId); // Retrieve mimetype object
-        if (!$mimetypeHandler->delete($mimeType, true)) {
-            \redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage&id=$mimeId&limit=$limit&start=$start", 3, \_AM_PUBLISHER_MESSAGE_DELETE_MIME_ERROR);
-        } else {
+        if ($mimetypeHandler->delete($mimeType, true)) {
             \header('Location: ' . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage&limit=$limit&start=$start");
+        } else {
+            \redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage&id=$mimeId&limit=$limit&start=$start", 3, \_AM_PUBLISHER_MESSAGE_DELETE_MIME_ERROR);
         }
     }
 
@@ -215,7 +215,58 @@ class MimetypesUtility
         }
         $mimeTypeObj = $mimetypeHandler->get($mimeId); // Retrieve mimetype object
 
-        if (!Request::getString('edit_mime', '', 'POST')) {
+        if (Request::getString('edit_mime', '', 'POST')) {
+            $mimeAdmin = 0;
+            $mimeUser  = 0;
+            if (1 == Request::getInt('mime_admin', 0, 'POST')) {
+                $mimeAdmin = 1;
+            }
+            if (1 == Request::getInt('mime_user', 0, 'POST')) {
+                $mimeUser = 1;
+            }
+
+            //Validate Mimetype entry
+            if ('' === Request::getString('mime_ext', '', 'POST')) {
+                $hasErrors           = true;
+                $error['mime_ext'][] = \_AM_PUBLISHER_VALID_ERR_MIME_EXT;
+            }
+
+            if ('' === Request::getString('mime_name', '', 'POST')) {
+                $hasErrors            = true;
+                $error['mime_name'][] = \_AM_PUBLISHER_VALID_ERR_MIME_NAME;
+            }
+
+            if ('' === Request::getString('mime_types', '', 'POST')) {
+                $hasErrors             = true;
+                $error['mime_types'][] = \_AM_PUBLISHER_VALID_ERR_MIME_TYPES;
+            }
+
+            if ($hasErrors) {
+                $session            = Session::getInstance();
+                $mime               = [];
+                $mime['mime_ext']   = Request::getString('mime_ext', '', 'POST');
+                $mime['mime_name']  = Request::getString('mime_name', '', 'POST');
+                $mime['mime_types'] = Request::getText('mime_types', '', 'POST');
+                $mime['mime_admin'] = $mimeAdmin;
+                $mime['mime_user']  = $mimeUser;
+                $session->set('publisher_editMime_' . $mimeId, $mime);
+                $session->set('publisher_editMimeErr_' . $mimeId, $error);
+                \header('Location: ' . Utility::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', ['op' => 'edit', 'id' => $mimeId], false));
+            }
+
+            $mimeTypeObj->setVar('mime_ext', Request::getString('mime_ext', '', 'POST'));
+            $mimeTypeObj->setVar('mime_name', Request::getString('mime_name', '', 'POST'));
+            $mimeTypeObj->setVar('mime_types', Request::getText('mime_types', '', 'POST'));
+            $mimeTypeObj->setVar('mime_admin', $mimeAdmin);
+            $mimeTypeObj->setVar('mime_user', $mimeUser);
+
+            if ($mimetypeHandler->insert($mimeTypeObj, true)) {
+                self::clearEditSessionVars($mimeId);
+                \header('Location: ' . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage&limit=$limit&start=$start");
+            } else {
+                \redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=edit&id=$mimeId", 3, \_AM_PUBLISHER_MESSAGE_EDIT_MIME_ERROR);
+            }
+        } else {
             $session    = Session::getInstance();
             $mimeType   = $session->get('publisher_editMime_' . $mimeId);
             $mimeErrors = $session->get('publisher_editMimeErr_' . $mimeId);
@@ -290,57 +341,6 @@ class MimetypesUtility
             Utility::closeCollapsableBar('mimeedittable', 'mimeediticon');
             //            xoops_cp_footer();
             require_once \dirname(__DIR__) . '/admin/admin_footer.php';
-        } else {
-            $mimeAdmin = 0;
-            $mimeUser  = 0;
-            if (1 == Request::getInt('mime_admin', 0, 'POST')) {
-                $mimeAdmin = 1;
-            }
-            if (1 == Request::getInt('mime_user', 0, 'POST')) {
-                $mimeUser = 1;
-            }
-
-            //Validate Mimetype entry
-            if ('' === Request::getString('mime_ext', '', 'POST')) {
-                $hasErrors           = true;
-                $error['mime_ext'][] = \_AM_PUBLISHER_VALID_ERR_MIME_EXT;
-            }
-
-            if ('' === Request::getString('mime_name', '', 'POST')) {
-                $hasErrors            = true;
-                $error['mime_name'][] = \_AM_PUBLISHER_VALID_ERR_MIME_NAME;
-            }
-
-            if ('' === Request::getString('mime_types', '', 'POST')) {
-                $hasErrors             = true;
-                $error['mime_types'][] = \_AM_PUBLISHER_VALID_ERR_MIME_TYPES;
-            }
-
-            if ($hasErrors) {
-                $session            = Session::getInstance();
-                $mime               = [];
-                $mime['mime_ext']   = Request::getString('mime_ext', '', 'POST');
-                $mime['mime_name']  = Request::getString('mime_name', '', 'POST');
-                $mime['mime_types'] = Request::getText('mime_types', '', 'POST');
-                $mime['mime_admin'] = $mimeAdmin;
-                $mime['mime_user']  = $mimeUser;
-                $session->set('publisher_editMime_' . $mimeId, $mime);
-                $session->set('publisher_editMimeErr_' . $mimeId, $error);
-                \header('Location: ' . Utility::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', ['op' => 'edit', 'id' => $mimeId], false));
-            }
-
-            $mimeTypeObj->setVar('mime_ext', Request::getString('mime_ext', '', 'POST'));
-            $mimeTypeObj->setVar('mime_name', Request::getString('mime_name', '', 'POST'));
-            $mimeTypeObj->setVar('mime_types', Request::getText('mime_types', '', 'POST'));
-            $mimeTypeObj->setVar('mime_admin', $mimeAdmin);
-            $mimeTypeObj->setVar('mime_user', $mimeUser);
-
-            if (!$mimetypeHandler->insert($mimeTypeObj, true)) {
-                \redirect_header(PUBLISHER_ADMIN_URL . "/mimetypes.php?op=edit&id=$mimeId", 3, \_AM_PUBLISHER_MESSAGE_EDIT_MIME_ERROR);
-            } else {
-                self::clearEditSessionVars($mimeId);
-                \header('Location: ' . PUBLISHER_ADMIN_URL . "/mimetypes.php?op=manage&limit=$limit&start=$start");
-            }
         }
     }
 
@@ -518,33 +518,7 @@ class MimetypesUtility
 
         Utility::openCollapsableBar('mimemsearchtable', 'mimesearchicon', \_AM_PUBLISHER_MIME_SEARCH);
 
-        if (!Request::hasVar('mime_search')) {
-            echo "<form action='mimetypes.php?op=search' method='post'>";
-            echo $GLOBALS['xoopsSecurity']->getTokenHTML();
-            echo "<table width='100%' cellspacing='1' class='outer'>";
-            echo "<tr><th colspan='2'>" . \_AM_PUBLISHER_TEXT_SEARCH_MIME . '</th></tr>';
-            echo "<tr><td class='head' width='20%'>" . \_AM_PUBLISHER_TEXT_SEARCH_BY . "</td>
-        <td class='even'>
-        <select name='search_by'>";
-            foreach ($aSortBy as $value => $text) {
-                echo "<option value='$value'>$text</option>";
-            }
-            unset($value);
-            echo '</select>
-        </td>
-        </tr>';
-            echo "<tr><td class='head'>" . \_AM_PUBLISHER_TEXT_SEARCH_TEXT . "</td>
-        <td class='even'>
-        <input type='text' name='search_text' id='search_text' value=''>
-        </td>
-        </tr>";
-            echo "<tr class='foot'>
-        <td colspan='2'>
-        <input type='submit' name='mime_search' id='mime_search' value='" . \_AM_PUBLISHER_BUTTON_SEARCH . "'>
-        </td>
-        </tr>";
-            echo '</table></form>';
-        } else {
+        if (Request::hasVar('mime_search')) {
             $searchField = Request::getString('search_by', '');
             $searchField = isset($aSearchBy[$searchField]) ? $searchField : 'mime_ext';
             $searchText  = Request::getString('search_text', '');
@@ -663,6 +637,32 @@ class MimetypesUtility
             }
             echo '</table>';
             echo "<div id='pagenav'>" . $nav->renderNav() . '</div>';
+        } else {
+            echo "<form action='mimetypes.php?op=search' method='post'>";
+            echo $GLOBALS['xoopsSecurity']->getTokenHTML();
+            echo "<table width='100%' cellspacing='1' class='outer'>";
+            echo "<tr><th colspan='2'>" . \_AM_PUBLISHER_TEXT_SEARCH_MIME . '</th></tr>';
+            echo "<tr><td class='head' width='20%'>" . \_AM_PUBLISHER_TEXT_SEARCH_BY . "</td>
+        <td class='even'>
+        <select name='search_by'>";
+            foreach ($aSortBy as $value => $text) {
+                echo "<option value='$value'>$text</option>";
+            }
+            unset($value);
+            echo '</select>
+        </td>
+        </tr>';
+            echo "<tr><td class='head'>" . \_AM_PUBLISHER_TEXT_SEARCH_TEXT . "</td>
+        <td class='even'>
+        <input type='text' name='search_text' id='search_text' value=''>
+        </td>
+        </tr>";
+            echo "<tr class='foot'>
+        <td colspan='2'>
+        <input type='submit' name='mime_search' id='mime_search' value='" . \_AM_PUBLISHER_BUTTON_SEARCH . "'>
+        </td>
+        </tr>";
+            echo '</table></form>';
         }
         Utility::closeCollapsableBar('mimesearchtable', 'mimesearchicon');
         //        require_once dirname(__DIR__) . '/admin/admin_footer.php';

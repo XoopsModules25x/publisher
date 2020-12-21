@@ -57,17 +57,17 @@ class BlockForm extends \XoopsForm
         $ret = '<table border="0" width="100%">' . NWLINE;
         foreach ($this->getElements() as $ele) {
             if (!$ele->isHidden()) {
-                if (!$ele->getNocolspan()) {
+                if ($ele->getNocolspan()) {
+                    $ret .= '<tr><td colspan="2">';
+                    $ret .= '<span style="font-weight: bold;">' . $ele->getCaption() . '</span>';
+                    $ret .= '</td></tr><tr><td>' . $ele->render() . '</td></tr>';
+                } else {
                     $ret .= '<tr><td style="vertical-align: top; width: 250px;">';
                     $ret .= '<span style="font-weight: bold;">' . $ele->getCaption() . '</span>';
                     if (isset($eleDesc) && $eleDesc == $ele->getDescription()) {
                         $ret .= '<br><br><span style="font-weight: normal;">' . $eleDesc . '</span>';
                     }
                     $ret .= '</td><td>' . $ele->render() . '</td></tr>';
-                } else {
-                    $ret .= '<tr><td colspan="2">';
-                    $ret .= '<span style="font-weight: bold;">' . $ele->getCaption() . '</span>';
-                    $ret .= '</td></tr><tr><td>' . $ele->render() . '</td></tr>';
                 }
             }
         }

@@ -253,10 +253,10 @@ class Utility extends Common\SysUtility
         $sform = $categoryObj->getForm($nbSubCats);
         $sform->display();
 
-        if (!$categoryId) {
-            static::closeCollapsableBar('createtable', 'createtableicon');
-        } else {
+        if ($categoryId) {
             static::closeCollapsableBar('edittable', 'edittableicon');
+        } else {
+            static::closeCollapsableBar('createtable', 'createtableicon');
         }
 
         //Added by fx2024
@@ -583,12 +583,12 @@ class Utility extends Common\SysUtility
         if (\is_writable($thePath)) {
             $pathCheckResult = 1;
             $pathStatus      = \_AM_PUBLISHER_AVAILABLE;
-        } elseif (!@\is_dir($thePath)) {
-            $pathCheckResult = -1;
-            $pathStatus      = \_AM_PUBLISHER_NOTAVAILABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=createdir&amp;path={$item}'>" . \_AM_PUBLISHER_CREATETHEDIR . '</a>';
-        } else {
+        } elseif (@\is_dir($thePath)) {
             $pathCheckResult = -2;
             $pathStatus      = \_AM_PUBLISHER_NOTWRITABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=setperm&amp;path={$item}'>" . \_AM_PUBLISHER_SETMPERM . '</a>';
+        } else {
+            $pathCheckResult = -1;
+            $pathStatus      = \_AM_PUBLISHER_NOTAVAILABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=createdir&amp;path={$item}'>" . \_AM_PUBLISHER_CREATETHEDIR . '</a>';
         }
         if (!$getStatus) {
             return $pathStatus;
@@ -706,11 +706,11 @@ class Utility extends Common\SysUtility
             return $publisherIsAdmin;
         }
 
-        if (!$GLOBALS['xoopsUser']) {
-            $publisherIsAdmin = false;
-        } else {
+        if ($GLOBALS['xoopsUser']) {
             //            $publisherIsAdmin = $GLOBALS['xoopsUser']->isAdmin($helper->getModule()->getVar('mid'));
             $publisherIsAdmin = $helper->isUserAdmin();
+        } else {
+            $publisherIsAdmin = false;
         }
 
         return $publisherIsAdmin;

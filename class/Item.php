@@ -491,7 +491,10 @@ class Item extends \XoopsObject
     {
         $pdfButton = '';
         // PDF button
-        if (!\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
+        if (\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
+            $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . \_CO_PUBLISHER_PDF . "' alt='" . \_CO_PUBLISHER_PDF . "'></a>&nbsp;";
+            $pdfButton .= ' ';
+        } else {
             //                if (is_object($GLOBALS['xoopsUser']) && Utility::userIsAdmin()) {
             //                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
             //                    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
@@ -502,9 +505,6 @@ class Item extends \XoopsObject
             //                        })(jQuery);
             //                        </script>';
             //                }
-        } else {
-            $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . \_CO_PUBLISHER_PDF . "' alt='" . \_CO_PUBLISHER_PDF . "'></a>&nbsp;";
-            $pdfButton .= ' ';
         }
 
         return $pdfButton;
@@ -895,10 +895,10 @@ class Item extends \XoopsObject
             $item['image_height'] = $dimensions[1];
             $item['image_path']   = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
             // check to see if GD function exist
-            if (!\function_exists('imagecreatetruecolor')) {
-                $item['image_thumb'] = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
-            } else {
+            if (\function_exists('imagecreatetruecolor')) {
                 $item['image_thumb'] = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name') . '&amp;h=180';
+            } else {
+                $item['image_thumb'] = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
             }
             $item['image_name'] = $images['main']->getVar('image_nicename');
         }
@@ -922,10 +922,10 @@ class Item extends \XoopsObject
             $item['images'][$i]['height'] = $dimensions[1];
             $item['images'][$i]['path']   = XOOPS_URL . '/uploads/' . $image->getVar('image_name');
             // check to see if GD function exist
-            if (!\function_exists('imagecreatetruecolor')) {
-                $item['images'][$i]['thumb'] = XOOPS_URL . '/uploads/' . $image->getVar('image_name');
-            } else {
+            if (\function_exists('imagecreatetruecolor')) {
                 $item['images'][$i]['thumb'] = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $image->getVar('image_name') . '&amp;w=240';
+            } else {
+                $item['images'][$i]['thumb'] = XOOPS_URL . '/uploads/' . $image->getVar('image_name');
             }
             $item['images'][$i]['name'] = $image->getVar('image_nicename');
             ++$i;

@@ -32,10 +32,10 @@ $GLOBALS['xoopsLogger']->activated = false;
 $helper                            = Helper::getInstance();
 $helper->loadLanguage('common');
 
-if (!is_object($GLOBALS['xoopsUser'])) {
-    $group = [XOOPS_GROUP_ANONYMOUS];
-} else {
+if (is_object($GLOBALS['xoopsUser'])) {
     $group = $GLOBALS['xoopsUser']->getGroups();
+} else {
+    $group = [XOOPS_GROUP_ANONYMOUS];
 }
 
 $filename      = basename($_FILES['publisher_upload_file']['name']);
@@ -50,9 +50,7 @@ $imgcatHandler = xoops_getHandler('imagecategory');
 $imgcat        = $imgcatHandler->get($imgcatId);
 
 $error = false;
-if (!is_object($imgcat)) {
-    $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
-} else {
+if (is_object($imgcat)) {
     /** @var XoopsGroupPermHandler $imgcatpermHandler */
     $imgcatpermHandler = xoops_getHandler('groupperm');
     if (is_object($GLOBALS['xoopsUser'])) {
@@ -62,6 +60,8 @@ if (!is_object($imgcat)) {
     } elseif (!$imgcatpermHandler->checkRight('imgcat_write', $imgcatId, XOOPS_GROUP_ANONYMOUS)) {
         $error = _CO_PUBLISHER_IMAGE_CAT_NOPERM;
     }
+} else {
+    $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
 }
 
 if (false === $error) {
@@ -70,9 +70,7 @@ if (false === $error) {
     $uploader = new \XoopsMediaUploader(XOOPS_UPLOAD_PATH . '/images', ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'], $helper->getConfig('maximum_filesize'), $helper->getConfig('maximum_image_width'), $helper->getConfig('maximum_image_height'));
     $uploader->setPrefix('img');
     if ($uploader->fetchMedia('publisher_upload_file')) {
-        if (!$uploader->upload()) {
-            $error = implode('<br>', $uploader->getErrors(false));
-        } else {
+        if ($uploader->upload()) {
             $imageHandler  = xoops_getHandler('image');
             $image         = $imageHandler->create();
             $savedFilename = $uploader->getSavedFileName();
@@ -106,6 +104,8 @@ if (false === $error) {
             if (!$imageHandler->insert($image)) {
                 $error = sprintf(_FAILSAVEIMG, $image->getVar('image_nicename'));
             }
+        } else {
+            $error = implode('<br>', $uploader->getErrors(false));
         }
     } else {
         $error = sprintf(_FAILFETCHIMG, 0) . '<br>' . implode('<br>', $uploader->getErrors(false));

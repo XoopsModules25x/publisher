@@ -141,13 +141,13 @@ class ItemForm extends ThemeTabForm
 
         $allowedEditors = Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
 
-        if (!\is_object($GLOBALS['xoopsUser'])) {
-            $group      = [XOOPS_GROUP_ANONYMOUS];
-            $currentUid = 0;
-        } else {
+        if (\is_object($GLOBALS['xoopsUser'])) {
             $group      = $GLOBALS['xoopsUser']->getGroups();
             $currentUid = $GLOBALS['xoopsUser']->uid();
             $timeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
+        } else {
+            $group      = [XOOPS_GROUP_ANONYMOUS];
+            $currentUid = 0;
         }
 
         $this->setExtra('enctype="multipart/form-data"');
@@ -646,11 +646,11 @@ $publisher(document).ready(function () {
 
         $buttonTray = new \XoopsFormElementTray('', '');
 
-        if (!$obj->isNew()) {
-            $buttonTray->addElement(new \XoopsFormButton('', 'additem', _SUBMIT, 'submit')); //orclone
-        } else {
+        if ($obj->isNew()) {
             $buttonTray->addElement(new \XoopsFormButton('', 'additem', \_CO_PUBLISHER_CREATE, 'submit'));
             $buttonTray->addElement(new \XoopsFormButton('', '', \_CO_PUBLISHER_CLEAR, 'reset'));
+        } else {
+            $buttonTray->addElement(new \XoopsFormButton('', 'additem', _SUBMIT, 'submit')); //orclone
         }
 
         $buttonTray->addElement(new \XoopsFormButton('', 'preview', \_CO_PUBLISHER_PREVIEW, 'submit'));

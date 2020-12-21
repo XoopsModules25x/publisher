@@ -119,11 +119,11 @@ function publisher_items_new_show($options)
                 }
                 if (is_object($images['main'])) {
                     // check to see if GD function exist
-                    if (!function_exists('imagecreatetruecolor')) {
-                        $item['image'] = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
-                    } else {
+                    if (function_exists('imagecreatetruecolor')) {
                         $item['image']      = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name') . '';
                         $item['image_path'] = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name') . '';
+                    } else {
+                        $item['image'] = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
                     }
                     $item['image_name'] = $images['main']->getVar('image_nicename');
                 }
@@ -136,17 +136,17 @@ function publisher_items_new_show($options)
                     $images        = $iValue->getImages();
                     if (is_object($images['main'])) {
                         // check to see if GD function exist
-                        if (!function_exists('imagecreatetruecolor')) {
-                            $item['image'] = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
-                        } else {
+                        if (function_exists('imagecreatetruecolor')) {
                             $item['image'] = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name') . '&amp;w=50';
+                        } else {
+                            $item['image'] = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
                         }
                     }
                     // check to see if GD function exist
-                } elseif (!function_exists('imagecreatetruecolor')) {
-                    $item['image'] = XOOPS_URL . '/uploads/' . $iValue->posterAvatar();
-                } else {
+                } elseif (function_exists('imagecreatetruecolor')) {
                     $item['image'] = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $iValue->posterAvatar() . '&amp;w=50';
+                } else {
+                    $item['image'] = XOOPS_URL . '/uploads/' . $iValue->posterAvatar();
                 }
 
                 $item['image_name'] = $iValue->posterName();

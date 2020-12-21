@@ -90,9 +90,7 @@ $criteria->setOrder('DESC');
 $items      = $helper->getHandler('Item')->getAll($criteria, ['datesub'], false);
 $itemsCount = count($items);
 
-if (!($itemsCount > 0)) {
-    redirect_header(XOOPS_URL, 2, _MD_PUBLISHER_NO_TOP_PERMISSIONS);
-} else {
+if ($itemsCount > 0) {
     $years  = [];
     $months = [];
     $i      = 0;
@@ -154,6 +152,8 @@ if (!($itemsCount > 0)) {
     $years[$i]['articlesYearCount'] = $articlesThisYear;
 
     $xoopsTpl->assign('years', $years);
+} else {
+    redirect_header(XOOPS_URL, 2, _MD_PUBLISHER_NO_TOP_PERMISSIONS);
 }
 unset($items);
 

@@ -60,14 +60,14 @@ function publisher_items_columns_show($options)
     $categoriesObj = $categoryHandler->getCategories(0, 0, -1);
 
     //if not selected 'all', let's get the selected ones
-    if (!in_array(0, $selCategories, true)) {
+    if (in_array(0, $selCategories, true)) {
+        $selCategoriesObj = $categoriesObj;
+    } else {
         foreach ($categoriesObj as $key => $value) {
             if (in_array($key, $selCategories, true)) {
                 $selCategoriesObj[$key] = $value;
             }
         }
-    } else {
-        $selCategoriesObj = $categoriesObj;
     }
     unset($key, $value);
 

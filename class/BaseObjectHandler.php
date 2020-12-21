@@ -135,10 +135,10 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
         // Add each returned record to the result array
         while (false !== ($myrow = $this->db->fetchArray($result))) {
             $obj = new $this->className($myrow);
-            if (!$idAsKey) {
-                $ret[] = $obj;
-            } else {
+            if ($idAsKey) {
                 $ret[$obj->getVar($id)] = $obj;
+            } else {
+                $ret[] = $obj;
             }
             unset($obj);
         }

@@ -68,11 +68,11 @@ function publisher_items_random_item_show($options)
     if (empty($mainImage['image_path'])) {
         $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
     }
-    if (!function_exists('imagecreatetruecolor')) {
-        $block['item_image'] = $mainImage['image_path'];
-    } else {
+    if (function_exists('imagecreatetruecolor')) {
         $block['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '';
         $block['image_path'] = $mainImage['image_path'];
+    } else {
+        $block['item_image'] = $mainImage['image_path'];
     }
 
     $block['cancomment'] = $itemsObj->cancomment();

@@ -167,10 +167,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $ret        = [];
         $theObjects = parent::getObjects($criteria, true);
         foreach ($theObjects as $theObject) {
-            if (!$idAsKey) {
-                $ret[] = $theObject;
-            } else {
+            if ($idAsKey) {
                 $ret[$theObject->categoryid()] = $theObject;
+            } else {
+                $ret[] = $theObject;
             }
             unset($theObject);
         }

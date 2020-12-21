@@ -858,10 +858,10 @@ class Timthumb
                 $filterSettings = explode(',', $fl);
                 if (isset($imageFilters[$filterSettings[0]])) {
                     for ($i = 0; $i < 4; ++$i) {
-                        if (!isset($filterSettings[$i])) {
-                            $filterSettings[$i] = null;
-                        } else {
+                        if (isset($filterSettings[$i])) {
                             $filterSettings[$i] = (int)$filterSettings[$i];
+                        } else {
+                            $filterSettings[$i] = null;
                         }
                     }
 

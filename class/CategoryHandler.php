@@ -421,8 +421,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int    $catId
-     * @param string|array $status
+     * @param int   $catId
+     * @param array $status
      *
      * @return mixed
      */

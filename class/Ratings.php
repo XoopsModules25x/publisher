@@ -12,7 +12,6 @@ namespace XoopsModules\Publisher;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 
-
 use XoopsUser;
 
 /**

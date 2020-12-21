@@ -22,6 +22,7 @@ use XoopsModules\Publisher\{Helper,
     Item,
     ItemHandler
 };
+
 /** @var ItemHandler $itemHandler */
 
 require_once __DIR__ . '/common.php';

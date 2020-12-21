@@ -16,7 +16,6 @@ use Criteria;
 use CriteriaCompo;
 use XoopsDatabase;
 
-
 /**
  * Publisher module for xoops
  *

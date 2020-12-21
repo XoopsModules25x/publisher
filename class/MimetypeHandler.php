@@ -82,15 +82,14 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param \Criteria|null $criteria {@link Criteria}
-     *                                        conditions to be met
+     * @param \Criteria|\CriteriaCompo|null $criteria conditions to be met
      *
-     * @param bool                  $idAsKey
-     * @param bool                  $asObject
+     * @param bool                          $idAsKey
+     * @param bool                          $asObject
      * @return array array of <a href='psi_element://Mimetype'>Mimetype</a> objects
-     *                                        objects
+     *                                                objects
      */
-    public function &getObjects(\Criteria $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
+    public function &getObjects($criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
     {
         $ret   = [];
         $limit = $start = 0;
@@ -196,9 +195,9 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param \Criteria|null $criteria           {@link Criteria}
+     * @param \Criteria|null $criteria                  {@link Criteria}
      *                                                  to match
-     * @param bool                  $join
+     * @param bool           $join
      *
      * @return string string SQL query
      */
@@ -223,7 +222,7 @@ class MimetypeHandler extends BaseObjectHandler
 
         $sql = \sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
 
-        if (null !== $criteria && $criteria instanceof \Criteria ) {
+        if (null !== $criteria && $criteria instanceof \Criteria) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();

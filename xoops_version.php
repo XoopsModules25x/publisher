@@ -83,7 +83,7 @@ $modversion = [
         $moduleDirName . '_' . 'meta',
         $moduleDirName . '_' . 'mimetypes',
         $moduleDirName . '_' . 'rating',
-//        $moduleDirName . '_' . 'voting',
+        //        $moduleDirName . '_' . 'voting',
     ],
 ];
 

@@ -67,7 +67,7 @@ if ('' === $dateformat) {
 }
 
 $myts = \MyTextSanitizer::getInstance();
-$xoopsTpl->assign('xoops_pagetitle', htmlspecialchars(_MD_PUBLISHER_ARCHIVES) . $pgtitle . ' - ' . htmlspecialchars($GLOBALS['xoopsModule']->name()));
+$xoopsTpl->assign('xoops_pagetitle', htmlspecialchars(_MD_PUBLISHER_ARCHIVES, ENT_QUOTES | ENT_HTML5) . $pgtitle . ' - ' . htmlspecialchars($GLOBALS['xoopsModule']->name(), ENT_QUOTES | ENT_HTML5));
 
 $useroffset = '';
 if (is_object($GLOBALS['xoopsUser'])) {

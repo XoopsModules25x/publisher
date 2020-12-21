@@ -827,7 +827,7 @@ class Item extends \XoopsObject
         // Highlighting searched words
         $highlight = true;
         if ($highlight && Request::getString('keywords', '', 'GET')) {
-            $keywords = \htmlspecialchars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))));
+            $keywords = \htmlspecialchars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))), ENT_QUOTES | ENT_HTML5);
             $fields   = ['title', 'maintext', 'summary'];
             foreach ($fields as $field) {
                 if (isset($item[$field])) {

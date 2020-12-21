@@ -172,12 +172,12 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     }
 
     unset($results);
-    $search_info = _SR_KEYWORDS . ': ' . htmlspecialchars($term);
+    $search_info = _SR_KEYWORDS . ': ' . htmlspecialchars($term, ENT_QUOTES | ENT_HTML5);
     if ($uname_required) {
         if ($search_info) {
             $search_info .= '<br>';
         }
-        $search_info .= _CO_PUBLISHER_UID . ': ' . htmlspecialchars($search_username);
+        $search_info .= _CO_PUBLISHER_UID . ': ' . htmlspecialchars($search_username, ENT_QUOTES | ENT_HTML5);
     }
     $xoopsTpl->assign('search_info', $search_info);
 }

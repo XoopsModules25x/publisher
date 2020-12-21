@@ -731,7 +731,7 @@ class Item extends \XoopsObject
                 $imagesIds = \explode('|', $images);
             }
             if ($image > 0) {
-                $imagesIds = \array_merge($imagesIds, [$image]);
+                array_push($imagesIds, $image);
             }
             $imageObjs = [];
             if (\count($imagesIds) > 0) {

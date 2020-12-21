@@ -104,7 +104,7 @@ $adminObject->displayNavigation(basename(__FILE__));
 //------------- Test Data Buttons ----------------------------
 if ($helper->getConfig('displaySampleButton')) {
     TestdataButtons::loadButtonConfig($adminObject);
-    $adminObject->displayButton('left', '');;
+    $adminObject->displayButton('left', '');
 }
 $op = \Xmf\Request::getString('op', 0, 'GET');
 switch ($op) {

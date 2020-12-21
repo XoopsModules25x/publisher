@@ -75,31 +75,25 @@ switch ($op) {
             case Constants::RATING_NONE:
             default:
                 \redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
-                exit;
-                break;
             case Constants::RATING_LIKES:
                 if ($rating > 1 || $rating < -1) {
                     \redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
-                    exit;
                 }
                 break;
             case Constants::RATING_5STARS:
                 if ($rating > 5 || $rating < 1) {
                     \redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
-                    exit;
                 }
                 break;
             case Constants::RATING_REACTION:
                 if ($rating > 6 || $rating < 1) {
                     \redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
-                    exit;
                 }
                 break;
             case Constants::RATING_10STARS:
             case Constants::RATING_10NUM:
                 if ($rating > 10 || $rating < 1) {
                     \redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
-                    exit;
                 }
                 break;
         }

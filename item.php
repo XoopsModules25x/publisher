@@ -139,7 +139,7 @@ if ('previous_next' === $helper->getConfig('item_other_items_type')) {
 
 //CAREFUL!! with many items this will exhaust memory
 if ('all' === $helper->getConfig('item_other_items_type')) {
-    $itemsObj = $helper->getHandler('Item')->getAllPublished(0, 0, $categoryObj->categoryId, $sort, $order, '', true, true);
+    $itemsObj = $helper->getHandler('Item')->getAllPublished(0, 0, $categoryObj->categoryid, $sort, $order, '', true, true);
     $items    = [];
     foreach ($itemsObj[''] as $theItemObj) {
         $theItem              = [];
@@ -182,7 +182,7 @@ if ('all' === $helper->getConfig('item_other_items_type')) {
             $theItem['image_path'] = $mainImage['image_path'];
         }
 
-        if ($theItemObj->itemId() == $itemObj->itemId()) {
+        if ($theItemObj->itemid == $itemObj->itemid()) {
             $theItem['titlelink'] = $theItemObj->getItemLink();
         }
         $items[] = $theItem;
@@ -202,7 +202,7 @@ if ($itemObj->pagescount() > 0) {
         $itemPageId = 0;
     }
     require_once $GLOBALS['xoops']->path('class/pagenav.php');
-    //    $pagenav = new \XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemId());
+    //    $pagenav = new \XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemid());
 
     $pagenav = new \XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemid()); //SMEDrieben changed ->itemId to ->itemid
 
@@ -254,7 +254,7 @@ unset($file, $embededFiles, $filesObj, $fileObj);
 
 // Language constants
 $xoopsTpl->assign('mail_link', 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ': ' . $itemObj->getItemUrl());
-$xoopsTpl->assign('itemid', $itemObj->itemId());
+$xoopsTpl->assign('itemid', $itemObj->itemid());
 $xoopsTpl->assign('sectionname', $helper->getModule()->getVar('name'));
 $xoopsTpl->assign('module_dirname', $helper->getDirname());
 $xoopsTpl->assign('module_home', Utility::moduleHome($helper->getConfig('format_linked_path')));

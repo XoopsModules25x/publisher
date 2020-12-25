@@ -23,8 +23,6 @@ namespace XoopsModules\Publisher;
  * @author         XOOPS Development Team
  */
 
-/** @var Helper $helper */
-
 \defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
@@ -79,7 +77,6 @@ class VoteHandler extends \XoopsPersistableObjectHandler
     {
         $itemId    = $itemId ?? 0;
         $source    = $source ?? 0;
-        $helper    = Helper::getInstance();
         $xoopsUser = $GLOBALS['xoopsUser'];
 
         $itemRating            = [];
@@ -91,12 +88,12 @@ class VoteHandler extends \XoopsPersistableObjectHandler
         $count                 = 0;
 
         $max_units   = 10;
-        $ratingBars  = (int)$helper->getConfig('ratingbars');
+        $ratingBars  = (int)$this->helper->getConfig('ratingbars');
         $ratingArray = [Constants::RATING_5STARS, Constants::RATING_10STARS, Constants::RATING_10NUM];
 
         if (in_array($ratingBars, $ratingArray)) {
             $rating_unitwidth = 25;
-            if (Constants::RATING_5STARS === (int)$helper->getConfig('ratingbars')) {
+            if (Constants::RATING_5STARS === (int)$this->helper->getConfig('ratingbars')) {
                 $max_units = 5;
             }
 
@@ -104,7 +101,7 @@ class VoteHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
             $criteria->add(new \Criteria(static::SOURCE, $source));
 
-            $voteObjs              = $helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
+            $voteObjs              = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
             $count                 = \count($voteObjs);
             $itemRating['nb_vote'] = $count;
 
@@ -140,14 +137,14 @@ class VoteHandler extends \XoopsPersistableObjectHandler
             $itemRating['uid']   = $uid;
             $itemRating['voted'] = $voted;
             // YouTube Liking  ==========================================
-        } elseif (Constants::RATING_LIKES === (int)$helper->getConfig('ratingbars')) {
+        } elseif (Constants::RATING_LIKES === (int)$this->helper->getConfig('ratingbars')) {
             // get count of "dislikes"
             $criteria = new \CriteriaCompo();
             $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
             $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 0, '<'));
 
-            $voteObjs = $helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
+            $voteObjs = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
             $count    = \count($voteObjs);
 
             foreach ($voteObjs as $voteObj) {
@@ -166,7 +163,7 @@ class VoteHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 0, '>'));
 
-            $voteObjs      = $helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
+            $voteObjs      = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
             $count         = \count($voteObjs);
             $currentRating = 0;
             foreach ($voteObjs as $voteObj) {
@@ -184,13 +181,13 @@ class VoteHandler extends \XoopsPersistableObjectHandler
             $itemRating['uid']     = $uid;
             $itemRating['voted']   = $voted;
             // Facebook Reactions  ==========================================
-        } elseif (Constants::RATING_REACTION === (int)$helper->getConfig('ratingbars')) {
+        } elseif (Constants::RATING_REACTION === (int)$this->helper->getConfig('ratingbars')) {
             $criteria = new \CriteriaCompo();
             $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
             $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 0, '<'));
 
-            $voteObjs              = $helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
+            $voteObjs              = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
             $count                 = \count($voteObjs);
             $itemRating['nb_vote'] = $count;
 
@@ -209,7 +206,7 @@ class VoteHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 0, '>'));
 
-            $voteObjs      = $helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
+            $voteObjs      = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
             $count         = \count($voteObjs);
             $currentRating = 0;
             foreach ($voteObjs as $voteObj) {

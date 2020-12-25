@@ -36,13 +36,13 @@ class Vote extends \XoopsObject
      */
     public function __construct()
     {
-        $this->initVar('ratingid', XOBJ_DTYPE_INT);
-        $this->initVar('source', XOBJ_DTYPE_INT);
-        $this->initVar('itemid', XOBJ_DTYPE_INT);
-        $this->initVar('rate', XOBJ_DTYPE_INT);
-        $this->initVar('uid', XOBJ_DTYPE_INT);
-        $this->initVar('ip', XOBJ_DTYPE_TXTBOX);
-        $this->initVar('date', XOBJ_DTYPE_INT);
+        $this->initVar('ratingid', \XOBJ_DTYPE_INT);
+        $this->initVar('source', \XOBJ_DTYPE_INT);
+        $this->initVar('itemid', \XOBJ_DTYPE_INT);
+        $this->initVar('rate', \XOBJ_DTYPE_INT);
+        $this->initVar('uid', \XOBJ_DTYPE_INT);
+        $this->initVar('ip', \XOBJ_DTYPE_TXTBOX);
+        $this->initVar('date', \XOBJ_DTYPE_INT);
     }
 
     /**
@@ -50,7 +50,7 @@ class Vote extends \XoopsObject
      *
      * @param null
      */
-    public static function getInstance()
+    public static function getInstance(): void
     {
         static $instance = false;
         if (!$instance) {
@@ -58,16 +58,16 @@ class Vote extends \XoopsObject
         }
     }
 
-    /**
-     * The new inserted $Id
-     * @return int inserted id
-     */
-    public function getNewInsertedIdVote()
-    {
-        $newInsertedId = $GLOBALS['xoopsDB']->getInsertId();
-
-        return $newInsertedId;
-    }
+//    /**
+//     * The new inserted $Id
+//     * @return int inserted id
+//     */
+//    public function getNewInsertedIdVote(): int
+//    {
+//        $newInsertedId = $GLOBALS['xoopsDB']->getInsertId();
+//
+//        return $newInsertedId;
+//    }
 
     /**
      * Get Values
@@ -76,7 +76,7 @@ class Vote extends \XoopsObject
      * @param int|null    $maxDepth
      * @return array
      */
-    public function getValuesVote($keys = null, $format = null, $maxDepth = null)
+    public function getValuesVote($keys = null, $format = null, $maxDepth = null): array
     {
         $ret             = $this->getValues($keys, $format, $maxDepth);
         $ret['ratingid'] = $this->getVar('ratingid');
@@ -95,7 +95,7 @@ class Vote extends \XoopsObject
      *
      * @return array
      */
-    public function toArrayVote()
+    public function toArrayVote(): array
     {
         $ret  = [];
         $vars = $this->getVars();

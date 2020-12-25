@@ -58,15 +58,15 @@ switch ($op) {
         }
 
         // Check permissions
-        $rate_allowed = false;
+        $rateAllowed = false;
         $groups       = (isset($GLOBALS['xoopsUser']) && \is_object($GLOBALS['xoopsUser'])) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         foreach ($groups as $group) {
             if (XOOPS_GROUP_ADMIN == $group || \in_array($group, $helper->getConfig('ratingbar_groups'))) {
-                $rate_allowed = true;
+                $rateAllowed = true;
                 break;
             }
         }
-        if (!$rate_allowed) {
+        if (!$rateAllowed) {
             \redirect_header('index.php', 3, _MA_BLOG_RATING_NOPERM);
         }
 
@@ -99,21 +99,21 @@ switch ($op) {
         }
 
         // Get existing rating
-        $itemrating = $ratingsHandler->getItemRating($itemId, $source);
+        $itemRating = $ratingsHandler->getItemRating($itemId, $source);
 
         // Set data rating
-        if ($itemrating['voted']) {
+        if ($itemRating['voted']) {
             // If yo want to avoid revoting then activate next line
             //\redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
-            $ratingsObj = $ratingsHandler->get($itemrating['rate_id']);
+            $ratingsObj = $ratingsHandler->get($itemRating['rate_id']);
         } else {
             $ratingsObj = $ratingsHandler->create();
         }
         $ratingsObj->setVar('rate_source', $source);
         $ratingsObj->setVar('rate_itemid', $itemId);
         $ratingsObj->setVar('rate_value', $rating);
-        $ratingsObj->setVar('rate_uid', $itemrating['uid']);
-        $ratingsObj->setVar('rate_ip', $itemrating['ip']);
+        $ratingsObj->setVar('rate_uid', $itemRating['uid']);
+        $ratingsObj->setVar('rate_ip', $itemRating['ip']);
         $ratingsObj->setVar('rate_date', \time());
         // Insert Data
         if ($ratingsHandler->insert($ratingsObj)) {
@@ -121,18 +121,18 @@ switch ($op) {
             // Calc average rating value
             $nb_ratings     = 0;
             $avg_rate_value = 0;
-            $current_rating = 0;
+            $currentRating = 0;
             $crRatings      = new \CriteriaCompo();
             $crRatings->add(new \Criteria('rate_source', $source));
             $crRatings->add(new \Criteria('rate_itemid', $itemId));
             $ratingsCount = $ratingsHandler->getCount($crRatings);
             $ratingsAll   = $ratingsHandler->getAll($crRatings);
             foreach (\array_keys($ratingsAll) as $i) {
-                $current_rating += $ratingsAll[$i]->getVar('rate_value');
+                $currentRating += $ratingsAll[$i]->getVar('rate_value');
             }
             unset($ratingsAll);
             if ($ratingsCount > 0) {
-                $avg_rate_value = number_format($current_rating / $ratingsCount, 2);
+                $avg_rate_value = number_format($currentRating / $ratingsCount, 2);
             }
             // Update related table
             if (Constants::TABLE_CATEGORY === $source) {

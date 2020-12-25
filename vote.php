@@ -27,12 +27,14 @@ use XoopsModules\Publisher\{Constants,
 };
 
 /** @var Helper $helper */
+/** @var VoteHandler $voteHandler */
 
 require __DIR__ . '/header.php';
 $op             = Request::getCmd('op', 'list');
 $source         = Request::getInt('source', 0);
 $voteHandler    = $helper->getHandler('Vote');
 $articleHandler = $helper->getHandler('Item');
+$xoopsUser = $GLOBALS['xoopsUser'];
 
 switch ($op) {
     case 'list':
@@ -58,15 +60,15 @@ switch ($op) {
         }
 
         // Check permissions
-        $rate_allowed = false;
-        $groups       = (isset($GLOBALS['xoopsUser']) && \is_object($GLOBALS['xoopsUser'])) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        $rateAllowed = false;
+        $groups       = (isset($xoopsUser) && \is_object($xoopsUser)) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
         foreach ($groups as $group) {
             if (XOOPS_GROUP_ADMIN == $group || \in_array($group, $helper->getConfig('ratingbar_groups'))) {
-                $rate_allowed = true;
+                $rateAllowed = true;
                 break;
             }
         }
-        if (!$rate_allowed) {
+        if (!$rateAllowed) {
             \redirect_header('index.php', 3, _MA_BLOG_RATING_NOPERM);
         }
 
@@ -99,25 +101,21 @@ switch ($op) {
         }
 
         // Get existing rating
-        $itemrating = $voteHandler->getItemRating($itemId, $source);
+        $itemRating = $voteHandler->getItemRating($itemId, $source);
 
         // Set data rating
-        if ($itemrating['voted']) {
-            // If yo want to avoid revoting then activate next line
-            //            \redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
-            //            \redirect_header('item.php?itemid=' .$itemId, 3, _MA_BLOG_RATING_VOTE_BAD);
+        if ($itemRating['voted']) {
+            // If you want to allow  revoting then deactivate next line
             $helper->redirect('item.php?itemid=' . $itemId, 2, _MD_PUBLISHER_VOTE_ALREADY);
-            //            redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemId, 2, _MD_PUBLISHER_VOTE_ALREADY);
-
-            $voteObj = $voteHandler->get($itemrating['ratingid']);
+            $voteObj = $voteHandler->get($itemRating['ratingid']);
         } else {
             $voteObj = $voteHandler->create();
         }
         $voteObj->setVar('source', $source);
         $voteObj->setVar('itemid', $itemId);
         $voteObj->setVar('rate', $rating);
-        $voteObj->setVar('uid', $itemrating['uid']);
-        $voteObj->setVar('ip', $itemrating['ip']);
+        $voteObj->setVar('uid', $itemRating['uid']);
+        $voteObj->setVar('ip', $itemRating['ip']);
         $voteObj->setVar('date', \time());
         // Insert Data
         if ($voteHandler->insert($voteObj)) {
@@ -125,18 +123,18 @@ switch ($op) {
             // Calc average rating value
             $nb_vote        = 0;
             $avg_rate_value = 0;
-            $current_rating = 0;
+            $currentRating = 0;
             $crVote         = new \CriteriaCompo();
             $crVote->add(new \Criteria('source', $source));
             $crVote->add(new \Criteria('itemid', $itemId));
             $voteCount = $voteHandler->getCount($crVote);
             $voteAll   = $voteHandler->getAll($crVote);
             foreach (\array_keys($voteAll) as $i) {
-                $current_rating += $voteAll[$i]->getVar('rate');
+                $currentRating += $voteAll[$i]->getVar('rate');
             }
             unset($voteAll);
             if ($voteCount > 0) {
-                $avg_rate_value = number_format($current_rating / $voteCount, 2);
+                $avg_rate_value = number_format($currentRating / $voteCount, 2);
             }
             // Update related table
             if (Constants::TABLE_CATEGORY === $source) {

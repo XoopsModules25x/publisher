@@ -90,7 +90,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
         $uid                      = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
         $voted                    = false;
         $ip                       = \getenv('REMOTE_ADDR');
-        $current_rating           = 0;
+        $currentRating           = 0;
         $count                    = 0;
 
         if (Constants::RATING_5STARS === (int)$helper->getConfig('ratingbars')
@@ -112,7 +112,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $itemRating['nb_ratings'] = $count;
 
             foreach ($ratingObjs as $ratingObj) {
-                $current_rating += $ratingObj->getVar('rate_value');
+                $currentRating += $ratingObj->getVar('rate_value');
                 if (($ratingObj->getVar('rate_ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $ratingObj->getVar('rate_uid'))) {
                     $voted            = true;
                     $itemRating['id'] = $ratingObj->getVar('rate_id');
@@ -123,7 +123,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
 
             $itemRating['avg_rate_value'] = 0;
             if ($count > 0) {
-                $itemRating['avg_rate_value'] = \number_format($current_rating / $count, 2);
+                $itemRating['avg_rate_value'] = \number_format($currentRating / $count, 2);
             }
             if (1 == $count) {
                 $text      = \str_replace('%c', $itemRating['avg_rate_value'], \_MA_BLOG_RATING_CURRENT_1);
@@ -149,7 +149,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $count      = count($ratingObjs);
 
             foreach ($ratingObjs as $ratingObj) {
-                $current_rating += $ratingObj->getVar('rate_value');
+                $currentRating += $ratingObj->getVar('rate_value');
                 if (($ratingObj->getVar('rate_ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $ratingObj->getVar('rate_uid'))) {
                     $voted            = true;
                     $itemRating['id'] = $ratingObj->getVar('rate_id');
@@ -166,9 +166,9 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
 
             $ratingObjs     = $helper->getHandler('ratings')->getObjects($criteria);
             $count          = count($ratingObjs);
-            $current_rating = 0;
+            $currentRating = 0;
             foreach ($ratingObjs as $ratingObj) {
-                $current_rating += $ratingObj->getVar('rate_value');
+                $currentRating += $ratingObj->getVar('rate_value');
                 if (($ratingObj->getVar('rate_ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $ratingObj->getVar('rate_uid'))) {
                     $voted            = true;
                     $itemRating['id'] = $ratingObj->getVar('rate_id');
@@ -192,7 +192,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $itemRating['nb_ratings'] = $count;
 
             foreach ($ratingObjs as $ratingObj) {
-                $current_rating += $ratingObj->getVar('rate_value');
+                $currentRating += $ratingObj->getVar('rate_value');
                 if (($ratingObj->getVar('rate_ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $ratingObj->getVar('rate_uid'))) {
                     $voted            = true;
                     $itemRating['id'] = $ratingObj->getVar('rate_id');
@@ -209,9 +209,9 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
 
             $ratingObjs     = $helper->getHandler('ratings')->getObjects($criteria);
             $count          = count($ratingObjs);
-            $current_rating = 0;
+            $currentRating = 0;
             foreach ($ratingObjs as $ratingObj) {
-                $current_rating += $ratingObj->getVar('rate_value');
+                $currentRating += $ratingObj->getVar('rate_value');
                 if (($ratingObj->getVar('rate_ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $ratingObj->getVar('rate_uid'))) {
                     $voted            = true;
                     $itemRating['id'] = $ratingObj->getVar('rate_id');

@@ -22,6 +22,9 @@ namespace XoopsModules\Publisher;
  * @min_xoops      2.5.10
  * @author         XOOPS Development Team
  */
+
+/** @var Helper $helper */
+
 \defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
@@ -29,36 +32,30 @@ namespace XoopsModules\Publisher;
  */
 class VoteHandler extends \XoopsPersistableObjectHandler
 {
+    private const TABLE = 'publisher_rating';
+    private const ENTITY = Vote::class;
+    private const ENTITYNAME = 'Vote';
+    private const KEYNAME = 'ratingid';
+    private const IDENTIFIER = 'itemid';
+    private const SOURCE = 'source';
+
+    /**
+     * @var Helper
+     */
+    public $helper;
+
     /**
      * Constructor
      * @param \XoopsDatabase $db
+     * @param Helper $helper
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        //        parent::__construct($db, 'publisher_voting', Vote::class, 'rate_id', 'itemid');
-        parent::__construct($db, 'publisher_rating', Vote::class, 'ratingid', 'itemid');
-    }
+        $this->db = $db;
+        /** @var Helper $this->helper */
+        $this->helper = $helper ?? Helper::getInstance();
 
-    /**
-     * @param bool $isNew
-     *
-     * @return Object
-     */
-    public function create($isNew = true)
-    {
-        return parent::create($isNew);
-    }
-
-    /**
-     * retrieve a field
-     *
-     * @param int   $i field id
-     * @param array $fields
-     * @return mixed reference to the {@link Get} object
-     */
-    public function get($i = null, $fields = null)
-    {
-        return parent::get($i, $fields);
+        parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
     }
 
     /**
@@ -67,67 +64,69 @@ class VoteHandler extends \XoopsPersistableObjectHandler
      * @param null
      * @return int reference to the {@link Get} object
      */
-    public function getInsertId()
+    public function getInsertId(): int
     {
         return $this->db->getInsertId();
     }
 
     /**
      * Get Rating per item in the database
-     * @param int $itemId
-     * @param int $source
+     * @param int|null $itemId
+     * @param int|null $source
      * @return array
      */
-    public function getItemRating($itemId = 0, $source = 0)
+    public function getItemRating($itemId = null, $source = null): array
     {
-        $helper = \XoopsModules\Publisher\Helper::getInstance();
+        $itemId    = $itemId ?? 0;
+        $source    = $source ?? 0;
+        $helper    = Helper::getInstance();
+        $xoopsUser = $GLOBALS['xoopsUser'];
 
         $itemRating            = [];
         $itemRating['nb_vote'] = 0;
-        $uid                   = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
+        $uid                   = \is_object($xoopsUser) ? $xoopsUser->getVar('uid') : 0;
         $voted                 = false;
-        $ip                    = getenv('REMOTE_ADDR');
-        $current_rating        = 0;
+        $ip                    = \getenv('REMOTE_ADDR');
+        $currentRating         = 0;
         $count                 = 0;
 
-        if (Constants::RATING_5STARS === (int)$helper->getConfig('ratingbars')
-            || Constants::RATING_10STARS === (int)$helper->getConfig('ratingbars')
-            || Constants::RATING_10NUM === (int)$helper->getConfig('ratingbars')) {
+        $max_units   = 10;
+        $ratingBars  = (int)$helper->getConfig('ratingbars');
+        $ratingArray = [Constants::RATING_5STARS, Constants::RATING_10STARS, Constants::RATING_10NUM];
+
+        if (in_array($ratingBars, $ratingArray)) {
             $rating_unitwidth = 25;
             if (Constants::RATING_5STARS === (int)$helper->getConfig('ratingbars')) {
                 $max_units = 5;
-            } else {
-                $max_units = 10;
             }
 
             $criteria = new \CriteriaCompo();
-            $criteria->add(new \Criteria('itemid', $itemId));
-            $criteria->add(new \Criteria('source', $source));
+            $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
+            $criteria->add(new \Criteria(static::SOURCE, $source));
 
-            $voteObjs              = $helper->getHandler('Vote')->getObjects($criteria);
+            $voteObjs              = $helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
             $count                 = \count($voteObjs);
             $itemRating['nb_vote'] = $count;
 
             foreach ($voteObjs as $voteObj) {
-                $current_rating += $voteObj->getVar('rate');
-                if (($voteObj->getVar('rate_ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $voteObj->getVar('rate_uid'))) {
+                $currentRating += $voteObj->getVar('rate');
+                if (($voteObj->getVar('ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $voteObj->getVar('uid'))) {
                     $voted            = true;
-                    $itemRating['id'] = $voteObj->getVar('rate_id');
+                    $itemRating['id'] = $voteObj->getVar('ratingid');
                 }
             }
-            unset($voteObj);
             unset($criteria);
 
             $itemRating['avg_rate_value'] = 0;
             if ($count > 0) {
-                $itemRating['avg_rate_value'] = number_format($current_rating / $count, 2);
+                $itemRating['avg_rate_value'] = \number_format($currentRating / $count, 2);
             }
             if (1 == $count) {
-                $text      = \str_replace('%c', $itemRating['avg_rate_value'], _MA_BLOG_RATING_CURRENT_1);
-                $shorttext = \str_replace('%c', $itemRating['avg_rate_value'], _MA_BLOG_RATING_CURRENT_SHORT_1);
+                $text      = \str_replace('%c', $itemRating['avg_rate_value'], \_MA_BLOG_RATING_CURRENT_1);
+                $shorttext = \str_replace('%c', $itemRating['avg_rate_value'], \_MA_BLOG_RATING_CURRENT_SHORT_1);
             } else {
-                $text      = \str_replace('%c', $itemRating['avg_rate_value'], _MA_BLOG_RATING_CURRENT_X);
-                $shorttext = \str_replace('%c', $itemRating['avg_rate_value'], _MA_BLOG_RATING_CURRENT_SHORT_X);
+                $text      = \str_replace('%c', $itemRating['avg_rate_value'], \_MA_BLOG_RATING_CURRENT_X);
+                $shorttext = \str_replace('%c', $itemRating['avg_rate_value'], \_MA_BLOG_RATING_CURRENT_SHORT_X);
             }
             $text                    = \str_replace('%m', $max_units, $text);
             $text                    = \str_replace('%t', $itemRating['nb_vote'], $text);
@@ -136,89 +135,97 @@ class VoteHandler extends \XoopsPersistableObjectHandler
             $itemRating['shorttext'] = $shorttext;
             $itemRating['size']      = ($itemRating['avg_rate_value'] * $rating_unitwidth) . 'px';
             $itemRating['maxsize']   = ($max_units * $rating_unitwidth) . 'px';
+
+            $itemRating['ip']    = $ip;
+            $itemRating['uid']   = $uid;
+            $itemRating['voted'] = $voted;
             // YouTube Liking  ==========================================
         } elseif (Constants::RATING_LIKES === (int)$helper->getConfig('ratingbars')) {
+            // get count of "dislikes"
             $criteria = new \CriteriaCompo();
-            $criteria->add(new \Criteria('itemid', $itemId));
-            $criteria->add(new \Criteria('source', $source));
+            $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
+            $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 0, '<'));
 
-            $voteObjs = $helper->getHandler('Vote')->getObjects($criteria);
+            $voteObjs = $helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
             $count    = \count($voteObjs);
 
             foreach ($voteObjs as $voteObj) {
-                $current_rating += $voteObj->getVar('rate');
-                if (($voteObj->getVar('rate_ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $voteObj->getVar('rate_uid'))) {
+                $currentRating += $voteObj->getVar('rate');
+                if (($voteObj->getVar('ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $voteObj->getVar('uid'))) {
                     $voted            = true;
-                    $itemRating['id'] = $voteObj->getVar('rate_id');
+                    $itemRating['id'] = $voteObj->getVar('ratingid');
                 }
             }
-            unset($voteObj);
             unset($criteria);
             $itemRating['dislikes'] = $count;
 
+            // get count of "likes"
             $criteria = new \CriteriaCompo();
-            $criteria->add(new \Criteria('itemid', $itemId));
-            $criteria->add(new \Criteria('source', $source));
+            $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
+            $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 0, '>'));
 
-            $voteObjs       = $helper->getHandler('Vote')->getObjects($criteria);
-            $count          = \count($voteObjs);
-            $current_rating = 0;
+            $voteObjs      = $helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
+            $count         = \count($voteObjs);
+            $currentRating = 0;
             foreach ($voteObjs as $voteObj) {
-                $current_rating += $voteObj->getVar('rate');
-                if (($voteObj->getVar('rate_ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $voteObj->getVar('rate_uid'))) {
+                $currentRating += $voteObj->getVar('rate');
+                if (($voteObj->getVar('ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $voteObj->getVar('uid'))) {
                     $voted            = true;
-                    $itemRating['id'] = $voteObj->getVar('rate_id');
+                    $itemRating['id'] = $voteObj->getVar('ratingid');
                 }
             }
-            unset($voteObj);
             unset($criteria);
             $itemRating['likes'] = $count;
 
-            $count = $itemRating['likes'] + $itemRating['dislikes'];
+            $itemRating['nb_vote'] = $itemRating['likes'] + $itemRating['dislikes'];
+            $itemRating['ip']      = $ip;
+            $itemRating['uid']     = $uid;
+            $itemRating['voted']   = $voted;
             // Facebook Reactions  ==========================================
         } elseif (Constants::RATING_REACTION === (int)$helper->getConfig('ratingbars')) {
             $criteria = new \CriteriaCompo();
-            $criteria->add(new \Criteria('itemid', $itemId));
-            $criteria->add(new \Criteria('source', $source));
+            $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
+            $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 0, '<'));
 
-            $voteObjs              = $helper->getHandler('Vote')->getObjects($criteria);
+            $voteObjs              = $helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
             $count                 = \count($voteObjs);
             $itemRating['nb_vote'] = $count;
 
             foreach ($voteObjs as $voteObj) {
-                $current_rating += $voteObj->getVar('rate');
-                if (($voteObj->getVar('rate_ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $voteObj->getVar('rate_uid'))) {
+                $currentRating += $voteObj->getVar('rate');
+                if (($voteObj->getVar('ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $voteObj->getVar('uid'))) {
                     $voted            = true;
-                    $itemRating['id'] = $voteObj->getVar('rate_id');
+                    $itemRating['id'] = $voteObj->getVar('ratingid');
                 }
             }
-            unset($voteObj);
             unset($criteria);
             $itemRating['dislikes'] = $count;
 
             $criteria = new \CriteriaCompo();
-            $criteria->add(new \Criteria('itemid', $itemId));
-            $criteria->add(new \Criteria('source', $source));
+            $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
+            $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 0, '>'));
 
-            $voteObjs       = $helper->getHandler('Vote')->getObjects($criteria);
-            $count          = \count($voteObjs);
-            $current_rating = 0;
+            $voteObjs      = $helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
+            $count         = \count($voteObjs);
+            $currentRating = 0;
             foreach ($voteObjs as $voteObj) {
-                $current_rating += $voteObj->getVar('rate');
-                if (($voteObj->getVar('rate_ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $voteObj->getVar('rate_uid'))) {
+                $currentRating += $voteObj->getVar('rate');
+                if (($voteObj->getVar('ip') == $ip && 0 == $uid) || ($uid > 0 && $uid == $voteObj->getVar('uid'))) {
                     $voted            = true;
-                    $itemRating['id'] = $voteObj->getVar('rate_id');
+                    $itemRating['id'] = $voteObj->getVar('ratingid');
                 }
             }
-            unset($voteObj);
             unset($criteria);
             $itemRating['likes'] = $count;
 
-            $count = $itemRating['likes'] + $itemRating['dislikes'];
+            $itemRating['nb_vote'] = $itemRating['likes'] + $itemRating['dislikes'];
+            $itemRating['ip']      = $ip;
+            $itemRating['uid']     = $uid;
+            $itemRating['voted']   = $voted;
         } else {
             $itemRating['uid']     = $uid;
             $itemRating['nb_vote'] = $count;
@@ -234,11 +241,11 @@ class VoteHandler extends \XoopsPersistableObjectHandler
      * @param mixed $source
      * @return bool
      */
-    public function deleteAllVote($itemId, $source)
+    public function deleteAllVote($itemId, $source): bool
     {
         $criteria = new \CriteriaCompo();
-        $criteria->add(new \Criteria('itemid', $itemId));
-        $criteria->add(new \Criteria('source', $source));
+        $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
+        $criteria->add(new \Criteria(static::SOURCE, $source));
 
         return $this->deleteAll($criteria);
     }

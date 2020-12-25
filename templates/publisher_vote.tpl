@@ -28,8 +28,8 @@
     <{/if}>
     <{if $rating_10stars}>
         <div class="blog_ratingblock">
-            <div id="unit_long<{$item.id}>">
-                <div id="unit_ul<{$item.id}>" class="blog_unit-rating-10">
+            <div id="unit_long<{$item2.itemid}>">
+                <div id="unit_ul<{$item2.itemid}>" class="blog_unit-rating-10">
                     <div class="blog_current-rating" style="width:<{$item.rating.size}>;"></div>
                     <div>
                         <a class="blog_r1-unit rater" href="vote.php?op=save&amp;<{$itemid}>=<{$item2.itemid}>&rating=1&amp;source=1" title="<{$smarty.const._MA_BLOG_RATING_10_1}>" rel="nofollow">1</a>

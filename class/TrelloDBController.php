@@ -63,7 +63,7 @@ class TrelloDBController
     }
 
     /**
-     * @param string $sql
+     * @param mysqli_stmt $sql
      * @param string $paramType
      * @param array $paramValueArray
      */

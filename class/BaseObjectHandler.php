@@ -217,14 +217,14 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * count objects matching a criteria
      *
-     * @param \CriteriaElement|\Criteria|null $criteria {@link CriteriaElement}                                                  to match
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement}                                                  to match
      *
      * @return int count of objects
      */
     public function getCount(\CriteriaElement $criteria = null) //getCount($criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->dbtable);
-        if (null !== $criteria && $criteria instanceof \Criteria) {
+        if (null !== $criteria && ($criteria instanceof \Criteria || $criteria instanceof \CriteriaCompo)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {

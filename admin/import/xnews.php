@@ -28,6 +28,8 @@ use XoopsModules\Publisher\{Constants,
     Utility
 };
 
+const DIRNAME = 'xnews';
+
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
@@ -171,7 +173,7 @@ if ('go' === $op) {
     Utility::openCollapsableBar('xnewsimportgo', 'xnewsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler   = xoops_getHandler('module');
-    $moduleObj       = $moduleHandler->getByDirname('xnews');
+    $moduleObj       = $moduleHandler->getByDirname(DIRNAME);
     $xnews_module_id = $moduleObj->getVar('mid');
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');

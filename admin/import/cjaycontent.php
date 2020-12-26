@@ -25,6 +25,7 @@ use XoopsModules\Publisher\{Constants,
     Item,
     Utility
 };
+const DIRNAME = 'cjaycontent';
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
@@ -94,7 +95,7 @@ if ('go' === $op) {
     Utility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler         = xoops_getHandler('module');
-    $moduleObj             = $moduleHandler->getByDirname('cjaycontent');
+    $moduleObj             = $moduleHandler->getByDirname(DIRNAME);
     $cjaycontent_module_id = $moduleObj->getVar('mid');
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');

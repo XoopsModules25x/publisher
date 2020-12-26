@@ -27,6 +27,8 @@ use XoopsModules\Publisher\{Category,
     Utility
 };
 
+const DIRNAME = 'ams';
+
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
@@ -169,7 +171,7 @@ if ('go' === $op) {
     Utility::openCollapsableBar('amsimportgo', 'amsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
-    $moduleObj     = $moduleHandler->getByDirname('ams');
+    $moduleObj     = $moduleHandler->getByDirname(DIRNAME);
     $ams_module_id = $moduleObj->getVar('mid');
 
     /** @var \XoopsGroupPermHandler $grouppermHandler */

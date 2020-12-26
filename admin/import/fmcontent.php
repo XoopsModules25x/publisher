@@ -28,6 +28,8 @@ use XoopsModules\Publisher\{Category,
     Utility
 };
 
+const DIRNAME = 'fmcontent';
+
 /** @var \XoopsPersistableObjectHandler $fmContentHdlr */
 /** @var \XoopsPersistableObjectHandler $fmTopicHdlr */
 
@@ -142,7 +144,7 @@ if ('go' === $op) {
 
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
-    $moduleObj     = $moduleHandler->getByDirname('fmcontent');
+    $moduleObj     = $moduleHandler->getByDirname(DIRNAME);
     $fm_module_id  = $moduleObj->getVar('mid');
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');

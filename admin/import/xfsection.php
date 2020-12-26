@@ -28,6 +28,10 @@ use XoopsModules\Publisher\{Constants,
     Utility
 };
 
+const CATEGORY = 'xfs_category';
+const ITEMID = 'articleid';
+const DIRNAME = 'xfsection';
+
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
@@ -44,7 +48,7 @@ if ('start' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Utility::openCollapsableBar('xfsectionimport', 'xfsectionimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
-    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_category'));
+    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix(CATEGORY));
     [$totalCat] = $GLOBALS['xoopsDB']->fetchRow($result);
 
     if (0 == $totalCat) {
@@ -63,7 +67,7 @@ if ('start' === $op) {
             $form = new \XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
             // Categories to be imported
-            $sql             = 'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_category') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('xfs_article') . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
+            $sql             = 'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM ' . $GLOBALS['xoopsDB']->prefix(CATEGORY) . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('xfs_article') . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
             $result          = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_values = [];
             $catCboxOptions  = [];
@@ -108,7 +112,7 @@ if ('go' === $op) {
 
     $parentId = Request::getInt('parent_category', 0, 'POST');
 
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_category') . ' ORDER BY orders';
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix(CATEGORY) . ' ORDER BY orders';
 
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
@@ -195,7 +199,7 @@ if ('go' === $op) {
             }
             // Linkes files
 
-            $sql              = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_files') . ' WHERE articleid=' . $arrArticle['articleid'];
+            $sql              = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_files') . ' WHERE articleid=' . $arrArticle[ARTICLEID];
             $resultFiles      = $GLOBALS['xoopsDB']->query($sql);
             $allowedMimetypes = '';
             while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
@@ -221,7 +225,7 @@ if ('go' === $op) {
                 }
             }
 
-            $newArticleArray[$arrArticle['articleid']] = $itemObj->itemid();
+            $newArticleArray[$arrArticle[ARTICLEID]] = $itemObj->itemid();
             echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br>';
             ++$cnt_imported_articles;
         }
@@ -248,7 +252,7 @@ if ('go' === $op) {
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler  = xoops_getHandler('module');
-    $moduleObj      = $moduleHandler->getByDirname('xfsection');
+    $moduleObj      = $moduleHandler->getByDirname(DIRNAME);
     $news_module_id = $moduleObj->getVar('mid');
 
     $publisher_module_id = $helper->getModule()->mid();

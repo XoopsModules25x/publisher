@@ -28,6 +28,10 @@ use XoopsModules\Publisher\{Category,
     Utility
 };
 
+const CATEGORY = 'smartsection_categories';
+const ITEMID = 'itemid';
+const DIRNAME = 'smartsection';
+
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
@@ -44,7 +48,7 @@ if ('start' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Utility::openCollapsableBar('newsimport', 'newsimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
-    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('smartsection_categories'));
+    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix(CATEGORY));
     [$totalCat] = $GLOBALS['xoopsDB']->fetchRow($result);
 
     if (0 == $totalCat) {
@@ -63,7 +67,7 @@ if ('start' === $op) {
             $form = new \XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/{$scriptname}");
 
             // Categories to be imported
-            $sql = 'SELECT cat.categoryid, cat.parentid, cat.name, COUNT(art.itemid) FROM ' . $GLOBALS['xoopsDB']->prefix('smartsection_categories') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('smartsection_items') . ' AS art ON cat.categoryid=art.categoryid GROUP BY art.categoryid';
+            $sql = 'SELECT cat.categoryid, cat.parentid, cat.name, COUNT(art.itemid) FROM ' . $GLOBALS['xoopsDB']->prefix(CATEGORY) . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('smartsection_items') . ' AS art ON cat.categoryid=art.categoryid GROUP BY art.categoryid';
 
             $result         = $GLOBALS['xoopsDB']->query($sql);
             $catCboxOptions = [];
@@ -106,7 +110,7 @@ if ('go' === $op) {
     Utility::openCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler          = xoops_getHandler('module');
-    $moduleObj              = $moduleHandler->getByDirname('smartsection');
+    $moduleObj              = $moduleHandler->getByDirname(DIRNAME);
     $smartsection_module_id = $moduleObj->getVar('mid');
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
@@ -116,7 +120,7 @@ if ('go' === $op) {
 
     $parentId = Request::getInt('parent_category', 0, 'POST');
 
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('smartsection_categories');
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix(CATEGORY);
 
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
@@ -158,7 +162,7 @@ if ('go' === $op) {
             $itemObj = $helper->getHandler('Item')->create();
 
             $itemObj->setVars($arrArticle);
-            $itemObj->setVar('itemid', 0);
+            $itemObj->setVar(ITEMID, 0);
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
 
             // TODO: move article images to image manager
@@ -182,7 +186,7 @@ if ('go' === $op) {
                 continue;
             }
             // Linkes files
-            $sql              = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('smartsection_files') . ' WHERE itemid=' . $arrArticle['itemid'];
+            $sql              = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('smartsection_files') . ' WHERE itemid=' . $arrArticle[ITEMID];
             $resultFiles      = $GLOBALS['xoopsDB']->query($sql);
             $allowedMimetypes = null;
             while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
@@ -201,7 +205,7 @@ if ('go' === $op) {
                 }
             }
 
-            $newArticleArray[$arrArticle['itemid']] = $itemObj->itemid();
+            $newArticleArray[$arrArticle[ITEMID]] = $itemObj->itemid();
             echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br>';
             ++$cnt_imported_articles;
         }

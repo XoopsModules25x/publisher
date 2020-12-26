@@ -28,6 +28,11 @@ use XoopsModules\Publisher\{Constants,
     Utility
 };
 
+const CATEGORY = 'wfs_category';
+const ITEMID = 'itemid';
+const ARTICLEID = 'articleid';
+const DIRNAME = 'wfsection';
+
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
@@ -44,7 +49,7 @@ if ('start' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Utility::openCollapsableBar('wfsectionimport', 'wfsectionimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
 
-    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_category'));
+    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix(CATEGORY));
     [$totalCat] = $GLOBALS['xoopsDB']->fetchRow($result);
 
     if (0 == $totalCat) {
@@ -63,7 +68,7 @@ if ('start' === $op) {
             $form = new \XoopsThemeForm(_AM_PUBLISHER_IMPORT_SETTINGS, 'import_form', PUBLISHER_ADMIN_URL . "/import/$scriptname");
 
             // Categories to be imported
-            $sql             = 'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_category') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('wfs_article') . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
+            $sql             = 'SELECT cat.id, cat.pid, cat.title, COUNT(art.articleid) FROM ' . $GLOBALS['xoopsDB']->prefix(CATEGORY) . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('wfs_article') . ' AS art ON cat.id=art.categoryid GROUP BY art.categoryid';
             $result          = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_values = [];
             $catCboxOptions  = [];
@@ -113,7 +118,7 @@ if ('go' === $op) {
         $orders = 'weight';
     }
     //$sql = "SELECT * FROM ".$GLOBALS['xoopsDB']->prefix("wfs_category")." ORDER by orders";
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_category') . " ORDER by $orders";
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix(CATEGORY) . " ORDER by $orders";
     //end added to support 2.0.7
     $resultCat = $GLOBALS['xoopsDB']->query($sql);
 
@@ -196,7 +201,7 @@ if ('go' === $op) {
             }
             // Linkes files
 
-            $sql              = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_files') . ' WHERE articleid=' . $arrArticle['articleid'];
+            $sql              = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfs_files') . ' WHERE articleid=' . $arrArticle[ARTICLEID];
             $resultFiles      = $GLOBALS['xoopsDB']->query($sql);
             $allowedMimetypes = '';
             while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
@@ -209,7 +214,7 @@ if ('go' === $op) {
                         $fileObj->setVar('description', $arrFile['filedescript']);
                         $fileObj->setVar('status', Constants::PUBLISHER_STATUS_FILE_ACTIVE);
                         $fileObj->setVar('uid', $arrArticle['uid']);
-                        $fileObj->setVar('itemid', $itemObj->itemid());
+                        $fileObj->setVar(ITEMID, $itemObj->itemid());
                         $fileObj->setVar('mimetype', $arrFile['minetype']);
                         $fileObj->setVar('datesub', $arrFile['date']);
                         $fileObj->setVar('counter', $arrFile['counter']);
@@ -222,7 +227,7 @@ if ('go' === $op) {
                 }
             }
 
-            $newArticleArray[$arrArticle['articleid']] = $itemObj->itemid();
+            $newArticleArray[$arrArticle[ARTICLEID]] = $itemObj->itemid();
             echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_ARTICLE, $itemObj->getTitle()) . '<br>';
             ++$cnt_imported_articles;
         }
@@ -249,7 +254,7 @@ if ('go' === $op) {
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler  = xoops_getHandler('module');
-    $moduleObj      = $moduleHandler->getByDirname('wfsection');
+    $moduleObj      = $moduleHandler->getByDirname(DIRNAME);
     $news_module_id = $moduleObj->getVar('mid');
 
     $publisher_module_id = $helper->getModule()->mid();

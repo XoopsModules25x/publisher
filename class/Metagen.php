@@ -72,7 +72,7 @@ class Metagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        /** @var Helper $this- >helper */
+        /** @var Helper $this->helper */
         $this->helper = Helper::getInstance();
         $this->myts   = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);

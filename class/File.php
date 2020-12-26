@@ -41,13 +41,15 @@ class File extends \XoopsObject
      * @var Helper
      */
     public $helper;
+    /** @var \XoopsMySQLDatabase */
+    public $db;
 
     /**
      * @param null|int $id
      */
     public function __construct($id = null)
     {
-        /** @var Helper $this- >helper */
+        /** @var Helper $this->helper */
         $this->helper = Helper::getInstance();
         /** @var \XoopsMySQLDatabase $db */
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();

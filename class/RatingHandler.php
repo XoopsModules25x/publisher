@@ -34,6 +34,7 @@ class RatingHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db = null)
     {
+        $this->db = $db;
         parent::__construct($db, 'publisher_rating', Rating::class, 'ratingid', 'itemid');
     }
 }

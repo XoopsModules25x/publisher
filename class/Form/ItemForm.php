@@ -387,6 +387,7 @@ class ItemForm extends ThemeTabForm
                 $objimage_array[$imageObj->getVar('image_name')] = $imageObj->getVar('image_nicename');
             }
 
+            /** @var \XoopsImagecategoryHandler $imgcatHandler */
             $imgcatHandler = \xoops_getHandler('imagecategory');
             if (\method_exists($imgcatHandler, 'getListByPermission')) {
                 $catlist = $imgcatHandler->getListByPermission($group, 'imgcat_read', 1);
@@ -404,6 +405,7 @@ class ItemForm extends ThemeTabForm
 
             $imageObjs = [];
             if (!empty($catids)) {
+                /** @var \XoopsImageHandler $imageHandler */
                 $imageHandler = \xoops_getHandler('image');
                 $criteria     = new \CriteriaCompo(new \Criteria('imgcat_id', '(' . \implode(',', $catids) . ')', 'IN'));
                 $criteria->add(new \Criteria('image_display', 1));

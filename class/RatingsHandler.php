@@ -39,6 +39,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
+        $this->db = $db;
         parent::__construct($db, 'publisher_liking', Ratings::class, 'rate_id', 'rate_itemid');
     }
 

@@ -53,12 +53,13 @@ class CategoryForm extends \XoopsThemeForm
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
-        /** @var Helper $this- >helper */
+        /** @var Helper $this->helper */
         $this->helper = Helper::getInstance();
 
         $this->targetObject = &$target;
         $this->subCatsCount = $subCatsCount;
 
+        /** @var \XoopsMemberHandler $memberHandler */
         $memberHandler    = \xoops_getHandler('member');
         $this->userGroups = $memberHandler->getGroupList();
 
@@ -129,7 +130,7 @@ class CategoryForm extends \XoopsThemeForm
         $imageSelect = new \XoopsFormSelect('', 'image', $this->targetObject->getImage());
         //$imageSelect -> addOption ('-1', '---------------');
         $imageSelect->addOptionArray($imageArray);
-        $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"image\", \"" . 'uploads/' . PUBLISHER_DIRNAME . '/images/category/' . '", "", "' . XOOPS_URL . "\")'");
+        $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"image\", \"" . 'uploads/' . $this->helper->getDirname() . '/images/category/' . '", "", "' . XOOPS_URL . "\")'");
         $imageTray = new \XoopsFormElementTray(\_AM_PUBLISHER_IMAGE, '&nbsp;');
         $imageTray->addElement($imageSelect);
         $imageTray->addElement(new \XoopsFormLabel('', "<br><br><img src='" . Utility::getImageDir('category', false) . $this->targetObject->getImage() . "' name='image3' id='image3' alt=''>"));

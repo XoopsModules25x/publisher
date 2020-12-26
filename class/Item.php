@@ -23,10 +23,14 @@ namespace XoopsModules\Publisher;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Form
+use XoopsModules\Publisher\{
+    Category,
+    Form,
+    Utility
 };
+/** @var \XoopsMemberHandler $memberHandler */
+/** @var \XoopsImageHandler $imageHandler */
 
-//namespace Publisher;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -304,7 +308,7 @@ class Item extends \XoopsObject
 
     /**
      * @param string $dateFormat
-     * @param string $format
+     * @param string|false $format
      *
      * @return string
      */
@@ -432,7 +436,7 @@ class Item extends \XoopsObject
     /**
      * @param bool $withAllLink
      *
-     * @return string
+     * @return string|bool
      */
     public function getCategoryPath($withAllLink = true)
     {
@@ -1155,5 +1159,16 @@ class Item extends \XoopsObject
         }
 
         $this->setVar('notifypub', Request::getString('notify', '', 'POST'));
+    }
+
+    public function assignOtherProperties()
+    {
+        $module = $this->helper->getModule();
+        $module_id   = $module->getVar('mid');
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
+        $grouppermHandler = xoops_getHandler('groupperm');
+
+        $this->category    = new Category($this->getVar('categoryid'));
+        $this->groups_read = $grouppermHandler->getGroupIds('item_read', $this->itemid(), $module_id);
     }
 }

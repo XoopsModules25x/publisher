@@ -25,7 +25,7 @@ namespace XoopsModules\Publisher;
 use XoopsModules\Publisher\{Form
 };
 
-/** @var Helper $this- >helper */
+/** @var Helper $this->helper */
 
 require_once \dirname(__DIR__) . '/include/common.php';
 

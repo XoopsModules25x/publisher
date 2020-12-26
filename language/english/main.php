@@ -184,4 +184,5 @@ define('_MD_PUBLISHER_NO_COMMENTS', 'No comments');
 
 // Admin link
 \define('_MA_BLOG_ADMIN', 'Admin');
+define('_MD_PUBLISHER_PDF', 'TCPDF for XOOPS installed in /class/libraries/vendor/tecnickcom/tcpdf/');
 // ---------------- End ----------------

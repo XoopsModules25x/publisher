@@ -119,7 +119,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         }
         if (\xoops_isActiveModule('tag')) {
             // Storing tags information
-            /** @var \XoopsModules\Tag\Helper $tagHandler */
+            /** @var \XoopsModules\Tag\TagHandler $tagHandler */
             $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
             $tagHandler->updateByItem($item->getVar('item_tag'), $item->getVar('itemid'), $this->helper->getDirname(), 0);
         }

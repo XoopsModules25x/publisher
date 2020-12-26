@@ -23,8 +23,6 @@ namespace XoopsModules\Publisher;
  * @author         XOOPS Development Team
  */
 
-\defined('XOOPS_ROOT_PATH') || exit('Restricted access');
-
 /**
  * Class Object VoteHandler
  */

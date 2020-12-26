@@ -2,8 +2,6 @@
 
 namespace XoopsModules\Publisher;
 
-use XoopsModules\Publisher\Helper;
-
 /**
  * Class TrelloManagement
  */

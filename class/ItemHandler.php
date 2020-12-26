@@ -22,7 +22,6 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
 /** @var Helper $this->helper */
 /** @var Item $obj */
 

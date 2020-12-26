@@ -24,7 +24,6 @@ namespace XoopsModules\Publisher;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
 
 /**
  * Class Utility

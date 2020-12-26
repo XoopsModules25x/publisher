@@ -282,7 +282,6 @@ class File extends \XoopsObject
      */
     public function getForm()
     {
-        //        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/file.php');
         $form = new Form\FileForm($this);
 
         return $form;

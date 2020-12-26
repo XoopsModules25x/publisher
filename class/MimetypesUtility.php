@@ -25,7 +25,6 @@ namespace XoopsModules\Publisher;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 

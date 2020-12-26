@@ -24,8 +24,6 @@ namespace XoopsModules\Publisher;
  * @var    string $title   title of the article
  */
 
-use XoopsModules\Publisher\Helper;
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**

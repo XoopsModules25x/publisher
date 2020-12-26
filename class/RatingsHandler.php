@@ -12,10 +12,6 @@ namespace XoopsModules\Publisher;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 
-use Criteria;
-use CriteriaCompo;
-use XoopsDatabase;
-
 /**
  * Publisher module for xoops
  *
@@ -37,7 +33,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
      * Constructor
      * @param \XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         $this->db = $db;
         parent::__construct($db, 'publisher_liking', Ratings::class, 'rate_id', 'rate_itemid');
@@ -104,9 +100,9 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
                 $max_units = 10;
             }
 
-            $criteria = new CriteriaCompo();
-            $criteria->add(new Criteria('rate_itemid', $itemId));
-            $criteria->add(new Criteria('rate_source', $source));
+            $criteria = new \CriteriaCompo();
+            $criteria->add(new \Criteria('rate_itemid', $itemId));
+            $criteria->add(new \Criteria('rate_source', $source));
 
             $ratingObjs               = $helper->getHandler('ratings')->getObjects($criteria);
             $count                    = count($ratingObjs);
@@ -141,10 +137,10 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $itemRating['size']      = ($itemRating['avg_rate_value'] * $rating_unitwidth) . 'px';
             $itemRating['maxsize']   = ($max_units * $rating_unitwidth) . 'px';
         } elseif (Constants::RATING_LIKES === (int)$helper->getConfig('ratingbars')) {
-            $criteria = new CriteriaCompo();
-            $criteria->add(new Criteria('rate_itemid', $itemId));
-            $criteria->add(new Criteria('rate_source', $source));
-            $criteria->add(new Criteria('rate_value', 0, '<'));
+            $criteria = new \CriteriaCompo();
+            $criteria->add(new \Criteria('rate_itemid', $itemId));
+            $criteria->add(new \Criteria('rate_source', $source));
+            $criteria->add(new \Criteria('rate_value', 0, '<'));
 
             $ratingObjs = $helper->getHandler('Ratings')->getObjects($criteria);
             $count      = count($ratingObjs);
@@ -160,10 +156,10 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             unset($criteria);
             $itemRating['dislikes'] = $count;
 
-            $criteria = new CriteriaCompo();
-            $criteria->add(new Criteria('rate_itemid', $itemId));
-            $criteria->add(new Criteria('rate_source', $source));
-            $criteria->add(new Criteria('rate_value', 0, '>'));
+            $criteria = new \CriteriaCompo();
+            $criteria->add(new \Criteria('rate_itemid', $itemId));
+            $criteria->add(new \Criteria('rate_source', $source));
+            $criteria->add(new \Criteria('rate_value', 0, '>'));
 
             $ratingObjs     = $helper->getHandler('ratings')->getObjects($criteria);
             $count          = count($ratingObjs);
@@ -183,10 +179,10 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             // Facebook Reactions  ==========================================
 
         } elseif (Constants::RATING_REACTION === (int)$helper->getConfig('ratingbars')) {
-            $criteria = new CriteriaCompo();
-            $criteria->add(new Criteria('rate_itemid', $itemId));
-            $criteria->add(new Criteria('rate_source', $source));
-            $criteria->add(new Criteria('rate_value', 0, '<'));
+            $criteria = new \CriteriaCompo();
+            $criteria->add(new \Criteria('rate_itemid', $itemId));
+            $criteria->add(new \Criteria('rate_source', $source));
+            $criteria->add(new \Criteria('rate_value', 0, '<'));
 
             $ratingObjs               = $helper->getHandler('ratings')->getObjects($criteria);
             $count                    = count($ratingObjs);
@@ -203,10 +199,10 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             unset($criteria);
             $itemRating['dislikes'] = $count;
 
-            $criteria = new CriteriaCompo();
-            $criteria->add(new Criteria('rate_itemid', $itemId));
-            $criteria->add(new Criteria('rate_source', $source));
-            $criteria->add(new Criteria('rate_value', 0, '>'));
+            $criteria = new \CriteriaCompo();
+            $criteria->add(new \Criteria('rate_itemid', $itemId));
+            $criteria->add(new \Criteria('rate_source', $source));
+            $criteria->add(new \Criteria('rate_value', 0, '>'));
 
             $ratingObjs     = $helper->getHandler('ratings')->getObjects($criteria);
             $count          = count($ratingObjs);
@@ -240,9 +236,9 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
      */
     public function deleteAllRatings($itemId, $source)
     {
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('rate_itemid', $itemId));
-        $criteria->add(new Criteria('rate_source', $source));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('rate_itemid', $itemId));
+        $criteria->add(new \Criteria('rate_source', $source));
 
         return $this->deleteAll($criteria);
     }

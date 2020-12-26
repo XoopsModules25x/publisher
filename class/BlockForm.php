@@ -23,8 +23,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher;
-
 \xoops_load('XoopsForm');
 
 /**

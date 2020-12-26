@@ -154,7 +154,7 @@ class Category extends \XoopsObject
     /**
      * @param bool $withAllLink
      *
-     * @return array|bool|string
+     * @return bool|string
      */
     public function getCategoryPath($withAllLink = true)
     {

@@ -111,13 +111,13 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param \Criteria|null $criteria {@link Criteria} conditions to be met
-     * @param bool           $idAsKey  Should the department ID be used as array key
+     * @param \Criteria|\CriteriaElement|null $criteria conditions to be met
+     * @param bool                            $idAsKey  Should the department ID be used as array key
      *
-     * @param bool           $asObject
+     * @param bool                            $asObject
      * @return array array of objects
      */
-    public function &getObjects(\Criteria $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
+    public function &getObjects($criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
     {
         $ret   = [];
         $limit = $start = 0;

@@ -44,8 +44,8 @@ class VoteHandler extends \XoopsPersistableObjectHandler
 
     /**
      * Constructor
-     * @param \XoopsDatabase $db
-     * @param Helper $helper
+     * @param \XoopsDatabase|null                 $db
+     * @param \XoopsModules\Publisher\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {

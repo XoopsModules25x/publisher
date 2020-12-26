@@ -28,6 +28,9 @@ use XoopsModules\Publisher\{Category,
     Utility
 };
 
+/** @var \XoopsPersistableObjectHandler $fmContentHdlr */
+/** @var \XoopsPersistableObjectHandler $fmTopicHdlr */
+
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
@@ -43,13 +46,11 @@ if ('start' === $op) {
     Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Utility::openCollapsableBar('fmimport', 'fmimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
-    /** @var XoopsModuleHandler $moduleHandler */
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('fmcontent');
     $fm_module_id  = $moduleObj->getVar('mid');
 
-    /** @var \XoopsPersistableObjectHandler $fmTopicHdlr */
     $fmTopicHdlr  = xoops_getModuleHandler('topic', 'fmcontent');
     $fmTopicCount = $fmTopicHdlr->getCount(new \Criteria('topic_modid', $fm_module_id));
 
@@ -57,7 +58,6 @@ if ('start' === $op) {
         echo "<span style='color: #567; margin: 3px 0 12px 0; font-size: small; display: block;'>" . _AM_PUBLISHER_IMPORT_NO_CATEGORY . '</span>';
     } else {
         require_once $GLOBALS['xoops']->path('www/class/xoopstree.php');
-        /** @var \XoopsPersistableObjectHandler $fmContentHdlr */
         $fmContentHdlr  = xoops_getModuleHandler('page', 'fmcontent');
         $fmContentCount = $fmContentHdlr->getCount(new \Criteria('content_modid', $fm_module_id));
 
@@ -144,7 +144,6 @@ if ('go' === $op) {
     $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('fmcontent');
     $fm_module_id  = $moduleObj->getVar('mid');
-    /** @var XoopsGroupPermHandler $grouppermHandler */
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 

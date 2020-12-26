@@ -104,12 +104,10 @@ if ('go' === $op) {
     Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Utility::openCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /** @var XoopsModuleHandler $moduleHandler */
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler          = xoops_getHandler('module');
     $moduleObj              = $moduleHandler->getByDirname('smartsection');
     $smartsection_module_id = $moduleObj->getVar('mid');
-    /** @var XoopsGroupPermHandler $grouppermHandler */
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 

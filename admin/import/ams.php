@@ -167,13 +167,11 @@ if ('go' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
     Utility::openCollapsableBar('amsimportgo', 'amsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /** @var XoopsModuleHandler $moduleHandler */
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $moduleObj     = $moduleHandler->getByDirname('ams');
     $ams_module_id = $moduleObj->getVar('mid');
 
-    /** @var XoopsGroupPermHandler $grouppermHandler */
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 

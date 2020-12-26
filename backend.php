@@ -20,6 +20,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
+/** @var Helper $helper */
 
 require_once __DIR__ . '/header.php';
 //xoops_load('XoopsLocal'); //mb

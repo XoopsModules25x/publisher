@@ -306,7 +306,7 @@ class Item extends \XoopsObject
 
     /**
      * @param string $dateFormat
-     * @param string|false $format
+     * @param string $format
      *
      * @return string
      */
@@ -1166,7 +1166,7 @@ class Item extends \XoopsObject
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
 
-        $this->category    = new Category($this->getVar('categoryid'));
+        $this->category    = $this->helper->getHandler('Category')->get($this->getVar('categoryid'));
         $this->groups_read = $grouppermHandler->getGroupIds('item_read', $this->itemid(), $module_id);
     }
 }

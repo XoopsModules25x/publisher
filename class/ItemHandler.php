@@ -147,8 +147,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         }
         // Removing tags information
         if (\xoops_isActiveModule('tag')) {
-            /** @var \XoopsModules\Tag\Helper $tagHandler */
-            $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
+            /** @var \XoopsModules\Tag\TagHandler $tagHandler */
+            $tagHandler = \XoopsModules\Tag\TagHandler::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
             $tagHandler->updateByItem('', $item->getVar('itemid'), $this->helper->getDirname(), 0);
         }
 

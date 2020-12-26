@@ -5,8 +5,8 @@
     <{include file="db:publisher_singleitem.tpl" item=$item}>
 <{/if}>
 
-<div class="publisher_infotitle"><{$langIntroTitle}></div>
-<div class="publisher_infotext"><{$langIntroText}></div>
+<div class="publisher_infotitle"><{$langIntroTitle|default:''}></div>
+<div class="publisher_infotext"><{$langIntroText|default:''}></div>
 <br><{$form.javascript}>
 
 <div id="tabs">
@@ -52,6 +52,6 @@
     </form>
 </div>
 
-<{if $isAdmin == 1}>
+<{if $isAdmin|default:0 == 1}>
     <div class="publisher_adminlinks"><{$publisher_adminpage}></div>
 <{/if}>

@@ -1,4 +1,4 @@
-<{if $collapsable_heading == 1}>
+<{if $collapsable_heading|default:0 == 1}>
     <script type="text/javascript"><!--
         function goto_URL(object) {
             window.location.href = object.options[object.selectedIndex].value;
@@ -41,7 +41,7 @@
     </script>
 <{/if}>
 
-<{if $publisher_display_breadcrumb}>
+<{if $publisher_display_breadcrumb|default:false}>
     <!-- Do not display breadcrumb if you are on indexpage or you do not want to display the module name -->
     <{if $module_home || $categoryPath}>
         <ul class="publisher_breadcrumb">

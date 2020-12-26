@@ -58,8 +58,7 @@ if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.p
     $adminObject->addConfigBoxLine('<span style="color:#ff0000;"><img src="' . $pathIcon16 . '/0.png" alt="!">' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
 }
 
-$modStats    = [];
-$moduleStats = $utility::getModuleStats($configurator, $modStats);
+$moduleStats = $utility::getModuleStats($configurator);
 
 $adminObject->addInfoBox(constant('CO_' . $moduleDirNameUpper . '_' . 'STATS_SUMMARY'));
 if ($moduleStats && is_array($moduleStats)) {

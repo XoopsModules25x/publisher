@@ -21,9 +21,8 @@ declare(strict_types=1);
  */
 
 use Xmf\Module\Admin;
-use Xmf\Request;
-use Xmf\Yaml;
 use XoopsModules\Publisher\{Common,
+    Common\Configurator,
     Common\TestdataButtons,
     Helper,
     Utility
@@ -34,7 +33,7 @@ require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 $adminObject  = Admin::getInstance();
 $utility      = new Utility();
-$configurator = new Common\Configurator();
+$configurator = new Configurator();
 $helper       = Helper::getInstance();
 $helper->loadLanguage('main');
 $helper->loadLanguage('admin');
@@ -54,7 +53,9 @@ foreach (array_keys($copyFiles) as $i) {
 }
 */
 
-if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
+if (is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
+    $adminObject->addConfigBoxLine('<span style="color:green;"><img src="' . $pathIcon16 . '/1.png" alt="!">' . _MD_PUBLISHER_PDF . '</span>', 'default');
+} else {
     $adminObject->addConfigBoxLine('<span style="color:#ff0000;"><img src="' . $pathIcon16 . '/0.png" alt="!">' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
 }
 

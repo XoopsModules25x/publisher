@@ -44,13 +44,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
 
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Helper $this- >helper */
-        if (null === $helper) {
-            $this->helper = Helper::getInstance();
-        } else {
-            $this->helper = $helper;
-        }
-        $publisherIsAdmin = $this->helper->isUserAdmin();
+        /** @var Helper $this->helper */
+        $this->helper = $helper ?? Helper::getInstance();
+        $this->db = $db;
+        $this->publisherIsAdmin = $this->helper->isUserAdmin();
         parent::__construct($db, 'publisher_categories', Category::class, 'categoryid', 'name');
     }
 

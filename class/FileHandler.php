@@ -48,19 +48,16 @@ class FileHandler extends \XoopsPersistableObjectHandler
 
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Helper $this- >helper */
-        if (null === $helper) {
-            $this->helper = Helper::getInstance();
-        } else {
-            $this->helper = $helper;
-        }
+        /** @var Helper $this->helper */
+$this->helper = $helper ?? Helper::getInstance();
+        $this->db = $db;
         parent::__construct($db, 'publisher_files', File::class, 'fileid', 'name');
     }
 
     /**
      * delete a file from the database
      *
-     * @param \XoopsObject $file reference to the file to delete
+     * @param \XoopsObject|File $file reference to the file to delete
      * @param bool         $force
      *
      * @return bool FALSE if failed.

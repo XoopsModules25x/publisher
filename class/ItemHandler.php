@@ -23,6 +23,8 @@ namespace XoopsModules\Publisher;
  */
 
 use XoopsModules\Publisher;
+/** @var Helper $this->helper */
+/** @var Item $obj */
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -44,13 +46,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
 
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Helper $this- >helper */
-        if (null === $helper) {
-            $this->helper = Helper::getInstance();
-        } else {
-            $this->helper = $helper;
-        }
-
+        $this->helper = $helper ?? Helper::getInstance();
+        $this->db = $db;
         $this->publisherIsAdmin = $this->helper->isUserAdmin();
         parent::__construct($db, 'publisher_items', Item::class, 'itemid', 'title');
     }
@@ -62,6 +59,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function create($isNew = true)
     {
+        /** @var Item $obj */
         $obj = parent::create($isNew);
         if ($isNew) {
             $obj->setDefaultPermissions();
@@ -89,6 +87,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
 
         return $obj;
     }
+
 
     /**
      * insert a new item in the database
@@ -122,7 +121,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             // Storing tags information
             /** @var \XoopsModules\Tag\Helper $tagHandler */
             $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
-            $tagHandler->updateByItem($item->getVar('item_tag'), $item->getVar('itemid'), PUBLISHER_DIRNAME, 0);
+            $tagHandler->updateByItem($item->getVar('item_tag'), $item->getVar('itemid'), $this->helper->getDirname(), 0);
         }
 
         return true;
@@ -151,7 +150,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (\xoops_isActiveModule('tag')) {
             /** @var \XoopsModules\Tag\Helper $tagHandler */
             $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
-            $tagHandler->updateByItem('', $item->getVar('itemid'), PUBLISHER_DIRNAME, 0);
+            $tagHandler->updateByItem('', $item->getVar('itemid'), $this->helper->getDirname(), 0);
         }
 
         return true;

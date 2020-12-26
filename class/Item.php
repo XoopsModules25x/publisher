@@ -308,7 +308,7 @@ class Item extends \XoopsObject
      * @param string $dateFormat
      * @param string $format
      *
-     * @return string
+     * @return string|false
      */
     public function getDateExpire($dateFormat = '', $format = 'S')
     {
@@ -347,6 +347,7 @@ class Item extends \XoopsObject
     public function posterAvatar()
     {
         $ret           = 'blank.gif';
+        /** @var \XoopsMemberHandler $memberHandler */
         $memberHandler = \xoops_getHandler('member');
         $thisUser      = $memberHandler->getUser($this->uid());
         if (\is_object($thisUser)) {
@@ -392,6 +393,7 @@ class Item extends \XoopsObject
         if ($isNew && Constants::PUBLISHER_STATUS_PUBLISHED == $this->getVar('status')) {
             // Increment user posts
             $userHandler   = \xoops_getHandler('user');
+            /** @var \XoopsMemberHandler $memberHandler */
             $memberHandler = \xoops_getHandler('member');
             $poster        = $userHandler->get($this->uid());
             if (\is_object($poster) && !$poster->isNew()) {

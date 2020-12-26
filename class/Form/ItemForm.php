@@ -33,7 +33,7 @@ use XoopsModules\Publisher\{Constants,
 };
 use XoopsModules\Tag\FormTag;
 
-// require_once  dirname(dirname(__DIR__)) . '/include/common.php';
+require_once  \dirname(__DIR__, 2) . '/include/common.php';
 
 \xoops_load('XoopsFormLoader');
 \xoops_load('XoopsLists');

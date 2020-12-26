@@ -71,7 +71,7 @@ class PermissionHandler extends \XoopsObjectHandler
         $db    = \XoopsDatabaseFactory::getDatabaseConnection();
         $limit = $start = 0;
         $sql   = 'SELECT gperm_groupid FROM ' . $db->prefix('group_permission');
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (null !== $criteria && $criteria instanceof \CriteriaCompo) {
             $sql   .= ' ' . $criteria->renderWhere();
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();

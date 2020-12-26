@@ -88,10 +88,10 @@ class VoteHandler extends \XoopsPersistableObjectHandler
         $count                 = 0;
 
         $max_units   = 10;
-        $ratingBars  = (int)$this->helper->getConfig('ratingbars');
+        $ratingbarsValue  = (int)$this->helper->getConfig('ratingbars');
         $ratingArray = [Constants::RATING_5STARS, Constants::RATING_10STARS, Constants::RATING_10NUM];
 
-        if (in_array($ratingBars, $ratingArray)) {
+        if (in_array($ratingbarsValue, $ratingArray)) {
             $rating_unitwidth = 25;
             if (Constants::RATING_5STARS === (int)$this->helper->getConfig('ratingbars')) {
                 $max_units = 5;

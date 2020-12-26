@@ -833,8 +833,9 @@ class Utility extends Common\SysUtility
         if (0 === $time) {
             $time = \time() + 3600 * 24 * 365;
         }
-//        setcookie($name, $value, $time, '/');
-        setcookie($name, $value, $time, '/', ini_get('session.cookie_domain'), ini_get('session.cookie_secure'), ini_get('session.cookie_httponly'));
+        setcookie($name, $value, $time, '/');
+        // TODO in PHP 8 in below function, ini_get('session.cookie_secure') comes back as "0" instead of false, and it generates error: TypeError: setcookie(): Argument #6 ($secure) must be of type bool, string given
+        // setcookie($name, $value, $time, '/', ini_get('session.cookie_domain'), ini_get('session.cookie_secure')??false, ini_get('session.cookie_httponly')??false);
     }
 
     /**

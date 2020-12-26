@@ -24,9 +24,7 @@ namespace XoopsModules\Publisher;
 
 use Xmf\Request;
 use XoopsModules\Publisher\{
-    Category,
-    Form,
-    Utility
+    Form
 };
 /** @var \XoopsMemberHandler $memberHandler */
 /** @var \XoopsImageHandler $imageHandler */

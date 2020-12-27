@@ -22,6 +22,7 @@ use XoopsModules\Publisher\{Helper
 };
 
 require __DIR__ . '/admin_header.php';
+include_once $GLOBALS['xoops']->path('class/xoopsblock.php');
 
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName

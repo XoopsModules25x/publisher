@@ -544,7 +544,7 @@ class Utility extends Common\SysUtility
 
         // Loop through the folder
         $dir = \dir($source);
-        while (false !== $entry = $dir->read()) {
+        while (false !== ($entry = $dir->read())) {
             // Skip pointers
             if ('.' === $entry || '..' === $entry) {
                 continue;

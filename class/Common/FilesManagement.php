@@ -104,7 +104,7 @@ trait FilesManagement
         // Loop through the folder
         $dir = \dir($source);
         if (@\is_dir($dir)) {
-            while (false !== $entry = $dir->read()) {
+            while (false !== ($entry = $dir->read())) {
                 // Skip pointers
                 if ('.' === $entry || '..' === $entry) {
                     continue;

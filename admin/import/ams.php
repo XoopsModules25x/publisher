@@ -36,7 +36,7 @@ $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'AMS ' . Request::getString('ams_version', '', 'POST');
 
-$scriptname = 'ams.php';
+$scriptname = DIRNAME . '.php';
 
 $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 

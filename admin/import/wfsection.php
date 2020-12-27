@@ -40,7 +40,7 @@ $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'WF-Section ' . Request::getString('wfs_version', '', 'POST');
 
-$scriptname = 'wfsection.php';
+$scriptname = DIRNAME . '.php';
 
 $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 

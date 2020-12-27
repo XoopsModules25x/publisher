@@ -34,7 +34,7 @@ $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'cjaycontent ' . Request::getString('cjaycontent_version', '', 'POST');
 
-$scriptname = 'cjaycontent.php';
+$scriptname = DIRNAME . '.php';
 
 $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 

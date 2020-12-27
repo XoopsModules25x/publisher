@@ -37,7 +37,7 @@ $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'xNews ' . Request::getString('xnews_version', '', 'POST');
 
-$scriptname = 'xnews.php';
+$scriptname = DIRNAME . '.php';
 
 $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 

@@ -40,7 +40,7 @@ $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'FmContent ' . Request::getString('fmcontent_version', '', 'POST');
 
-$scriptname = 'fmcontent.php';
+$scriptname = DIRNAME . '.php';
 
 $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 

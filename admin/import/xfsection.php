@@ -39,7 +39,7 @@ $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'XF-Section ' . Request::getString('xfs_version', '', 'POST');
 
-$scriptname = 'xfsection.php';
+$scriptname = DIRNAME . '.php';
 
 $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 

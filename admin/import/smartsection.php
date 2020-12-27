@@ -38,7 +38,7 @@ $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'Smartsection ' . Request::getString('smartsection_version', '', 'POST');
 
-$scriptname = 'smartsection.php';
+$scriptname = DIRNAME . '.php';
 
 $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 

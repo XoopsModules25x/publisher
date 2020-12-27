@@ -33,6 +33,12 @@ require_once \dirname(__DIR__) . '/include/common.php';
  */
 class CategoryHandler extends \XoopsPersistableObjectHandler
 {
+    private const TABLE = 'publisher_categories';
+    private const ENTITY = Category::class;
+    private const ENTITYNAME = 'Category';
+    private const KEYNAME = 'categoryid';
+    private const IDENTIFIER = 'name';
+
     /**
      * @var Helper
      */
@@ -45,7 +51,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $this->helper = $helper ?? Helper::getInstance();
         $this->db = $db;
         $this->publisherIsAdmin = $this->helper->isUserAdmin();
-        parent::__construct($db, 'publisher_categories', Category::class, 'categoryid', 'name');
+        parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
     }
 
     /**

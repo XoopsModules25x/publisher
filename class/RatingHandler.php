@@ -28,6 +28,11 @@ require_once \dirname(__DIR__) . '/include/common.php';
  */
 class RatingHandler extends \XoopsPersistableObjectHandler
 {
+    private const TABLE = 'publisher_rating';
+    private const ENTITY = Rating::class;
+    private const KEYNAME = 'ratingid';
+    private const IDENTIFIER = 'itemid';
+
     /**
      * RatingHandler constructor.
      * @param \XoopsDatabase|null $db
@@ -35,6 +40,6 @@ class RatingHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db = null)
     {
         $this->db = $db;
-        parent::__construct($db, 'publisher_rating', Rating::class, 'ratingid', 'itemid');
+        parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
     }
 }

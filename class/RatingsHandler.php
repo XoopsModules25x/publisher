@@ -29,6 +29,12 @@ namespace XoopsModules\Publisher;
  */
 class RatingsHandler extends \XoopsPersistableObjectHandler
 {
+    private const TABLE = 'publisher_liking';
+    private const ENTITY = Ratings::class;
+    private const ENTITYNAME = 'Ratings';
+    private const KEYNAME = 'rate_id';
+    private const IDENTIFIER = 'rate_itemid';
+
     /**
      * Constructor
      * @param \XoopsDatabase $db
@@ -36,7 +42,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db)
     {
         $this->db = $db;
-        parent::__construct($db, 'publisher_liking', Ratings::class, 'rate_id', 'rate_itemid');
+        parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
     }
 
     /**

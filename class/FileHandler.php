@@ -38,6 +38,12 @@ require_once \dirname(__DIR__) . '/include/common.php';
  */
 class FileHandler extends \XoopsPersistableObjectHandler
 {
+    private const TABLE = 'publisher_files';
+    private const ENTITY = File::class;
+    private const ENTITYNAME = 'File';
+    private const KEYNAME = 'fileid';
+    private const IDENTIFIER = 'name';
+
     public $table_link = '';
     /**
      * @var Helper
@@ -47,9 +53,9 @@ class FileHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
         /** @var Helper $this->helper */
-$this->helper = $helper ?? Helper::getInstance();
+        $this->helper = $helper ?? Helper::getInstance();
         $this->db = $db;
-        parent::__construct($db, 'publisher_files', File::class, 'fileid', 'name');
+        parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
     }
 
     /**

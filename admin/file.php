@@ -74,14 +74,14 @@ function publisher_editFile($showmenu = false, $fileid = 0, $itemId = 0)
     }
 }
 
-$false = false;
+//$itemObj = null;
 /* -- Available operations -- */
 switch ($op) {
     case 'uploadfile':
-        Utility::uploadFile(false, true, $false);
+        Utility::uploadFile(false, true);
         exit;
     case 'uploadanother':
-        Utility::uploadFile(true, true, $false);
+        Utility::uploadFile(true, true);
         exit;
     case 'mod':
         $fileid = Request::getInt('fileid', 0, 'GET');

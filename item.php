@@ -29,7 +29,6 @@ use XoopsModules\Publisher\{Category,
 };
 
 /** @var Category $categoryObj */
-/** @var Item $itemObj */
 
 require_once __DIR__ . '/header.php';
 
@@ -43,6 +42,7 @@ if (0 == $itemId) {
 $helper = Helper::getInstance();
 
 // Creating the item object for the selected item
+/** @var Item $itemObj */
 $itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected item was not found, exit

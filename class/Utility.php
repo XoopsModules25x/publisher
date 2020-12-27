@@ -1072,9 +1072,9 @@ class Utility extends Common\SysUtility
      * @param bool $another
      * @param bool $withRedirect
      * @param Item $itemObj
-     * @return bool|string
+     * @return bool|string|null
      */
-    public static function uploadFile($another, $withRedirect, &$itemObj)
+    public static function uploadFile($another, $withRedirect, &$itemObj=null)
     {
         \xoops_load('XoopsMediaUploader');
         //        require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
@@ -1091,7 +1091,7 @@ class Utility extends Common\SysUtility
         $session->set('publisher_file_uid', $uid);
         $session->set('publisher_file_itemid', $itemId);
 
-        if (!\is_object($itemObj)) {
+        if (!\is_object($itemObj && 0 !== $itemId)) {
             $itemObj = $helper->getHandler('Item')->get($itemId);
         }
 

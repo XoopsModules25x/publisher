@@ -1600,6 +1600,7 @@ $modversion['config'][] = [
 ];
 
 $optCats              = [_MI_PUBLISHER_IMGCAT_ALL => Constants::PUBLISHER_IMGCAT_ALL];
+/** @var \XoopsImagecategoryHandler $imageCategoryHandler */
 $imageCategoryHandler = xoops_getHandler('imagecategory');
 $catlist              = $imageCategoryHandler->getList();
 foreach ($catlist as $key => $value) {

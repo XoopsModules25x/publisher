@@ -494,7 +494,7 @@ class Timthumb
                 $mtime = @filemtime($this->cachefile);
                 $this->debug(3, "Cached file's modification time is $mtime");
             }
-            if (!$mtime) {
+            if (false === $mtime) {
                 return false;
             }
 

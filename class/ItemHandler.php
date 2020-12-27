@@ -81,7 +81,6 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      *
      * @param array|null $fields
      * @return mixed reference to the <a href='psi_element://Item'>Item</a> object, FALSE if failed
-     *                       object, FALSE if failed
      */
     public function get($id = null, $fields = null)
     {

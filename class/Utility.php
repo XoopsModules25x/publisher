@@ -814,9 +814,11 @@ class Utility extends Common\SysUtility
 
         if ('none' === $cookie) {
             echo '
-        <script type="text/javascript"><!--
-        toggle("' . $name . '"); toggleIcon("' . $icon . '");
-        //-->
+        <script type="text/javascript">
+     <!--
+        toggle("' . $name . '"); 
+        toggleIcon("' . $icon . '");
+        -->
         </script>
         ';
         }
@@ -848,7 +850,7 @@ class Utility extends Common\SysUtility
         //    } else {
         //        return $default;
         //    }
-        return Request::getString('name', $default, 'COOKIE');
+        return Request::getString($name, $default, 'COOKIE');
     }
 
     /**

@@ -23,9 +23,11 @@ declare(strict_types=1);
 use Xmf\Request;
 use XoopsModules\Publisher\{Category,
     Constants,
+    Helper,
     Item,
     Utility
 };
+/** @var Helper $helper */
 
 const DIRNAME = 'news';
 
@@ -105,10 +107,7 @@ if ('go' === $op) {
     Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Utility::openCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /** @var \XoopsModuleHandler $moduleHandler */
-    $moduleHandler  = xoops_getHandler('module');
-    $moduleObj      = $moduleHandler->getByDirname(DIRNAME);
-    $news_module_id = $moduleObj->getVar('mid');
+    $moduleId         = $helper->getModule()->getVar('mid');
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
@@ -233,9 +232,9 @@ if ('go' === $op) {
         }
 
         // Saving category permissions
-        $groupsIds = $grouppermHandler->getGroupIds('news_view', $arrCat['topic_id'], $news_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('news_view', $arrCat['topic_id'], $moduleId);
         Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
-        $groupsIds = $grouppermHandler->getGroupIds('news_submit', $arrCat['topic_id'], $news_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('news_submit', $arrCat['topic_id'], $moduleId);
         Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         $newCatArray[$newCat['oldid']] = $newCat;
@@ -265,7 +264,7 @@ if ('go' === $op) {
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
-    $criteria->add(new \Criteria('com_modid', $news_module_id));
+    $criteria->add(new \Criteria('com_modid', $moduleId));
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {

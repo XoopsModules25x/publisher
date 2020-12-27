@@ -23,9 +23,11 @@ declare(strict_types=1);
 use Xmf\Request;
 use XoopsModules\Publisher\{Category,
     Constants,
+    Helper,
     File,
     Utility
 };
+/** @var Helper $helper */
 
 const DIRNAME = 'ams';
 
@@ -169,10 +171,7 @@ if ('go' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
     Utility::openCollapsableBar('amsimportgo', 'amsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /** @var \XoopsModuleHandler $moduleHandler */
-    $moduleHandler = xoops_getHandler('module');
-    $moduleObj     = $moduleHandler->getByDirname(DIRNAME);
-    $ams_module_id = $moduleObj->getVar('mid');
+    $moduleId         = $helper->getModule()->getVar('mid');
 
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
@@ -390,12 +389,12 @@ if ('go' === $op) {
         }
 
         // Saving category permissions
-        $groupsIds = $grouppermHandler->getGroupIds('nw_view', $arrCat['topic_id'], $ams_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('nw_view', $arrCat['topic_id'], $moduleId);
         Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
-        $groupsIds = $grouppermHandler->getGroupIds('nw_submit', $arrCat['topic_id'], $ams_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('nw_submit', $arrCat['topic_id'], $moduleId);
         Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
-        $groupsIds = $grouppermHandler->getGroupIds('nw_approve', $arrCat['topic_id'], $ams_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('nw_approve', $arrCat['topic_id'], $moduleId);
         Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_moderation');
 
         $newCatArray[$newCat['oldid']] = $newCat;
@@ -426,7 +425,7 @@ if ('go' === $op) {
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
-    $criteria->add(new \Criteria('com_modid', $ams_module_id));
+    $criteria->add(new \Criteria('com_modid', $moduleId));
     $comments = $commentHandler->getObjects($criteria);
     /** @var \XoopsComment $comment */
     foreach ($comments as $comment) {

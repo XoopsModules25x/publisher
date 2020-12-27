@@ -24,6 +24,8 @@ use XoopsModules\Publisher\{Helper,
 };
 use Xmf\Yaml;
 
+/** @var Helper $helper */
+
 require_once dirname(__DIR__, 3) . '/include/cp_header.php';
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
@@ -64,6 +66,7 @@ function loadSampleData()
 
     $utility      = new Utility();
     $configurator = new Common\Configurator();
+    $helper       = Helper::getInstance();
 
     $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
 
@@ -82,8 +85,8 @@ function loadSampleData()
     // load permissions
     $table     = 'group_permission';
     $tabledata = Yaml::readWrapped($language . $table . '.yml');
-    $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
-    loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $mid);
+    $moduleId  = $helper->getModule()->getVar('mid');
+    loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $moduleId);
 
     //  ---  COPY test folder files ---------------
     if (is_array($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
@@ -102,8 +105,10 @@ function saveSampleData()
     global $xoopsConfig;
     $moduleDirName      = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $helper             = Helper::getInstance();
+    $moduleId           = $helper->getModule()->getVar('mid');
 
-    $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
+    $tables = $helper->getModule()->getInfo('tables');
 
     $languageFolder = __DIR__ . '/' . $xoopsConfig['language'];
     if (!file_exists($languageFolder . '/')) {
@@ -119,7 +124,7 @@ function saveSampleData()
 
     // save permissions
     $criteria = new \CriteriaCompo();
-    $criteria->add(new \Criteria('gperm_modid', \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid')));
+    $criteria->add(new \Criteria('gperm_modid', $moduleId));
     $skipColumns[] = 'gperm_id';
     TableLoad::saveTableToYamlFile('group_permission', $exportFolder . 'group_permission.yml', $criteria, $skipColumns);
     unset($criteria);

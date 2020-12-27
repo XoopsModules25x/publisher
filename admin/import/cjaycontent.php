@@ -25,6 +25,8 @@ use XoopsModules\Publisher\{Constants,
     Item,
     Utility
 };
+/** @var Helper $helper */
+
 const DIRNAME = 'cjaycontent';
 
 require_once dirname(__DIR__) . '/admin_header.php';
@@ -93,10 +95,7 @@ if ('go' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
     Utility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /** @var \XoopsModuleHandler $moduleHandler */
-    $moduleHandler         = xoops_getHandler('module');
-    $moduleObj             = $moduleHandler->getByDirname(DIRNAME);
-    $cjaycontent_module_id = $moduleObj->getVar('mid');
+    $moduleId         = $helper->getModule()->getVar('mid');
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
@@ -167,7 +166,7 @@ if ('go' === $op) {
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
-    $criteria->add(new \Criteria('com_modid', $cjaycontent_module_id));
+    $criteria->add(new \Criteria('com_modid', $moduleId));
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {

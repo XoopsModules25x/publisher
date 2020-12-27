@@ -24,9 +24,11 @@ use Xmf\Request;
 use XoopsModules\Publisher\{Constants,
     Category,
     File,
+    Helper,
     Item,
     Utility
 };
+/** @var Helper $helper */
 
 const CATEGORY = 'wfs_category';
 const ITEMID = 'itemid';
@@ -252,16 +254,13 @@ if ('go' === $op) {
 
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
-    /** @var \XoopsModuleHandler $moduleHandler */
-    $moduleHandler  = xoops_getHandler('module');
-    $moduleObj      = $moduleHandler->getByDirname(DIRNAME);
-    $news_module_id = $moduleObj->getVar('mid');
-
+    $moduleId         = $helper->getModule()->getVar('mid');
+    
     $publisher_module_id = $helper->getModule()->mid();
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
-    $criteria->add(new \Criteria('com_modid', $news_module_id));
+    $criteria->add(new \Criteria('com_modid', $moduleId));
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {

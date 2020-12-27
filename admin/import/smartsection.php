@@ -27,6 +27,7 @@ use XoopsModules\Publisher\{Category,
     Helper,
     Utility
 };
+/** @var Helper $helper */
 
 const CATEGORY = 'smartsection_categories';
 const ITEMID = 'itemid';
@@ -108,10 +109,8 @@ if ('go' === $op) {
     Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Utility::openCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /** @var \XoopsModuleHandler $moduleHandler */
-    $moduleHandler          = xoops_getHandler('module');
-    $moduleObj              = $moduleHandler->getByDirname(DIRNAME);
-    $smartsection_module_id = $moduleObj->getVar('mid');
+    $moduleId         = $helper->getModule()->getVar('mid');
+    
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
@@ -211,9 +210,9 @@ if ('go' === $op) {
         }
 
         // Saving category permissions
-        $groupsIds = $grouppermHandler->getGroupIds('category_read', $arrCat['categoryid'], $smartsection_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('category_read', $arrCat['categoryid'], $moduleId);
         Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
-        $groupsIds = $grouppermHandler->getGroupIds('item_submit', $arrCat['categoryid'], $smartsection_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('item_submit', $arrCat['categoryid'], $moduleId);
         Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         $newCatArray[$newCat['oldid']] = $newCat;
@@ -243,7 +242,7 @@ if ('go' === $op) {
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
-    $criteria->add(new \Criteria('com_modid', $smartsection_module_id));
+    $criteria->add(new \Criteria('com_modid', $moduleId));
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {

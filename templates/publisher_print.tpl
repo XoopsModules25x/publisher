@@ -2,12 +2,12 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=<{$xoops_charset}>">
     <meta http-equiv="content-language" content="<{$xoops_langcode}>">
-    <meta name="robots" content="<{$xoops_meta_robots}>">
-    <meta name="keywords" content="<{$xoops_meta_keywords}>">
-    <meta name="description" content="<{$xoops_meta_description}>">
-    <meta name="rating" content="<{$xoops_meta_rating}>">
-    <meta name="author" content="<{$xoops_meta_author}>">
-    <meta name="copyright" content="<{$xoops_meta_copyright}>">
+    <meta name="robots" content="<{$xoops_meta_robots|default:''}>">
+    <meta name="keywords" content="<{$xoops_meta_keywords|default:''}>">
+    <meta name="description" content="<{$xoops_meta_description|default:''}>">
+    <meta name="rating" content="<{$xoops_meta_rating|default:''}>">
+    <meta name="author" content="<{$xoops_meta_author|default:''}>">
+    <meta name="copyright" content="<{$xoops_meta_copyright|default:''}>">
     <meta name="generator" content="XOOPS">
     <title><{$printtitle}></title>
 </head>
@@ -38,7 +38,7 @@
         <h2><{$item.title}></h2>
     <{/if}>
 
-    <{if !$noCategory}>
+    <{if !$noCategory|default:''}>
        <{$lang_category}> : <{$item.categoryname}>
     <{/if}>
 

@@ -262,7 +262,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             echo "<td class='$class' align='center'><a href='blocksadmin.php?op=edit&amp;bid=" . $i->getVar('bid') . "'><img src=" . $pathIcon16 . '/edit.png' . " alt='" . _EDIT . "' title='" . _EDIT . "'>
                  </a> <a href='blocksadmin.php?op=clone&amp;bid=" . $i->getVar('bid') . "'><img src=" . $pathIcon16 . '/editcopy.png' . " alt='" . _CLONE . "' title='" . _CLONE . "'>
                  </a>";
-            if ('S' !== $i->getVar('block_type') && 'M' !== $i->getVar('block_type')) {
+            if (!in_array($i->getVar('block_type'), ['S', 'M'])) {
                 echo "&nbsp;<a href='" . XOOPS_URL . '/modules/system/admin.php?fct=blocksadmin&amp;op=delete&amp;bid=' . $i->getVar('bid') . "'><img src=" . $pathIcon16 . '/delete.png' . " alt='" . _DELETE . "' title='" . _DELETE . "'>
                      </a>";
             }
@@ -315,7 +315,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         while (false !== ($row = $db->fetchArray($result))) {
             $modules[] = (int)$row['module_id'];
         }
-        $isCustom = ('C' === $myblock->getVar('block_type') || 'E' === $myblock->getVar('block_type'));
+        $isCustom =  (in_array($myblock->getVar('block_type'), ['C', 'E']));
         $block    = [
             'title'      => $myblock->getVar('title') . ' Clone',
             'form_title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS_CLONEBLOCK'),
@@ -377,7 +377,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             $clone->setVar('options', $options);
         }
         $clone->setVar('bid', 0);
-        if ('C' === $block->getVar('block_type') || 'E' === $block->getVar('block_type')) {
+        if (in_array($block->getVar('block_type'), ['C', 'E'])) {
             $clone->setVar('block_type', 'E');
         } else {
             $clone->setVar('block_type', 'D');
@@ -459,7 +459,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         while (false !== ($row = $db->fetchArray($result))) {
             $modules[] = (int)$row['module_id'];
         }
-        $isCustom = ('C' === $myblock->getVar('block_type') || 'E' === $myblock->getVar('block_type'));
+        $isCustom =  (in_array($myblock->getVar('block_type'), ['C', 'E']));
         $block    = [
             'title'      => $myblock->getVar('title'),
             'form_title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS_EDITBLOCK'),

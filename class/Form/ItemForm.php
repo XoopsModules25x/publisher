@@ -130,7 +130,7 @@ class ItemForm extends ThemeTabForm
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      *
      * @return $this
      */

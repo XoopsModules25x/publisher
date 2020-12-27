@@ -226,7 +226,7 @@ $this->helper = $helper ?? Helper::getInstance();
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      *
      * @return bool|string
      */
@@ -252,7 +252,7 @@ $this->helper = $helper ?? Helper::getInstance();
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      *
      * @return bool|string
      */
@@ -278,7 +278,7 @@ $this->helper = $helper ?? Helper::getInstance();
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      *
      * @return bool|string
      */

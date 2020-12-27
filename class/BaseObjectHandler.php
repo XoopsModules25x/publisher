@@ -307,7 +307,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      *
      * @return bool
      */
@@ -317,7 +317,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      *
      * @return bool|string
      */
@@ -327,7 +327,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      *
      * @return bool
      */

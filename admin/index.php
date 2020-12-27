@@ -27,6 +27,7 @@ use XoopsModules\Publisher\{Common,
     Helper,
     Utility
 };
+use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -106,7 +107,7 @@ if ($helper->getConfig('displaySampleButton')) {
     TestdataButtons::loadButtonConfig($adminObject);
     $adminObject->displayButton('left', '');
 }
-$op = \Xmf\Request::getString('op', 0, 'GET');
+$op = Request::getString('op', 0, 'GET');
 switch ($op) {
     case 'hide_buttons':
         TestdataButtons::hideButtons();

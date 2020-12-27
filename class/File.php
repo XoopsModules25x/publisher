@@ -53,6 +53,7 @@ class File extends \XoopsObject
         $this->helper = Helper::getInstance();
         /** @var \XoopsMySQLDatabase $db */
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
+
         $this->initVar('fileid', \XOBJ_DTYPE_INT, 0, false);
         $this->initVar('itemid', \XOBJ_DTYPE_INT, null, true);
         $this->initVar('name', \XOBJ_DTYPE_TXTBOX, null, true, 255);
@@ -208,7 +209,7 @@ class File extends \XoopsObject
      */
     public function notLoaded()
     {
-        return (0 == $this->getVar('itemid'));
+        return (0 === $this->getVar('itemid'));
     }
 
     /**

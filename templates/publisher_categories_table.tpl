@@ -43,7 +43,7 @@
                 </td>
             <{/if}>
             <{if $displaylastitem == 1}>
-                <td class="even" align="right"><{$category.last_title_link}></td>
+                <td class="even" align="right"><{$category.last_title_link|default:''}></td>
             <{/if}>
         </tr>
         <{if $category.subcats}>
@@ -80,7 +80,7 @@
                         <td class="odd" align="center"><{$subcat.total}></td>
                     <{/if}>
                     <{if $displaylastitem == 1}>
-                        <td class="odd" align="right"><{$subcat.last_title_link}></td>
+                        <td class="odd" align="right"><{$subcat.last_title_link|default:''}></td>
                     <{/if}>
                 </tr>
             <{/foreach}>

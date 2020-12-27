@@ -77,7 +77,7 @@ class SysUtility
                     if (\preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $lineMatchings[1])) {
                         // do nothing
                         // if tag is a closing tag
-                    } elseif (\preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $lineMatchings[1], $tagMatchings)) {
+                    } elseif (\preg_match('/^<\s*\/(\S+?)\s*>$/s', $lineMatchings[1], $tagMatchings)) {
                         // delete tag from $openTags list
                         $pos = \array_search($tagMatchings[1], $openTags, true);
                         if (false !== $pos) {
@@ -92,13 +92,13 @@ class SysUtility
                     $truncate .= $lineMatchings[1];
                 }
                 // calculate the length of the plain text part of the line; handle entities as one character
-                $content_length = mb_strlen(\preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $lineMatchings[2]));
+                $content_length = mb_strlen(\preg_replace('/&[0-9a-z]{2,8};|&#\d{1,7};|[0-9a-f]{1,6};/i', ' ', $lineMatchings[2]));
                 if ($totalLength + $content_length > $length) {
                     // the number of characters which are left
                     $left           = $length - $totalLength;
                     $entitiesLength = 0;
                     // search for html entities
-                    if (\preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $lineMatchings[2], $entities, \PREG_OFFSET_CAPTURE)) {
+                    if (\preg_match_all('/&[0-9a-z]{2,8};|&#\d{1,7};|[0-9a-f]{1,6};/i', $lineMatchings[2], $entities, \PREG_OFFSET_CAPTURE)) {
                         // calculate the real length of all entities in the legal range
                         foreach ($entities[0] as $entity) {
                             if ($left >= $entity[1] + 1 - $entitiesLength) {

@@ -39,7 +39,7 @@ class MimetypeHandler extends BaseObjectHandler
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
         /** @var Helper $this->helper */
-$this->helper = $helper ?? Helper::getInstance();
+        $this->helper = $helper ?? Helper::getInstance();
 
         $this->publisherIsAdmin = $this->helper->isUserAdmin();
         $this->db               = $db;
@@ -226,7 +226,7 @@ $this->helper = $helper ?? Helper::getInstance();
     }
 
     /**
-     * @param \XoopsObject $obj
+     * @param Mimetype $obj
      *
      * @return bool|string
      */
@@ -252,7 +252,7 @@ $this->helper = $helper ?? Helper::getInstance();
     }
 
     /**
-     * @param \XoopsObject $obj
+     * @param Mimetype $obj
      *
      * @return bool|string
      */
@@ -278,7 +278,7 @@ $this->helper = $helper ?? Helper::getInstance();
     }
 
     /**
-     * @param \XoopsObject $obj
+     * @param Mimetype $obj
      *
      * @return bool|string
      */

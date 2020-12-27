@@ -28,6 +28,7 @@ use XoopsModules\Publisher\{Constants,
     Form,
     FormDateTime,
     Helper,
+    Item,
     ThemeTabForm,
     Utility
 };
@@ -130,7 +131,7 @@ class ItemForm extends ThemeTabForm
     }
 
     /**
-     * @param \XoopsObject $obj
+     * @param Item $obj
      *
      * @return $this
      */

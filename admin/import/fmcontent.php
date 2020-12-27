@@ -261,7 +261,7 @@ if ('go' === $op) {
         );
 
         // Category image
-        if (('blank.gif' !== $thisFmTopicObj->getVar('topic_img')) && ('' !== $thisFmTopicObj->getVar('topic_img'))) {
+        if (!in_array($thisFmTopicObj->getVar('topic_img'), ['blank.gif', ''])) {
             if (copy($GLOBALS['xoops']->path('www/uploads/fmcontent/img/' . $thisFmTopicObj->getVar('topic_img')), $GLOBALS['xoops']->path('www/uploads/publisher/images/category/' . $thisFmTopicObj->getVar('topic_img')))) {
                 $categoryObj->setVar('image', $thisFmTopicObj->getVar('topic_img'));
             }

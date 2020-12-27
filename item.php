@@ -239,7 +239,7 @@ if (null !== $filesObj) {
             $file['fileid']      = $fileObj->fileid();
             $file['name']        = $fileObj->name();
             $file['description'] = $fileObj->description();
-            $file['name']        = $fileObj->name();
+            $file['filename']    = $fileObj->filename();
             $file['type']        = $fileObj->mimetype();
             $file['datesub']     = $fileObj->getDatesub();
             $file['hits']        = $fileObj->counter();

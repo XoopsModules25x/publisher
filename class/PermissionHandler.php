@@ -131,11 +131,7 @@ $this->helper = $helper ?? Helper::getInstance();
             return false;
         }
         $permissions = $this->getGrantedItems($gpermName);
-        if (!empty($permissions) && isset($permissions[$id])) {
-            return true;
-        }
-
-        return false;
+        return !empty($permissions) && isset($permissions[$id]);
     }
 
     /**

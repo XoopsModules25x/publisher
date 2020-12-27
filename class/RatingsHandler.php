@@ -121,7 +121,6 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
                     $itemRating['id'] = $ratingObj->getVar('rate_id');
                 }
             }
-            unset($ratingObj);
             unset($criteria);
 
             $itemRating['avg_rate_value'] = 0;
@@ -158,7 +157,6 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
                     $itemRating['id'] = $ratingObj->getVar('rate_id');
                 }
             }
-            unset($ratingObj);
             unset($criteria);
             $itemRating['dislikes'] = $count;
 
@@ -177,7 +175,6 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
                     $itemRating['id'] = $ratingObj->getVar('rate_id');
                 }
             }
-            unset($ratingObj);
             unset($criteria);
             $itemRating['likes'] = $count;
 
@@ -201,7 +198,6 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
                     $itemRating['id'] = $ratingObj->getVar('rate_id');
                 }
             }
-            unset($ratingObj);
             unset($criteria);
             $itemRating['dislikes'] = $count;
 
@@ -220,7 +216,6 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
                     $itemRating['id'] = $ratingObj->getVar('rate_id');
                 }
             }
-            unset($ratingObj);
             unset($criteria);
             $itemRating['likes'] = $count;
 

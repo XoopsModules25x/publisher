@@ -215,8 +215,7 @@ switch ($op) {
         if ($itemId) {
             $redirectMsg = _MD_PUBLISHER_ITEMMODIFIED;
             redirect_header($itemObj->getItemUrl(), 2, $redirectMsg);
-        } else {
-            if (Constants::PUBLISHER_STATUS_PUBLISHED == $itemObj->getVar('status') /*$helper->getConfig('perm_autoapprove'] ==  1*/) {
+        } elseif (Constants::PUBLISHER_STATUS_PUBLISHED == $itemObj->getVar('status') /*$helper->getConfig('perm_autoapprove'] ==  1*/) {
                 // We do not not subscribe user to notification on publish since we publish it right away
 
                 // Send notifications
@@ -236,7 +235,6 @@ switch ($op) {
                 $itemObj->sendNotifications([Constants::PUBLISHER_NOTIFY_ITEM_SUBMITTED]);
 
                 $redirectMsg = _MD_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
-            }
         }
         redirect_header('index.php', 2, $redirectMsg);
 

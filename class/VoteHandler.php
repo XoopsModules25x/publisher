@@ -232,7 +232,7 @@ class VoteHandler extends \XoopsPersistableObjectHandler
 
     /**
      * Get Rating per item in the database
-     * @param null     $itemObj
+     * @param Item|null     $itemObj
      * @param int|null $source
      * @return array
      */

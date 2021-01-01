@@ -31,7 +31,7 @@ language/english/modinfo.php
 - changed define('_MI_PUBLISHER_DISDATECOLDSC', 'Select “Yes” to display a “Published on” date in the items table on the index and category page.');
 - changed define('_MI_PUBLISHER_DISTYPEDSC', 'Select template to be use in index and category page.');
 - changed define('_MI_PUBLISHER_HITSCOLDSC', 'Select “Yes” to display the “Hits” column in the items table on the index and category page.');
-- changed define('_MI_PUBLISHER_LASTITEMSDSC', 'Select “Yes” to have the list at the bottom of the index and categeory page of the module.');
+- changed define('_MI_PUBLISHER_LASTITEMSDSC', 'Select “Yes” to have the list at the bottom of the index and category page of the module.');
 - changed define('_MI_PUBLISHER_WELCOMEDSC', 'If this option is set to “Yes”, the module index page will display the title welcome message defined below. If this option is set to “No”, none of these welcome message will be displayed.');
 - changed define('_MI_PUBLISHER_ARCHIVE_DSC', 'Article Archives');
 

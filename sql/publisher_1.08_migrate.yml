@@ -236,26 +236,26 @@ publisher_rating:
             attributes: ' int(11)  NOT NULL auto_increment'
         -
             name: itemid
-            attributes: ' int(11)  NOT NULL '
-        -
-            name: uid
-            attributes: ' int(11)  NOT NULL '
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
         -
             name: rate
-            attributes: ' int(1)  NOT NULL '
+            attributes: ' int(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: uid
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
         -
             name: date
-            attributes: ' int(11)  NOT NULL '
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
         -
             name: ip
-            attributes: ' varchar(60)  NOT NULL  DEFAULT '''' '
+            attributes: ' varchar(45)  NOT NULL  DEFAULT '''' '
+        -
+            name: source
+            attributes: ' tinyint(2)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: type
+            attributes: ' tinyint(2) unsigned  NOT NULL  DEFAULT ''1'' '
     keys:
-        ip:
-            columns: ip
-            unique: false
         PRIMARY:
             columns: ratingid
             unique: true
-        uid:
-            columns: uid
-            unique: false

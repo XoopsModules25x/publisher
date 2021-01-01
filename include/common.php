@@ -22,10 +22,13 @@ declare(strict_types=1);
 
 use Xmf\Module\Admin;
 use XoopsModules\Publisher\{
-    Common,
+    Common\Configurator,
     Helper,
     Utility
 };
+
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
@@ -33,14 +36,14 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
 /** @var \XoopsMySQLDatabase $db */
-/** @var Helper $helper */
-/** @var Utility $utility */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
 $helper  = Helper::getInstance();
 $utility = new Utility();
-//$configurator = new Common\Configurator();
 
 $helper->loadLanguage('common');
+
+$configurator = new Configurator();
+$icons = $configurator->icons;
 
 //$utilities                = new Publisher\Utilities();
 //$brokenHandler            = new Publisher\BrokenHandler($db);
@@ -110,17 +113,17 @@ $pathIcon32 = Admin::iconUrl('', 32);
 //$pathModIcon16 = $helper->getModule()->getInfo('modicons16');
 //$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
-$icons = [
-    'edit'    => "<img src='" . $pathIcon16 . "/edit.png'  alt=" . _EDIT . "' align='middle'>",
-    'delete'  => "<img src='" . $pathIcon16 . "/delete.png' alt='" . _DELETE . "' align='middle'>",
-    'clone'   => "<img src='" . $pathIcon16 . "/editcopy.png' alt='" . _CLONE . "' align='middle'>",
-    'preview' => "<img src='" . $pathIcon16 . "/view.png' alt='" . _PREVIEW . "' align='middle'>",
-    'print'   => "<img src='" . $pathIcon16 . "/printer.png' alt='" . _CLONE . "' align='middle'>",
-    'pdf'     => "<img src='" . $pathIcon16 . "/pdf.png' alt='" . _CLONE . "' align='middle'>",
-    'add'     => "<img src='" . $pathIcon16 . "/add.png' alt='" . _ADD . "' align='middle'>",
-    '0'       => "<img src='" . $pathIcon16 . "/0.png' alt='" . 0 . "' align='middle'>",
-    '1'       => "<img src='" . $pathIcon16 . "/1.png' alt='" . 1 . "' align='middle'>",
-];
+//$icons = [
+//    'edit'    => "<img src='" . $pathIcon16 . "/edit.png'  alt=" . _EDIT . "' align='middle'>",
+//    'delete'  => "<img src='" . $pathIcon16 . "/delete.png' alt='" . _DELETE . "' align='middle'>",
+//    'clone'   => "<img src='" . $pathIcon16 . "/editcopy.png' alt='" . _CLONE . "' align='middle'>",
+//    'preview' => "<img src='" . $pathIcon16 . "/view.png' alt='" . _PREVIEW . "' align='middle'>",
+//    'print'   => "<img src='" . $pathIcon16 . "/printer.png' alt='" . _CLONE . "' align='middle'>",
+//    'pdf'     => "<img src='" . $pathIcon16 . "/pdf.png' alt='" . _CLONE . "' align='middle'>",
+//    'add'     => "<img src='" . $pathIcon16 . "/add.png' alt='" . _ADD . "' align='middle'>",
+//    '0'       => "<img src='" . $pathIcon16 . "/0.png' alt='" . 0 . "' align='middle'>",
+//    '1'       => "<img src='" . $pathIcon16 . "/1.png' alt='" . 1 . "' align='middle'>",
+//];
 
 $debug = false;
 
@@ -132,7 +135,7 @@ if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)
     $GLOBALS['xoopsTpl'] = new \XoopsTpl();
 }
 
-$GLOBALS['xoopsTpl']->assign('mod_url', XOOPS_URL . '/modules/' . $moduleDirName);
+$GLOBALS['xoopsTpl']->assign('mod_url', $helper->url());
 // Local icons path
 if (is_object($helper->getModule())) {
     $pathModIcon16 = $helper->getModule()->getInfo('modicons16');

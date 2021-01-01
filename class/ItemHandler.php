@@ -22,7 +22,8 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
+/** @var Helper $this->helper */
+/** @var Item $obj */
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -35,6 +36,12 @@ require_once \dirname(__DIR__) . '/include/common.php';
  */
 class ItemHandler extends \XoopsPersistableObjectHandler
 {
+    private const TABLE = 'publisher_items';
+    private const ENTITY = Item::class;
+    private const ENTITYNAME = 'Item';
+    private const KEYNAME = 'itemid';
+    private const IDENTIFIER = 'title';
+
     /**
      * @var Helper
      */
@@ -44,15 +51,10 @@ class ItemHandler extends \XoopsPersistableObjectHandler
 
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Helper $this->helper */
-        if (null === $helper) {
-            $this->helper = Helper::getInstance();
-        } else {
-            $this->helper = $helper;
-        }
-
+        $this->helper = $helper ?? Helper::getInstance();
+        $this->db = $db;
         $this->publisherIsAdmin = $this->helper->isUserAdmin();
-        parent::__construct($db, 'publisher_items', Item::class, 'itemid', 'title');
+        parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
     }
 
     /**
@@ -62,6 +64,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function create($isNew = true)
     {
+        /** @var Item $obj */
         $obj = parent::create($isNew);
         if ($isNew) {
             $obj->setDefaultPermissions();
@@ -78,7 +81,6 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      *
      * @param array|null $fields
      * @return mixed reference to the <a href='psi_element://Item'>Item</a> object, FALSE if failed
-     *                       object, FALSE if failed
      */
     public function get($id = null, $fields = null)
     {
@@ -89,6 +91,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
 
         return $obj;
     }
+
 
     /**
      * insert a new item in the database
@@ -112,7 +115,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             }
             // Auto create short_url if empty
             if (!$item->short_url()) {
-                $item->setVar('short_url', mb_substr(Metagen::generateSeoTitle($item->getVar('title', 'n'), false), 0, 254));
+                $item->setVar('short_url', \mb_substr(Metagen::generateSeoTitle($item->getVar('title', 'n'), false), 0, 254));
             }
         }
         if (!parent::insert($item, $force)) {
@@ -120,9 +123,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         }
         if (\xoops_isActiveModule('tag')) {
             // Storing tags information
-            /** @var \XoopsModules\Tag\Helper $tagHandler */
+            /** @var \XoopsModules\Tag\TagHandler $tagHandler */
             $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
-            $tagHandler->updateByItem($item->getVar('item_tag'), $item->getVar('itemid'), PUBLISHER_DIRNAME, 0);
+            $tagHandler->updateByItem($item->getVar('item_tag'), $item->getVar('itemid'), $this->helper->getDirname(), 0);
         }
 
         return true;
@@ -149,9 +152,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         }
         // Removing tags information
         if (\xoops_isActiveModule('tag')) {
-            /** @var \XoopsModules\Tag\Helper $tagHandler */
+            /** @var \XoopsModules\Tag\TagHandler $tagHandler */
             $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
-            $tagHandler->updateByItem('', $item->getVar('itemid'), PUBLISHER_DIRNAME, 0);
+            $tagHandler->updateByItem('', $item->getVar('itemid'), $this->helper->getDirname(), 0);
         }
 
         return true;
@@ -174,7 +177,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $notNullFields = (null !== $notNullFields) ?: '';
 
         $sql = 'SELECT * FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (null !== $criteria && ($criteria instanceof \Criteria || $criteria instanceof \CriteriaCompo)) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
@@ -221,17 +224,16 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * count items matching a condition
      *
-     * @param \CriteriaElement|null $criteria           {@link CriteriaElement}
-     *                                                  to match
-     * @param string|null                $notNullFields
+     * @param \CriteriaElement|null $criteria   Criteria to match
+     * @param string|null           $notNullFields
      *
      * @return int count of items
      */
     public function getCount(\CriteriaElement $criteria = null, $notNullFields = null)
     {
-        $notNullFields = (null !== $notNullFields) ?: '';
-        $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+//        $notNullFields = $notNullFields ?? null;
+        $sql           = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
+        if (null !== $criteria && ($criteria instanceof \Criteria || $criteria instanceof \CriteriaCompo)) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
@@ -276,25 +278,30 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //                return $ret;
         //            }
         //        }
+
         $criteriaCategory = null;
-        if (isset($categoryId) && -1 != $categoryId) {
+        if (isset($categoryId) && -1 !== $categoryId) {
             $criteriaCategory = new \Criteria('categoryid', $categoryId);
         }
+
         $criteriaStatus = new \CriteriaCompo();
         if (!empty($status) && \is_array($status)) {
             foreach ($status as $v) {
                 $criteriaStatus->add(new \Criteria('status', $v), 'OR');
             }
-        } elseif (!empty($status) && -1 != $status) {
+        } elseif (!empty($status) && -1 !== $status) {
             $criteriaStatus->add(new \Criteria('status', $status), 'OR');
         }
+
         $criteria = new \CriteriaCompo();
         if (null !== $criteriaCategory) {
             $criteria->add($criteriaCategory);
         }
+
         if (null !== $criteriaPermissions) {
             $criteria->add($criteriaPermissions);
         }
+
         if (null !== $criteriaStatus) {
             $criteria->add($criteriaStatus);
         }
@@ -311,7 +318,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getItemsCount($categoryId = -1, $status = '', $notNullFields = null)
     {
-        $notNullFields = (null !== $notNullFields) ?: '';
+//        $notNullFields       = $notNullFields ?? null;
         $criteriaPermissions = null;
         if (!$this->publisherIsAdmin) {
             $criteriaPermissions = new \CriteriaCompo();
@@ -327,44 +334,21 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //        $ret = [];
         $criteria = $this->getItemsCriteria($categoryId, $status, $notNullFields, $criteriaPermissions);
 
-        /*
-                if (isset($categoryId) && $categoryId != -1) {
-                    $criteriaCategory = new \Criteria('categoryid', $categoryId);
-                }
-                $criteriaStatus = new \CriteriaCompo();
-                if (!empty($status) && is_array($status)) {
-                    foreach ($status as $v) {
-                        $criteriaStatus->add(new \Criteria('status', $v), 'OR');
-                    }
-                } elseif (!empty($status) && $status != -1) {
-                    $criteriaStatus->add(new \Criteria('status', $status), 'OR');
-                }
-                $criteria = new \CriteriaCompo();
-                if (!empty($criteriaCategory)) {
-                    $criteria->add($criteriaCategory);
-                }
-                if (!empty($criteriaPermissions)) {
-                    $criteria->add($criteriaPermissions);
-                }
-                if (!empty($criteriaStatus)) {
-                    $criteria->add($criteriaStatus);
-                }
-        */
         $ret = $this->getCount($criteria, $notNullFields);
 
         return $ret;
     }
 
     /**
-     * @param int    $limit
-     * @param int    $start
-     * @param int    $categoryId
-     * @param string $sort
-     * @param string $order
+     * @param int         $limit
+     * @param int         $start
+     * @param int         $categoryId
+     * @param string      $sort
+     * @param string      $order
      * @param string|null $notNullFields
-     * @param bool   $asObject
-     * @param string $idKey
-     * @param bool   $excludeExpired
+     * @param bool        $asObject
+     * @param string      $idKey
+     * @param bool        $excludeExpired
      *
      * @return array
      */
@@ -447,14 +431,14 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int    $limit
-     * @param int    $start
-     * @param int    $categoryId
-     * @param string $sort
-     * @param string $order
+     * @param int         $limit
+     * @param int         $start
+     * @param int         $categoryId
+     * @param string      $sort
+     * @param string      $order
      * @param string|null $notNullFields
-     * @param bool   $asObject
-     * @param string $idKey
+     * @param bool        $asObject
+     * @param string      $idKey
      *
      * @return array
      */
@@ -514,7 +498,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getItems($limit = 0, $start = 0, $status = '', $categoryId = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $otherCriteria = null, $idKey = 'none')
     {
-        $notNullFields = (null !== $notNullFields) ?: '';
+        $notNullFields       = (null !== $notNullFields) ?: '';
         $criteriaPermissions = null;
         if (!$this->publisherIsAdmin) {
             $criteriaPermissions = new \CriteriaCompo();

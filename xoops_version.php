@@ -36,8 +36,8 @@ $xoops_url = parse_url(XOOPS_URL);
 
 $modversion = [
     'version'             => '1.08',
-    'module_status'       => 'Alpha 2',
-    'release_date'        => '2020/07/08',
+    'module_status'       => 'Alpha 3',
+    'release_date'        => '2021/01/01',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -77,12 +77,13 @@ $modversion = [
     'sqlfile'             => ['mysql' => 'sql/mysql.sql'],
     // ------------------- Tables -------------------
     'tables'              => [
-        $moduleDirName . '_categories',
-        $moduleDirName . '_items',
-        $moduleDirName . '_files',
-        $moduleDirName . '_meta',
-        $moduleDirName . '_mimetypes',
-        $moduleDirName . '_rating',
+        $moduleDirName . '_' . 'categories',
+        $moduleDirName . '_' . 'items',
+        $moduleDirName . '_' . 'files',
+        $moduleDirName . '_' . 'meta',
+        $moduleDirName . '_' . 'mimetypes',
+        $moduleDirName . '_' . 'rating',
+        //        $moduleDirName . '_' . 'voting',
     ],
 ];
 
@@ -267,6 +268,8 @@ $modversion['templates'] = [
     ['file' => 'publisher_search.tpl', 'description' => '_MI_PUBLISHER_SEARCH_DSC'],
     ['file' => 'publisher_author_items.tpl', 'description' => '_MI_PUBLISHER_AUTHOR_ITEMS_DSC'],
     ['file' => 'publisher_archive.tpl', 'description' => '_MI_PUBLISHER_ARCHIVE_DSC'],
+    ['file' => 'publisher_vote.tpl', 'description' => ''],
+
     //admin
     ['file' => 'publisher_trello.tpl', 'description' => '_MI_PUBLISHER_TRELLO_DSC', 'type' => 'admin'],
 ];
@@ -831,14 +834,35 @@ $modversion['config'][] = [
     'category'    => 'item',
 ];
 
+// Number column
 $modversion['config'][] = [
-    'name'        => 'perm_rating',
-    'title'       => '_MI_PUBLISHER_ALLOWRATING',
-    'description' => '_MI_PUBLISHER_ALLOWRATING_DSC',
-    'formtype'    => 'yesno',
+    'name'        => 'numb_col',
+    'title'       => '_MI_BLOG_NUMB_COL',
+    'description' => '_MI_BLOG_NUMB_COL_DESC',
+    'formtype'    => 'select',
     'valuetype'   => 'int',
-    'default'     => 0,
-    'category'    => 'item',
+    'default'     => 1,
+    'options'     => [1 => '1', 2 => '2', 3 => '3', 4 => '4'],
+];
+// Divide by
+$modversion['config'][] = [
+    'name'        => 'divideby',
+    'title'       => '_MI_BLOG_DIVIDEBY',
+    'description' => '_MI_BLOG_DIVIDEBY_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'options'     => [1 => '1', 2 => '2', 3 => '3', 4 => '4'],
+];
+// Table type
+$modversion['config'][] = [
+    'name'        => 'table_type',
+    'title'       => '_MI_BLOG_TABLE_TYPE',
+    'description' => '_MI_BLOG_DIVIDEBY_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => 'bordered',
+    'options'     => ['bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed'],
 ];
 
 $modversion['config'][] = [
@@ -934,6 +958,66 @@ $modversion['config'][] = [
     ],
     'default'     => 'previous_next',
     'category'    => 'item',
+];
+
+// ================== Rating/Voting =================
+$modversion['config'][] = [
+    'name'        => 'rating_voting',
+    'title'       => '_MI_PUBLISHER_RATING_VOTING',
+    'description' => '_MI_PUBLISHER_RATING_VOTING_DSC',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'odd',
+    'category'    => 'group_header',
+];
+
+$modversion['config'][] = [
+    'name'        => 'perm_rating',
+    'title'       => '_MI_PUBLISHER_ALLOWRATING',
+    'description' => '_MI_PUBLISHER_ALLOWRATING_DSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'repeat_rating',
+    'title'       => '_MI_PUBLISHER_ALLOW_REPEAT_RATING',
+    'description' => '_MI_PUBLISHER_ALLOW_REPEAT_RATING_DSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'item',
+];
+
+// Get groups
+/** @var \XoopsMemberHandler $memberHandler */
+$memberHandler    = \xoops_getHandler('member');
+$xoopsGroups      = $memberHandler->getGroupList();
+$ratingbar_groups = [];
+foreach ($xoopsGroups as $key => $group) {
+    $ratingbar_groups[$group] = $key;
+}
+// Rating: Groups with rating permissions
+$modversion['config'][] = [
+    'name'        => 'ratingbar_groups',
+    'title'       => '_MI_BLOG_RATINGBAR_GROUPS',
+    'description' => '_MI_BLOG_RATINGBAR_GROUPS_DESC',
+    'formtype'    => 'select_multi',
+    'valuetype'   => 'array',
+    'default'     => [1],
+    'options'     => $ratingbar_groups,
+];
+// Rating : used ratingbar
+$modversion['config'][] = [
+    'name'        => 'ratingbars',
+    'title'       => '_MI_BLOG_RATINGBARS',
+    'description' => '_MI_BLOG_RATINGBARS_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'options'     => ['_MI_BLOG_RATING_NONE' => 0, '_MI_BLOG_RATING_5STARS' => 1, '_MI_BLOG_RATING_10STARS' => 2, '_MI_BLOG_RATING_LIKES' => 3, '_MI_BLOG_RATING_10NUM' => 4, '_MI_BLOG_RATING_REACTION' => 5],
 ];
 
 ################### LATEST ARTICLES IN ARTICLE PAGE  ####################
@@ -1526,6 +1610,7 @@ $modversion['config'][] = [
 ];
 
 $optCats              = [_MI_PUBLISHER_IMGCAT_ALL => Constants::PUBLISHER_IMGCAT_ALL];
+/** @var \XoopsImagecategoryHandler $imageCategoryHandler */
 $imageCategoryHandler = xoops_getHandler('imagecategory');
 $catlist              = $imageCategoryHandler->getList();
 foreach ($catlist as $key => $value) {

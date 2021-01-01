@@ -21,18 +21,20 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Constants,
+use XoopsModules\Publisher\{Constants,
     Item,
     Utility
 };
+/** @var Helper $helper */
+
+const DIRNAME = 'cjaycontent';
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'cjaycontent ' . Request::getString('cjaycontent_version', '', 'POST');
 
-$scriptname = 'cjaycontent.php';
+$scriptname = DIRNAME . '.php';
 
 $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 
@@ -93,11 +95,8 @@ if ('go' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
     Utility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /** @var XoopsModuleHandler $moduleHandler */
-    $moduleHandler         = xoops_getHandler('module');
-    $moduleObj             = $moduleHandler->getByDirname('cjaycontent');
-    $cjaycontent_module_id = $moduleObj->getVar('mid');
-    /** @var XoopsGroupPermHandler $grouppermHandler */
+    $moduleId         = $helper->getModule()->getVar('mid');
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_articles = 0;
@@ -167,17 +166,17 @@ if ('go' === $op) {
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
-    $criteria->add(new \Criteria('com_modid', $cjaycontent_module_id));
+    $criteria->add(new \Criteria('com_modid', $moduleId));
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
-        if (!$commentHandler->insert($comment)) {
-            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . '<br>';
-        } else {
+        if ($commentHandler->insert($comment)) {
             echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . '<br>';
+        } else {
+            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . '<br>';
         }
     }
     //    unset($comment);

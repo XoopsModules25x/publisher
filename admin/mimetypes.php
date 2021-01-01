@@ -60,7 +60,7 @@ switch ($op) {
         MimetypesUtility::edit();
         break;
     case 'search':
-        MimetypesUtility::search();
+        MimetypesUtility::search($icons);
         break;
     case 'updateMimeValue':
         MimetypesUtility::updateMimeValue();
@@ -76,6 +76,6 @@ switch ($op) {
         break;
     case 'manage':
     default:
-        MimetypesUtility::manage();
+        MimetypesUtility::manage($icons);
         break;
 }

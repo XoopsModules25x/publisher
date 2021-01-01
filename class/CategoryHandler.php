@@ -22,10 +22,6 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    Form
-};
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -37,6 +33,12 @@ require_once \dirname(__DIR__) . '/include/common.php';
  */
 class CategoryHandler extends \XoopsPersistableObjectHandler
 {
+    private const TABLE = 'publisher_categories';
+    private const ENTITY = Category::class;
+    private const ENTITYNAME = 'Category';
+    private const KEYNAME = 'categoryid';
+    private const IDENTIFIER = 'name';
+
     /**
      * @var Helper
      */
@@ -46,13 +48,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
         /** @var Helper $this->helper */
-        if (null === $helper) {
-            $this->helper = Helper::getInstance();
-        } else {
-            $this->helper = $helper;
-        }
-        $publisherIsAdmin = $this->helper->isUserAdmin();
-        parent::__construct($db, 'publisher_categories', Category::class, 'categoryid', 'name');
+        $this->helper = $helper ?? Helper::getInstance();
+        $this->db = $db;
+        $this->publisherIsAdmin = $this->helper->isUserAdmin();
+        parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
     }
 
     /**
@@ -168,10 +167,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $ret        = [];
         $theObjects = parent::getObjects($criteria, true);
         foreach ($theObjects as $theObject) {
-            if (!$idAsKey) {
-                $ret[] = $theObject;
-            } else {
+            if ($idAsKey) {
                 $ret[$theObject->categoryid()] = $theObject;
+            } else {
+                $ret[] = $theObject;
             }
             unset($theObject);
         }
@@ -418,12 +417,13 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function publishedItemsCount($catId = 0)
     {
-        return $this->itemsCount($catId, $status = [Constants::PUBLISHER_STATUS_PUBLISHED]);
+        $status = [Constants::PUBLISHER_STATUS_PUBLISHED];
+        return $this->itemsCount($catId, $status);
     }
 
     /**
-     * @param int    $catId
-     * @param string $status
+     * @param int   $catId
+     * @param array $status
      *
      * @return mixed
      */

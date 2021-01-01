@@ -20,9 +20,11 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
+use XoopsModules\Publisher\{Helper,
     Utility
 };
+
+/** @var Helper $helper */
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -72,7 +74,7 @@ switch ($op) {
 
         // Uploading the image, if any
         // Retreive the filename to be uploaded
-        $temp       = Request::getArray('image_file', '', 'FILES');
+        $temp      = Request::getArray('image_file', '', 'FILES');
         $imageFile = $temp['name'];
         if ($imageFile) {
             //            $filename = Request::getArray('xoops_upload_file', array(), 'POST')[0];
@@ -81,8 +83,8 @@ switch ($op) {
             if ($filename) {
                 // TODO : implement publisher mimetype management
                 $maxSize          = $helper->getConfig('maximum_filesize');
-                $maxImageWidth      = $helper->getConfig('maximum_image_width');
-                $maxImageHeight     = $helper->getConfig('maximum_image_height');
+                $maxImageWidth    = $helper->getConfig('maximum_image_width');
+                $maxImageHeight   = $helper->getConfig('maximum_image_height');
                 $allowedMimetypes = Utility::getAllowedImagesTypes();
                 if (('' == $temp['tmp_name']) || !is_readable($temp['tmp_name'])) {
                     redirect_header('<script>javascript:history.go(-1)</script>', 2, _AM_PUBLISHER_FILEUPLOAD_ERROR);
@@ -162,7 +164,7 @@ switch ($op) {
     //Added by fx2024
 
     case 'addsubcats':
-        $categoryId = 0;
+        $categoryId    = 0;
         $numberSubcats = Request::getInt('nb_subcats', 0, 'POST') + Request::getInt('nb_sub_yet', 0, 'POST');
 
         $categoryObj = $helper->getHandler('Category')->create();

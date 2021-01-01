@@ -24,12 +24,9 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    Helper
-};
 /** @var Helper $this->helper */
 
-require_once \dirname(__DIR__) . '/include/common.php';
+//require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class PermissionHandler
@@ -43,11 +40,7 @@ class PermissionHandler extends \XoopsObjectHandler
 
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        if (null === $helper) {
-            $this->helper = Helper::getInstance();
-        } else {
-            $this->helper = $helper;
-        }
+$this->helper = $helper ?? Helper::getInstance();
     }
 
     /**
@@ -74,7 +67,7 @@ class PermissionHandler extends \XoopsObjectHandler
         $db    = \XoopsDatabaseFactory::getDatabaseConnection();
         $limit = $start = 0;
         $sql   = 'SELECT gperm_groupid FROM ' . $db->prefix('group_permission');
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (null !== $criteria && $criteria instanceof \CriteriaCompo) {
             $sql   .= ' ' . $criteria->renderWhere();
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
@@ -138,11 +131,7 @@ class PermissionHandler extends \XoopsObjectHandler
             return false;
         }
         $permissions = $this->getGrantedItems($gpermName);
-        if (!empty($permissions) && isset($permissions[$id])) {
-            return true;
-        }
-
-        return false;
+        return !empty($permissions) && isset($permissions[$id]);
     }
 
     /**

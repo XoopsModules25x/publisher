@@ -22,7 +22,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Harry Fuecks (PHP Anthology Volume II)
  */
-//namespace Publisher;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 

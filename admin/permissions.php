@@ -19,8 +19,7 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    Constants,
+use XoopsModules\Publisher\{Constants,
     Helper,
     Utility
 };
@@ -123,7 +122,7 @@ Utility::closeCollapsableBar('permissionstable_form', 'permissionsicon_form');
 
 // Editors permissions
 echo "<br>\n";
-Utility::openCollapsableBar('permissionstable_editors', 'permissions_editors', _AM_PUBLISHER_PERMISSIONS_EDITORS, _AM_PUBLISHER_PERMISSIONS_EDITORS_DSC);
+Utility::openCollapsableBar('permissionstable_editors', 'permissionsicon_editors', _AM_PUBLISHER_PERMISSIONS_EDITORS, _AM_PUBLISHER_PERMISSIONS_EDITORS_DSC);
 $editors     = Utility::getEditors();
 $form_submit = new \XoopsGroupPermForm('', $helper->getModule()->mid(), 'editors', '', 'admin/permissions.php');
 foreach ($editors as $key => $value) {

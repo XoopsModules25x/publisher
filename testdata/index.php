@@ -13,15 +13,18 @@ declare(strict_types=1);
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @since           2.5.9
- * @author          Michael Beck (aka Mamba)
+ * @author          Michael Beck (aka Mamba): https://github.com/mambax7
  */
 
+use Xmf\Database\TableLoad;
 use \Xmf\Request;
-use XoopsModules\Publisher\{
-    Helper,
+use XoopsModules\Publisher\{Helper,
     Common,
     Utility
 };
+use Xmf\Yaml;
+
+/** @var Helper $helper */
 
 require_once dirname(__DIR__, 3) . '/include/cp_header.php';
 require dirname(__DIR__) . '/preloads/autoloader.php';
@@ -63,6 +66,7 @@ function loadSampleData()
 
     $utility      = new Utility();
     $configurator = new Common\Configurator();
+    $helper       = Helper::getInstance();
 
     $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
 
@@ -73,16 +77,16 @@ function loadSampleData()
 
     // load module tables
     foreach ($tables as $table) {
-        $tabledata = \Xmf\Yaml::readWrapped($language . $table . '.yml');
-        \Xmf\Database\TableLoad::truncateTable($table);
-        \Xmf\Database\TableLoad::loadTableFromArray($table, $tabledata);
+        $tabledata = Yaml::readWrapped($language . $table . '.yml');
+        TableLoad::truncateTable($table);
+        TableLoad::loadTableFromArray($table, $tabledata);
     }
 
     // load permissions
     $table     = 'group_permission';
-    $tabledata = \Xmf\Yaml::readWrapped($language . $table . '.yml');
-    $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
-    loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $mid);
+    $tabledata = Yaml::readWrapped($language . $table . '.yml');
+    $moduleId  = $helper->getModule()->getVar('mid');
+    loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $moduleId);
 
     //  ---  COPY test folder files ---------------
     if (is_array($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
@@ -93,7 +97,7 @@ function loadSampleData()
             $utility::rcopy($src, $dest);
         }
     }
-    redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'SAMPLEDATA_SUCCESS'));
+    \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
 }
 
 function saveSampleData()
@@ -101,8 +105,10 @@ function saveSampleData()
     global $xoopsConfig;
     $moduleDirName      = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $helper             = Helper::getInstance();
+    $moduleId           = $helper->getModule()->getVar('mid');
 
-    $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
+    $tables = $helper->getModule()->getInfo('tables');
 
     $languageFolder = __DIR__ . '/' . $xoopsConfig['language'];
     if (!file_exists($languageFolder . '/')) {
@@ -113,17 +119,17 @@ function saveSampleData()
 
     // save module tables
     foreach ($tables as $table) {
-        \Xmf\Database\TableLoad::saveTableToYamlFile($table, $exportFolder . $table . '.yml');
+        TableLoad::saveTableToYamlFile($table, $exportFolder . $table . '.yml');
     }
 
     // save permissions
     $criteria = new \CriteriaCompo();
-    $criteria->add(new \Criteria('gperm_modid', \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid')));
+    $criteria->add(new \Criteria('gperm_modid', $moduleId));
     $skipColumns[] = 'gperm_id';
-    \Xmf\Database\TableLoad::saveTableToYamlFile('group_permission', $exportFolder . 'group_permission.yml', $criteria, $skipColumns);
+    TableLoad::saveTableToYamlFile('group_permission', $exportFolder . 'group_permission.yml', $criteria, $skipColumns);
     unset($criteria);
 
-    redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'SAMPLEDATA_SUCCESS'));
+    \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
 }
 
 function exportSchema()

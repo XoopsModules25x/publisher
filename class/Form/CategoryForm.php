@@ -24,8 +24,7 @@ namespace XoopsModules\Publisher\Form;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
+use XoopsModules\Publisher\{Category,
     Helper,
     Utility
 };
@@ -46,11 +45,11 @@ class CategoryForm extends \XoopsThemeForm
     public $helper;
     public $targetObject;
     public $subCatsCount = 4;
-    public $userGroups = [];
+    public $userGroups   = [];
 
     /**
      * @param Category $target
-     * @param int                              $subCatsCount
+     * @param int      $subCatsCount
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
@@ -60,6 +59,7 @@ class CategoryForm extends \XoopsThemeForm
         $this->targetObject = &$target;
         $this->subCatsCount = $subCatsCount;
 
+        /** @var \XoopsMemberHandler $memberHandler */
         $memberHandler    = \xoops_getHandler('member');
         $this->userGroups = $memberHandler->getGroupList();
 
@@ -79,14 +79,9 @@ class CategoryForm extends \XoopsThemeForm
         $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
         $myTree          = new \XoopsObjectTree($this->helper->getHandler('Category')->getObjects($criteria), 'categoryid', 'parentid');
         $moduleDirName   = \basename(\dirname(__DIR__));
-        $module          = \XoopsModule::getByDirname($moduleDirName);
-        if (Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
-            $catSelect = $myTree->makeSelectElement('parentid', 'name', '--', $this->targetObject->parentid(), true, 0, '', \_AM_PUBLISHER_PARENT_CATEGORY_EXP);
-            $this->addElement($catSelect);
-        } else {
-            $catSelect = $myTree->makeSelBox('parentid', 'name', '--', $this->targetObject->parentid(), true);
-            $this->addElement(new \XoopsFormLabel(\_AM_PUBLISHER_PARENT_CATEGORY_EXP, $catSelect));
-        }
+        $module = \XoopsModule::getByDirname($moduleDirName);
+        $catSelect = $myTree->makeSelectElement('parentid', 'name', '--', $this->targetObject->parentid(), true, 0, '', \_AM_PUBLISHER_PARENT_CATEGORY_EXP);
+        $this->addElement($catSelect);
 
         // Name
         $this->addElement(new \XoopsFormText(\_AM_PUBLISHER_CATEGORY, 'name', 50, 255, $this->targetObject->name('e')), true);
@@ -135,7 +130,7 @@ class CategoryForm extends \XoopsThemeForm
         $imageSelect = new \XoopsFormSelect('', 'image', $this->targetObject->getImage());
         //$imageSelect -> addOption ('-1', '---------------');
         $imageSelect->addOptionArray($imageArray);
-        $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"image\", \"" . 'uploads/' . PUBLISHER_DIRNAME . '/images/category/' . '", "", "' . XOOPS_URL . "\")'");
+        $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"image\", \"" . 'uploads/' . $this->helper->getDirname() . '/images/category/' . '", "", "' . XOOPS_URL . "\")'");
         $imageTray = new \XoopsFormElementTray(\_AM_PUBLISHER_IMAGE, '&nbsp;');
         $imageTray->addElement($imageSelect);
         $imageTray->addElement(new \XoopsFormLabel('', "<br><br><img src='" . Utility::getImageDir('category', false) . $this->targetObject->getImage() . "' name='image3' id='image3' alt=''>"));
@@ -144,7 +139,7 @@ class CategoryForm extends \XoopsThemeForm
 
         // IMAGE UPLOAD
         $maxSize = 5000000;
-        $fileBox  = new \XoopsFormFile(\_AM_PUBLISHER_IMAGE_UPLOAD, 'image_file', $maxSize);
+        $fileBox = new \XoopsFormFile(\_AM_PUBLISHER_IMAGE_UPLOAD, 'image_file', $maxSize);
         $fileBox->setExtra("size ='45'");
         $fileBox->setDescription(\_AM_PUBLISHER_IMAGE_UPLOAD_DSC);
         $this->addElement($fileBox);
@@ -240,10 +235,10 @@ class CategoryForm extends \XoopsThemeForm
         $l = new \XoopsFormLabel('', \sprintf(\_AM_PUBLISHER_ADD_OPT, $t->render()));
         $b = new \XoopsFormButton('', 'submit_subcats', \_AM_PUBLISHER_ADD_OPT_SUBMIT, 'submit');
 
-        if (!$this->targetObject->categoryid()) {
-            $b->setExtra('onclick="this.form.elements.op.value=\'addsubcats\'"');
-        } else {
+        if ($this->targetObject->categoryid()) {
             $b->setExtra('onclick="this.form.elements.op.value=\'mod\'"');
+        } else {
+            $b->setExtra('onclick="this.form.elements.op.value=\'addsubcats\'"');
         }
 
         $r = new \XoopsFormElementTray('');
@@ -262,19 +257,19 @@ class CategoryForm extends \XoopsThemeForm
         $buttonTray = new \XoopsFormElementTray('', '');
 
         // No ID for category -- then it's new category, button says 'Create'
-        if (!$this->targetObject->categoryid()) {
-            $buttonTray->addElement(new \XoopsFormButton('', 'addcategory', \_AM_PUBLISHER_CREATE, 'submit'));
-
-            $buttClear = new \XoopsFormButton('', '', \_AM_PUBLISHER_CLEAR, 'reset');
-            $buttonTray->addElement($buttClear);
-
+        if ($this->targetObject->categoryid()) {
+            $buttonTray->addElement(new \XoopsFormButton('', 'addcategory', \_AM_PUBLISHER_MODIFY, 'submit'));
             $buttCancel = new \XoopsFormButton('', '', \_AM_PUBLISHER_CANCEL, 'button');
             $buttCancel->setExtra('onclick="history.go(-1)"');
             $buttonTray->addElement($buttCancel);
 
             $this->addElement($buttonTray);
         } else {
-            $buttonTray->addElement(new \XoopsFormButton('', 'addcategory', \_AM_PUBLISHER_MODIFY, 'submit'));
+            $buttonTray->addElement(new \XoopsFormButton('', 'addcategory', \_AM_PUBLISHER_CREATE, 'submit'));
+
+            $buttClear = new \XoopsFormButton('', '', \_AM_PUBLISHER_CLEAR, 'reset');
+            $buttonTray->addElement($buttClear);
+
             $buttCancel = new \XoopsFormButton('', '', \_AM_PUBLISHER_CANCEL, 'button');
             $buttCancel->setExtra('onclick="history.go(-1)"');
             $buttonTray->addElement($buttCancel);

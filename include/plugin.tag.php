@@ -11,7 +11,6 @@ declare(strict_types=1);
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -21,8 +20,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Common,
+use XoopsModules\Publisher\{Common,
     Helper,
     Item,
     ItemHandler,
@@ -59,19 +57,19 @@ function publisher_tag_iteminfo(&$items)
     $items_obj   = $itemHandler->getObjects($criteria, 'itemid');
 
     //make sure Tag module tag_parse_tag() can be found
-    if (!method_exists(Utility::class, 'tag_parse_tag')) {
+    if (method_exists(Utility::class, 'tag_parse_tag')) {
+        // this will be used for Tag >= v2.35
+        $parse_function = 'XoopsModules\Tag\Utility::tag_parse_tag';
+    } else {
         // allows this plugin to work with Tag <= v2.34
         require_once $GLOBALS['xoops']->path('modules/tag/include/functions.php');
         $parse_function = 'tag_parse_tag';
-    } else {
-        // this will be used for Tag >= v2.35
-        $parse_function = 'XoopsModules\Tag\Utility::tag_parse_tag';
     }
 
     /** @var Item $item_obj */
     foreach (array_keys($items) as $cat_id) {
         foreach (array_keys($items[$cat_id]) as $itemId) {
-            $item_obj                 = $items_obj[$itemId];
+            $item_obj                = $items_obj[$itemId];
             $items[$cat_id][$itemId] = [
                 'title'   => $item_obj->getVar('title'),
                 'uid'     => $item_obj->getVar('uid'),

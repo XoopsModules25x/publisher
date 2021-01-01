@@ -20,8 +20,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Helper,
+use XoopsModules\Publisher\{Helper,
     Utility
 };
 

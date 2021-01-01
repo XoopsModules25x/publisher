@@ -41,10 +41,10 @@ class FormDateTime extends \XoopsFormElementTray
         parent::__construct($caption, '&nbsp;');
         $value = (int)$value;
         $value = ($value > 0) ? $value : \time();
-        if ($formatTimestamp){
+        if ($formatTimestamp) {
             if (\is_object($GLOBALS['xoopsUser'])) {
                 $timeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
-            }else{
+            } else {
                 $timeoffset = null;
             }
             $value = (int)\formatTimestamp($value, 'U', $timeoffset);

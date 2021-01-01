@@ -20,12 +20,15 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
+use XoopsModules\Publisher\{Category,
+    Constants,
     Helper,
     Item,
     Metagen,
     Utility
 };
+
+/** @var Category $categoryObj */
 
 require_once __DIR__ . '/header.php';
 
@@ -33,7 +36,7 @@ $itemId     = Request::getInt('itemid', 0, 'GET');
 $itemPageId = Request::getInt('page', -1, 'GET');
 
 if (0 == $itemId) {
-    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
+//    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 $helper = Helper::getInstance();
@@ -43,8 +46,8 @@ $helper = Helper::getInstance();
 $itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected item was not found, exit
-if (!$itemObj) {
-    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
+if (null === $itemObj) {
+//    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl';
@@ -56,7 +59,8 @@ require_once $GLOBALS['xoops']->path('header.php');
 //
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
 //$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
-//$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
+$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
+$xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/rating.css');
 
 require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
@@ -135,7 +139,7 @@ if ('previous_next' === $helper->getConfig('item_other_items_type')) {
 
 //CAREFUL!! with many items this will exhaust memory
 if ('all' === $helper->getConfig('item_other_items_type')) {
-    $itemsObj = $helper->getHandler('Item')->getAllPublished(0, 0, $categoryObj->categoryid(), $sort, $order, '', true, true);
+    $itemsObj = $helper->getHandler('Item')->getAllPublished(0, 0, $categoryObj->categoryid, $sort, $order, '', true, true);
     $items    = [];
     foreach ($itemsObj[''] as $theItemObj) {
         $theItem              = [];
@@ -178,7 +182,7 @@ if ('all' === $helper->getConfig('item_other_items_type')) {
             $theItem['image_path'] = $mainImage['image_path'];
         }
 
-        if ($theItemObj->itemId() == $itemObj->itemId()) {
+        if ($theItemObj->itemid == $itemObj->itemid()) {
             $theItem['titlelink'] = $theItemObj->getItemLink();
         }
         $items[] = $theItem;
@@ -198,7 +202,7 @@ if ($itemObj->pagescount() > 0) {
         $itemPageId = 0;
     }
     require_once $GLOBALS['xoops']->path('class/pagenav.php');
-    //    $pagenav = new \XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemId());
+    //    $pagenav = new \XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemid());
 
     $pagenav = new \XoopsPageNav($itemObj->pagescount(), 1, $itemPageId, 'page', 'itemid=' . $itemObj->itemid()); //SMEDrieben changed ->itemId to ->itemid
 
@@ -235,7 +239,7 @@ if (null !== $filesObj) {
             $file['fileid']      = $fileObj->fileid();
             $file['name']        = $fileObj->name();
             $file['description'] = $fileObj->description();
-            $file['name']        = $fileObj->name();
+            $file['filename']    = $fileObj->filename();
             $file['type']        = $fileObj->mimetype();
             $file['datesub']     = $fileObj->getDatesub();
             $file['hits']        = $fileObj->counter();
@@ -250,7 +254,7 @@ unset($file, $embededFiles, $filesObj, $fileObj);
 
 // Language constants
 $xoopsTpl->assign('mail_link', 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ': ' . $itemObj->getItemUrl());
-$xoopsTpl->assign('itemid', $itemObj->itemId());
+$xoopsTpl->assign('itemid', $itemObj->itemid());
 $xoopsTpl->assign('sectionname', $helper->getModule()->getVar('name'));
 $xoopsTpl->assign('module_dirname', $helper->getDirname());
 $xoopsTpl->assign('module_home', Utility::moduleHome($helper->getConfig('format_linked_path')));
@@ -277,23 +281,73 @@ $publisherMetagen->createMetaTags();
 if ((0 != $helper->getConfig('com_rule')) && ((1 == $itemObj->cancomment()) || !$helper->getConfig('perm_com_art_level'))) {
     require_once $GLOBALS['xoops']->path('include/comment_view.php');
     // Problem with url_rewrite and posting comments :
-    $xoopsTpl->assign(
-        [
-            'editcomment_link'   => PUBLISHER_URL . '/comment_edit.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
-            'deletecomment_link' => PUBLISHER_URL . '/comment_delete.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
-            'replycomment_link'  => PUBLISHER_URL . '/comment_reply.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
-        ]
+//    $xoopsTpl->assign(
+//        [
+//            'editcomment_link'   => PUBLISHER_URL . '/comment_edit.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
+//            'deletecomment_link' => PUBLISHER_URL . '/comment_delete.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
+//            'replycomment_link'  => PUBLISHER_URL . '/comment_reply.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
+//        ]
+//    );
+    $xoopsTpl->_tpl_vars['commentsnav'] = str_replace(
+        "self.location.href='",
+        "self.location.href='" . PUBLISHER_URL . '/',
+        $xoopsTpl->_tpl_vars['commentsnav']??''
     );
-    $xoopsTpl->_tpl_vars['commentsnav'] = str_replace("self.location.href='", "self.location.href='" . PUBLISHER_URL . '/', $xoopsTpl->_tpl_vars['commentsnav']);
 }
 
-// Include support for AJAX rating
+// Original AJAX rating
 if ($helper->getConfig('perm_rating')) {
     $xoopsTpl->assign('rating_enabled', true);
     $item['ratingbar'] = Utility::ratingBar($itemId);
-    $xoTheme->addScript(PUBLISHER_URL . '/assets/js/behavior.js');
-    $xoTheme->addScript(PUBLISHER_URL . '/assets/js/rating.js');
+
+    //    $xoTheme->addScript(PUBLISHER_URL . '/assets/js/behavior.js');
+    //    $xoTheme->addScript(PUBLISHER_URL . '/assets/js/rating.js');
+    //}
+
+    //=============== START VOTE RATING ======================================
+
+    $start = Request::getInt('start', 0);
+    $limit = Request::getInt('limit', $helper->getConfig('userpager'));
+    $id    = Request::getInt('itemid', 0, 'GET');
+
+    //    $ratingbars = (int)$helper->getConfig('ratingbars'); //from Preferences
+
+    $voteType = $itemObj->votetype();
+
+    if ($voteType > 0) {
+        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/rating.css', null);
+        $GLOBALS['xoopsTpl']->assign('rating', $voteType);
+        $GLOBALS['xoopsTpl']->assign('rating_5stars', (Constants::RATING_5STARS === $voteType));
+        $GLOBALS['xoopsTpl']->assign('rating_10stars', (Constants::RATING_10STARS === $voteType));
+        $GLOBALS['xoopsTpl']->assign('rating_10num', (Constants::RATING_10NUM === $voteType));
+        $GLOBALS['xoopsTpl']->assign('rating_likes', (Constants::RATING_LIKES === $voteType));
+        $GLOBALS['xoopsTpl']->assign('rating_reaction', (Constants::RATING_REACTION === $voteType));
+        $GLOBALS['xoopsTpl']->assign('itemid', 'itemid');
+        $GLOBALS['xoopsTpl']->assign('blog_icon_url_16', PUBLISHER_URL . '/' . $modPathIcon16);
+    }
+
+    /** @var VoteHandler $voteHandler */
+    $voteHandler = $helper->getHandler('Vote');
+
+    $rating5 = $voteHandler->getItemRating5($itemObj, Constants::TABLE_ARTICLE);
+    $xoopsTpl->assign('rating', $rating5);
+    $item['rating'] = $rating5;
+
+    //    $GLOBALS['xoopsTpl']->assign('article', $article);
+    //        $xoopsTpl->assign('article', $article);
+    $xoopsTpl->assign('item2', $item);
+    //        $xoopsTpl->assign('rating', $rating);
+    //        unset($article);
+    //    }
+
+
+    $GLOBALS['xoopsTpl']->assign('type', $helper->getConfig('table_type'));
+    $GLOBALS['xoopsTpl']->assign('divideby', $helper->getConfig('divideby'));
+    $GLOBALS['xoopsTpl']->assign('numb_col', $helper->getConfig('numb_col'));
 }
 
+//=================== END VOTE RATING =========================================
+
+//$xoopsTpl->assign('article', $article);
 $xoopsTpl->assign('item', $item);
 require_once XOOPS_ROOT_PATH . '/footer.php';

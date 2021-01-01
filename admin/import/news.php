@@ -21,19 +21,22 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
+use XoopsModules\Publisher\{Category,
     Constants,
+    Helper,
     Item,
     Utility
 };
+/** @var Helper $helper */
+
+const DIRNAME = 'news';
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'News ' . Request::getString('news_version', '', 'POST');
 
-$scriptname = 'news.php';
+$scriptname = DIRNAME . '.php';
 
 $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 
@@ -65,11 +68,11 @@ if ('start' === $op) {
             // Categories to be imported
             $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('news_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('news_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
-            $result           = $GLOBALS['xoopsDB']->query($sql);
+            $result         = $GLOBALS['xoopsDB']->query($sql);
             $catCboxOptions = [];
 
             while (list($cid, $pid, $catTitle, $articleCount) = $GLOBALS['xoopsDB']->fetchRow($result)) {
-                $catTitle              = $myts->displayTarea($catTitle);
+                $catTitle             = $myts->displayTarea($catTitle);
                 $catCboxOptions[$cid] = "$catTitle ($articleCount)";
             }
 
@@ -104,11 +107,8 @@ if ('go' === $op) {
     Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Utility::openCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /** @var XoopsModuleHandler $moduleHandler */
-    $moduleHandler  = xoops_getHandler('module');
-    $moduleObj      = $moduleHandler->getByDirname('news');
-    $news_module_id = $moduleObj->getVar('mid');
-    /** @var XoopsGroupPermHandler $grouppermHandler */
+    $moduleId         = $helper->getModule()->getVar('mid');
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
@@ -232,9 +232,9 @@ if ('go' === $op) {
         }
 
         // Saving category permissions
-        $groupsIds = $grouppermHandler->getGroupIds('news_view', $arrCat['topic_id'], $news_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('news_view', $arrCat['topic_id'], $moduleId);
         Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
-        $groupsIds = $grouppermHandler->getGroupIds('news_submit', $arrCat['topic_id'], $news_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('news_submit', $arrCat['topic_id'], $moduleId);
         Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
         $newCatArray[$newCat['oldid']] = $newCat;
@@ -264,17 +264,17 @@ if ('go' === $op) {
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
-    $criteria->add(new \Criteria('com_modid', $news_module_id));
+    $criteria->add(new \Criteria('com_modid', $moduleId));
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
-        if (!$commentHandler->insert($comment)) {
-            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . '<br>';
-        } else {
+        if ($commentHandler->insert($comment)) {
             echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . '<br>';
+        } else {
+            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . '<br>';
         }
     }
     //    unset($comment);

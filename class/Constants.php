@@ -74,4 +74,25 @@ interface Constants
     public const PUBLISHER_STATUS_FILE_INACTIVE = 2;
     // Image categories
     public const PUBLISHER_IMGCAT_ALL = 'all';
+    // Constants for tables
+    public const TABLE_CATEGORY = 0;
+    public const TABLE_ARTICLE = 1;
+    // Constants for status
+    public const STATUS_NONE = 0;
+    public const STATUS_OFFLINE = 1;
+    public const STATUS_SUBMITTED = 2;
+    public const STATUS_APPROVED = 3;
+    public const STATUS_BROKEN = 4;
+    // Constants for permissions
+    public const PERM_GLOBAL_NONE = 0;
+    public const PERM_GLOBAL_VIEW = 1;
+    public const PERM_GLOBAL_SUBMIT = 2;
+    public const PERM_GLOBAL_APPROVE = 3;
+    // Constants for rating
+    public const RATING_NONE = 0;
+    public const RATING_5STARS = 1;
+    public const RATING_10STARS = 2;
+    public const RATING_LIKES = 3;
+    public const RATING_10NUM = 4;
+    public const RATING_REACTION = 5;
 }

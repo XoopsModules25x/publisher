@@ -72,6 +72,7 @@ CREATE TABLE `publisher_items` (
   `meta_description` TEXT             NULL,
   `short_url`        VARCHAR(255)     NULL,
   `item_tag`         TEXT             NULL,
+  `votetype`         TINYINT(1)       NOT NULL DEFAULT '0',
   PRIMARY KEY (`itemid`),
   KEY categoryid (categoryid),
   KEY status (status)
@@ -140,56 +141,21 @@ CREATE TABLE publisher_mimetypes (
 #
 
 CREATE TABLE `publisher_rating` (
-  `ratingid` INT(11)     NOT NULL AUTO_INCREMENT,
-  `itemid`   INT(11)     NOT NULL,
-  `uid`      INT(11)     NOT NULL,
-  `rate`     INT(1)      NOT NULL,
-  `date`     INT(11)     NOT NULL,
-  `ip`       VARCHAR(60) NOT NULL DEFAULT '',
-  PRIMARY KEY (`ratingid`),
-  KEY uid (uid),
-  KEY ip (ip)
+    `ratingid` INT(11)             NOT NULL AUTO_INCREMENT,
+    `itemid`   INT(11)             NOT NULL,
+    `uid`      INT(11)             NOT NULL,
+    `rate`     INT(1)              NOT NULL,
+    `date`     INT(11)             NOT NULL,
+    `ip`       VARCHAR(45)         NOT NULL DEFAULT '',
+    `source`   TINYINT(2)          NOT NULL DEFAULT '0',
+    `votetype`     TINYINT(2) UNSIGNED NOT NULL DEFAULT '1',
+    PRIMARY KEY (`ratingid`),
+    KEY uid (uid),
+    KEY ip (ip)
 )
-  ENGINE = MyISAM;
+    ENGINE = MyISAM;
 
-# --------------------------------------------------------
 
-#
-# Table structure for table `publisher_liking`
-#
-
-# CREATE TABLE `publisher_liking` (
-#   `likingid` INT(11)     NOT NULL AUTO_INCREMENT,
-#   `itemid`   INT(11)     NOT NULL,
-#   `uid`      INT(11)     NOT NULL,
-#   `like`     INT(1)      NOT NULL,
-#   `dislike`  INT(1)      NOT NULL,
-#   `date`     INT(11)     NOT NULL,
-#   `ip`       VARCHAR(60) NOT NULL DEFAULT '',
-#   PRIMARY KEY (`likingid`),
-#   KEY uid (uid),
-#   KEY ip (ip)
-# )
-#   ENGINE = MyISAM;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `publisher_reactions`
-#
-
-# CREATE TABLE `publisher_reactions` (
-#   `reactionid` INT(11)     NOT NULL AUTO_INCREMENT,
-#   `itemid`     INT(11)     NOT NULL,
-#   `uid`        INT(11)     NOT NULL,
-#   `reaction`   INT(1)      NOT NULL,
-#   `date`       INT(11)     NOT NULL,
-#   `ip`         VARCHAR(60) NOT NULL DEFAULT '',
-#   PRIMARY KEY (`reactionid`),
-#   KEY uid (uid),
-#   KEY ip (ip)
-# )
-#   ENGINE = MyISAM;
 
 # --------------------------------------------------------
 

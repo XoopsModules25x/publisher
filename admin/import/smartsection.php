@@ -150,7 +150,7 @@ if ('go' === $op) {
         $newCat['newid'] = $categoryObj->categoryid();
         ++$cnt_imported_cat;
 
-        echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . "<br\>";
+        echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . '<br\>';
 
         $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('smartsection_items') . ' WHERE categoryid=' . $arrCat['categoryid'];
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);

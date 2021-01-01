@@ -155,7 +155,7 @@ if ('go' === $op) {
 
         ++$cnt_imported_cat;
 
-        echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . "<br\>";
+        echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_SUCCESS, $categoryObj->name()) . '<br\>';
 
         $sql            = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('xfs_article') . ' WHERE categoryid=' . $arrCat['id'] . ' ORDER BY weight';
         $resultArticles = $GLOBALS['xoopsDB']->query($sql);

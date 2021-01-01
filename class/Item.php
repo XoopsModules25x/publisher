@@ -472,18 +472,18 @@ class Item extends \XoopsObject
             if (Utility::userIsAdmin() || Utility::userIsAuthor($this) || Utility::userIsModerator($this)) {
                 if ($this->helper->getConfig('perm_edit') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Edit button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'>" . $icons->edit . "</a>";
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'>" . $icons->edit . '</a>';
                     $adminLinks .= ' ';
                 }
                 if ($this->helper->getConfig('perm_delete') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Delete button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'>" . $icons->delete . "</a>";
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'>" . $icons->delete . '</a>';
                     $adminLinks .= ' ';
                 }
             }
             if ($this->helper->getConfig('perm_clone') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                 // Duplicate button
-                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'>" . $icons->clone . "</a>";
+                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'>" . $icons->clone . '</a>';
                 $adminLinks .= ' ';
             }
         }
@@ -499,7 +499,7 @@ class Item extends \XoopsObject
         $pdfButton = '';
         // PDF button
         if (\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-            $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'>" . $icons->pdf . "</a>&nbsp;";
+            $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'>" . $icons->pdf . '</a>&nbsp;';
             $pdfButton .= ' ';
         } else {
             //                if (is_object($GLOBALS['xoopsUser']) && Utility::userIsAdmin()) {
@@ -524,7 +524,7 @@ class Item extends \XoopsObject
     {
         $printLinks = '';
         // Print button
-        $printLinks .= "<a href='" . Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'>" . $icons->print . "</a>&nbsp;";
+        $printLinks .= "<a href='" . Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'>" . $icons->print . '</a>&nbsp;';
         $printLinks .= ' ';
 
         return $printLinks;

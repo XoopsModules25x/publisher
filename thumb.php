@@ -1208,7 +1208,7 @@ class Timthumb
         }
 
         $mimeType = $this->getMimeType($tempfile);
-        if (!preg_match("/^image\/(?:jpg|jpeg|gif|png)$/i", $mimeType)) {
+        if (!preg_match('/^image\/(?:jpg|jpeg|gif|png)$/i', $mimeType)) {
             $this->debug(3, "Remote file has invalid mime type: $mimeType");
             @unlink($this->cachefile);
             touch($this->cachefile);

@@ -44,7 +44,7 @@ $categoryObj = $itemObj->getCategory();
 
 $fileObj->updateCounter();
 
-if (!preg_match("/^ed2k*:\/\//i", $fileObj->getFileUrl())) {
+if (!preg_match('/^ed2k*:\/\//i', $fileObj->getFileUrl())) {
     header('Location: ' . $fileObj->getFileUrl());
 }
 

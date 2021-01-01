@@ -158,8 +158,8 @@ function publisher_latest_news_show($options)
         }
 
         if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->isAdmin(-1)) {
-            $item['admin'] = "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $itemObj->itemid() . "'" . $icons->edit . "</a>&nbsp;";
-            $item['admin'] .= "<a href='" . PUBLISHER_URL . '/admin/item.php?op=del&amp;itemid=' . $itemObj->itemid() . "'>" . $icons->delete . "</a>";
+            $item['admin'] = "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $itemObj->itemid() . "'" . $icons->edit . '</a>&nbsp;';
+            $item['admin'] .= "<a href='" . PUBLISHER_URL . '/admin/item.php?op=del&amp;itemid=' . $itemObj->itemid() . "'>" . $icons->delete . '</a>';
         } else {
             $item['admin'] = '';
         }
@@ -229,7 +229,7 @@ function publisher_latest_news_show($options)
         $item['pdf'] = '';
 
         if (1 == $options[25]) {
-            $item['pdf'] = "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $itemObj->itemid() . "' rel='nofollow'>" . $icons->pdf . "</a>&nbsp;";
+            $item['pdf'] = "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $itemObj->itemid() . "' rel='nofollow'>" . $icons->pdf . '</a>&nbsp;';
         }
 
         $item['email'] = '';

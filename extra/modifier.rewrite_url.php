@@ -34,14 +34,14 @@ declare(strict_types=1);
 function smarty_modifier_rewrite_url($url, $insert_param, $param_value = null, $remove_params_arr = '')
 {
     //parse $insert_param if it is a query string
-    if (preg_match("/.+=([\w%,-])*/", $insert_param)) {
+    if (preg_match('/.+=([\w%,-])*/', $insert_param)) {
         parse_str($insert_param, $insert_arr);
         $insert_param = array_keys($insert_arr);
         $param_value  = array_values($insert_arr);
     }
 
     //split $url and parse into array
-    if (preg_match("/\w+\.\w+/", $url)) {
+    if (preg_match('/\w+\.\w+/', $url)) {
         //assume full url
         $newurl_arr = parse_url($url);
         $newurl     = '';

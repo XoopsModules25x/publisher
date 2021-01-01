@@ -587,8 +587,8 @@ $publisher(document).ready(function () {
                     $table .= '</tr>';
 
                     foreach ($filesObj as $fileObj) {
-                        $modify      = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'>" . $icons->edit . "</a>";
-                        $delete      = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'>" . $icons->delete . "</a>";
+                        $modify      = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'>" . $icons->edit . '</a>';
+                        $delete      = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'>" . $icons->delete . '</a>';
                         $not_visible = '';
                         if (0 == $fileObj->status()) {
                             $not_visible = "<img src='" . PUBLISHER_URL . "/assets/images/no.gif'>";

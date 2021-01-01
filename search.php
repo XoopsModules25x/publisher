@@ -86,7 +86,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
 
     if ('EXACT' !== $andor) {
         $ignored_queries = []; // holds keywords that are shorter than allowed minimum length
-        $temp_queries    = preg_split("/[\s,]+/", $query);
+        $temp_queries    = preg_split('/[\s,]+/', $query);
         foreach ($temp_queries as $q) {
             $q = trim($q);
             if (mb_strlen($q) >= $xoopsConfigSearch['keyword_min']) {

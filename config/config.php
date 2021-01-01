@@ -18,10 +18,10 @@ declare(strict_types=1);
  * @author       XOOPS Development Team
  */
 
+use Xmf\Module\Admin;
 use XoopsModules\Publisher\{Constants,
     Helper
 };
-use Xmf\Module\Admin;
 
 require_once dirname(__DIR__) . '/include/common.php';
 $moduleDirName      = basename(dirname(__DIR__));
@@ -84,5 +84,6 @@ return (object)[
 
     'renameTables' => [//         'XX_archive'     => 'ZZZZ_archive',
     ],
-
+    'modCopyright' => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
+                     <img src='" . Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
 ];

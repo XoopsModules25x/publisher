@@ -193,7 +193,7 @@ switch ($op) {
             for ($i = 0; $i < $totalItemsOnPage; ++$i) {
                 $categoryObj = $itemsObj[$i]->getCategory();
 
-                $approve = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'>" . $icons->delete . '</a>&nbsp;';
+                $approve = "<a href='item.php?op=mod&itemid=" . $itemsObj[$i]->itemid() . "'>" . $icons->moderate . '</a>&nbsp;';
                 $clone   = '';
                 $delete  = "<a href='item.php?op=del&itemid=" . $itemsObj[$i]->itemid() . "'>" . $icons->delete . '</a>';
                 $modify  = '';

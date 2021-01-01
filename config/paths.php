@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 /** @return object */
 
-//function getPaths()
-//{
 $moduleDirName = basename(dirname(__DIR__));
 //    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
@@ -20,4 +18,4 @@ return (object)[
     'uploadPathCategory'    => XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
     'uploadPathScreenshots' => XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
 ];
-//}
+

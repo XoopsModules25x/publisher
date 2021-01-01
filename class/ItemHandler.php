@@ -224,15 +224,14 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * count items matching a condition
      *
-     * @param \CriteriaElement|null $criteria           {@link CriteriaElement}
-     *                                                  to match
+     * @param \CriteriaElement|null $criteria   Criteria to match
      * @param string|null           $notNullFields
      *
      * @return int count of items
      */
     public function getCount(\CriteriaElement $criteria = null, $notNullFields = null)
     {
-        $notNullFields = $notNullFields ?? null;
+//        $notNullFields = $notNullFields ?? null;
         $sql           = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
         if (null !== $criteria && ($criteria instanceof \Criteria || $criteria instanceof \CriteriaCompo)) {
             $whereClause = $criteria->renderWhere();
@@ -279,25 +278,30 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //                return $ret;
         //            }
         //        }
+
         $criteriaCategory = null;
-        if (isset($categoryId) && -1 != $categoryId) {
+        if (isset($categoryId) && -1 !== $categoryId) {
             $criteriaCategory = new \Criteria('categoryid', $categoryId);
         }
+
         $criteriaStatus = new \CriteriaCompo();
         if (!empty($status) && \is_array($status)) {
             foreach ($status as $v) {
                 $criteriaStatus->add(new \Criteria('status', $v), 'OR');
             }
-        } elseif (!empty($status) && -1 != $status) {
+        } elseif (!empty($status) && -1 !== $status) {
             $criteriaStatus->add(new \Criteria('status', $status), 'OR');
         }
+
         $criteria = new \CriteriaCompo();
         if (null !== $criteriaCategory) {
             $criteria->add($criteriaCategory);
         }
+
         if (null !== $criteriaPermissions) {
             $criteria->add($criteriaPermissions);
         }
+
         if (null !== $criteriaStatus) {
             $criteria->add($criteriaStatus);
         }
@@ -314,7 +318,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getItemsCount($categoryId = -1, $status = '', $notNullFields = null)
     {
-        $notNullFields       = $notNullFields ?? null;
+//        $notNullFields       = $notNullFields ?? null;
         $criteriaPermissions = null;
         if (!$this->publisherIsAdmin) {
             $criteriaPermissions = new \CriteriaCompo();
@@ -330,29 +334,6 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //        $ret = [];
         $criteria = $this->getItemsCriteria($categoryId, $status, $notNullFields, $criteriaPermissions);
 
-        /*
-                if (isset($categoryId) && $categoryId != -1) {
-                    $criteriaCategory = new \Criteria('categoryid', $categoryId);
-                }
-                $criteriaStatus = new \CriteriaCompo();
-                if (!empty($status) && is_array($status)) {
-                    foreach ($status as $v) {
-                        $criteriaStatus->add(new \Criteria('status', $v), 'OR');
-                    }
-                } elseif (!empty($status) && $status != -1) {
-                    $criteriaStatus->add(new \Criteria('status', $status), 'OR');
-                }
-                $criteria = new \CriteriaCompo();
-                if (!empty($criteriaCategory)) {
-                    $criteria->add($criteriaCategory);
-                }
-                if (!empty($criteriaPermissions)) {
-                    $criteria->add($criteriaPermissions);
-                }
-                if (!empty($criteriaStatus)) {
-                    $criteria->add($criteriaStatus);
-                }
-        */
         $ret = $this->getCount($criteria, $notNullFields);
 
         return $ret;

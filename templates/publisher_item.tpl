@@ -108,7 +108,9 @@
     <{if $displaylike}>
         <div class="clearfix"></div>
         <{*        <div class="pull-left">*}>
+
         <{include file='db:publisher_vote.tpl'}>
+
         <{*        </div>*}>
     <{/if}>
     <{*    ====== END VOTING =========*}>

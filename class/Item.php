@@ -87,7 +87,7 @@ class Item extends \XoopsObject
         $this->initVar('meta_description', \XOBJ_DTYPE_TXTAREA, '', false);
         $this->initVar('short_url', \XOBJ_DTYPE_TXTBOX, '', false, 255);
         $this->initVar('item_tag', \XOBJ_DTYPE_TXTAREA, '', false);
-        $this->initVar('votetype', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('votetype', \XOBJ_DTYPE_INT, 0, false);
         // Non consistent values
         $this->initVar('pagescount', \XOBJ_DTYPE_INT, 0, false);
         if (null !== $id) {

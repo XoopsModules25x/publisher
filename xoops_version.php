@@ -981,6 +981,16 @@ $modversion['config'][] = [
     'category'    => 'item',
 ];
 
+$modversion['config'][] = [
+    'name'        => 'repeat_rating',
+    'title'       => '_MI_PUBLISHER_ALLOW_REPEAT_RATING',
+    'description' => '_MI_PUBLISHER_ALLOW_REPEAT_RATING_DSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'item',
+];
+
 // Get groups
 /** @var \XoopsMemberHandler $memberHandler */
 $memberHandler    = \xoops_getHandler('member');

@@ -14,7 +14,6 @@ declare(strict_types=1);
 /**
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
 
@@ -30,8 +29,10 @@ use XoopsModules\Publisher\{Constants,
 /** @var VoteHandler $voteHandler */
 
 require __DIR__ . '/header.php';
-$op             = Request::getCmd('op', 'list');
-$source         = Request::getInt('source', 0);
+$op     = Request::getCmd('op', 'list');
+$source = Request::getInt('source', 0);
+$itemId = Request::getInt('itemid', 0);
+
 $voteHandler    = $helper->getHandler('Vote');
 $articleHandler = $helper->getHandler('Item');
 $xoopsUser = $GLOBALS['xoopsUser'];
@@ -48,14 +49,12 @@ switch ($op) {
             \redirect_header('index.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         $rating = Request::getInt('rating', 0);
-        $itemId = 0;
+
         $redir  = Request::getString('HTTP_REFERER', '', 'SERVER');
         if (Constants::TABLE_CATEGORY === $source) {
-            $itemId = Request::getInt('itemid', 0);
             $redir  = 'category.php?op=show&amp;itemid=' . $itemId;
         }
         if (Constants::TABLE_ARTICLE === $source) {
-            $itemId = Request::getInt('itemid', 0);
             $redir  = 'item.php?op=show&amp;itemid=' . $itemId;
         }
 
@@ -73,7 +72,11 @@ switch ($op) {
         }
 
         // Check rating value
-        switch ((int)$helper->getConfig('ratingbars')) {
+//        switch ((int)$helper->getConfig('ratingbars')) {
+
+        $articleObj = $articleHandler->get($itemId);
+        $votingType = (int)$articleObj->votetype();
+        switch ($votingType) {
             case Constants::RATING_NONE:
             default:
                 \redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
@@ -101,13 +104,12 @@ switch ($op) {
         }
 
         // Get existing rating
-        $itemRating = $voteHandler->getItemRating($itemId, $source);
+        $itemRating = $voteHandler->getItemRating5($articleObj, $source);
 
         // Set data rating
-        if ($itemRating['voted']) {
-            // If you want to allow  revoting then deactivate next line
+        if ($itemRating['voted'] && !$helper->getConfig('repeat_rating')) {
+            // If repeat-votingis not allowed, then leave
             $helper->redirect('item.php?itemid=' . $itemId, 2, _MD_PUBLISHER_VOTE_ALREADY);
-            $voteObj = $voteHandler->get($itemRating['ratingid']);
         } else {
             $voteObj = $voteHandler->create();
         }
@@ -142,8 +144,8 @@ switch ($op) {
                 $fieldVote   = '_vote';
                 $fieldVotes  = '_votes';
                 $categoryObj = $categoryHandler->get($itemId);
-                $categoryObj->setVar('_vote', $avg_rate_value);
-                $categoryObj->setVar('_votes', $voteCount);
+                $categoryObj->setVar('rating', $avg_rate_value);
+                $categoryObj->setVar('votes', $voteCount);
                 if ($categoryHandler->insert($categoryObj)) {
                     \redirect_header($redir, 2, _MA_BLOG_RATING_VOTE_THANKS);
                 } else {
@@ -152,18 +154,7 @@ switch ($op) {
                 unset($categoryObj);
             }
             if (Constants::TABLE_ARTICLE === $source) {
-                $tableName  = 'article';
-                $fieldVote  = '_vote';
-                $fieldVotes = '_votes';
-                $articleObj = $articleHandler->get($itemId);
-                $articleObj->setVar('_vote', $avg_rate_value);
-                $articleObj->setVar('_votes', $voteCount);
-                if ($articleHandler->insert($articleObj)) {
                     \redirect_header($redir, 2, _MA_BLOG_RATING_VOTE_THANKS);
-                } else {
-                    \redirect_header('item.php', 3, _MA_BLOG_RATING_ERROR1);
-                }
-                unset($articleObj);
             }
 
             \redirect_header('index.php', 2, _MA_BLOG_RATING_VOTE_THANKS);

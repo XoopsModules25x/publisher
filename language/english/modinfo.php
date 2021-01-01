@@ -518,3 +518,7 @@ define('_MI_PUBLISHER_TRELLO_DSC', 'Trello Management');
 \define('_MI_BLOG_FACEBOOK_COMMENTS_DESC', 'Allow Facebook comments in the single page');
 \define('_MI_BLOG_DISQUS_COMMENTS', 'Disqus comments');
 \define('_MI_BLOG_DISQUS_COMMENTS_DESC', 'Allow Disqus comments in the single page');
+
+//VOTING
+\define('_MI_PUBLISHER_ALLOW_REPEAT_RATING', 'Allow Repeat-rating');
+\define('_MI_PUBLISHER_ALLOW_REPEAT_RATING_DSC', 'Should a user be able to rate repeatedly many times, or only once?');

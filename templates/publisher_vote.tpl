@@ -1,5 +1,5 @@
 <small>
-    <{if $rating_5stars}>
+    <{if $rating_5stars|default:0}>
         <div class="blog_ratingblock">
             <div id="unit_long<{$itemid}>">
                 <div id="unit_ul<{$itemid}>" class="blog_unit-rating ">
@@ -26,7 +26,7 @@
             </div>
         </div>
     <{/if}>
-    <{if $rating_10stars}>
+    <{if $rating_10stars|default:0}>
         <div class="blog_ratingblock">
             <div id="unit_long<{$item2.itemid}>">
                 <div id="unit_ul<{$item2.itemid}>" class="blog_unit-rating-10">
@@ -68,7 +68,7 @@
             </div>
         </div>
     <{/if}>
-    <{if $rating_10num}>
+    <{if $rating_10num|default:0}>
         <div class="blog_ratingblock">
             <div id="unit_long<{$item2.itemid}>">
                 <div id="unit_ul<{$item2.itemid}>" class="blog_unit-rating-10numeric">
@@ -89,7 +89,7 @@
             </div>
         </div>
     <{/if}>
-    <{if $rating_likes}>
+    <{if $rating_likes|default:0}>
         <div class="blog_ratingblock">
 <{*            <a class="blog-rate-like" href="vote.php?op=save&amp;<{$itemid}>=<{$item.id}>&rating=1&amp;source=1" title="<{$smarty.const._MA_BLOG_RATING_LIKE}>" rel="nofollow">*}>
 <{*                <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/like.png' alt='<{$smarty.const._MA_BLOG_RATING_LIKE}>' title='<{$smarty.const._MA_BLOG_RATING_LIKE}>'>(<{$item.rating.likes}>)</a>*}>
@@ -97,13 +97,13 @@
 
             <a class="blog-rate-dislike" href="vote.php?op=save&amp;<{$itemid}>=<{$item2.itemid}>&rating=-1&amp;source=1" title="<{$smarty.const._MA_BLOG_RATING_DISLIKE}>" rel="nofollow">
                     <span class="btn btn-danger  btn-xs">
-                <{$item2.rating.dislikes}> <i class="fa fa-thumbs-down fa-lg"></i>
+                <{$item2.rating.dislikes|default:0}> <i class="fa fa-thumbs-down fa-lg"></i>
                     </span>
             </a>
 
             <a class="blog-rate-like" href="vote.php?op=save&amp;<{$itemid}>=<{$item2.itemid}>&rating=1&amp;source=1" title="<{$smarty.const._MA_BLOG_RATING_LIKE}>" rel="nofollow">
                   <span class="btn btn-success  btn-xs">
-                 <i class="fa fa-thumbs-up fa-lg"></i> <{$item2.rating.likes}>
+                 <i class="fa fa-thumbs-up fa-lg"></i> <{$item2.rating.likes|default:0}>
                     </span>
             </a>
 
@@ -130,27 +130,27 @@
 
 
 
-    <{if $rating_reaction}>
+    <{if $rating_reaction|default:0}>
         <div class="blog_ratingblock">
 
                 <a class="blog-rate-reaction" href="vote.php?op=save&amp;<{$itemid}>=<{$item2.itemid}>&rating=1&amp;source=1" title="<{$smarty.const._MA_BLOG_RATING1}>" rel="nofollow">
-                    <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/like20.png' alt='<{$smarty.const._MA_BLOG_REACTION_LIKE}>' title='<{$smarty.const._MA_BLOG_REACTION_LIKE}>'>(<{$item.rating.likes}>)</a>
+                    <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/like20.png' alt='<{$smarty.const._MA_BLOG_REACTION_LIKE}>' title='<{$smarty.const._MA_BLOG_REACTION_LIKE}>'>(<{$item.rating.likes|default:0}>)</a>
 
 
                 <a class="blog-rate-reaction" href="vote.php?op=save&amp;<{$itemid}>=<{$item2.itemid}>&rating=2&amp;source=1" title="<{$smarty.const._MA_BLOG_RATING2}>" rel="nofollow">
-                    <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/love20.png' alt='<{$smarty.const._MA_BLOG_REACTION_LOVE}>' title='<{$smarty.const._MA_BLOG_REACTION_LOVE}>'>(<{$item.rating.love}>)</a>
+                    <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/love20.png' alt='<{$smarty.const._MA_BLOG_REACTION_LOVE}>' title='<{$smarty.const._MA_BLOG_REACTION_LOVE}>'>(<{$item.rating.love|default:0}>)</a>
 
                 <a class="blog-rate-reaction" href="vote.php?op=save&amp;<{$itemid}>=<{$item2.itemid}>&rating=3&amp;source=1" title="<{$smarty.const._MA_BLOG_RATING3}>" rel="nofollow">
-                    <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/smile20.png' alt='<{$smarty.const._MA_BLOG_REACTION_HAHA}>' title='<{$smarty.const._MA_BLOG_REACTION_HAHA}>'>(<{$item.rating.smile}>)</a>
+                    <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/smile20.png' alt='<{$smarty.const._MA_BLOG_REACTION_HAHA}>' title='<{$smarty.const._MA_BLOG_REACTION_HAHA}>'>(<{$item.rating.smile|default:0}>)</a>
 
                 <a class="blog-rate-reaction" href="vote.php?op=save&amp;<{$itemid}>=<{$item2.itemid}>&rating=4&amp;source=1" title="<{$smarty.const._MA_BLOG_RATING4}>" rel="nofollow">
-                    <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/wow20.png' alt='<{$smarty.const._MA_BLOG_REACTION_WOW}>' title='<{$smarty.const._MA_BLOG_REACTION_WOW}>'>(<{$item.rating.wow}>)</a>
+                    <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/wow20.png' alt='<{$smarty.const._MA_BLOG_REACTION_WOW}>' title='<{$smarty.const._MA_BLOG_REACTION_WOW}>'>(<{$item.rating.wow|default:0}>)</a>
 
                 <a class="blog-rate-reactionr" href="vote.php?op=save&amp;<{$itemid}>=<{$item2.itemid}>&rating=5&amp;source=1" title="<{$smarty.const._MA_BLOG_RATING5}>" rel="nofollow">
-                    <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/sad20.png' alt='<{$smarty.const._MA_BLOG_REACTION_SAD}>' title='<{$smarty.const._MA_BLOG_REACTION_SAD}>'>(<{$item.rating.sad}>)</a>
+                    <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/sad20.png' alt='<{$smarty.const._MA_BLOG_REACTION_SAD}>' title='<{$smarty.const._MA_BLOG_REACTION_SAD}>'>(<{$item.rating.sad|default:0}>)</a>
 
-                <a class="blog-rate-reaction" href="vote.php?op=save&amp;<{$itemid}>=<{$item2.itemid}>&rating=5&amp;source=1" title="<{$smarty.const._MA_BLOG_RATING5}>" rel="nofollow">
-                    <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/angry20.png' alt='<{$smarty.const._MA_BLOG_REACTION_ANGRY}>' title='<{$smarty.const._MA_BLOG_REACTION_ANGRY}>'>(<{$item.rating.angry}>)</a>
+                <a class="blog-rate-reaction" href="vote.php?op=save&amp;<{$itemid}>=<{$item2.itemid}>&rating=6&amp;source=1" title="<{$smarty.const._MA_BLOG_RATING5}>" rel="nofollow">
+                    <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/angry20.png' alt='<{$smarty.const._MA_BLOG_REACTION_ANGRY}>' title='<{$smarty.const._MA_BLOG_REACTION_ANGRY}>'>(<{$item.rating.angry|default:0}>)</a>
 
         </div>
     <{/if}>

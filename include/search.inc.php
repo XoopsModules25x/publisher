@@ -47,7 +47,7 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
     if (is_array($queryArray) && 0 === count($queryArray)) {
         $hightlightKey = '';
     } else {
-        $keywords      = implode('+', $queryArray);
+//        $keywords      = implode('+', $queryArray);
         $hightlightKey = '&amp;keywords=' . $keywords;
     }
     $itemHandler      = $helper->getHandler('Item');

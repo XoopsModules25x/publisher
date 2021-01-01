@@ -461,6 +461,7 @@ class Item extends \XoopsObject
     }
 
     /**
+     * @param $icons
      * @return string
      */
     public function getAdminLinks($icons)
@@ -492,6 +493,7 @@ class Item extends \XoopsObject
     }
 
     /**
+     * @param $icons
      * @return string
      */
     public function getPdfButton($icons)
@@ -518,6 +520,7 @@ class Item extends \XoopsObject
     }
 
     /**
+     * @param $icons
      * @return string
      */
     public function getPrintLinks($icons)

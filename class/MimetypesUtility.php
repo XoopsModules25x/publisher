@@ -343,6 +343,9 @@ class MimetypesUtility
         }
     }
 
+    /**
+     * @param $icons
+     */
     public static function manage($icons)
     {
         $helper  = Helper::getInstance();
@@ -486,6 +489,9 @@ class MimetypesUtility
         require_once \dirname(__DIR__) . '/admin/admin_footer.php';
     }
 
+    /**
+     * @param $icons
+     */
     public static function search($icons)
     {
         $helper = Helper::getInstance();

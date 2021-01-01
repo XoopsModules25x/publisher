@@ -18,8 +18,8 @@ $helper->loadLanguage('admin');
 $pathModIcon16 = $helper->url($helper->getModule()->getInfo('modicons16')) . '/';
 $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32')) . '/';
 
-$print = constant('CO_' . $moduleDirNameUpper . '_' . 'PRINT');
-$pdf = constant('CO_' . $moduleDirNameUpper . '_' . 'PDF');
+$print = constant('_CO_' . $moduleDirNameUpper . '_' . 'PRINT');
+$pdf = constant('_CO_' . $moduleDirNameUpper . '_' . 'PDF');
 
 return (object)[
     'edit'         => Utility::iconSourceTag($pathIcon16, 'edit.png', _EDIT),

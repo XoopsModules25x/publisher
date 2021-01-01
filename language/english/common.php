@@ -135,8 +135,8 @@ define('CO_' . $moduleDirNameUpper . '_SERVERUPLOADSTATUS', 'Server uploads stat
 define('CO_' . $moduleDirNameUpper . '_SPHPINI', "<span style='font-weight: bold;'>Information taken from PHP ini file:</span>");
 define('CO_' . $moduleDirNameUpper . '_UPLOADPATHDSC', 'Note. Upload path *MUST* contain the full server path of your upload folder.');
 
-define('CO_' . $moduleDirNameUpper . '_' . 'PRINT', "<span style='font-weight: bold;'>Print</span>");
-define('CO_' . $moduleDirNameUpper . '_' . 'PDF', "<span style='font-weight: bold;'>Create PDF</span>");
+\define('CO_' . $moduleDirNameUpper . '_PRINT', "<span style='font-weight: bold;'>Print</span>");
+\define('CO_' . $moduleDirNameUpper . '_PDF', "<span style='font-weight: bold;'>Create PDF</span>");
 
 define('CO_' . $moduleDirNameUpper . '_UPGRADEFAILED0', "Update failed - couldn't rename field '%s'");
 define('CO_' . $moduleDirNameUpper . '_UPGRADEFAILED1', "Update failed - couldn't add new fields");

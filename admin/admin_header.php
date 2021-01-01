@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 use Xmf\Module\Admin;
 use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Common\Configurator;
 
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
@@ -46,12 +47,8 @@ $helper->loadLanguage('admin');
 $helper->loadLanguage('modinfo');
 $helper->loadLanguage('main');
 
-$imagearray = [
-    'editimg'   => "<img src='" . PUBLISHER_IMAGES_URL . "/button_edit.png' alt='" . _AM_PUBLISHER_ICO_EDIT . "' align='middle'>",
-    'deleteimg' => "<img src='" . PUBLISHER_IMAGES_URL . "/button_delete.png' alt='" . _AM_PUBLISHER_ICO_DELETE . "' align='middle'>",
-    'online'    => "<img src='" . PUBLISHER_IMAGES_URL . "/on.png' alt='" . _AM_PUBLISHER_ICO_ONLINE . "' align='middle'>",
-    'offline'   => "<img src='" . PUBLISHER_IMAGES_URL . "/off.png' alt='" . _AM_PUBLISHER_ICO_OFFLINE . "' align='middle'>",
-];
+$configurator = new Configurator();
+$icons = $configurator->icons;
 
 $myts = \MyTextSanitizer::getInstance();
 

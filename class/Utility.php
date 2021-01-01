@@ -180,8 +180,8 @@ class Utility extends Common\SysUtility
                 $description = \mb_substr($description, 0, 100 - 1) . '...';
             }
         }
-        $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_EDITCOL . "' alt='" . \_AM_PUBLISHER_EDITCOL . "'></a>";
-        $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . \_AM_PUBLISHER_DELETECOL . "' alt='" . \_AM_PUBLISHER_DELETECOL . "'></a>";
+        $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'>" . $icons->edit . "</a>";
+        $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'>" . $icons->delete . "</a>";
         $spaces = \str_repeat('&nbsp;', ($level * 3));
         /*
         $spaces = '';
@@ -324,8 +324,8 @@ class Utility extends Common\SysUtility
             echo '</tr>';
             if ($totalsubs > 0) {
                 foreach ($subcatsObj as $subcat) {
-                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_MODIFY . "' alt='" . \_AM_PUBLISHER_MODIFY . "'></a>";
-                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/delete.png' title='" . \_AM_PUBLISHER_DELETE . "' alt='" . \_AM_PUBLISHER_DELETE . "'></a>";
+                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'>" . $icons->edit . "</a>";
+                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'>" . $icons->delete . "</a>";
                     echo '<tr>';
                     echo "<td class='head' align='left'>" . $subcat->categoryid() . '</td>';
                     echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . '/category.php?categoryid=' . $subcat->categoryid() . '&amp;parentid=' . $subcat->parentid() . "'>" . $subcat->name() . '</a></td>';
@@ -362,18 +362,8 @@ class Utility extends Common\SysUtility
             if ($totalitems > 0) {
                 for ($i = 0; $i < $totalitemsOnPage; ++$i) {
                     $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
-                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_EDITITEM . "' alt='" . \_AM_PUBLISHER_EDITITEM . "'></a>";
-                    $delete      = "<a href='item.php?op=del&amp;itemid="
-                                   . $itemsObj[$i]->itemid()
-                                   . "'><img src='"
-                                   . XOOPS_URL
-                                   . '/modules/'
-                                   . $helper->getModule()->dirname()
-                                   . "/assets/images/links/delete.png' title='"
-                                   . \_AM_PUBLISHER_DELETEITEM
-                                   . "' alt='"
-                                   . \_AM_PUBLISHER_DELETEITEM
-                                   . "'></a>";
+                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'>" . $icons->edit . "</a>";
+                    $delete      = "<a href='item.php?op=del&amp;itemid=" . $itemsObj[$i]->itemid() . "'>" . $icons->delete . "</a>";
                     echo '<tr>';
                     echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
                     echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';
@@ -1428,5 +1418,27 @@ class Utility extends Common\SysUtility
         }
 
         return @\iconv('windows-1256', 'UTF-8', $item);
+    }
+
+    public static function getModuleStats()
+    {
+        $helper = Helper::getInstance();
+        //        $moduleStats = [];
+        //        if (\count($configurator->moduleStats) > 0) {
+        //            foreach (\array_keys($configurator->moduleStats) as $i) {
+        //                $moduleStats[$i] = $configurator->moduleStats[$i];
+        //            }
+        //        }
+
+        $moduleStats  = [
+            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
+            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
+            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_SUBMITTED),
+            'totalpublished'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_PUBLISHED),
+            'totaloffline'    => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_OFFLINE),
+            'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_REJECTED),
+        ];
+
+        return $moduleStats;
     }
 }

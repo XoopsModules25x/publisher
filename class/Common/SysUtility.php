@@ -43,7 +43,7 @@ class SysUtility
 
     use FilesManagement;    // Files Management Trait
 
-    use ModuleStats;    // ModuleStats Trait
+//    use ModuleStats;    // ModuleStats Trait
 
     /**
      * truncateHtml can truncate a string up to a number of characters while preserving whole words and HTML tags

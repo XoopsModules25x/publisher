@@ -87,6 +87,7 @@ class Item extends \XoopsObject
         $this->initVar('meta_description', \XOBJ_DTYPE_TXTAREA, '', false);
         $this->initVar('short_url', \XOBJ_DTYPE_TXTBOX, '', false, 255);
         $this->initVar('item_tag', \XOBJ_DTYPE_TXTAREA, '', false);
+        $this->initVar('votetype', \XOBJ_DTYPE_INT, 1, false);
         // Non consistent values
         $this->initVar('pagescount', \XOBJ_DTYPE_INT, 0, false);
         if (null !== $id) {
@@ -462,7 +463,7 @@ class Item extends \XoopsObject
     /**
      * @return string
      */
-    public function getAdminLinks()
+    public function getAdminLinks($icons)
     {
         $adminLinks = '';
         if (\is_object($GLOBALS['xoopsUser'])
@@ -471,18 +472,18 @@ class Item extends \XoopsObject
             if (Utility::userIsAdmin() || Utility::userIsAuthor($this) || Utility::userIsModerator($this)) {
                 if ($this->helper->getConfig('perm_edit') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Edit button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . \_CO_PUBLISHER_EDIT . "' alt='" . \_CO_PUBLISHER_EDIT . "'></a>";
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'>" . $icons->edit . "</a>";
                     $adminLinks .= ' ';
                 }
                 if ($this->helper->getConfig('perm_delete') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Delete button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . \_CO_PUBLISHER_DELETE . "' alt='" . \_CO_PUBLISHER_DELETE . "'></a>";
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'>" . $icons->delete . "</a>";
                     $adminLinks .= ' ';
                 }
             }
             if ($this->helper->getConfig('perm_clone') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                 // Duplicate button
-                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif'" . " title='" . \_CO_PUBLISHER_CLONE . "' alt='" . \_CO_PUBLISHER_CLONE . "'></a>";
+                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'>" . $icons->clone . "</a>";
                 $adminLinks .= ' ';
             }
         }
@@ -493,12 +494,12 @@ class Item extends \XoopsObject
     /**
      * @return string
      */
-    public function getPdfButton()
+    public function getPdfButton($icons)
     {
         $pdfButton = '';
         // PDF button
         if (\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-            $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . \_CO_PUBLISHER_PDF . "' alt='" . \_CO_PUBLISHER_PDF . "'></a>&nbsp;";
+            $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'>" . $icons->pdf . "</a>&nbsp;";
             $pdfButton .= ' ';
         } else {
             //                if (is_object($GLOBALS['xoopsUser']) && Utility::userIsAdmin()) {
@@ -519,11 +520,11 @@ class Item extends \XoopsObject
     /**
      * @return string
      */
-    public function getPrintLinks()
+    public function getPrintLinks($icons)
     {
         $printLinks = '';
         // Print button
-        $printLinks .= "<a href='" . Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . \_CO_PUBLISHER_PRINT . "' alt='" . \_CO_PUBLISHER_PRINT . "'></a>&nbsp;";
+        $printLinks .= "<a href='" . Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'>" . $icons->print . "</a>&nbsp;";
         $printLinks .= ' ';
 
         return $printLinks;
@@ -787,6 +788,7 @@ class Item extends \XoopsObject
         $item['category']     = $this->getCategoryName();
         $item['categorylink'] = $this->getCategoryLink();
         $item['cancomment']   = $this->cancomment();
+        $item['votetype']     = $this->votetype();
         $comments             = $this->comments();
         if ($comments > 0) {
             //shows 1 comment instead of 1 comm. if comments ==1
@@ -852,13 +854,16 @@ class Item extends \XoopsObject
      */
     public function toArrayFull($item)
     {
+        $configurator = new Common\Configurator();
+        $icons = $configurator->icons;
+
         $item['title']       = $this->getTitle();
         $item['clean_title'] = $this->getTitle();
         $item['itemurl']     = $this->getItemUrl();
 
-        $item['adminlink']    = $this->getAdminLinks();
-        $item['pdfbutton']    = $this->getPdfButton();
-        $item['printlink']    = $this->getPrintLinks();
+        $item['adminlink']    = $this->getAdminLinks($icons);
+        $item['pdfbutton']    = $this->getPdfButton($icons);
+        $item['printlink']    = $this->getPrintLinks($icons);
         $item['categoryPath'] = $this->getCategoryPath($this->helper->getConfig('format_linked_path'));
         $item['who_when']     = $this->getWhoAndWhen();
         $item['who']          = $this->getWho();
@@ -1147,6 +1152,7 @@ class Item extends \XoopsObject
             $this->setVar('doxcode', $this->helper->getConfig('submit_doxcode'));
             $this->setVar('doimage', $this->helper->getConfig('submit_doimage'));
             $this->setVar('dobr', $this->helper->getConfig('submit_dobr'));
+            $this->setVar('votetype', $this->helper->getConfig('ratingbars'));
         } else {
             $this->setVar('uid', Request::getInt('uid', 0, 'POST'));
             $this->setVar('cancomment', Request::getInt('allowcomments', 1, 'POST'));
@@ -1156,6 +1162,7 @@ class Item extends \XoopsObject
             $this->setVar('doxcode', Request::getInt('doxcode', 1, 'POST'));
             $this->setVar('doimage', Request::getInt('doimage', 1, 'POST'));
             $this->setVar('dobr', Request::getInt('dolinebreak', 1, 'POST'));
+            $this->setVar('votetype', Request::getInt('votetype', 1, 'POST'));
         }
 
         $this->setVar('notifypub', Request::getString('notify', '', 'POST'));

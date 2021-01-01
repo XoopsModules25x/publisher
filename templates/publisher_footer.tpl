@@ -10,14 +10,14 @@
     <table border="0" width="100%" cellspacing="1" cellpadding="0" align="center">
         <tr>
             <td colspan="3" align="left">
-                <div style="text-align: center; padding: 3px; margin:3px;"> <{$commentsnav}> <{$lang_notice}></div>
+                <div style="text-align: center; padding: 3px; margin:3px;"> <{$commentsnav}> <{$lang_notice|default:''}></div>
                 <div style="margin:3px; padding: 3px;">
                     <!-- start comments loop -->
-                    <{if $comment_mode == "flat"}>
+                    <{if $comment_mode|default:'' == "flat"}>
                         <{include file="db:system_comments_flat.tpl"}>
-                    <{elseif $comment_mode == "thread"}>
+                    <{elseif $comment_mode|default:'' == "thread"}>
                         <{include file="db:system_comments_thread.tpl"}>
-                    <{elseif $comment_mode == "nest"}>
+                    <{elseif $comment_mode|default:'' == "nest"}>
                         <{include file="db:system_comments_nest.tpl"}>
                     <{/if}>
                     <!-- end comments loop -->

@@ -37,7 +37,7 @@ $xoops_url = parse_url(XOOPS_URL);
 $modversion = [
     'version'             => '1.08',
     'module_status'       => 'Alpha 3',
-    'release_date'        => '2020/09/03',
+    'release_date'        => '2021/01/01',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -977,7 +977,7 @@ $modversion['config'][] = [
     'description' => '_MI_PUBLISHER_ALLOWRATING_DSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => 0,
+    'default'     => 1,
     'category'    => 'item',
 ];
 

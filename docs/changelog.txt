@@ -1,7 +1,17 @@
-<h5>1.08 Alpha 3       [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.13, 8.0
+<h5>1.08 Alpha 3       [2021-01-01]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.13, PHP 8.0
 <hr>
 - fix in_array() for anonymous permissions (oswaldo/mamba)
 - new voting/rating system (goffy/mamba)
+- Category Moderator Fix for XoopsModules25x/publisher#151 (ihackcode)
+- mb_strlen a category description when not null (ihackcode)
+- fix missing Constants (mamba)
+- refactor testdata buttons (mamba)
+- PHP 8 adjustments (mamba)
+- add blocksadmin.php translations (mamba)
+- fix for ini_get('session.cookie_secure') (mamba)
+- TCPDF check language constant (mamba)
+- various fixes, PSR-12 and code cosmetics (mamba)
+
 
 <h5>1.08 Alpha 2       [2020-07-08]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.7
 <hr>

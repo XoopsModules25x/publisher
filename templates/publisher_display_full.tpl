@@ -24,7 +24,7 @@
     <br>
     <!-- End of if !$category || $category.subcats || ($category && $display_category_summary) //-->
 <{/if}>
-<{if $items}>
+<{if $items|default:''}>
     <{if $collapsable_heading == 1}>
         <div class="publisher_collaps_title">
             <a href='javascript:' onclick="toggle('bottomtable'); toggleIcon('bottomtableicon')">

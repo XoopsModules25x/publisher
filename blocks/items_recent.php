@@ -19,8 +19,7 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    BlockForm,
+use XoopsModules\Publisher\{BlockForm,
     Constants,
     Helper,
     ItemHandler,
@@ -95,11 +94,11 @@ function publisher_items_recent_show($options)
             if (empty($mainImage['image_path'])) {
                 $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
             }
-            if (!function_exists('imagecreatetruecolor')) {
-                $newItems['item_image'] = $mainImage['image_path'];
-            } else {
+            if (function_exists('imagecreatetruecolor')) {
                 $newItems['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '';
                 $newItems['image_path'] = $mainImage['image_path'];
+            } else {
+                $newItems['item_image'] = $mainImage['image_path'];
             }
             $newItems['cancomment'] = $iValue->cancomment();
             $comments               = $iValue->comments();

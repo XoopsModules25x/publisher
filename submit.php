@@ -20,8 +20,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
+use XoopsModules\Publisher\{Category,
     Constants,
     GroupPermHandler,
     Helper,
@@ -213,8 +212,10 @@ switch ($op) {
         }
 
         // if autoapprove_submitted. This does not apply if we are editing an article
-        if (!$itemId) {
-            if (Constants::PUBLISHER_STATUS_PUBLISHED == $itemObj->getVar('status') /*$helper->getConfig('perm_autoapprove'] ==  1*/) {
+        if ($itemId) {
+            $redirectMsg = _MD_PUBLISHER_ITEMMODIFIED;
+            redirect_header($itemObj->getItemUrl(), 2, $redirectMsg);
+        } elseif (Constants::PUBLISHER_STATUS_PUBLISHED == $itemObj->getVar('status') /*$helper->getConfig('perm_autoapprove'] ==  1*/) {
                 // We do not not subscribe user to notification on publish since we publish it right away
 
                 // Send notifications
@@ -234,10 +235,6 @@ switch ($op) {
                 $itemObj->sendNotifications([Constants::PUBLISHER_NOTIFY_ITEM_SUBMITTED]);
 
                 $redirectMsg = _MD_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
-            }
-        } else {
-            $redirectMsg = _MD_PUBLISHER_ITEMMODIFIED;
-            redirect_header($itemObj->getItemUrl(), 2, $redirectMsg);
         }
         redirect_header('index.php', 2, $redirectMsg);
 

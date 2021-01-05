@@ -1,12 +1,12 @@
-<{include file="db:publisher_header.tpl" item=$item}>
+<{include file="db:publisher_header.tpl" item=$item|default:false}>
 
-<{if $op == 'preview'}>
+<{if $op|default:false == 'preview'}>
     <br>
     <{include file="db:publisher_singleitem.tpl" item=$item}>
 <{/if}>
 
-<div class="publisher_infotitle"><{$langIntroTitle}></div>
-<div class="publisher_infotext"><{$langIntroText}></div>
+<div class="publisher_infotitle"><{$langIntroTitle|default:''}></div>
+<div class="publisher_infotext"><{$langIntroText|default:''}></div>
 <br><{$form.javascript}>
 
 <div id="tabs">
@@ -22,17 +22,17 @@
                 <table class="outer" cellspacing="1">
                     <{foreach item=element from=$form.elements}>
                     <{if $element.tab == $key || $element.tab == -1}>
-                        <{if !$element.hidden}>
+                         <{if !$element.hidden|default:false}>
                             <tr>
                                 <td class="head" width="30%">
-                                    <{if $element.caption != ''}>
+                                    <{if $element.caption|default:false != ''}>
                                         <div class='xoops-form-element-caption<{if $element.required}>-required<{/if}>'>
                                             <span class='caption-text'><{$element.caption}></span>
                                             <{if $element.required}>
                                                 <span class='caption-marker'>*</span>
                                             <{/if}>
                                         </div>
-                                    <{/if}> <{if $element.description}>
+                                    <{/if}> <{if $element.description|default:false}>
                                         <div style="font-weight: normal; font-size:small;"><{$element.description}></div>
                                     <{/if}>
                                 </td>
@@ -45,13 +45,13 @@
             </div>
         <{/foreach}>
         <{foreach item=element from=$form.elements}>
-            <{if $element.hidden}>
+            <{if $element.hidden|default:false}>
                 <{$element.body}>
             <{/if}>
         <{/foreach}>
     </form>
 </div>
 
-<{if $isAdmin == 1}>
+<{if $isAdmin|default:0 == 1}>
     <div class="publisher_adminlinks"><{$publisher_adminpage}></div>
 <{/if}>

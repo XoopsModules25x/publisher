@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace XoopsModules\Publisher\Common;
 
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Constants;
 /**
  * Created by PhpStorm.
  * User: mamba
@@ -12,20 +14,6 @@ namespace XoopsModules\Publisher\Common;
  */
 trait ModuleStats
 {
-    /**
-     * @param \XoopsModules\Publisher\Common\Configurator $configurator
-     * @param array                                       $moduleStats
-     * @return array
-     */
 
-    public static function getModuleStats($configurator, $moduleStats)
-    {
-        if (\count($configurator->moduleStats) > 0) {
-            foreach (\array_keys($configurator->moduleStats) as $i) {
-                $moduleStats[$i] = $configurator->moduleStats[$i];
-            }
-        }
 
-        return $moduleStats;
-    }
 }

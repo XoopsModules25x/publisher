@@ -24,7 +24,6 @@ namespace XoopsModules\Publisher;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
 
 /**
  * Class Utility
@@ -174,15 +173,17 @@ class Utility extends Common\SysUtility
     public static function displayCategory(Category $categoryObj, $level = 0)
     {
         $helper = Helper::getInstance();
+        $configurator = new Common\Configurator();
+        $icons = $configurator->icons;
 
-        $description = $categoryObj->description();
-        if (!XOOPS_USE_MULTIBYTES) {
-            if (mb_strlen($description) >= 100) {
-                $description = mb_substr($description, 0, 100 - 1) . '...';
+        $description = $categoryObj->description;
+        if (!XOOPS_USE_MULTIBYTES && !empty($description)) {
+            if (\mb_strlen($description) >= 100) {
+                $description = \mb_substr($description, 0, 100 - 1) . '...';
             }
         }
-        $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_EDITCOL . "' alt='" . \_AM_PUBLISHER_EDITCOL . "'></a>";
-        $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . \_AM_PUBLISHER_DELETECOL . "' alt='" . \_AM_PUBLISHER_DELETECOL . "'></a>";
+        $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'>" . $icons->edit . '</a>';
+        $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'>" . $icons->delete . '</a>';
         $spaces = \str_repeat('&nbsp;', ($level * 3));
         /*
         $spaces = '';
@@ -221,6 +222,52 @@ class Utility extends Common\SysUtility
         //        unset($categoryObj);
     }
 
+
+    /**
+     * @param bool $showmenu
+     * @param int  $fileid
+     * @param int  $itemId
+     */
+    public static function editFile($showmenu = false, $fileid = 0, $itemId = 0)
+    {
+        $helper = Helper::getInstance();
+        require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
+
+        // if there is a parameter, and the id exists, retrieve data: we're editing a file
+        if (0 != $fileid) {
+            // Creating the File object
+            /** @var \XoopsModules\Publisher\File $fileObj */
+            $fileObj = $helper->getHandler('File')->get($fileid);
+
+            if ($fileObj->notLoaded()) {
+                redirect_header('<script>javascript:history.go(-1)</script>', 1, _AM_PUBLISHER_NOFILESELECTED);
+            }
+
+            echo "<br>\n";
+            echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_EDITING . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_FILE_EDITING_DSC . '</span>';
+            static::openCollapsableBar('editfile', 'editfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
+        } else {
+            // there's no parameter, so we're adding an item
+            $fileObj = $helper->getHandler('File')->create();
+            $fileObj->setVar('itemid', $itemId);
+            echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_ADDING . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_FILE_ADDING_DSC . '</span>';
+            static::openCollapsableBar('addfile', 'addfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
+        }
+
+        // FILES UPLOAD FORM
+        /** @var File $fileObj */
+        $uploadForm = $fileObj->getForm();
+        $uploadForm->display();
+
+        if (0 != $fileid) {
+            static::closeCollapsableBar('editfile', 'editfileicon');
+        } else {
+            static::closeCollapsableBar('addfile', 'addfileicon');
+        }
+    }
+
     /**
      * @param bool          $showmenu
      * @param int           $categoryId
@@ -253,10 +300,10 @@ class Utility extends Common\SysUtility
         $sform = $categoryObj->getForm($nbSubCats);
         $sform->display();
 
-        if (!$categoryId) {
-            static::closeCollapsableBar('createtable', 'createtableicon');
-        } else {
+        if ($categoryId) {
             static::closeCollapsableBar('edittable', 'edittableicon');
+        } else {
+            static::closeCollapsableBar('createtable', 'createtableicon');
         }
 
         //Added by fx2024
@@ -279,8 +326,8 @@ class Utility extends Common\SysUtility
             echo '</tr>';
             if ($totalsubs > 0) {
                 foreach ($subcatsObj as $subcat) {
-                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_MODIFY . "' alt='" . \_AM_PUBLISHER_MODIFY . "'></a>";
-                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/delete.png' title='" . \_AM_PUBLISHER_DELETE . "' alt='" . \_AM_PUBLISHER_DELETE . "'></a>";
+                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'>" . $icons->edit . '</a>';
+                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'>" . $icons->delete . '</a>';
                     echo '<tr>';
                     echo "<td class='head' align='left'>" . $subcat->categoryid() . '</td>';
                     echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . '/category.php?categoryid=' . $subcat->categoryid() . '&amp;parentid=' . $subcat->parentid() . "'>" . $subcat->name() . '</a></td>';
@@ -304,7 +351,6 @@ class Utility extends Common\SysUtility
             $totalitems = $helper->getHandler('Item')->getItemsCount($selCat, [Constants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
             $itemsObj         = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
-            $totalitemsOnPage = \count($itemsObj);
             $allcats          = $helper->getHandler('Category')->getObjects(null, true);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
@@ -315,25 +361,15 @@ class Utility extends Common\SysUtility
             echo "<td width='60' class='bg3' align='center'><strong>" . \_AM_PUBLISHER_ACTION . '</strong></td>';
             echo '</tr>';
             if ($totalitems > 0) {
-                for ($i = 0; $i < $totalitemsOnPage; ++$i) {
-                    $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
-                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_EDITITEM . "' alt='" . \_AM_PUBLISHER_EDITITEM . "'></a>";
-                    $delete      = "<a href='item.php?op=del&amp;itemid="
-                                   . $itemsObj[$i]->itemid()
-                                   . "'><img src='"
-                                   . XOOPS_URL
-                                   . '/modules/'
-                                   . $helper->getModule()->dirname()
-                                   . "/assets/images/links/delete.png' title='"
-                                   . \_AM_PUBLISHER_DELETEITEM
-                                   . "' alt='"
-                                   . \_AM_PUBLISHER_DELETEITEM
-                                   . "'></a>";
+                foreach ($itemsObj as $iValue) {
+                    $categoryObj = $allcats[$iValue->categoryid()];
+                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $iValue->itemid() . "'>" . $icons->edit . '</a>';
+                    $delete      = "<a href='item.php?op=del&amp;itemid=" . $iValue->itemid() . "'>" . $icons->delete . '</a>';
                     echo '<tr>';
-                    echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
+                    echo "<td class='head' align='center'>" . $iValue->itemid() . '</td>';
                     echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';
-                    echo "<td class='even' align='left'>" . $itemsObj[$i]->getitemLink() . '</td>';
-                    echo "<td class='even' align='center'>" . $itemsObj[$i]->getDatesub('s') . '</td>';
+                    echo "<td class='even' align='left'>" . $iValue->getitemLink() . '</td>';
+                    echo "<td class='even' align='center'>" . $iValue->getDatesub('s') . '</td>';
                     echo "<td class='even' align='center'> $modify $delete </td>";
                     echo '</tr>';
                 }
@@ -389,16 +425,19 @@ class Utility extends Common\SysUtility
         if ('datesub' === $sort) {
             return 'DESC';
         }
-
         if ('counter' === $sort) {
             return 'DESC';
-        } elseif ('weight' === $sort) {
+        }
+        if ('weight' === $sort) {
             return 'ASC';
-        } elseif ('votes' === $sort) {
+        }
+        if ('votes' === $sort) {
             return 'DESC';
-        } elseif ('rating' === $sort) {
+        }
+        if ('rating' === $sort) {
             return 'DESC';
-        } elseif ('comments' === $sort) {
+        }
+        if ('comments' === $sort) {
             return 'DESC';
         }
 
@@ -424,12 +463,12 @@ class Utility extends Common\SysUtility
         $reversedString = \strrev(\xoops_substr($str, $start, $length, ''));
 
         // find first space in reversed string
-        $positionOfSpace = mb_strpos($reversedString, ' ', 0);
+        $positionOfSpace = \mb_strpos($reversedString, ' ', 0);
 
         // truncate the original string to a length of $length
         // minus the position of the last space
         // plus the length of the $trimMarker
-        $truncatedString = \xoops_substr($str, $start, $length - $positionOfSpace + mb_strlen($trimMarker), $trimMarker);
+        $truncatedString = \xoops_substr($str, $start, $length - $positionOfSpace + \mb_strlen($trimMarker), $trimMarker);
 
         return $truncatedString;
     }
@@ -542,7 +581,7 @@ class Utility extends Common\SysUtility
 
         // Loop through the folder
         $dir = \dir($source);
-        while (false !== $entry = $dir->read()) {
+        while (false !== ($entry = $dir->read())) {
             // Skip pointers
             if ('.' === $entry || '..' === $entry) {
                 continue;
@@ -583,12 +622,12 @@ class Utility extends Common\SysUtility
         if (\is_writable($thePath)) {
             $pathCheckResult = 1;
             $pathStatus      = \_AM_PUBLISHER_AVAILABLE;
-        } elseif (!@\is_dir($thePath)) {
-            $pathCheckResult = -1;
-            $pathStatus      = \_AM_PUBLISHER_NOTAVAILABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=createdir&amp;path={$item}'>" . \_AM_PUBLISHER_CREATETHEDIR . '</a>';
-        } else {
+        } elseif (@\is_dir($thePath)) {
             $pathCheckResult = -2;
             $pathStatus      = \_AM_PUBLISHER_NOTWRITABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=setperm&amp;path={$item}'>" . \_AM_PUBLISHER_SETMPERM . '</a>';
+        } else {
+            $pathCheckResult = -1;
+            $pathStatus      = \_AM_PUBLISHER_NOTAVAILABLE . " <a href='" . PUBLISHER_ADMIN_URL . "/index.php?op=createdir&amp;path={$item}'>" . \_AM_PUBLISHER_CREATETHEDIR . '</a>';
         }
         if (!$getStatus) {
             return $pathStatus;
@@ -615,7 +654,7 @@ class Utility extends Common\SysUtility
             return false;
         }
 
-        if (static::mkdir(mb_substr($target, 0, mb_strrpos($target, '/')))) {
+        if (static::mkdir(\mb_substr($target, 0, \mb_strrpos($target, '/')))) {
             if (!\is_dir($target)) {
                 $res = \mkdir($target, 0777); // crawl back up & create dir tree
                 static::chmod($target);
@@ -706,11 +745,11 @@ class Utility extends Common\SysUtility
             return $publisherIsAdmin;
         }
 
-        if (!$GLOBALS['xoopsUser']) {
-            $publisherIsAdmin = false;
-        } else {
+        if ($GLOBALS['xoopsUser']) {
             //            $publisherIsAdmin = $GLOBALS['xoopsUser']->isAdmin($helper->getModule()->getVar('mid'));
             $publisherIsAdmin = $helper->isUserAdmin();
+        } else {
+            $publisherIsAdmin = false;
         }
 
         return $publisherIsAdmin;
@@ -812,9 +851,11 @@ class Utility extends Common\SysUtility
 
         if ('none' === $cookie) {
             echo '
-        <script type="text/javascript"><!--
-        toggle("' . $name . '"); toggleIcon("' . $icon . '");
-        //-->
+        <script type="text/javascript">
+     <!--
+        toggle("' . $name . '"); 
+        toggleIcon("' . $icon . '");
+        -->
         </script>
         ';
         }
@@ -830,7 +871,8 @@ class Utility extends Common\SysUtility
         if (0 === $time) {
             $time = \time() + 3600 * 24 * 365;
         }
-        setcookie($name, $value, $time, '/');
+//        setcookie($name, $value, $time, '/');
+         setcookie($name, $value, $time, '/', ini_get('session.cookie_domain'), (bool)ini_get('session.cookie_secure'), (bool)ini_get('session.cookie_httponly'));
     }
 
     /**
@@ -845,7 +887,7 @@ class Utility extends Common\SysUtility
         //    } else {
         //        return $default;
         //    }
-        return Request::getString('name', $default, 'COOKIE');
+        return Request::getString($name, $default, 'COOKIE');
     }
 
     /**
@@ -853,7 +895,7 @@ class Utility extends Common\SysUtility
      */
     public static function getCurrentUrls()
     {
-        $http = false === mb_strpos(XOOPS_URL, 'https://') ? 'http://' : 'https://';
+        $http = false === \mb_strpos(XOOPS_URL, 'https://') ? 'http://' : 'https://';
         //    $phpself     = $_SERVER['SCRIPT_NAME'];
         //    $httphost    = $_SERVER['HTTP_HOST'];
         //    $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
@@ -1054,7 +1096,7 @@ class Utility extends Common\SysUtility
      */
     public static function tellAFriend($subject = '')
     {
-        if (false !== mb_strpos($subject, '%')) {
+        if (false !== \mb_strpos($subject, '%')) {
             $subject = \rawurldecode($subject);
         }
 
@@ -1066,10 +1108,10 @@ class Utility extends Common\SysUtility
     /**
      * @param bool $another
      * @param bool $withRedirect
-     * @param Item $itemObj
-     * @return bool|string
+     * @param Item|null $itemObj
+     * @return bool|string|null
      */
-    public static function uploadFile($another, $withRedirect, &$itemObj)
+    public static function uploadFile($another, $withRedirect, &$itemObj=null)
     {
         \xoops_load('XoopsMediaUploader');
         //        require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
@@ -1086,7 +1128,7 @@ class Utility extends Common\SysUtility
         $session->set('publisher_file_uid', $uid);
         $session->set('publisher_file_itemid', $itemId);
 
-        if (!\is_object($itemObj)) {
+        if (!\is_object($itemObj) && 0 !== $itemId) {
             $itemObj = $helper->getHandler('Item')->get($itemId);
         }
 
@@ -1176,10 +1218,10 @@ class Utility extends Common\SysUtility
             return '';
         }
 
-        if (mb_strlen($string) > $length) {
-            $length -= mb_strlen($etc);
+        if (\mb_strlen($string) > $length) {
+            $length -= \mb_strlen($etc);
             if (!$breakWords) {
-                $string = \preg_replace('/\s+?(\S+)?$/', '', mb_substr($string, 0, $length + 1));
+                $string = \preg_replace('/\s+?(\S+)?$/', '', \mb_substr($string, 0, $length + 1));
                 $string = \preg_replace('/<[^>]*$/', '', $string);
                 $string = static::closeTags($string);
             }
@@ -1219,9 +1261,8 @@ class Utility extends Common\SysUtility
             }
 
             $completeTags = \array_reverse($completeTags);
-            $elementCount = \count($completeTags);
-            for ($i = 0; $i < $elementCount; ++$i) {
-                $string .= '</' . $completeTags[$i] . '>';
+            foreach ($completeTags as $iValue) {
+                $string .= '</' . $iValue . '>';
             }
         }
 
@@ -1229,6 +1270,7 @@ class Utility extends Common\SysUtility
     }
 
     /**
+     * Get the rating for 5 stars (the original rating)
      * @param int $itemId
      * @return string
      */
@@ -1348,7 +1390,7 @@ class Utility extends Common\SysUtility
     public static function stringToInt($string = '', $length = 5)
     {
         $final     = '';
-        $substring = mb_substr(\md5($string), $length);
+        $substring = \mb_substr(\md5($string), $length);
         for ($i = 0; $i < $length; ++$i) {
             $final .= (int)$substring[$i];
         }
@@ -1363,10 +1405,10 @@ class Utility extends Common\SysUtility
     public static function convertCharset($item)
     {
         if (_CHARSET !== 'windows-1256') {
-            return utf8_encode($item);
+            return \utf8_encode($item);
         }
 
-        if ($unserialize == \unserialize($item)) {
+        if (false !== ($unserialize = \unserialize($item))) {
             foreach ($unserialize as $key => $value) {
                 $unserialize[$key] = @\iconv('windows-1256', 'UTF-8', $value);
             }
@@ -1376,5 +1418,41 @@ class Utility extends Common\SysUtility
         }
 
         return @\iconv('windows-1256', 'UTF-8', $item);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getModuleStats()
+    {
+        $helper = Helper::getInstance();
+        //        $moduleStats = [];
+        //        if (\count($configurator->moduleStats) > 0) {
+        //            foreach (\array_keys($configurator->moduleStats) as $i) {
+        //                $moduleStats[$i] = $configurator->moduleStats[$i];
+        //            }
+        //        }
+
+        $moduleStats  = [
+            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
+            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
+            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_SUBMITTED),
+            'totalpublished'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_PUBLISHED),
+            'totaloffline'    => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_OFFLINE),
+            'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_REJECTED),
+        ];
+
+        return $moduleStats;
+    }
+
+    /**
+     * @param $path
+     * @param $image
+     * @param $alt
+     * @return string
+     */
+    public static function iconSourceTag($path, $image, $alt){
+        $imgSource = "<img src='" . $path . "$image'  alt='" . $alt . "' title='" . $alt . "' align='middle'>";
+        return  $imgSource;
     }
 }

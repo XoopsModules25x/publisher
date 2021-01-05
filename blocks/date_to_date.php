@@ -19,8 +19,7 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    BlockForm,
+use XoopsModules\Publisher\{BlockForm,
     Helper,
     ItemHandler
 };
@@ -34,7 +33,7 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_date_to_date_show($options)
 {
-    $myts = \MyTextSanitizer::getInstance();
+    $myts   = \MyTextSanitizer::getInstance();
     $helper = Helper::getInstance();
 
     $block = $newItems = [];

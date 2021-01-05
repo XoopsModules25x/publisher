@@ -17,11 +17,14 @@ declare(strict_types=1);
  * @author          luciorota <lucio.rota@gmail.com>
  */
 
-use XoopsModules\Publisher\{
-    Common,
+use XoopsModules\Publisher\{Common\Configurator,
     Helper,
     Utility
 };
+
+/** @var Helper $helper */
+/** @var Utility $utility */
+/** @var Common\Configurator $configurator */
 
 /**
  * @param \XoopsModule $module
@@ -56,12 +59,9 @@ function xoops_module_install_publisher(\XoopsModule $module)
 {
     require dirname(__DIR__) . '/preloads/autoloader.php';
 
-    /** @var Helper $helper */
-    /** @var Utility $utility */
-    /** @var Common\Configurator $configurator */
     $helper       = Helper::getInstance();
     $utility      = new Utility();
-    $configurator = new Common\Configurator();
+    $configurator = new Configurator();
 
     // Load language files
     $helper->loadLanguage('admin');

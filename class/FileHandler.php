@@ -22,8 +22,6 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\Helper;
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 // File status
@@ -40,6 +38,12 @@ require_once \dirname(__DIR__) . '/include/common.php';
  */
 class FileHandler extends \XoopsPersistableObjectHandler
 {
+    private const TABLE = 'publisher_files';
+    private const ENTITY = File::class;
+    private const ENTITYNAME = 'File';
+    private const KEYNAME = 'fileid';
+    private const IDENTIFIER = 'name';
+
     public $table_link = '';
     /**
      * @var Helper
@@ -49,18 +53,15 @@ class FileHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
         /** @var Helper $this->helper */
-        if (null === $helper) {
-            $this->helper = Helper::getInstance();
-        } else {
-            $this->helper = $helper;
-        }
-        parent::__construct($db, 'publisher_files', File::class, 'fileid', 'name');
+        $this->helper = $helper ?? Helper::getInstance();
+        $this->db = $db;
+        parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
     }
 
     /**
      * delete a file from the database
      *
-     * @param \XoopsObject $file reference to the file to delete
+     * @param \XoopsObject|File $file reference to the file to delete
      * @param bool         $force
      *
      * @return bool FALSE if failed.
@@ -85,7 +86,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
      */
     public function deleteItemFiles(\XoopsObject $itemObj)
     {
-        if ('publisheritem' !== mb_strtolower(\get_class($itemObj))) {
+        if ('publisheritem' !== \mb_strtolower(\get_class($itemObj))) {
             return false;
         }
         $files  = $this->getAllFiles($itemObj->itemid());

@@ -20,19 +20,19 @@ declare(strict_types=1);
  * @author          XOOPS Development Team - ( https://xoops.org )
  */
 
-use XoopsModules\Publisher\{
-    CategoryHandler,
+use XoopsModules\Publisher\{CategoryHandler,
     Constants,
     Helper,
     ItemHandler
 };
+use Xmf\Module\Admin;
 
 require __DIR__ . '/common.php';
 
 /** @return object */
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-$helper = Helper::getInstance();
+$helper             = Helper::getInstance();
 
 /** @var CategoryHandler $helper ->getHandler('Category') */
 /** @var ItemHandler $helper ->getHandler('Item') */
@@ -101,5 +101,5 @@ return (object)[
         'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_REJECTED]),
     ],
     'modCopyright'    => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . \Xmf\Module\Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
+                     <img src='" . Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
 ];

@@ -24,8 +24,6 @@ namespace XoopsModules\Publisher;
  * @var    string $title   title of the article
  */
 
-use XoopsModules\Publisher\Helper;
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -51,7 +49,7 @@ class Seo
 
         // Transformation de la chaine en minuscule
         // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus
-        $title = \rawurlencode(mb_strtolower($title));
+        $title = \rawurlencode(\mb_strtolower($title));
 
         // Transformation des ponctuations
         $pattern    = [
@@ -82,7 +80,7 @@ class Seo
             '/%7C/', // |
             '/%7D/', // }
             '/%7E/', // ~
-            "/\./", // .
+            '/\./', // .
         ];
         $repPattern = ['-', '-', '', '', '', '-100', '', '-', '', '', '', '-', '', '', '', '-', '', '', '-at-', '', '-', '', '-', '', '-', '', '-', ''];
         $title      = \preg_replace($pattern, $repPattern, $title);
@@ -105,8 +103,8 @@ class Seo
     }
 
     /**
-     * @param        $op
-     * @param        $id
+     * @param              $op
+     * @param              $id
      * @param string|array $shortUrl
      *
      * @return string

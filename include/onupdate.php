@@ -17,8 +17,7 @@ declare(strict_types=1);
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher\{
-    Common,
+use XoopsModules\Publisher\{Common,
     Helper,
     Utility
 };
@@ -91,7 +90,7 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
                     foreach ($templateList as $k => $v) {
                         $fileInfo = new \SplFileInfo($templateFolder . $v);
                         if ('html' === $fileInfo->getExtension() && 'index.html' !== $fileInfo->getFilename()) {
-                            if (file_exists($templateFolder . $v)) {
+                            if (is_file($templateFolder . $v)) {
                                 unlink($templateFolder . $v);
                             }
                         }

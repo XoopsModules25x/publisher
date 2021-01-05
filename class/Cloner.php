@@ -30,7 +30,7 @@ class Cloner
             $handle = \opendir($path);
             if ($handle) {
                 while (false !== ($file = \readdir($handle))) {
-                    if (0 !== mb_strpos($file, '.')) {
+                    if (0 !== \mb_strpos($file, '.')) {
                         self::cloneFileFolder("{$path}/{$file}");
                     }
                 }
@@ -38,7 +38,7 @@ class Cloner
             }
         } else {
             $noChangeExtensions = ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ttf'];
-            if (\in_array(mb_strtolower(\pathinfo($path, \PATHINFO_EXTENSION)), $noChangeExtensions, true)) {
+            if (\in_array(\mb_strtolower(\pathinfo($path, \PATHINFO_EXTENSION)), $noChangeExtensions, true)) {
                 // image
                 \copy($path, $newPath);
             } else {
@@ -93,7 +93,7 @@ class Cloner
 
         // Write text
         $textColor     = \imagecolorallocate($imageModule, 0, 0, 0);
-        $spaceToBorder = (int)((80 - mb_strlen($dirname) * 6.5) / 2);
+        $spaceToBorder = (int)((80 - \mb_strlen($dirname) * 6.5) / 2);
         \imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, \ucfirst($dirname), []);
 
         // Set transparency color

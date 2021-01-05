@@ -19,8 +19,7 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Constants,
+use XoopsModules\Publisher\{Constants,
     Helper,
     Item,
     Metagen
@@ -88,7 +87,7 @@ if ($count > 0) {
         if (!empty($mainImage['image_path']) && !function_exists('imagecreatetruecolor')) {
             $image = $mainImage['image_path'];
         } else {
-            $image = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '';
+            $image = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=100';
         }
         //mb end
         $comments = $item->comments();

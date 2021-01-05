@@ -44,9 +44,9 @@ $categoryObj = $itemObj->getCategory();
 
 $fileObj->updateCounter();
 
-if (!preg_match("/^ed2k*:\/\//i", $fileObj->getFileUrl())) {
+if (!preg_match('/^ed2k*:\/\//i', $fileObj->getFileUrl())) {
     header('Location: ' . $fileObj->getFileUrl());
 }
 
-echo '<html><head><meta http-equiv="Refresh" content="0; URL=' . $myts->htmlSpecialChars($fileObj->getFileUrl()) . '"></head><body></body></html>';
+echo '<html><head><meta http-equiv="Refresh" content="0; URL=' . htmlspecialchars($fileObj->getFileUrl(), ENT_QUOTES | ENT_HTML5) . '"></head><body></body></html>';
 exit();

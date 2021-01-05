@@ -18,7 +18,7 @@
                 <strong><{$smarty.const._CO_PUBLISHER_CATEGORY}></strong></td>
         </tr>
         <tr>
-            <td class="odd"><{$block.category_select}></td>
+            <td class="odd"><{$block.category_select|default:''}></td>
         </tr>
         <!--  <tr>
             <td class="head" align="right"><strong><{$smarty.const._SR_SEARCHIN}></strong></td>
@@ -37,7 +37,7 @@
            <td class="head" align="right"><strong><{$smarty.const._CO_PUBLISHER_SORTBY}></strong>&nbsp;</td>
            <td class="even"><{$block.sortbySelect}></td>
         </tr>   -->
-        <{if $block.search_rule}>
+        <{if $block.search_rule|default:''}>
             <tr>
                 <td class="even"><strong><{$smarty.const._SR_SEARCHRULE}></strong>&nbsp;
                 </td>

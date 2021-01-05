@@ -26,8 +26,9 @@ use Xmf\Request;
 use XoopsModules\Publisher\{
     Form
 };
+/** @var \XoopsMemberHandler $memberHandler */
+/** @var \XoopsImageHandler $imageHandler */
 
-//namespace Publisher;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -36,10 +37,14 @@ require_once \dirname(__DIR__) . '/include/common.php';
  */
 class Item extends \XoopsObject
 {
+    public const PAGEWRAP = '[pagewrap=';
+    public const BODYTAG = '<body>';
     /**
      * @var Helper
      */
     public $helper;
+    /** @var \XoopsMySQLDatabase */
+    public $db;
     public $groupsRead = [];
     /**
      * @var Category
@@ -51,10 +56,8 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var Helper $this->helper */
-        $this->helper = Helper::getInstance();
-        /** @var \XoopsMySQLDatabase $this->db */
-        $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
+//        $this->helper = Helper::getInstance();
+        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', \XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', \XOBJ_DTYPE_INT, 0, false);
         $this->initVar('title', \XOBJ_DTYPE_TXTBOX, '', true, 255);
@@ -84,6 +87,7 @@ class Item extends \XoopsObject
         $this->initVar('meta_description', \XOBJ_DTYPE_TXTAREA, '', false);
         $this->initVar('short_url', \XOBJ_DTYPE_TXTBOX, '', false, 255);
         $this->initVar('item_tag', \XOBJ_DTYPE_TXTAREA, '', false);
+        $this->initVar('votetype', \XOBJ_DTYPE_INT, 0, false);
         // Non consistent values
         $this->initVar('pagescount', \XOBJ_DTYPE_INT, 0, false);
         if (null !== $id) {
@@ -130,7 +134,7 @@ class Item extends \XoopsObject
         $ret = $this->getVar('title', $format);
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (mb_strlen($ret) >= $maxLength) {
+                if (\mb_strlen($ret) >= $maxLength) {
                     $ret = Utility::substr($ret, 0, $maxLength);
                 }
             }
@@ -150,7 +154,7 @@ class Item extends \XoopsObject
         $ret = $this->getVar('subtitle', $format);
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (mb_strlen($ret) >= $maxLength) {
+                if (\mb_strlen($ret) >= $maxLength) {
                     $ret = Utility::substr($ret, 0, $maxLength);
                 }
             }
@@ -174,7 +178,7 @@ class Item extends \XoopsObject
         }
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (mb_strlen($ret) >= $maxLength) {
+                if (\mb_strlen($ret) >= $maxLength) {
                     //$ret = Utility::substr($ret , 0, $maxLength);
                     //                    $ret = Utility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
                     $ret = Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
@@ -221,10 +225,10 @@ class Item extends \XoopsObject
             require $page;
             $content = \ob_get_clean();
             // Cleaning the content
-            $bodyStartPos = mb_strpos($content, '<body>');
+            $bodyStartPos = \mb_strpos($content, self::BODYTAG);
             if ($bodyStartPos) {
-                $bodyEndPos = mb_strpos($content, '</body>', $bodyStartPos);
-                $content    = mb_substr($content, $bodyStartPos + mb_strlen('<body>'), $bodyEndPos - mb_strlen('<body>') - $bodyStartPos);
+                $bodyEndPos = \mb_strpos($content, '</body>', $bodyStartPos);
+                $content    = \mb_substr($content, $bodyStartPos + \mb_strlen(self::BODYTAG), $bodyEndPos - \mb_strlen(self::BODYTAG) - $bodyStartPos);
             }
             // Check if ML Hack is installed, and if yes, parse the $content in formatForML
             $myts = \MyTextSanitizer::getInstance();
@@ -248,17 +252,17 @@ class Item extends \XoopsObject
     public function getBody($maxLength = 0, $format = 'S', $stripTags = '')
     {
         $ret     = $this->getVar('body', $format);
-        $wrapPos = mb_strpos($ret, '[pagewrap=');
+        $wrapPos = \mb_strpos($ret, self::PAGEWRAP);
         if (!(false === $wrapPos)) {
             $wrapPages      = [];
-            $wrapCodeLength = mb_strlen('[pagewrap=');
+            $wrapCodeLength = \mb_strlen(self::PAGEWRAP);
             while (!(false === $wrapPos)) {
-                $endWrapPos = mb_strpos($ret, ']', $wrapPos);
+                $endWrapPos = \mb_strpos($ret, ']', $wrapPos);
                 if ($endWrapPos) {
-                    $wrapPagename = mb_substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
-                    $wrapPages[]    = $wrapPagename;
+                    $wrapPagename = \mb_substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
+                    $wrapPages[]  = $wrapPagename;
                 }
-                $wrapPos = mb_strpos($ret, '[pagewrap=', $endWrapPos - 1);
+                $wrapPos = \mb_strpos($ret, self::PAGEWRAP, $endWrapPos - 1);
             }
             foreach ($wrapPages as $page) {
                 $wrapPageContent = $this->wrapPage($page);
@@ -276,7 +280,7 @@ class Item extends \XoopsObject
         }
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (mb_strlen($ret) >= $maxLength) {
+                if (\mb_strlen($ret) >= $maxLength) {
                     //$ret = Utility::substr($ret , 0, $maxLength);
                     $ret = Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
@@ -305,7 +309,7 @@ class Item extends \XoopsObject
      * @param string $dateFormat
      * @param string $format
      *
-     * @return string
+     * @return string|false
      */
     public function getDateExpire($dateFormat = '', $format = 'S')
     {
@@ -344,6 +348,7 @@ class Item extends \XoopsObject
     public function posterAvatar()
     {
         $ret           = 'blank.gif';
+        /** @var \XoopsMemberHandler $memberHandler */
         $memberHandler = \xoops_getHandler('member');
         $thisUser      = $memberHandler->getUser($this->uid());
         if (\is_object($thisUser)) {
@@ -389,6 +394,7 @@ class Item extends \XoopsObject
         if ($isNew && Constants::PUBLISHER_STATUS_PUBLISHED == $this->getVar('status')) {
             // Increment user posts
             $userHandler   = \xoops_getHandler('user');
+            /** @var \XoopsMemberHandler $memberHandler */
             $memberHandler = \xoops_getHandler('member');
             $poster        = $userHandler->get($this->uid());
             if (\is_object($poster) && !$poster->isNew()) {
@@ -431,7 +437,7 @@ class Item extends \XoopsObject
     /**
      * @param bool $withAllLink
      *
-     * @return string
+     * @return string|bool
      */
     public function getCategoryPath($withAllLink = true)
     {
@@ -455,9 +461,10 @@ class Item extends \XoopsObject
     }
 
     /**
+     * @param $icons
      * @return string
      */
-    public function getAdminLinks()
+    public function getAdminLinks($icons)
     {
         $adminLinks = '';
         if (\is_object($GLOBALS['xoopsUser'])
@@ -466,18 +473,18 @@ class Item extends \XoopsObject
             if (Utility::userIsAdmin() || Utility::userIsAuthor($this) || Utility::userIsModerator($this)) {
                 if ($this->helper->getConfig('perm_edit') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Edit button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . \_CO_PUBLISHER_EDIT . "' alt='" . \_CO_PUBLISHER_EDIT . "'></a>";
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'>" . $icons->edit . '</a>';
                     $adminLinks .= ' ';
                 }
                 if ($this->helper->getConfig('perm_delete') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Delete button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . \_CO_PUBLISHER_DELETE . "' alt='" . \_CO_PUBLISHER_DELETE . "'></a>";
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'>" . $icons->delete . '</a>';
                     $adminLinks .= ' ';
                 }
             }
             if ($this->helper->getConfig('perm_clone') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                 // Duplicate button
-                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif'" . " title='" . \_CO_PUBLISHER_CLONE . "' alt='" . \_CO_PUBLISHER_CLONE . "'></a>";
+                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'>" . $icons->clone . '</a>';
                 $adminLinks .= ' ';
             }
         }
@@ -486,13 +493,17 @@ class Item extends \XoopsObject
     }
 
     /**
+     * @param $icons
      * @return string
      */
-    public function getPdfButton()
+    public function getPdfButton($icons)
     {
         $pdfButton = '';
         // PDF button
-        if (!\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
+        if (\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
+            $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'>" . $icons->pdf . '</a>&nbsp;';
+            $pdfButton .= ' ';
+        } else {
             //                if (is_object($GLOBALS['xoopsUser']) && Utility::userIsAdmin()) {
             //                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
             //                    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
@@ -503,22 +514,20 @@ class Item extends \XoopsObject
             //                        })(jQuery);
             //                        </script>';
             //                }
-        } else {
-            $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . \_CO_PUBLISHER_PDF . "' alt='" . \_CO_PUBLISHER_PDF . "'></a>&nbsp;";
-            $pdfButton .= ' ';
         }
 
         return $pdfButton;
     }
 
     /**
+     * @param $icons
      * @return string
      */
-    public function getPrintLinks()
+    public function getPrintLinks($icons)
     {
         $printLinks = '';
         // Print button
-        $printLinks .= "<a href='" . Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . \_CO_PUBLISHER_PRINT . "' alt='" . \_CO_PUBLISHER_PRINT . "'></a>&nbsp;";
+        $printLinks .= "<a href='" . Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'>" . $icons->print . '</a>&nbsp;';
         $printLinks .= ' ';
 
         return $printLinks;
@@ -730,7 +739,7 @@ class Item extends \XoopsObject
                 $imagesIds = \explode('|', $images);
             }
             if ($image > 0) {
-                $imagesIds = \array_merge($imagesIds, [$image]);
+                $imagesIds[] = $image;
             }
             $imageObjs = [];
             if (\count($imagesIds) > 0) {
@@ -782,6 +791,7 @@ class Item extends \XoopsObject
         $item['category']     = $this->getCategoryName();
         $item['categorylink'] = $this->getCategoryLink();
         $item['cancomment']   = $this->cancomment();
+        $item['votetype']     = $this->votetype();
         $comments             = $this->comments();
         if ($comments > 0) {
             //shows 1 comment instead of 1 comm. if comments ==1
@@ -817,7 +827,7 @@ class Item extends \XoopsObject
                     $summary = $this->getBody($maxCharSummary);
                 }
                 $item['summary']   = $summary;
-                $item['truncated'] = $maxCharSummary > 0 && mb_strlen($summary) > $maxCharSummary;
+                $item['truncated'] = $maxCharSummary > 0 && \mb_strlen($summary) > $maxCharSummary;
                 $item              = $this->toArrayFull($item);
                 break;
             case 'all':
@@ -828,8 +838,7 @@ class Item extends \XoopsObject
         // Highlighting searched words
         $highlight = true;
         if ($highlight && Request::getString('keywords', '', 'GET')) {
-            $myts     = \MyTextSanitizer::getInstance();
-            $keywords = $myts->htmlSpecialChars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))));
+            $keywords = \htmlspecialchars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))), ENT_QUOTES | ENT_HTML5);
             $fields   = ['title', 'maintext', 'summary'];
             foreach ($fields as $field) {
                 if (isset($item[$field])) {
@@ -848,13 +857,16 @@ class Item extends \XoopsObject
      */
     public function toArrayFull($item)
     {
+        $configurator = new Common\Configurator();
+        $icons = $configurator->icons;
+
         $item['title']       = $this->getTitle();
         $item['clean_title'] = $this->getTitle();
         $item['itemurl']     = $this->getItemUrl();
 
-        $item['adminlink']    = $this->getAdminLinks();
-        $item['pdfbutton']    = $this->getPdfButton();
-        $item['printlink']    = $this->getPrintLinks();
+        $item['adminlink']    = $this->getAdminLinks($icons);
+        $item['pdfbutton']    = $this->getPdfButton($icons);
+        $item['printlink']    = $this->getPrintLinks($icons);
         $item['categoryPath'] = $this->getCategoryPath($this->helper->getConfig('format_linked_path'));
         $item['who_when']     = $this->getWhoAndWhen();
         $item['who']          = $this->getWho();
@@ -897,10 +909,10 @@ class Item extends \XoopsObject
             $item['image_height'] = $dimensions[1];
             $item['image_path']   = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
             // check to see if GD function exist
-            if (!\function_exists('imagecreatetruecolor')) {
-                $item['image_thumb'] = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
-            } else {
+            if (\function_exists('imagecreatetruecolor')) {
                 $item['image_thumb'] = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name') . '&amp;h=180';
+            } else {
+                $item['image_thumb'] = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
             }
             $item['image_name'] = $images['main']->getVar('image_nicename');
         }
@@ -924,10 +936,10 @@ class Item extends \XoopsObject
             $item['images'][$i]['height'] = $dimensions[1];
             $item['images'][$i]['path']   = XOOPS_URL . '/uploads/' . $image->getVar('image_name');
             // check to see if GD function exist
-            if (!\function_exists('imagecreatetruecolor')) {
-                $item['images'][$i]['thumb'] = XOOPS_URL . '/uploads/' . $image->getVar('image_name');
-            } else {
+            if (\function_exists('imagecreatetruecolor')) {
                 $item['images'][$i]['thumb'] = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $image->getVar('image_name') . '&amp;w=240';
+            } else {
+                $item['images'][$i]['thumb'] = XOOPS_URL . '/uploads/' . $image->getVar('image_name');
             }
             $item['images'][$i]['name'] = $image->getVar('image_nicename');
             ++$i;
@@ -945,7 +957,7 @@ class Item extends \XoopsObject
     public function highlight($content, $keywords)
     {
         $color = $this->helper->getConfig('format_highlight_color');
-        if (0 !== mb_strpos($color, '#')) {
+        if (0 !== \mb_strpos($color, '#')) {
             $color = '#' . $color;
         }
         require_once __DIR__ . '/Highlighter.php';
@@ -984,18 +996,18 @@ class Item extends \XoopsObject
         $os      = '';
         $browser = '';
         //        if (preg_match("/Win/i", $agent)) {
-        if (false !== mb_stripos($agent, 'Win')) {
+        if (false !== \mb_stripos($agent, 'Win')) {
             $os = 'win';
         }
         //        if (preg_match("/MSIE/i", $agent)) {
-        if (false !== mb_stripos($agent, 'MSIE')) {
+        if (false !== \mb_stripos($agent, 'MSIE')) {
             $browser = 'msie';
         }
         // if msie
         if (('win' === $os) && ('msie' === $browser)) {
             // if multibyte
             if (\function_exists('mb_convert_encoding')) {
-                $str = mb_convert_encoding($str, 'SJIS', 'EUC-JP');
+                $str = \mb_convert_encoding($str, 'SJIS', 'EUC-JP');
                 $str = \rawurlencode($str);
             }
         }
@@ -1108,7 +1120,7 @@ class Item extends \XoopsObject
             $resTime     = Request::getArray('datesub', [], 'POST');
             $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resDate['date']);
             $dateTimeObj->setTime(0, 0, (int)$resTime['time']);
-            $serverTimestamp = userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
+            $serverTimestamp = \userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
             $this->setVar('datesub', $serverTimestamp);
             //            }
         } elseif ($this->isNew()) {
@@ -1122,7 +1134,7 @@ class Item extends \XoopsObject
                 $resExTime   = Request::getArray('dateexpire', [], 'POST');
                 $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resExDate['date']);
                 $dateTimeObj->setTime(0, 0, (int)$resExTime['time']);
-                $serverTimestamp = userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
+                $serverTimestamp = \userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
                 $this->setVar('dateexpire', $serverTimestamp);
             }
         } else {
@@ -1143,6 +1155,7 @@ class Item extends \XoopsObject
             $this->setVar('doxcode', $this->helper->getConfig('submit_doxcode'));
             $this->setVar('doimage', $this->helper->getConfig('submit_doimage'));
             $this->setVar('dobr', $this->helper->getConfig('submit_dobr'));
+            $this->setVar('votetype', $this->helper->getConfig('ratingbars'));
         } else {
             $this->setVar('uid', Request::getInt('uid', 0, 'POST'));
             $this->setVar('cancomment', Request::getInt('allowcomments', 1, 'POST'));
@@ -1152,8 +1165,20 @@ class Item extends \XoopsObject
             $this->setVar('doxcode', Request::getInt('doxcode', 1, 'POST'));
             $this->setVar('doimage', Request::getInt('doimage', 1, 'POST'));
             $this->setVar('dobr', Request::getInt('dolinebreak', 1, 'POST'));
+            $this->setVar('votetype', Request::getInt('votetype', 1, 'POST'));
         }
 
         $this->setVar('notifypub', Request::getString('notify', '', 'POST'));
+    }
+
+    public function assignOtherProperties()
+    {
+        $module = $this->helper->getModule();
+        $module_id   = $module->getVar('mid');
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
+        $grouppermHandler = xoops_getHandler('groupperm');
+
+        $this->category    = $this->helper->getHandler('Category')->get($this->getVar('categoryid'));
+        $this->groups_read = $grouppermHandler->getGroupIds('item_read', $this->itemid(), $module_id);
     }
 }

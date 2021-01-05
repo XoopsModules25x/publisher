@@ -22,9 +22,10 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    Form
+use XoopsModules\Publisher\{Form
 };
+
+/** @var Helper $this->helper */
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -41,7 +42,7 @@ class Category extends \XoopsObject
      * @var array
      */
     public $categoryPath = false;
-    public $categoryId;
+    public $categoryid;
     public $parentid;
     public $name;
     public $description;
@@ -61,7 +62,6 @@ class Category extends \XoopsObject
      */
     public function __construct()
     {
-        /** @var Helper $this->helper */
         $this->helper = Helper::getInstance();
         $this->initVar('categoryid', \XOBJ_DTYPE_INT, null, false);
         $this->initVar('parentid', \XOBJ_DTYPE_INT, null, false);
@@ -154,7 +154,7 @@ class Category extends \XoopsObject
     /**
      * @param bool $withAllLink
      *
-     * @return array|bool|string
+     * @return bool|string
      */
     public function getCategoryPath($withAllLink = true)
     {

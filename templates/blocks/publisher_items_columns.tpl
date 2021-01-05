@@ -55,7 +55,7 @@
                                 </p>
                             </div>
                         </div>
-                        <{if $item.subitem}>
+                        <{if $item.subitem|default:false}>
                             <div style="float:left; width:40%;">
                                 <br>
                                 <strong class="publisher-more"><{$smarty.const._MB_PUBLISHER_MORE}></strong>

@@ -59,7 +59,7 @@
     <{/foreach}>
 <{/if}>
 
-<{if $block.lang_displaymore}>
+<{if $block.lang_displaymore|default:''}>
     <div class="clear"></div>
     <br><div class="col-xs-12 right"><a class="btn-readmore" href="<{$block.publisher_url}>" title="<{$block.lang_displaymore}>"><{$block.lang_displaymore}></a></div>
 <{/if}>

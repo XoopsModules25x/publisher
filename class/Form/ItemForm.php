@@ -24,16 +24,17 @@ namespace XoopsModules\Publisher\Form;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Constants,
+use XoopsModules\Publisher\{Constants,
     Form,
     FormDateTime,
     Helper,
+    Item,
     ThemeTabForm,
     Utility
 };
+use XoopsModules\Tag\FormTag;
 
-// require_once  dirname(dirname(__DIR__)) . '/include/common.php';
+require_once  \dirname(__DIR__, 2) . '/include/common.php';
 
 \xoops_load('XoopsFormLoader');
 \xoops_load('XoopsLists');
@@ -53,7 +54,7 @@ class ItemForm extends ThemeTabForm
         \_CO_PUBLISHER_TAB_FILES  => 'filesTab',
         \_CO_PUBLISHER_TAB_OTHERS => 'othersTab',
     ];
-    public $mainTab = [
+    public $mainTab   = [
         Constants::PUBLISHER_SUBTITLE,
         Constants::PUBLISHER_ITEM_SHORT_URL,
         Constants::PUBLISHER_ITEM_TAG,
@@ -73,7 +74,7 @@ class ItemForm extends ThemeTabForm
     public $imagesTab = [
         Constants::PUBLISHER_IMAGE_ITEM,
     ];
-    public $filesTab = [
+    public $filesTab  = [
         Constants::PUBLISHER_ITEM_UPLOAD_FILE,
     ];
     public $othersTab = [
@@ -130,24 +131,24 @@ class ItemForm extends ThemeTabForm
     }
 
     /**
-     * @param $obj
+     * @param Item $obj
      *
      * @return $this
      */
     public function createElements($obj)
     {
-        $helper = Helper::getInstance();
+        $helper     = Helper::getInstance();
         $timeoffset = null;
 
         $allowedEditors = Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
 
-        if (!\is_object($GLOBALS['xoopsUser'])) {
-            $group      = [XOOPS_GROUP_ANONYMOUS];
-            $currentUid = 0;
-        } else {
+        if (\is_object($GLOBALS['xoopsUser'])) {
             $group      = $GLOBALS['xoopsUser']->getGroups();
             $currentUid = $GLOBALS['xoopsUser']->uid();
             $timeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
+        } else {
+            $group      = [XOOPS_GROUP_ANONYMOUS];
+            $currentUid = 0;
         }
 
         $this->setExtra('enctype="multipart/form-data"');
@@ -178,7 +179,7 @@ class ItemForm extends ThemeTabForm
         // TAGS
         if (\xoops_isActiveModule('tag') && $this->isGranted(Constants::PUBLISHER_ITEM_TAG)) {
             require_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
-            $textTags = new \XoopsModules\Tag\FormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
+            $textTags = new FormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
             $textTags->setClass('form-control');
             $this->addElement($textTags);
         }
@@ -354,7 +355,7 @@ class ItemForm extends ThemeTabForm
             }
 
             $dateExpireYesNo     = new \XoopsFormRadioYN('', 'use_expire_yn', $dateexpire_opt);
-            $dateexpire = (int)formatTimestamp($dateexpire, 'U', $timeoffset); //set to user timezone
+            $dateexpire          = (int)\formatTimestamp($dateexpire, 'U', $timeoffset); //set to user timezone
             $dateexpire_datetime = new \XoopsFormDateTime('', 'dateexpire', $size = 15, $dateexpire, true);
             if (0 == $dateexpire_opt) {
                 $dateexpire_datetime->setExtra('disabled="disabled"');
@@ -377,7 +378,7 @@ class ItemForm extends ThemeTabForm
             $this->startTab(\_CO_PUBLISHER_TAB_IMAGES);
         }
 
-        // IMAGE
+        // IMAGE ---------------------------------------
         if ($this->isGranted(Constants::PUBLISHER_IMAGE_ITEM)) {
             $objimages      = $obj->getImages();
             $mainarray      = \is_object($objimages['main']) ? [$objimages['main']] : [];
@@ -387,6 +388,7 @@ class ItemForm extends ThemeTabForm
                 $objimage_array[$imageObj->getVar('image_name')] = $imageObj->getVar('image_nicename');
             }
 
+            /** @var \XoopsImagecategoryHandler $imgcatHandler */
             $imgcatHandler = \xoops_getHandler('imagecategory');
             if (\method_exists($imgcatHandler, 'getListByPermission')) {
                 $catlist = $imgcatHandler->getListByPermission($group, 'imgcat_read', 1);
@@ -404,6 +406,7 @@ class ItemForm extends ThemeTabForm
 
             $imageObjs = [];
             if (!empty($catids)) {
+                /** @var \XoopsImageHandler $imageHandler */
                 $imageHandler = \xoops_getHandler('image');
                 $criteria     = new \CriteriaCompo(new \Criteria('imgcat_id', '(' . \implode(',', $catids) . ')', 'IN'));
                 $criteria->add(new \Criteria('image_display', 1));
@@ -540,6 +543,7 @@ $publisher(document).ready(function () {
             $this->addElement($image_preview);
         }
 
+        // FILES -----------------------------------
         if ($this->hasTab(\_CO_PUBLISHER_TAB_FILES)) {
             $this->startTab(\_CO_PUBLISHER_TAB_FILES);
         }
@@ -583,8 +587,8 @@ $publisher(document).ready(function () {
                     $table .= '</tr>';
 
                     foreach ($filesObj as $fileObj) {
-                        $modify      = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . \_CO_PUBLISHER_EDITFILE . "' alt='" . \_CO_PUBLISHER_EDITFILE . "'></a>";
-                        $delete      = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . \_CO_PUBLISHER_DELETEFILE . "' alt='" . \_CO_PUBLISHER_DELETEFILE . "'></a>";
+                        $modify      = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'>" . $icons->edit . '</a>';
+                        $delete      = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'>" . $icons->delete . '</a>';
                         $not_visible = '';
                         if (0 == $fileObj->status()) {
                             $not_visible = "<img src='" . PUBLISHER_URL . "/assets/images/no.gif'>";
@@ -607,6 +611,7 @@ $publisher(document).ready(function () {
             }
         }
 
+        // OTHERS -----------------------------------
         if ($this->hasTab(\_CO_PUBLISHER_TAB_OTHERS)) {
             $this->startTab(\_CO_PUBLISHER_TAB_OTHERS);
         }
@@ -644,11 +649,11 @@ $publisher(document).ready(function () {
 
         $buttonTray = new \XoopsFormElementTray('', '');
 
-        if (!$obj->isNew()) {
-            $buttonTray->addElement(new \XoopsFormButton('', 'additem', _SUBMIT, 'submit')); //orclone
-        } else {
+        if ($obj->isNew()) {
             $buttonTray->addElement(new \XoopsFormButton('', 'additem', \_CO_PUBLISHER_CREATE, 'submit'));
             $buttonTray->addElement(new \XoopsFormButton('', '', \_CO_PUBLISHER_CLEAR, 'reset'));
+        } else {
+            $buttonTray->addElement(new \XoopsFormButton('', 'additem', _SUBMIT, 'submit')); //orclone
         }
 
         $buttonTray->addElement(new \XoopsFormButton('', 'preview', \_CO_PUBLISHER_PREVIEW, 'submit'));

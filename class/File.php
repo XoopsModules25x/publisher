@@ -22,8 +22,7 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    Form
+use XoopsModules\Publisher\{Form
 };
 
 require_once \dirname(__DIR__) . '/include/common.php';
@@ -42,6 +41,8 @@ class File extends \XoopsObject
      * @var Helper
      */
     public $helper;
+    /** @var \XoopsMySQLDatabase */
+    public $db;
 
     /**
      * @param null|int $id
@@ -52,6 +53,7 @@ class File extends \XoopsObject
         $this->helper = Helper::getInstance();
         /** @var \XoopsMySQLDatabase $db */
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
+
         $this->initVar('fileid', \XOBJ_DTYPE_INT, 0, false);
         $this->initVar('itemid', \XOBJ_DTYPE_INT, null, true);
         $this->initVar('name', \XOBJ_DTYPE_TXTBOX, null, true, 255);
@@ -207,7 +209,7 @@ class File extends \XoopsObject
      */
     public function notLoaded()
     {
-        return (0 == $this->getVar('itemid'));
+        return (0 === $this->getVar('itemid'));
     }
 
     /**
@@ -270,8 +272,8 @@ class File extends \XoopsObject
     public function getNameFromFilename()
     {
         $ret    = $this->filename();
-        $sepPos = mb_strpos($ret, '_');
-        $ret    = mb_substr($ret, $sepPos + 1);
+        $sepPos = \mb_strpos($ret, '_');
+        $ret    = \mb_substr($ret, $sepPos + 1);
 
         return $ret;
     }
@@ -281,7 +283,6 @@ class File extends \XoopsObject
      */
     public function getForm()
     {
-        //        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/file.php');
         $form = new Form\FileForm($this);
 
         return $form;

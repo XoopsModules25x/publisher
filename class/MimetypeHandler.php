@@ -24,8 +24,6 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\Helper;
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -35,17 +33,13 @@ class MimetypeHandler extends BaseObjectHandler
 {
     /**
      * Constructor
-     * @param \XoopsDatabase|null                 $db
-     * @param Helper|null $helper
+     * @param \XoopsDatabase|null $db
+     * @param Helper|null         $helper
      */
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
         /** @var Helper $this->helper */
-        if (null === $helper) {
-            $this->helper = Helper::getInstance();
-        } else {
-            $this->helper = $helper;
-        }
+        $this->helper = $helper ?? Helper::getInstance();
 
         $this->publisherIsAdmin = $this->helper->isUserAdmin();
         $this->db               = $db;
@@ -55,7 +49,7 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * retrieve a mimetype object from the database
      *
-     * @param int|null $id ID of mimetype
+     * @param int|null   $id ID of mimetype
      *
      * @param array|null $fields
      * @return bool|Mimetype
@@ -82,15 +76,14 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param \CriteriaElement|null $criteria {@link CriteriaElement}
-     *                                        conditions to be met
+     * @param \Criteria|\CriteriaCompo|null $criteria conditions to be met
      *
-     * @param bool                  $idAsKey
-     * @param bool                  $asObject
+     * @param bool                          $id_as_key
+     * @param bool                          $as_object
      * @return array array of <a href='psi_element://Mimetype'>Mimetype</a> objects
-     *                                        objects
+     *                                                objects
      */
-    public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
+    public function &getObjects($criteria = null, $id_as_key = false, $as_object = true) //&getObjects($criteria = null)
     {
         $ret   = [];
         $limit = $start = 0;
@@ -162,7 +155,7 @@ class MimetypeHandler extends BaseObjectHandler
      */
     public function checkMimeTypes($postField)
     {
-        $ret               = false;
+        $ret              = false;
         $allowedMimetypes = $this->getArrayByType();
         if (empty($allowedMimetypes)) {
             return $ret;
@@ -196,13 +189,12 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param \CriteriaElement|null $criteria           {@link CriteriaElement}
-     *                                                  to match
-     * @param bool                  $join
+     * @param \Criteria|\CriteriaCompo|null $criteria to match
+     * @param bool                          $join
      *
      * @return string string SQL query
      */
-    private function selectQuery(\CriteriaElement $criteria = null, $join = false)
+    private function selectQuery($criteria = null, $join = false)
     {
         //        if (!$join) {
         //            $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
@@ -223,7 +215,7 @@ class MimetypeHandler extends BaseObjectHandler
 
         $sql = \sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
 
-        if (null !== $criteria && $criteria instanceof \CriteriaCompo) {
+        if (null !== $criteria && $criteria instanceof \Criteria) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -234,7 +226,7 @@ class MimetypeHandler extends BaseObjectHandler
     }
 
     /**
-     * @param $obj
+     * @param Mimetype $obj
      *
      * @return bool|string
      */
@@ -260,7 +252,7 @@ class MimetypeHandler extends BaseObjectHandler
     }
 
     /**
-     * @param $obj
+     * @param Mimetype $obj
      *
      * @return bool|string
      */
@@ -286,7 +278,7 @@ class MimetypeHandler extends BaseObjectHandler
     }
 
     /**
-     * @param $obj
+     * @param Mimetype $obj
      *
      * @return bool|string
      */

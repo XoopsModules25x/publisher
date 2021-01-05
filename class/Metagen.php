@@ -22,8 +22,6 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\Helper;
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -93,7 +91,7 @@ class Metagen
         $this->originalTitle = $this->title;
         $titleTag            = [];
         $titleTag['module']  = $this->helper->getModule()->getVar('name');
-        if (isset($this->title) && ('' != $this->title) && (mb_strtoupper($this->title) != mb_strtoupper($titleTag['module']))) {
+        if (isset($this->title) && ('' != $this->title) && (\mb_strtoupper($this->title) != \mb_strtoupper($titleTag['module']))) {
             $titleTag['title'] = $this->title;
         }
         if (isset($this->categoryPath) && ('' != $this->categoryPath)) {
@@ -188,7 +186,7 @@ class Metagen
         foreach ($originalKeywords as $originalKeyword) {
             $secondRoundKeywords = \explode("'", $originalKeyword);
             foreach ($secondRoundKeywords as $secondRoundKeyword) {
-                if (mb_strlen($secondRoundKeyword) >= $minChar) {
+                if (\mb_strlen($secondRoundKeyword) >= $minChar) {
                     if (!\in_array($secondRoundKeyword, $keywords, true)) {
                         $keywords[] = \trim($secondRoundKeyword);
                     }
@@ -275,7 +273,7 @@ class Metagen
     {
         // Transformation de la chaine en minuscule
         // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus
-        $title = \rawurlencode(mb_strtolower($title));
+        $title = \rawurlencode(\mb_strtolower($title));
         // Transformation des ponctuations
 
         $pattern = [
@@ -306,10 +304,10 @@ class Metagen
             '/%7C/', // |
             '/%7D/', // }
             '/%7E/', // ~
-            "/\./", // .
+            '/\./', // .
         ];
         $repPat  = ['-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-'];
-        $title   = preg_replace($pattern, $repPat, $title);
+        $title   = \preg_replace($pattern, $repPat, $title);
         // Transformation des caractères accentués
         $pattern = [
             '/%B0/', // °
@@ -392,6 +390,9 @@ class Metagen
      */
     public function html2text($document)
     {
+        if (empty($document)) {
+            return '';
+        }
         // PHP Manual:: function preg_replace
         // $document should contain an HTML document.
         // This will remove HTML tags, javascript sections

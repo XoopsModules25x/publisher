@@ -21,20 +21,23 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Constants,
+use XoopsModules\Publisher\{Constants,
     Category,
     File,
+    Helper,
     Item,
     Utility
 };
+/** @var Helper $helper */
+
+const DIRNAME = 'xnews';
 
 require_once dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'xNews ' . Request::getString('xnews_version', '', 'POST');
 
-$scriptname = 'xnews.php';
+$scriptname = DIRNAME . '.php';
 
 $op = ('go' === Request::getString('op', '', 'POST')) ? 'go' : 'start';
 
@@ -130,11 +133,11 @@ if ('start' === $op) {
             // Categories to be imported
             $sql = 'SELECT cat.topic_id, cat.topic_pid, cat.topic_title, COUNT(art.storyid) FROM ' . $GLOBALS['xoopsDB']->prefix('nw_topics') . ' AS cat INNER JOIN ' . $GLOBALS['xoopsDB']->prefix('nw_stories') . ' AS art ON cat.topic_id=art.topicid GROUP BY art.topicid';
 
-            $result           = $GLOBALS['xoopsDB']->query($sql);
+            $result         = $GLOBALS['xoopsDB']->query($sql);
             $catCboxOptions = [];
 
             while (list($cid, $pid, $catTitle, $articleCount) = $GLOBALS['xoopsDB']->fetchRow($result)) {
-                $catTitle              = $myts->displayTarea($catTitle);
+                $catTitle             = $myts->displayTarea($catTitle);
                 $catCboxOptions[$cid] = "$catTitle ($articleCount)";
             }
 
@@ -170,11 +173,9 @@ if ('go' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
     Utility::openCollapsableBar('xnewsimportgo', 'xnewsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    /** @var XoopsModuleHandler $moduleHandler */
-    $moduleHandler   = xoops_getHandler('module');
-    $moduleObj       = $moduleHandler->getByDirname('xnews');
-    $xnews_module_id = $moduleObj->getVar('mid');
-    /** @var XoopsGroupPermHandler $grouppermHandler */
+    $moduleId         = $helper->getModule()->getVar('mid');
+    
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
     $cnt_imported_cat      = 0;
@@ -354,8 +355,8 @@ if ('go' === $op) {
             }
             //--------------------------------------------
             // Linkes files
-            $sql               = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('nw_stories_files') . ' WHERE storyid=' . $arrArticle['storyid'];
-            $resultFiles       = $GLOBALS['xoopsDB']->query($sql);
+            $sql              = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('nw_stories_files') . ' WHERE storyid=' . $arrArticle['storyid'];
+            $resultFiles      = $GLOBALS['xoopsDB']->query($sql);
             $allowedMimetypes = '';
             while (false !== ($arrFile = $GLOBALS['xoopsDB']->fetchArray($resultFiles))) {
                 $filename = $GLOBALS['xoops']->path('uploads/xnews/attached/' . $arrFile['downloadname']);
@@ -389,12 +390,12 @@ if ('go' === $op) {
         }
 
         // Saving category permissions
-        $groupsIds = $grouppermHandler->getGroupIds('nw_view', $arrCat['topic_id'], $xnews_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('nw_view', $arrCat['topic_id'], $moduleId);
         Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_read');
-        $groupsIds = $grouppermHandler->getGroupIds('nw_submit', $arrCat['topic_id'], $xnews_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('nw_submit', $arrCat['topic_id'], $moduleId);
         Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'item_submit');
 
-        $groupsIds = $grouppermHandler->getGroupIds('nw_approve', $arrCat['topic_id'], $xnews_module_id);
+        $groupsIds = $grouppermHandler->getGroupIds('nw_approve', $arrCat['topic_id'], $moduleId);
         Utility::saveCategoryPermissions($groupsIds, $categoryObj->categoryid(), 'category_moderation');
 
         $newCatArray[$newCat['oldid']] = $newCat;
@@ -425,17 +426,17 @@ if ('go' === $op) {
     /** @var XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
-    $criteria->add(new \Criteria('com_modid', $xnews_module_id));
+    $criteria->add(new \Criteria('com_modid', $moduleId));
     $comments = $commentHandler->getObjects($criteria);
     /** @var  XoopsComment $comment */
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
-        if (!$commentHandler->insert($comment)) {
-            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . '<br>';
-        } else {
+        if ($commentHandler->insert($comment)) {
             echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT, $comment->getVar('com_title')) . '<br>';
+        } else {
+            echo '&nbsp;&nbsp;' . sprintf(_AM_PUBLISHER_IMPORTED_COMMENT_ERROR, $comment->getVar('com_title')) . '<br>';
         }
     }
     //    unset($comment);

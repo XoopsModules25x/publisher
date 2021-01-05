@@ -25,10 +25,8 @@ declare(strict_types=1);
 ######################################################################
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Item
+use XoopsModules\Publisher\{Item
 };
-
 
 require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_archive.tpl';
@@ -69,7 +67,7 @@ if ('' === $dateformat) {
 }
 
 $myts = \MyTextSanitizer::getInstance();
-$xoopsTpl->assign('xoops_pagetitle', $myts->htmlSpecialChars(_MD_PUBLISHER_ARCHIVES) . $pgtitle . ' - ' . $myts->htmlSpecialChars($GLOBALS['xoopsModule']->name()));
+$xoopsTpl->assign('xoops_pagetitle', htmlspecialchars(_MD_PUBLISHER_ARCHIVES, ENT_QUOTES | ENT_HTML5) . $pgtitle . ' - ' . htmlspecialchars($GLOBALS['xoopsModule']->name(), ENT_QUOTES | ENT_HTML5));
 
 $useroffset = '';
 if (is_object($GLOBALS['xoopsUser'])) {
@@ -92,9 +90,7 @@ $criteria->setOrder('DESC');
 $items      = $helper->getHandler('Item')->getAll($criteria, ['datesub'], false);
 $itemsCount = count($items);
 
-if (!($itemsCount > 0)) {
-    redirect_header(XOOPS_URL, 2, _MD_PUBLISHER_NO_TOP_PERMISSIONS);
-} else {
+if ($itemsCount > 0) {
     $years  = [];
     $months = [];
     $i      = 0;
@@ -112,11 +108,11 @@ if (!($itemsCount > 0)) {
             }
             //first month of the year reset
             if (0 == $lastmonth) {
-                $lastmonth                    = $thisMonth;
-                $months[$lastmonth]['string'] = $monthsArray[$lastmonth];
-                $months[$lastmonth]['number'] = $lastmonth;
+                $lastmonth                                = $thisMonth;
+                $months[$lastmonth]['string']             = $monthsArray[$lastmonth];
+                $months[$lastmonth]['number']             = $lastmonth;
                 $months[$lastmonth]['articlesMonthCount'] = 1;
-                $articlesThisMonth = 0;
+                $articlesThisMonth                        = 0;
             }
             //new year
             if ($lastyear != $thisYear) {
@@ -149,13 +145,15 @@ if (!($itemsCount > 0)) {
         }
     }
     //    unset($item);
-    $years[$i]['number'] = $thisYear;
+    $years[$i]['number']                      = $thisYear;
     $months[$lastmonth]['articlesMonthCount'] = $articlesThisMonth;
-    $years[$i]['months'] = $months;
+    $years[$i]['months']                      = $months;
 
     $years[$i]['articlesYearCount'] = $articlesThisYear;
 
     $xoopsTpl->assign('years', $years);
+} else {
+    redirect_header(XOOPS_URL, 2, _MD_PUBLISHER_NO_TOP_PERMISSIONS);
 }
 unset($items);
 
@@ -173,7 +171,7 @@ if (0 != $fromyear && 0 != $frommonth) {
     // must adjust the selected time to server timestamp
     $timeoffset        = $useroffset - $GLOBALS['xoopsConfig']['server_TZ'];
     $timeoffsethours   = (int)$timeoffset;
-    $timeoffsetminutes = (int)(($timeoffset - $timeoffsethours) * 60);
+    $timeoffsetminutes = (($timeoffset - $timeoffsethours) * 60);
 
     $monthstart = mktime(0 - $timeoffsethours, 0 - $timeoffsetminutes, 0, $frommonth, 1, $fromyear);
     $monthend   = mktime(23 - $timeoffsethours, 59 - $timeoffsetminutes, 59, $frommonth + 1, 0, $fromyear);

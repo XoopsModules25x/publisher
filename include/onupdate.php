@@ -154,6 +154,11 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
         $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items') . " ADD `dateexpire` INT(11) NULL DEFAULT '0' AFTER `datesub`";
         $GLOBALS['xoopsDB']->queryF($sql);
     }
+    // check table items for field `votetype`
+    if (!$GLOBALS['xoopsDB']->query('SELECT votetype FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items'))) {
+        $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items') . " ADD `votetype` TINYINT(1) NOT NULL DEFAULT '0' AFTER `item_tag`";
+        $GLOBALS['xoopsDB']->queryF($sql);
+    }
 
     return true;
 }

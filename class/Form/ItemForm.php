@@ -70,6 +70,7 @@ class ItemForm extends ThemeTabForm
         Constants::PUBLISHER_NOTIFY,
         Constants::PUBLISHER_AVAILABLE_PAGE_WRAP,
         Constants::PUBLISHER_UID,
+        Constants::PUBLISHER_VOTETYPE,
     ];
     public $imagesTab = [
         Constants::PUBLISHER_IMAGE_ITEM,
@@ -270,6 +271,33 @@ class ItemForm extends ThemeTabForm
             $availableWrapPages->setDescription(\_CO_PUBLISHER_AVAILABLE_PAGE_WRAP_DSC);
             $this->addElement($availableWrapPages);
         }
+
+        //VOTING TYPE =====================================
+        //        if ($this->isGranted(Constants::PUBLISHER_VOTETYPE)) {
+        $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        /** @var GroupPermHandler $grouppermHandler */
+        $grouppermHandler = $helper->getHandler('GroupPerm');
+        $moduleId         = $helper->getModule()->getVar('mid');
+        if ($helper->getConfig('perm_rating') && $grouppermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $moduleId)) {
+            $options = [
+                Constants::RATING_NONE     => _MI_BLOG_RATING_NONE,
+                Constants::RATING_5STARS   => _MI_BLOG_RATING_5STARS,
+                Constants::RATING_10STARS  => _MI_BLOG_RATING_10STARS,
+                Constants::RATING_LIKES    => _MI_BLOG_RATING_LIKES,
+                Constants::RATING_10NUM    => _MI_BLOG_RATING_10NUM,
+                Constants::RATING_REACTION => _MI_BLOG_RATING_REACTION,
+            ];
+
+            $votetypeSelect = new \XoopsFormSelect(\_MI_BLOG_RATINGBARS, 'votetype', $obj->getVar('votetype'));
+            $votetypeSelect->addOptionArray($options);
+            //                $votetypeSelect->setDescription(\_MI_BLOG_RATINGBARS_DESC);
+            $this->addElement($votetypeSelect);
+            unset($votetypeSelect);
+        }
+        //        }
+        //VOTING TYPE END =====================================
+
+
 
         $userUid = $obj->getVar('itemid') > 0 ? $obj->uid() : $currentUid;
         if ($this->isGranted(Constants::PUBLISHER_UID)) {

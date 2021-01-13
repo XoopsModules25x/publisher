@@ -32,12 +32,16 @@ declare(strict_types=1);
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Common
+use Xmf\Module\Admin;
+use XoopsModules\Publisher\{
+    Common\Configurator,
+    Common\Migrate,
+    Helper
 };
 
-use Xmf\Module\Admin;
-
 /** @var Admin $adminObject */
+/** @var Configurator $configurator */
+/** @var Migrate $migrator */
 
 require __DIR__ . '/admin_header.php';
 xoops_cp_header();
@@ -60,17 +64,17 @@ EOF;
 
 //XoopsLoad::load('migrate', 'newbb');
 
-$configurator = new Common\Configurator();
+$configurator = new Configurator();
 
-$migrator = new Common\Migrate($configurator = null);
+$migrator = new Migrate($configurator);
 
-$op        = Request::getCmd('op', 'show');
-$opShow    = Request::getCmd('show', null, 'POST');
+$op = Request::getCmd('op', 'show');
+$opShow = Request::getCmd('show', null, 'POST');
 $opMigrate = Request::getCmd('migrate', null, 'POST');
-$opSchema  = Request::getCmd('schema', null, 'POST');
-$op        = !empty($opShow) ? 'show' : $op;
-$op        = !empty($opMigrate) ? 'migrate' : $op;
-$op        = !empty($opSchema) ? 'schema' : $op;
+$opSchema = Request::getCmd('schema', null, 'POST');
+$op = !empty($opShow) ? 'show' : $op;
+$op = !empty($opMigrate) ? 'migrate' : $op;
+$op = !empty($opSchema) ? 'schema' : $op;
 
 $message = '';
 

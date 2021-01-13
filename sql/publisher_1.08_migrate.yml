@@ -140,6 +140,9 @@ publisher_items:
         -
             name: item_tag
             attributes: ' text '
+        -
+            name: votetype
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
     keys:
         categoryid:
             columns: categoryid
@@ -236,16 +239,16 @@ publisher_rating:
             attributes: ' int(11)  NOT NULL auto_increment'
         -
             name: itemid
-            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
-        -
-            name: rate
-            attributes: ' int(1)  NOT NULL  DEFAULT ''0'' '
+            attributes: ' int(11)  NOT NULL '
         -
             name: uid
-            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+            attributes: ' int(11)  NOT NULL '
+        -
+            name: rate
+            attributes: ' int(1)  NOT NULL '
         -
             name: date
-            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+            attributes: ' int(11)  NOT NULL '
         -
             name: ip
             attributes: ' varchar(45)  NOT NULL  DEFAULT '''' '
@@ -253,9 +256,15 @@ publisher_rating:
             name: source
             attributes: ' tinyint(2)  NOT NULL  DEFAULT ''0'' '
         -
-            name: type
+            name: votetype
             attributes: ' tinyint(2) unsigned  NOT NULL  DEFAULT ''1'' '
     keys:
+        ip:
+            columns: ip
+            unique: false
         PRIMARY:
             columns: ratingid
             unique: true
+        uid:
+            columns: uid
+            unique: false

@@ -65,6 +65,7 @@ interface Constants
     public const PUBLISHER_SUBTITLE = 24;
     public const PUBLISHER_AUTHOR_ALIAS = 25;
     public const PUBLISHER_DATEEXPIRE = 26;
+    public const PUBLISHER_VOTETYPE = 27;
     // Global constants
     public const PUBLISHER_SEARCH = 1;
     public const PUBLISHER_RATE = 2;

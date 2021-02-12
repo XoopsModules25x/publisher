@@ -12,7 +12,7 @@
     status: '2'
     image: '1'
     images: '1'
-    counter: '133'
+    counter: '134'
     rating: '0.0000'
     votes: '1'
     weight: '1'
@@ -29,6 +29,7 @@
     short_url: example_category_1
     item_tag: ItemTag1
     votetype: '1'
+    votevalue: null
 -
     itemid: '2'
     categoryid: '2'
@@ -60,6 +61,7 @@
     short_url: example_category_1
     item_tag: ItemTag2
     votetype: '3'
+    votevalue: null
 -
     itemid: '3'
     categoryid: '3'
@@ -91,20 +93,21 @@
     short_url: example_category_1
     item_tag: ItemTag3
     votetype: '3'
+    votevalue: null
 -
     itemid: '4'
     categoryid: '1'
     title: 'Article 4'
     subtitle: 'Subtitle Teaser 4'
-    summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    summary: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>'
+    body: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>'
     uid: '1'
     author_alias: ''
     datesub: '1486990200'
     dateexpire: '0'
     status: '2'
-    image: '1'
-    images: '1'
+    image: '0'
+    images: ''
     counter: '532'
     rating: '0.0000'
     votes: '1'
@@ -120,8 +123,9 @@
     meta_keywords: 'XOOPS,Publisher'
     meta_description: 'This is a Meta Description'
     short_url: example_category_1
-    item_tag: ItemTag4
-    votetype: '4'
+    item_tag: ''
+    votetype: '1'
+    votevalue: null
 -
     itemid: '5'
     categoryid: '2'
@@ -153,6 +157,7 @@
     short_url: example_category_5
     item_tag: ItemTag5
     votetype: '5'
+    votevalue: null
 -
     itemid: '6'
     categoryid: '1'
@@ -184,6 +189,7 @@
     short_url: ''
     item_tag: 'Theme, Bootstrap, jQuery, bootnewage'
     votetype: '3'
+    votevalue: null
 -
     itemid: '7'
     categoryid: '5'
@@ -215,6 +221,7 @@
     short_url: test-di
     item_tag: ''
     votetype: '3'
+    votevalue: null
 -
     itemid: '8'
     categoryid: '5'
@@ -246,6 +253,7 @@
     short_url: test-di-future
     item_tag: ''
     votetype: '2'
+    votevalue: null
 -
     itemid: '9'
     categoryid: '5'
@@ -260,7 +268,7 @@
     status: '2'
     image: '4'
     images: '4'
-    counter: '224'
+    counter: '233'
     rating: '0.0000'
     votes: '1'
     weight: '0'
@@ -277,6 +285,7 @@
     short_url: test-di
     item_tag: ''
     votetype: '3'
+    votevalue: null
 -
     itemid: '10'
     categoryid: '5'
@@ -308,6 +317,7 @@
     short_url: test-offline
     item_tag: ''
     votetype: '1'
+    votevalue: null
 -
     itemid: '11'
     categoryid: '5'
@@ -339,6 +349,7 @@
     short_url: test-approval
     item_tag: ''
     votetype: '5'
+    votevalue: null
 -
     itemid: '12'
     categoryid: '1'
@@ -370,6 +381,7 @@
     short_url: submitted_new
     item_tag: ''
     votetype: '1'
+    votevalue: null
 -
     itemid: '13'
     categoryid: '5'
@@ -401,3 +413,36 @@
     short_url: rejected
     item_tag: ''
     votetype: '1'
+    votevalue: null
+-
+    itemid: '14'
+    categoryid: '1'
+    title: xxxx
+    subtitle: ''
+    summary: '<p>xxx htdnthdnthd nthd</p>'
+    body: '<p>tnhd nthdnthdtnhd</p>'
+    uid: '1'
+    author_alias: ''
+    datesub: '1610439000'
+    dateexpire: '0'
+    status: '2'
+    image: '0'
+    images: ''
+    counter: '0'
+    rating: '0.0000'
+    votes: '0'
+    weight: '0'
+    dohtml: '1'
+    dosmiley: '1'
+    doxcode: '1'
+    doimage: '1'
+    dobr: '1'
+    cancomment: '1'
+    comments: '0'
+    notifypub: '0'
+    meta_keywords: 'xxxx,htdnthdnthd,nthd'
+    meta_description: 'xxx htdnthdnthd nthd'
+    short_url: xxxx
+    item_tag: ''
+    votetype: '4'
+    votevalue: null

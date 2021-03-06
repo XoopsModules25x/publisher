@@ -25,6 +25,7 @@ namespace XoopsModules\Publisher\Form;
 
 use Xmf\Request;
 use XoopsModules\Publisher\{Constants,
+    Common\Configurator,
     Form,
     FormDateTime,
     Helper,
@@ -140,6 +141,8 @@ class ItemForm extends ThemeTabForm
     {
         $helper     = Helper::getInstance();
         $timeoffset = null;
+        $configurator = new Configurator();
+        $icons = $configurator->icons;
 
         $allowedEditors = Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
 

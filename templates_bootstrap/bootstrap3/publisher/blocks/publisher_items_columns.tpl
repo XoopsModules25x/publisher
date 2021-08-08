@@ -1,4 +1,4 @@
-<{if $block.template == 'normal'}>
+<{if $block.template|default:'' == 'normal'}>
     <div style="width:100%;">
         <{section name=i loop=$block.columns}>
             <div style="width: <{$block.columnwidth}>%;" class="publisher-left">
@@ -16,14 +16,14 @@
                 <{/if}>
 
                             <p>
-                                <{if $item.item_image != ''}>
+                                <{if $item.item_image|default:'' != ''}>
                                     <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.item_cleantitle}>" align="left" width="120"></a>
                                 <{/if}>
                                 <{$item.item_summary}>
                             </p>
                         </div>
 
-                        <{if $item.subitem}>
+                        <{if $item.subitem|default:false}>
                             <strong class="publisher-more"><{$smarty.const._MB_PUBLISHER_MORE}></strong>
                             <ul class="publisher-links">
                                 <{foreach item=subitem from=$item.subitem}>
@@ -40,7 +40,7 @@
         <div class="clearfix"></div>
     </div>
 <{/if}>
-<{if $block.template == 'extended'}>
+<{if $block.template|default:'' == 'extended'}>
     <div style="width:100%;">
     <{section name=i loop=$block.columns}>
         <div style="width: <{$block.columnwidth}>%;" class="publisher-left">
@@ -56,7 +56,7 @@
                     <div style="float:right; width:60%;">
 
                         <div class="publisher-content clearfix">
-                            <{if $item.item_image != ''}>
+                            <{if $item.item_image|default:'' != ''}>
                                 <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.item_cleantitle}>" align="right" width="100"></a>
                             <{/if}>
                             <p><{$item.item_summary}></p>
@@ -68,7 +68,7 @@
 
                     </div>
 
-                    <{if $item.subitem}>
+                    <{if $item.subitem|default:false}>
                         <div style="float:left; width:40%;">
                             <br>
                             <strong class="publisher-more"><{$smarty.const._MB_PUBLISHER_MORE}></strong>

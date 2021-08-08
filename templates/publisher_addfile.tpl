@@ -10,10 +10,10 @@
         </tr>
         <!-- start of form elements loop -->
         <{foreach item=element from=$form.elements}>
-            <{if $element.hidden !== true}>
+            <{if $element.hidden|default:false !== true}>
                 <tr>
                     <td class="head"><{$element.caption}> <{if $element.required}> *<{/if}>
-                        <{if $element.description}>
+                        <{if $element.descriptiondefault:''}>
                             <div style="font-weight: normal;"><{$element.description}></div>
                         <{/if}>
                     </td>
@@ -26,6 +26,6 @@
     </table>
 </form>
 
-<{if $isAdmin == 1}>
+<{if $isAdmin|default:0 == 1}>
     <div class="publisher_adminlinks"><{$publisher_adminpage}></div>
 <{/if}>

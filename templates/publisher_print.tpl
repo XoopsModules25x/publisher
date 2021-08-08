@@ -14,7 +14,7 @@
 
 <body>
 
-<{if !$doNotStartPrint}>
+<{if !$doNotStartPrint|default:false}>
     <script for=window event=onload language="javascript">
         if (window.print)
             window.print();
@@ -28,13 +28,13 @@
        <br><{$xoops_sitename}> (<{$xoops_url}>)</span><small><br><{$xoops_slogan}> </small> <hr>
         </div>
     
-       <{if $printheader!=''}>
+       <{if $printheader|default:'' != ''}>
            <div style="text-align: left; margin-top: 10px; border: 1px solid; padding: 2px;"><{$printheader}></div>
        <{/if}>
 
     <{$item.image}>
 
-    <{if !$noTitle}>
+    <{if !$noTitle|default:false}>
         <h2><{$item.title}></h2>
     <{/if}>
 
@@ -42,21 +42,21 @@
        <{$lang_category}> : <{$item.categoryname}>
     <{/if}>
 
-    <{if $display_who_link}>
+    <{if $display_who_link|default:false}>
         | <{$lang_author_date}>
     <{/if}>
 
-    <{if $item.body}>
+    <{if $item.body|default:''}>
         <div style="padding-top: 8px; text-align: justify;"><{$item.body}></div>
     <{/if}>
 
-    <{if $itemfooter}>    
+    <{if $itemfooter|default:false}>    
         <div style="text-align: center; font-weight: bold; border: 1px solid; padding: 2px; margin-top: 10px;"><{$itemfooter}></div>
     <{/if}> <br><br><br> <{if $indexfooter|default:false}>
         <div style="text-align: center; margin-top: 10px; border: 1px solid; padding: 2px;"><{$indexfooter}></div>
     <{/if}>
 
-    <{if $smartPopup}>
+    <{if $smartPopup|default:false}>
         <div style="text-align: center;">
             <a href="javascript:window.close();"><{$smarty.const._MD_PUBLISHER_PRINT_CLOSE}></a>
         </div>

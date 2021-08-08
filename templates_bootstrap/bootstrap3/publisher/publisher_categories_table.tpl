@@ -7,7 +7,7 @@
         <{else}>
         <div class="col-sm-4 col-md-4" style="margin-bottom: 10px;">
             <{/if}>
-            <{if $selected_category == $category.categoryid}>
+            <{if $selected_category|default:0 == $category.categoryid|default:0}>
                 <h4 class="info"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;
                     <{$category.name}>
                 </h4>
@@ -21,7 +21,7 @@
             </div>
 
 
-            <{if $category.subcats}>
+            <{if $category.subcats|default:false}>
                 <div style="height: 1px; background: #F5F5F5; margin: 5px 0;"></div>
                 <{foreach item=subcat from=$category.subcats}>
                     <small><{$subcat.categorylink}> &nbsp;</small>

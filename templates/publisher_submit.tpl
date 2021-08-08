@@ -21,7 +21,7 @@
             <div id="tab_<{$key}>">
                 <table class="outer" cellspacing="1">
                     <{foreach item=element from=$form.elements}>
-                    <{if $element.tab == $key || $element.tab == -1}>
+                    <{if $element.tab|default:'' == $key || $element.tab|default:0 == -1}>
                          <{if !$element.hidden|default:false}>
                             <tr>
                                 <td class="head" width="30%">

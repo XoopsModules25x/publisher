@@ -26,6 +26,7 @@ namespace XoopsModules\Publisher\Form;
 use Xmf\Request;
 use XoopsModules\Publisher\{Constants,
     Common\Configurator,
+    Form,
     FormDateTime,
     Helper,
     Item,

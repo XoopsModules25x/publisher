@@ -32,6 +32,7 @@ class Configurator
 {
     public $name;
     public $paths           = [];
+    public $icons           = [];
     public $uploadFolders   = [];
     public $copyBlankFiles  = [];
     public $copyTestFolders = [];
@@ -39,8 +40,9 @@ class Configurator
     public $oldFiles        = [];
     public $oldFolders      = [];
     public $renameTables    = [];
+    public $renameColumns   = [];
+    public $moduleStats     = [];
     public $modCopyright;
-    public $icons;
 
     /**
      * Configurator constructor.
@@ -49,6 +51,7 @@ class Configurator
     {
         $config = require \dirname(__DIR__, 2) . '/config/config.php';
 
+        $this->name            = $config->name;
         $this->uploadFolders   = $config->uploadFolders;
         $this->copyBlankFiles  = $config->copyBlankFiles;
         $this->copyTestFolders = $config->copyTestFolders;
@@ -56,6 +59,8 @@ class Configurator
         $this->oldFiles        = $config->oldFiles;
         $this->oldFolders      = $config->oldFolders;
         $this->renameTables    = $config->renameTables;
+        $this->renameColumns   = $config->renameColumns;
+        $this->moduleStats     = $config->moduleStats;
         $this->modCopyright    = $config->modCopyright;
 
         $this->paths = require \dirname(__DIR__, 2) . '/config/paths.php';

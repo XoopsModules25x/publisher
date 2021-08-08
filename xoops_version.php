@@ -837,8 +837,8 @@ $modversion['config'][] = [
 // Number column
 $modversion['config'][] = [
     'name'        => 'numb_col',
-    'title'       => '_MI_BLOG_NUMB_COL',
-    'description' => '_MI_BLOG_NUMB_COL_DESC',
+    'title'       => '_MI_PUBLISHER_NUMB_COL',
+    'description' => '_MI_PUBLISHER_NUMB_COL_DESC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
     'default'     => 1,
@@ -847,8 +847,8 @@ $modversion['config'][] = [
 // Divide by
 $modversion['config'][] = [
     'name'        => 'divideby',
-    'title'       => '_MI_BLOG_DIVIDEBY',
-    'description' => '_MI_BLOG_DIVIDEBY_DESC',
+    'title'       => '_MI_PUBLISHER_DIVIDEBY',
+    'description' => '_MI_PUBLISHER_DIVIDEBY_DESC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
     'default'     => 1,
@@ -857,8 +857,8 @@ $modversion['config'][] = [
 // Table type
 $modversion['config'][] = [
     'name'        => 'table_type',
-    'title'       => '_MI_BLOG_TABLE_TYPE',
-    'description' => '_MI_BLOG_DIVIDEBY_DESC',
+    'title'       => '_MI_PUBLISHER_TABLE_TYPE',
+    'description' => '_MI_PUBLISHER_DIVIDEBY_DESC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
     'default'     => 'bordered',
@@ -1002,8 +1002,8 @@ foreach ($xoopsGroups as $key => $group) {
 // Rating: Groups with rating permissions
 $modversion['config'][] = [
     'name'        => 'ratingbar_groups',
-    'title'       => '_MI_BLOG_RATINGBAR_GROUPS',
-    'description' => '_MI_BLOG_RATINGBAR_GROUPS_DESC',
+    'title'       => '_MI_PUBLISHER_RATINGBAR_GROUPS',
+    'description' => '_MI_PUBLISHER_RATINGBAR_GROUPS_DESC',
     'formtype'    => 'select_multi',
     'valuetype'   => 'array',
     'default'     => [1],
@@ -1012,12 +1012,12 @@ $modversion['config'][] = [
 // Rating : used ratingbar
 $modversion['config'][] = [
     'name'        => 'ratingbars',
-    'title'       => '_MI_BLOG_RATINGBARS',
-    'description' => '_MI_BLOG_RATINGBARS_DESC',
+    'title'       => '_MI_PUBLISHER_RATINGBARS',
+    'description' => '_MI_PUBLISHER_RATINGBARS_DESC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
     'default'     => 1,
-    'options'     => ['_MI_BLOG_RATING_NONE' => 0, '_MI_BLOG_RATING_5STARS' => 1, '_MI_BLOG_RATING_10STARS' => 2, '_MI_BLOG_RATING_LIKES' => 3, '_MI_BLOG_RATING_10NUM' => 4, '_MI_BLOG_RATING_REACTION' => 5],
+    'options'     => ['_MI_PUBLISHER_RATING_NONE' => 0, '_MI_PUBLISHER_RATING_5STARS' => 1, '_MI_PUBLISHER_RATING_10STARS' => 2, '_MI_PUBLISHER_RATING_LIKES' => 3, '_MI_PUBLISHER_RATING_10NUM' => 4, '_MI_PUBLISHER_RATING_REACTION' => 5],
 ];
 
 ################### LATEST ARTICLES IN ARTICLE PAGE  ####################

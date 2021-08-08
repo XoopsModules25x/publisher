@@ -67,33 +67,33 @@ switch ($op) {
             }
         }
         if (!$rateAllowed) {
-            \redirect_header('index.php', 3, _MA_BLOG_RATING_NOPERM);
+            \redirect_header('index.php', 3, _MA_PUBLISHER_RATING_NOPERM);
         }
 
         // Check rating value
         switch ((int)$helper->getConfig('ratingbars')) {
             case Constants::RATING_NONE:
             default:
-                \redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
+                \redirect_header('index.php', 3, _MA_PUBLISHER_RATING_VOTE_BAD);
             case Constants::RATING_LIKES:
                 if ($rating > 1 || $rating < -1) {
-                    \redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
+                    \redirect_header('index.php', 3, _MA_PUBLISHER_RATING_VOTE_BAD);
                 }
                 break;
             case Constants::RATING_5STARS:
                 if ($rating > 5 || $rating < 1) {
-                    \redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
+                    \redirect_header('index.php', 3, _MA_PUBLISHER_RATING_VOTE_BAD);
                 }
                 break;
             case Constants::RATING_REACTION:
                 if ($rating > 6 || $rating < 1) {
-                    \redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
+                    \redirect_header('index.php', 3, _MA_PUBLISHER_RATING_VOTE_BAD);
                 }
                 break;
             case Constants::RATING_10STARS:
             case Constants::RATING_10NUM:
                 if ($rating > 10 || $rating < 1) {
-                    \redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
+                    \redirect_header('index.php', 3, _MA_PUBLISHER_RATING_VOTE_BAD);
                 }
                 break;
         }
@@ -104,7 +104,7 @@ switch ($op) {
         // Set data rating
         if ($itemRating['voted']) {
             // If yo want to avoid revoting then activate next line
-            //\redirect_header('index.php', 3, _MA_BLOG_RATING_VOTE_BAD);
+            //\redirect_header('index.php', 3, _MA_PUBLISHER_RATING_VOTE_BAD);
             $ratingsObj = $ratingsHandler->get($itemRating['rate_id']);
         } else {
             $ratingsObj = $ratingsHandler->create();
@@ -143,9 +143,9 @@ switch ($op) {
                 $categoryObj->setVar('_ratings', $avg_rate_value);
                 $categoryObj->setVar('_votes', $ratingsCount);
                 if ($categoryHandler->insert($categoryObj)) {
-                    \redirect_header($redir, 2, _MA_BLOG_RATING_VOTE_THANKS);
+                    \redirect_header($redir, 2, _MA_PUBLISHER_RATING_VOTE_THANKS);
                 } else {
-                    \redirect_header('category.php', 3, _MA_BLOG_RATING_ERROR1);
+                    \redirect_header('category.php', 3, _MA_PUBLISHER_RATING_ERROR1);
                 }
                 unset($categoryObj);
             }
@@ -157,14 +157,14 @@ switch ($op) {
                 $articleObj->setVar('_ratings', $avg_rate_value);
                 $articleObj->setVar('_votes', $ratingsCount);
                 if ($articleHandler->insert($articleObj)) {
-                    \redirect_header($redir, 2, _MA_BLOG_RATING_VOTE_THANKS);
+                    \redirect_header($redir, 2, _MA_PUBLISHER_RATING_VOTE_THANKS);
                 } else {
-                    \redirect_header('item.php', 3, _MA_BLOG_RATING_ERROR1);
+                    \redirect_header('item.php', 3, _MA_PUBLISHER_RATING_ERROR1);
                 }
                 unset($articleObj);
             }
 
-            \redirect_header('index.php', 2, _MA_BLOG_RATING_VOTE_THANKS);
+            \redirect_header('index.php', 2, _MA_PUBLISHER_RATING_VOTE_THANKS);
         }
         // Get Error
         echo 'Error: ' . $ratingsObj->getHtmlErrors();

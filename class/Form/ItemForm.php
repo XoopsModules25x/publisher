@@ -283,17 +283,17 @@ class ItemForm extends ThemeTabForm
         $moduleId         = $helper->getModule()->getVar('mid');
         if ($helper->getConfig('perm_rating') && $grouppermHandler->checkRight('global', \_PUBLISHER_RATE, $groups, $moduleId)) {
             $options = [
-                Constants::RATING_NONE     => \_MI_BLOG_RATING_NONE,
-                Constants::RATING_5STARS   => \_MI_BLOG_RATING_5STARS,
-                Constants::RATING_10STARS  => \_MI_BLOG_RATING_10STARS,
-                Constants::RATING_LIKES    => \_MI_BLOG_RATING_LIKES,
-                Constants::RATING_10NUM    => \_MI_BLOG_RATING_10NUM,
-                Constants::RATING_REACTION => \_MI_BLOG_RATING_REACTION,
+                Constants::RATING_NONE     => \_MI_PUBLISHER_RATING_NONE,
+                Constants::RATING_5STARS   => \_MI_PUBLISHER_RATING_5STARS,
+                Constants::RATING_10STARS  => \_MI_PUBLISHER_RATING_10STARS,
+                Constants::RATING_LIKES    => \_MI_PUBLISHER_RATING_LIKES,
+                Constants::RATING_10NUM    => \_MI_PUBLISHER_RATING_10NUM,
+                Constants::RATING_REACTION => \_MI_PUBLISHER_RATING_REACTION,
             ];
 
-            $votetypeSelect = new \XoopsFormSelect(\_MI_BLOG_RATINGBARS, 'votetype', $obj->getVar('votetype'));
+            $votetypeSelect = new \XoopsFormSelect(\_MI_PUBLISHER_RATINGBARS, 'votetype', $obj->getVar('votetype'));
             $votetypeSelect->addOptionArray($options);
-            //                $votetypeSelect->setDescription(\_MI_BLOG_RATINGBARS_DESC);
+            //                $votetypeSelect->setDescription(\_MI_PUBLISHER_RATINGBARS_DESC);
             $this->addElement($votetypeSelect);
             unset($votetypeSelect);
         }

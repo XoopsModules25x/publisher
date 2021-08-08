@@ -26,27 +26,27 @@
     <header>
         <h2>
             <{$item.titlelink}>
-            <{if $display_itemcategory}>
+            <{if $display_itemcategory|default:false}>
                 <span style="font-size: 11px; padding: 0; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                     <span class="glyphicon glyphicon-tag"></span>&nbsp;<{$item.category}>
                 </span>
             <{/if}>
-           <{if $display_who_link}>
+           <{if $display_who_link|default:false}>
                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                     <span class="glyphicon glyphicon-user"></span>&nbsp;<{$item.who}>
                 </span>
             <{/if}>
-           <{if $display_when_link}>
+           <{if $display_when_link|default:false}>
                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                     <span class="glyphicon glyphicon-calendar"></span>&nbsp;<{$item.when}>
                 </span>
             <{/if}>
-            <{if $display_comment_link && $item.cancomment && $item.comments != -1}>
+            <{if $display_comment_link|default:false && $item.cancomment|default:false && $item.comments|default:0 != -1}>
                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                     <span class="glyphicon glyphicon-comment"></span>&nbsp;<{$item.comments}>
                 </span>
             <{/if}>
-            <{if $display_hits_link}>
+            <{if $display_hits_link|default:false}>
                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                     <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<{$item.counter}> <{$smarty.const._MD_PUBLISHER_READS}>
                 </span>
@@ -54,16 +54,16 @@
         </h2>
 
 
-        <{if $show_subtitle && $item.subtitle}>
+        <{if $show_subtitle|default:false && $item.subtitle|default:false}>
             <h5><{$item.subtitle}></h5>
         <{/if}>
     </header>
-         <{if $item.image_path==''}>
-              <{if $display_defaultimage}>
+         <{if $item.image_path|default:'' == ''}>
+              <{if $display_defaultimage|default:''}>
               <img class="img-responsive" src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>">
               <{/if}>
          <{/if}>
-    <{if $item.image_path || $item.images}>
+    <{if $item.image_path|default:false || $item.images|default:false}>
         <figure>
             <{if $item.images}>
                 <div id="articleslider" class="owl-carousel owl-theme" style="margin-bottom:10px;">
@@ -88,7 +88,7 @@
     </div>
 
 </div>
-<{if $pagenav}>
+<{if $pagenav|default:false}>
     <div class="pub_pagenav text-right">
         <{$pagenav}>
     </div>
@@ -117,7 +117,7 @@
     <div class="clearfix"></div>
 </div>
 
-<{if $itemfooter}>
+<{if $itemfooter|default:false}>
     <div class="panel-footer">
         <small><{$itemfooter}></small>
     </div>
@@ -125,7 +125,7 @@
 
 
 <!-- Attached Files -->
-<{if $item.files}>
+<{if $item.files|default:false}>
     <table class="table table-hover table-condensed" style="margin: 15px 0;">
         <thead>
         <tr>
@@ -138,7 +138,7 @@
         <{foreach item=file from=$item.files}>
             <tr>
                 <td>
-                    <{if $file.mod}>
+                    <{if $file.mod|default:false}>
                         <a href="<{$publisher_url}>/file.php?op=mod&fileid=<{$file.fileid}>">
                             <img src="<{$publisher_url}>/assets/images/links/edit.gif" title="<{$smarty.const._CO_PUBLISHER_EDITFILE}>"
                                  alt="<{$smarty.const._CO_PUBLISHER_EDITFILE}>"></a>
@@ -165,7 +165,7 @@
 <!-- End Attached Files -->
 
 <!-- Items by same Author -->
-<{if $perm_author_items && $item.uid != 0}>
+<{if $perm_author_items|default:false && $item.uid|default:0 != 0}>
     <div class="pub_article_extras">
         <div class="btn btn-primary btn-lg btn-block">
             <a href="<{$publisher_url}>/author_items.php?uid=<{$item.uid}>">
@@ -177,9 +177,9 @@
 <!-- END Items by same Author -->
 
 <!-- Other articles in the category -->
-<{if $other_items == "previous_next"}>
-    <{if $previousItemLink || $nextItemLink}>
-        <{if $previousItemLink}>
+<{if $other_items|default:'' == "previous_next"}>
+    <{if $previousItemLink|default:false || $nextItemLink|default:false}>
+        <{if $previousItemLink|default:false}>
             <div class="pull-left">
                 <a href="<{$previousItemUrl}>">
                     <img style="vertical-align: middle;" src="<{$publisherImagesUrl}>/links/previous.gif" title="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>"
@@ -188,7 +188,7 @@
                 <{$previousItemLink}>
             </div>
         <{/if}>
-        <{if $nextItemLink}>
+        <{if $nextItemLink|default:false}>
             <div class="text-right">
                 <{$nextItemLink}>
                 <a href="<{$nextItemUrl}>">
@@ -198,15 +198,15 @@
             </div>
         <{/if}>
     <{/if}>
-<{elseif $other_items == 'all'}>
+<{elseif $other_items|default:'' == 'all'}>
     <table class="table table-hover table-condensed" style="margin: 15px 0;">
         <thead>
         <tr>
             <th><{$smarty.const._MD_PUBLISHER_OTHER_ITEMS}> </th>
-            <{if $show_date_col == 1}>
+            <{if $show_date_col|default:0 == 1}>
                 <th style="text-align: center;"><{$smarty.const._MD_PUBLISHER_DATESUB}></th>
             <{/if}>
-            <{if $show_hits_col == 1}>
+            <{if $show_hits_col|default:0 == 1}>
                 <th style="text-align: center;"><{$smarty.const._MD_PUBLISHER_HITS}></th>
             <{/if}>
         </tr>
@@ -216,42 +216,42 @@
         <{foreach item=item from=$items}>
             <tr>
                 <td class="even" align="left">
-                <{if $show_mainimage == 1}>
-                  <{if $item.item_image==''}>
+                <{if $show_mainimage|default:0 == 1}>
+                  <{if $item.item_image|default:'' == ''}>
                      <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>" align="left" width="100" style="padding:5px">
                   <{else}>
                    <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px" ></a>
                   <{/if}> 
                 <{/if}>
                 <{$item.titlelink}>
-                   <{if $show_summary == 1}>
+                   <{if $show_summary|default:0 == 1}>
                    <br><{$item.summary}><br >
                    <{/if}> 
-                    <{if $show_readmore == 1}>
+                    <{if $show_readmore|default:0 == 1}>
                      <div class="pull-right">
                     <a href="<{$item.itemurl}>" class="btn btn-primary btn-sm"> <{$smarty.const._MD_PUBLISHER_VIEW_MORE}></a>
                      </div>
                     <{/if}>
-                    <{if $display_category == 1}>
+                    <{if $display_category|default:0 == 1}>
                        <span style="font-size: 11px; padding: 0; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                        <span class="glyphicon glyphicon-tag"></span>&nbsp;<{$item.category}>
                        </span>
                     <{/if}>
-                    <{if $show_poster == 1}>
+                    <{if $show_poster|default:0 == 1}>
                        <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                        &nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;<{$item.who}>
                        </span>
                     <{/if}>
-                    <{if $show_commentlink == 1 && $item.cancomment && $item.comments != -1}>
+                    <{if $show_commentlink|default:0 == 1 && $item.cancomment|default:false && $item.comments|default:0 != -1}>
                        <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                        &nbsp;&nbsp;<span class="glyphicon glyphicon-comment"></span>&nbsp;<{$item.comments}>
                        </span>
                      <{/if}>
                     </td>
-                <{if $show_date_col == 1}>
+                <{if $show_date_col|default:0 == 1}>
                     <td style="text-align: center;"><{$item.datesub}></td>
                 <{/if}>
-                <{if $show_hits_col == 1}>
+                <{if $show_hits_col|default:0 == 1}>
                     <td style="text-align: center;"><{$item.counter}></td>
                 <{/if}>
             </tr>

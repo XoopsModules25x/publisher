@@ -11,36 +11,36 @@
 
 <div class="item">
     <h2>&nbsp;<{$item.title}></h2>
-    <{if $show_subtitle && $item.subtitle}>
+    <{if $show_subtitle|default:false && $item.subtitle|default:false}>
         <h3><{$item.subtitle}></h3>
     <{/if}>
-    <{if $display_itemcategory}>
+    <{if $display_itemcategory|default:false}>
         <small>&nbsp;<{$smarty.const._MD_PUBLISHER_CATEGORY}> : <{$item.category}> </small>
     <{/if}>
-    <{if $display_who_link}>
+    <{if $display_who_link|default:false}>
         <small>| <{$smarty.const._MD_PUBLISHER_POSTER}> <{$item.who}> </small>
     <{/if}>
-    <{if $display_when_link}>
+    <{if $display_when_link|default:false}>
         <small><{$item.when}> </small>
     <{/if}>
-    <{if $display_hits_link}>
+    <{if $display_hits_link|default:false}>
         <small>(<{$item.counter}> <{$smarty.const._MD_PUBLISHER_READS}>)</small>
     <{/if}>
 
     <div class="itemBody">
-        <{if $pagenav}>
+        <{if $pagenav|default:false}>
             <div class="publisher_pagenav_top"><{$smarty.const._MD_PUBLISHER_PAGE}>: <{$pagenav}></div>
         <{/if}>
         <div class="itemText">
-            <{if $item.image_path==''}>
-                <{if $display_defaultimage}>
+            <{if $item.image_path|default:'' == ''}>
+                <{if $display_defaultimage|default:''}>
                     <img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>">
                 <{/if}>
             <{/if}>
-            <{if $item.image_path || $item.images}>
+            <{if $item.image_path|default:false || $item.images|default:false}>
                 <div class="ppy" id="ppy3">
                     <ul class="ppy-imglist">
-                        <{if $item.image_path}>
+                        <{if $item.image_path|default:''}>
                             <li>
                                 <a href="<{$item.image_path}>">
                                     <img src="<{$item.image_thumb}>" alt="<{$item.image_name}>">
@@ -81,7 +81,7 @@
             <p><{$item.maintext}></p>
         </div>
         <div style="clear:both;"></div>
-        <{if $item.embeded_files}>
+        <{if $item.embeded_files|default:false}>
             <div id="publisher_embeded_files">
                 <{foreach item=file from=$item.embeded_files}>
                     <div><{$file.content}></div>
@@ -90,7 +90,7 @@
         <{/if}>
 
 
-        <{if $pagenav}>
+        <{if $pagenav|default:false}>
             <div class="publisher_pagenav_bottom"><{$smarty.const._MD_PUBLISHER_PAGE}>: <{$pagenav}></div>
         <{/if}>
         <{if $tagbar|default:false}>
@@ -105,7 +105,7 @@
 
 
     <{*    ====== VOTING =========*}>
-    <{if $displaylike}>
+    <{if $displaylike|default:false}>
         <div class="clearfix"></div>
         <{*        <div class="pull-left">*}>
 
@@ -118,20 +118,20 @@
 
 
 
-    <{if $itemfooter}>
+    <{if $itemfooter|default:false}>
         <div class="publisher_itemfooter"><{$itemfooter}></div>
     <{/if}>
 
     <div class="publisher_pre_itemInfo">
         <div class="itemInfo" style="height: 14px;">
-            <{if $display_comment_link && $item.cancomment && $item.comments != -1}>
+            <{if $display_comment_link|default:false && $item.cancomment|default:false && $item.comments|default:0 != -1}>
                 <span style="float: left;">
                     <a href="<{$item.itemurl}>"><{$item.comments}></a>
                 </span>
             <{else}>
                 <span style="float: left;">&nbsp;</span>
             <{/if}>
-            <{if $perm_author_items && $item.uid != 0}>
+            <{if $perm_author_items|default:false && $item.uid|default:0 != 0}>
                 <span style="float: left; margin-left: 5px;"><a href="<{$publisher_url}>/author_items.php?uid=<{$item.uid}>"><{$smarty.const._MD_PUBLISHER_ITEMS_SAME_AUTHOR}></a></span>
             <{/if}>
             <span style="float: right; text-align: right;"><{$item.adminlink}></span>
@@ -149,7 +149,7 @@
 </div>
 <br>
 
-<{if $item.files}>
+<{if $item.files|default:false}>
     <table border="0" width="90%" cellspacing="1" cellpadding="0" align="center" class="outer">
         <tr>
             <td colspan="4" class="itemHead">
@@ -168,7 +168,7 @@
         <{foreach item=file from=$item.files}>
             <tr>
                 <td class="odd" align="left">
-                    <{if $file.mod}>
+                    <{if $file.mod|default:false}>
                         <a href="<{$publisher_url}>/file.php?op=mod&fileid=<{$file.fileid}>">
                             <img src="<{$publisher_url}>/assets/images/links/edit.gif" title="<{$smarty.const._CO_PUBLISHER_EDITFILE}>" alt="<{$smarty.const._CO_PUBLISHER_EDITFILE}>"></a>
                         <a href="<{$publisher_url}>/file.php?op=del&fileid=<{$file.fileid}>">
@@ -189,8 +189,8 @@
     <br>
 <{/if}>
 
-<{if $other_items == "previous_next"}>
-    <{if $previousItemLink || $nextItemLink}>
+<{if $other_items|default:'' == "previous_next"}>
+    <{if $previousItemLink|default:false || $nextItemLink|default:false}>
         <table class="outer">
             <tr>
                 <td class="itemHead" colspan="2">
@@ -198,7 +198,7 @@
             </tr>
             <tr style="vertical-align: middle;">
                 <td class="odd" width="50%" align="left">
-                    <{if $previousItemLink}>
+                    <{if $previousItemLink|default:false}>
                         <a href="<{$previousItemUrl}>">
                             <img style="vertical-align: middle;" src="<{$publisherImagesUrl}>/links/previous.gif" title="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>"
                                  alt="<{$smarty.const._MD_PUBLISHER_PREVIOUS_ITEM}>">
@@ -207,7 +207,7 @@
                     <{/if}>
                 </td>
                 <td class="odd" width="50%" align="right">
-                    <{if $nextItemLink}> <{$nextItemLink}>
+                    <{if $nextItemLink|default:false}> <{$nextItemLink}>
                         <a href="<{$nextItemUrl}>"><img style="vertical-align: middle;" src="<{$publisherImagesUrl}>/links/next.gif" title="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>"
                                                         alt="<{$smarty.const._MD_PUBLISHER_NEXT_ITEM}>"></a>
                     <{/if}>
@@ -215,16 +215,16 @@
             </tr>
         </table>
     <{/if}>
-<{elseif $other_items == 'all'}>
+<{elseif $other_items|default:'' == 'all'}>
     <table border="0" width="90%" cellspacing="1" cellpadding="3" align="center" class="outer">
         <tr>
             <td align="left" class="itemHead" width='65%'>
                 <strong><{$smarty.const._MD_PUBLISHER_OTHER_ITEMS}> <{if $show_category == 1}>: <{$item.category}><{/if}></strong></td>
-            <{if $show_date_col == 1}>
+            <{if $show_date_col|default:0 == 1}>
                 <td align="center" class="itemHead" width="25%">
                     <strong><{$smarty.const._MD_PUBLISHER_DATESUB}></strong></td>
             <{/if}>
-            <{if $show_hits_col == 1}>
+            <{if $show_hits_col|default:0 == 1}>
                 <td align="center" class="itemHead" width="10%">
                     <strong><{$smarty.const._MD_PUBLISHER_HITS}></strong></td>
             <{/if}>
@@ -234,8 +234,8 @@
             <tr>
 
                 <td class="even" align="left">
-                    <{if $show_mainimage == 1}>
-                    <{if $item.item_image==''}>
+                    <{if $show_mainimage|default:0 == 1}>
+                    <{if $item.item_image|default:'' == ''}>
                     <a href="<{$item.itemurl}>"><img src="<{$publisher_url}>/assets/images/default_image.jpg" alt="<{$item.title}>" title="<{$item.title}>" align="left" width="100" style="padding:5px">
                         <{else}>
                         <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.title}>" align="left" width="100" style="padding:5px"></a>
@@ -243,27 +243,27 @@
                         <{/if}>
                         <{$item.titlelink}>
 
-                        <{if $show_summary == 1}><br><{$item.summary}><br><{/if}>
-                        <{if $show_readmore == 1}>
+                        <{if $show_summary|default:0 == 1}><br><{$item.summary}><br><{/if}>
+                        <{if $show_readmore|default:0 == 1}>
                             <{$item.more}>
                             <br>
                         <{/if}>
                         <small>
-                            <{if $show_poster == 1}>
+                            <{if $show_poster|default:0 == 1}>
                                 <br>
                                 <{$smarty.const._MD_PUBLISHER_POSTER}>  <{$item.who}>
                             <{/if}>
-                            <{if $show_commentlink == 1 && $item.cancomment && $item.comments != -1}>
+                            <{if $show_commentlink|default:0 == 1 && $item.cancomment|default:false && $item.comments|default:0 != -1}>
                                 | <{$item.comments}>
                             <{/if}>
                 </td>
-                <{if $show_date_col == 1}>
+                <{if $show_date_col|default:0 == 1}>
                     <td class="odd" align="left">
                         <div align="center"><{$item.datesub}></div>
                     </td>
                 <{/if}>
                 </small>
-                <{if $show_hits_col == 1}>
+                <{if $show_hits_col|default:0 == 1}>
                     <td class="odd" align="left">
                         <div align="center"><{$item.counter}></div>
                     </td>

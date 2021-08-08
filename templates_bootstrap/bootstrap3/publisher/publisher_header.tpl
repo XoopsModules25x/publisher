@@ -2,7 +2,7 @@
     <!-- Do not display breadcrumb if you are on indexpage or you do not want to display the module name -->
     <{if $module_home or $categoryPath}>
         <ol class="breadcrumb">
-            <{if $module_home}>
+            <{if $module_home|default:false}>
                 <li><{$module_home}></li>
             <{/if}>
             <{$categoryPath}>

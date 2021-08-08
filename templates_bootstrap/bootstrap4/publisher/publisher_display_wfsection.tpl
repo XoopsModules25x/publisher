@@ -15,14 +15,14 @@
     <span class="fa fa-newspaper-o"></span>&nbsp;<{$lang_items_title}>
 </h4>
 <div class="publisher_items_list_">
-    <{if $items}>
+    <{if $items|default:false}>
     <{foreach item=item from=$items}>
         <div class="article_wf">
             <div class="article_wf_title">
                 <h3><{$item.titlelink}></h3>
             </div>
-            <{if $display_mainimage == 1}>
-                 <{if $item.image_path!=''}>
+            <{if $display_mainimage|default:0 == 1}>
+                 <{if $item.image_path|default:'' != ''}>
             <div class="article_wf_img">
              <a href="<{$item.itemurl}>"><img class="img-fluid" src="<{$item.image_path}>" alt="<{$item.title}>" title="<{$item.title}>"></a>
             </div>
@@ -34,14 +34,14 @@
             <{/if}>
 
 
-            <{if $display_summary == 1}>
+            <{if $display_summary|default:0 == 1}>
             <div class="article_wf_summary">
                 <span style="font-weight: normal;">
                 <{$item.summary}>
                     </span>
             </div>
             <{/if}>
-            <{if $display_readmore == 1}>
+            <{if $display_readmore|default:0 == 1}>
             <div class="pull-right" style="margin-top: 15px;">
                 <a href="<{$item.itemurl}>"
                    class="btn btn-primary btn-xs"> <{$smarty.const._MD_PUBLISHER_VIEW_MORE}></a>
@@ -49,27 +49,27 @@
             <{/if}>
             <div class="clearfix"></div>
                         <small class="text-muted">
-                    <{if $display_category == 1}>
+                    <{if $display_category|default:0 == 1}>
                         <span>
                         <span class="fa fa-tag"></span>&nbsp;<{$item.category}>
                         </span>
                      <{/if}>
-                     <{if $display_poster == 1}>
+                     <{if $display_poster|default:0 == 1}>
                          <span>
                          <span class="fa fa-user"></span>&nbsp;<{$item.who}>
                          </span>
                      <{/if}>
-                     <{if $display_date_col == 1}>
+                     <{if $display_date_col|default:0 == 1}>
                          <span>
                          <span class="fa fa-calendar"></span>&nbsp; <{$item.datesub}>
                          </span>
                      <{/if}>
-                     <{if $display_hits_col == 1}>
+                     <{if $display_hits_col|default:0 == 1}>
                          <span>
                          <span class="fa fa-check-circle-o"></span>&nbsp; <{$item.counter}>
                          </span>
                      <{/if}>
-                     <{if $display_commentlink == 1 && $item.cancomment && $item.comments != -1}> 
+                     <{if $display_commentlink|default:0 == 1 && $item.cancomment|default:false && $item.comments|default:0 != -1}> 
                          <span>
                          <span class="fa fa-comment"></span>&nbsp;<{$item.comments}>
                          </span>

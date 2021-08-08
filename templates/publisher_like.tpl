@@ -1,5 +1,5 @@
 <small>
-    <{if $rating_5stars}>
+    <{if $rating_5stars|default:false}>
         <div class="blog_ratingblock">
             <div id="unit_long<{$item.id}>">
                 <div id="unit_ul<{$item.id}>" class="blog_unit-rating">
@@ -26,7 +26,7 @@
             </div>
         </div>
     <{/if}>
-    <{if $rating_10stars}>
+    <{if $rating_10stars|default:false}>
         <div class="blog_ratingblock">
             <div id="unit_long<{$item.id}>">
                 <div id="unit_ul<{$item.id}>" class="blog_unit-rating-10">
@@ -68,7 +68,7 @@
             </div>
         </div>
     <{/if}>
-    <{if $rating_10num}>
+    <{if $rating_10num|default:false}>
         <div class="blog_ratingblock">
             <div id="unit_long<{$item.id}>">
                 <div id="unit_ul<{$item.id}>" class="blog_unit-rating-10numeric">
@@ -89,7 +89,7 @@
             </div>
         </div>
     <{/if}>
-    <{if $rating_likes}>
+    <{if $rating_likes|default:false}>
         <div class="blog_ratingblock">
 <{*            <a class="blog-rate-like" href="ratelike.php?op=save&amp;<{$itemid}>=<{$item.id}>&rating=1&amp;source=1" title="<{$smarty.const._MA_BLOG_RATING_LIKE}>" rel="nofollow">*}>
 <{*                <img class='blog-btn-icon' src='<{$blog_icon_url_16}>/like.png' alt='<{$smarty.const._MA_BLOG_RATING_LIKE}>' title='<{$smarty.const._MA_BLOG_RATING_LIKE}>'>(<{$item.rating.likes}>)</a>*}>
@@ -130,7 +130,7 @@
 
 
 
-    <{if $rating_reaction}>
+    <{if $rating_reaction|default:false}>
         <div class="blog_ratingblock">
 
                 <a class="blog-rate-reaction" href="ratelike.php?op=save&amp;<{$itemid}>=<{$item.id}>&rating=1&amp;source=1" title="<{$smarty.const._MA_BLOG_RATING1}>" rel="nofollow">

@@ -20,43 +20,43 @@
 </div>
 <br>
 
-<{if $show_articles === true}>
+<{if $show_articles|default:false === true}>
 
 <h4><{$lang_articles}></h4>
     <div class="container-fluid">
         <{foreach item=story from=$stories}>
 
                 <div class="row">
-                <{if $showmainimage == 1}>
+                <{if $showmainimage|default:0 == 1}>
                 <a href="<{$item.itemurl}>"><img src="<{$story.item_image}>" title="<{$story.cleantitle}>" alt="<{$story.cleantitle}>" align="left" style="padding:10px"></a><br>
                 <{/if}>
                 &nbsp;&nbsp;<h4><{$story.title}></h4>
-                <{if $showsummary == 1}>
+                <{if $showsummary|default:0 == 1}>
                 &nbsp;&nbsp;<{$story.summary}><br>
                 <{/if}>
                  
                 <div class="pull-left">
-                <{if $showcategory == 1}>
+                <{if $showcategory|default:0 == 1}>
                 <span style="font-size: 11px; padding: 0; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                     <span class="glyphicon glyphicon-tag"></span>&nbsp;<{$story.category}>
                 </span>
                  <{/if}>
-                 <{if $showposter == 1}>
+                 <{if $showposter|default:0 == 1}>
                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                     <span class="glyphicon glyphicon-user"></span>&nbsp;<{$story.author}>
                 </span>
                  <{/if}>
-                <{if $showdate == 1}>
+                <{if $showdate|default:0 == 1}>
                  <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                     <span class="glyphicon glyphicon-calendar"></span>&nbsp;<{$story.date}>
                 </span>
                  <{/if}>
-                 <{if $showhits == 1}>
+                 <{if $showhits|default:0 == 1}>
                  <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                     <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<{$story.counter}> <{$smarty.const._MD_PUBLISHER_READS}>
                 </span>
                  <{/if}>
-                 <{if $showcomment == 1 && $story.cancomment && $story.comment != -1}>
+                 <{if $showcomment|default:0 == 1 && $story.cancomment|default:false && $story.comment|default:0 != -1}>
                  <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                     <span class="glyphicon glyphicon-comment"></span>&nbsp;<{$story.comment}> 
                 </span>
@@ -64,13 +64,13 @@
                 </div>
                 <div class="pull-right">
 
-                <{if $showpdfbutton == 1}>
+                <{if $showpdfbutton|default:0 == 1}>
                     <a href="<{$story.pdf_link}>" rel="nofollow"><img src="<{$xoops_url}>/modules/<{$module_dirname}>/assets/images/links/pdf.gif" border="0" alt="<{$lang_pdf}>"></a>
                 <{/if}>
-                <{if $showprintlink == 1}>
+                <{if $showprintlink|default:0 == 1}>
                     <a href="<{$story.print_link}>" rel="nofollow"><img src="<{$xoops_url}>/modules/<{$module_dirname}>/assets/images/links/print.gif" border="0" alt="<{$lang_printer}>"></a>
                 <{/if}>
-                <{if $showemaillink == 1}>
+                <{if $showemaillink|default:0 == 1}>
                     <a href="<{$story.mail_link}>" target="_top"><img src="<{$xoops_url}>/modules/<{$module_dirname}>/assets/images/links/friend.gif" border="0"></a>
                 <{/if}>
                 </div>

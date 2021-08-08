@@ -15,11 +15,11 @@
     <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;<{$lang_items_title}>
 </h4>
 <div class="publisher_items_list_">
-    <{if $items}>
+    <{if $items|default:false}>
     <{foreach item=item from=$items}>
                 <div class="article_wf">
-            <{if $display_mainimage == 1}>
-                 <{if $item.image_path!=''}>
+            <{if $display_mainimage|default:0 == 1}>
+                 <{if $item.image_path|default:'' != ''}>
             <div class="article_wf_img">
              <a href="<{$item.itemurl}>"><img class="img-responsive" src="<{$item.image_path}>" alt="<{$item.title}>"></a>
             </div>
@@ -33,45 +33,45 @@
             <div class="article_wf_summary">
                 <div class="article_wf_title">
                     <h3><{$item.titlelink}></h3>
-                    <{if $show_subtitle && $item.subtitle}>
+                    <{if $show_subtitle|default:false && $item.subtitle|default:false}>
                              
                                 <em><{$item.subtitle}></em>
                     <{/if}>
 
                 </div>
 
-                <{if $display_summary == 1}>
+                <{if $display_summary|default:0 == 1}>
                    <div style="margin-top:10px;">
                     <{$item.summary}><br >
                     </div>
                  <{/if}>
 
-                <{if $display_readmore == 1}>
+                <{if $display_readmore|default:0 == 1}>
                     <a href="<{$item.more}>"><{$smarty.const._MD_PUBLISHER_READMORE}></a><br >
                 <{/if}>
 
                     <small>
-                     <{if $display_category == 1}>
+                     <{if $display_category|default:0 == 1}>
                         <span>
                         <span class="glyphicon glyphicon-tag"></span>&nbsp;<{$item.category}>
                         </span>
                      <{/if}>
-                     <{if $display_poster == 1}>
+                     <{if $display_poster|default:0 == 1}>
                         <span>
                         <span class="glyphicon glyphicon-user"></span>&nbsp;<{$item.who}>
                         </span>
                      <{/if}>
-                     <{if $display_date_col == 1}>
+                     <{if $display_date_col|default:0 == 1}>
                         <span>
                         <span class="glyphicon glyphicon-calendar"></span>&nbsp; <{$item.datesub}>
                         </span>
                      <{/if}>
-                     <{if $display_hits_col == 1}>
+                     <{if $display_hits_col|default:0 == 1}>
                          <span>
                          <span class="glyphicon glyphicon-ok-circle"></span>&nbsp; <{$item.counter}>
                          </span>
                      <{/if}>
-                      <{if $display_commentlink == 1 && $item.cancomment && $item.comments != -1}> 
+                      <{if $display_commentlink|default:0 == 1 && $item.cancomment|default:false && $item.comments|default:0 != -1}> 
                          <span>
                          <span class="glyphicon glyphicon-comment"></span>&nbsp;<{$item.comments}>
                          </span>
@@ -84,7 +84,7 @@
     <{/foreach}>
 </div>
 
-    <div align="right"><{$navbar}></div>
+    <div align="right"><{$navbar|default:''}></div>
 
 <{$press_room_footer}>
 

@@ -16,7 +16,7 @@
     <!-- End of if !$category || $category.subcats || ($category && $display_category_summary) //-->
 <{/if}>
 
-<{if $items}>
+<{if $items|default:false}>
     <h4 class="pub_last_articles_full"><span class="glyphicon glyphicon-chevron-right"></span>&nbsp;<{$lang_items_title}></h4>
     <!-- Start item loop -->
     <{foreach item=item from=$items}>

@@ -43,9 +43,9 @@
 
 <{if $publisher_display_breadcrumb|default:false}>
     <!-- Do not display breadcrumb if you are on indexpage or you do not want to display the module name -->
-    <{if $module_home || $categoryPath}>
+    <{if $module_home|default:false || $categoryPath|default:false}>
         <ul class="publisher_breadcrumb">
-            <{if $module_home}>
+            <{if $module_home|default:false}>
                 <li><{$module_home}></li>
             <{/if}>
             <{$categoryPath}>

@@ -1,18 +1,18 @@
-<{if $block.template == 'normal'}>
-    <{if $block.latestnews_scroll }>
+<{if $block.template|default:'' == 'normal'}>
+    <{if $block.latestnews_scroll|default:false}>
         <marquee behavior='scroll' align='center' direction='<{$block.scrolldir}>' height='<{$block.scrollheight}>' scrollamount='3' scrolldelay='<{$block.scrollspeed}>' onmouseover='this.stop()' onmouseout='this.start()'>
     <{/if}>
     <{section name=i loop=$block.columns}>
     
             <{foreach item=item from=$block.columns[i]}>
-      <{if $item.topic_title}>                 
+      <{if $item.topic_title|default:false}>                 
      <div class="article_full_category">
        <{$item.category}>
      </div>
      <{/if}>
       <div class="article_full">
-            <{if $item.display_item_image}>
-                 <{if $item.item_image != ''}>
+            <{if $item.display_item_image|default:false}>
+                 <{if $item.item_image|default:'' != ''}>
             <div class="article_full_img_div">
              <a href="<{$item.itemurl}>"><img class="img-responsive" src="<{$item.item_image}>" alt="<{$item.alt}>" title="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>
             </div>
@@ -25,29 +25,29 @@
 
     <div style="padding: 10px;">
         <h4><{$item.title}></h4>
-                               <{if $item.poster}>
+                               <{if $item.poster|default:false}>
                                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="glyphicon glyphicon-user"></span>&nbsp; <{$item.poster}></span>
                                 </span>
                                 <{/if}>
-                               <{if $item.posttime}>
+                               <{if $item.posttime|default:false}>
                                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="glyphicon glyphicon-calendar"></span>&nbsp;<{$item.posttime}>  
                                 </span>
                                 <{/if}>
-                               <{if $item.read }>
+                               <{if $item.read|default:false}>
                                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<{$item.read}> <{$block.lang_reads}>
                                 </span>
                                 <{/if}>
-                                 <{if $item.comment && $item.cancomment && $item.comment != -1}>
+                                 <{if $item.comment|default:false && $item.cancomment|default:false && $item.comment|default:0 != -1}>
                                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="glyphicon glyphicon-comment"></span>&nbsp;<{$item.comment}>
                                 </span>
                                 <{/if}>
                                 
         <div style="margin-top:10px;">
-            <{if $item.display_summary}>
+            <{if $item.display_summary|default:false}>
             <{$item.text}>
              <div class="pull-right">
                        <a href="<{$item.itemurl}>">
@@ -69,7 +69,7 @@
                                 <{if $item.email}>
                                  <{$item.email}>
                                 <{/if}>                             
-                                  <{if $item.display_adminlink}> 
+                                  <{if $item.display_adminlink|default:false}> 
                                   <{$item.admin}>
                                    <{/if}> 
                     </span>
@@ -84,12 +84,12 @@
             <{/foreach}>
      
     <{/section}>
-     <{if $block.latestnews_scroll }></marquee><{/if}>
+     <{if $block.latestnews_scroll|default:false}></marquee><{/if}>
 
     <div><{$block.morelink}><{$block.topiclink}><{$block.archivelink}><{$block.submitlink}></div>
 <{/if}>
 
-<{if $block.template == 'extended'}>
+<{if $block.template|default:'' == 'extended'}>
 
 <style>
 @media (min-width: 768px) {
@@ -99,7 +99,7 @@
   }
 }
 </style>
-  <{if $block.latestnews_scroll }>
+  <{if $block.latestnews_scroll|default:false}>
         <marquee behavior='scroll' align='center' direction='<{$block.scrolldir}>' height='<{$block.scrollheight}>' scrollamount='3' scrolldelay='<{$block.scrollspeed}>' onmouseover='this.stop()' onmouseout='this.start()'>
     <{/if}>
 <div class="container-fluid">
@@ -107,8 +107,8 @@
 <{section name=i loop=$block.columns}>
     <{foreach item=item from=$block.columns[i]}>   
     <div class='col-md-4 col-sm-12'>
-      <{if $item.display_item_image}>
-                    <{if $item.item_image != ''}>
+      <{if $item.display_item_image|default:false}>
+                    <{if $item.item_image|default:'' != ''}>
                    <a href="<{$item.itemurl}>"><img class="img-responsive" src="<{$item.item_image}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>
                     <{else}>
                     <a href="<{$item.itemurl}>"><img class="img-responsive" src="<{$block.publisher_url}>thumb.php?src=<{$block.publisher_url}>/assets/images/default_image.jpg&w=<{$block.imgheight}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>"  style="border:<{$block.border}>px solid #<{$block.bordercolor}>></a>
@@ -116,33 +116,33 @@
           <{/if}>
      <p><{$item.title}></p>
          
-            <{if $block.letters != 0}>
+            <{if $block.letters|default:0 != 0}>
                             <p>
-                                    <{if $item.display_summary}>
+                                    <{if $item.display_summary|default:false}>
                                     <{$item.text}> <br>
                                     <{/if}>
                                 <{$item.more}><br>
-                                <{if $item.topic_title}>
+                                <{if $item.topic_title|default:false}>
                                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="glyphicon glyphicon-tag"></span>&nbsp;<{$item.topic_title}>
                                 </span>
                                 <{/if}>
-                                <{if $item.poster}>
+                                <{if $item.poster|default:false}>
                                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="glyphicon glyphicon-user"></span>&nbsp; <{$item.poster}></span>
                                 </span>
                                 <{/if}>
-                               <{if $item.posttime}>
+                               <{if $item.posttime|default:false}>
                                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="glyphicon glyphicon-calendar"></span>&nbsp;<{$item.posttime}>  
                                 </span>
                                 <{/if}>
-                               <{if $item.read }>
+                               <{if $item.read|default:false}>
                                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<{$item.read}> <{$block.lang_reads}>
                                 </span>
                                 <{/if}>
-                                <{if $item.comment && $item.cancomment && $item.comment != -1}>
+                                <{if $item.comment|default:false && $item.cancomment|default:false && $item.comment|default:0 != -1}>
                                 <span style="font-size: 11px; padding: 0 0 0 16px; margin: 0; line-height: 12px; opacity:0.8;-moz-opacity:0.8;">
                                 <span class="glyphicon glyphicon-comment"></span>&nbsp;<{$item.comment}>
                                 </span>
@@ -156,7 +156,7 @@
                                  <{/if}>
                                 <{if $item.email}><{$item.email}>
                                   <{/if}>                             
-                                  <{if $item.display_adminlink}><{$item.admin}>
+                                  <{if $item.display_adminlink|default:false}><{$item.admin}>
                                   <{/if}>                     
                             </p>
             <{/if}>
@@ -167,12 +167,12 @@
 <{/section}>
   </div>
 </div>
-    <{if $block.latestnews_scroll }></marquee><{/if}>
+    <{if $block.latestnews_scroll|default:false}></marquee><{/if}>
 
     <div><{$block.morelink}><{$block.topiclink}><{$block.archivelink}><{$block.submitlink}></div>
 <{/if}>
 
-<{if $block.template == 'ticker'}>
+<{if $block.template|default:'' == 'ticker'}>
     <marquee behavior='scroll' align='middle' direction='<{$block.scrolldir}>' height='<{$block.scrollheight}>' scrollamount='3' scrolldelay='<{$block.scrollspeed}>' onmouseover='this.stop()'
              onmouseout='this.start()'>
         <{section name=i loop=$block.columns}>
@@ -184,7 +184,7 @@
 <{/if}>
 
 
-<{if $block.template == 'slider1'}>
+<{if $block.template|default:'' == 'slider1'}>
 
     <{php}>$GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
         $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
@@ -276,7 +276,7 @@
 
 <{/if}>
 
-<{if $block.template == 'slider2'}>
+<{if $block.template|default:'' == 'slider2'}>
 
     <{php}>$GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
         $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');

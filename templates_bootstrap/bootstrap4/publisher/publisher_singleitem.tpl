@@ -1,5 +1,5 @@
 <div class="card">
-    <{if $item.image_path}>
+    <{if $item.image_path|default:''}>
     <img class="card-img-top" src="<{$item.image_path}>" alt="<{$item.title}>">
     <{/if}>
     <div class="card-body">
@@ -11,7 +11,7 @@
     </div>
 </div>
 <div class="sitem">
-    <{if $item.image_path}>
+    <{if $item.image_path|default:''}>
         <div class="sitem_img_div">
             <a href="<{$item.itemurl}>" title="<{$item.title}>">
                 <img class="sitem_img" src="<{$item.image_path}>" alt="<{$item.title}>" width="100">

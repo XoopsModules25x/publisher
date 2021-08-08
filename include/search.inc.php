@@ -44,12 +44,18 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
 {
     $helper = Helper::getInstance();
     $ret    = $item = [];
-    if (is_array($queryArray) && 0 === count($queryArray)) {
-        $hightlightKey = '';
-    } else {
-        $keywords      = implode('+', $queryArray);
-        $hightlightKey = '&amp;keywords=' . $keywords;
+    $hightlightKey = '';
+
+    if (is_array($queryArray)) {
+        if (0 === count($queryArray)) {
+            $hightlightKey = '';
+        } else {
+            $keywords      = implode('+', $queryArray);
+            $hightlightKey = '&amp;keywords=' . $keywords;
+        }
     }
+
+
     $itemHandler      = $helper->getHandler('Item');
     $itemsObjs        = $itemHandler->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
     $withCategoryPath = $helper->getConfig('search_cat_path');

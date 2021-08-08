@@ -35,7 +35,7 @@ const DIRNAME = 'fmcontent';
 /** @var \XoopsPersistableObjectHandler $fmContentHdlr */
 /** @var \XoopsPersistableObjectHandler $fmTopicHdlr */
 
-require_once dirname(__DIR__) . '/admin_header.php';
+require_once \dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'FmContent ' . Request::getString('fmcontent_version', '', 'POST');
@@ -105,7 +105,7 @@ if ('start' === $op) {
             $categoryHdlr  = $helper->getHandler('Category');
             $catObjs       = $categoryHdlr->getAll();
             $myObjTree     = new \XoopsObjectTree($catObjs, 'categoryid', 'parentid');
-            $moduleDirName = basename(dirname(__DIR__));
+            $moduleDirName = \basename(\dirname(__DIR__));
             $module = \XoopsModule::getByDirname($moduleDirName);
             $catSelBox = $myObjTree->makeSelectElement('parent_category', 'name', '-', 0, true, 0, '', '')->render();
             //$form->addElement($catSelBox);

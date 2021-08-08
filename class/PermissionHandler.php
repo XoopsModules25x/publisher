@@ -24,6 +24,9 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
+use XoopsModules\Publisher\{Helper
+};
+
 /** @var Helper $this->helper */
 
 //require_once \dirname(__DIR__) . '/include/common.php';
@@ -67,7 +70,7 @@ $this->helper = $helper ?? Helper::getInstance();
         $db    = \XoopsDatabaseFactory::getDatabaseConnection();
         $limit = $start = 0;
         $sql   = 'SELECT gperm_groupid FROM ' . $db->prefix('group_permission');
-        if (null !== $criteria && $criteria instanceof \CriteriaCompo) {
+        if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
             $sql   .= ' ' . $criteria->renderWhere();
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();

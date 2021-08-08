@@ -25,7 +25,7 @@ use XoopsModules\Publisher\{Helper,
 };
 
 error_reporting(0);
-require dirname(__DIR__, 3) . '/mainfile.php';
+require \dirname(__DIR__, 3) . '/mainfile.php';
 require_once __DIR__ . '/common.php';
 
 $GLOBALS['xoopsLogger']->activated = false;

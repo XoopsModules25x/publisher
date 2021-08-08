@@ -25,7 +25,7 @@ use Xmf\Module\Admin;
 use Xmf\Request;
 use \XoopsModules\Publisher\Common\ModuleFeedback;
 
-require __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 $adminObject = Admin::getInstance();
 
@@ -98,4 +98,4 @@ switch ($op) {
 
         break;
 }
-require __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

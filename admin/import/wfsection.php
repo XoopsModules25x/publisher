@@ -35,7 +35,7 @@ const ITEMID = 'itemid';
 const ARTICLEID = 'articleid';
 const DIRNAME = 'wfsection';
 
-require_once dirname(__DIR__) . '/admin_header.php';
+require_once \dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'WF-Section ' . Request::getString('wfs_version', '', 'POST');

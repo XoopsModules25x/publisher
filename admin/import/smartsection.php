@@ -33,7 +33,7 @@ const CATEGORY = 'smartsection_categories';
 const ITEMID = 'itemid';
 const DIRNAME = 'smartsection';
 
-require_once dirname(__DIR__) . '/admin_header.php';
+require_once \dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'Smartsection ' . Request::getString('smartsection_version', '', 'POST');

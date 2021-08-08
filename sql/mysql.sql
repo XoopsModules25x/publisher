@@ -73,6 +73,7 @@ CREATE TABLE `publisher_items` (
   `short_url`        VARCHAR(255)     NULL,
   `item_tag`         TEXT             NULL,
   `votetype`         TINYINT(1)       NOT NULL DEFAULT '0',
+  `votevalue`        TEXT             NULL,
   PRIMARY KEY (`itemid`),
   KEY categoryid (categoryid),
   KEY status (status)

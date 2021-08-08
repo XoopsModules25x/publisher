@@ -89,7 +89,7 @@ class VoteHandler extends \XoopsPersistableObjectHandler
         $ratingbarsValue  = (int)$this->helper->getConfig('ratingbars');
         $ratingArray = [Constants::RATING_5STARS, Constants::RATING_10STARS, Constants::RATING_10NUM];
 
-        if (in_array($ratingbarsValue, $ratingArray)) {
+        if (\in_array($ratingbarsValue, $ratingArray)) {
             $rating_unitwidth = 25;
             if (Constants::RATING_5STARS === (int)$this->helper->getConfig('ratingbars')) {
                 $max_units = 5;
@@ -254,7 +254,7 @@ class VoteHandler extends \XoopsPersistableObjectHandler
         $ratingbarsValue  = $itemObj->votetype();
         $ratingArray = [Constants::RATING_5STARS, Constants::RATING_10STARS, Constants::RATING_10NUM];
 
-        if (in_array($ratingbarsValue, $ratingArray)) {
+        if (\in_array($ratingbarsValue, $ratingArray)) {
             $rating_unitwidth = 25;
             if (Constants::RATING_5STARS === $ratingbarsValue) {
                 $max_units = 5;
@@ -408,10 +408,6 @@ class VoteHandler extends \XoopsPersistableObjectHandler
     }
 
 
-
-
-
-
     /**
      * delete vote of given item
      * @param mixed $itemId
@@ -426,4 +422,113 @@ class VoteHandler extends \XoopsPersistableObjectHandler
 
         return $this->deleteAll($criteria);
     }
+
+//TODO
+    // delete all votes for an item
+    // delete all votes
+    // updates Vote counts for an item after new vote
+    // convert vote type to another
+    // TopRated
+    // getAggregate
+
+    // Average, Sum, Count
+    // getVotingElement (FiveStarts, Reaction)
+    // buildForm, getStyle
+    //
+    //tableName
+    //behaviors
+    //rules
+    //attributeLabels
+    //afterSave
+    //getModelIdByName
+    //getModelNameById
+    //getIsAllowGuests
+    //getIsAllowChangeVote
+    //updateRating
+
+    //getId
+    //getVoterId
+    //getVoterName
+    //getVoteableId
+    //getVotableName
+    //getValue
+    //getRange
+    //getMinValue
+    //getMaxValue
+    //getTime
+
+    //VoteRepositoryInterface:
+    //find
+    //findByVoter
+    //findByVotable
+    //getCountByVotable
+    //getAvgByVotable
+    //create
+    //delete
+
+
+    //VotesRepositoryTest
+    //repo
+    //vote
+    //__construct
+    //testRepo
+    //_testCreate
+    //_testFindByVoter
+    //_testFindByVotable
+    //_testAvg
+    //_testCount
+    //_testDelete
+    //_votable
+    //_voter
+
+
+    //FieldVoteResultBase:
+        //calculateResult
+        //getVotesForField
+    //
+    //
+    //VotingApiField:
+        //defaultFieldSettings
+        //defaultStorageSettings
+        //fieldSettingsForm
+        //generateSampleValue
+        //isEmpty
+        //mainPropertyName
+        //postSave
+        //propertyDefinitions
+        //schema
+        //storageSettingsForm
+    //
+    //
+    //VotingApiWidgetBase:
+        //canVote
+        //getEntityForVoting
+        //getForm
+        //getInitialVotingElement
+        //getLabel
+        //getResults
+        //getValues
+        //getVoteSummary
+        //getWindow
+
+    //Rating
+        //afterSave
+        //attributeLabels
+        //behaviors
+        //compressIp
+        //expandIp
+        //getIsAllowChangeVote
+        //getIsAllowGuests
+        //getModelIdByName
+        //getModelNameById
+        //rules
+        //tableName
+        //updateRating
+
+
+
+
+
+
+
 }

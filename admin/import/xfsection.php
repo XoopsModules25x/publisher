@@ -34,7 +34,7 @@ const CATEGORY = 'xfs_category';
 const ITEMID = 'articleid';
 const DIRNAME = 'xfsection';
 
-require_once dirname(__DIR__) . '/admin_header.php';
+require_once \dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'XF-Section ' . Request::getString('xfs_version', '', 'POST');

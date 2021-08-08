@@ -838,7 +838,7 @@ class Item extends \XoopsObject
         // Highlighting searched words
         $highlight = true;
         if ($highlight && Request::getString('keywords', '', 'GET')) {
-            $keywords = \htmlspecialchars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))), ENT_QUOTES | ENT_HTML5);
+            $keywords = \htmlspecialchars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))), \ENT_QUOTES | \ENT_HTML5);
             $fields   = ['title', 'maintext', 'summary'];
             foreach ($fields as $field) {
                 if (isset($item[$field])) {
@@ -1176,7 +1176,7 @@ class Item extends \XoopsObject
         $module = $this->helper->getModule();
         $module_id   = $module->getVar('mid');
         /** @var \XoopsGroupPermHandler $grouppermHandler */
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
 
         $this->category    = $this->helper->getHandler('Category')->get($this->getVar('categoryid'));
         $this->groups_read = $grouppermHandler->getGroupIds('item_read', $this->itemid(), $module_id);

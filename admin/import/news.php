@@ -31,7 +31,7 @@ use XoopsModules\Publisher\{Category,
 
 const DIRNAME = 'news';
 
-require_once dirname(__DIR__) . '/admin_header.php';
+require_once \dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'News ' . Request::getString('news_version', '', 'POST');

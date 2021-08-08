@@ -49,7 +49,7 @@ class Helper extends \Xmf\Module\Helper
      *
      * @return \XoopsModules\Publisher\Helper
      */
-    public static function getInstance($debug = false)
+    public static function getInstance(bool $debug = false): Helper
     {
         static $instance;
         if (null === $instance) {
@@ -91,4 +91,4 @@ class Helper extends \Xmf\Module\Helper
         return $ret;
     }
 }
-//require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';

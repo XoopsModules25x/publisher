@@ -240,20 +240,20 @@ class Utility extends Common\SysUtility
             $fileObj = $helper->getHandler('File')->get($fileid);
 
             if ($fileObj->notLoaded()) {
-                redirect_header('<script>javascript:history.go(-1)</script>', 1, _AM_PUBLISHER_NOFILESELECTED);
+                \redirect_header('<script>javascript:history.go(-1)</script>', 1, \_AM_PUBLISHER_NOFILESELECTED);
             }
 
             echo "<br>\n";
-            echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_EDITING . '</span>';
-            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_FILE_EDITING_DSC . '</span>';
-            static::openCollapsableBar('editfile', 'editfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
+            echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . \_AM_PUBLISHER_FILE_EDITING . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . \_AM_PUBLISHER_FILE_EDITING_DSC . '</span>';
+            static::openCollapsableBar('editfile', 'editfileicon', \_AM_PUBLISHER_FILE_INFORMATIONS);
         } else {
             // there's no parameter, so we're adding an item
             $fileObj = $helper->getHandler('File')->create();
             $fileObj->setVar('itemid', $itemId);
-            echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_ADDING . '</span>';
-            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_FILE_ADDING_DSC . '</span>';
-            static::openCollapsableBar('addfile', 'addfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
+            echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . \_AM_PUBLISHER_FILE_ADDING . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . \_AM_PUBLISHER_FILE_ADDING_DSC . '</span>';
+            static::openCollapsableBar('addfile', 'addfileicon', \_AM_PUBLISHER_FILE_INFORMATIONS);
         }
 
         // FILES UPLOAD FORM
@@ -872,7 +872,7 @@ class Utility extends Common\SysUtility
             $time = \time() + 3600 * 24 * 365;
         }
 //        setcookie($name, $value, $time, '/');
-         setcookie($name, $value, $time, '/', ini_get('session.cookie_domain'), (bool)ini_get('session.cookie_secure'), (bool)ini_get('session.cookie_httponly'));
+         setcookie($name, $value, $time, '/', \ini_get('session.cookie_domain'), (bool)\ini_get('session.cookie_secure'), (bool)\ini_get('session.cookie_httponly'));
     }
 
     /**
@@ -1423,27 +1423,27 @@ class Utility extends Common\SysUtility
     /**
      * @return array
      */
-    public static function getModuleStats()
-    {
-        $helper = Helper::getInstance();
-        //        $moduleStats = [];
-        //        if (\count($configurator->moduleStats) > 0) {
-        //            foreach (\array_keys($configurator->moduleStats) as $i) {
-        //                $moduleStats[$i] = $configurator->moduleStats[$i];
-        //            }
-        //        }
-
-        $moduleStats  = [
-            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
-            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
-            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_SUBMITTED),
-            'totalpublished'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_PUBLISHED),
-            'totaloffline'    => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_OFFLINE),
-            'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_REJECTED),
-        ];
-
-        return $moduleStats;
-    }
+//    public static function getModuleStats()
+//    {
+//        $helper = Helper::getInstance();
+//        //        $moduleStats = [];
+//        //        if (\count($configurator->moduleStats) > 0) {
+//        //            foreach (\array_keys($configurator->moduleStats) as $i) {
+//        //                $moduleStats[$i] = $configurator->moduleStats[$i];
+//        //            }
+//        //        }
+//
+//        $moduleStats  = [
+//            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
+//            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
+//            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_SUBMITTED),
+//            'totalpublished'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_PUBLISHED),
+//            'totaloffline'    => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_OFFLINE),
+//            'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_REJECTED),
+//        ];
+//
+//        return $moduleStats;
+//    }
 
     /**
      * @param $path

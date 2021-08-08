@@ -29,7 +29,7 @@ use XoopsModules\Publisher\{Constants,
 
 const DIRNAME = 'cjaycontent';
 
-require_once dirname(__DIR__) . '/admin_header.php';
+require_once \dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'cjaycontent ' . Request::getString('cjaycontent_version', '', 'POST');
@@ -93,7 +93,7 @@ if ('start' === $op) {
 if ('go' === $op) {
     Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
-    // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
+    // require_once \dirname(__DIR__, 2) . '/include/common.php';
     Utility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
     $moduleId         = $helper->getModule()->getVar('mid');
     /** @var \XoopsGroupPermHandler $grouppermHandler */

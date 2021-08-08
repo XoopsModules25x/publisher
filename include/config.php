@@ -30,7 +30,7 @@ use Xmf\Module\Admin;
 require __DIR__ . '/common.php';
 
 /** @return object */
-$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 $helper             = Helper::getInstance();
 

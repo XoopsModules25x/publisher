@@ -670,7 +670,7 @@ class MimetypesUtility
             echo '</table></form>';
         }
         Utility::closeCollapsableBar('mimesearchtable', 'mimesearchicon');
-        //        require_once dirname(__DIR__) . '/admin/admin_footer.php';
+        //        require_once \dirname(__DIR__) . '/admin/admin_footer.php';
         \xoops_cp_footer();
     }
 

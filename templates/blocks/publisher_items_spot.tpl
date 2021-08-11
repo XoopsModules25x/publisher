@@ -8,14 +8,14 @@
 <{/if}>
 <{/if}>
 
-<{if $block.display_type|default:'' == block'}>
+<{if $block.display_type|default:'' == 'block'}>
     <{foreach item=item from=$block.items|default:false}>
         <{include file="db:publisher_singleitem_block.tpl" item=$item}>
     <{/foreach}>
 
 <{else}>
     <{foreach item=item from=$block.items name=spotlight}>
-        <{if $item.summary|default:'''}>
+        <{if $item.summary|default:''}>
             <div class="itemText" style="padding-left: 5px; padding-top: 5px;">
                 <div>
                     <img style="vertical-align: middle;" src="<{$block.publisher_url}>/assets/images/links/doc.png" alt="">&nbsp;<{$item.titlelink}>

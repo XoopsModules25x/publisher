@@ -158,8 +158,8 @@ function publisher_latest_news_show($options)
         }
 
         if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser']->isAdmin(-1)) {
-            $item['admin'] = "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $itemObj->itemid() . "'" . $icons->edit . '</a>&nbsp;';
-            $item['admin'] .= "<a href='" . PUBLISHER_URL . '/admin/item.php?op=del&amp;itemid=' . $itemObj->itemid() . "'>" . $icons->delete . '</a>';
+            $item['admin'] = "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $itemObj->itemid() . "'" . $icons['edit'] . '</a>&nbsp;';
+            $item['admin'] .= "<a href='" . PUBLISHER_URL . '/admin/item.php?op=del&amp;itemid=' . $itemObj->itemid() . "'>" . $icons['delete'] . '</a>';
         } else {
             $item['admin'] = '';
         }
@@ -223,19 +223,19 @@ function publisher_latest_news_show($options)
 
         $item['print'] = '';
         if (1 == $options[24]) {
-            $item['print'] = '<a href="' . Seo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow">" . $icons->print . "</a>&nbsp;';
+            $item['print'] = '<a href="' . Seo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow">" . $icons['print'] . "</a>&nbsp;';
         }
 
         $item['pdf'] = '';
 
         if (1 == $options[25]) {
-            $item['pdf'] = "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $itemObj->itemid() . "' rel='nofollow'>" . $icons->pdf . '</a>&nbsp;';
+            $item['pdf'] = "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $itemObj->itemid() . "' rel='nofollow'>" . $icons['pdf'] . '</a>&nbsp;';
         }
 
         $item['email'] = '';
         if (1 == $options[26]) {
             $maillink      = 'mailto:?subject=' . sprintf(_CO_PUBLISHER_INTITEM, $GLOBALS['xoopsConfig']['sitename']) . '&amp;body=' . sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  ' . $itemObj->getItemUrl();
-            $item['email'] = '<a href="' . $maillink . '">' . $icons->mail . '</a>&nbsp;';
+            $item['email'] = '<a href="' . $maillink . '">' . $icons['mail'] . '</a>&nbsp;';
         }
 
         $block['morelink'] = '';

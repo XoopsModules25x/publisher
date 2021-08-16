@@ -23,9 +23,7 @@ use XoopsModules\Publisher\{
 };
 
 require __DIR__ . '/admin_header.php';
-//include_once $GLOBALS['xoops']->path('class/xoopsblock.php');
-    require_once XOOPS_ROOT_PATH . '/kernel/block.php';
-
+include_once $GLOBALS['xoops']->path('class/xoopsblock.php');
 $moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
@@ -34,7 +32,7 @@ if (!is_object($xoopsModule) || !is_object($GLOBALS['xoopsUser'])
     exit(constant('CO_' . $moduleDirNameUpper . '_' . 'ERROR403'));
 }
 if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
-//    require_once XOOPS_ROOT_PATH . '/kernel/block.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
     $op = 'list';
     if (isset($_POST)) {
         foreach ($_POST as $k => $v) {
@@ -60,7 +58,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         global $xoopsModule, $pathIcon16;
         //        require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
         xoops_load('xoopslist');
-        //require_once XOOPS_ROOT_PATH . '/kernel/block.php';
+        //require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
         $moduleDirName      = \basename(\dirname(__DIR__));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         /** @var \XoopsMySQLDatabase $db */
@@ -264,10 +262,10 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
 
             // Actions
 
-            echo "<td class='$class' align='center'><a href='blocksadmin.php?op=edit&amp;bid=" . $i->getVar('bid') . "'>" . $icons->edit .  "</a> <a href='blocksadmin.php?op=clone&amp;bid=" . $i->getVar('bid') . "'><img src=" . $pathIcon16 . '/editcopy.png' . " alt='" . _CLONE . "' title='" . _CLONE . "'>
+            echo "<td class='$class' align='center'><a href='blocksadmin.php?op=edit&amp;bid=" . $i->getVar('bid') . "'>" . $icons['edit'] .  "</a> <a href='blocksadmin.php?op=clone&amp;bid=" . $i->getVar('bid') . "'><img src=" . $pathIcon16 . '/editcopy.png' . " alt='" . _CLONE . "' title='" . _CLONE . "'>
                  </a>";
             if (!in_array($i->getVar('block_type'), ['S', 'M'])) {
-                echo "&nbsp;<a href='" . XOOPS_URL . '/modules/system/admin.php?fct=blocksadmin&amp;op=delete&amp;bid=' . $i->getVar('bid') . "'>" . $icons->delete . '</a>';
+                echo "&nbsp;<a href='" . XOOPS_URL . '/modules/system/admin.php?fct=blocksadmin&amp;op=delete&amp;bid=' . $i->getVar('bid') . "'>" . $icons['delete'] . '</a>';
             }
             echo "
             <input type='hidden' name='oldtitle[" . $i->getVar('bid') . "]' value='" . $i->getVar('title') . "'>

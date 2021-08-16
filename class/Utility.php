@@ -182,8 +182,8 @@ class Utility extends Common\SysUtility
                 $description = \mb_substr($description, 0, 100 - 1) . '...';
             }
         }
-        $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'>" . $icons->edit . '</a>';
-        $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'>" . $icons->delete . '</a>';
+        $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'>" . $icons['edit'] . '</a>';
+        $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'>" . $icons['delete'] . '</a>';
         $spaces = \str_repeat('&nbsp;', ($level * 3));
         /*
         $spaces = '';
@@ -326,8 +326,8 @@ class Utility extends Common\SysUtility
             echo '</tr>';
             if ($totalsubs > 0) {
                 foreach ($subcatsObj as $subcat) {
-                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'>" . $icons->edit . '</a>';
-                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'>" . $icons->delete . '</a>';
+                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'>" . $icons['edit'] . '</a>';
+                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'>" . $icons['delete'] . '</a>';
                     echo '<tr>';
                     echo "<td class='head' align='left'>" . $subcat->categoryid() . '</td>';
                     echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . '/category.php?categoryid=' . $subcat->categoryid() . '&amp;parentid=' . $subcat->parentid() . "'>" . $subcat->name() . '</a></td>';
@@ -363,8 +363,8 @@ class Utility extends Common\SysUtility
             if ($totalitems > 0) {
                 foreach ($itemsObj as $iValue) {
                     $categoryObj = $allcats[$iValue->categoryid()];
-                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $iValue->itemid() . "'>" . $icons->edit . '</a>';
-                    $delete      = "<a href='item.php?op=del&amp;itemid=" . $iValue->itemid() . "'>" . $icons->delete . '</a>';
+                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $iValue->itemid() . "'>" . $icons['edit'] . '</a>';
+                    $delete      = "<a href='item.php?op=del&amp;itemid=" . $iValue->itemid() . "'>" . $icons['delete'] . '</a>';
                     echo '<tr>';
                     echo "<td class='head' align='center'>" . $iValue->itemid() . '</td>';
                     echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';

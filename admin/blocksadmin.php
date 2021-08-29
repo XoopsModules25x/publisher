@@ -72,7 +72,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         xoops_loadLanguage('admin/groups', 'system');
 
         $configurator = new Configurator();
-        $icons = $configurator->icons;
+        $icons        = $configurator->icons;
 
         /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
@@ -120,16 +120,16 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         $blockCount = count($blockArray);
         $class      = 'even';
         $cachetimes = [
-            0 => _NOCACHE,
-            30 => sprintf(_SECONDS, 30),
-            60 => _MINUTE,
-            300 => sprintf(_MINUTES, 5),
-            1800 => sprintf(_MINUTES, 30),
-            3600 => _HOUR,
-            18000 => sprintf(_HOURS, 5),
-            86400 => _DAY,
-            259200 => sprintf(_DAYS, 3),
-            604800 => _WEEK,
+            0       => _NOCACHE,
+            30      => sprintf(_SECONDS, 30),
+            60      => _MINUTE,
+            300     => sprintf(_MINUTES, 5),
+            1800    => sprintf(_MINUTES, 30),
+            3600    => _HOUR,
+            18000   => sprintf(_HOURS, 5),
+            86400   => _DAY,
+            259200  => sprintf(_DAYS, 3),
+            604800  => _WEEK,
             2592000 => _MONTH,
         ];
         foreach ($blockArray as $i) {
@@ -293,7 +293,6 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
      */
     function cloneBlock($bid)
     {
-
         xoops_cp_header();
 
         $adminObject = Admin::getInstance();
@@ -313,7 +312,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         while (false !== ($row = $db->fetchArray($result))) {
             $modules[] = (int)$row['module_id'];
         }
-        $isCustom =  (in_array($myblock->getVar('block_type'), ['C', 'E']));
+        $isCustom = (in_array($myblock->getVar('block_type'), ['C', 'E']));
         $block    = [
             'title'      => $myblock->getVar('title') . ' Clone',
             'form_title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS_CLONEBLOCK'),
@@ -358,8 +357,8 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
 
         $moduleDirName      = \basename(\dirname(__DIR__));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-        $block = new \XoopsBlock($bid);
-        $clone = $block->xoopsClone();
+        $block              = new \XoopsBlock($bid);
+        $clone              = $block->xoopsClone();
         if (empty($bmodule)) {
             xoops_cp_header();
             xoops_error(sprintf(constant('CO_' . $moduleDirNameUpper . '_' . 'NOTSELNG'), constant('CO_' . $moduleDirNameUpper . '_' . 'VISIBLEIN')));
@@ -430,10 +429,10 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         $myblock->setVar('visible', $visible);
         $myblock->setVar('side', $side);
         $myblock->setVar('bcachetime', $bcachetime);
-        //        $myblock->store();
-        /** @var \XoopsBlockHandler $blockHandler */
-        $blockHandler = xoops_getHandler('block');
-        return $blockHandler->insert($myblock);
+        $myblock->store();
+        //        /** @var \XoopsBlockHandler $blockHandler */
+        //        $blockHandler = xoops_getHandler('block');
+        //        return $blockHandler->insert($myblock);
     }
 
     /**
@@ -460,7 +459,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         while (false !== ($row = $db->fetchArray($result))) {
             $modules[] = (int)$row['module_id'];
         }
-        $isCustom =  (in_array($myblock->getVar('block_type'), ['C', 'E']));
+        $isCustom = (in_array($myblock->getVar('block_type'), ['C', 'E']));
         $block    = [
             'title'      => $myblock->getVar('title'),
             'form_title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS_EDITBLOCK'),
@@ -514,19 +513,19 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         $helper->loadLanguage('common');
         //update block options
         if (is_array($options) && count($options) > 0) {
-                //Convert array values to comma-separated
-                foreach ($options as $i => $iValue) {
-                    if (is_array($iValue)) {
-                        $options[$i] = implode(',', $iValue);
-                    }
+            //Convert array values to comma-separated
+            foreach ($options as $i => $iValue) {
+                if (is_array($iValue)) {
+                    $options[$i] = implode(',', $iValue);
                 }
-                $options = implode('|', $options);
-                $myblock->setVar('options', $options);
             }
-        //        $myblock->store();
-        /** @var \XoopsBlockHandler $blockHandler */
-        $blockHandler = xoops_getHandler('block');
-        $blockHandler->insert($myblock);
+            $options = implode('|', $options);
+            $myblock->setVar('options', $options);
+        }
+        $myblock->store();
+        //        /** @var \XoopsBlockHandler $blockHandler */
+        //        $blockHandler = xoops_getHandler('block');
+        //        $blockHandler->insert($myblock);
 
         global $xoopsDB;
 

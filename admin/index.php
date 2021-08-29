@@ -62,7 +62,7 @@ if (is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.ph
 }
 
 $modStats    = [];
-$moduleStats = $utility::getModuleStats($configurator, $modStats);
+$moduleStats = $utility::getModuleStats($configurator);
 
 $adminObject->addInfoBox(constant('CO_' . $moduleDirNameUpper . '_' . 'STATS_SUMMARY'));
 if ($moduleStats && is_array($moduleStats)) {

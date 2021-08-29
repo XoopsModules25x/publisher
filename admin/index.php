@@ -65,7 +65,7 @@ $modStats    = [];
 $moduleStats = $utility::getModuleStats($configurator);
 
 $adminObject->addInfoBox(constant('CO_' . $moduleDirNameUpper . '_' . 'STATS_SUMMARY'));
-if ($moduleStats && is_array($moduleStats)) {
+if (is_array($moduleStats)  && count($moduleStats) > 0) {
     foreach ($moduleStats as $key => $value) {
         switch ($key) {
             case 'totalcategories':

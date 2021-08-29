@@ -21,19 +21,21 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Constants,
+use XoopsModules\Publisher\{
+    Constants,
     Category,
     File,
     Helper,
     Item,
     Utility
 };
+
 /** @var Helper $helper */
 
-const CATEGORY = 'wfs_category';
-const ITEMID = 'itemid';
+const CATEGORY  = 'wfs_category';
+const ITEMID    = 'itemid';
 const ARTICLEID = 'articleid';
-const DIRNAME = 'wfsection';
+const DIRNAME   = 'wfsection';
 
 require_once \dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
@@ -254,8 +256,8 @@ if ('go' === $op) {
 
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
-    $moduleId         = $helper->getModule()->getVar('mid');
-    
+    $moduleId = $helper->getModule()->getVar('mid');
+
     $publisher_module_id = $helper->getModule()->mid();
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');

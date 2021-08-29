@@ -21,13 +21,15 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Constants,
+use XoopsModules\Publisher\{
+    Constants,
     Category,
     File,
     Helper,
     Item,
     Utility
 };
+
 /** @var Helper $helper */
 
 const DIRNAME = 'xnews';
@@ -173,8 +175,8 @@ if ('go' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     // require_once  \dirname(__DIR__, 2) . '/include/common.php';
     Utility::openCollapsableBar('xnewsimportgo', 'xnewsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    $moduleId         = $helper->getModule()->getVar('mid');
-    
+    $moduleId = $helper->getModule()->getVar('mid');
+
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 

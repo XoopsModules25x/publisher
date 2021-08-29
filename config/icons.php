@@ -10,7 +10,7 @@ use XoopsModules\Publisher\{
     Utility
 };
 
-$pathIcon16    = Admin::iconUrl('', 16);
+$pathIcon16    = Admin::iconUrl('', '16');
 $moduleDirName = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 $helper = Helper::getInstance();

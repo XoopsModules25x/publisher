@@ -27,7 +27,7 @@
     </table>
 <{/if}>
 
-<{if $rssfeed_link|default:false != ""}>
+<{if $rssfeed_link|default:'' != ''}>
     <div id="publisher_rpublisher_feed"><{$rssfeed_link|default:false}></div>
 <{/if}>
 

@@ -17,5 +17,5 @@ declare(strict_types=1);
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-require dirname(__DIR__, 2) . '/mainfile.php';
+require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once $GLOBALS['xoops']->path('include/comment_edit.php');

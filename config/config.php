@@ -12,7 +12,7 @@ declare(strict_types=1);
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @since
  * @author       XOOPS Development Team
@@ -23,11 +23,13 @@ use XoopsModules\Publisher\{Constants,
     Helper
 };
 
-require_once dirname(__DIR__) . '/include/common.php';
-$moduleDirName      = basename(dirname(__DIR__));
+require_once \dirname(__DIR__) . '/include/common.php';
+$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 $helper             = Helper::getInstance();
 
 return (object)[
+    'name'           => $moduleDirNameUpper . ' Module Configurator',
     'paths'          => [
         'dirname'    => $moduleDirName,
         'admin'      => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
@@ -84,6 +86,17 @@ return (object)[
 
     'renameTables' => [//         'XX_archive'     => 'ZZZZ_archive',
     ],
+    'renameColumns' => [//        'extcal_event' => ['from' => 'event_etablissement', 'to' => 'event_location'],
+    ],
+    'moduleStats'  => [
+        'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
+        'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
+        'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_SUBMITTED),
+        'totalpublished'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_PUBLISHED),
+        'totaloffline'    => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_OFFLINE),
+        'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_REJECTED),
+    ],
     'modCopyright' => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
                      <img src='" . Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
 ];
+

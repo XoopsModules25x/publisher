@@ -7,7 +7,6 @@ declare(strict_types=1);
  * of supporting developers from this source code or any supporting source code
  * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * PHP version 5
  *
  * @category        Module
  * @author          XOOPS Development Team
@@ -15,10 +14,21 @@ declare(strict_types=1);
  * @link            https://xoops.org
  * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  */
+
+use Xmf\Module\Admin;
+use XoopsModules\Publisher\{
+    Helper
+};
+
+/** @var Admin $adminObject */
+/** @var Helper $helper */
+
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-$moduleDirName      = basename(dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
+$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
+
+$helper->loadLanguage('blocksadmin');
 
 $form = new \XoopsThemeForm($block['form_title'], 'blockform', 'blocksadmin.php', 'post', true);
 if (isset($block['name'])) {
@@ -51,7 +61,7 @@ $moduleList[0]  = _AM_SYSTEM_BLOCKS_ALLPAGES;
 ksort($moduleList);
 $moduleSelect->addOptionArray($moduleList);
 $form->addElement($moduleSelect);
-$form->addElement(new \XoopsFormText(constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE'), 'btitle', 50, 255, $block['title']), false);
+$form->addElement(new \XoopsFormText(_AM_SYSTEM_BLOCKS_TITLE, 'btitle', 50, 255, $block['title']), false);
 if ($block['is_custom']) {
     $textarea = new \XoopsFormDhtmlTextArea(_AM_SYSTEM_BLOCKS_CONTENT, 'bcontent', $block['content'], 15, 70);
     $textarea->setDescription('<span style="font-size:x-small;font-weight:bold;">' . _AM_SYSTEM_BLOCKS_USEFULTAGS . '</span><br><span style="font-size:x-small;font-weight:normal;">' . sprintf(_AM_BLOCKTAG1, '{X_SITEURL}', XOOPS_URL . '/') . '</span>');
@@ -87,17 +97,17 @@ if ($block['is_custom']) {
 $cacheSelect = new \XoopsFormSelect(_AM_SYSTEM_BLOCKS_BCACHETIME, 'bcachetime', $block['bcachetime']);
 $cacheSelect->addOptionArray(
     [
-        '0'       => _NOCACHE,
-        '30'      => sprintf(_SECONDS, 30),
-        '60'      => _MINUTE,
-        '300'     => sprintf(_MINUTES, 5),
-        '1800'    => sprintf(_MINUTES, 30),
-        '3600'    => _HOUR,
-        '18000'   => sprintf(_HOURS, 5),
-        '86400'   => _DAY,
-        '259200'  => sprintf(_DAYS, 3),
-        '604800'  => _WEEK,
-        '2592000' => _MONTH,
+        0       => _NOCACHE,
+        30      => sprintf(_SECONDS, 30),
+        60      => _MINUTE,
+        300     => sprintf(_MINUTES, 5),
+        1800    => sprintf(_MINUTES, 30),
+        3600    => _HOUR,
+        18000   => sprintf(_HOURS, 5),
+        86400   => _DAY,
+        259200  => sprintf(_DAYS, 3),
+        604800  => _WEEK,
+        2592000 => _MONTH,
     ]
 );
 $form->addElement($cacheSelect);

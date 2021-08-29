@@ -10,8 +10,8 @@ use XoopsModules\Publisher\{
     Utility
 };
 
-$pathIcon16    = Admin::iconUrl('', 16);
-$moduleDirName = basename(dirname(__DIR__));
+$pathIcon16    = Admin::iconUrl('', '16');
+$moduleDirName = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 $helper = Helper::getInstance();
 $helper->loadLanguage('admin');
@@ -21,7 +21,7 @@ $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32')) . '/'
 $print = constant('_CO_' . $moduleDirNameUpper . '_' . 'PRINT');
 $pdf = constant('_CO_' . $moduleDirNameUpper . '_' . 'PDF');
 
-return (object)[
+return [
     'edit'         => Utility::iconSourceTag($pathIcon16, 'edit.png', _EDIT),
     'delete'       => Utility::iconSourceTag($pathIcon16, 'delete.png', _DELETE),
     'clone'        => Utility::iconSourceTag($pathIcon16, 'editcopy.png', _CLONE),

@@ -86,6 +86,7 @@ class Ratings extends \XoopsObject
         $ret['uid']    = \XoopsUser::getUnameFromId($this->getVar('rate_uid'));
         $ret['ip']     = $this->getVar('rate_ip');
         $ret['date']   = \formatTimestamp($this->getVar('rate_date'), 's');
+        $ret['votetype'] = $this->getVar('votetype');
 
         return $ret;
     }

@@ -182,8 +182,8 @@ class Utility extends Common\SysUtility
                 $description = \mb_substr($description, 0, 100 - 1) . '...';
             }
         }
-        $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'>" . $icons->edit . '</a>';
-        $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'>" . $icons->delete . '</a>';
+        $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'>" . $icons['edit'] . '</a>';
+        $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'>" . $icons['delete'] . '</a>';
         $spaces = \str_repeat('&nbsp;', ($level * 3));
         /*
         $spaces = '';
@@ -240,20 +240,20 @@ class Utility extends Common\SysUtility
             $fileObj = $helper->getHandler('File')->get($fileid);
 
             if ($fileObj->notLoaded()) {
-                redirect_header('<script>javascript:history.go(-1)</script>', 1, _AM_PUBLISHER_NOFILESELECTED);
+                \redirect_header('<script>javascript:history.go(-1)</script>', 1, \_AM_PUBLISHER_NOFILESELECTED);
             }
 
             echo "<br>\n";
-            echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_EDITING . '</span>';
-            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_FILE_EDITING_DSC . '</span>';
-            static::openCollapsableBar('editfile', 'editfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
+            echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . \_AM_PUBLISHER_FILE_EDITING . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . \_AM_PUBLISHER_FILE_EDITING_DSC . '</span>';
+            static::openCollapsableBar('editfile', 'editfileicon', \_AM_PUBLISHER_FILE_INFORMATIONS);
         } else {
             // there's no parameter, so we're adding an item
             $fileObj = $helper->getHandler('File')->create();
             $fileObj->setVar('itemid', $itemId);
-            echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_ADDING . '</span>';
-            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_FILE_ADDING_DSC . '</span>';
-            static::openCollapsableBar('addfile', 'addfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
+            echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . \_AM_PUBLISHER_FILE_ADDING . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . \_AM_PUBLISHER_FILE_ADDING_DSC . '</span>';
+            static::openCollapsableBar('addfile', 'addfileicon', \_AM_PUBLISHER_FILE_INFORMATIONS);
         }
 
         // FILES UPLOAD FORM
@@ -270,19 +270,19 @@ class Utility extends Common\SysUtility
 
     /**
      * @param bool          $showmenu
-     * @param int           $categoryId
+     * @param int           $categoryid
      * @param int           $nbSubCats
      * @param Category|null $categoryObj
      */
-    public static function editCategory($showmenu = false, $categoryId = 0, $nbSubCats = 4, $categoryObj = null)
+    public static function editCategory($showmenu = false, $categoryid = 0, $nbSubCats = 4, $categoryObj = null)
     {
         $helper = Helper::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
         /** @var  Category $categoryObj */
-        if (0 != $categoryId) {
+        if (0 != $categoryid) {
             // Creating the category object for the selected category
-            $categoryObj = $helper->getHandler('Category')->get($categoryId);
+            $categoryObj = $helper->getHandler('Category')->get($categoryid);
             if ($categoryObj->notLoaded()) {
                 \redirect_header('category.php', 1, \_AM_PUBLISHER_NOCOLTOEDIT);
             }
@@ -290,7 +290,7 @@ class Utility extends Common\SysUtility
             $categoryObj = $helper->getHandler('Category')->create();
         }
 
-        if (0 != $categoryId) {
+        if (0 != $categoryid) {
             echo "<br>\n";
             static::openCollapsableBar('edittable', 'edittableicon', \_AM_PUBLISHER_EDITCOL, \_AM_PUBLISHER_CATEGORY_EDIT_INFO);
         } else {
@@ -300,15 +300,15 @@ class Utility extends Common\SysUtility
         $sform = $categoryObj->getForm($nbSubCats);
         $sform->display();
 
-        if ($categoryId) {
+        if ($categoryid) {
             static::closeCollapsableBar('edittable', 'edittableicon');
         } else {
             static::closeCollapsableBar('createtable', 'createtableicon');
         }
 
         //Added by fx2024
-        if ($categoryId) {
-            $selCat = $categoryId;
+        if ($categoryid) {
+            $selCat = $categoryid;
 
             static::openCollapsableBar('subcatstable', 'subcatsicon', \_AM_PUBLISHER_SUBCAT_CAT, \_AM_PUBLISHER_SUBCAT_CAT_DSC);
             // Get the total number of sub-categories
@@ -326,8 +326,8 @@ class Utility extends Common\SysUtility
             echo '</tr>';
             if ($totalsubs > 0) {
                 foreach ($subcatsObj as $subcat) {
-                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'>" . $icons->edit . '</a>';
-                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'>" . $icons->delete . '</a>';
+                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'>" . $icons['edit'] . '</a>';
+                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'>" . $icons['delete'] . '</a>';
                     echo '<tr>';
                     echo "<td class='head' align='left'>" . $subcat->categoryid() . '</td>';
                     echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . '/category.php?categoryid=' . $subcat->categoryid() . '&amp;parentid=' . $subcat->parentid() . "'>" . $subcat->name() . '</a></td>';
@@ -363,8 +363,8 @@ class Utility extends Common\SysUtility
             if ($totalitems > 0) {
                 foreach ($itemsObj as $iValue) {
                     $categoryObj = $allcats[$iValue->categoryid()];
-                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $iValue->itemid() . "'>" . $icons->edit . '</a>';
-                    $delete      = "<a href='item.php?op=del&amp;itemid=" . $iValue->itemid() . "'>" . $icons->delete . '</a>';
+                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $iValue->itemid() . "'>" . $icons['edit'] . '</a>';
+                    $delete      = "<a href='item.php?op=del&amp;itemid=" . $iValue->itemid() . "'>" . $icons['delete'] . '</a>';
                     echo '<tr>';
                     echo "<td class='head' align='center'>" . $iValue->itemid() . '</td>';
                     echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';
@@ -784,11 +784,11 @@ class Utility extends Common\SysUtility
      * Saves permissions for the selected category
      *
      * @param null|array $groups     : group with granted permission
-     * @param int        $categoryId : categoryid on which we are setting permissions
+     * @param int        $categoryid : categoryid on which we are setting permissions
      * @param string     $permName   : name of the permission
      * @return bool : TRUE if the no errors occured
      */
-    public static function saveCategoryPermissions($groups, $categoryId, $permName)
+    public static function saveCategoryPermissions($groups, $categoryid, $permName)
     {
         $helper = Helper::getInstance();
 
@@ -798,12 +798,12 @@ class Utility extends Common\SysUtility
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = \xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
-        $grouppermHandler->deleteByModule($moduleId, $permName, $categoryId);
+        $grouppermHandler->deleteByModule($moduleId, $permName, $categoryid);
 
         // Save the new permissions
         if (\count($groups) > 0) {
             foreach ($groups as $groupId) {
-                $grouppermHandler->addRight($permName, $categoryId, $groupId, $moduleId);
+                $grouppermHandler->addRight($permName, $categoryid, $groupId, $moduleId);
             }
         }
 
@@ -872,7 +872,7 @@ class Utility extends Common\SysUtility
             $time = \time() + 3600 * 24 * 365;
         }
 //        setcookie($name, $value, $time, '/');
-         setcookie($name, $value, $time, '/', ini_get('session.cookie_domain'), (bool)ini_get('session.cookie_secure'), (bool)ini_get('session.cookie_httponly'));
+         setcookie($name, $value, $time, '/', \ini_get('session.cookie_domain'), (bool)\ini_get('session.cookie_secure'), (bool)\ini_get('session.cookie_httponly'));
     }
 
     /**
@@ -1423,27 +1423,27 @@ class Utility extends Common\SysUtility
     /**
      * @return array
      */
-    public static function getModuleStats()
-    {
-        $helper = Helper::getInstance();
-        //        $moduleStats = [];
-        //        if (\count($configurator->moduleStats) > 0) {
-        //            foreach (\array_keys($configurator->moduleStats) as $i) {
-        //                $moduleStats[$i] = $configurator->moduleStats[$i];
-        //            }
-        //        }
-
-        $moduleStats  = [
-            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
-            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
-            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_SUBMITTED),
-            'totalpublished'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_PUBLISHED),
-            'totaloffline'    => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_OFFLINE),
-            'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_REJECTED),
-        ];
-
-        return $moduleStats;
-    }
+//    public static function getModuleStats()
+//    {
+//        $helper = Helper::getInstance();
+//        //        $moduleStats = [];
+//        //        if (\count($configurator->moduleStats) > 0) {
+//        //            foreach (\array_keys($configurator->moduleStats) as $i) {
+//        //                $moduleStats[$i] = $configurator->moduleStats[$i];
+//        //            }
+//        //        }
+//
+//        $moduleStats  = [
+//            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
+//            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
+//            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_SUBMITTED),
+//            'totalpublished'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_PUBLISHED),
+//            'totaloffline'    => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_OFFLINE),
+//            'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_REJECTED),
+//        ];
+//
+//        return $moduleStats;
+//    }
 
     /**
      * @param $path

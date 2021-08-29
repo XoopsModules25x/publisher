@@ -437,7 +437,7 @@ class Item extends \XoopsObject
     /**
      * @param bool $withAllLink
      *
-     * @return string|bool
+     * @return array|bool|string
      */
     public function getCategoryPath($withAllLink = true)
     {
@@ -473,18 +473,18 @@ class Item extends \XoopsObject
             if (Utility::userIsAdmin() || Utility::userIsAuthor($this) || Utility::userIsModerator($this)) {
                 if ($this->helper->getConfig('perm_edit') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Edit button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'>" . $icons->edit . '</a>';
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'>" . $icons['edit'] . '</a>';
                     $adminLinks .= ' ';
                 }
                 if ($this->helper->getConfig('perm_delete') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Delete button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'>" . $icons->delete . '</a>';
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'>" . $icons['delete'] . '</a>';
                     $adminLinks .= ' ';
                 }
             }
             if ($this->helper->getConfig('perm_clone') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                 // Duplicate button
-                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'>" . $icons->clone . '</a>';
+                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'>" . $icons['clone'] . '</a>';
                 $adminLinks .= ' ';
             }
         }
@@ -501,7 +501,7 @@ class Item extends \XoopsObject
         $pdfButton = '';
         // PDF button
         if (\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-            $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'>" . $icons->pdf . '</a>&nbsp;';
+            $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'>" . $icons['pdf'] . '</a>&nbsp;';
             $pdfButton .= ' ';
         } else {
             //                if (is_object($GLOBALS['xoopsUser']) && Utility::userIsAdmin()) {
@@ -527,7 +527,7 @@ class Item extends \XoopsObject
     {
         $printLinks = '';
         // Print button
-        $printLinks .= "<a href='" . Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'>" . $icons->print . '</a>&nbsp;';
+        $printLinks .= "<a href='" . Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'>" . $icons['print'] . '</a>&nbsp;';
         $printLinks .= ' ';
 
         return $printLinks;
@@ -838,7 +838,7 @@ class Item extends \XoopsObject
         // Highlighting searched words
         $highlight = true;
         if ($highlight && Request::getString('keywords', '', 'GET')) {
-            $keywords = \htmlspecialchars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))), ENT_QUOTES | ENT_HTML5);
+            $keywords = \htmlspecialchars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))), \ENT_QUOTES | \ENT_HTML5);
             $fields   = ['title', 'maintext', 'summary'];
             foreach ($fields as $field) {
                 if (isset($item[$field])) {
@@ -1061,8 +1061,8 @@ class Item extends \XoopsObject
     public function setVarsFromRequest()
     {
         //Required fields
-        //        if (!empty($categoryId = Request::getInt('categoryid', 0, 'POST'))) {
-        //            $this->setVar('categoryid', $categoryId);}
+        //        if (!empty($categoryid = Request::getInt('categoryid', 0, 'POST'))) {
+        //            $this->setVar('categoryid', $categoryid);}
         if (\is_object($GLOBALS['xoopsUser'])) {
             $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
         } else {
@@ -1176,7 +1176,7 @@ class Item extends \XoopsObject
         $module = $this->helper->getModule();
         $module_id   = $module->getVar('mid');
         /** @var \XoopsGroupPermHandler $grouppermHandler */
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
 
         $this->category    = $this->helper->getHandler('Category')->get($this->getVar('categoryid'));
         $this->groups_read = $grouppermHandler->getGroupIds('item_read', $this->itemid(), $module_id);

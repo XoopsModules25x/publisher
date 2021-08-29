@@ -53,6 +53,6 @@
     <{/if}>
 <{/if}>
 
-<{if $title_and_welcome|default:false && $lang_mainintro != ""}>
+<{if $title_and_welcome|default:false && $lang_mainintro|default:'' != ''}>
                 <span><{$lang_mainintro}></span>
 <{/if}>

@@ -17,21 +17,22 @@ declare(strict_types=1);
  */
 
 use Xmf\Database\TableLoad;
-use \Xmf\Request;
+use Xmf\Request;
+use Xmf\Yaml;
 use XoopsModules\Publisher\{Helper,
-    Common,
+    Common\Configurator,
     Utility
 };
-use Xmf\Yaml;
-
 /** @var Helper $helper */
+/** @var Utility $utility */
+/** @var Configurator $configurator */
 
-require_once dirname(__DIR__, 3) . '/include/cp_header.php';
-require dirname(__DIR__) . '/preloads/autoloader.php';
+require \dirname(__DIR__, 3) . '/include/cp_header.php';
+require \dirname(__DIR__) . '/preloads/autoloader.php';
 
 $op = Request::getCmd('op', '');
 
-$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 $helper = Helper::getInstance();
@@ -47,12 +48,15 @@ switch ($op) {
             loadSampleData();
         } else {
             xoops_cp_header();
-            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', sprintf(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA_OK')), constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'), true);
+            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', sprintf(constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_CONFIRM')), constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'), true);
             xoops_cp_footer();
         }
         break;
     case 'save':
         saveSampleData();
+        break;
+    case 'clear':
+        clearSampleData();
         break;
 }
 
@@ -61,12 +65,11 @@ switch ($op) {
 function loadSampleData()
 {
     global $xoopsConfig;
-    $moduleDirName      = basename(dirname(__DIR__));
+    $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     $utility      = new Utility();
-    $configurator = new Common\Configurator();
-    $helper       = Helper::getInstance();
+    $configurator = new Configurator();
 
     $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
 
@@ -85,30 +88,28 @@ function loadSampleData()
     // load permissions
     $table     = 'group_permission';
     $tabledata = Yaml::readWrapped($language . $table . '.yml');
-    $moduleId  = $helper->getModule()->getVar('mid');
-    loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $moduleId);
+    $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
+    loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $mid);
 
     //  ---  COPY test folder files ---------------
     if (is_array($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
-        //        $file =  dirname(__DIR__) . '/testdata/images/';
+        //        $file =  \dirname(__DIR__) . '/testdata/images/';
         foreach (array_keys($configurator->copyTestFolders) as $i) {
             $src  = $configurator->copyTestFolders[$i][0];
             $dest = $configurator->copyTestFolders[$i][1];
             $utility::rcopy($src, $dest);
         }
     }
-    \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
+    \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_SUCCESS'));
 }
 
 function saveSampleData()
 {
     global $xoopsConfig;
-    $moduleDirName      = basename(dirname(__DIR__));
+    $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
     $helper             = Helper::getInstance();
-    $moduleId           = $helper->getModule()->getVar('mid');
-
-    $tables = $helper->getModule()->getInfo('tables');
+    $tables             = $helper->getModule()->getInfo('tables');
 
     $languageFolder = __DIR__ . '/' . $xoopsConfig['language'];
     if (!file_exists($languageFolder . '/')) {
@@ -124,7 +125,7 @@ function saveSampleData()
 
     // save permissions
     $criteria = new \CriteriaCompo();
-    $criteria->add(new \Criteria('gperm_modid', $moduleId));
+    $criteria->add(new \Criteria('gperm_modid', $helper->getModule()->getVar('mid')));
     $skipColumns[] = 'gperm_id';
     TableLoad::saveTableToYamlFile('group_permission', $exportFolder . 'group_permission.yml', $criteria, $skipColumns);
     unset($criteria);
@@ -134,7 +135,7 @@ function saveSampleData()
 
 function exportSchema()
 {
-    $moduleDirName      = basename(dirname(__DIR__));
+    $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     try {
@@ -201,4 +202,18 @@ function loadTableFromArrayWithReplace($table, $data, $search, $replace)
     }
 
     return $count;
+}
+
+function clearSampleData(){
+    $moduleDirName      = \basename(\dirname(__DIR__));
+    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $helper             = Helper::getInstance();
+    // Load language files
+    $helper->loadLanguage('common');
+    $tables = $helper->getModule()->getInfo('tables');
+    // truncate module tables
+    foreach ($tables as $table) {
+        \Xmf\Database\TableLoad::truncateTable($table);
+    }
+    redirect_header($helper->url('admin/index.php'), 1, constant('CO_' . $moduleDirNameUpper . '_' . 'CLEAR_SAMPLEDATA_OK'));
 }

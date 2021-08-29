@@ -43,6 +43,7 @@ class Vote extends \XoopsObject
         $this->initVar('uid', \XOBJ_DTYPE_INT);
         $this->initVar('ip', \XOBJ_DTYPE_TXTBOX);
         $this->initVar('date', \XOBJ_DTYPE_INT);
+        $this->initVar('votetype', \XOBJ_DTYPE_INT);
     }
 
     /**

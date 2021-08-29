@@ -144,7 +144,7 @@ class ThemeTabForm extends \XoopsForm
             $elements[$n]['name']     = $eleName;
             $elements[$n]['caption']  = $ele->getCaption();
             $elements[$n]['body']     = $ele->render();
-            $elements[$n]['hidden']   = $ele->isHidden() ? true : false;
+            $elements[$n]['hidden']   = (bool)$ele->isHidden();
             $elements[$n]['required'] = $ele->isRequired();
             if ('' != $eleDescription) {
                 $elements[$n]['description'] = $eleDescription;

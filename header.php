@@ -25,7 +25,7 @@ use XoopsModules\Publisher\{Helper
  * {@internal $helper defined in ./include/common.php }}
  */
 
-require_once dirname(__DIR__, 2) . '/mainfile.php';
+require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
 $myts = \MyTextSanitizer::getInstance();

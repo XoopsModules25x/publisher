@@ -21,19 +21,21 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Category,
+use XoopsModules\Publisher\{
+    Category,
     File,
     Item,
     Helper,
     Utility
 };
+
 /** @var Helper $helper */
 
 const CATEGORY = 'smartsection_categories';
-const ITEMID = 'itemid';
-const DIRNAME = 'smartsection';
+const ITEMID   = 'itemid';
+const DIRNAME  = 'smartsection';
 
-require_once dirname(__DIR__) . '/admin_header.php';
+require_once \dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
 $importFromModuleName = 'Smartsection ' . Request::getString('smartsection_version', '', 'POST');
@@ -109,8 +111,8 @@ if ('go' === $op) {
     Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Utility::openCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    $moduleId         = $helper->getModule()->getVar('mid');
-    
+    $moduleId = $helper->getModule()->getVar('mid');
+
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 

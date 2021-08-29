@@ -29,7 +29,7 @@ use XoopsModules\Publisher\{Category,
     Utility
 };
 
-// require_once  dirname(dirname(__DIR__)) . '/include/common.php';
+// require_once  \dirname(__DIR__, 2) . '/include/common.php';
 
 \xoops_load('XoopsFormLoader');
 require_once $GLOBALS['xoops']->path('class/tree.php');
@@ -72,7 +72,7 @@ class CategoryForm extends \XoopsThemeForm
 
     public function createElements()
     {
-        // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
+        // require_once  \dirname(__DIR__, 2) . '/include/common.php';
         // Category
         $criteria = new \Criteria(null);
         $criteria->setSort('weight');

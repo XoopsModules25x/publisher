@@ -119,6 +119,7 @@ switch ($op) {
         $voteObj->setVar('uid', $itemRating['uid']);
         $voteObj->setVar('ip', $itemRating['ip']);
         $voteObj->setVar('date', \time());
+        $voteObj->setVar('votetype', $votingType);
         // Insert Data
         if ($voteHandler->insert($voteObj)) {
             unset($voteObj);

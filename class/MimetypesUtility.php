@@ -459,15 +459,15 @@ class MimetypesUtility
         <td align='center'>" . $mime->getVar('mime_ext') . "</td>
         <td align='center'>
         <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=updateMimeValue&amp;id=' . $mime->getVar('mime_id') . '&amp;mime_admin=' . $mime->getVar('mime_admin') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>
-        " . ($mime->getVar('mime_admin') ? $icons->online : $icons->offline) . "</a>
+        " . ($mime->getVar('mime_admin') ? $icons['online'] : $icons['offline']) . "</a>
         </td>
         <td align='center'>
         <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=updateMimeValue&amp;id=' . $mime->getVar('mime_id') . '&amp;mime_user=' . $mime->getVar('mime_user') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>
-        " . ($mime->getVar('mime_user') ? $icons->online : $icons->offline) . "</a>
+        " . ($mime->getVar('mime_user') ? $icons['online'] : $icons['offline']) . "</a>
         </td>
         <td align='center'>
-        <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=edit&amp;id=' . $mime->getVar('mime_id') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>" . $icons->edit . "</a>
-        <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=delete&amp;id=' . $mime->getVar('mime_id') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>" . $icons->delete . '</a>
+        <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=edit&amp;id=' . $mime->getVar('mime_id') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>" . $icons['edit'] . "</a>
+        <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=delete&amp;id=' . $mime->getVar('mime_id') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>" . $icons['delete'] . '</a>
         </td>
         </tr>';
         }
@@ -613,15 +613,15 @@ class MimetypesUtility
                 <td align='center'>" . $mime->getVar('mime_ext') . "</td>
                 <td align='center'>
                 <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=updateMimeValue&amp;id=' . $mime->getVar('mime_id') . '&amp;mime_admin=' . $mime->getVar('mime_admin') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>
-                " . ($mime->getVar('mime_admin') ? $icons->online : $icons->offline) . "</a>
+                " . ($mime->getVar('mime_admin') ? $icons['online'] : $icons['offline']) . "</a>
                 </td>
                 <td align='center'>
                 <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=updateMimeValue&amp;id=' . $mime->getVar('mime_id') . '&amp;mime_user=' . $mime->getVar('mime_user') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>
-                " . ($mime->getVar('mime_user') ? $icons->online : $icons->offline) . "</a>
+                " . ($mime->getVar('mime_user') ? $icons['online'] : $icons['offline']) . "</a>
                 </td>
                 <td align='center'>
-                <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=edit&amp;id=' . $mime->getVar('mime_id') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>" . $icons->edit . "</a>
-                <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=delete&amp;id=' . $mime->getVar('mime_id') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>" . $icons->delete . '</a>
+                <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=edit&amp;id=' . $mime->getVar('mime_id') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>" . $icons['edit'] . "</a>
+                <a href='" . PUBLISHER_ADMIN_URL . '/mimetypes.php?op=delete&amp;id=' . $mime->getVar('mime_id') . '&amp;limit=' . $limit . '&amp;start=' . $start . "'>" . $icons['delete'] . '</a>
                 </td>
                 </tr>';
                 }
@@ -670,7 +670,7 @@ class MimetypesUtility
             echo '</table></form>';
         }
         Utility::closeCollapsableBar('mimesearchtable', 'mimesearchicon');
-        //        require_once dirname(__DIR__) . '/admin/admin_footer.php';
+        //        require_once \dirname(__DIR__) . '/admin/admin_footer.php';
         \xoops_cp_footer();
     }
 

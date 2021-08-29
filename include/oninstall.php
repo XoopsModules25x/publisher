@@ -17,7 +17,8 @@ declare(strict_types=1);
  * @author          luciorota <lucio.rota@gmail.com>
  */
 
-use XoopsModules\Publisher\{Common\Configurator,
+use XoopsModules\Publisher\{
+    Common\Configurator,
     Helper,
     Utility
 };
@@ -32,7 +33,7 @@ use XoopsModules\Publisher\{Common\Configurator,
  */
 function xoops_module_pre_install_publisher(\XoopsModule $module)
 {
-    require dirname(__DIR__) . '/preloads/autoloader.php';
+    require \dirname(__DIR__) . '/preloads/autoloader.php';
     $utility = new Utility();
 
     //check for minimum XOOPS version
@@ -57,7 +58,7 @@ function xoops_module_pre_install_publisher(\XoopsModule $module)
  */
 function xoops_module_install_publisher(\XoopsModule $module)
 {
-    require dirname(__DIR__) . '/preloads/autoloader.php';
+    require \dirname(__DIR__) . '/preloads/autoloader.php';
 
     $helper       = Helper::getInstance();
     $utility      = new Utility();
@@ -77,7 +78,7 @@ function xoops_module_install_publisher(\XoopsModule $module)
 
     //  ---  COPY blank.png FILES ---------------
     if ($configurator->copyBlankFiles && is_array($configurator->copyBlankFiles)) {
-        $file = dirname(__DIR__) . '/assets/images/blank.png';
+        $file = \dirname(__DIR__) . '/assets/images/blank.png';
         foreach (array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
             $utility::copyFile($file, $dest);
@@ -86,7 +87,7 @@ function xoops_module_install_publisher(\XoopsModule $module)
 
     //  ---  COPY test folder files ---------------
     if ($configurator->copyTestFolders && is_array($configurator->copyTestFolders)) {
-        //        $file =  dirname(__DIR__) . '/testdata/images/';
+        //        $file =  \dirname(__DIR__) . '/testdata/images/';
         foreach (array_keys($configurator->copyTestFolders) as $i) {
             $src  = $configurator->copyTestFolders[$i][0];
             $dest = $configurator->copyTestFolders[$i][1];

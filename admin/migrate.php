@@ -32,6 +32,7 @@ declare(strict_types=1);
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
+
 use Xmf\Module\Admin;
 use XoopsModules\Publisher\{
     Common\Configurator,
@@ -43,7 +44,7 @@ use XoopsModules\Publisher\{
 /** @var Configurator $configurator */
 /** @var Migrate $migrator */
 
-require __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 
 $adminObject->displayNavigation(basename(__FILE__));
@@ -66,15 +67,15 @@ EOF;
 
 $configurator = new Configurator();
 
-$migrator = new Migrate($configurator);
+$migrator = new Migrate();
 
-$op = Request::getCmd('op', 'show');
-$opShow = Request::getCmd('show', null, 'POST');
+$op        = Request::getCmd('op', 'show');
+$opShow    = Request::getCmd('show', null, 'POST');
 $opMigrate = Request::getCmd('migrate', null, 'POST');
-$opSchema = Request::getCmd('schema', null, 'POST');
-$op = !empty($opShow) ? 'show' : $op;
-$op = !empty($opMigrate) ? 'migrate' : $op;
-$op = !empty($opSchema) ? 'schema' : $op;
+$opSchema  = Request::getCmd('schema', null, 'POST');
+$op        = !empty($opShow) ? 'show' : $op;
+$op        = !empty($opMigrate) ? 'migrate' : $op;
+$op        = !empty($opSchema) ? 'schema' : $op;
 
 $message = '';
 

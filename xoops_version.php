@@ -36,8 +36,8 @@ $xoops_url = parse_url(XOOPS_URL);
 
 $modversion = [
     'version'             => '1.08',
-    'module_status'       => 'Alpha 4',
-    'release_date'        => '2021/01/12',
+    'module_status'       => 'Alpha 5',
+    'release_date'        => '2021/08/08',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -62,7 +62,7 @@ $modversion = [
     'onInstall'           => 'include/oninstall.php',
     'onUpdate'            => 'include/onupdate.php',
     // ------------------- Min Requirements -------------------
-    'min_php'             => '7.2',
+    'min_php'             => '7.3',
     'min_xoops'           => '2.5.10',
     'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],

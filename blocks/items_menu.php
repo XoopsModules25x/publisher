@@ -27,7 +27,7 @@ use XoopsModules\Publisher\{BlockForm,
     Utility
 };
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -54,13 +54,13 @@ function publisher_items_menu_show($options)
 
     $catLinkClass = 'menuMain';
 
-    $categoryId = 0;
+    $categoryid = 0;
 
     if ($block['inModule']) {
         // Are we in a category and if yes, in which one ?
-        $categoryId = Request::getInt('categoryid', 0, 'GET');
+        $categoryid = Request::getInt('categoryid', 0, 'GET');
 
-        if (0 != $categoryId) {
+        if (0 != $categoryid) {
             // if we are in a category, then the $categoryObj is already defined in publisher/category.php
             global $categoryObj;
             $block['currentcat'] = $categoryObj->getCategoryLink('menuTop');
@@ -69,7 +69,7 @@ function publisher_items_menu_show($options)
     }
 
     foreach ($blockCategoriesObj as $catId => $blockCategoryObj) {
-        if ($catId != $categoryId) {
+        if ($catId != $categoryid) {
             $block['categories'][$catId]['categoryLink'] = $blockCategoryObj->getCategoryLink($catLinkClass);
         }
     }

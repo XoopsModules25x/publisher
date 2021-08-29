@@ -1,11 +1,27 @@
-<h5>1.08 Alpha 4       [2021-01-12]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.14, PHP 8.0.1
+<h5>1.08 Alpha 5       [2021-08-28]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.22, PHP 8.0.9
 <hr>
-- added votetype column in update (goffy)
-- added rating selection in item form (mamba)
+- updated articles testdata with voting (mamba)
+- set $icons in ItemForm (mamba)
+- added votetype to Vote/Ratings classes (mamba)
+- fix for integer in archive #162 (liomj/mamba)
 - added smarty defaults (goffy)
 - fixed bug with cloning (goffy)
  -- replace _MI_BLOG_ by _MI_PUBLISHER_ (goffy)
  -- replace _MA_BLOG_ by _MA_PUBLISHER_ (goffy)
+- replace index.html with index.php (mamba)
+- add renameColumns, moduleStats to Configurator (mamba)
+- logoXoopsPhp8 (mamba)
+- Yoda, cosmetics, Unqualified function/constant reference, type hints (mamba)
+- PHP8 Smarty defaults
+- revert for blocks in 2.5.10 (ihackcode/mamba)
+- various fixes from Scrutinizer (mamba)
+
+
+<h5>1.08 Alpha 4       [2021-01-12]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.14, PHP 8.0.1
+<hr>
+- added votetype column in update (goffy)
+- added rating selection in item form (mamba)
+
 
 <h5>1.08 Alpha 3       [2021-01-01]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.13, PHP 8.0
 <hr>

@@ -21,13 +21,14 @@ declare(strict_types=1);
  */
 
 use Xmf\Module\Admin;
+use Xmf\Request;
+use Xmf\Yaml;
 use XoopsModules\Publisher\{Common,
     Common\Configurator,
     Common\TestdataButtons,
     Helper,
     Utility
 };
-use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -60,10 +61,11 @@ if (is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.ph
     $adminObject->addConfigBoxLine('<span style="color:#ff0000;"><img src="' . $pathIcon16 . '/0.png" alt="!">' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
 }
 
-$moduleStats = $utility::getModuleStats();
+$modStats    = [];
+$moduleStats = $utility::getModuleStats($configurator);
 
 $adminObject->addInfoBox(constant('CO_' . $moduleDirNameUpper . '_' . 'STATS_SUMMARY'));
-if ($moduleStats && is_array($moduleStats)) {
+if (is_array($moduleStats)  && count($moduleStats) > 0) {
     foreach ($moduleStats as $key => $value) {
         switch ($key) {
             case 'totalcategories':
@@ -97,10 +99,10 @@ if ($moduleStats && is_array($moduleStats)) {
 $adminObject->displayNavigation(basename(__FILE__));
 
 //check for latest release
-//$newRelease = $utility::checkVerModule($helper);
-//if (!empty($newRelease)) {
-//    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
-//}
+$newRelease = $utility::checkVerModule($helper);
+if (!empty($newRelease)) {
+    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
+}
 
 //------------- Test Data Buttons ----------------------------
 if ($helper->getConfig('displaySampleButton')) {
@@ -122,4 +124,4 @@ $adminObject->displayIndex();
 echo $utility::getServerStats();
 
 //codeDump(__FILE__);
-require __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

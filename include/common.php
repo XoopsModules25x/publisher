@@ -30,10 +30,10 @@ use XoopsModules\Publisher\{
 /** @var Helper $helper */
 /** @var Utility $utility */
 
-$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-require dirname(__DIR__) . '/preloads/autoloader.php';
+require \dirname(__DIR__) . '/preloads/autoloader.php';
 
 /** @var \XoopsMySQLDatabase $db */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
@@ -108,8 +108,8 @@ if (is_object($helper->getModule())) {
     $publisherCurrentPage = Utility::getCurrentPage();
 }
 
-$pathIcon16 = Admin::iconUrl('', 16);
-$pathIcon32 = Admin::iconUrl('', 32);
+$pathIcon16 = Admin::iconUrl('', '16');
+$pathIcon32 = Admin::iconUrl('', '32');
 //$pathModIcon16 = $helper->getModule()->getInfo('modicons16');
 //$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 

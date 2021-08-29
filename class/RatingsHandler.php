@@ -111,7 +111,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('rate_source', $source));
 
             $ratingObjs               = $helper->getHandler('ratings')->getObjects($criteria);
-            $count                    = count($ratingObjs);
+            $count                    = \count($ratingObjs);
             $itemRating['nb_ratings'] = $count;
 
             foreach ($ratingObjs as $ratingObj) {
@@ -148,7 +148,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('rate_value', 0, '<'));
 
             $ratingObjs = $helper->getHandler('Ratings')->getObjects($criteria);
-            $count      = count($ratingObjs);
+            $count      = \count($ratingObjs);
 
             foreach ($ratingObjs as $ratingObj) {
                 $currentRating += $ratingObj->getVar('rate_value');
@@ -166,7 +166,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('rate_value', 0, '>'));
 
             $ratingObjs     = $helper->getHandler('ratings')->getObjects($criteria);
-            $count          = count($ratingObjs);
+            $count          = \count($ratingObjs);
             $currentRating = 0;
             foreach ($ratingObjs as $ratingObj) {
                 $currentRating += $ratingObj->getVar('rate_value');
@@ -188,7 +188,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('rate_value', 0, '<'));
 
             $ratingObjs               = $helper->getHandler('ratings')->getObjects($criteria);
-            $count                    = count($ratingObjs);
+            $count                    = \count($ratingObjs);
             $itemRating['nb_ratings'] = $count;
 
             foreach ($ratingObjs as $ratingObj) {
@@ -207,7 +207,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('rate_value', 0, '>'));
 
             $ratingObjs     = $helper->getHandler('ratings')->getObjects($criteria);
-            $count          = count($ratingObjs);
+            $count          = \count($ratingObjs);
             $currentRating = 0;
             foreach ($ratingObjs as $ratingObj) {
                 $currentRating += $ratingObj->getVar('rate_value');

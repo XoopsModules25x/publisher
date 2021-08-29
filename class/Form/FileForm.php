@@ -27,7 +27,7 @@ use XoopsModules\Publisher\{Constants,
     Helper
 };
 
-// require_once  dirname(dirname(__DIR__)) . '/include/common.php';
+// require_once \dirname(__DIR__, 2) . '/include/common.php';
 
 \xoops_load('XoopsFormLoader');
 //todo: move to admin?

@@ -25,6 +25,7 @@ namespace XoopsModules\Publisher\Form;
 
 use Xmf\Request;
 use XoopsModules\Publisher\{Constants,
+    Common\Configurator,
     Form,
     FormDateTime,
     Helper,
@@ -140,6 +141,8 @@ class ItemForm extends ThemeTabForm
     {
         $helper     = Helper::getInstance();
         $timeoffset = null;
+        $configurator = new Configurator();
+        $icons = $configurator->icons;
 
         $allowedEditors = Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
 
@@ -278,14 +281,14 @@ class ItemForm extends ThemeTabForm
         /** @var GroupPermHandler $grouppermHandler */
         $grouppermHandler = $helper->getHandler('GroupPerm');
         $moduleId         = $helper->getModule()->getVar('mid');
-        if ($helper->getConfig('perm_rating') && $grouppermHandler->checkRight('global', _PUBLISHER_RATE, $groups, $moduleId)) {
+        if ($helper->getConfig('perm_rating') && $grouppermHandler->checkRight('global', \_PUBLISHER_RATE, $groups, $moduleId)) {
             $options = [
-                Constants::RATING_NONE     => _MI_PUBLISHER_RATING_NONE,
-                Constants::RATING_5STARS   => _MI_PUBLISHER_RATING_5STARS,
-                Constants::RATING_10STARS  => _MI_PUBLISHER_RATING_10STARS,
-                Constants::RATING_LIKES    => _MI_PUBLISHER_RATING_LIKES,
-                Constants::RATING_10NUM    => _MI_PUBLISHER_RATING_10NUM,
-                Constants::RATING_REACTION => _MI_PUBLISHER_RATING_REACTION,
+                Constants::RATING_NONE     => \_MI_PUBLISHER_RATING_NONE,
+                Constants::RATING_5STARS   => \_MI_PUBLISHER_RATING_5STARS,
+                Constants::RATING_10STARS  => \_MI_PUBLISHER_RATING_10STARS,
+                Constants::RATING_LIKES    => \_MI_PUBLISHER_RATING_LIKES,
+                Constants::RATING_10NUM    => \_MI_PUBLISHER_RATING_10NUM,
+                Constants::RATING_REACTION => \_MI_PUBLISHER_RATING_REACTION,
             ];
 
             $votetypeSelect = new \XoopsFormSelect(\_MI_PUBLISHER_RATINGBARS, 'votetype', $obj->getVar('votetype'));
@@ -615,8 +618,8 @@ $publisher(document).ready(function () {
                     $table .= '</tr>';
 
                     foreach ($filesObj as $fileObj) {
-                        $modify      = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'>" . $icons->edit . '</a>';
-                        $delete      = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'>" . $icons->delete . '</a>';
+                        $modify      = "<a href='file.php?op=mod&fileid=" . $fileObj->fileid() . "'>" . $icons['edit'] . '</a>';
+                        $delete      = "<a href='file.php?op=del&fileid=" . $fileObj->fileid() . "'>" . $icons['delete'] . '</a>';
                         $not_visible = '';
                         if (0 == $fileObj->status()) {
                             $not_visible = "<img src='" . PUBLISHER_URL . "/assets/images/no.gif'>";

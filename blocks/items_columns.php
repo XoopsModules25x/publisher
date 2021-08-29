@@ -84,8 +84,8 @@ function publisher_items_columns_show($options)
     $k       = 0;
     $columns = $mainItem = $subItem = [];
 
-    foreach ($selCategoriesObj as $categoryId => $mainItemCatObj) {
-        $categoryItemsObj = $itemHandler->getAllPublished($optCatItems, 0, $categoryId);
+    foreach ($selCategoriesObj as $categoryid => $mainItemCatObj) {
+        $categoryItemsObj = $itemHandler->getAllPublished($optCatItems, 0, $categoryid);
         $scount           = count($categoryItemsObj);
         if ($scount > 0 && is_array($categoryItemsObj)) {
             reset($categoryItemsObj);
@@ -140,7 +140,7 @@ function publisher_items_columns_show($options)
             }
         }
     }
-    unset($categoryId);
+    unset($categoryid);
 
     $block['template']             = $options[4];
     $block['columns']              = $columns;

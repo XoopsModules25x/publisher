@@ -115,16 +115,6 @@ trait VersionChecks
 
 */
 
-
-
-
-
-
-
-
-
-
-
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         $update             = '';
@@ -137,7 +127,7 @@ trait VersionChecks
                 \curl_setopt($curlHandle, \CURLOPT_URL, $infoReleasesUrl);
                 \curl_setopt($curlHandle, \CURLOPT_RETURNTRANSFER, true);
                 \curl_setopt($curlHandle, \CURLOPT_FOLLOWLOCATION, true);
-//                \curl_setopt($curlHandle, \CURLOPT_SSL_VERIFYPEER, true); //TODO: how to avoid an error when 'Peer's Certificate issuer is not recognized'
+                //                \curl_setopt($curlHandle, \CURLOPT_SSL_VERIFYPEER, true); //TODO: how to avoid an error when 'Peer's Certificate issuer is not recognized'
                 \curl_setopt($curlHandle, \CURLOPT_HTTPHEADER, ["User-Agent:Publisher\r\n"]);
                 $curlReturn = \curl_exec($curlHandle);
                 if (false === $curlReturn) {
@@ -160,8 +150,8 @@ trait VersionChecks
                     }
                     $moduleVersion = ($helper->getModule()->getInfo('version') . '_' . $helper->getModule()->getInfo('module_status'));
                     //"PHP-standardized" version
-//                    $moduleVersion = \str_replace(' ', '', \mb_strtolower($moduleVersion));
-                                        $moduleVersion = '1.0'; //for testing only
+                    //                    $moduleVersion = \str_replace(' ', '', \mb_strtolower($moduleVersion));
+//                    $moduleVersion = '1.0'; //for testing only
                     //                    $moduleDirName = 'aktuelles'; //for testing only
                     if (!$prerelease && \version_compare($moduleVersion, $latestVersion, '<')) {
                         $ret   = [];

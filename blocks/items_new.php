@@ -71,8 +71,8 @@ function publisher_items_new_show($options)
     }
 
     //    $optCatItems    = (int)$options[2];
-    //    $categoryId = -1;
-    //    $categoryItemsObj = $itemHandler->getAllPublished($optCatItems, 0, $categoryId);
+    //    $categoryid = -1;
+    //    $categoryItemsObj = $itemHandler->getAllPublished($optCatItems, 0, $categoryid);
 
     $itemsObj = $itemHandler->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, $sort, $order, '', true, $criteria, 'none');
 

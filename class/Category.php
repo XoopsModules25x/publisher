@@ -22,9 +22,8 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{Form,
-    Helper,
-    Utility
+use XoopsModules\Publisher\{
+    Form
 };
 
 /** @var Helper $this->helper */
@@ -44,7 +43,7 @@ class Category extends \XoopsObject
      * @var array
      */
     public $categoryPath = false;
-    public $categoryId;
+    public $categoryid;
     public $parentid;
     public $name;
     public $description;

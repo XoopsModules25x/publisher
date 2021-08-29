@@ -270,19 +270,19 @@ class Utility extends Common\SysUtility
 
     /**
      * @param bool          $showmenu
-     * @param int           $categoryId
+     * @param int           $categoryid
      * @param int           $nbSubCats
      * @param Category|null $categoryObj
      */
-    public static function editCategory($showmenu = false, $categoryId = 0, $nbSubCats = 4, $categoryObj = null)
+    public static function editCategory($showmenu = false, $categoryid = 0, $nbSubCats = 4, $categoryObj = null)
     {
         $helper = Helper::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
         /** @var  Category $categoryObj */
-        if (0 != $categoryId) {
+        if (0 != $categoryid) {
             // Creating the category object for the selected category
-            $categoryObj = $helper->getHandler('Category')->get($categoryId);
+            $categoryObj = $helper->getHandler('Category')->get($categoryid);
             if ($categoryObj->notLoaded()) {
                 \redirect_header('category.php', 1, \_AM_PUBLISHER_NOCOLTOEDIT);
             }
@@ -290,7 +290,7 @@ class Utility extends Common\SysUtility
             $categoryObj = $helper->getHandler('Category')->create();
         }
 
-        if (0 != $categoryId) {
+        if (0 != $categoryid) {
             echo "<br>\n";
             static::openCollapsableBar('edittable', 'edittableicon', \_AM_PUBLISHER_EDITCOL, \_AM_PUBLISHER_CATEGORY_EDIT_INFO);
         } else {
@@ -300,15 +300,15 @@ class Utility extends Common\SysUtility
         $sform = $categoryObj->getForm($nbSubCats);
         $sform->display();
 
-        if ($categoryId) {
+        if ($categoryid) {
             static::closeCollapsableBar('edittable', 'edittableicon');
         } else {
             static::closeCollapsableBar('createtable', 'createtableicon');
         }
 
         //Added by fx2024
-        if ($categoryId) {
-            $selCat = $categoryId;
+        if ($categoryid) {
+            $selCat = $categoryid;
 
             static::openCollapsableBar('subcatstable', 'subcatsicon', \_AM_PUBLISHER_SUBCAT_CAT, \_AM_PUBLISHER_SUBCAT_CAT_DSC);
             // Get the total number of sub-categories
@@ -784,11 +784,11 @@ class Utility extends Common\SysUtility
      * Saves permissions for the selected category
      *
      * @param null|array $groups     : group with granted permission
-     * @param int        $categoryId : categoryid on which we are setting permissions
+     * @param int        $categoryid : categoryid on which we are setting permissions
      * @param string     $permName   : name of the permission
      * @return bool : TRUE if the no errors occured
      */
-    public static function saveCategoryPermissions($groups, $categoryId, $permName)
+    public static function saveCategoryPermissions($groups, $categoryid, $permName)
     {
         $helper = Helper::getInstance();
 
@@ -798,12 +798,12 @@ class Utility extends Common\SysUtility
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = \xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
-        $grouppermHandler->deleteByModule($moduleId, $permName, $categoryId);
+        $grouppermHandler->deleteByModule($moduleId, $permName, $categoryid);
 
         // Save the new permissions
         if (\count($groups) > 0) {
             foreach ($groups as $groupId) {
-                $grouppermHandler->addRight($permName, $categoryId, $groupId, $moduleId);
+                $grouppermHandler->addRight($permName, $categoryid, $groupId, $moduleId);
             }
         }
 

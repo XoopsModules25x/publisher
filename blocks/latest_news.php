@@ -20,7 +20,9 @@ declare(strict_types=1);
  * @author          Mowaffak
  */
 
-use XoopsModules\Publisher\{Constants,
+use XoopsModules\Publisher\{
+    Common\Configurator,
+    Constants,
     Helper,
     ItemHandler,
     Seo,
@@ -37,6 +39,9 @@ require_once \dirname(__DIR__) . '/include/common.php';
 function publisher_latest_news_show($options)
 {
     $block = [];
+
+    $configurator = new Configurator();
+    $icons = $configurator->icons;
 
     $helper = Helper::getInstance();
     $helper->loadLanguage('main');
@@ -223,7 +228,7 @@ function publisher_latest_news_show($options)
 
         $item['print'] = '';
         if (1 == $options[24]) {
-            $item['print'] = '<a href="' . Seo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow">" . $icons['print'] . "</a>&nbsp;';
+            $item['print'] = '<a href="' . Seo::generateUrl('print', $itemObj->itemid(), $itemObj->short_url()) . '" rel="nofollow">' . $icons['print'] . '</a>&nbsp;';
         }
 
         $item['pdf'] = '';
@@ -244,7 +249,7 @@ function publisher_latest_news_show($options)
         }
 
         $item['more'] = '';
-        if (1 == $options[28] && '' != $itemObj->body() || $itemObj->comments() > 0) {
+        if ((1 == $options[28] && '' != $itemObj->body()) || $itemObj->comments() > 0) {
             $item['more'] = '<a href="' . $itemObj->getItemUrl() . '">' . _MB_PUBLISHER_READMORE . '</a>';
         }
 

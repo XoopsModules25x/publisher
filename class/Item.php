@@ -437,7 +437,7 @@ class Item extends \XoopsObject
     /**
      * @param bool $withAllLink
      *
-     * @return string|bool
+     * @return array|bool|string
      */
     public function getCategoryPath($withAllLink = true)
     {
@@ -1061,8 +1061,8 @@ class Item extends \XoopsObject
     public function setVarsFromRequest()
     {
         //Required fields
-        //        if (!empty($categoryId = Request::getInt('categoryid', 0, 'POST'))) {
-        //            $this->setVar('categoryid', $categoryId);}
+        //        if (!empty($categoryid = Request::getInt('categoryid', 0, 'POST'))) {
+        //            $this->setVar('categoryid', $categoryid);}
         if (\is_object($GLOBALS['xoopsUser'])) {
             $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
         } else {

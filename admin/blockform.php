@@ -28,6 +28,8 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 $moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
+$helper->loadLanguage('blocksadmin');
+
 $form = new \XoopsThemeForm($block['form_title'], 'blockform', 'blocksadmin.php', 'post', true);
 if (isset($block['name'])) {
     $form->addElement(new \XoopsFormLabel(_AM_SYSTEM_BLOCKS_NAME, $block['name']));

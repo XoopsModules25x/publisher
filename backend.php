@@ -33,10 +33,10 @@ if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
 
-$categoryId = Request::getInt('categoryid', -1, 'GET');
+$categoryid = Request::getInt('categoryid', -1, 'GET');
 
-if (-1 != $categoryId) {
-    $categoryObj = $helper->getHandler('Category')->get($categoryId);
+if (-1 != $categoryid) {
+    $categoryObj = $helper->getHandler('Category')->get($categoryid);
 }
 
 header('Content-Type:text/xml; charset=' . _CHARSET);
@@ -63,7 +63,7 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     $tpl->assign('channel_webmaster', $GLOBALS['xoopsConfig']['adminmail'] . '( ' . htmlspecialchars($GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES | ENT_HTML5) . ' )');
     $tpl->assign('channel_editor', $GLOBALS['xoopsConfig']['adminmail'] . '( ' . htmlspecialchars($GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES | ENT_HTML5) . ' )');
 
-    if (-1 != $categoryId) {
+    if (-1 != $categoryid) {
         $channelCategory .= ' > ' . $categoryObj->name();
     }
 
@@ -83,7 +83,7 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     $height = round($height, 0, PHP_ROUND_HALF_UP);
     $tpl->assign('image_width', $width);
     $tpl->assign('image_height', $height);
-    $sarray = $helper->getHandler('Item')->getAllPublished(10, 0, $categoryId);
+    $sarray = $helper->getHandler('Item')->getAllPublished(10, 0, $categoryid);
     if (!empty($sarray) && is_array($sarray)) {
         $count = $sarray;
         foreach ($sarray as $item) {

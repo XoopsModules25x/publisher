@@ -31,11 +31,11 @@ use XoopsModules\Publisher\{Category,
 
 require_once __DIR__ . '/header.php';
 
-$categoryId = Request::getInt('categoryid', 0, 'GET');
+$categoryid = Request::getInt('categoryid', 0, 'GET');
 
 // Creating the category object for the selected category
 /** @var Helper $helper */
-$categoryObj = $helper->getHandler('Category')->get($categoryId);
+$categoryObj = $helper->getHandler('Category')->get($categoryid);
 
 // if the selected category was not found, exit
 if (!is_object($categoryObj) || $categoryObj->notLoaded()) {
@@ -56,7 +56,7 @@ $totalItems = $helper->getHandler('Category')->publishedItemsCount();
 
 // if there is no Item under this categories or the sub-categories, exit
 // why?
-if (!isset($totalItems[$categoryId]) || 0 == $totalItems[$categoryId]) {
+if (!isset($totalItems[$categoryid]) || 0 == $totalItems[$categoryid]) {
     //redirect_header("index.php", 1, _MD_PUBLISHER_MAINNOFAQS);
 }
 
@@ -104,7 +104,7 @@ switch ($helper->getConfig('format_order_by')) {
         break;
 }
 
-$itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, $categoryId, $sort, $order);
+$itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, $categoryid, $sort, $order);
 
 $totalItemOnPage = 0;
 if ($itemsObj) {
@@ -128,7 +128,7 @@ if (1 == $helper->getConfig('idxcat_display_last_item')) {
 $lastitemsize = (int)$helper->getConfig('idxcat_last_item_size');
 
 // Creating the sub-categories objects that belong to the selected category
-$subcatsObj   = $helper->getHandler('Category')->getCategories(0, 0, $categoryId);
+$subcatsObj   = $helper->getHandler('Category')->getCategories(0, 0, $categoryid);
 $totalSubcats = count($subcatsObj);
 
 $total_items = 0;
@@ -180,7 +180,7 @@ if ('no' !== $helper->getConfig('idxcat_show_subcats')) {
 $category['subcats']      = $subcategories;
 $category['subcatscount'] = count($subcategories);
 
-$thiscategory_itemcount = $totalItems[$categoryId] ?? 0;
+$thiscategory_itemcount = $totalItems[$categoryid] ?? 0;
 $category['total']      = $thiscategory_itemcount;
 
 if (count($itemsObj) > 0) {
@@ -226,7 +226,7 @@ $xoopsTpl->assign('lang_category_summary_info', sprintf(_MD_PUBLISHER_CATEGORY_S
 $xoopsTpl->assign('lang_items_title', sprintf(_MD_PUBLISHER_ITEMS_TITLE, $categoryObj->name()));
 $xoopsTpl->assign('module_home', Utility::moduleHome($helper->getConfig('format_linked_path')));
 $xoopsTpl->assign('categoryPath', '<li>' . $category['categoryPath'] . '</li>');
-$xoopsTpl->assign('selected_category', $categoryId);
+$xoopsTpl->assign('selected_category', $categoryid);
 
 // The Navigation Bar
 require_once $GLOBALS['xoops']->path('class/pagenav.php');
@@ -246,7 +246,7 @@ $publisherMetagen->createMetaTags();
 
 // RSS Link
 if (1 == $helper->getConfig('idxcat_show_rss_link')) {
-    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . '/backend.php?categoryid=' . $categoryId, _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . '/assets/images/rss.gif', _MD_PUBLISHER_RSSFEED);
+    $link = sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>", PUBLISHER_URL . '/backend.php?categoryid=' . $categoryid, _MD_PUBLISHER_RSSFEED, PUBLISHER_URL . '/assets/images/rss.gif', _MD_PUBLISHER_RSSFEED);
     $xoopsTpl->assign('rssfeed_link', $link);
 }
 

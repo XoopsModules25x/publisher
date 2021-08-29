@@ -206,7 +206,7 @@ class SysUtility
      */
     public static function cloneRecord($tableName, $id_field, $id)
     {
-        $new_id = false;
+//        $new_id = false;
         $table  = $GLOBALS['xoopsDB']->prefix($tableName);
         // copy content of the record you wish to clone
         $sql       = "SELECT * FROM $table WHERE $id_field='$id' ";

@@ -35,11 +35,11 @@ $op = Request::getString('addcategory', '', 'POST') ? 'addcategory' : $op;
 
 // Where do we start ?
 $startcategory = Request::getInt('startcategory', 0, 'GET');
-$categoryId    = Request::getInt('categoryid', null);
+$categoryid    = Request::getInt('categoryid', null);
 
 switch ($op) {
     case 'del':
-        $categoryObj = $helper->getHandler('Category')->get($categoryId);
+        $categoryObj = $helper->getHandler('Category')->get($categoryid);
         $confirm     = Request::getString('confirm', '', 'POST');
         $name        = Request::getString('name', '', 'POST');
         if ($confirm) {
@@ -60,14 +60,14 @@ switch ($op) {
         //end of fx2024 code
 
         Utility::cpHeader();
-        Utility::editCategory(true, $categoryId, $numberSubcats);
+        Utility::editCategory(true, $categoryid, $numberSubcats);
         break;
     case 'addcategory':
         global $modify;
 
         $parentid = Request::getInt('parentid');
-        if (0 != $categoryId) {
-            $categoryObj = $helper->getHandler('Category')->get($categoryId);
+        if (0 != $categoryid) {
+            $categoryObj = $helper->getHandler('Category')->get($categoryid);
         } else {
             $categoryObj = $helper->getHandler('Category')->create();
         }
@@ -164,7 +164,7 @@ switch ($op) {
     //Added by fx2024
 
     case 'addsubcats':
-        $categoryId    = 0;
+        $categoryid    = 0;
         $numberSubcats = Request::getInt('nb_subcats', 0, 'POST') + Request::getInt('nb_sub_yet', 0, 'POST');
 
         $categoryObj = $helper->getHandler('Category')->create();
@@ -176,7 +176,7 @@ switch ($op) {
         }
 
         Utility::cpHeader();
-        Utility::editCategory(true, $categoryId, $numberSubcats, $categoryObj);
+        Utility::editCategory(true, $categoryid, $numberSubcats, $categoryObj);
         exit();
     //end of fx2024 code
 
@@ -216,7 +216,7 @@ switch ($op) {
             echo '<tr>';
             echo "<td class='head' align='center' colspan= '7'>" . _AM_PUBLISHER_NOCAT . '</td>';
             echo '</tr>';
-            $categoryId = '0';
+            $categoryid = '0';
         }
         echo "</table>\n";
         require_once $GLOBALS['xoops']->path('class/pagenav.php');

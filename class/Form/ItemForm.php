@@ -305,8 +305,6 @@ class ItemForm extends ThemeTabForm
         $userUid = $obj->getVar('itemid') > 0 ? $obj->uid() : $currentUid;
         if ($this->isGranted(Constants::PUBLISHER_UID)) {
             $this->addElement(new \XoopsFormSelectUser(\_CO_PUBLISHER_UID, 'uid', false, $userUid, 1, false), false);
-        } else {
-            $this->addElement(new \XoopsFormHidden('uid', $userUid));
         }
 
         // Uid

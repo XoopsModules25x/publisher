@@ -1072,11 +1072,6 @@ class Item extends \XoopsObject
         $this->setVar('title', Request::getString('title', '', 'POST'));
         $this->setVar('body', Request::getText('body', '', 'POST'));
 
-        //Not required fields
-        $this->setVar('summary', Request::getText('summary', '', 'POST'));
-        $this->setVar('subtitle', Request::getString('subtitle', '', 'POST'));
-        $this->setVar('item_tag', Request::getString('item_tag', '', 'POST'));
-
         if ('' !== ($imageFeatured = Request::getString('image_featured', '', 'POST'))) {
             $imageItem = Request::getArray('image_item', [], 'POST');
             //            $imageFeatured = Request::getString('image_featured', '', 'POST');
@@ -1141,34 +1136,47 @@ class Item extends \XoopsObject
             $this->setVar('dateexpire', 0);
         }
 
-        $this->setVar('short_url', Request::getString('item_short_url', '', 'POST'));
-        $this->setVar('meta_keywords', Request::getString('item_meta_keywords', '', 'POST'));
-        $this->setVar('meta_description', Request::getString('item_meta_description', '', 'POST'));
-        $this->setVar('weight', Request::getInt('weight', 0, 'POST'));
-
         if ($this->isNew()) {
-            $this->setVar('uid', \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0);
-            $this->setVar('cancoment', $this->helper->getConfig('submit_allowcomments'));
-            $this->setVar('status', $this->helper->getConfig('submit_status'));
-            $this->setVar('dohtml', $this->helper->getConfig('submit_dohtml'));
-            $this->setVar('dosmiley', $this->helper->getConfig('submit_dosmiley'));
-            $this->setVar('doxcode', $this->helper->getConfig('submit_doxcode'));
-            $this->setVar('doimage', $this->helper->getConfig('submit_doimage'));
-            $this->setVar('dobr', $this->helper->getConfig('submit_dobr'));
-            $this->setVar('votetype', $this->helper->getConfig('ratingbars'));
-        } else {
-            $this->setVar('uid', Request::getInt('uid', 0, 'POST'));
-            $this->setVar('cancomment', Request::getInt('allowcomments', 1, 'POST'));
-            $this->setVar('status', Request::getInt('status', 1, 'POST'));
-            $this->setVar('dohtml', Request::getInt('dohtml', 1, 'POST'));
-            $this->setVar('dosmiley', Request::getInt('dosmiley', 1, 'POST'));
-            $this->setVar('doxcode', Request::getInt('doxcode', 1, 'POST'));
-            $this->setVar('doimage', Request::getInt('doimage', 1, 'POST'));
-            $this->setVar('dobr', Request::getInt('dolinebreak', 1, 'POST'));
-            $this->setVar('votetype', Request::getInt('votetype', 1, 'POST'));
-        }
+            $this->setVar('uid', Request::getInt('uid', (\is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0), 'POST'));
+            $this->setVar('cancoment', Request::getInt('allowcomments', $this->helper->getConfig('submit_allowcomments'), 'POST'));
+            $this->setVar('status', Request::getInt('status', $this->helper->getConfig('submit_status'), 'POST'));
+            $this->setVar('dohtml', Request::getInt('dohtml', $this->helper->getConfig('submit_dohtml'), 'POST'));
+            $this->setVar('dosmiley', Request::getInt('dosmiley', $this->helper->getConfig('submit_dosmiley'), 'POST'));
+            $this->setVar('doxcode', Request::getInt('doxcode', $this->helper->getConfig('submit_doxcode'), 'POST'));
+            $this->setVar('doimage', Request::getInt('doimage', $this->helper->getConfig('submit_doimage'), 'POST'));
+            $this->setVar('dobr', Request::getInt('dolinebreak', $this->helper->getConfig('submit_dobr'), 'POST'));
+            $this->setVar('votetype', Request::getInt('votetype', $this->helper->getConfig('ratingbars'), 'POST'));
+            $this->setVar('short_url', Request::getString('item_short_url', '', 'POST'));
+            $this->setVar('meta_keywords', Request::getString('item_meta_keywords', '', 'POST'));
+            $this->setVar('meta_description', Request::getString('item_meta_description', '', 'POST'));
+            $this->setVar('weight', Request::getInt('weight', 0, 'POST'));
+            //Not required fields
+            $this->setVar('summary', Request::getText('summary', '', 'POST'));
+            $this->setVar('subtitle', Request::getString('subtitle', '', 'POST'));
+            $this->setVar('item_tag', Request::getString('item_tag', '', 'POST'));
 
-        $this->setVar('notifypub', Request::getString('notify', '', 'POST'));
+            $this->setVar('notifypub', Request::getString('notify', '', 'POST'));
+        } else {
+            $this->setVar('uid', Request::getInt('uid', $this->getVar('uid'), 'POST'));
+            $this->setVar('cancomment', Request::getInt('allowcomments', $this->getVar('allowcomments'), 'POST'));
+            $this->setVar('status', Request::getInt('status', $this->getVar('status'), 'POST'));
+            $this->setVar('dohtml', Request::getInt('dohtml', $this->getVar('dohtml'), 'POST'));
+            $this->setVar('dosmiley', Request::getInt('dosmiley', $this->getVar('dosmiley'), 'POST'));
+            $this->setVar('doxcode', Request::getInt('doxcode', $this->getVar('doxcode'), 'POST'));
+            $this->setVar('doimage', Request::getInt('doimage', $this->getVar('doimage'), 'POST'));
+            $this->setVar('dobr', Request::getInt('dolinebreak', $this->getVar('dolinebreak'), 'POST'));
+            $this->setVar('votetype', Request::getInt('votetype', $this->getVar('votetype'), 'POST'));
+            $this->setVar('short_url', Request::getString('item_short_url', $this->getVar('short_url'), 'POST'));
+            $this->setVar('meta_keywords', Request::getString('item_meta_keywords', $this->getVar('meta_keywords'), 'POST'));
+            $this->setVar('meta_description', Request::getString('item_meta_description', $this->getVar('meta_description'), 'POST'));
+            $this->setVar('weight', Request::getInt('weight', $this->getVar('weight'), 'POST'));
+            //Not required fields
+            $this->setVar('summary', Request::getText('summary', $this->getVar('summary'), 'POST'));
+            $this->setVar('subtitle', Request::getString('subtitle', $this->getVar('subtitle'), 'POST'));
+            $this->setVar('item_tag', Request::getString('item_tag', $this->getVar('item_tag'), 'POST'));
+
+            $this->setVar('notifypub', Request::getString('notify', $this->getVar('notifypub'), 'POST'));
+        }
     }
 
     public function assignOtherProperties()

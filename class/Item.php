@@ -1155,26 +1155,27 @@ class Item extends \XoopsObject
             $this->setVar('subtitle', Request::getString('subtitle', '', 'POST'));
             $this->setVar('item_tag', Request::getString('item_tag', '', 'POST'));
 
-            $this->setVar('notifypub', Request::getString('notify', '', 'POST'));
+            $this->setVar('notifypub', Request::getString('notify', 1, 'POST'));
         } else {
-            $this->setVar('uid', Request::getInt('uid', $this->getVar('uid'), 'POST'));
-            $this->setVar('cancomment', Request::getInt('allowcomments', $this->getVar('allowcomments'), 'POST'));
-            $this->setVar('status', Request::getInt('status', $this->getVar('status'), 'POST'));
-            $this->setVar('dohtml', Request::getInt('dohtml', $this->getVar('dohtml'), 'POST'));
-            $this->setVar('dosmiley', Request::getInt('dosmiley', $this->getVar('dosmiley'), 'POST'));
-            $this->setVar('doxcode', Request::getInt('doxcode', $this->getVar('doxcode'), 'POST'));
-            $this->setVar('doimage', Request::getInt('doimage', $this->getVar('doimage'), 'POST'));
-            $this->setVar('dobr', Request::getInt('dolinebreak', $this->getVar('dolinebreak'), 'POST'));
-            $this->setVar('votetype', Request::getInt('votetype', $this->getVar('votetype'), 'POST'));
+            $this->setVar('uid', Request::getInt('uid', null, 'POST'));
+            $this->setVar('cancomment', Request::getInt('allowcomments', null, 'POST'));
+            $this->setVar('status', Request::getInt('status', null, 'POST'));
+            $this->setVar('dohtml', Request::getInt('dohtml', null, 'POST'));
+            $this->setVar('dosmiley', Request::getInt('dosmiley', null, 'POST'));
+            $this->setVar('doxcode', Request::getInt('doxcode', null, 'POST'));
+            $this->setVar('doimage', Request::getInt('doimage', null, 'POST'));
+            $this->setVar('dobr', Request::getInt('dolinebreak', null, 'POST'));
+            $this->setVar('votetype', Request::getInt('votetype', null, 'POST'));
             $this->setVar('short_url', Request::getString('item_short_url', $this->getVar('short_url'), 'POST'));
             $this->setVar('meta_keywords', Request::getString('item_meta_keywords', $this->getVar('meta_keywords'), 'POST'));
             $this->setVar('meta_description', Request::getString('item_meta_description', $this->getVar('meta_description'), 'POST'));
-            $this->setVar('weight', Request::getInt('weight', $this->getVar('weight'), 'POST'));
+            $this->setVar('weight', Request::getInt('weight', null, 'POST'));
             //Not required fields
-            $this->setVar('summary', Request::getText('summary', $this->getVar('summary'), 'POST'));
+            if (null !== Request::getVar('summary', null, 'POST')) {
+                $this->setVar('summary', Request::getText('summary', '', 'POST'));
+            }
             $this->setVar('subtitle', Request::getString('subtitle', $this->getVar('subtitle'), 'POST'));
             $this->setVar('item_tag', Request::getString('item_tag', $this->getVar('item_tag'), 'POST'));
-
             $this->setVar('notifypub', Request::getString('notify', $this->getVar('notifypub'), 'POST'));
         }
     }

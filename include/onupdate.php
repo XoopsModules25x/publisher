@@ -54,7 +54,7 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
 {
     global $xoopsDB;
     $moduleDirName = \basename(\dirname(__DIR__));
-    //    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    //    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
     /** @var Helper $helper */
     /** @var Common\Configurator $configurator */

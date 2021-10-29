@@ -75,8 +75,8 @@ if (empty($category) || (is_array($category) && in_array('all', $category, true)
     $category = array_map('\intval', $category);
 }
 
-$andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT'], true) ? mb_strtoupper($andor) : 'OR';
-$sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid'], true) ? mb_strtolower($sortby) : 'itemid';
+$andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT'], true) ? \mb_strtoupper($andor) : 'OR';
+$sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid'], true) ? \mb_strtolower($sortby) : 'itemid';
 
 if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     $next_search['category'] = implode(',', $category);

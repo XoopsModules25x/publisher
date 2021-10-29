@@ -25,7 +25,7 @@ use XoopsModules\Publisher\{Constants,
 
 require_once \dirname(__DIR__) . '/include/common.php';
 $moduleDirName      = \basename(\dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 $helper             = Helper::getInstance();
 
 return (object)[

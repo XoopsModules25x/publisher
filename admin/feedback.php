@@ -34,7 +34,7 @@ $feedback = new ModuleFeedback();
 // It recovered the value of argument op in URL$
 $op                 = Request::getString('op', 'list');
 $moduleDirName      = $GLOBALS['xoopsModule']->getVar('dirname');
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 xoops_loadLanguage('feedback', $moduleDirName);
 
 xoops_cp_header();

@@ -67,8 +67,8 @@ function publisher_search_show($options)
         $category = array_map('\intval', $category);
     }
 
-    $andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT'], true) ? mb_strtoupper($andor) : 'OR';
-    $sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid'], true) ? mb_strtolower($sortby) : 'itemid';
+    $andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT'], true) ? \mb_strtoupper($andor) : 'OR';
+    $sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid'], true) ? \mb_strtolower($sortby) : 'itemid';
 
     /* type */
     $typeSelect = '<select name="andor">';

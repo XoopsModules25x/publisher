@@ -88,7 +88,7 @@ trait VersionChecks
     }
 
     /**
-     * compares current module version with latest GitHub release
+     * compares current module version with the latest GitHub release
      * @static
      * @param \Xmf\Module\Helper $helper
      * @param string|null        $source
@@ -96,7 +96,7 @@ trait VersionChecks
      *
      * @return string|array info about the latest module version, if newer
      */
-    public static function checkVerModule($helper, $source = 'github', $default = 'master')
+    public static function checkVerModule(\Xmf\Module\Helper $helper, ?string $source = 'github', ?string $default = 'master'): ?array
     {
 
 
@@ -120,7 +120,7 @@ trait VersionChecks
         $update             = '';
 //        $repository         = 'XoopsModules25x/' . $moduleDirName;
                 $repository         = 'XoopsModules25x/publisher'; //for testing only
-        $ret             = '';
+        $ret             = null;
         $infoReleasesUrl = "https://api.github.com/repos/$repository/releases";
         if ('github' === $source) {
             if (\function_exists('curl_init') && false !== ($curlHandle = \curl_init())) {

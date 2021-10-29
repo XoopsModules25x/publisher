@@ -270,7 +270,7 @@ class ThemeTabForm extends \XoopsForm
      */
     public function getMethod()
     {
-        return ('get' === mb_strtolower($this->method)) ? 'get' : 'post';
+        return ('get' === \mb_strtolower($this->method)) ? 'get' : 'post';
     }
 
     /**

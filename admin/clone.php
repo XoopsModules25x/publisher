@@ -48,8 +48,8 @@ if ('submit' === Request::getString('op', '', 'POST')) {
     }
 
     $patterns = [
-        mb_strtolower(PUBLISHER_DIRNAME)          => mb_strtolower($clone),
-        mb_strtoupper(PUBLISHER_DIRNAME)          => mb_strtoupper($clone),
+        \mb_strtolower(PUBLISHER_DIRNAME)          => \mb_strtolower($clone),
+        \mb_strtoupper(PUBLISHER_DIRNAME)          => \mb_strtoupper($clone),
         ucfirst(mb_strtolower(PUBLISHER_DIRNAME)) => ucfirst(mb_strtolower($clone)),
     ];
 
@@ -59,7 +59,7 @@ if ('submit' === Request::getString('op', '', 'POST')) {
     $logocreated = Cloner::createLogo(mb_strtolower($clone));
 
     $msg = '';
-    if (is_dir($GLOBALS['xoops']->path('modules/' . mb_strtolower($clone)))) {
+    if (is_dir($GLOBALS['xoops']->path('modules/' . \mb_strtolower($clone)))) {
         $msg .= sprintf(_AM_PUBLISHER_CLONE_CONGRAT, "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin'>" . ucfirst(mb_strtolower($clone)) . '</a>') . "<br>\n";
         if (!$logocreated) {
             $msg .= _AM_PUBLISHER_CLONE_IMAGEFAIL;

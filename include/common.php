@@ -31,7 +31,7 @@ use XoopsModules\Publisher\{
 /** @var Utility $utility */
 
 $moduleDirName      = \basename(\dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 require \dirname(__DIR__) . '/preloads/autoloader.php';
 

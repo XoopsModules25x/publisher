@@ -24,7 +24,7 @@ Just try it!!!
 
 How can I enable SEO for Publisher?
 ======================================
-Core SEO functionality for this module can be enable in module preferences. You can shoose either to use htaccess or path-info
+Core SEO functionality for this module can be enabled in module preferences. You can shoose either to use htaccess or path-info
 
 if you choose htaccess then you must copy (or merge) extra/seo/sample.htaccess to <xoops_root>/.htaccess (for rewrite). If your web server does not support rewrite then path-info should be used.
 

@@ -33,7 +33,7 @@ require \dirname(__DIR__) . '/preloads/autoloader.php';
 $op = Request::getCmd('op', '');
 
 $moduleDirName      = \basename(\dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 $helper = Helper::getInstance();
 // Load language files
@@ -66,7 +66,7 @@ function loadSampleData()
 {
     global $xoopsConfig;
     $moduleDirName      = \basename(\dirname(__DIR__));
-    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
     $utility      = new Utility();
     $configurator = new Configurator();
@@ -107,7 +107,7 @@ function saveSampleData()
 {
     global $xoopsConfig;
     $moduleDirName      = \basename(\dirname(__DIR__));
-    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
     $helper             = Helper::getInstance();
     $tables             = $helper->getModule()->getInfo('tables');
 
@@ -136,7 +136,7 @@ function saveSampleData()
 function exportSchema()
 {
     $moduleDirName      = \basename(\dirname(__DIR__));
-    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
     try {
         // TODO set exportSchema
@@ -206,7 +206,7 @@ function loadTableFromArrayWithReplace($table, $data, $search, $replace)
 
 function clearSampleData(){
     $moduleDirName      = \basename(\dirname(__DIR__));
-    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
     $helper             = Helper::getInstance();
     // Load language files
     $helper->loadLanguage('common');

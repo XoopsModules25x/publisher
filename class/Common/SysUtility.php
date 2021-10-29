@@ -81,7 +81,7 @@ class SysUtility
                         // if tag is an opening tag
                     } elseif (\preg_match('/^<\s*([^\s>!]+).*?' . '>$/s', $lineMatchings[1], $tagMatchings)) {
                         // add tag to the beginning of $openTags list
-                        \array_unshift($openTags, mb_strtolower($tagMatchings[1]));
+                        \array_unshift($openTags, \mb_strtolower($tagMatchings[1]));
                     }
                     // add html-tag to $truncate'd text
                     $truncate .= $lineMatchings[1];
@@ -209,10 +209,13 @@ class SysUtility
 //        $new_id = false;
         $table  = $GLOBALS['xoopsDB']->prefix($tableName);
         // copy content of the record you wish to clone
-        $sql       = "SELECT * FROM $table WHERE $id_field='$id' ";
-        $tempTable = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql), \MYSQLI_ASSOC);
+        $sql       = "SELECT * FROM $table WHERE $idField='" . $id . "' ";
+        $result = $GLOBALS['xoopsDB']->query($sql);
+        if ($result instanceof \mysqli_result) {
+            $tempTable = $GLOBALS['xoopsDB']->fetchArray($result, \MYSQLI_ASSOC);
+        }
         if (!$tempTable) {
-            exit($GLOBALS['xoopsDB']->error());
+            trigger_error($GLOBALS['xoopsDB']->error());
         }
         // set the auto-incremented id's value to blank.
         unset($tempTable[$id_field]);
@@ -220,7 +223,7 @@ class SysUtility
         $sql    = "INSERT INTO $table (" . \implode(', ', \array_keys($tempTable)) . ") VALUES ('" . \implode("', '", \array_values($tempTable)) . "')";
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
-            exit($GLOBALS['xoopsDB']->error());
+            trigger_error($GLOBALS['xoopsDB']->error());
         }
         // Return the new id
         $new_id = $GLOBALS['xoopsDB']->getInsertId();

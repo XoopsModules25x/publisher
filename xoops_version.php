@@ -26,7 +26,7 @@ use XoopsModules\Publisher\Constants;
 require_once __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName      = basename(__DIR__);
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 xoops_loadLanguage('common');
 
 xoops_load('xoopseditorhandler');
@@ -35,8 +35,8 @@ $editorHandler = \XoopsEditorHandler::getInstance();
 $xoops_url = parse_url(XOOPS_URL);
 
 $modversion = [
-    'version'             => '1.08',
-    'module_status'       => 'Alpha 6 NOT RELEASED',
+    'version'             => '1.8.0',
+    'module_status'       => 'Alpha.6',
     'release_date'        => '2021/08/29',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,

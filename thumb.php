@@ -368,7 +368,7 @@ class Timthumb
                 $this->debug(2, 'Fetching only from selected external sites is enabled.');
                 $allowed = false;
                 foreach ($allowedSites as $site) {
-                    if ((mb_strtolower($this->url['host']) === mb_strtolower($site)) || (mb_strtolower(mb_substr($this->url['host'], -mb_strlen($site) - 1)) === mb_strtolower(".$site"))) {
+                    if ((mb_strtolower($this->url['host']) === \mb_strtolower($site)) || (mb_strtolower(mb_substr($this->url['host'], -mb_strlen($site) - 1)) === \mb_strtolower(".$site"))) {
                         $this->debug(3, "URL hostname {$this->url['host']} matches $site so allowing.");
                         $allowed = true;
                     }
@@ -1296,7 +1296,7 @@ class Timthumb
         if (!preg_match('/^image\//i', $mimeType)) {
             $mimeType = 'image/' . $mimeType;
         }
-        if ('image/jpg' === mb_strtolower($mimeType)) {
+        if ('image/jpg' === \mb_strtolower($mimeType)) {
             $mimeType = 'image/jpeg';
         }
         $gmdateExpires   = gmdate('D, d M Y H:i:s', strtotime('now +10 days')) . ' GMT';

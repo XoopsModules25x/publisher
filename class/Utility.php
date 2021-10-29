@@ -277,6 +277,8 @@ class Utility extends Common\SysUtility
     public static function editCategory($showmenu = false, $categoryid = 0, $nbSubCats = 4, $categoryObj = null)
     {
         $helper = Helper::getInstance();
+        $configurator = new Common\Configurator();
+        $icons = $configurator->icons;
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
         /** @var  Category $categoryObj */

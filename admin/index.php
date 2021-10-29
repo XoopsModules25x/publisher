@@ -100,7 +100,7 @@ $adminObject->displayNavigation(basename(__FILE__));
 
 //check for latest release
 $newRelease = $utility::checkVerModule($helper);
-if (!empty($newRelease)) {
+if (null !== $newRelease) {
     $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
 }
 

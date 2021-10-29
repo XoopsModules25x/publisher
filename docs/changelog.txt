@@ -1,5 +1,7 @@
-<h5>1.08 Alpha 6       [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.22, PHP 8.0.9
+<h5>1.8.0 Alpha.6       [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.22, PHP 8.0.9
 <hr>
+- added Blocksadmin class (mamba)
+- semantic versioning (mamba)
 
 <h5>1.08 Alpha 5       [2021-08-28]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.22, PHP 8.0.9
 <hr>

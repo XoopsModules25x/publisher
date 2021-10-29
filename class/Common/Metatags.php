@@ -275,3 +275,36 @@ final class Meta
         return $h;
     }
 }
+
+/*
+How to use?
+======================
+echo Meta:Twitter([
+                      "site" => "Başlık",
+                      "creator" => "@salihandic",
+                      "via" => "@salihandic",
+                      "card" => "summary_large_image",
+                      "url" => "https://twitter.com/salihandic",
+                      "description" => "",
+                      "image" => "",
+                      "image:width" => "640",
+                      "image:height" => "640",
+                      "image:alt" => "Salih Andıç",
+                      "domain" => "twitter.com"
+                  ]);
+Output;
+
+<meta name="twitter:title" content="Başlık"/>
+<meta name="twitter:site" content="@salihandic"/>
+<meta name="twitter:creator" content="@salihandic" />
+<meta name="twitter:via" content="salihandic" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:url" content="https://www.twitter.com"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:image" content=""/>
+<meta name="twitter:image:width" content="640"/>
+<namemeta= "twitter:image:height" content="640"/>
+<meta name="twitter:image:alt" content="Salih Andıç" />
+<meta name="twitter:domain" content="twitter.com" />
+
+*/

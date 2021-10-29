@@ -36,7 +36,7 @@ $xoops_url = parse_url(XOOPS_URL);
 
 $modversion = [
     'version'             => '1.8.0',
-    'module_status'       => 'Alpha.6',
+    'module_status'       => 'alpha.6',
     'release_date'        => '2021/08/29',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,

@@ -1159,7 +1159,7 @@ class Item extends \XoopsObject
         } else {
             $this->setVar('uid', Request::getInt('uid', null, 'POST'));
             $this->setVar('cancomment', Request::getInt('allowcomments', null, 'POST'));
-            $this->setVar('status', Request::getInt('status', null, 'POST'));
+            $this->setVar('status', Request::getInt('status', $this->helper->getConfig('submit_edit_status'), 'POST'));
             $this->setVar('dohtml', Request::getInt('dohtml', null, 'POST'));
             $this->setVar('dosmiley', Request::getInt('dosmiley', null, 'POST'));
             $this->setVar('doxcode', Request::getInt('doxcode', null, 'POST'));

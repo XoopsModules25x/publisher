@@ -198,6 +198,8 @@ define('_MI_PUBLISHER_DATE_TO_DATE', 'Articles from date to date');
 //added in publisher
 define('_MI_PUBLISHER_FORM_STATUS', 'Select default status for submitted article');
 define('_MI_PUBLISHER_FORM_STATUS_DSC', '');
+define('_MI_PUBLISHER_FORM_EDIT_STATUS', 'Select default status for pubished articles that has been edited');
+define('_MI_PUBLISHER_FORM_EDIT_STATUS_DSC', '');
 define('_MI_PUBLISHER_PUBLISHED', 'Published');
 define('_MI_PUBLISHER_OFFLINE', 'Offline');
 define('_MI_PUBLISHER_SUBMITTED', 'Submited');

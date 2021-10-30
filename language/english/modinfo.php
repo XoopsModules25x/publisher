@@ -45,7 +45,7 @@ define('_MI_PUBLISHER_COMMENTS', 'Control comments at the article level?');
 define('_MI_PUBLISHER_COMMENTSDSC', 'if you set this option to “Yes”, you will see comments only on those items that have their comment checkbox marked. <br><br>Select “No” to have comments managed at the global level (look below under the tag \'Comment rules\'.');
 define('_MI_PUBLISHER_DATEFORMAT', 'Date format:');
 define('_MI_PUBLISHER_DATEFORMATDSC', "Select a display style. Example: 'd-M-Y H:i' translates to '30-Mar-2004 22:35'<br><a href='http://php.net/manual/en/function.date.php/' target='_blank'>Refer to the PHP manual for more display options.</a>");
-define('_MI_PUBLISHER_DEMO_SITE', 'SmartFactory Demo Site');
+define('_MI_PUBLISHER_DEMO_SITE', 'Publisher Demo Site');
 define('_MI_PUBLISHER_DEVELOPER_CONTRIBUTOR', 'Contributor(s)');
 define('_MI_PUBLISHER_DEVELOPER_CREDITS', 'Credits');
 define('_MI_PUBLISHER_DEVELOPER_EMAIL', 'Email');
@@ -202,7 +202,7 @@ define('_MI_PUBLISHER_FORM_EDIT_STATUS', 'Select default status for pubished art
 define('_MI_PUBLISHER_FORM_EDIT_STATUS_DSC', '');
 define('_MI_PUBLISHER_PUBLISHED', 'Published');
 define('_MI_PUBLISHER_OFFLINE', 'Offline');
-define('_MI_PUBLISHER_SUBMITTED', 'Submited');
+define('_MI_PUBLISHER_SUBMITTED', 'Submitted');
 define('_MI_PUBLISHER_REJECTED', 'Rejected');
 define('_MI_PUBLISHER_FORM_ALLOWCOMMENTS', '“Allow comments” set to TRUE');
 define('_MI_PUBLISHER_FORM_ALLOWCOMMENTS_DSC', '');

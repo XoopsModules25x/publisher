@@ -59,7 +59,7 @@ define('_MD_PUBLISHER_PRINTERFRIENDLY', 'Print this article in a printer friendl
 define('_MD_PUBLISHER_READS', 'reads');
 define('_MD_PUBLISHER_RSSFEED', 'RSS Feed');
 define('_MD_PUBLISHER_SENDSTORY', 'Send this article to a friend');
-define('_MD_PUBLISHER_SUB_CLONE', 'Dupplicate an article');
+define('_MD_PUBLISHER_SUB_CLONE', 'Duplicate an article');
 define('_MD_PUBLISHER_SUB_SMNAME', 'Submit an article');
 define('_MD_PUBLISHER_SUB_SNEWNAME', 'Submit an article');
 define('_MD_PUBLISHER_SUBMIT', 'Submit an article');
@@ -77,7 +77,7 @@ define('_MD_PUBLISHER_VOTE_THANKS', 'Thanks for your vote!');
 define('_MD_PUBLISHER_VOTE_VOTE', 'vote');
 define('_MD_PUBLISHER_VOTE_VOTES', 'votes');
 define('_MD_PUBLISHER_VOTE_RATING', 'Rating');
-define('_MD_PUBLISHER_VOTE_DISABLE', 'Votes are disable!');
+define('_MD_PUBLISHER_VOTE_DISABLE', 'Voting is disabled!');
 define('_MD_PUBLISHER_VOTE_OUTOF', 'out of');
 define('_MD_PUBLISHER_ITEMS_SAME_AUTHOR', 'Items by the same author');
 define('_MD_PUBLISHER_TOTAL_ITEMS', 'Total items: ');

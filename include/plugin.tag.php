@@ -57,7 +57,7 @@ function publisher_tag_iteminfo(&$items)
     $items_obj   = $itemHandler->getObjects($criteria, 'itemid');
 
     //make sure Tag module tag_parse_tag() can be found
-    if (method_exists(Utility::class, 'tag_parse_tag')) {
+    if (method_exists(XoopsModules\Tag\Utility::class, 'tag_parse_tag')) {
         // this will be used for Tag >= v2.35
         $parse_function = 'XoopsModules\Tag\Utility::tag_parse_tag';
     } else {

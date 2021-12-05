@@ -21,8 +21,7 @@ declare(strict_types=1);
 
 use Xmf\Assert;
 use Xmf\Request;
-use XoopsModules\Publisher\{Utility
-};
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 

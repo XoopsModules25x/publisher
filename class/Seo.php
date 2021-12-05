@@ -23,7 +23,6 @@ namespace XoopsModules\Publisher;
  * @var    string $withExt do we add an html extension or not
  * @var    string $title   title of the article
  */
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -17,7 +17,6 @@ namespace XoopsModules\Publisher;
  *
  * @copyright      module for xoops
  * @license        GPL 3.0 or later
- * @package        Publisher
  * @since          1.0
  * @min_xoops      2.5.10
  * @author         XOOPS Development Team
@@ -28,13 +27,12 @@ namespace XoopsModules\Publisher;
  */
 class VoteHandler extends \XoopsPersistableObjectHandler
 {
-    private const TABLE = 'publisher_rating';
-    private const ENTITY = Vote::class;
+    private const TABLE      = 'publisher_rating';
+    private const ENTITY     = Vote::class;
     private const ENTITYNAME = 'Vote';
-    private const KEYNAME = 'ratingid';
+    private const KEYNAME    = 'ratingid';
     private const IDENTIFIER = 'itemid';
-    private const SOURCE = 'source';
-
+    private const SOURCE     = 'source';
     /**
      * @var Helper
      */
@@ -42,13 +40,12 @@ class VoteHandler extends \XoopsPersistableObjectHandler
 
     /**
      * Constructor
-     * @param \XoopsDatabase|null                 $db
      * @param \XoopsModules\Publisher\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
         $this->db = $db;
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper = $helper ?? Helper::getInstance();
 
         parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
@@ -69,7 +66,6 @@ class VoteHandler extends \XoopsPersistableObjectHandler
      * Get Rating per item in the database
      * @param int|null $itemId
      * @param int|null $source
-     * @return array
      */
     public function getItemRating($itemId = null, $source = null): array
     {
@@ -85,11 +81,11 @@ class VoteHandler extends \XoopsPersistableObjectHandler
         $currentRating         = 0;
         $count                 = 0;
 
-        $max_units   = 10;
-        $ratingbarsValue  = (int)$this->helper->getConfig('ratingbars');
-        $ratingArray = [Constants::RATING_5STARS, Constants::RATING_10STARS, Constants::RATING_10NUM];
+        $max_units       = 10;
+        $ratingbarsValue = (int)$this->helper->getConfig('ratingbars');
+        $ratingArray     = [Constants::RATING_5STARS, Constants::RATING_10STARS, Constants::RATING_10NUM];
 
-        if (\in_array($ratingbarsValue, $ratingArray)) {
+        if (\in_array($ratingbarsValue, $ratingArray, true)) {
             $rating_unitwidth = 25;
             if (Constants::RATING_5STARS === (int)$this->helper->getConfig('ratingbars')) {
                 $max_units = 5;
@@ -227,14 +223,14 @@ class VoteHandler extends \XoopsPersistableObjectHandler
             $itemRating['voted']   = $voted;
             $itemRating['ip']      = $ip;
         }
+
         return $itemRating;
     }
 
     /**
      * Get Rating per item in the database
-     * @param Item|null     $itemObj
-     * @param int|null $source
-     * @return array
+     * @param Item|null $itemObj
+     * @param int|null  $source
      */
     public function getItemRating5($itemObj = null, $source = null): array
     {
@@ -250,11 +246,11 @@ class VoteHandler extends \XoopsPersistableObjectHandler
         $currentRating         = 0;
         $count                 = 0;
 
-        $max_units   = 10;
-        $ratingbarsValue  = $itemObj->votetype();
-        $ratingArray = [Constants::RATING_5STARS, Constants::RATING_10STARS, Constants::RATING_10NUM];
+        $max_units       = 10;
+        $ratingbarsValue = $itemObj->votetype();
+        $ratingArray     = [Constants::RATING_5STARS, Constants::RATING_10STARS, Constants::RATING_10NUM];
 
-        if (\in_array($ratingbarsValue, $ratingArray)) {
+        if (\in_array($ratingbarsValue, $ratingArray, true)) {
             $rating_unitwidth = 25;
             if (Constants::RATING_5STARS === $ratingbarsValue) {
                 $max_units = 5;
@@ -288,9 +284,9 @@ class VoteHandler extends \XoopsPersistableObjectHandler
                 $text      = \str_replace('%c', $itemRating['avg_rate_value'], \_MA_PUBLISHER_RATING_CURRENT_X);
                 $shorttext = \str_replace('%c', $itemRating['avg_rate_value'], \_MA_PUBLISHER_RATING_CURRENT_SHORT_X);
             }
-            $text                    = \str_replace('%m', $max_units, $text);
-            $text                    = \str_replace('%t', $itemRating['nb_vote'], $text);
-            $shorttext               = \str_replace('%t', $itemRating['nb_vote'], $shorttext);
+            $text                    = \str_replace('%m', (string)$max_units, $text);
+            $text                    = \str_replace('%t', (string)$itemRating['nb_vote'], $text);
+            $shorttext               = \str_replace('%t', (string)$itemRating['nb_vote'], $shorttext);
             $itemRating['text']      = $text;
             $itemRating['shorttext'] = $shorttext;
             $itemRating['size']      = ($itemRating['avg_rate_value'] * $rating_unitwidth) . 'px';
@@ -349,50 +345,49 @@ class VoteHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
             $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 1));
-            $voteObjs              = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
-            $count                 = \count($voteObjs);
+            $voteObjs            = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
+            $count               = \count($voteObjs);
             $itemRating['likes'] = $count;
 
             $criteria = new \CriteriaCompo();
             $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
             $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 2));
-            $voteObjs              = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
-            $count                 = \count($voteObjs);
+            $voteObjs           = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
+            $count              = \count($voteObjs);
             $itemRating['love'] = $count;
 
             $criteria = new \CriteriaCompo();
             $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
             $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 3));
-            $voteObjs              = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
-            $count                 = \count($voteObjs);
+            $voteObjs            = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
+            $count               = \count($voteObjs);
             $itemRating['smile'] = $count;
 
             $criteria = new \CriteriaCompo();
             $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
             $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 4));
-            $voteObjs              = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
-            $count                 = \count($voteObjs);
+            $voteObjs          = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
+            $count             = \count($voteObjs);
             $itemRating['wow'] = $count;
 
             $criteria = new \CriteriaCompo();
             $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
             $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 5));
-            $voteObjs              = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
-            $count                 = \count($voteObjs);
+            $voteObjs          = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
+            $count             = \count($voteObjs);
             $itemRating['sad'] = $count;
 
             $criteria = new \CriteriaCompo();
             $criteria->add(new \Criteria(static::IDENTIFIER, $itemId));
             $criteria->add(new \Criteria(static::SOURCE, $source));
             $criteria->add(new \Criteria('rate', 6));
-            $voteObjs              = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
-            $count                 = \count($voteObjs);
+            $voteObjs            = $this->helper->getHandler(static::ENTITYNAME)->getObjects($criteria);
+            $count               = \count($voteObjs);
             $itemRating['angry'] = $count;
-
 
             $itemRating['nb_vote'] = $itemRating['likes'] + $itemRating['love'] + $itemRating['smile'] + $itemRating['wow'] + $itemRating['sad'] + $itemRating['angry'];
             $itemRating['ip']      = $ip;
@@ -404,15 +399,14 @@ class VoteHandler extends \XoopsPersistableObjectHandler
             $itemRating['voted']   = $voted;
             $itemRating['ip']      = $ip;
         }
+
         return $itemRating;
     }
-
 
     /**
      * delete vote of given item
      * @param mixed $itemId
      * @param mixed $source
-     * @return bool
      */
     public function deleteAllVote($itemId, $source): bool
     {
@@ -423,7 +417,7 @@ class VoteHandler extends \XoopsPersistableObjectHandler
         return $this->deleteAll($criteria);
     }
 
-//TODO
+    //TODO
     // delete all votes for an item
     // delete all votes
     // updates Vote counts for an item after new vote
@@ -466,7 +460,6 @@ class VoteHandler extends \XoopsPersistableObjectHandler
     //create
     //delete
 
-
     //VotesRepositoryTest
     //repo
     //vote
@@ -481,54 +474,46 @@ class VoteHandler extends \XoopsPersistableObjectHandler
     //_votable
     //_voter
 
-
     //FieldVoteResultBase:
-        //calculateResult
-        //getVotesForField
+    //calculateResult
+    //getVotesForField
     //
     //
     //VotingApiField:
-        //defaultFieldSettings
-        //defaultStorageSettings
-        //fieldSettingsForm
-        //generateSampleValue
-        //isEmpty
-        //mainPropertyName
-        //postSave
-        //propertyDefinitions
-        //schema
-        //storageSettingsForm
+    //defaultFieldSettings
+    //defaultStorageSettings
+    //fieldSettingsForm
+    //generateSampleValue
+    //isEmpty
+    //mainPropertyName
+    //postSave
+    //propertyDefinitions
+    //schema
+    //storageSettingsForm
     //
     //
     //VotingApiWidgetBase:
-        //canVote
-        //getEntityForVoting
-        //getForm
-        //getInitialVotingElement
-        //getLabel
-        //getResults
-        //getValues
-        //getVoteSummary
-        //getWindow
+    //canVote
+    //getEntityForVoting
+    //getForm
+    //getInitialVotingElement
+    //getLabel
+    //getResults
+    //getValues
+    //getVoteSummary
+    //getWindow
 
     //Rating
-        //afterSave
-        //attributeLabels
-        //behaviors
-        //compressIp
-        //expandIp
-        //getIsAllowChangeVote
-        //getIsAllowGuests
-        //getModelIdByName
-        //getModelNameById
-        //rules
-        //tableName
-        //updateRating
-
-
-
-
-
-
-
+    //afterSave
+    //attributeLabels
+    //behaviors
+    //compressIp
+    //expandIp
+    //getIsAllowChangeVote
+    //getIsAllowGuests
+    //getModelIdByName
+    //getModelNameById
+    //rules
+    //tableName
+    //updateRating
 }

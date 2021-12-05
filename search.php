@@ -20,16 +20,14 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{CategoryHandler,
-    Constants,
-    Helper
-};
+use XoopsModules\Publisher\CategoryHandler;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
 
 /** @var CategoryHandler $categoryHandler */
 /** @var Helper $helper
  * {@internal $helper defined in ./include/common.php }}
  */
-
 require_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
 //Checking general permissions

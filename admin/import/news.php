@@ -21,16 +21,13 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
-    Constants,
-    Helper,
-    Item,
-    Utility
-};
+use XoopsModules\Publisher\Category;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\Utility;
 
 /** @var Helper $helper */
-
 const DIRNAME = 'news';
 
 require_once \dirname(__DIR__) . '/admin_header.php';
@@ -73,7 +70,7 @@ if ('start' === $op) {
             $result         = $GLOBALS['xoopsDB']->query($sql);
             $catCboxOptions = [];
 
-            while (list($cid, $pid, $catTitle, $articleCount) = $GLOBALS['xoopsDB']->fetchRow($result)) {
+            while ([$cid, $pid, $catTitle, $articleCount] = $GLOBALS['xoopsDB']->fetchRow($result)) {
                 $catTitle             = $myts->displayTarea($catTitle);
                 $catCboxOptions[$cid] = "$catTitle ($articleCount)";
             }

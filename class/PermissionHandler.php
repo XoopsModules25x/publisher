@@ -24,7 +24,7 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-/** @var Helper $this->helper */
+/** @var Helper $this- >helper */
 
 //require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -40,7 +40,7 @@ class PermissionHandler extends \XoopsObjectHandler
 
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-$this->helper = $helper ?? Helper::getInstance();
+        $this->helper = $helper ?? Helper::getInstance();
     }
 
     /**
@@ -131,6 +131,7 @@ $this->helper = $helper ?? Helper::getInstance();
             return false;
         }
         $permissions = $this->getGrantedItems($gpermName);
+
         return !empty($permissions) && isset($permissions[$id]);
     }
 

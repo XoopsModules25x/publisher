@@ -23,7 +23,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**

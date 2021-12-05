@@ -20,14 +20,12 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Helper,
-    Utility
-};
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 /** @var Helper $helper
  * {@internal $helper defined in ./include/common.php }}
  */
-
 require_once __DIR__ . '/header.php';
 require_once $GLOBALS['xoops']->path('class/template.php');
 

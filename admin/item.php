@@ -20,11 +20,10 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Constants,
-    Helper,
-    Item,
-    Utility
-};
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -390,7 +389,7 @@ require_once __DIR__ . '/admin_footer.php';
  * @param int  $itemId
  * @param bool $clone
  */
-function publisher_editItem($showmenu = false, $itemId = 0, $clone = false)
+function publisher_editItem($showmenu = false, $itemId = 0, $clone = false): void
 {
     $helper = Helper::getInstance();
     global $publisherCurrentPage;

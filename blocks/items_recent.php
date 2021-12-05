@@ -19,12 +19,11 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{BlockForm,
-    Constants,
-    Helper,
-    ItemHandler,
-    Utility
-};
+use XoopsModules\Publisher\BlockForm;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\ItemHandler;
+use XoopsModules\Publisher\Utility;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 

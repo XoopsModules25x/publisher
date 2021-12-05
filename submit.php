@@ -20,13 +20,12 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Category,
-    Constants,
-    GroupPermHandler,
-    Helper,
-    Item,
-    Utility
-};
+use XoopsModules\Publisher\Category;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\GroupPermHandler;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/header.php';
 $helper->loadLanguage('admin');
@@ -216,25 +215,25 @@ switch ($op) {
             $redirectMsg = _MD_PUBLISHER_ITEMMODIFIED;
             redirect_header($itemObj->getItemUrl(), 2, $redirectMsg);
         } elseif (Constants::PUBLISHER_STATUS_PUBLISHED == $itemObj->getVar('status') /*$helper->getConfig('perm_autoapprove'] ==  1*/) {
-                // We do not not subscribe user to notification on publish since we publish it right away
+            // We do not not subscribe user to notification on publish since we publish it right away
 
-                // Send notifications
-                $itemObj->sendNotifications([Constants::PUBLISHER_NOTIFY_ITEM_PUBLISHED]);
+            // Send notifications
+            $itemObj->sendNotifications([Constants::PUBLISHER_NOTIFY_ITEM_PUBLISHED]);
 
-                $redirectMsg = _MD_PUBLISHER_ITEM_RECEIVED_AND_PUBLISHED;
-                redirect_header($itemObj->getItemUrl(), 2, $redirectMsg);
-            } else {
-                // Subscribe the user to On Published notification, if requested
-                if ($itemObj->getVar('notifypub')) {
-                    require_once $GLOBALS['xoops']->path('include/notification_constants.php');
-                    /** @var \XoopsNotificationHandler $notificationHandler */
-                    $notificationHandler = xoops_getHandler('notification');
-                    $notificationHandler->subscribe('item', $itemObj->itemid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
-                }
-                // Send notifications
-                $itemObj->sendNotifications([Constants::PUBLISHER_NOTIFY_ITEM_SUBMITTED]);
+            $redirectMsg = _MD_PUBLISHER_ITEM_RECEIVED_AND_PUBLISHED;
+            redirect_header($itemObj->getItemUrl(), 2, $redirectMsg);
+        } else {
+            // Subscribe the user to On Published notification, if requested
+            if ($itemObj->getVar('notifypub')) {
+                require_once $GLOBALS['xoops']->path('include/notification_constants.php');
+                /** @var \XoopsNotificationHandler $notificationHandler */
+                $notificationHandler = xoops_getHandler('notification');
+                $notificationHandler->subscribe('item', $itemObj->itemid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
+            }
+            // Send notifications
+            $itemObj->sendNotifications([Constants::PUBLISHER_NOTIFY_ITEM_SUBMITTED]);
 
-                $redirectMsg = _MD_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
+            $redirectMsg = _MD_PUBLISHER_ITEM_RECEIVED_NEED_APPROVAL;
         }
         redirect_header('index.php', 2, $redirectMsg);
 

@@ -18,13 +18,11 @@ declare(strict_types=1);
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher\{Helper
-};
+use XoopsModules\Publisher\Helper;
 
 /** @var Helper $helper
  * {@internal $helper defined in ./include/common.php }}
  */
-
 require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 

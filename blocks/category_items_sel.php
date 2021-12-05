@@ -18,13 +18,12 @@ declare(strict_types=1);
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher\{BlockForm,
-    CategoryHandler,
-    Constants,
-    Helper,
-    ItemHandler,
-    Utility
-};
+use XoopsModules\Publisher\BlockForm;
+use XoopsModules\Publisher\CategoryHandler;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\ItemHandler;
+use XoopsModules\Publisher\Utility;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 

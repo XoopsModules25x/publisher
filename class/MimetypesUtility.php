@@ -33,7 +33,7 @@ require_once \dirname(__DIR__) . '/include/common.php';
  */
 class MimetypesUtility
 {
-    public static function add()
+    public static function add(): void
     {
         $helper = Helper::getInstance();
         /** @var MimetypeHandler $mimetypeHandler */
@@ -178,7 +178,7 @@ class MimetypesUtility
         }
     }
 
-    public static function delete()
+    public static function delete(): void
     {
         $helper = Helper::getInstance();
         /** @var MimetypeHandler $mimetypeHandler */
@@ -198,7 +198,7 @@ class MimetypesUtility
         }
     }
 
-    public static function edit()
+    public static function edit(): void
     {
         $helper = Helper::getInstance();
         /** @var MimetypeHandler $mimetypeHandler */
@@ -346,7 +346,7 @@ class MimetypesUtility
     /**
      * @param $icons
      */
-    public static function manage($icons)
+    public static function manage($icons): void
     {
         $helper  = Helper::getInstance();
         $utility = new Utility();
@@ -492,7 +492,7 @@ class MimetypesUtility
     /**
      * @param $icons
      */
-    public static function search($icons)
+    public static function search($icons): void
     {
         $helper = Helper::getInstance();
         /** @var MimetypeHandler $mimetypeHandler */
@@ -677,7 +677,7 @@ class MimetypesUtility
     /**
      * confirm update to mime access, resubmit as POST, including TOKEN
      */
-    public static function updateMimeValue()
+    public static function updateMimeValue(): void
     {
         // op=updateMimeValue&id=65&mime_admin=0&limit=15&start=0
         Utility::cpHeader();
@@ -705,7 +705,7 @@ class MimetypesUtility
         \xoops_cp_footer();
     }
 
-    public static function confirmUpdateMimeValue()
+    public static function confirmUpdateMimeValue(): void
     {
         $helper = Helper::getInstance();
         /** @var MimetypeHandler $mimetypeHandler */
@@ -749,14 +749,14 @@ class MimetypesUtility
         return $mimeValue;
     }
 
-    protected static function clearAddSessionVars()
+    protected static function clearAddSessionVars(): void
     {
         $session = Session::getInstance();
         $session->del('publisher_addMime');
         $session->del('publisher_addMimeErr');
     }
 
-    public static function clearAddSession()
+    public static function clearAddSession(): void
     {
         self::clearAddSessionVars();
         \header('Location: ' . Utility::makeUri(PUBLISHER_ADMIN_URL . '/mimetypes.php', ['op' => 'add'], false));
@@ -765,7 +765,7 @@ class MimetypesUtility
     /**
      * @param int $id
      */
-    public static function clearEditSessionVars($id)
+    public static function clearEditSessionVars($id): void
     {
         $id      = (int)$id;
         $session = Session::getInstance();
@@ -773,7 +773,7 @@ class MimetypesUtility
         $session->del("publisher_editMimeErr_$id");
     }
 
-    public static function clearEditSession()
+    public static function clearEditSession(): void
     {
         $mimeid = Request::getInt('id', '', 'GET');
         self::clearEditSessionVars($mimeid);

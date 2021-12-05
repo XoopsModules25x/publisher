@@ -19,12 +19,11 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{BlockForm,
-    Constants,
-    FileHandler,
-    Helper,
-    Utility
-};
+use XoopsModules\Publisher\BlockForm;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\FileHandler;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -45,7 +44,6 @@ function publisher_latest_files_show($options)
      * $options[2] : Number of files to display
      * $oprions[3] : bool TRUE to link to the file download, FALSE to link to the article
      */
-
     $block = [];
 
     $sort           = $options[1];

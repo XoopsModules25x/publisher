@@ -24,13 +24,12 @@ use Xmf\Request;
 use XoopsModules\Publisher\{
     Category,
     Constants,
-    Helper,
     File,
+    Helper,
     Utility
 };
 
 /** @var Helper $helper */
-
 const DIRNAME = 'ams';
 
 require_once \dirname(__DIR__) . '/admin_header.php';
@@ -136,7 +135,7 @@ if ('start' === $op) {
             $result         = $GLOBALS['xoopsDB']->query($sql);
             $catCboxOptions = [];
 
-            while (list($cid, $pid, $catTitle, $articleCount) = $GLOBALS['xoopsDB']->fetchRow($result)) {
+            while ([$cid, $pid, $catTitle, $articleCount] = $GLOBALS['xoopsDB']->fetchRow($result)) {
                 $catTitle             = $myts->displayTarea($catTitle);
                 $catCboxOptions[$cid] = "$catTitle ($articleCount)";
             }

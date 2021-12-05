@@ -1,6 +1,6 @@
 <{include file="db:publisher_header.tpl" item=$item|default:false}>
 
-<{if $op|default:false == 'preview'}>
+<{if $op|default:false === 'preview'}>
     <br>
     <{include file="db:publisher_singleitem.tpl" item=$item}>
 <{/if}>

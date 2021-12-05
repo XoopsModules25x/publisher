@@ -21,17 +21,14 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Constants,
-    Category,
-    File,
-    Helper,
-    Item,
-    Utility
-};
+use XoopsModules\Publisher\Category;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\File;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\Utility;
 
 /** @var Helper $helper */
-
 const DIRNAME = 'xnews';
 
 require_once \dirname(__DIR__) . '/admin_header.php';
@@ -138,7 +135,7 @@ if ('start' === $op) {
             $result         = $GLOBALS['xoopsDB']->query($sql);
             $catCboxOptions = [];
 
-            while (list($cid, $pid, $catTitle, $articleCount) = $GLOBALS['xoopsDB']->fetchRow($result)) {
+            while ([$cid, $pid, $catTitle, $articleCount] = $GLOBALS['xoopsDB']->fetchRow($result)) {
                 $catTitle             = $myts->displayTarea($catTitle);
                 $catCboxOptions[$cid] = "$catTitle ($articleCount)";
             }
@@ -430,7 +427,7 @@ if ('go' === $op) {
     $criteria       = new \CriteriaCompo();
     $criteria->add(new \Criteria('com_modid', $moduleId));
     $comments = $commentHandler->getObjects($criteria);
-    /** @var  XoopsComment $comment */
+    /** @var XoopsComment $comment */
     foreach ($comments as $comment) {
         $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);

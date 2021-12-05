@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use \XoopsModules\Publisher\Common\ModuleFeedback;
+use XoopsModules\Publisher\Common\ModuleFeedback;
 
 require_once __DIR__ . '/admin_header.php';
 

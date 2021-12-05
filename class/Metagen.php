@@ -21,7 +21,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -70,7 +69,7 @@ class Metagen
      */
     public function __construct($title, $keywords = '', $description = '', $categoryPath = '')
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper = Helper::getInstance();
         $this->myts   = \MyTextSanitizer::getInstance();
         $this->setCategoryPath($categoryPath);
@@ -85,7 +84,7 @@ class Metagen
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title         = $this->html2text($title);
         $this->originalTitle = $this->title;
@@ -116,7 +115,7 @@ class Metagen
     /**
      * @param string $keywords
      */
-    public function setKeywords($keywords)
+    public function setKeywords($keywords): void
     {
         $this->keywords = $keywords;
     }
@@ -124,7 +123,7 @@ class Metagen
     /**
      * @param string $categoryPath
      */
-    public function setCategoryPath($categoryPath)
+    public function setCategoryPath($categoryPath): void
     {
         $categoryPath       = $this->html2text($categoryPath);
         $this->categoryPath = $categoryPath;
@@ -133,7 +132,7 @@ class Metagen
     /**
      * @param string $description
      */
-    public function setDescription($description)
+    public function setDescription($description): void
     {
         $description       = $this->html2text($description);
         $description       = $this->purifyText($description);
@@ -143,7 +142,7 @@ class Metagen
     /**
      * Does nothing
      */
-    public function createTitleTag()
+    public function createTitleTag(): void
     {
     }
 
@@ -216,14 +215,14 @@ class Metagen
     /**
      * Does nothing
      */
-    public function autoBuildMetaKeywords()
+    public function autoBuildMetaKeywords(): void
     {
     }
 
     /**
      * Build Metatags
      */
-    public function buildAutoMetaTags()
+    public function buildAutoMetaTags(): void
     {
         $this->keywords    = $this->createMetaKeywords();
         $this->description = $this->createMetaDescription();
@@ -233,7 +232,7 @@ class Metagen
     /**
      * Creates meta tags
      */
-    public function createMetaTags()
+    public function createMetaTags(): void
     {
         global $xoopsTpl, $xoTheme;
         if ('' != $this->keywords) {

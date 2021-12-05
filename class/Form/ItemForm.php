@@ -24,18 +24,17 @@ namespace XoopsModules\Publisher\Form;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Constants,
-    Common\Configurator,
-    Form,
-    FormDateTime,
-    Helper,
-    Item,
-    ThemeTabForm,
-    Utility
-};
+use XoopsModules\Publisher\Common\Configurator;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Form;
+use XoopsModules\Publisher\FormDateTime;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\ThemeTabForm;
+use XoopsModules\Publisher\Utility;
 use XoopsModules\Tag\FormTag;
 
-require_once  \dirname(__DIR__, 2) . '/include/common.php';
+require_once \dirname(__DIR__, 2) . '/include/common.php';
 
 \xoops_load('XoopsFormLoader');
 \xoops_load('XoopsLists');
@@ -89,7 +88,7 @@ class ItemForm extends ThemeTabForm
     /**
      * @param $checkperm
      */
-    public function setCheckPermissions($checkperm)
+    public function setCheckPermissions($checkperm): void
     {
         $this->checkperm = (bool)$checkperm;
     }
@@ -139,10 +138,10 @@ class ItemForm extends ThemeTabForm
      */
     public function createElements($obj)
     {
-        $helper     = Helper::getInstance();
-        $timeoffset = null;
+        $helper       = Helper::getInstance();
+        $timeoffset   = null;
         $configurator = new Configurator();
-        $icons = $configurator->icons;
+        $icons        = $configurator->icons;
 
         $allowedEditors = Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
 
@@ -299,8 +298,6 @@ class ItemForm extends ThemeTabForm
         }
         //        }
         //VOTING TYPE END =====================================
-
-
 
         $userUid = $obj->getVar('itemid') > 0 ? $obj->uid() : $currentUid;
         if ($this->isGranted(Constants::PUBLISHER_UID)) {

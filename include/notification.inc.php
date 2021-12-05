@@ -19,9 +19,8 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{Helper,
-    Seo
-};
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Seo;
 
 //require_once __DIR__ . '/seo_functions.php';
 

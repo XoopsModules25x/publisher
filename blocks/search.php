@@ -20,9 +20,8 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{CategoryHandler,
-    Helper
-};
+use XoopsModules\Publisher\CategoryHandler;
+use XoopsModules\Publisher\Helper;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 

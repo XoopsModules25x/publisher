@@ -18,13 +18,11 @@ declare(strict_types=1);
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher\{Helper,
-    Item,
-    ItemHandler
-};
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\ItemHandler;
 
 /** @var ItemHandler $itemHandler */
-
 require_once __DIR__ . '/common.php';
 
 /**
@@ -42,8 +40,8 @@ require_once __DIR__ . '/common.php';
  */
 function publisher_search($queryArray, $andor, $limit, $offset, $userid, $categories = [], $sortby = 0, $searchin = '', $extra = '')
 {
-    $helper = Helper::getInstance();
-    $ret    = $item = [];
+    $helper        = Helper::getInstance();
+    $ret           = $item = [];
     $hightlightKey = '';
 
     if (is_array($queryArray)) {
@@ -54,7 +52,6 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
             $hightlightKey = '&amp;keywords=' . $keywords;
         }
     }
-
 
     $itemHandler      = $helper->getHandler('Item');
     $itemsObjs        = $itemHandler->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);

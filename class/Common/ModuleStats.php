@@ -16,7 +16,6 @@ trait ModuleStats
      * @param \XoopsModules\Publisher\Common\Configurator $configurator
      * @return array
      */
-
     public static function getModuleStats($configurator)
     {
         $moduleStats = [];

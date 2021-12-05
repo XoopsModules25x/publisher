@@ -21,16 +21,13 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
-    File,
-    Item,
-    Helper,
-    Utility
-};
+use XoopsModules\Publisher\Category;
+use XoopsModules\Publisher\File;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\Utility;
 
 /** @var Helper $helper */
-
 const CATEGORY = 'smartsection_categories';
 const ITEMID   = 'itemid';
 const DIRNAME  = 'smartsection';
@@ -75,7 +72,7 @@ if ('start' === $op) {
             $result         = $GLOBALS['xoopsDB']->query($sql);
             $catCboxOptions = [];
 
-            while (list($cid, $pid, $catTitle, $articleCount) = $GLOBALS['xoopsDB']->fetchRow($result)) {
+            while ([$cid, $pid, $catTitle, $articleCount] = $GLOBALS['xoopsDB']->fetchRow($result)) {
                 $catTitle             = $myts->displayTarea($catTitle);
                 $catCboxOptions[$cid] = "$catTitle ($articleCount)";
             }

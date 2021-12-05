@@ -17,18 +17,15 @@ declare(strict_types=1);
  * @author          luciorota <lucio.rota@gmail.com>
  */
 
-use XoopsModules\Publisher\{
-    Common\Configurator,
-    Helper,
-    Utility
-};
+use XoopsModules\Publisher\Common\Configurator;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 /** @var Helper $helper */
 /** @var Utility $utility */
 /** @var Common\Configurator $configurator */
 
 /**
- * @param \XoopsModule $module
  * @return bool
  */
 function xoops_module_pre_install_publisher(\XoopsModule $module)
@@ -53,7 +50,6 @@ function xoops_module_pre_install_publisher(\XoopsModule $module)
 }
 
 /**
- * @param \XoopsModule $module
  * @return bool|string
  */
 function xoops_module_install_publisher(\XoopsModule $module)

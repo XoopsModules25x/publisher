@@ -20,12 +20,11 @@ declare(strict_types=1);
  * @author          XOOPS Development Team - ( https://xoops.org )
  */
 
-use XoopsModules\Publisher\{CategoryHandler,
-    Constants,
-    Helper,
-    ItemHandler
-};
 use Xmf\Module\Admin;
+use XoopsModules\Publisher\CategoryHandler;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\ItemHandler;
 
 require __DIR__ . '/common.php';
 

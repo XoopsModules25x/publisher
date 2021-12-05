@@ -20,14 +20,12 @@ declare(strict_types=1);
  * @author          Mowaffak
  */
 
-use XoopsModules\Publisher\{
-    Common\Configurator,
-    Constants,
-    Helper,
-    ItemHandler,
-    Seo,
-    Utility
-};
+use XoopsModules\Publisher\Common\Configurator;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\ItemHandler;
+use XoopsModules\Publisher\Seo;
+use XoopsModules\Publisher\Utility;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 
@@ -41,7 +39,7 @@ function publisher_latest_news_show($options)
     $block = [];
 
     $configurator = new Configurator();
-    $icons = $configurator->icons;
+    $icons        = $configurator->icons;
 
     $helper = Helper::getInstance();
     $helper->loadLanguage('main');

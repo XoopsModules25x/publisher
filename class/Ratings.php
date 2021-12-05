@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -17,7 +17,6 @@ namespace XoopsModules\Publisher;
  *
  * @copyright      module for xoops
  * @license        GPL 3.0 or later
- * @package        Publisher
  * @since          1.0
  * @min_xoops      2.5.10
  * @author         XOOPS Development Team
@@ -50,7 +49,7 @@ class Ratings extends \XoopsObject
      *
      * @param null
      */
-    public static function getInstance()
+    public static function getInstance(): void
     {
         static $instance = false;
         if (!$instance) {
@@ -78,14 +77,14 @@ class Ratings extends \XoopsObject
      */
     public function getValuesRatings($keys = null, $format = null, $maxDepth = null)
     {
-        $ret           = $this->getValues($keys, $format, $maxDepth);
-        $ret['id']     = $this->getVar('rate_id');
-        $ret['source'] = $this->getVar('rate_source');
-        $ret['itemid'] = $this->getVar('rate_itemid');
-        $ret['value']  = $this->getVar('rate_value');
-        $ret['uid']    = \XoopsUser::getUnameFromId($this->getVar('rate_uid'));
-        $ret['ip']     = $this->getVar('rate_ip');
-        $ret['date']   = \formatTimestamp($this->getVar('rate_date'), 's');
+        $ret             = $this->getValues($keys, $format, $maxDepth);
+        $ret['id']       = $this->getVar('rate_id');
+        $ret['source']   = $this->getVar('rate_source');
+        $ret['itemid']   = $this->getVar('rate_itemid');
+        $ret['value']    = $this->getVar('rate_value');
+        $ret['uid']      = \XoopsUser::getUnameFromId($this->getVar('rate_uid'));
+        $ret['ip']       = $this->getVar('rate_ip');
+        $ret['date']     = \formatTimestamp($this->getVar('rate_date'), 's');
         $ret['votetype'] = $this->getVar('votetype');
 
         return $ret;

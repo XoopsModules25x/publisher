@@ -43,13 +43,13 @@ class Resizer
     {
         // check file extension
         switch ($this->imageMimetype) {
-            case'image/png':
+            case 'image/png':
                 $img = \imagecreatefrompng($this->sourceFile);
                 break;
-            case'image/jpeg':
+            case 'image/jpeg':
                 $img = \imagecreatefromjpeg($this->sourceFile);
                 break;
-            case'image/gif':
+            case 'image/gif':
                 $img = \imagecreatefromgif($this->sourceFile);
                 break;
             default:
@@ -88,13 +88,13 @@ class Resizer
             \unlink($this->endFile);
             //compressing the file
             switch ($this->imageMimetype) {
-                case'image/png':
+                case 'image/png':
                     \imagepng($tmpimg, $this->endFile, 0);
                     break;
-                case'image/jpeg':
+                case 'image/jpeg':
                     \imagejpeg($tmpimg, $this->endFile, 100);
                     break;
-                case'image/gif':
+                case 'image/gif':
                     \imagegif($tmpimg, $this->endFile);
                     break;
             }
@@ -181,7 +181,7 @@ class Resizer
     }
 
     // public function mergeImage($this->sourceFile, $this->endFile, $this->mergePos, $this->mergeType)
-    public function mergeImage()
+    public function mergeImage(): void
     {
         $dest = \imagecreatefromjpeg($this->endFile);
         $src  = \imagecreatefromjpeg($this->sourceFile);

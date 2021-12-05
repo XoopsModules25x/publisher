@@ -22,7 +22,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Harry Fuecks (PHP Anthology Volume II)
  */
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -49,7 +48,7 @@ class Session
      * @param string $name  name of variable
      * @param mixed  $value value of variable
      */
-    public function set($name, $value)
+    public function set($name, $value): void
     {
         $_SESSION[$name] = $value;
     }
@@ -71,7 +70,7 @@ class Session
      *
      * @param string $name name of variable
      */
-    public function del($name)
+    public function del($name): void
     {
         unset($_SESSION[$name]);
     }
@@ -79,7 +78,7 @@ class Session
     /**
      * Destroys the whole session
      */
-    public function destroy()
+    public function destroy(): void
     {
         $_SESSION = [];
         \session_destroy();

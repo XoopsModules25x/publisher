@@ -19,13 +19,11 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Helper,
-    Item
-};
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+
 /** @var Helper $helper */
 /** @var Item $itemObj */
-
 require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 

@@ -20,7 +20,7 @@ declare(strict_types=1);
  * @param $itemId
  * @param $totalNum
  */
-function publisher_com_update($itemId, $totalNum)
+function publisher_com_update($itemId, $totalNum): void
 {
     global $xoopsModule;
     /** @var \XoopsMySQLDatabase $db */
@@ -32,7 +32,7 @@ function publisher_com_update($itemId, $totalNum)
 /**
  * @param $comment
  */
-function publisher_com_approve(&$comment)
+function publisher_com_approve(&$comment): void
 {
     // notification mail here
 }

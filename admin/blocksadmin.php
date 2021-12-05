@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -14,14 +15,11 @@
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Common\Blocksadmin,
-    Helper
-};
+use XoopsModules\Publisher\Common\Blocksadmin;
+use XoopsModules\Publisher\Helper;
 
 /** @var Admin $adminObject */
 /** @var Helper $helper */
-
 require __DIR__ . '/admin_header.php';
 xoops_cp_header();
 
@@ -39,11 +37,11 @@ if (!is_object($GLOBALS['xoopsUser']) || !is_object($xoopsModule)
 if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 
-    $op             = Request::getCmd('op', 'list');
+    $op = Request::getCmd('op', 'list');
     if (isset($_POST)) {
         $ok             = Request::getInt('ok', 0, 'POST');
         $confirm_submit = Request::getCmd('confirm_submit', '', 'POST');
-        $submit       = Request::getString('submit', '', 'POST');
+        $submit         = Request::getString('submit', '', 'POST');
 
         $bside       = Request::getString('bside', '0', 'POST');
         $bweight     = Request::getString('bweight', '0', 'POST');
@@ -56,14 +54,13 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         $submitblock = Request::getString('submitblock', '', 'POST');
         $fct         = Request::getString('fct', '', 'POST');
 
-        $title      = Request::getString('title', '', 'POST');
-        $side       = Request::getString('side', '0', 'POST');
-        $weight     = Request::getString('weight', '0', 'POST');
-        $visible    = Request::getString('visible', '0', 'POST');
-
+        $title   = Request::getString('title', '', 'POST');
+        $side    = Request::getString('side', '0', 'POST');
+        $weight  = Request::getString('weight', '0', 'POST');
+        $visible = Request::getString('visible', '0', 'POST');
     }
 
-    if (\in_array($op, ['edit', 'edit_ok', 'delete', 'delete_ok', 'clone', 'clone_ok'])) {
+    if (\in_array($op, ['edit', 'edit_ok', 'delete', 'delete_ok', 'clone', 'clone_ok'], true)) {
         $bid = Request::getInt('bid', 0);
     }
 
@@ -74,14 +71,14 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         $side       = Request::getArray('side', [], 'POST');
         $weight     = Request::getArray('weight', [], 'POST');
         $visible    = Request::getArray('visible', [], 'POST');
-        $bcachetime  = Request::getArray('bcachetime', [], 'POST');
+        $bcachetime = Request::getArray('bcachetime', [], 'POST');
 
         $oldtitle      = Request::getArray('oldtitle', [], 'POST');
         $oldside       = Request::getArray('oldside', [], 'POST');
         $oldweight     = Request::getArray('oldweight', [], 'POST');
         $oldvisible    = Request::getArray('oldvisible', [], 'POST');
-        $oldgroups      = Request::getArray('oldgroups', [], 'POST');
-        $oldbcachetime  = Request::getArray('oldcachetime', [], 'POST');
+        $oldgroups     = Request::getArray('oldgroups', [], 'POST');
+        $oldbcachetime = Request::getArray('oldcachetime', [], 'POST');
     }
 
     if ('list' === $op) {

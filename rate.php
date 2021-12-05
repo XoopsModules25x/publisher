@@ -19,14 +19,11 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Constants,
-    GroupPermHandler,
-    Helper,
-    Utility
-};
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\GroupPermHandler;
+use XoopsModules\Publisher\Helper;
 
 /** @var Helper $helper */
-
 require_once __DIR__ . '/header.php';
 
 //getting the values

@@ -21,10 +21,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
-use XoopsModules\Publisher\{Form
-};
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 // File status
@@ -49,7 +45,7 @@ class File extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper = Helper::getInstance();
         /** @var \XoopsMySQLDatabase $db */
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
@@ -81,7 +77,7 @@ class File extends \XoopsObject
      */
     public function __call($method, $args)
     {
-        $arg = $args[0] ?? null;
+        $arg = $args[0] ?? '';
 
         return $this->getVar($method, $arg);
     }
@@ -247,7 +243,7 @@ class File extends \XoopsObject
     /**
      * Update Counter
      */
-    public function updateCounter()
+    public function updateCounter(): void
     {
         $this->setVar('counter', $this->counter() + 1);
         $this->store();

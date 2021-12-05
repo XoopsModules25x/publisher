@@ -22,12 +22,7 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{
-    Form
-};
-
-/** @var Helper $this->helper */
-
+/** @var Helper $this- >helper */
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -93,7 +88,7 @@ class Category extends \XoopsObject
      */
     public function __call($method, $args)
     {
-        $arg = $args[0] ?? null;
+        $arg = $args[0] ?? '';
 
         return $this->getVar($method, $arg);
     }
@@ -297,7 +292,7 @@ class Category extends \XoopsObject
     /**
      * Send notifications
      */
-    public function sendNotifications()
+    public function sendNotifications(): void
     {
         $tags                  = [];
         $tags['MODULE_NAME']   = $this->helper->getModule()->getVar('name');
@@ -364,7 +359,7 @@ class Category extends \XoopsObject
         return $category;
     }
 
-    public function createMetaTags()
+    public function createMetaTags(): void
     {
         $publisherMetagen = new Metagen($this->name(), $this->meta_keywords(), $this->meta_description());
         $publisherMetagen->createMetaTags();

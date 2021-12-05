@@ -23,7 +23,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -53,10 +52,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     public    $helper           = null;
     public    $publisherIsAdmin = null;
 
-    /**
-     * @param \XoopsDatabase|null $db
-     */
-    public function init(\XoopsDatabase $db = null)
+    public function init(\XoopsDatabase $db = null): void
     {
         $this->db = $db;
     }
@@ -145,8 +141,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @param bool         $force
+     * @param bool $force
      *
      * @return bool
      */
@@ -285,11 +280,11 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Assign a value to 1 field for tickets matching a set of conditions
      *
-     * @param string                $fieldname
-     * @param string                $fieldvalue
+     * @param string                        $fieldname
+     * @param string                        $fieldvalue
      * @param \Criteria|\CriteriaCompo|null $criteria
      *
-     * @param bool                  $force
+     * @param bool                          $force
      * @return bool FALSE if update failed
      */
     public function updateAll($fieldname, $fieldvalue, $criteria = null, $force = false) //updateAll($fieldname, $fieldvalue, $criteria = null)
@@ -340,7 +335,6 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      * Singleton - prevent multiple instances of this class
      *
      *
-     * @param \XoopsDatabase|null $db
      * @return \XoopsObject {@link pagesCategoryHandler}
      */
     public function getInstance(\XoopsDatabase $db = null)

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -17,7 +17,6 @@ namespace XoopsModules\Publisher;
  *
  * @copyright      module for xoops
  * @license        GPL 3.0 or later
- * @package        Publisher
  * @since          1.0
  * @min_xoops      2.5.10
  * @author         XOOPS Development Team
@@ -59,23 +58,22 @@ class Vote extends \XoopsObject
         }
     }
 
-//    /**
-//     * The new inserted $Id
-//     * @return int inserted id
-//     */
-//    public function getNewInsertedIdVote(): int
-//    {
-//        $newInsertedId = $GLOBALS['xoopsDB']->getInsertId();
-//
-//        return $newInsertedId;
-//    }
+    //    /**
+    //     * The new inserted $Id
+    //     * @return int inserted id
+    //     */
+    //    public function getNewInsertedIdVote(): int
+    //    {
+    //        $newInsertedId = $GLOBALS['xoopsDB']->getInsertId();
+    //
+    //        return $newInsertedId;
+    //    }
 
     /**
      * Get Values
      * @param array|null  $keys
      * @param string|null $format
      * @param int|null    $maxDepth
-     * @return array
      */
     public function getValuesVote($keys = null, $format = null, $maxDepth = null): array
     {
@@ -93,8 +91,6 @@ class Vote extends \XoopsObject
 
     /**
      * Returns an array representation of the object
-     *
-     * @return array
      */
     public function toArrayVote(): array
     {

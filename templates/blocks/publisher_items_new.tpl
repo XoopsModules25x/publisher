@@ -19,7 +19,7 @@
                 <{if $block.show_date|default:'' == '1'}> <{$newitems.date}> <{/if}>
                 <{if $block.show_category|default:'' == '1'}> | <{$newitems.lang_category}> : <{$newitems.categorylink}> <{/if}>
                 <{if $block.show_hits|default:'' == '1'}>| <{$newitems.hits}> <{$newitems.lang_hits}> |<{/if}>
-                <{if $block.show_comment|default:false == '1' && $newitems.cancomment|default:false && $newitems.comment|default:0 != -1}><{$newitems.comment}> |<{/if}>
+                <{if $block.show_comment|default:false === '1' && $newitems.cancomment|default:false && $newitems.comment|default:0 != -1}><{$newitems.comment}> |<{/if}>
                 <{if $block.show_rating|default:'' == '1'}><{$newitems.rating}><{/if}>
                 </small>
 

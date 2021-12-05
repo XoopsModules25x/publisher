@@ -112,10 +112,7 @@ class ThemeTabForm extends \XoopsForm
 
     //function render() {}
 
-    /**
-     * @param \XoopsTpl $tpl
-     */
-    public function assign(\XoopsTpl $tpl)
+    public function assign(\XoopsTpl $tpl): void
     {
         $i        = -1;
         $tab      = -1;
@@ -173,7 +170,7 @@ class ThemeTabForm extends \XoopsForm
      *
      * @param mixed $tabText
      */
-    public function startTab($tabText)
+    public function startTab($tabText): void
     {
         $temp = $this->startFormTabs($tabText);
         $this->addElement($temp);
@@ -182,7 +179,7 @@ class ThemeTabForm extends \XoopsForm
     /**
      * XoopsThemeTabForm::endTab()
      */
-    public function endTabs()
+    public function endTabs(): void
     {
         $temp = $this->endFormTabs();
         $this->addElement($temp);
@@ -279,7 +276,7 @@ class ThemeTabForm extends \XoopsForm
      * @param string|\XoopsFormElement $formElement reference to a {@link XoopsFormElement}
      * @param bool                     $required    is this a "required" element?
      */
-    public function addElement($formElement, $required = false)
+    public function addElement($formElement, $required = false): void
     {
         if (\is_string($formElement)) {
             $this->elements[] = &$formElement;
@@ -360,7 +357,7 @@ class ThemeTabForm extends \XoopsForm
      * @param string $name  the "name" attribute of a form element
      * @param string $value the "value" attribute of a form element
      */
-    public function setElementValue($name, $value)
+    public function setElementValue($name, $value): void
     {
         $ele = &$this->getElementByName($name);
         if (\is_object($ele) && \method_exists($ele, 'setValue')) {
@@ -373,7 +370,7 @@ class ThemeTabForm extends \XoopsForm
      *
      * @param array $values array of name/value pairs to be assigned to form elements
      */
-    public function setElementValues($values)
+    public function setElementValues($values): void
     {
         if (\is_array($values) && !empty($values)) {
             // will not use getElementByName() for performance..
@@ -445,7 +442,7 @@ class ThemeTabForm extends \XoopsForm
      *
      * @param string $summary
      */
-    public function setSummary($summary)
+    public function setSummary($summary): void
     {
         if (!empty($summary)) {
             $this->summary = \strip_tags($summary);
@@ -469,7 +466,7 @@ class ThemeTabForm extends \XoopsForm
      *
      * @param \XoopsFormElement $formElement reference to a {@link XoopsFormElement}
      */
-    public function setRequired(\XoopsFormElement $formElement)
+    public function setRequired(\XoopsFormElement $formElement): void
     {
         $this->required[] = &$formElement;
     }
@@ -492,7 +489,7 @@ class ThemeTabForm extends \XoopsForm
      *
      * @abstract
      */
-    public function insertBreak($extra = null)
+    public function insertBreak($extra = null): void
     {
     }
 
@@ -510,7 +507,7 @@ class ThemeTabForm extends \XoopsForm
     /**
      * displays rendered form
      */
-    public function display()
+    public function display(): void
     {
         echo $this->render();
     }

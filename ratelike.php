@@ -19,12 +19,11 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Constants,
-    GroupPermHandler,
-    Helper,
-    RatingsHandler,
-    Utility
-};
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\GroupPermHandler;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\RatingsHandler;
+use XoopsModules\Publisher\Utility;
 
 /** @var Helper $helper */
 
@@ -47,7 +46,7 @@ switch ($op) {
         }
         $rating = Request::getInt('rating', 0);
         $itemId = 0;
-        $redir  = $_SERVER['HTTP_REFERER'];
+        $redir  = \Xmf\\Request::getString('HTTP_REFERER', '', 'SERVER');
         if (Constants::TABLE_CATEGORY === $source) {
             $itemId = Request::getInt('id', 0);
             $redir  = 'category.php?op=show&amp;itemid=' . $itemId;
@@ -59,7 +58,7 @@ switch ($op) {
 
         // Check permissions
         $rateAllowed = false;
-        $groups       = (isset($GLOBALS['xoopsUser']) && \is_object($GLOBALS['xoopsUser'])) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        $groups      = (isset($GLOBALS['xoopsUser']) && \is_object($GLOBALS['xoopsUser'])) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         foreach ($groups as $group) {
             if (XOOPS_GROUP_ADMIN == $group || \in_array($group, $helper->getConfig('ratingbar_groups'))) {
                 $rateAllowed = true;
@@ -121,7 +120,7 @@ switch ($op) {
             // Calc average rating value
             $nb_ratings     = 0;
             $avg_rate_value = 0;
-            $currentRating = 0;
+            $currentRating  = 0;
             $crRatings      = new \CriteriaCompo();
             $crRatings->add(new \Criteria('rate_source', $source));
             $crRatings->add(new \Criteria('rate_itemid', $itemId));

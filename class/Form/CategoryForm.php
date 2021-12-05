@@ -24,10 +24,9 @@ namespace XoopsModules\Publisher\Form;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Category,
-    Helper,
-    Utility
-};
+use XoopsModules\Publisher\Category;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 // require_once  \dirname(__DIR__, 2) . '/include/common.php';
 
@@ -53,7 +52,7 @@ class CategoryForm extends \XoopsThemeForm
      */
     public function __construct(&$target, $subCatsCount = 4)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper = Helper::getInstance();
 
         $this->targetObject = &$target;
@@ -70,7 +69,7 @@ class CategoryForm extends \XoopsThemeForm
         $this->createButtons();
     }
 
-    public function createElements()
+    public function createElements(): void
     {
         // require_once  \dirname(__DIR__, 2) . '/include/common.php';
         // Category
@@ -79,8 +78,8 @@ class CategoryForm extends \XoopsThemeForm
         $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
         $myTree          = new \XoopsObjectTree($this->helper->getHandler('Category')->getObjects($criteria), 'categoryid', 'parentid');
         $moduleDirName   = \basename(\dirname(__DIR__));
-        $module = \XoopsModule::getByDirname($moduleDirName);
-        $catSelect = $myTree->makeSelectElement('parentid', 'name', '--', $this->targetObject->parentid(), true, 0, '', \_AM_PUBLISHER_PARENT_CATEGORY_EXP);
+        $module          = \XoopsModule::getByDirname($moduleDirName);
+        $catSelect       = $myTree->makeSelectElement('parentid', 'name', '--', $this->targetObject->parentid(), true, 0, '', \_AM_PUBLISHER_PARENT_CATEGORY_EXP);
         $this->addElement($catSelect);
 
         // Name
@@ -251,7 +250,7 @@ class CategoryForm extends \XoopsThemeForm
         $this->addElement(new \XoopsFormHidden('nb_sub_yet', $this->subCatsCount));
     }
 
-    public function createButtons()
+    public function createButtons(): void
     {
         // Action buttons tray
         $buttonTray = new \XoopsFormElementTray('', '');

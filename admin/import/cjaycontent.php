@@ -21,14 +21,11 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Constants,
-    Item,
-    Utility
-};
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\Utility;
 
 /** @var Helper $helper */
-
 const DIRNAME = 'cjaycontent';
 
 require_once \dirname(__DIR__) . '/admin_header.php';

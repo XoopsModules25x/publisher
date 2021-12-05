@@ -21,7 +21,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -33,12 +32,11 @@ require_once \dirname(__DIR__) . '/include/common.php';
  */
 class CategoryHandler extends \XoopsPersistableObjectHandler
 {
-    private const TABLE = 'publisher_categories';
-    private const ENTITY = Category::class;
+    private const TABLE      = 'publisher_categories';
+    private const ENTITY     = Category::class;
     private const ENTITYNAME = 'Category';
-    private const KEYNAME = 'categoryid';
+    private const KEYNAME    = 'categoryid';
     private const IDENTIFIER = 'name';
-
     /**
      * @var Helper
      */
@@ -47,9 +45,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
 
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Helper $this->helper */
-        $this->helper = $helper ?? Helper::getInstance();
-        $this->db = $db;
+        /** @var Helper $this- >helper */
+        $this->helper           = $helper ?? Helper::getInstance();
+        $this->db               = $db;
         $this->publisherIsAdmin = $this->helper->isUserAdmin();
         parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
     }
@@ -225,7 +223,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * @param $catArray
      * @param $catResult
      */
-    public function getSubCatArray($category, $level, $catArray, $catResult)
+    public function getSubCatArray($category, $level, $catArray, $catResult): void
     {
         global $theresult;
         $spaces = '';
@@ -418,6 +416,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function publishedItemsCount($catId = 0)
     {
         $status = [Constants::PUBLISHER_STATUS_PUBLISHED];
+
         return $this->itemsCount($catId, $status);
     }
 

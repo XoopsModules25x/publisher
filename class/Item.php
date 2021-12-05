@@ -23,13 +23,9 @@ namespace XoopsModules\Publisher;
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Form
-};
+
 /** @var \XoopsMemberHandler $memberHandler */
 /** @var \XoopsImageHandler $imageHandler */
-
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -38,7 +34,7 @@ require_once \dirname(__DIR__) . '/include/common.php';
 class Item extends \XoopsObject
 {
     public const PAGEWRAP = '[pagewrap=';
-    public const BODYTAG = '<body>';
+    public const BODYTAG  = '<body>';
     /**
      * @var Helper
      */
@@ -56,8 +52,8 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
-//        $this->helper = Helper::getInstance();
-        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
+        //        $this->helper = Helper::getInstance();
+        $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('itemid', \XOBJ_DTYPE_INT, 0);
         $this->initVar('categoryid', \XOBJ_DTYPE_INT, 0, false);
         $this->initVar('title', \XOBJ_DTYPE_TXTBOX, '', true, 255);
@@ -106,7 +102,7 @@ class Item extends \XoopsObject
      */
     public function __call($method, $args)
     {
-        $arg = $args[0] ?? null;
+        $arg = $args[0] ?? ''; //mb changed to empty string as in PHP 8.1 Passing null to parameter of type string is deprecated (in object.php on line 441)
 
         return $this->getVar($method, $arg);
     }
@@ -347,7 +343,7 @@ class Item extends \XoopsObject
      */
     public function posterAvatar()
     {
-        $ret           = 'blank.gif';
+        $ret = 'blank.gif';
         /** @var \XoopsMemberHandler $memberHandler */
         $memberHandler = \xoops_getHandler('member');
         $thisUser      = $memberHandler->getUser($this->uid());
@@ -393,7 +389,7 @@ class Item extends \XoopsObject
         }
         if ($isNew && Constants::PUBLISHER_STATUS_PUBLISHED == $this->getVar('status')) {
             // Increment user posts
-            $userHandler   = \xoops_getHandler('user');
+            $userHandler = \xoops_getHandler('user');
             /** @var \XoopsMemberHandler $memberHandler */
             $memberHandler = \xoops_getHandler('member');
             $poster        = $userHandler->get($this->uid());
@@ -503,18 +499,17 @@ class Item extends \XoopsObject
         if (\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
             $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'>" . $icons['pdf'] . '</a>&nbsp;';
             $pdfButton .= ' ';
-        } else {
-            //                if (is_object($GLOBALS['xoopsUser']) && Utility::userIsAdmin()) {
-            //                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
-            //                    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
-            //                    $adminLinks .= '<script type="text/javascript">
-            //                    (function($){
-            //                        $(document).ready(function(){
-            //                            $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
-            //                        })(jQuery);
-            //                        </script>';
-            //                }
         }
+//        if (is_object($GLOBALS['xoopsUser']) && Utility::userIsAdmin()) {
+//            $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
+//            $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
+//            $adminLinks .= '<script type="text/javascript">
+//                            (function($){
+//                                $(document).ready(function(){
+//                                    $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
+//                                })(jQuery);
+//                                </script>';
+//        }
 
         return $pdfButton;
     }
@@ -536,7 +531,7 @@ class Item extends \XoopsObject
     /**
      * @param array $notifications
      */
-    public function sendNotifications($notifications = [])
+    public function sendNotifications($notifications = []): void
     {
         /** @var \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = \xoops_getHandler('notification');
@@ -575,7 +570,7 @@ class Item extends \XoopsObject
     /**
      * Sets default permissions for this item
      */
-    public function setDefaultPermissions()
+    public function setDefaultPermissions(): void
     {
         $memberHandler = \xoops_getHandler('member');
         $groups        = $memberHandler->getGroupList();
@@ -597,7 +592,7 @@ class Item extends \XoopsObject
      *
      * @todo       look at this
      */
-    public function setPermissions($groupIds)
+    public function setPermissions($groupIds): void
     {
         if (!isset($groupIds)) {
             $this->setDefaultPermissions();
@@ -809,16 +804,20 @@ class Item extends \XoopsObject
             case 'summary':
                 $item = $this->toArrayFull($item);
                 $item = $this->toArrayAll($item, $itemPageId);
+            // no break
             case 'list':
                 $item = $this->toArrayFull($item);
                 $item = $this->toArrayAll($item, $itemPageId);
             //break;
+            // no break
             case 'full':
                 $item = $this->toArrayFull($item);
                 $item = $this->toArrayAll($item, $itemPageId);
+            // no break
             case 'wfsection':
                 $item = $this->toArrayFull($item);
                 $item = $this->toArrayAll($item, $itemPageId);
+            // no break
             case 'default':
                 $item    = $this->toArrayFull($item);
                 $item    = $this->toArrayAll($item, $itemPageId);
@@ -858,7 +857,7 @@ class Item extends \XoopsObject
     public function toArrayFull($item)
     {
         $configurator = new Common\Configurator();
-        $icons = $configurator->icons;
+        $icons        = $configurator->icons;
 
         $item['title']       = $this->getTitle();
         $item['clean_title'] = $this->getTitle();
@@ -970,7 +969,7 @@ class Item extends \XoopsObject
     /**
      *  Create metada and assign it to template
      */
-    public function createMetaTags()
+    public function createMetaTags(): void
     {
         $publisherMetagen = new Metagen($this->getTitle(), $this->meta_keywords(), $this->meta_description(), $this->category->categoryPath);
         $publisherMetagen->createMetaTags();
@@ -1058,7 +1057,7 @@ class Item extends \XoopsObject
     /**
      * The name says it all
      */
-    public function setVarsFromRequest()
+    public function setVarsFromRequest(): void
     {
         //Required fields
         //        if (!empty($categoryid = Request::getInt('categoryid', 0, 'POST'))) {
@@ -1171,10 +1170,10 @@ class Item extends \XoopsObject
         $this->setVar('notifypub', Request::getString('notify', '', 'POST'));
     }
 
-    public function assignOtherProperties()
+    public function assignOtherProperties(): void
     {
-        $module = $this->helper->getModule();
-        $module_id   = $module->getVar('mid');
+        $module    = $this->helper->getModule();
+        $module_id = $module->getVar('mid');
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = \xoops_getHandler('groupperm');
 

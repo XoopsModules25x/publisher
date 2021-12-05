@@ -22,9 +22,8 @@ namespace XoopsModules\Publisher;
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-/** @var Helper $this->helper */
+/** @var Helper $this- >helper */
 /** @var Item $obj */
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -36,12 +35,11 @@ require_once \dirname(__DIR__) . '/include/common.php';
  */
 class ItemHandler extends \XoopsPersistableObjectHandler
 {
-    private const TABLE = 'publisher_items';
-    private const ENTITY = Item::class;
+    private const TABLE      = 'publisher_items';
+    private const ENTITY     = Item::class;
     private const ENTITYNAME = 'Item';
-    private const KEYNAME = 'itemid';
+    private const KEYNAME    = 'itemid';
     private const IDENTIFIER = 'title';
-
     /**
      * @var Helper
      */
@@ -51,8 +49,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
 
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        $this->helper = $helper ?? Helper::getInstance();
-        $this->db = $db;
+        $this->helper           = $helper ?? Helper::getInstance();
+        $this->db               = $db;
         $this->publisherIsAdmin = $this->helper->isUserAdmin();
         parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
     }
@@ -91,7 +89,6 @@ class ItemHandler extends \XoopsPersistableObjectHandler
 
         return $obj;
     }
-
 
     /**
      * insert a new item in the database
@@ -224,15 +221,15 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * count items matching a condition
      *
-     * @param \CriteriaElement|null $criteria   Criteria to match
+     * @param \CriteriaElement|null $criteria Criteria to match
      * @param string|null           $notNullFields
      *
      * @return int count of items
      */
     public function getCount(\CriteriaElement $criteria = null, $notNullFields = null)
     {
-//        $notNullFields = $notNullFields ?? null;
-        $sql           = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
+        //        $notNullFields = $notNullFields ?? null;
+        $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
         if (null !== $criteria && ($criteria instanceof \Criteria || $criteria instanceof \CriteriaCompo)) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
@@ -318,7 +315,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getItemsCount($categoryid = -1, $status = '', $notNullFields = null)
     {
-//        $notNullFields       = $notNullFields ?? null;
+        //        $notNullFields       = $notNullFields ?? null;
         $criteriaPermissions = null;
         if (!$this->publisherIsAdmin) {
             $criteriaPermissions = new \CriteriaCompo();
@@ -445,6 +442,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function getAllSubmitted($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $idKey = 'none')
     {
         $notNullFields = (null !== $notNullFields) ?: '';
+
         return $this->getItems($limit, $start, [Constants::PUBLISHER_STATUS_SUBMITTED], $categoryid, $sort, $order, $notNullFields, $asObject, null, $idKey);
     }
 

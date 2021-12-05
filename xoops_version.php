@@ -37,7 +37,7 @@ $xoops_url = parse_url(XOOPS_URL);
 $modversion = [
     'version'             => '1.8.0',
     'module_status'       => 'alpha.6',
-    'release_date'        => '2021/08/29',
+    'release_date'        => '2021/12/05',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -1609,7 +1609,7 @@ $modversion['config'][] = [
     'category'    => 'submit',
 ];
 
-$optCats              = [_MI_PUBLISHER_IMGCAT_ALL => Constants::PUBLISHER_IMGCAT_ALL];
+$optCats = [_MI_PUBLISHER_IMGCAT_ALL => Constants::PUBLISHER_IMGCAT_ALL];
 /** @var \XoopsImagecategoryHandler $imageCategoryHandler */
 $imageCategoryHandler = xoops_getHandler('imagecategory');
 $catlist              = $imageCategoryHandler->getList();

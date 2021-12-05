@@ -49,7 +49,7 @@ class ModuleFeedback extends \XoopsObject
      *
      * @param null
      */
-    public static function getInstance()
+    public static function getInstance(): void
     {
         static $instance = false;
         if (!$instance) {

@@ -20,12 +20,10 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{BlockForm,
-    CategoryHandler,
-    Helper,
-    ItemHandler,
-    Utility
-};
+use XoopsModules\Publisher\BlockForm;
+use XoopsModules\Publisher\CategoryHandler;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 

@@ -35,7 +35,7 @@ class Blocksadmin
      * @param $db
      * @param $modHelper
      */
-    public function __construct($db, $modHelper)
+    public function __construct(\XoopsDatabase $db, $modHelper)
     {
         $this->db                 = $db;
         $this->modHelper          = $modHelper;
@@ -104,10 +104,10 @@ class Blocksadmin
              . \constant('CO_' . $this->moduleDirNameUpper . '_' . 'ACTION')
              . '</th></tr>
         ';
-        $blockArray   = \XoopsBlock::getByModule($xoopsModule->mid());
+        $blockArray = \XoopsBlock::getByModule($xoopsModule->mid());
         $blockCount = \count($blockArray);
-        $class       = 'even';
-        $cachetimes  = [
+        $class      = 'even';
+        $cachetimes = [
             0       => _NOCACHE,
             30      => \sprintf(_SECONDS, 30),
             60      => _MINUTE,
@@ -122,9 +122,9 @@ class Blocksadmin
         ];
         foreach ($blockArray as $i) {
             $groupsPermissions = $grouppermHandler->getGroupIds('block_read', $i->getVar('bid'));
-            $sql          = 'SELECT module_id FROM ' . $this->db->prefix('block_module_link') . ' WHERE block_id=' . $i->getVar('bid');
-            $result       = $this->db->query($sql);
-            $modules      = [];
+            $sql               = 'SELECT module_id FROM ' . $this->db->prefix('block_module_link') . ' WHERE block_id=' . $i->getVar('bid');
+            $result            = $this->db->query($sql);
+            $modules           = [];
             while (false !== ($row = $this->db->fetchArray($result))) {
                 $modules[] = (int)$row['module_id'];
             }
@@ -234,13 +234,13 @@ class Blocksadmin
 
             echo "<td class='$class' align='center'><select size='5' name='bmodule[" . $i->getVar('bid') . "][]' id='bmodule[" . $i->getVar('bid') . "][]' multiple='multiple'>";
             foreach ($moduleList as $k => $v) {
-                echo "<option value='$k'" . (\in_array($k, $modules) ? " selected='selected'" : '') . ">$v</option>";
+                echo "<option value='$k'" . (\in_array($k, $modules, true) ? " selected='selected'" : '') . ">$v</option>";
             }
             echo '</select></td>';
 
             echo "<td class='$class' align='center'><select size='5' name='groups[" . $i->getVar('bid') . "][]' id='groups[" . $i->getVar('bid') . "][]' multiple='multiple'>";
             foreach ($groups as $grp) {
-                echo "<option value='" . $grp->getVar('groupid') . "' " . (\in_array($grp->getVar('groupid'), $groupsPermissions) ? " selected='selected'" : '') . '>' . $grp->getVar('name') . '</option>';
+                echo "<option value='" . $grp->getVar('groupid') . "' " . (\in_array($grp->getVar('groupid'), $groupsPermissions, true) ? " selected='selected'" : '') . '>' . $grp->getVar('name') . '</option>';
             }
             echo '</select></td>';
 
@@ -259,7 +259,7 @@ class Blocksadmin
             //            }
 
             //            if ('S' !== $i->getVar('block_type') && 'M' !== $i->getVar('block_type')) {
-            if (!\in_array($i->getVar('block_type'), ['M', 'S'])) {
+            if (!\in_array($i->getVar('block_type'), ['M', 'S'], true)) {
                 echo "&nbsp;
                 <a href='blocksadmin.php?op=delete&amp;bid=" . $i->getVar('bid') . "'><img src=" . $pathIcon16 . '/delete.png' . " alt='" . _DELETE . "' title='" . _DELETE . "'>
                      </a>";
@@ -327,8 +327,8 @@ class Blocksadmin
         while (false !== ($row = $this->db->fetchArray($result))) {
             $modules[] = (int)$row['module_id'];
         }
-        $isCustom = \in_array($myblock->getVar('block_type'), ['C', 'E']);
-        $block     = [
+        $isCustom = \in_array($myblock->getVar('block_type'), ['C', 'E'], true);
+        $block    = [
             'title'      => $myblock->getVar('title') . ' Clone',
             'form_title' => \constant('CO_' . $this->moduleDirNameUpper . '_' . 'BLOCKS_CLONEBLOCK'),
             'name'       => $myblock->getVar('name'),
@@ -357,13 +357,14 @@ class Blocksadmin
     }
 
     /**
-     * @param int $bid
+     * @param int               $bid
      * @param string            $bside
      * @param string            $bweight
      * @param string            $bvisible
      * @param string            $bcachetime
      * @param array             $bmodule
      * @param null|array|string $options
+     * @param mixed             $groups
      */
     public function isBlockCloned($bid, $bside, $bweight, $bvisible, $bcachetime, $bmodule, $options, $groups): void
     {
@@ -390,7 +391,7 @@ class Blocksadmin
             $clone->setVar('options', $options);
         }
         $clone->setVar('bid', 0);
-        if (\in_array($block->getVar('block_type'), ['C', 'E'])) {
+        if (\in_array($block->getVar('block_type'), ['C', 'E'], true)) {
             $clone->setVar('block_type', 'E');
         } else {
             $clone->setVar('block_type', 'D');
@@ -427,14 +428,15 @@ class Blocksadmin
     }
 
     /**
-     * @param int    $bid
-     * @param string $title
-     * @param int    $weight
-     * @param bool   $visible
-     * @param string $side
-     * @param int    $bcachetime
+     * @param int      $bid
+     * @param string   $title
+     * @param int      $weight
+     * @param bool     $visible
+     * @param string   $side
+     * @param int      $bcachetime
+     * @param null|int $bmodule
      */
-    public function setOrder($bid, $title, $weight, $visible, $side, $bcachetime, $bmodule)
+    public function setOrder($bid, $title, $weight, $visible, $side, $bcachetime, $bmodule = null)
     {
         $myblock = new \XoopsBlock($bid);
         $myblock->setVar('title', $title);
@@ -445,6 +447,7 @@ class Blocksadmin
         //        $myblock->store();
         /** @var \XoopsBlockHandler $blockHandler */
         $blockHandler = xoops_getHandler('block');
+
         return $blockHandler->insert($myblock);
         //        /** @var \XoopsBlockHandler $blockHandler */
         //        $blockHandler = \xoops_getHandler('block');
@@ -469,8 +472,8 @@ class Blocksadmin
         while (false !== ($row = $this->db->fetchArray($result))) {
             $modules[] = (int)$row['module_id'];
         }
-        $isCustom = \in_array($myblock->getVar('block_type'), ['C', 'E']);
-        $block     = [
+        $isCustom = \in_array($myblock->getVar('block_type'), ['C', 'E'], true);
+        $block    = [
             'title'      => $myblock->getVar('title'),
             'form_title' => \_AM_SYSTEM_BLOCKS_EDITBLOCK,
             //        'name'       => $myblock->getVar('name'),
@@ -538,7 +541,7 @@ class Blocksadmin
         if (!empty($bmodule) && \count($bmodule) > 0) {
             $sql = \sprintf('DELETE FROM `%s` WHERE block_id = %u', $this->db->prefix('block_module_link'), $bid);
             $this->db->query($sql);
-            if (\in_array(0, $bmodule)) {
+            if (\in_array(0, $bmodule, true)) {
                 $sql = \sprintf('INSERT INTO `%s` (block_id, module_id) VALUES (%u, %d)', $this->db->prefix('block_module_link'), $bid, 0);
                 $this->db->query($sql);
             } else {
@@ -560,7 +563,20 @@ class Blocksadmin
     }
 
     /**
-     * @param array $bid
+     * @param array      $bid
+     * @param mixed      $oldtitle
+     * @param mixed      $oldside
+     * @param mixed      $oldweight
+     * @param mixed      $oldvisible
+     * @param mixed      $oldgroups
+     * @param mixed      $oldbcachetime
+     * @param mixed      $title
+     * @param mixed      $weight
+     * @param mixed      $visible
+     * @param mixed      $side
+     * @param mixed      $bcachetime
+     * @param mixed      $groups
+     * @param null|mixed $bmodule
      */
     public function orderBlock(
         $bid,
@@ -627,15 +643,15 @@ class Blocksadmin
         }
         $sideSelect = new \XoopsFormSelect(\_AM_SYSTEM_BLOCKS_TYPE, 'bside', $block['side']);
         $sideSelect->addOptionArray([
-                                         0 => \_AM_SYSTEM_BLOCKS_SBLEFT,
-                                         1 => \_AM_SYSTEM_BLOCKS_SBRIGHT,
-                                         3 => \_AM_SYSTEM_BLOCKS_CBLEFT,
-                                         4 => \_AM_SYSTEM_BLOCKS_CBRIGHT,
-                                         5 => \_AM_SYSTEM_BLOCKS_CBCENTER,
-                                         7 => \_AM_SYSTEM_BLOCKS_CBBOTTOMLEFT,
-                                         8 => \_AM_SYSTEM_BLOCKS_CBBOTTOMRIGHT,
-                                         9 => \_AM_SYSTEM_BLOCKS_CBBOTTOM,
-                                     ]);
+                                        0 => \_AM_SYSTEM_BLOCKS_SBLEFT,
+                                        1 => \_AM_SYSTEM_BLOCKS_SBRIGHT,
+                                        3 => \_AM_SYSTEM_BLOCKS_CBLEFT,
+                                        4 => \_AM_SYSTEM_BLOCKS_CBRIGHT,
+                                        5 => \_AM_SYSTEM_BLOCKS_CBCENTER,
+                                        7 => \_AM_SYSTEM_BLOCKS_CBBOTTOMLEFT,
+                                        8 => \_AM_SYSTEM_BLOCKS_CBBOTTOMRIGHT,
+                                        9 => \_AM_SYSTEM_BLOCKS_CBBOTTOM,
+                                    ]);
         $form->addElement($sideSelect);
         $form->addElement(new \XoopsFormText(\constant('CO_' . $this->moduleDirNameUpper . '_' . 'WEIGHT'), 'bweight', 2, 5, $block['weight']));
         $form->addElement(new \XoopsFormRadioYN(\constant('CO_' . $this->moduleDirNameUpper . '_' . 'VISIBLE'), 'bvisible', $block['visible']));
@@ -657,11 +673,11 @@ class Blocksadmin
             $form->addElement($textarea, true);
             $ctypeSelect = new \XoopsFormSelect(\_AM_SYSTEM_BLOCKS_CTYPE, 'bctype', $block['ctype']);
             $ctypeSelect->addOptionArray([
-                                              'H' => \_AM_SYSTEM_BLOCKS_HTML,
-                                              'P' => \_AM_SYSTEM_BLOCKS_PHP,
-                                              'S' => \_AM_SYSTEM_BLOCKS_AFWSMILE,
-                                              'T' => \_AM_SYSTEM_BLOCKS_AFNOSMILE,
-                                          ]);
+                                             'H' => \_AM_SYSTEM_BLOCKS_HTML,
+                                             'P' => \_AM_SYSTEM_BLOCKS_PHP,
+                                             'S' => \_AM_SYSTEM_BLOCKS_AFWSMILE,
+                                             'T' => \_AM_SYSTEM_BLOCKS_AFNOSMILE,
+                                         ]);
             $form->addElement($ctypeSelect);
         } else {
             if ('' !== $block['template']) {
@@ -714,7 +730,7 @@ class Blocksadmin
         }
 
         //Submit buttons
-        $buttonTray    = new \XoopsFormElementTray('', '');
+        $buttonTray   = new \XoopsFormElementTray('', '');
         $submitButton = new \XoopsFormButton('', 'submitblock', _SUBMIT, 'submit');
         $buttonTray->addElement($submitButton);
 
@@ -726,5 +742,3 @@ class Blocksadmin
         $form->display();
     }
 }
-
-

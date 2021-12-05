@@ -21,7 +21,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 // File status
@@ -38,12 +37,11 @@ require_once \dirname(__DIR__) . '/include/common.php';
  */
 class FileHandler extends \XoopsPersistableObjectHandler
 {
-    private const TABLE = 'publisher_files';
-    private const ENTITY = File::class;
+    private const TABLE      = 'publisher_files';
+    private const ENTITY     = File::class;
     private const ENTITYNAME = 'File';
-    private const KEYNAME = 'fileid';
+    private const KEYNAME    = 'fileid';
     private const IDENTIFIER = 'name';
-
     public $table_link = '';
     /**
      * @var Helper
@@ -52,9 +50,9 @@ class FileHandler extends \XoopsPersistableObjectHandler
 
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper = $helper ?? Helper::getInstance();
-        $this->db = $db;
+        $this->db     = $db;
         parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
     }
 
@@ -62,7 +60,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
      * delete a file from the database
      *
      * @param \XoopsObject|File $file reference to the file to delete
-     * @param bool         $force
+     * @param bool              $force
      *
      * @return bool FALSE if failed.
      */

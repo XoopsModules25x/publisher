@@ -17,10 +17,9 @@ declare(strict_types=1);
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher\{Common,
-    Helper,
-    Utility
-};
+use XoopsModules\Publisher\Common;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
     || !$GLOBALS['xoopsUser']->isAdmin()) {

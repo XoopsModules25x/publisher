@@ -52,7 +52,7 @@ class MyTextSanitizerExtension
      * @param $patterns
      * @param $replacements
      */
-    public function wmp(&$patterns, &$replacements)
+    public function wmp(&$patterns, &$replacements): void
     {
         $patterns[]     = "/\[wmp=(['\"]?)([^\"']*),([^\"']*)\\1]([^\"]*)\[\/wmp\]/sU";
         $rp             = "<object classid=\"clsid:6BF52A52-394A-11D3-B153-00C04F79FAA6\" id=\"WindowsMediaPlayer\" width=\"\\2\" height=\"\\3\">\n";
@@ -100,7 +100,7 @@ class MyTextSanitizerExtension
      * @param $patterns
      * @param $replacements
      */
-    public function flash(&$patterns, &$replacements)
+    public function flash(&$patterns, &$replacements): void
     {
         $patterns[]     = "/\[(swf|flash)=(['\"]?)([^\"']*),([^\"']*)\\2]([^\"]*)\[\/\\1\]/esU";
         $replacements[] = "Publisher\MyTextSanitizerExtension::displayFlash( '\\5', '\\3', '\\4' )";
@@ -110,7 +110,7 @@ class MyTextSanitizerExtension
      * @param $patterns
      * @param $replacements
      */
-    public function mms(&$patterns, &$replacements)
+    public function mms(&$patterns, &$replacements): void
     {
         $patterns[]     = "/\[mms=(['\"]?)([^\"']*),([^\"']*)\\1]([^\"]*)\[\/mms\]/sU";
         $rp             = "<OBJECT id=videowindow1 height='\\3' width='\\2' classid='CLSID:6BF52A52-394A-11D3-B153-00C04F79FAA6'>";
@@ -147,7 +147,7 @@ class MyTextSanitizerExtension
      * @param $patterns
      * @param $replacements
      */
-    public function rtsp(&$patterns, &$replacements)
+    public function rtsp(&$patterns, &$replacements): void
     {
         $patterns[] = "/\[rtsp=(['\"]?)([^\"']*),([^\"']*)\\1]([^\"]*)\[\/rtsp\]/sU";
         $rp         = "<object classid=\"clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA\" HEIGHT='\\3' ID=Player WIDTH='\\2' VIEWASTEXT>";

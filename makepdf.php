@@ -9,12 +9,10 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Helper,
-    Utility
-};
-/** @var Helper $helper */
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
+/** @var Helper $helper */
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/header.php';

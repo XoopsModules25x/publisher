@@ -19,10 +19,9 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Helper,
-    Resizer,
-    Utility
-};
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Resizer;
+use XoopsModules\Publisher\Utility;
 
 error_reporting(0);
 require \dirname(__DIR__, 3) . '/mainfile.php';

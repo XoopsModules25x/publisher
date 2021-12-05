@@ -23,7 +23,6 @@ namespace XoopsModules\Publisher;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -33,12 +32,10 @@ class MimetypeHandler extends BaseObjectHandler
 {
     /**
      * Constructor
-     * @param \XoopsDatabase|null $db
-     * @param Helper|null         $helper
      */
     public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper = $helper ?? Helper::getInstance();
 
         $this->publisherIsAdmin = $this->helper->isUserAdmin();

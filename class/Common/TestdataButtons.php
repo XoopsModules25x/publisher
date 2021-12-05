@@ -8,23 +8,22 @@ namespace XoopsModules\Publisher\Common;
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
  which is considered copyrighted (c) material of the original comment or credit authors.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 
 /**
- *
  * @category        Module
  * @author          XOOPS Development Team <https://xoops.org>
  * @copyright       {@link https://xoops.org/ XOOPS Project}
  * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  */
 
-use Xmf\Request;
 use Xmf\Yaml;
 use XoopsModules\Publisher\Helper;
+
 /** @var Helper $helper */
 
 /**
@@ -32,16 +31,15 @@ use XoopsModules\Publisher\Helper;
  */
 class TestdataButtons
 {
-
     //functions for import buttons
-    public static function loadButtonConfig($adminObject)
+    public static function loadButtonConfig($adminObject): void
     {
-        $moduleDirName      = \basename(\dirname(__DIR__, 2));
-        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
-        $yamlFile           = \dirname(__DIR__, 2) . '/config/admin.yml';
-        $config             = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
+        $moduleDirName       = \basename(\dirname(__DIR__, 2));
+        $moduleDirNameUpper  = \mb_strtoupper($moduleDirName);
+        $yamlFile            = \dirname(__DIR__, 2) . '/config/admin.yml';
+        $config              = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
         $displaySampleButton = $config['displaySampleButton'];
-        $helper = Helper::getInstance();
+        $helper              = Helper::getInstance();
 
         if (1 == $displaySampleButton) {
             \xoops_loadLanguage('admin/modulesadmin', 'system');
@@ -56,22 +54,21 @@ class TestdataButtons
         }
     }
 
-    public static function hideButtons()
+    public static function hideButtons(): void
     {
-        $yamlFile            = \dirname(__DIR__, 2) . '/config/admin.yml';
+        $yamlFile                   = \dirname(__DIR__, 2) . '/config/admin.yml';
         $app                        = [];
         $app['displaySampleButton'] = 0;
         Yaml::save($app, $yamlFile);
         \redirect_header('index.php', 0, '');
     }
 
-    public static function showButtons()
+    public static function showButtons(): void
     {
-        $yamlFile            = \dirname(__DIR__, 2) . '/config/admin.yml';
+        $yamlFile                   = \dirname(__DIR__, 2) . '/config/admin.yml';
         $app                        = [];
         $app['displaySampleButton'] = 1;
         Yaml::save($app, $yamlFile);
         \redirect_header('index.php', 0, '');
     }
 }
-

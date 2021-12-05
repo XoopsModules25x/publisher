@@ -19,14 +19,13 @@ declare(strict_types=1);
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher\{BlockForm,
-    Category,
-    CategoryHandler,
-    Helper,
-    Item,
-    ItemHandler,
-    Utility
-};
+use XoopsModules\Publisher\BlockForm;
+use XoopsModules\Publisher\Category;
+use XoopsModules\Publisher\CategoryHandler;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\ItemHandler;
+use XoopsModules\Publisher\Utility;
 
 require_once \dirname(__DIR__) . '/include/common.php';
 

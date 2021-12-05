@@ -20,12 +20,9 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Common,
-    Helper,
-    Item,
-    ItemHandler,
-    Utility
-};
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\ItemHandler;
 use XoopsModules\Tag;
 
 /** Get item fields: title, content, time, link, uid, tags

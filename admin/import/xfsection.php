@@ -21,17 +21,14 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Constants,
-    Category,
-    File,
-    Helper,
-    Item,
-    Utility
-};
+use XoopsModules\Publisher\Category;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\File;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\Utility;
 
 /** @var Helper $helper */
-
 const CATEGORY = 'xfs_category';
 const ITEMID   = 'articleid';
 const DIRNAME  = 'xfsection';
@@ -75,7 +72,7 @@ if ('start' === $op) {
             $result          = $GLOBALS['xoopsDB']->query($sql);
             $cat_cbox_values = [];
             $catCboxOptions  = [];
-            while (list($cid, $pid, $catTitle, $articleCount) = $GLOBALS['xoopsDB']->fetchRow($result)) {
+            while ([$cid, $pid, $catTitle, $articleCount] = $GLOBALS['xoopsDB']->fetchRow($result)) {
                 $catTitle             = $myts->displayTarea($catTitle);
                 $catCboxOptions[$cid] = "$catTitle ($articleCount)";
             }

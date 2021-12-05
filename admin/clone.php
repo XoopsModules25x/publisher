@@ -19,9 +19,8 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Cloner,
-    Utility
-};
+use XoopsModules\Publisher\Cloner;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -48,8 +47,8 @@ if ('submit' === Request::getString('op', '', 'POST')) {
     }
 
     $patterns = [
-        \mb_strtolower(PUBLISHER_DIRNAME)          => \mb_strtolower($clone),
-        \mb_strtoupper(PUBLISHER_DIRNAME)          => \mb_strtoupper($clone),
+        \mb_strtolower(PUBLISHER_DIRNAME)         => \mb_strtolower($clone),
+        \mb_strtoupper(PUBLISHER_DIRNAME)         => \mb_strtoupper($clone),
         ucfirst(mb_strtolower(PUBLISHER_DIRNAME)) => ucfirst(mb_strtolower($clone)),
     ];
 

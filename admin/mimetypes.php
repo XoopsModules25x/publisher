@@ -20,7 +20,6 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
 use XoopsModules\Publisher\MimetypesUtility;
 
 require_once __DIR__ . '/admin_header.php';

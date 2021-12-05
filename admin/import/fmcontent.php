@@ -22,21 +22,17 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
-    Constants,
-    Helper,
-    Item,
-    Utility
-};
+use XoopsModules\Publisher\Category;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\Utility;
 
 /** @var Helper $helper */
-
 const DIRNAME = 'fmcontent';
 
 /** @var \XoopsPersistableObjectHandler $fmContentHandler */
 /** @var \XoopsPersistableObjectHandler $fmTopicHandler */
-
 require_once \dirname(__DIR__) . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
@@ -81,7 +77,7 @@ if ('start' === $op) {
             $result         = $GLOBALS['xoopsDB']->query($sql);
             $catCboxOptions = [];
 
-            while (list($cid, $pid, $catTitle, $articleCount) = $GLOBALS['xoopsDB']->fetchRow($result)) {
+            while ([$cid, $pid, $catTitle, $articleCount] = $GLOBALS['xoopsDB']->fetchRow($result)) {
                 $catTitle             = $myts->displayTarea($catTitle);
                 $catCboxOptions[$cid] = "{$catTitle} ($articleCount)";
             }
@@ -255,7 +251,7 @@ if ('go' === $op) {
                               ]);
 
         // Category image
-        if (!in_array($thisFmTopicObj->getVar('topic_img'), ['blank.gif', ''])) {
+        if (!in_array($thisFmTopicObj->getVar('topic_img'), ['blank.gif', ''], true)) {
             if (copy($GLOBALS['xoops']->path('www/uploads/fmcontent/img/' . $thisFmTopicObj->getVar('topic_img')), $GLOBALS['xoops']->path('www/uploads/publisher/images/category/' . $thisFmTopicObj->getVar('topic_img')))) {
                 $categoryObj->setVar('image', $thisFmTopicObj->getVar('topic_img'));
             }

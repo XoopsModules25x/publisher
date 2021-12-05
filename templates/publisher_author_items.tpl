@@ -2,7 +2,7 @@
 <br><img src='<{$user_avatarurl}>' border='0' alt=''><br><br>
 <table width='100%' border='0'>
 
-    <{if $total_items|default:false == 0}>
+    <{if $total_items|default:false === 0}>
         <tr>
             <td><{$smarty.const._MD_PUBLISHER_NO_AUTHOR_ITEMS}></td>
         </tr>

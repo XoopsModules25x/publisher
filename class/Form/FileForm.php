@@ -23,9 +23,8 @@ namespace XoopsModules\Publisher\Form;
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher\{Constants,
-    Helper
-};
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
 
 // require_once \dirname(__DIR__, 2) . '/include/common.php';
 
@@ -52,7 +51,7 @@ class FileForm extends \XoopsThemeForm
      */
     public function __construct(&$target)
     {
-        /** @var Helper $this->helper */
+        /** @var Helper $this- >helper */
         $this->helper       = Helper::getInstance();
         $this->targetObject = &$target;
 
@@ -63,7 +62,7 @@ class FileForm extends \XoopsThemeForm
         $this->createButtons();
     }
 
-    public function createElements()
+    public function createElements(): void
     {
         // NAME
         $nameText = new \XoopsFormText(\_CO_PUBLISHER_FILENAME, 'name', 50, 255, $this->targetObject->name());
@@ -93,7 +92,7 @@ class FileForm extends \XoopsThemeForm
         $this->addElement(new \XoopsFormHidden('itemid', $this->targetObject->itemid()));
     }
 
-    public function createButtons()
+    public function createButtons(): void
     {
         $filesButtonTray = new \XoopsFormElementTray('', '');
         $filesHidden     = new \XoopsFormHidden('op', 'uploadfile');

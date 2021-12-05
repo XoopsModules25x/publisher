@@ -24,10 +24,6 @@ namespace XoopsModules\Publisher\Common;
  * @author       Mamba <mambax7@gmail.com>
  */
 
-use MyTextSanitizer;
-use XoopsFormDhtmlTextArea;
-use XoopsFormTextArea;
-use XoopsModules\Publisher;
 use XoopsModules\Publisher\Helper;
 
 /**
@@ -183,13 +179,8 @@ class SysUtility
         return $descEditor;
     }
 
-    /**
-     * @param $fieldname
-     * @param $table
-     *
-     * @return bool
-     */
-    public static function fieldExists($fieldname, $table)
+
+    public static function fieldExists(string $fieldname, string $table): bool
     {
         global $xoopsDB;
         $result = $xoopsDB->queryF("SHOW COLUMNS FROM   $table LIKE '$fieldname'");
@@ -206,10 +197,10 @@ class SysUtility
      */
     public static function cloneRecord($tableName, $id_field, $id)
     {
-//        $new_id = false;
-        $table  = $GLOBALS['xoopsDB']->prefix($tableName);
+        //        $new_id = false;
+        $table = $GLOBALS['xoopsDB']->prefix($tableName);
         // copy content of the record you wish to clone
-        $sql       = "SELECT * FROM $table WHERE $idField='" . $id . "' ";
+        $sql    = "SELECT * FROM $table WHERE $idField='" . $id . "' ";
         $result = $GLOBALS['xoopsDB']->query($sql);
         if ($result instanceof \mysqli_result) {
             $tempTable = $GLOBALS['xoopsDB']->fetchArray($result, \MYSQLI_ASSOC);
@@ -236,18 +227,17 @@ class SysUtility
      *
      * @param string $folder The full path of the directory to check
      */
-    public static function prepareFolder($folder)
+    public static function prepareFolder($folder): void
     {
         try {
             if (!@\mkdir($folder) && !\is_dir($folder)) {
                 throw new \RuntimeException(\sprintf('Unable to create the %s directory', $folder));
             }
             file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             echo 'Caught exception: ', $e->getMessage(), "\n", '<br>';
         }
     }
-
 
     /**
      * @param string $tablename

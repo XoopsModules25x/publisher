@@ -7,7 +7,7 @@ namespace XoopsModules\Publisher;
  */
 class TrelloDBController
 {
-    /** @var \XoopsMySQLDatabase*/
+    /** @var \XoopsMySQLDatabase */
     private $db;
 
     /**
@@ -39,7 +39,7 @@ class TrelloDBController
     /**
      * @param string $query
      * @param string $paramType
-     * @param array $paramValueArray
+     * @param array  $paramValueArray
      * @return mixed
      */
     public function runQuery($query, $paramType, $paramValueArray)
@@ -64,12 +64,12 @@ class TrelloDBController
 
     /**
      * @param mysqli_stmt $sql
-     * @param string $paramType
-     * @param array $paramValueArray
+     * @param string      $paramType
+     * @param array       $paramValueArray
      */
-    public function bindQueryParams($sql, $paramType, $paramValueArray)
+    public function bindQueryParams($sql, $paramType, $paramValueArray): void
     {
-        $paramValueReference = [];
+        $paramValueReference   = [];
         $paramValueReference[] = &$paramType;
         foreach ($paramValueArray as $i => $iValue) {
             $paramValueReference[] = &$paramValueArray[$i];
@@ -86,9 +86,9 @@ class TrelloDBController
     /**
      * @param string $query
      * @param string $paramType
-     * @param array $paramValueArray
+     * @param array  $paramValueArray
      */
-    public function insert($query, $paramType, $paramValueArray)
+    public function insert($query, $paramType, $paramValueArray): void
     {
         $sql = $this->db->conn->prepare($query);
         $this->bindQueryParams($sql, $paramType, $paramValueArray);
@@ -98,9 +98,9 @@ class TrelloDBController
     /**
      * @param string $query
      * @param string $paramType
-     * @param array $paramValueArray
+     * @param array  $paramValueArray
      */
-    public function update($query, $paramType, $paramValueArray)
+    public function update($query, $paramType, $paramValueArray): void
     {
         $sql = $this->db->conn->prepare($query);
         $this->bindQueryParams($sql, $paramType, $paramValueArray);

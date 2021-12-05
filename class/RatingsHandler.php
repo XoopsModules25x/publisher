@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -17,7 +17,6 @@ namespace XoopsModules\Publisher;
  *
  * @copyright      module for xoops
  * @license        GPL 3.0 or later
- * @package        Publisher
  * @since          1.0
  * @min_xoops      2.5.10
  * @author         XOOPS Development Team
@@ -29,15 +28,14 @@ namespace XoopsModules\Publisher;
  */
 class RatingsHandler extends \XoopsPersistableObjectHandler
 {
-    private const TABLE = 'publisher_liking';
-    private const ENTITY = Ratings::class;
+    private const TABLE      = 'publisher_liking';
+    private const ENTITY     = Ratings::class;
     private const ENTITYNAME = 'Ratings';
-    private const KEYNAME = 'rate_id';
+    private const KEYNAME    = 'rate_id';
     private const IDENTIFIER = 'rate_itemid';
 
     /**
      * Constructor
-     * @param \XoopsDatabase $db
      */
     public function __construct(\XoopsDatabase $db)
     {
@@ -48,7 +46,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
     /**
      * @param bool $isNew
      *
-     * @return Object
+     * @return Rating
      */
     public function create($isNew = true)
     {
@@ -93,7 +91,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
         $uid                      = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
         $voted                    = false;
         $ip                       = \getenv('REMOTE_ADDR');
-        $currentRating           = 0;
+        $currentRating            = 0;
         $count                    = 0;
 
         if (Constants::RATING_5STARS === (int)$helper->getConfig('ratingbars')
@@ -165,8 +163,8 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('rate_source', $source));
             $criteria->add(new \Criteria('rate_value', 0, '>'));
 
-            $ratingObjs     = $helper->getHandler('ratings')->getObjects($criteria);
-            $count          = \count($ratingObjs);
+            $ratingObjs    = $helper->getHandler('ratings')->getObjects($criteria);
+            $count         = \count($ratingObjs);
             $currentRating = 0;
             foreach ($ratingObjs as $ratingObj) {
                 $currentRating += $ratingObj->getVar('rate_value');
@@ -180,7 +178,6 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
 
             $count = $itemRating['likes'] + $itemRating['dislikes'];
             // Facebook Reactions  ==========================================
-
         } elseif (Constants::RATING_REACTION === (int)$helper->getConfig('ratingbars')) {
             $criteria = new \CriteriaCompo();
             $criteria->add(new \Criteria('rate_itemid', $itemId));
@@ -206,8 +203,8 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('rate_source', $source));
             $criteria->add(new \Criteria('rate_value', 0, '>'));
 
-            $ratingObjs     = $helper->getHandler('ratings')->getObjects($criteria);
-            $count          = \count($ratingObjs);
+            $ratingObjs    = $helper->getHandler('ratings')->getObjects($criteria);
+            $count         = \count($ratingObjs);
             $currentRating = 0;
             foreach ($ratingObjs as $ratingObj) {
                 $currentRating += $ratingObj->getVar('rate_value');
@@ -226,6 +223,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $itemRating['voted']      = $voted;
             $itemRating['ip']         = $ip;
         }
+
         return $itemRating;
     }
 

@@ -20,10 +20,9 @@ declare(strict_types=1);
 //  E-Mail: lusopoemas@gmail.com
 
 use Xmf\Request;
-use XoopsModules\Publisher\{GroupPermHandler,
-    Helper,
-    Rating
-};
+use XoopsModules\Publisher\GroupPermHandler;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Rating;
 
 require_once \dirname(__DIR__) . '/header.php';
 $helper = Helper::getInstance();

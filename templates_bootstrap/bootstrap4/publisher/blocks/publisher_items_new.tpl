@@ -26,7 +26,7 @@
             <{if $block.show_hits|default:'' == '1'}>
                 <span style="padding: 3px 16px 0 0; font-size: 11px;"><span class="fa fa-check-circle-o"></span>&nbsp;<{$newitems.hits}> <{$newitems.lang_hits}> </span>
             <{/if}>
-            <{if $block.show_comment|default:false == '1' && $newitems.cancomment|default:false && $newitems.comment|default:0 != -1}>
+            <{if $block.show_comment|default:false === '1' && $newitems.cancomment|default:false && $newitems.comment|default:0 != -1}>
                 <span style="padding: 3px 16px 0 0; font-size: 11px;"><span class="fa fa-comment"></span>&nbsp;<{$newitems.comment}></span>
             <{/if}>
             <{if $block.show_rating|default:'' == '1'}>

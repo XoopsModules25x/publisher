@@ -45,11 +45,9 @@ class Helper extends \Xmf\Module\Helper
     }
 
     /**
-     * @param bool $debug
-     *
      * @return \XoopsModules\Publisher\Helper
      */
-    public static function getInstance(bool $debug = false): Helper
+    public static function getInstance(bool $debug = false): self
     {
         static $instance;
         if (null === $instance) {

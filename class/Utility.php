@@ -36,7 +36,7 @@ class Utility extends Common\SysUtility
      *
      * @param string $folder The full path of the directory to check
      */
-    public static function createFolder($folder)
+    public static function createFolder($folder): void
     {
         try {
             if (!\is_dir($folder)) {
@@ -53,9 +53,8 @@ class Utility extends Common\SysUtility
     /**
      * @param $file
      * @param $folder
-     * @return bool
      */
-    public static function copyFile($file, $folder)
+    public static function copyFile(string $file, string $folder): bool
     {
         return \copy($file, $folder);
         //        try {
@@ -74,7 +73,7 @@ class Utility extends Common\SysUtility
      * @param $src
      * @param $dst
      */
-    public static function recurseCopy($src, $dst)
+    public static function recurseCopy($src, $dst): void
     {
         $dir = \opendir($src);
         //    @mkdir($dst);
@@ -92,7 +91,7 @@ class Utility extends Common\SysUtility
 
     // auto create folders----------------------------------------
     //TODO rename this function? And exclude image folder?
-    public static function createDir()
+    public static function createDir(): void
     {
         // auto crate folders
         //        $thePath = static::getUploadDir();
@@ -146,7 +145,7 @@ class Utility extends Common\SysUtility
         }
     }
 
-    public static function buildTableItemTitleRow()
+    public static function buildTableItemTitleRow(): void
     {
         echo "<table width='100%' cellspacing='1' cellpadding='3' border='0' class='outer'>";
         echo '<tr>';
@@ -167,14 +166,13 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param Category $categoryObj
-     * @param int      $level
+     * @param int $level
      */
-    public static function displayCategory(Category $categoryObj, $level = 0)
+    public static function displayCategory(Category $categoryObj, $level = 0): void
     {
-        $helper = Helper::getInstance();
+        $helper       = Helper::getInstance();
         $configurator = new Common\Configurator();
-        $icons = $configurator->icons;
+        $icons        = $configurator->icons;
 
         $description = $categoryObj->description;
         if (!XOOPS_USE_MULTIBYTES && !empty($description)) {
@@ -222,13 +220,12 @@ class Utility extends Common\SysUtility
         //        unset($categoryObj);
     }
 
-
     /**
      * @param bool $showmenu
      * @param int  $fileid
      * @param int  $itemId
      */
-    public static function editFile($showmenu = false, $fileid = 0, $itemId = 0)
+    public static function editFile($showmenu = false, $fileid = 0, $itemId = 0): void
     {
         $helper = Helper::getInstance();
         require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
@@ -274,14 +271,14 @@ class Utility extends Common\SysUtility
      * @param int           $nbSubCats
      * @param Category|null $categoryObj
      */
-    public static function editCategory($showmenu = false, $categoryid = 0, $nbSubCats = 4, $categoryObj = null)
+    public static function editCategory($showmenu = false, $categoryid = 0, $nbSubCats = 4, $categoryObj = null): void
     {
-        $helper = Helper::getInstance();
+        $helper       = Helper::getInstance();
         $configurator = new Common\Configurator();
-        $icons = $configurator->icons;
+        $icons        = $configurator->icons;
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
-        /** @var  Category $categoryObj */
+        /** @var Category $categoryObj */
         if (0 != $categoryid) {
             // Creating the category object for the selected category
             $categoryObj = $helper->getHandler('Category')->get($categoryid);
@@ -352,8 +349,8 @@ class Utility extends Common\SysUtility
             // Get the total number of published ITEMS
             $totalitems = $helper->getHandler('Item')->getItemsCount($selCat, [Constants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
-            $itemsObj         = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
-            $allcats          = $helper->getHandler('Category')->getObjects(null, true);
+            $itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
+            $allcats  = $helper->getHandler('Category')->getObjects(null, true);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
             echo "<td width='40' class='bg3' align='center'><strong>" . \_AM_PUBLISHER_ITEMID . '</strong></td>';
@@ -399,7 +396,7 @@ class Utility extends Common\SysUtility
     /**
      * Includes scripts in HTML header
      */
-    public static function cpHeader()
+    public static function cpHeader(): void
     {
         \xoops_cp_header();
 
@@ -819,7 +816,7 @@ class Utility extends Common\SysUtility
      * @param string $tabledsc
      * @param bool   $open
      */
-    public static function openCollapsableBar($tablename = '', $iconname = '', $tabletitle = '', $tabledsc = '', $open = true)
+    public static function openCollapsableBar($tablename = '', $iconname = '', $tabletitle = '', $tabledsc = '', $open = true): void
     {
         $image   = 'open12.gif';
         $display = 'none';
@@ -840,7 +837,7 @@ class Utility extends Common\SysUtility
      * @param string $name
      * @param string $icon
      */
-    public static function closeCollapsableBar($name, $icon)
+    public static function closeCollapsableBar($name, $icon): void
     {
         echo '</div>';
 
@@ -868,13 +865,13 @@ class Utility extends Common\SysUtility
      * @param string $value
      * @param int    $time
      */
-    public static function setCookieVar($name, $value, $time = 0)
+    public static function setCookieVar($name, $value, $time = 0): void
     {
         if (0 === $time) {
             $time = \time() + 3600 * 24 * 365;
         }
-//        setcookie($name, $value, $time, '/');
-         setcookie($name, $value, $time, '/', \ini_get('session.cookie_domain'), (bool)\ini_get('session.cookie_secure'), (bool)\ini_get('session.cookie_httponly'));
+        //        setcookie($name, $value, $time, '/');
+        setcookie($name, $value, $time, '/', \ini_get('session.cookie_domain'), (bool)\ini_get('session.cookie_secure'), (bool)\ini_get('session.cookie_httponly'));
     }
 
     /**
@@ -1037,7 +1034,7 @@ class Utility extends Common\SysUtility
      * @param array  $errArray
      * @param string $reseturl
      */
-    public static function renderErrors($errArray, $reseturl = '')
+    public static function renderErrors($errArray, $reseturl = ''): void
     {
         if ($errArray && \is_array($errArray)) {
             echo '<div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC url(' . PUBLISHER_URL . '/assets/images/important-32.png) no-repeat 7px 50%;color:#333;padding-left:45px;">';
@@ -1108,12 +1105,12 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param bool $another
-     * @param bool $withRedirect
+     * @param bool      $another
+     * @param bool      $withRedirect
      * @param Item|null $itemObj
      * @return bool|string|null
      */
-    public static function uploadFile($another, $withRedirect, &$itemObj=null)
+    public static function uploadFile($another, $withRedirect, &$itemObj = null)
     {
         \xoops_load('XoopsMediaUploader');
         //        require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
@@ -1423,29 +1420,32 @@ class Utility extends Common\SysUtility
     }
 
     /**
+     * @param mixed $path
+     * @param mixed $image
+     * @param mixed $alt
      * @return array
      */
-//    public static function getModuleStats()
-//    {
-//        $helper = Helper::getInstance();
-//        //        $moduleStats = [];
-//        //        if (\count($configurator->moduleStats) > 0) {
-//        //            foreach (\array_keys($configurator->moduleStats) as $i) {
-//        //                $moduleStats[$i] = $configurator->moduleStats[$i];
-//        //            }
-//        //        }
-//
-//        $moduleStats  = [
-//            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
-//            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
-//            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_SUBMITTED),
-//            'totalpublished'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_PUBLISHED),
-//            'totaloffline'    => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_OFFLINE),
-//            'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_REJECTED),
-//        ];
-//
-//        return $moduleStats;
-//    }
+    //    public static function getModuleStats()
+    //    {
+    //        $helper = Helper::getInstance();
+    //        //        $moduleStats = [];
+    //        //        if (\count($configurator->moduleStats) > 0) {
+    //        //            foreach (\array_keys($configurator->moduleStats) as $i) {
+    //        //                $moduleStats[$i] = $configurator->moduleStats[$i];
+    //        //            }
+    //        //        }
+    //
+    //        $moduleStats  = [
+    //            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
+    //            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
+    //            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_SUBMITTED),
+    //            'totalpublished'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_PUBLISHED),
+    //            'totaloffline'    => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_OFFLINE),
+    //            'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_REJECTED),
+    //        ];
+    //
+    //        return $moduleStats;
+    //    }
 
     /**
      * @param $path
@@ -1453,8 +1453,10 @@ class Utility extends Common\SysUtility
      * @param $alt
      * @return string
      */
-    public static function iconSourceTag($path, $image, $alt){
+    public static function iconSourceTag($path, $image, $alt)
+    {
         $imgSource = "<img src='" . $path . "$image'  alt='" . $alt . "' title='" . $alt . "' align='middle'>";
-        return  $imgSource;
+
+        return $imgSource;
     }
 }

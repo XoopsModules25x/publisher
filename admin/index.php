@@ -22,13 +22,10 @@ declare(strict_types=1);
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use Xmf\Yaml;
-use XoopsModules\Publisher\{Common,
-    Common\Configurator,
-    Common\TestdataButtons,
-    Helper,
-    Utility
-};
+use XoopsModules\Publisher\Common\Configurator;
+use XoopsModules\Publisher\Common\TestdataButtons;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -55,6 +52,8 @@ foreach (array_keys($copyFiles) as $i) {
 }
 */
 
+ray('Hello world!')->blue();
+
 if (is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
     $adminObject->addConfigBoxLine('<span style="color:green;"><img src="' . $pathIcon16 . '/1.png" alt="!">' . _MD_PUBLISHER_PDF . '</span>', 'default');
 } else {
@@ -65,32 +64,32 @@ $modStats    = [];
 $moduleStats = $utility::getModuleStats($configurator);
 
 $adminObject->addInfoBox(constant('CO_' . $moduleDirNameUpper . '_' . 'STATS_SUMMARY'));
-if (is_array($moduleStats)  && count($moduleStats) > 0) {
+if (is_array($moduleStats) && count($moduleStats) > 0) {
     foreach ($moduleStats as $key => $value) {
         switch ($key) {
             case 'totalcategories':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALCAT));
+                $adminObject->addInfoBoxLine($ret . ' ' . _AM_PUBLISHER_TOTALCAT);
                 break;
             case 'totalitems':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_ITEMS));
+                $adminObject->addInfoBoxLine($ret . ' ' . _AM_PUBLISHER_ITEMS);
                 break;
             case 'totaloffline':
                 $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTAL_OFFLINE));
+                $adminObject->addInfoBoxLine($ret . ' ' . _AM_PUBLISHER_TOTAL_OFFLINE);
                 break;
             case 'totalpublished':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALPUBLISHED));
+                $adminObject->addInfoBoxLine($ret . ' ' . _AM_PUBLISHER_TOTALPUBLISHED);
                 break;
             case 'totalrejected':
                 $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_REJECTED));
+                $adminObject->addInfoBoxLine($ret . ' ' . _AM_PUBLISHER_REJECTED);
                 break;
             case 'totalsubmitted':
                 $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
-                $adminObject->addInfoBoxLine(sprintf($ret . ' ' . _AM_PUBLISHER_TOTALSUBMITTED));
+                $adminObject->addInfoBoxLine($ret . ' ' . _AM_PUBLISHER_TOTALSUBMITTED);
                 break;
         }
     }

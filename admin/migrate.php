@@ -31,37 +31,32 @@ declare(strict_types=1);
 // Project: XOOPS Project                                                    //
 // ------------------------------------------------------------------------- //
 
-use Xmf\Request;
-
 use Xmf\Module\Admin;
-use XoopsModules\Publisher\{
-    Common\Configurator,
-    Common\Migrate,
-    Helper
-};
+use Xmf\Request;
+use XoopsModules\Publisher\Common\Configurator;
+use XoopsModules\Publisher\Common\Migrate;
 
 /** @var Admin $adminObject */
 /** @var Configurator $configurator */
 /** @var Migrate $migrator */
-
 require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 
 $adminObject->displayNavigation(basename(__FILE__));
 
 echo <<<EOF
-<form method="post" class="form-inline">
-<div class="form-group">
-<input name="show" class="btn btn-default" type="submit" value="Show SQL">
-</div>
-<div class="form-group">
-<input name="migrate" class="btn btn-default" type="submit" value="Do Migration">
-</div>
-<div class="form-group">
-<input name="schema" class="btn btn-default" type="submit" value="Write Schema">
-</div>
-</form>
-EOF;
+    <form method="post" class="form-inline">
+    <div class="form-group">
+    <input name="show" class="btn btn-default" type="submit" value="Show SQL">
+    </div>
+    <div class="form-group">
+    <input name="migrate" class="btn btn-default" type="submit" value="Do Migration">
+    </div>
+    <div class="form-group">
+    <input name="schema" class="btn btn-default" type="submit" value="Write Schema">
+    </div>
+    </form>
+    EOF;
 
 //XoopsLoad::load('migrate', 'newbb');
 

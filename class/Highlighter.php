@@ -61,7 +61,7 @@ class Highlighter
     /**
      * @param bool $value
      */
-    public function setSimple($value)
+    public function setSimple($value): void
     {
         $this->simple = (bool)$value;
     }
@@ -69,7 +69,7 @@ class Highlighter
     /**
      * @param bool $value
      */
-    public function setWholeWords($value)
+    public function setWholeWords($value): void
     {
         $this->wholeWords = (bool)$value;
     }
@@ -77,7 +77,7 @@ class Highlighter
     /**
      * @param bool $value
      */
-    public function setCaseSens($value)
+    public function setCaseSens($value): void
     {
         $this->caseSens = (bool)$value;
     }
@@ -85,7 +85,7 @@ class Highlighter
     /**
      * @param bool $value
      */
-    public function setStripLinks($value)
+    public function setStripLinks($value): void
     {
         $this->stripLinks = (bool)$value;
     }
@@ -93,7 +93,7 @@ class Highlighter
     /**
      * @param string $value
      */
-    public function setReplacementString($value)
+    public function setReplacementString($value): void
     {
         $this->replacementString = (string)$value;
     }
@@ -104,7 +104,7 @@ class Highlighter
      * @param string       $text   Haystack - The text to search
      * @param array|string $needle Needle - The string to highlight
      *
-     * @return string $text (with needle highlighted)
+     * @return string (with needle highlighted)
      */
     public function highlight($text, $needle)
     {

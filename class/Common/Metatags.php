@@ -18,7 +18,6 @@ final class Meta
      * @param string $localeCode
      * @return string
      */
-
     public static function getStatik($localeCode)
     {
         return '
@@ -35,7 +34,6 @@ final class Meta
     /**
      * @return string
      */
-
     public static function getRobot()
     {
         return '
@@ -48,7 +46,6 @@ final class Meta
     /**
      * @return string
      */
-
     public static function getNorobot()
     {
         return '
@@ -60,7 +57,6 @@ final class Meta
      * @param $title
      * @return string
      */
-
     public static function getTitle($title)
     {
         return '<title>' . $title . '</title>';
@@ -70,7 +66,6 @@ final class Meta
      * @param $desc
      * @return string
      */
-
     public static function getDescription($desc)
     {
         return '<meta itemprop="description" name="description" content="' . $desc . '">';
@@ -80,17 +75,16 @@ final class Meta
      * @param $langList
      * @return string
      */
-
     public static function getAlternate($langList)
     {
         $alternateLangList = '';
 
-        if (\count($langList) > 1):
-            foreach ($langList as $lang):
+        if (\count($langList) > 1) :
+            foreach ($langList as $lang) :
                 $alternateLangList .= '
                 <link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '">';
             endforeach;
-        else:
+        else :
             $alternateLangList = '
             <link rel="alternate" hreflang="' . $lang['hreflang'] . '" href="' . home('?lang=' . $lang['code']) . '">';
 
@@ -103,13 +97,12 @@ final class Meta
      * @param $fb
      * @return string
      */
-
     public static function getFacebook($fb)
     {
         $fbh = '';
 
-        if (\is_array($fb)):
-            foreach ($fb as $fbkey => $fbrow):
+        if (\is_array($fb)) :
+            foreach ($fb as $fbkey => $fbrow) :
                 $fbh .= '
                 <meta property="og:' . $fbkey . '" content="' . $fbrow . '">';
 
@@ -124,13 +117,12 @@ final class Meta
      * @param $tw
      * @return string
      */
-
     public static function getTwitter($tw)
     {
         $twh = '';
 
-        if (\is_array($tw)):
-            foreach ($tw as $twkey => $twrow):
+        if (\is_array($tw)) :
+            foreach ($tw as $twkey => $twrow) :
                 $twh .= '<meta name="twitter:' . $twkey . '" content="' . $twrow . '">';
 
             endforeach;
@@ -144,13 +136,12 @@ final class Meta
      * @param $icon
      * @return string
      */
-
     public static function getIcon($icon)
     {
         $iconh = '';
 
-        if (\is_array($icon)):
-            foreach ($icon as $iconkey => $iconrow):
+        if (\is_array($icon)) :
+            foreach ($icon as $iconkey => $iconrow) :
                 $iconh .= '<meta name="' . $iconkey . '" href="' . $iconrow . '">';
 
             endforeach;
@@ -164,7 +155,6 @@ final class Meta
      * @param $author
      * @return string
      */
-
     public static function getAuthor($author)
     {
         return '<meta name="author" itemprop="author" content="' . $author . '">';
@@ -174,7 +164,6 @@ final class Meta
      * @param $canonical
      * @return string
      */
-
     public static function getCanonical($canonical)
     {
         return '<link rel="canonical" itemprop="url" type="text/html" href="' . $canonical . '">';
@@ -184,7 +173,6 @@ final class Meta
      * @param $manifest
      * @return string
      */
-
     public static function getManifest($manifest)
     {
         return '<link rel="manifest" href="' . $manifest . '">';
@@ -194,7 +182,6 @@ final class Meta
      * @param $google
      * @return string
      */
-
     public static function getGoogle($google)
     {
         return '<meta name="google-site-verification" content="' . $google . '">';
@@ -204,7 +191,6 @@ final class Meta
      * @param $bing
      * @return string
      */
-
     public static function getBing($bing)
     {
         return '
@@ -215,7 +201,6 @@ final class Meta
      * @param $yandex
      * @return string
      */
-
     public static function getgetYandex($yandex)
     {
         return '<meta name="yandex-verification" content="' . $yandex . '">';
@@ -225,7 +210,6 @@ final class Meta
      * @param $amp
      * @return string
      */
-
     public static function getAmp($amp)
     {
         return '<meta rel="amphtml" content="' . $amp . '">';
@@ -235,7 +219,6 @@ final class Meta
      * @param $crumb
      * @return string
      */
-
     public static function getBreadcrumb($crumb)
     {
         $h = '';
@@ -244,13 +227,13 @@ final class Meta
 
         $bcount = \count($crumb);
 
-        if (\is_array($crumb)):
+        if (\is_array($crumb)) :
             $h .= '<script type="application/ld+json">{
                 "@context": "http://schema.org",
                 "@type": "BreadcrumbList",
                 "itemListElement":[';
 
-            foreach ($crumb as $crumbrow):
+            foreach ($crumb as $crumbrow) :
                 ++$count;
 
                 $h .= '
@@ -294,17 +277,17 @@ echo Meta:Twitter([
                   ]);
 Output;
 
-<meta name="twitter:title" content="Başlık"/>
-<meta name="twitter:site" content="@salihandic"/>
-<meta name="twitter:creator" content="@salihandic" />
-<meta name="twitter:via" content="salihandic" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://www.twitter.com"/>
-<meta name="twitter:description" content=""/>
-<meta name="twitter:image" content=""/>
-<meta name="twitter:image:width" content="640"/>
-<namemeta= "twitter:image:height" content="640"/>
-<meta name="twitter:image:alt" content="Salih Andıç" />
-<meta name="twitter:domain" content="twitter.com" />
+<meta name="twitter:title" content="Başlık">
+<meta name="twitter:site" content="@salihandic">
+<meta name="twitter:creator" content="@salihandic">
+<meta name="twitter:via" content="salihandic">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://www.twitter.com">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="">
+<meta name="twitter:image:width" content="640">
+<namemeta= "twitter:image:height" content="640">
+<meta name="twitter:image:alt" content="Salih Andıç">
+<meta name="twitter:domain" content="twitter.com">
 
 */

@@ -17,16 +17,16 @@ declare(strict_types=1);
  */
 
 use Xmf\Database\TableLoad;
+use Xmf\Database\Tables;
 use Xmf\Request;
 use Xmf\Yaml;
-use XoopsModules\Publisher\{Helper,
-    Common\Configurator,
-    Utility
-};
+use XoopsModules\Publisher\Common\Configurator;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
+
 /** @var Helper $helper */
 /** @var Utility $utility */
 /** @var Configurator $configurator */
-
 require \dirname(__DIR__, 3) . '/include/cp_header.php';
 require \dirname(__DIR__) . '/preloads/autoloader.php';
 
@@ -48,7 +48,7 @@ switch ($op) {
             loadSampleData();
         } else {
             xoops_cp_header();
-            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', sprintf(constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_CONFIRM')), constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'), true);
+            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_CONFIRM'), constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'), true);
             xoops_cp_footer();
         }
         break;
@@ -62,7 +62,7 @@ switch ($op) {
 
 // XMF TableLoad for SAMPLE data
 
-function loadSampleData()
+function loadSampleData(): void
 {
     global $xoopsConfig;
     $moduleDirName      = \basename(\dirname(__DIR__));
@@ -78,6 +78,7 @@ function loadSampleData()
         $language = $xoopsConfig['language'] . '/';
     }
 
+    clearImages();
     // load module tables
     foreach ($tables as $table) {
         $tabledata = Yaml::readWrapped($language . $table . '.yml');
@@ -91,6 +92,21 @@ function loadSampleData()
     $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
     loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $mid);
 
+    if (1 === $configurator->testimages['images']) {
+        // load test image categories
+        $table     = 'imagecategory';
+        $tabledata = Yaml::readWrapped($language . $table . '.yml');
+        $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
+        loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $mid);
+
+        // load test images
+        $table     = 'image';
+        $tabledata = Yaml::readWrapped($language . $table . '.yml');
+        $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
+        loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $mid);
+    }
+
+
     //  ---  COPY test folder files ---------------
     if (is_array($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
         //        $file =  \dirname(__DIR__) . '/testdata/images/';
@@ -103,13 +119,14 @@ function loadSampleData()
     \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_SUCCESS'));
 }
 
-function saveSampleData()
+function saveSampleData(): void
 {
     global $xoopsConfig;
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
     $helper             = Helper::getInstance();
     $tables             = $helper->getModule()->getInfo('tables');
+    $configurator = new Configurator();
 
     $languageFolder = __DIR__ . '/' . $xoopsConfig['language'];
     if (!file_exists($languageFolder . '/')) {
@@ -130,10 +147,24 @@ function saveSampleData()
     TableLoad::saveTableToYamlFile('group_permission', $exportFolder . 'group_permission.yml', $criteria, $skipColumns);
     unset($criteria);
 
+    // save test image category
+    if (1 === $configurator->testimages['images']) {
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('imgcat_name', $configurator->testimages['imgcat_name']));
+        TableLoad::saveTableToYamlFile('imagecategory', $exportFolder . 'imagecategory.yml', $criteria);
+        unset($criteria);
+
+        // save test images
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('imgcat_id', $configurator->testimages['imgcat_id']));
+        TableLoad::saveTableToYamlFile('image', $exportFolder . 'image.yml', $criteria);
+        unset($criteria);
+    }
+
     \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
 }
 
-function exportSchema()
+function exportSchema(): void
 {
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
@@ -204,7 +235,8 @@ function loadTableFromArrayWithReplace($table, $data, $search, $replace)
     return $count;
 }
 
-function clearSampleData(){
+function clearSampleData(): void
+{
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
     $helper             = Helper::getInstance();
@@ -215,5 +247,44 @@ function clearSampleData(){
     foreach ($tables as $table) {
         \Xmf\Database\TableLoad::truncateTable($table);
     }
+
+    clearImages();
+
     redirect_header($helper->url('admin/index.php'), 1, constant('CO_' . $moduleDirNameUpper . '_' . 'CLEAR_SAMPLEDATA_OK'));
+}
+
+function clearImages(): void
+{
+    $configurator = new Configurator();
+    // clear test images & image category
+    if (1 === $configurator->testimages['images']) {
+        // clear test image category
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('imgcat_name', $configurator->testimages['imgcat_name']));
+        deleteRecords($criteria, 'imagecategory');//::saveTableToYamlFile('imagecategory', $exportFolder . 'imagecategory.yml', $criteria);
+        unset($criteria);
+
+        // clear test images
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('imgcat_id', $configurator->testimages['imgcat_id']));
+        deleteRecords($criteria, 'image');
+        unset($criteria);
+    }
+}
+
+function deleteRecords(\CriteriaCompo $criteria = null, string $table): bool
+{
+    /** @var \XoopsMySQLDatabase $db */
+    $db = \XoopsDatabaseFactory::getDatabaseConnection();
+    $prefixedTable = $db->prefix($table);
+    $sql = 'DELETE FROM ' . $prefixedTable . ' ';
+    if (isset($criteria) && is_subclass_of($criteria, '\CriteriaElement')) {
+        /* @var  \CriteriaCompo $criteria */
+        $sql .= $criteria->renderWhere();
+    }
+    $result = $db->queryF($sql);
+    if ($result) {
+        return true;
+    }
+    return false;
 }

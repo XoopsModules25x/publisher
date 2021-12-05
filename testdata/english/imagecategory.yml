@@ -1,0 +1,11 @@
+-
+  imgcat_id: 999
+  imgcat_name: "Publisher-Test"
+  imgcat_maxsize: 5000000
+  imgcat_maxwidth: 1600
+  imgcat_maxheight: 1600
+  imgcat_display: 1
+  imgcat_weight: 0
+  imgcat_type: "C"
+  imgcat_storetype: "file"
+...

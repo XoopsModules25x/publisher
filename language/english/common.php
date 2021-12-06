@@ -255,3 +255,25 @@ define('CO_' . $moduleDirNameUpper . '_' . 'TRUNCATE_LENGTH', 'Number of Charact
 define('CO_' . $moduleDirNameUpper . '_' . 'TRUNCATE_LENGTH_DESC', 'Set the maximum number of characters to truncate the long text fields');
 
 \define('CO_' . $moduleDirNameUpper . '_' . 'DELETE_BLOCK_CONFIRM', 'Are you sure to delete this Block?');
+
+//Cloning
+define('CO_' . $moduleDirNameUpper . '_' . 'CLONE', 'Clone');
+define('CO_' . $moduleDirNameUpper . '_' . 'CLONE_DSC', 'Cloning a module has never been this easy! Just type in the name you want for it and hit submit button!');
+define('CO_' . $moduleDirNameUpper . '_' . 'CLONE_TITLE', 'Clone %s');
+define('CO_' . $moduleDirNameUpper . '_' . 'CLONE_NAME', 'Choose a name for the new module');
+define('CO_' . $moduleDirNameUpper . '_' . 'CLONE_NAME_DSC', 'Do not use special characters! <br>Do not choose an existing module dirname or database table name!');
+define('CO_' . $moduleDirNameUpper . '_' . 'CLONE_INVALIDNAME', 'ERROR: Invalid module name, please try another one!');
+define('CO_' . $moduleDirNameUpper . '_' . 'CLONE_EXISTS', 'ERROR: Module name already taken, please try another one!');
+define('CO_' . $moduleDirNameUpper . '_' . 'CLONE_CONGRAT', 'Congratulations! %s was sucessfully created!<br>You may want to make changes in language files.');
+define('CO_' . $moduleDirNameUpper . '_' . 'CLONE_IMAGEFAIL', 'Attention, we failed creating the new module logo. Please consider modifying assets/images/logo_module.png manually!');
+define('CO_' . $moduleDirNameUpper . '_' . 'CLONE_FAIL', "Sorry, we failed in creating the new clone. Maybe you need to temporally set write permissions (CHMOD 777) to 'modules' folder and try again.");
+
+
+//JSON-LD generation of www.schema.org
+\define('CO_' . $moduleDirNameUpper . '_' . 'GENERATE_JSONLD', 'Generate Schema Markup through JSON LD');
+\define('CO_' . $moduleDirNameUpper . '_' . 'GENERATE_JSONLD_DESC', 'Mark up your module with structured data to help search engines better understand the content of your web page');
+
+//Repository not found
+define('CO_' . $moduleDirNameUpper . '_' . 'REPO_NOT_FOUND', 'Repository Not Found: ');
+//Release not found
+define('CO_' . $moduleDirNameUpper . '_' . 'NO_REL_FOUND', 'Released Version Not Found: ');

@@ -20,14 +20,14 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Category,
-    Constants,
-    Helper,
-    Item,
-    Metagen,
-    Seo,
-    Utility
-};
+use XoopsModules\Publisher\Category;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\Jsonld;
+use XoopsModules\Publisher\Metagen;
+use XoopsModules\Publisher\Seo;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/header.php';
 
@@ -115,7 +115,7 @@ if ($itemsObj) {
 $category = [];
 $items    = [];
 
-// Populating the smarty variables with informations related to the selected category
+// Populating the smarty variables with information related to the selected category
 $category                 = $categoryObj->toArraySimple(null);
 $category['categoryPath'] = $categoryObj->getCategoryPath($helper->getConfig('format_linked_path'));
 
@@ -243,6 +243,12 @@ $xoopsTpl->assign('navbar', $navbar);
  */
 $publisherMetagen = new Metagen($categoryObj->getVar('name'), $categoryObj->getVar('meta_keywords', 'n'), $categoryObj->getVar('meta_description', 'n'), $categoryObj->getCategoryPathForMetaTitle());
 $publisherMetagen->createMetaTags();
+
+// generate JSON-LD and add to page
+if ($helper->getConfig('generate_jsonld')) {
+    $jsonld = Jsonld::getCategory($categoryObj);
+    echo $jsonld;
+}
 
 // RSS Link
 if (1 == $helper->getConfig('idxcat_show_rss_link')) {

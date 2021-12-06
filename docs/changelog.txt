@@ -1,4 +1,4 @@
-<h5>1.8.0 Alpha.6       [2021-12-05]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.0
+<h5>1.8.0 Alpha.6       [2021-12-06]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.0
 <hr>
 - added Blocksadmin class (mamba)
 - semantic versioning (mamba)
@@ -8,6 +8,7 @@
 - added option for AltSys language changes (mamba)
 - added Security info file (mamba)
 - declare(strict_types=1) (mamba)
+- added JSON-LD Schema Markup (mamba)
 
 
 <h5>1.08 Alpha 5       [2021-08-28]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.22, PHP 8.0.9

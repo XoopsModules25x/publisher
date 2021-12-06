@@ -36,8 +36,8 @@ $xoops_url = parse_url(XOOPS_URL);
 
 $modversion = [
     'version'             => '1.8.0',
-    'module_status'       => 'alpha.6',
-    'release_date'        => '2021/12/05',
+    'module_status'       => 'Alpha.6',
+    'release_date'        => '2021/12/06',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',
@@ -1739,6 +1739,16 @@ $modversion['config'][] = [
     'valuetype'   => 'textbox',
     'default'     => 'odd',
     'category'    => 'group_header',
+];
+
+
+$modversion['config'][] = [
+    'name'        => 'generate_jsonld',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'GENERATE_JSONLD',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'GENERATE_JSONLD_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
 ];
 
 /**

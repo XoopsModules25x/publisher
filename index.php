@@ -20,14 +20,13 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Constants,
-    Helper,
-    Metagen,
-    Utility
-};
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Jsonld;
+use XoopsModules\Publisher\Metagen;
+use XoopsModules\Publisher\Utility;
 
 /** @var Helper $helper */
-
 require_once __DIR__ . '/header.php';
 
 // At which record shall we start for the Categories
@@ -228,6 +227,13 @@ $xoopsTpl->assign('displaylastitems', $helper->getConfig('index_display_last_ite
  */
 $publisherMetagen = new Metagen($helper->getModule()->getVar('name'));
 $publisherMetagen->createMetaTags();
+
+// generate JSON-LD and add to page
+if ($helper->getConfig('generate_jsonld')) {
+    global $xoopsConfig, $xoopsUser, $xoops_url;
+    $jsonld = Jsonld::getIndex($xoopsConfig, $xoopsUser, $xoops_url);
+    echo $jsonld;
+}
 
 // RSS Link
 if (1 == $helper->getConfig('idxcat_show_rss_link')) {

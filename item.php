@@ -20,24 +20,22 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{
-    Category,
-    Constants,
-    Helper,
-    Item,
-    Metagen,
-    Utility
-};
+use XoopsModules\Publisher\Category;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\Jsonld;
+use XoopsModules\Publisher\Metagen;
+use XoopsModules\Publisher\Utility;
 
 /** @var Category $categoryObj */
-
 require_once __DIR__ . '/header.php';
 
 $itemId     = Request::getInt('itemid', 0, 'GET');
 $itemPageId = Request::getInt('page', -1, 'GET');
 
 if (0 == $itemId) {
-//    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
+    //    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 $helper = Helper::getInstance();
@@ -48,7 +46,7 @@ $itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected item was not found, exit
 if (null === $itemObj) {
-//    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
+    //    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl';
@@ -176,7 +174,7 @@ if ('all' === $helper->getConfig('item_other_items_type')) {
         }
 
         $mainImage = $theItemObj->getMainImage();
-        // check to see if GD function exist       
+        // check to see if GD function exist
         $theItem['item_image'] = $mainImage['image_path'];
         if (!empty($mainImage['image_path']) && function_exists('imagecreatetruecolor')) {
             $theItem['item_image'] = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=100';
@@ -278,21 +276,28 @@ if (xoops_isActiveModule('tag')) {
 $publisherMetagen = new Metagen($itemObj->getVar('title'), $itemObj->getVar('meta_keywords', 'n'), $itemObj->getVar('meta_description', 'n'), $itemObj->getCategoryPath());
 $publisherMetagen->createMetaTags();
 
+
+// generate JSON-LD and add to page
+if ($helper->getConfig('generate_jsonld')) {
+    $jsonld = Jsonld::getItem($itemObj, $categoryObj);
+    echo $jsonld;
+}
+
 // Include the comments if the selected ITEM supports comments
 if ((0 != $helper->getConfig('com_rule')) && ((1 == $itemObj->cancomment()) || !$helper->getConfig('perm_com_art_level'))) {
     require_once $GLOBALS['xoops']->path('include/comment_view.php');
     // Problem with url_rewrite and posting comments :
-//    $xoopsTpl->assign(
-//        [
-//            'editcomment_link'   => PUBLISHER_URL . '/comment_edit.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
-//            'deletecomment_link' => PUBLISHER_URL . '/comment_delete.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
-//            'replycomment_link'  => PUBLISHER_URL . '/comment_reply.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
-//        ]
-//    );
+    //    $xoopsTpl->assign(
+    //        [
+    //            'editcomment_link'   => PUBLISHER_URL . '/comment_edit.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
+    //            'deletecomment_link' => PUBLISHER_URL . '/comment_delete.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
+    //            'replycomment_link'  => PUBLISHER_URL . '/comment_reply.php?com_itemid=' . $com_itemid . '&amp;com_order=' . $com_order . '&amp;com_mode=' . $com_mode . $link_extra,
+    //        ]
+    //    );
     $xoopsTpl->_tpl_vars['commentsnav'] = str_replace(
         "self.location.href='",
         "self.location.href='" . PUBLISHER_URL . '/',
-        $xoopsTpl->_tpl_vars['commentsnav']??''
+        $xoopsTpl->_tpl_vars['commentsnav'] ?? ''
     );
 }
 
@@ -340,7 +345,6 @@ if ($helper->getConfig('perm_rating')) {
     //        $xoopsTpl->assign('rating', $rating);
     //        unset($article);
     //    }
-
 
     $GLOBALS['xoopsTpl']->assign('type', $helper->getConfig('table_type'));
     $GLOBALS['xoopsTpl']->assign('divideby', $helper->getConfig('divideby'));

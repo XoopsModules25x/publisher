@@ -19,11 +19,11 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\{Constants,
-    Helper,
-    Item,
-    Metagen
-};
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\Jsonld;
+use XoopsModules\Publisher\Metagen;
 
 require_once __DIR__ . '/header.php';
 
@@ -132,5 +132,12 @@ $title = _MD_PUBLISHER_ITEMS_SAME_AUTHOR . ' - ' . $authorName;
  */
 $publisherMetagen = new Metagen($title, '', $title);
 $publisherMetagen->createMetaTags();
+
+// generate JSON-LD and add to page
+if ($helper->getConfig('generate_jsonld')) {
+    global $xoopsUser, $xoopsConfig, $xoops_url;
+    $jsonld = Jsonld::getAuthoritem($xoopsUser, $xoopsConfig, $xoops_url);
+    echo $jsonld;
+}
 
 require_once $GLOBALS['xoops']->path('footer.php');

@@ -52,8 +52,6 @@ foreach (array_keys($copyFiles) as $i) {
 }
 */
 
-ray('Hello world!')->blue();
-
 if (is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
     $adminObject->addConfigBoxLine('<span style="color:green;"><img src="' . $pathIcon16 . '/1.png" alt="!">' . _MD_PUBLISHER_PDF . '</span>', 'default');
 } else {

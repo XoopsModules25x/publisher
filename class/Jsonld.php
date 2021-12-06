@@ -2,7 +2,6 @@
 
 namespace XoopsModules\Publisher;
 
-use XoopsUser;
 
 /**
  *
@@ -11,7 +10,7 @@ class Jsonld
 {
     public $website = [];
 
-    public static function getAuthor(XoopsUser $xoopsUser)
+    public static function getAuthor(\XoopsUser $xoopsUser)
     {
         $author = [
             '@type'     => 'Person',
@@ -60,13 +59,17 @@ class Jsonld
         return $ret;
     }
 
-    public static function getArticle(Item $itemObj, Category $categoryObj, XoopsUser $xoopsUser, Helper $helper)
+    public static function getArticle(Item $itemObj, Category $categoryObj, \XoopsUser $xoopsUser, Helper $helper)
     {
         $itemImage = $itemObj->getVar('image');
         if (isset($itemImage)) {
             $imageHandler = xoops_getHandler('image');
             $criteria     = new \Criteria('image_id', $itemObj->getVar('image'));
-            $image        = $imageHandler->getObjects($criteria)[0];
+            $image        = $imageHandler->getObjects($criteria)[0]??null;
+            $imageUrl = '';
+            if (null!==$image) {
+                $imageUrl = XOOPS_URL . '/images/' . $image->getVar('image_name');
+            }
         }
         if ($xoopsUser instanceof ('XoopsUser')) {
             $authorName = $xoopsUser->getVar('name') ?? $xoopsUser->getVar('uname');
@@ -89,7 +92,7 @@ class Jsonld
             'commentCount'    => $itemObj->getVar('comments'),
             'image'           => [
                 '@type'  => 'ImageObject',
-                'url'    => XOOPS_URL . '/images/' . $image->getVar('image_name'),
+                'url'    => $imageUrl,
                 'width'  => '300',
                 'height' => '60',
             ],

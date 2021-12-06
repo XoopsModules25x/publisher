@@ -26,14 +26,16 @@ class Jsonld
         return $author;
     }
 
-    public static function getAuthoritem(XoopsUser $xoopsUser, array $xoopsConfig, string $xoops_url)
+    public static function getAuthoritem($xoopsUser, array $xoopsConfig, string $xoops_url)
     {
         $ret    = '';
         $helper = Helper::getInstance();
         if ($helper->getConfig('generate_jsonld')) {
-            $schema['@context']  = 'http://schema.org/';
-            $schema['@type']     = 'Article';
-            $schema['author']    = self::getAuthor($xoopsUser);
+            $schema['@context'] = 'http://schema.org/';
+            $schema['@type']    = 'Article';
+            if ($xoopsUser instanceof ('XoopsUser')) {
+                $schema['author'] = self::getAuthor($xoopsUser);
+            }
             $schema['publisher'] = self::getOrganization($xoopsConfig, $xoops_url);
 
             $ret = '<script type="application/ld+json">' . json_encode($schema, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES) . '</script>';
@@ -66,6 +68,9 @@ class Jsonld
             $criteria     = new \Criteria('image_id', $itemObj->getVar('image'));
             $image        = $imageHandler->getObjects($criteria)[0];
         }
+        if ($xoopsUser instanceof ('XoopsUser')) {
+            $authorName = $xoopsUser->getVar('name') ?? $xoopsUser->getVar('uname');
+        }
         $item = [
             "@context"        => "http://schema.org",
             '@type'           => 'Article',
@@ -75,7 +80,7 @@ class Jsonld
             'text'            => $itemObj->getVar('body'),
             'datePublished'   => $itemObj->getVar('datesub'),
             'dateModified'    => $itemObj->getVar('datesub'),
-            'name'            => $xoopsUser->getVar('name') ?? $xoopsUser->getVar('uname'),
+            'name'            => $authorName,
             'aggregateRating' => [
                 '@type'       => 'AggregateRating',
                 'ratingValue' => $itemObj->getVar('rating'),
@@ -137,9 +142,11 @@ class Jsonld
 
             //            $website = self::getWebsite($xoopsConfig, $xoops_url);
 
-            $schema['@context']  = 'http://schema.org/';
-            $schema['@type']     = 'Article';
-            $schema['author']    = self::getAuthor($xoopsUser);
+            $schema['@context'] = 'http://schema.org/';
+            $schema['@type']    = 'Article';
+            if ($xoopsUser instanceof ('XoopsUser')) {
+                $schema['author'] = self::getAuthor($xoopsUser);
+            }
             $schema['publisher'] = self::getOrganization($xoopsConfig, $xoops_url);
             $ret                 = '<script type="application/ld+json">' . json_encode($schema, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES) . '</script>';
         }
@@ -168,11 +175,12 @@ class Jsonld
             $schema = [];
             //            $website      = self::getWebsite($xoopsConfig, $xoops_url);
             //            $category     = self::getCategory($categoryObj);
-            $schema[] = [
-                'article'   => self::getArticle($itemObj, $categoryObj, $xoopsUser, $helper),
-                'author'    => self::getAuthor($xoopsUser),
-                'publisher' => self::getOrganization($xoopsConfig, $xoops_url),
-            ];
+
+            if ($xoopsUser instanceof ('XoopsUser')) {
+                $schema['article'] = self::getArticle($itemObj, $categoryObj, $xoopsUser, $helper);
+                $schema['author'] = self::getAuthor($xoopsUser);
+            }
+            $schema['publisher'] = self::getOrganization($xoopsConfig, $xoops_url);
 
             $ret = '<script type="application/ld+json">' . json_encode($schema, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES) . '</script>';
         }

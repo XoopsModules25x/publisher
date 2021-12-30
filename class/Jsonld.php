@@ -30,9 +30,9 @@ class Jsonld
         $ret    = '';
         $helper = Helper::getInstance();
         if ($helper->getConfig('generate_jsonld')) {
-            $schema['@context'] = 'http://schema.org/';
+            $schema['@context'] = 'https://schema.org/';
             $schema['@type']    = 'Article';
-            if ($xoopsUser instanceof ('XoopsUser')) {
+            if ($xoopsUser instanceof \XoopsUser) {
                 $schema['author'] = self::getAuthor($xoopsUser);
             }
             $schema['publisher'] = self::getOrganization($xoopsConfig, $xoops_url);
@@ -49,7 +49,7 @@ class Jsonld
         if ($helper->getConfig('generate_jsonld')) {
             global $xoopsConfig, $xoopsUser, $xoops_url;
             $schema                   = [];
-            $schema['@context']       = 'http://schema.org/';
+            $schema['@context']       = 'https://schema.org/';
             $schema['@type']          = 'Article';
             $schema['articleSection'] = $categoryObj->getVar('name');
             $schema['publisher']      = self::getOrganization($xoopsConfig, $xoops_url);
@@ -71,11 +71,11 @@ class Jsonld
                 $imageUrl = XOOPS_URL . '/images/' . $image->getVar('image_name');
             }
         }
-        if ($xoopsUser instanceof ('XoopsUser')) {
+        if ($xoopsUser instanceof \XoopsUser) {
             $authorName = $xoopsUser->getVar('name') ?? $xoopsUser->getVar('uname');
         }
         $item = [
-            "@context"        => "http://schema.org",
+            "@context"        => "https://schema.org",
             '@type'           => 'Article',
             'articleSection'  => $categoryObj->getVar('name'),
             'url'             => $helper->url('item.php?itemid=') . $itemObj->getVar('itemid'),
@@ -104,7 +104,7 @@ class Jsonld
     public static function getOrganization(array $xoopsConfig, string $xoops_url)
     {
         $organization = [
-            "@context" => "http://schema.org",
+            "@context" => "https://schema.org",
             "@type"    => "Organization",
             "name"     => $xoopsConfig['sitename'],
             'slogan'   => $xoopsConfig['slogan'],
@@ -126,7 +126,7 @@ class Jsonld
     public static function getWebsite($xoopsConfig, $xoops_url)
     {
         $website = [
-            "@context" => "http://schema.org",
+            "@context" => "https://schema.org",
             "@type"    => "WebSite",
             "name"     => $xoopsConfig['sitename'],
             'slogan'   => $xoopsConfig['slogan'],
@@ -145,9 +145,9 @@ class Jsonld
 
             //            $website = self::getWebsite($xoopsConfig, $xoops_url);
 
-            $schema['@context'] = 'http://schema.org/';
+            $schema['@context'] = 'https://schema.org/';
             $schema['@type']    = 'Article';
-            if ($xoopsUser instanceof ('XoopsUser')) {
+            if ($xoopsUser instanceof \XoopsUser) {
                 $schema['author'] = self::getAuthor($xoopsUser);
             }
             $schema['publisher'] = self::getOrganization($xoopsConfig, $xoops_url);
@@ -161,7 +161,7 @@ class Jsonld
     {
         //
         //            $breadcrumbs = [
-        //                "@context"        => "http://schema.org",
+        //                "@context"        => "https://schema.org",
         //                "@type"           => "BreadcrumbList",
         //                "itemListElement" => $listItems,
         //            ];
@@ -179,7 +179,7 @@ class Jsonld
             //            $website      = self::getWebsite($xoopsConfig, $xoops_url);
             //            $category     = self::getCategory($categoryObj);
 
-            if ($xoopsUser instanceof ('XoopsUser')) {
+            if ($xoopsUser instanceof \XoopsUser) {
                 $schema['article'] = self::getArticle($itemObj, $categoryObj, $xoopsUser, $helper);
                 $schema['author'] = self::getAuthor($xoopsUser);
             }

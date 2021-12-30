@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -15,8 +13,8 @@ namespace XoopsModules\Publisher;
  */
 
 /**
- * @copyright         The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license           http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @copyright         The XUUPS Project https://sourceforge.net/projects/xuups/
+ * @license           https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since             1.0
  * @author            trabis <lusopoemas@gmail.com>
  * @author            Taiwen Jiang (phppp or D.J.) <php_pp@hotmail.com>
@@ -85,12 +83,12 @@ class MyTextSanitizerExtension
             }
         }
 
-        $rp = "<object width='{$width}' height='{$height}' classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0'>";
+        $rp = "<object width='{$width}' height='{$height}' classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0'>";
         $rp .= "<param name='movie' value='{$url}'>";
         $rp .= "<param name='QUALITY' value='high'>";
         $rp .= "<PARAM NAME='bgcolor' VALUE='#FFFFFF'>";
         $rp .= "<param name='wmode' value='transparent'>";
-        $rp .= "<embed src='{$url}' width='{$width}' height='{$height}' quality='high' bgcolor='#FFFFFF' wmode='transparent'  pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash'>";
+        $rp .= "<embed src='{$url}' width='{$width}' height='{$height}' quality='high' bgcolor='#FFFFFF' wmode='transparent'  pluginspage='https://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash'>";
         $rp .= '</object>';
 
         return $rp;

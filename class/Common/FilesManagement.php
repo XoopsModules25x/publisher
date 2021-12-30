@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher\Common;
 
@@ -16,7 +14,7 @@ namespace XoopsModules\Publisher\Common;
 
 /**
  * @copyright   XOOPS Project (https://xoops.org)
- * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @license     https://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      mamba <mambax7@gmail.com>
  */
 trait FilesManagement
@@ -73,7 +71,7 @@ trait FilesManagement
      * @return      bool     Returns true on success, false on failure
      * @author      Aidan Lister <aidan@php.net>
      * @version     1.0.1
-     * @link        http://aidanlister.com/2004/04/recursively-copying-directories-in-php/
+     * @link        https://aidanlister.com/2004/04/recursively-copying-directories-in-php/
      */
     public static function xcopy($source, $dest)
     {

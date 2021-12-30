@@ -1,11 +1,9 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /**
  * File : makepdf.php for publisher
  * For tcpdf_for_xoops 2.01 and higher
- * Created by montuy337513 / philodenelle - http://www.chg-web.org
+ * Created by montuy337513 / philodenelle - https://www.chg-web.org
  */
 
 use Xmf\Request;

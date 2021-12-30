@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,8 +10,8 @@ declare(strict_types=1);
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @copyright       The XUUPS Project https://sourceforge.net/projects/xuups/
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -27,6 +25,7 @@ use XoopsModules\Publisher\Item;
 use XoopsModules\Publisher\Jsonld;
 use XoopsModules\Publisher\Metagen;
 use XoopsModules\Publisher\Utility;
+use XoopsModules\Tag\Tagbar;
 
 /** @var Category $categoryObj */
 require_once __DIR__ . '/header.php';
@@ -266,8 +265,8 @@ $xoopsTpl->assign('perm_author_items', $helper->getConfig('perm_author_items'));
 
 // tags support
 if (xoops_isActiveModule('tag')) {
-    require_once $GLOBALS['xoops']->path('modules/tag/include/tagbar.php');
-    $xoopsTpl->assign('tagbar', tagBar($itemId, $catId = 0));
+    $tagbar = new Tagbar();
+    $xoopsTpl->assign('tagbar', $tagbar->getTagbar($itemId, $catId = 0));
 }
 
 /**

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher\Common;
 
@@ -8,7 +6,7 @@ namespace XoopsModules\Publisher\Common;
  * Class META TAGS
  *
  * @author Salih Andıç
- * @web http://www.salihandic.com/
+ * @web https://www.salihandic.com/
  * @mail salihandic@outlook.com
  * @date   20 November 2018
  */
@@ -229,7 +227,7 @@ final class Meta
 
         if (\is_array($crumb)) :
             $h .= '<script type="application/ld+json">{
-                "@context": "http://schema.org",
+                "@context": "https://schema.org",
                 "@type": "BreadcrumbList",
                 "itemListElement":[';
 

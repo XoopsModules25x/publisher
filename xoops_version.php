@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,8 +10,8 @@ declare(strict_types=1);
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @copyright       The XUUPS Project https://sourceforge.net/projects/xuups/
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -36,7 +34,7 @@ $xoops_url = parse_url(XOOPS_URL);
 
 $modversion = [
     'version'             => '1.8.0',
-    'module_status'       => 'Alpha.7',
+    'module_status'       => 'Alpha.8',
     'release_date'        => '2021/12/06',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,

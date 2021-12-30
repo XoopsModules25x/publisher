@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -15,8 +13,8 @@ namespace XoopsModules\Publisher;
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @copyright       The XUUPS Project https://sourceforge.net/projects/xuups/
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -118,10 +116,10 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (!parent::insert($item, $force)) {
             return false;
         }
-        if (\xoops_isActiveModule('tag')) {
+        if (\class_exists(\XoopsModules\Tag\TagHandler::class) && \xoops_isActiveModule('tag')) {
             // Storing tags information
             /** @var \XoopsModules\Tag\TagHandler $tagHandler */
-            $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
+            $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag');
             $tagHandler->updateByItem($item->getVar('item_tag'), $item->getVar('itemid'), $this->helper->getDirname(), 0);
         }
 
@@ -148,9 +146,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             return false;
         }
         // Removing tags information
-        if (\xoops_isActiveModule('tag')) {
+        if (\class_exists(\XoopsModules\Tag\TagHandler::class) && \xoops_isActiveModule('tag')) {
             /** @var \XoopsModules\Tag\TagHandler $tagHandler */
-            $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
+            $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag');
             $tagHandler->updateByItem('', $item->getVar('itemid'), $this->helper->getDirname(), 0);
         }
 

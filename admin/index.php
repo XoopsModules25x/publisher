@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -96,10 +94,10 @@ if (is_array($moduleStats) && count($moduleStats) > 0) {
 $adminObject->displayNavigation(basename(__FILE__));
 
 //check for latest release
-$newRelease = $utility::checkVerModule($helper);
-if (null !== $newRelease) {
-    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
-}
+//$newRelease = $utility::checkVerModule($helper);
+//if (null !== $newRelease) {
+//    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
+//}
 
 //------------- Test Data Buttons ----------------------------
 if ($helper->getConfig('displaySampleButton')) {

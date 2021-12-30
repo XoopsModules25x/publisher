@@ -1,16 +1,14 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /**
  * TimThumb by Ben Gillbanks and Mark Maunder
  * Based on work done by Tim McDaniels and Darren Hoyt
- * http://code.google.com/p/timthumb/
+ * https://code.google.com/p/timthumb/
  *
  * GNU General Public License, version 2
  * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Examples and documentation available on the project homepage
- * http://www.binarymoon.co.uk/projects/timthumb/
+ * https://www.binarymoon.co.uk/projects/timthumb/
  *
  * $Rev$
  */
@@ -170,9 +168,9 @@ if (!defined('PNGCRUSH_PATH')) {
     5. qmake
     6. make
     7. cp CutyCapt /usr/local/bin/
-    8. Test it by running: xvfb-run --server-args="-screen 0, 1024x768x24" CutyCapt --url="http://markmaunder.com/" --out=test.png
+    8. Test it by running: xvfb-run --server-args="-screen 0, 1024x768x24" CutyCapt --url="https://markmaunder.com/" --out=test.png
     9. If you get a file called test.png with something in it, it probably worked. Now test the script by accessing it as follows:
-    10. http://yoursite.com/path/to/timthumb.php?src=http://markmaunder.com/&webshot=1
+    10. https://yoursite.com/path/to/timthumb.php?src=https://markmaunder.com/&webshot=1
 
     Notes on performance:
     The first time a webshot loads, it will take a few seconds.
@@ -1130,7 +1128,7 @@ class Timthumb
     protected function serveWebshot()
     {
         $this->debug(3, 'Starting serveWebshot');
-        $instr = 'Please follow the instructions at http://code.google.com/p/timthumb/ to set your server up for taking website screenshots.';
+        $instr = 'Please follow the instructions at https://code.google.com/p/timthumb/ to set your server up for taking website screenshots.';
         if (!is_file(WEBSHOT_CUTYCAPT)) {
             return $this->error("CutyCapt is not installed. $instr");
         }
@@ -1155,7 +1153,7 @@ class Timthumb
             return $this->error('Invalid URL supplied.');
         }
         $url = preg_replace('/[^A-Za-z0-9\-\.\_:\/\?\&\+\;\=]+/', '', $url); //RFC 3986 plus ()$ chars to prevent exploit below. Plus the following are also removed: @*!~#[]',
-        // 2014 update by Mark Maunder: This exploit: http://cxsecurity.com/issue/WLB-2014060134
+        // 2014 update by Mark Maunder: This exploit: https://cxsecurity.com/issue/WLB-2014060134
         // uses the $(command) shell execution syntax to execute arbitrary shell commands as the web server user.
         // So we're now filtering out the characters: '$', '(' and ')' in the above regex to avoid this.
         // We are also filtering out chars rarely used in URLs but legal accoring to the URL RFC which might be exploitable. These include: @*!~#[]',
@@ -1426,7 +1424,7 @@ class Timthumb
      */
     protected function sanityFail($msg)
     {
-        return $this->error("There is a problem in the timthumb code. Message: Please report this error at <a href='http://code.google.com/p/timthumb/issues/list'>timthumb's bug tracking page</a>: $msg");
+        return $this->error("There is a problem in the timthumb code. Message: Please report this error at <a href='https://code.google.com/p/timthumb/issues/list'>timthumb's bug tracking page</a>: $msg");
     }
 
     /**

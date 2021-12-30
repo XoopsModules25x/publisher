@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher\Form;
 
@@ -17,8 +15,8 @@ namespace XoopsModules\Publisher\Form;
 /**
  *  Publisher form class
  *
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @copyright       The XUUPS Project https://sourceforge.net/projects/xuups/
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
@@ -32,7 +30,6 @@ use XoopsModules\Publisher\Helper;
 use XoopsModules\Publisher\Item;
 use XoopsModules\Publisher\ThemeTabForm;
 use XoopsModules\Publisher\Utility;
-use XoopsModules\Tag\FormTag;
 
 require_once \dirname(__DIR__, 2) . '/include/common.php';
 
@@ -180,9 +177,8 @@ class ItemForm extends ThemeTabForm
         }
 
         // TAGS
-        if (\xoops_isActiveModule('tag') && $this->isGranted(Constants::PUBLISHER_ITEM_TAG)) {
-            require_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
-            $textTags = new FormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
+        if (\xoops_isActiveModule('tag')  && \class_exists(\XoopsModules\Tag\FormTag::class) && $this->isGranted(Constants::PUBLISHER_ITEM_TAG)) {
+            $textTags = new \XoopsModules\Tag\FormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
             $textTags->setClass('form-control');
             $this->addElement($textTags);
         }

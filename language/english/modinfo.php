@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 define('_MI_PUBLISHER_ADMENU1', 'Summary');
 define('_MI_PUBLISHER_ADMENU2', 'Categories');
@@ -44,7 +42,7 @@ define('_MI_PUBLISHER_COLLHEADDSC', 'If you set this option to “Yes”, the ca
 define('_MI_PUBLISHER_COMMENTS', 'Control comments at the article level?');
 define('_MI_PUBLISHER_COMMENTSDSC', 'if you set this option to “Yes”, you will see comments only on those items that have their comment checkbox marked. <br><br>Select “No” to have comments managed at the global level (look below under the tag \'Comment rules\'.');
 define('_MI_PUBLISHER_DATEFORMAT', 'Date format:');
-define('_MI_PUBLISHER_DATEFORMATDSC', "Select a display style. Example: 'd-M-Y H:i' translates to '30-Mar-2004 22:35'<br><a href='http://php.net/manual/en/function.date.php/' target='_blank'>Refer to the PHP manual for more display options.</a>");
+define('_MI_PUBLISHER_DATEFORMATDSC', "Select a display style. Example: 'd-M-Y H:i' translates to '30-Mar-2004 22:35'<br><a href='https://php.net/manual/en/function.date.php/' target='_blank'>Refer to the PHP manual for more display options.</a>");
 define('_MI_PUBLISHER_DEMO_SITE', 'SmartFactory Demo Site');
 define('_MI_PUBLISHER_DEVELOPER_CONTRIBUTOR', 'Contributor(s)');
 define('_MI_PUBLISHER_DEVELOPER_CREDITS', 'Credits');
@@ -186,7 +184,7 @@ define('_MI_PUBLISHER_PV_TEXT', 'Partial view message');
 define('_MI_PUBLISHER_PV_TEXTDSC', 'Message for articles that allow only partial view.');
 define('_MI_PUBLISHER_PV_TEXT_DEF', 'To view the complete article, you must register.');
 define('_MI_PUBLISHER_SEOMODNAME', 'URL Rewriting module name');
-define('_MI_PUBLISHER_SEOMODNAMEDSC', 'If URL Rewriting is enabled for the module, this is the name of the module that will be used. For example: http://yoursite.com/publisher/...');
+define('_MI_PUBLISHER_SEOMODNAMEDSC', 'If URL Rewriting is enabled for the module, this is the name of the module that will be used. For example: https://yoursite.com/publisher/...');
 define('_MI_PUBLISHER_ARTCOUNT', 'Display articles count');
 define('_MI_PUBLISHER_ARTCOUNTDSC', 'Select “Yes” to display the article count within each category in the category summary table. Please note that the module currently only counts articles within each category and does not count within subcategories.');
 define('_MI_PUBLISHER_LATESTFILES', 'Latest uploaded files');

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 //
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
@@ -27,7 +25,7 @@ declare(strict_types=1);
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 // Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, https://xoops.org/, http://jp.xoops.org/ //
+// URL: https://www.myweb.ne.jp/, https://xoops.org/, https://jp.xoops.org/ //
 // Project: XOOPS Project                                                    //
 // ------------------------------------------------------------------------- //
 

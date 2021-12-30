@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,18 +10,22 @@ declare(strict_types=1);
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @copyright       The XUUPS Project https://sourceforge.net/projects/xuups/
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher\Helper;
-use XoopsModules\Publisher\Item;
-use XoopsModules\Publisher\ItemHandler;
-use XoopsModules\Tag;
+use XoopsModules\Publisher\{
+    Helper,
+    Item,
+    ItemHandler
+};
+/** @var Helper $helper */
+
+require \dirname(__DIR__) . '/preloads/autoloader.php';
 
 /** Get item fields: title, content, time, link, uid, tags
  *
@@ -62,7 +64,7 @@ function publisher_tag_iteminfo(&$items)
         require_once $GLOBALS['xoops']->path('modules/tag/include/functions.php');
         $parse_function = 'tag_parse_tag';
     }
-
+    $myts      = \MyTextSanitizer::getInstance();
     /** @var Item $item_obj */
     foreach (array_keys($items) as $cat_id) {
         foreach (array_keys($items[$cat_id]) as $itemId) {
@@ -73,7 +75,8 @@ function publisher_tag_iteminfo(&$items)
                 'link'    => "item.php?itemid={$itemId}",
                 'time'    => $item_obj->getVar('datesub'),
                 'tags'    => $parse_function($item_obj->getVar('item_tag', 'n')), // optional
-                'content' => '',
+//                'content' => '',
+                'content' => $myts->displayTarea($item_obj->summary(), 1, 1, 1, 1, 1),
             ];
         }
     }

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,8 +10,8 @@ declare(strict_types=1);
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @copyright       The XUUPS Project https://sourceforge.net/projects/xuups/
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          Bandit-X
  * @author          trabis <lusopoemas@gmail.com>
@@ -21,7 +19,7 @@ declare(strict_types=1);
  */
 ######################################################################
 # Original version:
-# [11-may-2001] Kenneth Lee - http://www.nexgear.com/
+# [11-may-2001] Kenneth Lee - https://www.nexgear.com/
 ######################################################################
 
 use Xmf\Request;

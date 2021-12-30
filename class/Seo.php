@@ -1,13 +1,11 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
 /*
  * $Id
  * Module: Publisher
- * Author: Sudhaker Raj <http://xoops.biz>
+ * Author: Sudhaker Raj <https://xoops.biz>
  * Licence: GNU
  */
 

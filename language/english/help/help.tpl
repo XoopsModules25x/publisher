@@ -29,7 +29,7 @@
 
     b) download the TCPDF library and place the content in the above folder. You have three choices:<br> <br>
 
-    i) download the streamlined XOOPS version from <a target="_blank" href="http://sourceforge.net/projects/chgxoops/files/Frameworks/tcpdf_for_xoops/">SourceForge</a>,
+    i) download the streamlined XOOPS version from <a target="_blank" href="https://sourceforge.net/projects/chgxoops/files/Frameworks/tcpdf_for_xoops/">SourceForge</a>,
         which was developed by Cedric<br> <br>
 
     ii) download the latest full release from <a target="_blank" href="https://github.com/tecnickcom/TCPDF/releases">TCPDF on GitHub</a> <br> <br>

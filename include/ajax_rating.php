@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /*
  Page:           rpc.php
  Created:        Aug 2006
@@ -11,12 +9,12 @@ declare(strict_types=1);
  ryan masuga, masugadesign.com
  ryan@masugadesign.com
  Licensed under a Creative Commons Attribution 3.0 License.
- http://creativecommons.org/licenses/by/3.0/
+ https://creativecommons.org/licenses/by/3.0/
  See ajaxrating.txt for full credit details.
  --------------------------------------------------------- */
 
 //  Author: Trabis
-//  URL: http://www.xuups.com
+//  URL: https://www.xuups.com
 //  E-Mail: lusopoemas@gmail.com
 
 use Xmf\Request;

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -17,8 +15,8 @@ namespace XoopsModules\Publisher;
 /**
  *  Publisher class
  *
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @copyright       The XUUPS Project https://sourceforge.net/projects/xuups/
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -161,7 +159,7 @@ class MimetypesUtility
             // end of add form
 
             // Find new mimetypes table
-            echo "<form action='http://www.filext.com' method='post'>";
+            echo "<form action='https://www.filext.com' method='post'>";
             echo $GLOBALS['xoopsSecurity']->getTokenHTML();
             echo "<table width='100%' cellspacing='1' class='outer'>";
             echo "<tr><th colspan='2'>" . \_AM_PUBLISHER_MIME_FINDMIMETYPE . '</th></tr>';
@@ -474,7 +472,7 @@ class MimetypesUtility
         //        unset($mime);
         echo "<tr class='foot'>
     <td colspan='6' valign='top'>
-    <a href='http://www.filext.com' style='float: right;' target='_blank'>" . \_AM_PUBLISHER_MIME_FINDMIMETYPE . "</a>
+    <a href='https://www.filext.com' style='float: right;' target='_blank'>" . \_AM_PUBLISHER_MIME_FINDMIMETYPE . "</a>
     <input type='checkbox' name='checkAllMimes' value='0' onclick='selectAll(this.form,\"mimes[]\",this.checked);'>
     <input type='submit' name='deleteMimes' id='deleteMimes' value='" . \_AM_PUBLISHER_BUTTON_DELETE . "'>
     <input type='submit' name='add_mime' id='add_mime' value='" . \_AM_PUBLISHER_MIME_CREATEF . "' class='formButton'>
@@ -628,7 +626,7 @@ class MimetypesUtility
                 //                unset($mime);
                 echo "<tr class='foot'>
             <td colspan='6' valign='top'>
-            <a href='http://www.filext.com' style='float: right;' target='_blank'>" . \_AM_PUBLISHER_MIME_FINDMIMETYPE . "</a>
+            <a href='https://www.filext.com' style='float: right;' target='_blank'>" . \_AM_PUBLISHER_MIME_FINDMIMETYPE . "</a>
             <input type='checkbox' name='checkAllMimes' value='0' onclick='selectAll(this.form,\"mimes[]\",this.checked);'>
             <input type='submit' name='deleteMimes' id='deleteMimes' value='" . \_AM_PUBLISHER_BUTTON_DELETE . "'>
             <input type='submit' name='add_mime' id='add_mime' value='" . \_AM_PUBLISHER_MIME_CREATEF . "' class='formButton'>

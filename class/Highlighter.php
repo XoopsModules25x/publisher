@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -16,10 +14,10 @@ namespace XoopsModules\Publisher;
 
 /**
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Aidan Lister <aidan@php.net>
- * @link            http://aidanlister.com/2004/04/highlighting-a-search-string-in-html-text/
+ * @link            https://aidanlister.com/2004/04/highlighting-a-search-string-in-html-text/
  */
 class Highlighter
 {

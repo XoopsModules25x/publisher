@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -18,7 +16,7 @@ namespace XoopsModules\Publisher;
  * PublisherUtil Class
  *
  * @copyright   XOOPS Project (https://xoops.org)
- * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @license     https://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      XOOPS Development Team
  * @since       1.03
  */
@@ -642,7 +640,7 @@ class Utility extends Common\SysUtility
      */
     public static function mkdir($target)
     {
-        // http://www.php.net/manual/en/function.mkdir.php
+        // https://www.php.net/manual/en/function.mkdir.php
         // saint at corenova.com
         // bart at cdasites dot com
         if (empty($target) || \is_dir($target)) {
@@ -894,7 +892,7 @@ class Utility extends Common\SysUtility
      */
     public static function getCurrentUrls()
     {
-        $http = false === \mb_strpos(XOOPS_URL, 'https://') ? 'http://' : 'https://';
+        $http = false === \mb_strpos(XOOPS_URL, 'https://') ? 'https://' : 'https://';
         //    $phpself     = $_SERVER['SCRIPT_NAME'];
         //    $httphost    = $_SERVER['HTTP_HOST'];
         //    $querystring = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';

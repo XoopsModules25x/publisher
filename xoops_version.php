@@ -1548,6 +1548,22 @@ $modversion['config'][] = [
 ];
 
 $modversion['config'][] = [
+    'name'        => 'submit_edit_status',
+    'title'       => '_MI_PUBLISHER_FORM_EDIT_STATUS',
+    'description' => '_MI_PUBLISHER_FORM_EDIT_STATUS_DSC',
+    'formtype'    => 'select',
+    'valuetype'   => 'text',
+    'options'     => [
+        _MI_PUBLISHER_SUBMITTED => Constants::PUBLISHER_STATUS_SUBMITTED,
+        _MI_PUBLISHER_PUBLISHED => Constants::PUBLISHER_STATUS_PUBLISHED,
+        _MI_PUBLISHER_OFFLINE   => Constants::PUBLISHER_STATUS_OFFLINE,
+        _MI_PUBLISHER_REJECTED  => Constants::PUBLISHER_STATUS_REJECTED,
+    ],
+    'default'     => Constants::PUBLISHER_STATUS_SUBMITTED,
+    'category'    => 'submit',
+];
+
+$modversion['config'][] = [
     'name'        => 'submit_allowcomments',
     'title'       => '_MI_PUBLISHER_FORM_ALLOWCOMMENTS',
     'description' => '_MI_PUBLISHER_FORM_ALLOWCOMMENTS_DSC',

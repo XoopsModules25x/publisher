@@ -2,6 +2,12 @@
 <hr>
 - updated calls to Tagbar and Formtag to use the new classes (mamba)
 - https cosmetics (mamba)
+- removed hidden form field for uid (@ihackcode)
+- fixed article data not being saved (@ihackcode)
+- more work on saving edited articles (@ihackcode)
+- Add prompt to confirm clearing of sample data (@ihackcode)
+- Added config for handling edited articles (@ihackcode)
+- Spelling fixes (@ihackcode)
 
 
 <h5>1.8.0 Alpha.7       [2021-12-06]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.0

@@ -2,7 +2,6 @@ version: "1.0"
 profile:
   name: qodana.starter
 include:
-  - name: CssConvertColorToRgbInspection
   - name: MysqlParsingInspection
   - name: ReplaceIsEmptyWithIfEmpty
   - name: Singleton

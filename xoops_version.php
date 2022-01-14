@@ -174,7 +174,7 @@ $modversion['blocks'][] = [
     'description' => _MI_PUBLISHER_ITEMSRANDOM_ITEM_DSC,
     'show_func'   => 'publisher_items_random_item_show',
     'edit_func'   => 'publisher_items_random_item_edit',
-    'options'     => '1|0|0|0|0|0|0|1',
+    'options'     => '1|0|0|0|0|0|0|1|1',
     'template'    => 'publisher_items_random_item.tpl',
 ];
 

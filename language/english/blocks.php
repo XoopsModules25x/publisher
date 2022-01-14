@@ -109,11 +109,14 @@ define('_MB_PUBLISHER_ARCHIVE', 'Archive');
 //25-11-2012
 define('_MB_PUBLISHER_ONECOMMENT', '1 comment');
 //Lio-MJ
-define('_MB_PUBLISHER_DISPLAY_READ_FULLITEM', 'Display \'Read Full Article\'?');
-define('_MB_PUBLISHER_DISPLAY_ADMINLINK', 'Display \'Administrator Icon\'?');
-define('_MB_PUBLISHER_DISPLAY_SUMMARY', 'Display \'Article Summary\'?');
-define('_MB_PUBLISHER_DISPLAY_RATING', 'Display \'Article Rating\'?');
+define('_MB_PUBLISHER_DISPLAY_READ_FULLITEM', 'Display "Read Full Article"?');
+define('_MB_PUBLISHER_DISPLAY_ADMINLINK', 'Display "Administrator Icon"?');
+define('_MB_PUBLISHER_DISPLAY_SUMMARY', 'Display "Article Summary"?');
+define('_MB_PUBLISHER_DISPLAY_RATING', 'Display "Article Rating"?');
 define('_MB_PUBLISHER_DISPLAY_DATE_MAINITEM', 'Display Date in Main Item?');
 define('_MB_PUBLISHER_DISPLAY_DATE_SUBITEM', 'Display Date in Sub Item?');
 define('_MB_PUBLISHER_ON', 'on');
 define('_MB_PUBLISHER_TOTALHITS', 'hits');
+
+//1.0.8 Alpha 8
+define('_MB_PUBLISHER_RANDOM_ITEMS', 'Number of random articles to display');

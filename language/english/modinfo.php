@@ -112,7 +112,7 @@ define('_MI_PUBLISHER_ITEMSTREE', 'Tree block');
 //--/bd
 define('_MI_PUBLISHER_ITEMSNEW', 'New Articles List');
 define('_MI_PUBLISHER_ITEMSPOT', 'In the Spotlight!');
-define('_MI_PUBLISHER_ITEMSRANDOM_ITEM', 'Random item!');
+define('_MI_PUBLISHER_ITEMSRANDOM_ITEM', 'Random item(s)!');
 define('_MI_PUBLISHER_LASTITEM', 'Display last item column?');
 define('_MI_PUBLISHER_LASTITEMDSC', 'Select “Yes” to display the last item in each category in the index and category page.');
 define('_MI_PUBLISHER_LASTITEMS', 'Display the list of newly published articles?');

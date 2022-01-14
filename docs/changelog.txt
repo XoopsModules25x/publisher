@@ -8,6 +8,7 @@
 - Add prompt to confirm clearing of sample data (@ihackcode)
 - Added config for handling edited articles (@ihackcode)
 - Spelling fixes (@ihackcode)
+- more than 1 random article can be shown (heyula/mamba) see: https://github.com/XoopsModules25x/publisher/issues/170
 
 
 <h5>1.8.0 Alpha.7       [2021-12-06]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.0

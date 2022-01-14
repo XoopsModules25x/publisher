@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-/** @return object */
-
 use Xmf\Module\Admin;
 use XoopsModules\Publisher\Helper;
 use XoopsModules\Publisher\Utility;
@@ -25,8 +23,8 @@ return [
     'print'        => Utility::iconSourceTag($pathIcon16, 'printer.png', $print),
     'pdf'          => Utility::iconSourceTag($pathIcon16, 'pdf.png', $pdf),
     'add'          => Utility::iconSourceTag($pathIcon16, 'add.png', _ADD),
-    '0'            => Utility::iconSourceTag($pathIcon16, '0.png', 0),
-    '1'            => Utility::iconSourceTag($pathIcon16, '1.png', 1),
+    '0'            => Utility::iconSourceTag($pathIcon16, '0.png', '0'),
+    '1'            => Utility::iconSourceTag($pathIcon16, '1.png', '1'),
     //Publisher
     'rejectededit' => Utility::iconSourceTag($pathIcon16, 'edit.png', _AM_PUBLISHER_REJECTED_EDIT),
     'online'       => Utility::iconSourceTag($pathIcon16, 'on.png', _AM_PUBLISHER_ICO_ONLINE),

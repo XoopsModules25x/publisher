@@ -31,7 +31,7 @@ require_once \dirname(__DIR__) . '/include/common.php';
 class Mimetype extends \XoopsObject
 {
     /**
-     * @param null|int|array $id
+     * @param int|array|null $id
      */
     public function __construct($id = null)
     {
@@ -41,7 +41,7 @@ class Mimetype extends \XoopsObject
         $this->initVar('mime_name', \XOBJ_DTYPE_TXTBOX, null, true, 255);
         $this->initVar('mime_admin', \XOBJ_DTYPE_INT, null, false);
         $this->initVar('mime_user', \XOBJ_DTYPE_INT, null, false);
-        if (isset($id)) {
+        if (null !== $id) {
             if (\is_array($id)) {
                 $this->assignVars($id);
             }

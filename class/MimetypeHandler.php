@@ -72,7 +72,6 @@ class MimetypeHandler extends BaseObjectHandler
      * retrieve objects from the database
      *
      * @param \Criteria|\CriteriaCompo|null $criteria conditions to be met
-     *
      * @param bool                          $id_as_key
      * @param bool                          $as_object
      * @return array array of <a href='psi_element://Mimetype'>Mimetype</a> objects
@@ -116,17 +115,17 @@ class MimetypeHandler extends BaseObjectHandler
         $ret = [];
         if ($GLOBALS['xoopsUser'] && !$this->publisherIsAdmin) {
             // For user uploading
-            $crit = new \CriteriaCompo(new \Criteria('mime_user', 1)); //$sql = sprintf("SELECT * FROM `%s` WHERE mime_user=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
+            $criteria = new \CriteriaCompo(new \Criteria('mime_user', 1)); //$sql = sprintf("SELECT * FROM `%s` WHERE mime_user=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
         } elseif ($GLOBALS['xoopsUser'] && $this->publisherIsAdmin) {
             // For admin uploading
-            $crit = new \CriteriaCompo(new \Criteria('mime_admin', 1)); //$sql = sprintf("SELECT * FROM `%s` WHERE mime_admin=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
+            $criteria = new \CriteriaCompo(new \Criteria('mime_admin', 1)); //$sql = sprintf("SELECT * FROM `%s` WHERE mime_admin=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
         } else {
             return $ret;
         }
         if ($mimeExt) {
-            $crit->add(new \Criteria('mime_ext', $mimeExt));
+            $criteria->add(new \Criteria('mime_ext', $mimeExt));
         }
-        $result = $this->getObjects($crit);
+        $result = $this->getObjects($criteria);
         // if no records from db, return empty array
         if (!$result) {
             return $ret;

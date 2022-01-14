@@ -50,6 +50,7 @@ class Configurator
         $config = require \dirname(__DIR__, 2) . '/config/config.php';
 
         $this->name            = $config->name;
+        $this->paths           = $config->paths;
         $this->uploadFolders   = $config->uploadFolders;
         $this->copyBlankFiles  = $config->copyBlankFiles;
         $this->copyTestFolders = $config->copyTestFolders;
@@ -62,8 +63,8 @@ class Configurator
         $this->modCopyright    = $config->modCopyright;
         $this->testimages      = $config->testimages;
 
-
-        $this->paths = require \dirname(__DIR__, 2) . '/config/paths.php';
         $this->icons = require \dirname(__DIR__, 2) . '/config/icons.php';
+        $this->paths = require \dirname(__DIR__, 2) . '/config/paths.php';
+
     }
 }

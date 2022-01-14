@@ -488,7 +488,7 @@ class MimetypesUtility
     }
 
     /**
-     * @param $icons
+     * @param array $icons
      */
     public static function search($icons): void
     {

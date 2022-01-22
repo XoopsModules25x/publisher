@@ -10,7 +10,7 @@
  */
 
 /**
- * @copyright       The XUUPS Project https://sourceforge.net/projects/xuups/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
@@ -34,8 +34,8 @@ $xoops_url = parse_url(XOOPS_URL);
 
 $modversion = [
     'version'             => '1.8.0',
-    'module_status'       => 'Alpha.8',
-    'release_date'        => '2022/01/14',
+    'module_status'       => 'Alpha.9 NOT RELEASED',
+    'release_date'        => '2022/01/22',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.Xuups.com)',

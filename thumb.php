@@ -914,7 +914,7 @@ class Timthumb
             imagejpeg($canvas, $tempfile, $quality);
         } elseif (preg_match('/^image\/png$/i', $mimeType)) {
             $imgType = 'png';
-            imagepng($canvas, $tempfile, floor($quality * 0.09));
+            imagepng($canvas, $tempfile, (int)floor($quality * 0.09));
         } elseif (preg_match('/^image\/gif$/i', $mimeType)) {
             $imgType = 'gif';
             imagegif($canvas, $tempfile);

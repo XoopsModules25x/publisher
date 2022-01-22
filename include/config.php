@@ -13,7 +13,7 @@
  * Publisher module for XOOPS
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GPL 2.0 or later
+ * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @since           1.03
  * @author          XOOPS Development Team - ( https://xoops.org )
  */

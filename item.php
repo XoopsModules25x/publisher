@@ -10,7 +10,7 @@
  */
 
 /**
- * @copyright       The XUUPS Project https://sourceforge.net/projects/xuups/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
@@ -64,6 +64,15 @@ require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
 // Creating the category object that holds the selected item
 $categoryObj = $helper->getHandler('Category')->get($itemObj->categoryid());
+$categoryid = (int)$categoryObj->getVar('categoryid');
+if($categoryid == 1) {
+    $GLOBALS['xoopsOption']['template_main'] = 'publisher_eren.tpl';
+} elseif($categoryid == 2) {
+    $GLOBALS['xoopsOption']['template_main'] = 'publisher_eren_2.tpl';
+} else {
+    $GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl'; //default template
+}
+
 
 // Check user permissions to access that category of the selected item
 if (!$itemObj->accessGranted()) {
@@ -266,7 +275,7 @@ $xoopsTpl->assign('perm_author_items', $helper->getConfig('perm_author_items'));
 // tags support
 if (xoops_isActiveModule('tag')) {
     $tagbar = new Tagbar();
-    $xoopsTpl->assign('tagbar', $tagbar->getTagbar($itemId, $catId = 0));
+    $xoopsTpl->assign('tagbar', $tagbar->getTagbar($itemId, $categoryid = 0));
 }
 
 /**

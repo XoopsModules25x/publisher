@@ -10,7 +10,7 @@
  */
 
 /**
- * @copyright       The XUUPS Project https://sourceforge.net/projects/xuups/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
@@ -69,7 +69,7 @@ switch ($op) {
         }
 
         // Uploading the image, if any
-        // Retreive the filename to be uploaded
+        // Retrieve the filename to be uploaded
         $temp      = Request::getArray('image_file', '', 'FILES');
         $imageFile = $temp['name'];
         if ($imageFile) {

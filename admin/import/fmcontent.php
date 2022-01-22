@@ -10,7 +10,7 @@
  */
 
 /**
- * @copyright       The XUUPS Project https://sourceforge.net/projects/xuups/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.02 Beta 4
  * @author          trabis <lusopoemas@gmail.com>

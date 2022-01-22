@@ -15,7 +15,7 @@ namespace XoopsModules\Publisher\Form;
 /**
  *  Publisher form class
  *
- * @copyright       The XUUPS Project https://sourceforge.net/projects/xuups/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
@@ -24,11 +24,9 @@ namespace XoopsModules\Publisher\Form;
 use Xmf\Request;
 use XoopsModules\Publisher\Common\Configurator;
 use XoopsModules\Publisher\Constants;
-use XoopsModules\Publisher\Form;
 use XoopsModules\Publisher\FormDateTime;
 use XoopsModules\Publisher\Helper;
 use XoopsModules\Publisher\Item;
-use XoopsModules\Publisher\ThemeTabForm;
 use XoopsModules\Publisher\Utility;
 
 require_once \dirname(__DIR__, 2) . '/include/common.php';

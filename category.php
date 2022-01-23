@@ -58,12 +58,9 @@ if (!isset($totalItems[$categoryid]) || 0 == $totalItems[$categoryid]) {
     //redirect_header("index.php", 1, _MD_PUBLISHER_MAINNOFAQS);
 }
 
-// Added by skalpa: custom template support
-/** @var Category $categoryObj */
-$GLOBALS['xoopsOption']['template_main'] = $categoryObj->getTemplate();
-if (empty($GLOBALS['xoopsOption']['template_main'])) {
-    $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
-}
+// Added by skalpa: custom template support, updated by mamba
+$GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
+
 
 require_once $GLOBALS['xoops']->path('header.php');
 require_once PUBLISHER_ROOT_PATH . '/footer.php';

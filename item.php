@@ -49,6 +49,19 @@ if (null === $itemObj) {
 }
 
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl';
+// Creating the category object that holds the selected item
+$categoryObj = $helper->getHandler('Category')->get($itemObj->categoryid());
+
+$categoryid = (int)$categoryObj->getVar('categoryid');
+
+$GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl'; //default template
+
+//Option for a custom template for a category
+$catTemplate =  $categoryObj->getVar('template');
+if (!empty($catTemplate)){
+    $GLOBALS['xoopsOption']['template_main'] = 'publisher_category_custom.tpl' ;
+}
+
 require_once $GLOBALS['xoops']->path('header.php');
 
 //$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -60,19 +73,10 @@ require_once $GLOBALS['xoops']->path('header.php');
 $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/rating.css');
 
+$xoopsTpl->assign('customtemplate', $catTemplate); //assign custom template
+
+
 require_once PUBLISHER_ROOT_PATH . '/footer.php';
-
-// Creating the category object that holds the selected item
-$categoryObj = $helper->getHandler('Category')->get($itemObj->categoryid());
-$categoryid = (int)$categoryObj->getVar('categoryid');
-if($categoryid == 1) {
-    $GLOBALS['xoopsOption']['template_main'] = 'publisher_eren.tpl';
-} elseif($categoryid == 2) {
-    $GLOBALS['xoopsOption']['template_main'] = 'publisher_eren_2.tpl';
-} else {
-    $GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl'; //default template
-}
-
 
 // Check user permissions to access that category of the selected item
 if (!$itemObj->accessGranted()) {

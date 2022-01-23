@@ -2,6 +2,7 @@
 <hr>
 - missing (int) cast (heyula/mamba)
 - added Confirm and MigrateHelper classes (goffy/mamba)
+- added option for custom templates for articles in individual categories (heyula/mamba)
 
 
 <h5>1.8.0 Alpha.8       [2022-01-14]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.1

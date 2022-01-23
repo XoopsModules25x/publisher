@@ -160,8 +160,30 @@ class CategoryForm extends \XoopsThemeForm
         $this->addElement(new \XoopsFormText(\_AM_PUBLISHER_COLPOSIT, 'weight', 4, 4, $this->targetObject->weight()));
 
         // Added by skalpa: custom template support
-        //todo, check this
-        $this->addElement(new \XoopsFormText('Custom template', 'template', 50, 255, $this->targetObject->getTemplate('e')), false);
+//        $this->addElement(new \XoopsFormText('Custom template', 'template', 50, 255, $this->targetObject->getTemplate('e')), false);
+
+        $dir = $this->helper->path('templates/custom');
+        $availableTemplates = [];
+        if (\is_dir($dir)) {
+            $templateList = \XoopsLists::getFileListAsArray($dir);
+            foreach ($templateList as $file) {
+                if (preg_match('/(\.tpl)$/i', $file)) {
+                    $availableTemplates[$file] = $file;
+                }
+            }
+        }
+
+        $categoryTemplate  = new \XoopsFormSelect('Custom template', 'template', $this->targetObject->getVar('template'));
+
+
+        $categoryTemplate->addOption('', '');
+        $categoryTemplate->addOptionArray($availableTemplates);
+        $categoryTemplate->setExtra('onchange="if (this.options[this.selectedIndex].value.length > 0) {
+   window.document.forms.' . $this->getName() . '.submit();
+   }"');
+
+        $this->addElement($categoryTemplate, false);
+
 
         // READ PERMISSIONS
         $readPermissionsTray   = new \XoopsFormElementTray(\_AM_PUBLISHER_PERMISSIONS_CAT_READ, '');

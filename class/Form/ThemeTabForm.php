@@ -20,7 +20,7 @@ namespace XoopsModules\Publisher\Form;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          John Neill <catzwolf@xoosla.com>
  */
-require_once \dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__, 2) . '/include/common.php';
 
 /**
  * XoopsThemeTabForm

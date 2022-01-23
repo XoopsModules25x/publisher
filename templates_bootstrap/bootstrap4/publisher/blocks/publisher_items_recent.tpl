@@ -12,7 +12,7 @@
         <tr>
             <td>
              <{if $block.show_image|default:'' == '1'}>
-                  <a href="<{$newitems.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.alt}>" title="<{$item.alt}>" align="left" style="padding:5px;"></a><br>
+                  <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" alt="<{$item.alt}>" title="<{$item.alt}>" align="left" style="padding:5px;"></a><br>
              <{/if}>
             <{$item.itemlink}>
             </td>

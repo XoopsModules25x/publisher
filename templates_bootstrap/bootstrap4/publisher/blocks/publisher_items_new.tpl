@@ -3,7 +3,7 @@
     <tr class="<{cycle values=" even,odd"}>">
         <{if $newitems.image|default:false}>
             <td style="padding: 5px 0;" width="120px">
-                <a href="<{$newitems.itemurl}>"><img style="padding: 1px; margin: 2px; border: 1px solid #c3c3c3;" width="110" src="<{$newitems.image}>" title="<{$newitems.alt}>"
+                <a href="<{$item.itemurl}>"><img style="padding: 1px; margin: 2px; border: 1px solid #c3c3c3;" width="110" src="<{$newitems.image}>" title="<{$newitems.alt}>"
                      alt="<{$newitems.alt}>"></a>
             </td>
         <{/if}>

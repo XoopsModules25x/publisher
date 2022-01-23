@@ -175,12 +175,8 @@ class CategoryForm extends \XoopsThemeForm
 
         $categoryTemplate  = new \XoopsFormSelect('Custom template', 'template', $this->targetObject->getVar('template'));
 
-
         $categoryTemplate->addOption('', '');
         $categoryTemplate->addOptionArray($availableTemplates);
-        $categoryTemplate->setExtra('onchange="if (this.options[this.selectedIndex].value.length > 0) {
-   window.document.forms.' . $this->getName() . '.submit();
-   }"');
 
         $this->addElement($categoryTemplate, false);
 

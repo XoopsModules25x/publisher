@@ -1141,7 +1141,7 @@ class Utility extends Common\SysUtility
         $allowedMimetypes = $helper->getHandler('Mimetype')->getArrayByType();
         // TODO : display the available mimetypes to the user
         $errors = [];
-        if ($helper->getConfig('perm_upload') && \is_uploaded_file($_FILES['item_upload_file']['tmp_name'])) {
+        if ($helper->getConfig('perm_upload') && \is_uploaded_file(($_FILES['item_upload_file']['tmp_name'])??'')) {
             if (!$ret = $fileObj->checkUpload('item_upload_file', $allowedMimetypes, $errors)) {
                 $errorstxt = \implode('<br>', $errors);
 

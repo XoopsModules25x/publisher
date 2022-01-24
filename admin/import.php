@@ -18,8 +18,11 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
-use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -160,11 +163,11 @@ switch ($op) {
             $sform->addElement($buttonTray);
             /*$sform->addElement(new \XoopsFormHidden('xfs_version', $xfs_version));
              $sform->addElement(new \XoopsFormHidden('wfs_version', $wfs_version));*/
-            $sform->addElement(new \XoopsFormHidden('news_version', $news_version));
-            $sform->addElement(new \XoopsFormHidden('xnews_version', $xnews_version));
-            $sform->addElement(new \XoopsFormHidden('ams_version', $ams_version));
-            $sform->addElement(new \XoopsFormHidden('cjaycontent_version', $cjaycontent_version));
-            $sform->addElement(new \XoopsFormHidden('smartsection_version', $smartsection_version));
+            $sform->addElement(new \XoopsFormHidden('news_version', (string)$news_version));
+            $sform->addElement(new \XoopsFormHidden('xnews_version', (string)$xnews_version));
+            $sform->addElement(new \XoopsFormHidden('ams_version', (string)$ams_version));
+            $sform->addElement(new \XoopsFormHidden('cjaycontent_version', (string)$cjaycontent_version));
+            $sform->addElement(new \XoopsFormHidden('smartsection_version', (string)$smartsection_version));
             $sform->display();
             unset($hidden);
         } else {

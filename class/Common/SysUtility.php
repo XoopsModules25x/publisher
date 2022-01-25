@@ -120,7 +120,7 @@ class SysUtility
         // if the words shouldn't be cut in the middle...
         if (!$exact) {
             // ...search the last occurance of a space...
-            $spacepos = mb_strrpos($truncate, ' ');
+            $spacepos = (int)mb_strrpos($truncate, ' ');
             if (isset($spacepos)) {
                 // ...and cut the text in this position
                 $truncate = mb_substr($truncate, 0, $spacepos);

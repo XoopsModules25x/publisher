@@ -385,3 +385,8 @@ define('_AM_PUBLISHER_MIME_ACCESS_CONFIRM_USER', 'Confirm change to user access 
 
 // added 201-05-17 by goffy
 define('_AM_PUBLISHER_EXPIRE', 'Expiration date');
+
+// 1.8.0 Alphpa 11
+define('_AM_PUBLISHER_CUSTOM_CATEGORY_TEMPLATE', 'Custom Category template');
+define('_AM_PUBLISHER_CUSTOM_CATEGORY_ITEM_TEMPLATE', 'Custom template for Category Articles');
+

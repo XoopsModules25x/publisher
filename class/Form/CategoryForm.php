@@ -159,10 +159,10 @@ class CategoryForm extends \XoopsThemeForm
         // Weight
         $this->addElement(new \XoopsFormText(\_AM_PUBLISHER_COLPOSIT, 'weight', 4, 4, $this->targetObject->weight()));
 
-        // Added by skalpa: custom template support
+        // Added by skalpa: custom template support for Category view
 //        $this->addElement(new \XoopsFormText('Custom template', 'template', 50, 255, $this->targetObject->getTemplate('e')), false);
 
-        $dir = $this->helper->path('templates/custom');
+        $dir = $this->helper->path('templates/custom/category');
         $availableTemplates = [];
         if (\is_dir($dir)) {
             $templateList = \XoopsLists::getFileListAsArray($dir);
@@ -173,13 +173,31 @@ class CategoryForm extends \XoopsThemeForm
             }
         }
 
-        $categoryTemplate  = new \XoopsFormSelect('Custom template', 'template', $this->targetObject->getVar('template'));
+        $categoryTemplate  = new \XoopsFormSelect(_AM_PUBLISHER_CUSTOM_CATEGORY_TEMPLATE, 'template', $this->targetObject->getVar('template'));
 
         $categoryTemplate->addOption('', '');
         $categoryTemplate->addOptionArray($availableTemplates);
 
         $this->addElement($categoryTemplate, false);
 
+        // CUSTOM TEMPLATE FOR ARTICLES in Particular Category
+        $dirCategoryItem = $this->helper->path('templates/custom/categoryitem');
+        $availableItemTemplates = [];
+        if (\is_dir($dirCategoryItem)) {
+            $templateItemList = \XoopsLists::getFileListAsArray($dirCategoryItem);
+            foreach ($templateItemList as $file) {
+                if (preg_match('/(\.tpl)$/i', $file)) {
+                    $availableItemTemplates[$file] = $file;
+                }
+            }
+        }
+
+        $categoryItemTemplate  = new \XoopsFormSelect(_AM_PUBLISHER_CUSTOM_CATEGORY_ITEM_TEMPLATE, 'template_item', $this->targetObject->getVar('template_item'));
+
+        $categoryItemTemplate->addOption('', '');
+        $categoryItemTemplate->addOptionArray($availableItemTemplates);
+
+        $this->addElement($categoryItemTemplate, false);
 
         // READ PERMISSIONS
         $readPermissionsTray   = new \XoopsFormElementTray(\_AM_PUBLISHER_PERMISSIONS_CAT_READ, '');

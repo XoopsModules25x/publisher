@@ -15,24 +15,25 @@
 # Last update: Mar 16, 2004 at 12:31 PM
 
 CREATE TABLE `publisher_categories` (
-  `categoryid`       INT(11)      NOT NULL AUTO_INCREMENT,
-  `parentid`         INT(11)      NOT NULL DEFAULT '0',
-  `name`             VARCHAR(100) NOT NULL DEFAULT '',
-  `description`      TEXT         NULL,
-  `image`            VARCHAR(255) NOT NULL DEFAULT '',
-  `total`            INT(11)      NOT NULL DEFAULT '0',
-  `weight`           INT(11)      NOT NULL DEFAULT '1',
-  `created`          INT(11)      NOT NULL DEFAULT '1033141070',
-  `template`         VARCHAR(255) NOT NULL DEFAULT '',
-  `header`           TEXT         NULL,
-  `meta_keywords`    TEXT         NULL,
-  `meta_description` TEXT         NULL,
-  `short_url`        VARCHAR(255) NOT NULL DEFAULT '',
-  `moderator`        INT(6)       NOT NULL DEFAULT '0',
-  PRIMARY KEY (`categoryid`),
-  KEY parentid (parentid)
+    `categoryid`       INT(11)      NOT NULL AUTO_INCREMENT,
+    `parentid`         INT(11)      NOT NULL DEFAULT '0',
+    `name`             VARCHAR(100) NOT NULL DEFAULT '',
+    `description`      TEXT         NULL,
+    `image`            VARCHAR(255) NOT NULL DEFAULT '',
+    `total`            INT(11)      NOT NULL DEFAULT '0',
+    `weight`           INT(11)      NOT NULL DEFAULT '1',
+    `created`          INT(11)      NOT NULL DEFAULT '1033141070',
+    `template`         VARCHAR(255) NOT NULL DEFAULT '',
+    `template_item`    VARCHAR(150) NOT NULL DEFAULT '',
+    `header`           TEXT         NULL,
+    `meta_keywords`    TEXT         NULL,
+    `meta_description` TEXT         NULL,
+    `short_url`        VARCHAR(255) NOT NULL DEFAULT '',
+    `moderator`        INT(6)       NOT NULL DEFAULT '0',
+    PRIMARY KEY (`categoryid`),
+    KEY parentid (parentid)
 )
-  ENGINE = MyISAM;
+    ENGINE = MyISAM;
 # --------------------------------------------------------
 
 #

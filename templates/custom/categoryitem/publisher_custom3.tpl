@@ -1,6 +1,16 @@
+<{include file='db:publisher_header.tpl'}>
+
+<script src="<{xoAppUrl browse.php?Frameworks/jquery/jquery.js}>"></script>
+<script src="<{$publisher_url}>/assets/js/jquery.popeye-2.1.js"></script>
+<script src="<{$publisher_url}>/assets/js/publisher.js"></script>
+
+<link rel="stylesheet" type="text/css" href="<{$publisher_url}>/assets/css/jquery.popeye.css">
+<link rel="stylesheet" type="text/css" href="<{$publisher_url}>/assets/css/jquery.popeye.style.css">
+<link rel="stylesheet" type="text/css" href="<{$publisher_url}>/assets/css/publisher.css">
+<link rel="stylesheet" type="text/css" href="<{$publisher_url}>/assets/css/rating.css">
 
 <div class="item">
-    <h2>&nbsp;<{$item.title}>  CUSTOM-1</h2>
+    <h2>&nbsp;<{$item.title}>  CUSTOM-3</h2>
     <{if $show_subtitle|default:false && $item.subtitle|default:false}>
         <h3><{$item.subtitle}></h3>
     <{/if}>
@@ -263,4 +273,16 @@
     </table>
 <{/if}>
 
+<{include file='db:publisher_footer.tpl'}>
 
+<script type="text/javascript">
+    <!--//<![CDATA[
+    $publisher(document).ready(function () {
+        var options = {
+            caption: 'permanent'
+        };
+
+        $publisher('#ppy3').popeye(options);
+    });
+    //]]>-->
+</script>

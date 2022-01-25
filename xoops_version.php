@@ -378,7 +378,7 @@ $modversion['config'][] = [
     'options'     => array_merge(
         [_MI_PUBLISHER_URL_REWRITE_NONE => 'none'],
         [_MI_PUBLISHER_URL_REWRITE_PATHINFO => 'path-info'], // Is performing module install/update?
-        ($isModuleAction && in_array(PHP_SAPI, ['apache', 'apache2handler', 'cgi-fcgi', 'fpm-fcgi'], true)) ? [_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'] : []
+        ($isModuleAction && in_array(PHP_SAPI, ['apache', 'apache2handler', 'cgi-fcgi', 'fpm-fcgi', 'litespeed'], true)) ? [_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'] : []
     ),
     'category'    => 'seo',
 ];

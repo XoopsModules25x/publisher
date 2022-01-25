@@ -1,5 +1,5 @@
 <div class="item">
-    <h2>&nbsp;<{$item.title}>  CUSTOM-3</h2>
+    <h2>&nbsp;<{$item.title}>  CUSTOM-2</h2>
     <{if $show_subtitle|default:false && $item.subtitle|default:false}>
         <h3><{$item.subtitle}></h3>
     <{/if}>
@@ -261,4 +261,3 @@
         <{/foreach}> <!-- End item loop -->
     </table>
 <{/if}>
-

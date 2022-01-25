@@ -157,5 +157,12 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
         $GLOBALS['xoopsDB']->queryF($sql);
     }
 
+    // Publisher 1.8.0
+    // check table items for field `template_item` for custom templates
+    if (!$GLOBALS['xoopsDB']->query('SELECT template_item FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories'))) {
+        $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . " ADD `template_item` VARCHAR(150) NOT NULL DEFAULT '' AFTER `template`";
+        $GLOBALS['xoopsDB']->queryF($sql);
+    }
+
     return true;
 }

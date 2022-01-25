@@ -1,7 +1,8 @@
-<h5>1.8.0 Alpha.11       [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.2
+<h5>1.8.0 Alpha.11       [2022-01-25]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.2
 <hr>
 - delete /custom folders from /templates_bootstrap (alain01/mamba)
 - cosmetics (mamba)
+- added field for custom templates for category view (heyula/mamba)
 
 
 <h5>1.8.0 Alpha.10b       [2022-01-23]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.2

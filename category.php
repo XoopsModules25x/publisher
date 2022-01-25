@@ -61,11 +61,18 @@ if (!isset($totalItems[$categoryid]) || 0 == $totalItems[$categoryid]) {
 // Added by skalpa: custom template support, updated by mamba
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
 
+//Option for a custom template for a category
+$catTemplate =  $categoryObj->getVar('template');
+if (!empty($catTemplate)){
+    $GLOBALS['xoopsOption']['template_main'] = 'publisher_category_custom.tpl' ;
+}
+
 
 require_once $GLOBALS['xoops']->path('header.php');
 require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
 $moduleId = $helper->getModule()->getVar('mid');
+$xoopsTpl->assign('customcategorytemplate', $catTemplate); //assign custom template
 
 // creating the Item objects that belong to the selected category
 switch ($helper->getConfig('format_order_by')) {
@@ -251,4 +258,5 @@ if (1 == $helper->getConfig('idxcat_show_rss_link')) {
     $xoopsTpl->assign('rssfeed_link', $link);
 }
 
+$GLOBALS['xoopsTpl']->assign('mod_path', $helper->path());
 require_once $GLOBALS['xoops']->path('footer.php');

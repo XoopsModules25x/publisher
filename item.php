@@ -48,7 +48,6 @@ if (null === $itemObj) {
     //    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
-$GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl';
 // Creating the category object that holds the selected item
 $categoryObj = $helper->getHandler('Category')->get($itemObj->categoryid());
 
@@ -57,9 +56,9 @@ $categoryid = (int)$categoryObj->getVar('categoryid');
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_item.tpl'; //default template
 
 //Option for a custom template for a category
-$catTemplate =  $categoryObj->getVar('template');
-if (!empty($catTemplate)){
-    $GLOBALS['xoopsOption']['template_main'] = 'publisher_category_custom.tpl' ;
+$catItemTemplate =  $categoryObj->getVar('template_item');
+if (!empty($catItemTemplate)){
+    $GLOBALS['xoopsOption']['template_main'] = 'publisher_category_item_custom.tpl' ;
 }
 
 require_once $GLOBALS['xoops']->path('header.php');
@@ -73,7 +72,7 @@ require_once $GLOBALS['xoops']->path('header.php');
 $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
 $xoTheme->addStylesheet(PUBLISHER_URL . '/assets/css/rating.css');
 
-$xoopsTpl->assign('customtemplate', $catTemplate); //assign custom template
+$xoopsTpl->assign('customitemtemplate', $catItemTemplate); //assign custom template
 
 
 require_once PUBLISHER_ROOT_PATH . '/footer.php';
@@ -367,4 +366,5 @@ if ($helper->getConfig('perm_rating')) {
 
 //$xoopsTpl->assign('article', $article);
 $xoopsTpl->assign('item', $item);
+$GLOBALS['xoopsTpl']->assign('mod_path', $helper->path());
 require_once XOOPS_ROOT_PATH . '/footer.php';

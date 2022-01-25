@@ -272,6 +272,7 @@ $modversion['templates'] = [
     ['file' => 'publisher_trello.tpl', 'description' => '_MI_PUBLISHER_TRELLO_DSC', 'type' => 'admin'],
     //custom
     ['file' => 'publisher_category_custom.tpl', 'description' => ''],
+    ['file' => 'publisher_category_item_custom.tpl', 'description' => ''],
 ];
 
 // Config categories

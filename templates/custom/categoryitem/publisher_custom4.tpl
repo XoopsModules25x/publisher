@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="<{$publisher_url}>/assets/css/rating.css">
 
 <div class="item">
-    <h2>&nbsp;<{$item.title}>  CUSTOM-2</h2>
+    <h2>&nbsp;<{$item.title}>  CUSTOM-4</h2>
     <{if $show_subtitle|default:false && $item.subtitle|default:false}>
         <h3><{$item.subtitle}></h3>
     <{/if}>

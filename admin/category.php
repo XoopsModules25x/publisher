@@ -111,6 +111,7 @@ switch ($op) {
 
         //Added by skalpa: custom template support
         $categoryObj->setVar('template', Request::getString('template', '', 'POST'));
+        $categoryObj->setVar('template_item', Request::getString('template_item', '', 'POST'));
         $categoryObj->setVar('meta_description', Request::getString('meta_description', '', 'POST'));
         $categoryObj->setVar('meta_keywords', Request::getString('meta_keywords', '', 'POST'));
         $categoryObj->setVar('short_url', Request::getString('short_url', '', 'POST'));

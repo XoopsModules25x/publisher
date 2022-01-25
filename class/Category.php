@@ -45,6 +45,7 @@ class Category extends \XoopsObject
     public $weight;
     public $created;
     public $template;
+    public $template_item;
     public $header;
     public $meta_keywords;
     public $meta_description;
@@ -66,6 +67,7 @@ class Category extends \XoopsObject
         $this->initVar('weight', \XOBJ_DTYPE_INT, 1, false);
         $this->initVar('created', \XOBJ_DTYPE_INT, null, false);
         $this->initVar('template', \XOBJ_DTYPE_TXTBOX, null, false, 255);
+        $this->initVar('template_item', \XOBJ_DTYPE_TXTBOX, null, false, 150);
         $this->initVar('header', \XOBJ_DTYPE_TXTAREA, null, false);
         $this->initVar('meta_keywords', \XOBJ_DTYPE_TXTAREA, null, false);
         $this->initVar('meta_description', \XOBJ_DTYPE_TXTAREA, null, false);

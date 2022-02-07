@@ -20,6 +20,7 @@ namespace XoopsModules\Publisher\Common;
  */
 
 use Xmf\Yaml;
+use Xmf\Module\Admin;
 use XoopsModules\Publisher\Helper;
 
 /** @var Helper $helper */
@@ -36,17 +37,17 @@ class TestdataButtons
     /**
      * Load the test button configuration
      *
-     * @param Xmf\Module\Admin $adminObject
+     * @param Admin $adminObject
      *
      * @return void
      */
-    public static function loadButtonConfig(Xmf\Module\Admin $adminObject): void
+    public static function loadButtonConfig($adminObject): void
     {
-        $moduleDirName      = \basename(\dirname(__DIR__, 2));
-        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
+        $moduleDirName       = \basename(\dirname(__DIR__, 2));
+        $moduleDirNameUpper  = \mb_strtoupper($moduleDirName);
         $helper              = Helper::getInstance();
         $yamlFile            = $helper->path('/config/admin.yml');
-        $config             = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
+        $config              = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
         $displaySampleButton = $config['displaySampleButton'];
 
         if (self::SHOW_BUTTONS == $displaySampleButton) {

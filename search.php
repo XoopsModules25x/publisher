@@ -86,9 +86,9 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
         foreach ($temp_queries as $q) {
             $q = trim($q);
             if (mb_strlen($q) >= $xoopsConfigSearch['keyword_min']) {
-                $queries[] = $myts->addSlashes($q);
+                $queries[] = $GLOBALS['xoopsDB']->escape($q);
             } else {
-                $ignored_queries[] = $myts->addSlashes($q);
+                $ignored_queries[] = $GLOBALS['xoopsDB']->escape($q);
             }
         }
         //        unset($q);
@@ -99,7 +99,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
         if (mb_strlen($query) < $xoopsConfigSearch['keyword_min']) {
             redirect_header(PUBLISHER_URL . '/search.php', 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch['keyword_min']));
         }
-        $queries = [$myts->addSlashes($query)];
+        $queries = [$GLOBALS['xoopsDB']->escape($query)];
     }
 
     $uname_required       = false;
@@ -107,7 +107,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     $next_search['uname'] = $search_username;
     if (!empty($search_username)) {
         $uname_required  = true;
-        $search_username = $myts->addSlashes($search_username);
+        $search_username = $GLOBALS['xoopsDB']->escape($search_username);
         if (!$result = $GLOBALS['xoopsDB']->query('SELECT uid FROM ' . $GLOBALS['xoopsDB']->prefix('users') . ' WHERE uname LIKE ' . $GLOBALS['xoopsDB']->quoteString("%$search_username%"))) {
             redirect_header(PUBLISHER_URL . '/search.php', 1, _CO_PUBLISHER_ERROR);
         }

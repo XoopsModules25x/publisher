@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -15,41 +15,34 @@ namespace XoopsModules\Publisher;
 /**
  *  Publisher class
  *
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
-use XoopsModules\Publisher;
-
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Mimetype class
  *
  * @author  Eric Juden <ericj@epcusa.com>
- * @package publisher
  */
 class Mimetype extends \XoopsObject
 {
     /**
-     * @param null|int|array $id
+     * @param int|array|null $id
      */
     public function __construct($id = null)
     {
-        $this->initVar('mime_id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('mime_ext', XOBJ_DTYPE_TXTBOX, null, true, 60);
-        $this->initVar('mime_types', XOBJ_DTYPE_TXTAREA, null, false, 1024);
-        $this->initVar('mime_name', XOBJ_DTYPE_TXTBOX, null, true, 255);
-        $this->initVar('mime_admin', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('mime_user', XOBJ_DTYPE_INT, null, false);
-        if (isset($id)) {
-            if (is_array($id)) {
+        $this->initVar('mime_id', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('mime_ext', \XOBJ_DTYPE_TXTBOX, null, true, 60);
+        $this->initVar('mime_types', \XOBJ_DTYPE_TXTAREA, null, false, 1024);
+        $this->initVar('mime_name', \XOBJ_DTYPE_TXTBOX, null, true, 255);
+        $this->initVar('mime_admin', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('mime_user', \XOBJ_DTYPE_INT, null, false);
+        if (null !== $id) {
+            if (\is_array($id)) {
                 $this->assignVars($id);
             }
         } else {

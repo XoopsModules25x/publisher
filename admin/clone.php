@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,21 +10,21 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\Cloner;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 
-Publisher\Utility::cpHeader();
+Utility::cpHeader();
 //publisher_adminMenu(-1, _AM_PUBLISHER_CLONE);
-Publisher\Utility::openCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
+Utility::openCollapsableBar('clone', 'cloneicon', _AM_PUBLISHER_CLONE, _AM_PUBLISHER_CLONE_DSC);
 
 if ('submit' === Request::getString('op', '', 'POST')) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -45,18 +45,18 @@ if ('submit' === Request::getString('op', '', 'POST')) {
     }
 
     $patterns = [
-        mb_strtolower(PUBLISHER_DIRNAME)          => mb_strtolower($clone),
-        mb_strtoupper(PUBLISHER_DIRNAME)          => mb_strtoupper($clone),
+        \mb_strtolower(PUBLISHER_DIRNAME)         => \mb_strtolower($clone),
+        \mb_strtoupper(PUBLISHER_DIRNAME)         => \mb_strtoupper($clone),
         ucfirst(mb_strtolower(PUBLISHER_DIRNAME)) => ucfirst(mb_strtolower($clone)),
     ];
 
     $patKeys   = array_keys($patterns);
     $patValues = array_values($patterns);
-    Publisher\Cloner::cloneFileFolder(PUBLISHER_ROOT_PATH);
-    $logocreated = Publisher\Cloner::createLogo(mb_strtolower($clone));
+    Cloner::cloneFileFolder(PUBLISHER_ROOT_PATH);
+    $logocreated = Cloner::createLogo(mb_strtolower($clone));
 
     $msg = '';
-    if (is_dir($GLOBALS['xoops']->path('modules/' . mb_strtolower($clone)))) {
+    if (is_dir($GLOBALS['xoops']->path('modules/' . \mb_strtolower($clone)))) {
         $msg .= sprintf(_AM_PUBLISHER_CLONE_CONGRAT, "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin'>" . ucfirst(mb_strtolower($clone)) . '</a>') . "<br>\n";
         if (!$logocreated) {
             $msg .= _AM_PUBLISHER_CLONE_IMAGEFAIL;
@@ -77,7 +77,7 @@ if ('submit' === Request::getString('op', '', 'POST')) {
 }
 
 // End of collapsable bar
-Publisher\Utility::closeCollapsableBar('clone', 'cloneicon');
+Utility::closeCollapsableBar('clone', 'cloneicon');
 
 require_once __DIR__ . '/admin_footer.php';
 

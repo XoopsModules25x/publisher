@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -15,19 +15,13 @@ namespace XoopsModules\Publisher;
 /**
  *  Publisher class
  *
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
-use XoopsModules\Publisher;
-
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class MimetypeHandler
@@ -36,21 +30,23 @@ class MimetypeHandler extends BaseObjectHandler
 {
     /**
      * Constructor
-     *
-     * @param null|\XoopsDatabase $db reference to a xoopsDB object
      */
-    public function __construct(\XoopsDatabase $db = null)
+    public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        parent::init($db);
-        $this->className = Mimetype::class;
+        /** @var Helper $this- >helper */
+        $this->helper = $helper ?? Helper::getInstance();
+
+        $this->publisherIsAdmin = $this->helper->isUserAdmin();
+        $this->db               = $db;
+        $this->className        = Mimetype::class;
     }
 
     /**
      * retrieve a mimetype object from the database
      *
-     * @param int   $id ID of mimetype
+     * @param int|null   $id ID of mimetype
      *
-     * @param  null $fields
+     * @param array|null $fields
      * @return bool|Mimetype
      */
     public function get($id = null, $fields = null)
@@ -75,15 +71,13 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
-     *                                   conditions to be met
-     *
-     * @param  bool            $idAsKey
-     * @param  bool            $asObject
+     * @param \Criteria|\CriteriaCompo|null $criteria conditions to be met
+     * @param bool                          $id_as_key
+     * @param bool                          $as_object
      * @return array array of <a href='psi_element://Mimetype'>Mimetype</a> objects
-     *                                   objects
+     *                                                objects
      */
-    public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null)
+    public function &getObjects($criteria = null, $id_as_key = false, $as_object = true) //&getObjects($criteria = null)
     {
         $ret   = [];
         $limit = $start = 0;
@@ -111,7 +105,7 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Format mime_types into array
      *
-     * @param null $mimeExt
+     * @param mixed|null $mimeExt
      *
      * @return array array of mime_types
      */
@@ -119,25 +113,25 @@ class MimetypeHandler extends BaseObjectHandler
     {
         //        global $publisherIsAdmin;
         $ret = [];
-        if ($GLOBALS['xoopsUser'] && !$GLOBALS['publisherIsAdmin']) {
+        if ($GLOBALS['xoopsUser'] && !$this->publisherIsAdmin) {
             // For user uploading
-            $crit = new \CriteriaCompo(new \Criteria('mime_user', 1)); //$sql = sprintf("SELECT * FROM `%s` WHERE mime_user=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
-        } elseif ($GLOBALS['xoopsUser'] && $GLOBALS['publisherIsAdmin']) {
+            $criteria = new \CriteriaCompo(new \Criteria('mime_user', 1)); //$sql = sprintf("SELECT * FROM `%s` WHERE mime_user=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
+        } elseif ($GLOBALS['xoopsUser'] && $this->publisherIsAdmin) {
             // For admin uploading
-            $crit = new \CriteriaCompo(new \Criteria('mime_admin', 1)); //$sql = sprintf("SELECT * FROM `%s` WHERE mime_admin=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
+            $criteria = new \CriteriaCompo(new \Criteria('mime_admin', 1)); //$sql = sprintf("SELECT * FROM `%s` WHERE mime_admin=1", $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_mimetypes'));
         } else {
             return $ret;
         }
         if ($mimeExt) {
-            $crit->add(new \Criteria('mime_ext', $mimeExt));
+            $criteria->add(new \Criteria('mime_ext', $mimeExt));
         }
-        $result = $this->getObjects($crit);
+        $result = $this->getObjects($criteria);
         // if no records from db, return empty array
         if (!$result) {
             return $ret;
         }
         foreach ($result as $mime) {
-            $line = explode(' ', $mime->getVar('mime_types'));
+            $line = \explode(' ', $mime->getVar('mime_types'));
             foreach ($line as $row) {
                 $ret[] = ['type' => $row, 'ext' => $mime->getVar('mime_ext')];
             }
@@ -155,12 +149,12 @@ class MimetypeHandler extends BaseObjectHandler
      */
     public function checkMimeTypes($postField)
     {
-        $ret               = false;
-        $allowed_mimetypes = $this->getArrayByType();
-        if (empty($allowed_mimetypes)) {
+        $ret              = false;
+        $allowedMimetypes = $this->getArrayByType();
+        if (empty($allowedMimetypes)) {
             return $ret;
         }
-        foreach ($allowed_mimetypes as $mime) {
+        foreach ($allowedMimetypes as $mime) {
             if ($mime == $_FILES[$postField]['type']) {
                 $ret = $mime;
                 break;
@@ -189,13 +183,12 @@ class MimetypeHandler extends BaseObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
-     *                                                  to match
-     * @param bool                            $join
+     * @param \Criteria|\CriteriaCompo|null $criteria to match
+     * @param bool                          $join
      *
      * @return string string SQL query
      */
-    private function selectQuery(\CriteriaElement $criteria = null, $join = false)
+    private function selectQuery($criteria = null, $join = false)
     {
         //        if (!$join) {
         //            $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
@@ -208,17 +201,15 @@ class MimetypeHandler extends BaseObjectHandler
             if ($join) {
                 throw new \RuntimeException('no need for join...');
             }
-        }
-        catch (\Exception $e) {
-            /** @var Publisher\Helper $helper */
-            $helper = Publisher\Helper::getInstance();
+        } catch (\Throwable $e) {
+            $helper = Helper::getInstance();
             $helper->addLog($e);
             echo 'no need for join...';
         }
 
-        $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
+        $sql = \sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
 
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \Criteria) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -229,7 +220,7 @@ class MimetypeHandler extends BaseObjectHandler
     }
 
     /**
-     * @param $obj
+     * @param Mimetype $obj
      *
      * @return bool|string
      */
@@ -239,15 +230,23 @@ class MimetypeHandler extends BaseObjectHandler
         foreach ($obj->cleanVars as $k => $v) {
             ${$k} = $v;
         }
-        $sql = sprintf('INSERT INTO `%s` (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
-            (%u, %s, %s, %s, %u, %u)', $this->db->prefix($this->dbtable), $obj->getVar('mime_id'), $this->db->quoteString($obj->getVar('mime_ext')), $this->db->quoteString($obj->getVar('mime_types')), $this->db->quoteString($obj->getVar('mime_name')), $obj->getVar('mime_admin'),
-                       $obj->getVar('mime_user'));
+        $sql = \sprintf(
+            'INSERT INTO `%s` (mime_id, mime_ext, mime_types, mime_name, mime_admin, mime_user) VALUES
+            (%u, %s, %s, %s, %u, %u)',
+            $this->db->prefix($this->dbtable),
+            $obj->getVar('mime_id'),
+            $this->db->quoteString($obj->getVar('mime_ext')),
+            $this->db->quoteString($obj->getVar('mime_types')),
+            $this->db->quoteString($obj->getVar('mime_name')),
+            $obj->getVar('mime_admin'),
+            $obj->getVar('mime_user')
+        );
 
         return $sql;
     }
 
     /**
-     * @param $obj
+     * @param Mimetype $obj
      *
      * @return bool|string
      */
@@ -257,20 +256,29 @@ class MimetypeHandler extends BaseObjectHandler
         foreach ($obj->cleanVars as $k => $v) {
             ${$k} = $v;
         }
-        $sql = sprintf('UPDATE `%s` SET mime_ext = %s, mime_types = %s, mime_name = %s, mime_admin = %u, mime_user = %u WHERE
-            mime_id = %u', $this->db->prefix($this->dbtable), $this->db->quoteString($obj->getVar('mime_ext')), $this->db->quoteString($obj->getVar('mime_types')), $this->db->quoteString($obj->getVar('mime_name')), $obj->getVar('mime_admin'), $obj->getVar('mime_user'), $obj->getVar('mime_id'));
+        $sql = \sprintf(
+            'UPDATE `%s` SET mime_ext = %s, mime_types = %s, mime_name = %s, mime_admin = %u, mime_user = %u WHERE
+            mime_id = %u',
+            $this->db->prefix($this->dbtable),
+            $this->db->quoteString($obj->getVar('mime_ext')),
+            $this->db->quoteString($obj->getVar('mime_types')),
+            $this->db->quoteString($obj->getVar('mime_name')),
+            $obj->getVar('mime_admin'),
+            $obj->getVar('mime_user'),
+            $obj->getVar('mime_id')
+        );
 
         return $sql;
     }
 
     /**
-     * @param $obj
+     * @param Mimetype $obj
      *
      * @return bool|string
      */
     protected function deleteQuery($obj)
     {
-        $sql = sprintf('DELETE FROM `%s` WHERE mime_id = %u', $this->db->prefix($this->dbtable), $obj->getVar('mime_id'));
+        $sql = \sprintf('DELETE FROM `%s` WHERE mime_id = %u', $this->db->prefix($this->dbtable), $obj->getVar('mime_id'));
 
         return $sql;
     }

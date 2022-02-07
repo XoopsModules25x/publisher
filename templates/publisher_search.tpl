@@ -1,17 +1,17 @@
-<{if $search_info}>
+<{if $search_info|default:false}>
     <div class="resultMsg"> <{$search_info}></div>
-    <{if $results}>
+    <{if $results|default:false}>
         <{foreach item=result from=$results}>
-        <div class="item">
-            <strong><a href="<{$result.link}>"><{$result.title}></a></strong><br>
-            <{$result.author}> <{$result.datesub}>
-            <{if $result.text}>
-                <br>
-                <{$result.text}>
-            <{/if}>
-        </div>
-        <div class="clear"></div>
-    <{/foreach}>
+            <div class="item">
+                <strong><a href="<{$result.link}>"><{$result.title}></a></strong><br>
+                <{$result.author}> <{$result.datesub}>
+                <{if $result.text|default:false}>
+                    <br>
+                    <{$result.text}>
+                <{/if}>
+            </div>
+            <div class="clear"></div>
+        <{/foreach}>
     <{/if}>
 <{/if}>
 

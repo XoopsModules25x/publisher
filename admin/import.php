@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,16 +10,19 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -35,13 +38,13 @@ switch ($op) {
     default:
         $importfile = 'none';
 
-        Publisher\Utility::cpHeader();
+        Utility::cpHeader();
         //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
 
-        Publisher\Utility::openCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
+        Utility::openCollapsableBar('import', 'importicon', _AM_PUBLISHER_IMPORT_TITLE, _AM_PUBLISHER_IMPORT_INFO);
 
         xoops_load('XoopsFormLoader');
-        /* @var  $moduleHandler \XoopsModuleHandler */
+        /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
 
         // WF-Section
@@ -133,7 +136,7 @@ switch ($op) {
         } */
 
         if (isset($importfile_select_array) && count($importfile_select_array) > 0) {
-            $sform = new \XoopsThemeForm(_AM_PUBLISHER_IMPORT_SELECTION, 'op', xoops_getenv('PHP_SELF'), 'post', true);
+            $sform = new \XoopsThemeForm(_AM_PUBLISHER_IMPORT_SELECTION, 'op', xoops_getenv('SCRIPT_NAME'), 'post', true);
             $sform->setExtra('enctype="multipart/form-data"');
 
             // Partners to import
@@ -160,11 +163,11 @@ switch ($op) {
             $sform->addElement($buttonTray);
             /*$sform->addElement(new \XoopsFormHidden('xfs_version', $xfs_version));
              $sform->addElement(new \XoopsFormHidden('wfs_version', $wfs_version));*/
-            $sform->addElement(new \XoopsFormHidden('news_version', $news_version));
-            $sform->addElement(new \XoopsFormHidden('xnews_version', $xnews_version));
-            $sform->addElement(new \XoopsFormHidden('ams_version', $ams_version));
-            $sform->addElement(new \XoopsFormHidden('cjaycontent_version', $cjaycontent_version));
-            $sform->addElement(new \XoopsFormHidden('smartsection_version', $smartsection_version));
+            $sform->addElement(new \XoopsFormHidden('news_version', (string)$news_version));
+            $sform->addElement(new \XoopsFormHidden('xnews_version', (string)$xnews_version));
+            $sform->addElement(new \XoopsFormHidden('ams_version', (string)$ams_version));
+            $sform->addElement(new \XoopsFormHidden('cjaycontent_version', (string)$cjaycontent_version));
+            $sform->addElement(new \XoopsFormHidden('smartsection_version', (string)$smartsection_version));
             $sform->display();
             unset($hidden);
         } else {
@@ -173,7 +176,7 @@ switch ($op) {
 
         // End of collapsable bar
 
-        Publisher\Utility::closeCollapsableBar('import', 'importicon');
+        Utility::closeCollapsableBar('import', 'importicon');
 
         break;
 }

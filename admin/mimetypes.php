@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,17 +10,15 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Admin
- * @subpackage      Action
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\MimetypesUtility;
 
 require_once __DIR__ . '/admin_header.php';
 xoops_load('XoopsPagenav');
@@ -37,7 +35,11 @@ $aSortBy   = [
 ];
 $aOrderBy  = ['ASC' => _AM_PUBLISHER_TEXT_ASCENDING, 'DESC' => _AM_PUBLISHER_TEXT_DESCENDING];
 $aLimitBy  = ['10' => 10, '15' => 15, '20' => 20, '25' => 25, '50' => 50, '100' => 100];
-$aSearchBy = ['mime_id' => _AM_PUBLISHER_MIME_ID, 'mime_name' => _AM_PUBLISHER_MIME_NAME, 'mime_ext' => _AM_PUBLISHER_MIME_EXT];
+$aSearchBy = [
+    'mime_id' => _AM_PUBLISHER_MIME_ID, 
+    'mime_name' => _AM_PUBLISHER_MIME_NAME, 
+    'mime_ext' => _AM_PUBLISHER_MIME_EXT,
+];
 
 $error = [];
 
@@ -50,31 +52,31 @@ if ('POST' === Request::getMethod() && !$GLOBALS['xoopsSecurity']->check()) {
 
 switch ($op) {
     case 'add':
-        Publisher\MimetypesUtility::add();
+        MimetypesUtility::add();
         break;
     case 'delete':
-        Publisher\MimetypesUtility::delete();
+        MimetypesUtility::delete();
         break;
     case 'edit':
-        Publisher\MimetypesUtility::edit();
+        MimetypesUtility::edit();
         break;
     case 'search':
-        Publisher\MimetypesUtility::search();
+        MimetypesUtility::search($icons);
         break;
     case 'updateMimeValue':
-        Publisher\MimetypesUtility::updateMimeValue();
+        MimetypesUtility::updateMimeValue();
         break;
     case 'confirmUpdateMimeValue':
-        Publisher\MimetypesUtility::confirmUpdateMimeValue();
+        MimetypesUtility::confirmUpdateMimeValue();
         break;
     case 'clearAddSession':
-        Publisher\MimetypesUtility::clearAddSession();
+        MimetypesUtility::clearAddSession();
         break;
     case 'clearEditSession':
-        Publisher\MimetypesUtility::clearEditSession();
+        MimetypesUtility::clearEditSession();
         break;
     case 'manage':
     default:
-        Publisher\MimetypesUtility::manage();
+        MimetypesUtility::manage($icons);
         break;
 }

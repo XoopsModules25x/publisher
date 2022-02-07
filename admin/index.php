@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -13,26 +13,31 @@
  * Publisher
  *
  * @copyright    The XOOPS Project (https://xoops.org)
- * @license      GNU GPL (http://www.gnu.org/licenses/gpl-2.0.html/)
- * @package      Publisher
+ * @license      GNU GPL (https://www.gnu.org/licenses/gpl-2.0.html/)
  * @since        1.0
  * @author       Mage, Mamba
  */
 
-use XoopsModules\Publisher;
+use Xmf\Module\Admin;
+use Xmf\Request;
+use XoopsModules\Publisher\Common\Configurator;
+use XoopsModules\Publisher\Common\TestdataButtons;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
-/** @var \XoopsModules\Publisher\Helper $helper */
-$helper = \XoopsModules\Publisher\Helper::getInstance();
+$adminObject  = Admin::getInstance();
+$utility      = new Utility();
+$configurator = new Configurator();
+$helper       = Helper::getInstance();
 $helper->loadLanguage('main');
-$adminObject = \Xmf\Module\Admin::getInstance();
-$utility     = new Publisher\Utility();
+$helper->loadLanguage('admin');
 
 /*
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    Publisher\Utility::createFolder($uploadFolders[$i]);
+    Utility::createFolder($uploadFolders[$i]);
     $adminObject->addConfigBoxLine($uploadFolders[$i], 'folder');
     //    $adminObject->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
@@ -41,42 +46,77 @@ foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
 $file = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
 foreach (array_keys($copyFiles) as $i) {
     $dest = $copyFiles[$i] . '/blank.png';
-    Publisher\Utility::copyFile($file, $dest);
+    Utility::copyFile($file, $dest);
 }
 */
 
-if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
+if (is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
+    $adminObject->addConfigBoxLine('<span style="color:green;"><img src="' . $pathIcon16 . '/1.png" alt="!">' . _MD_PUBLISHER_PDF . '</span>', 'default');
+} else {
     $adminObject->addConfigBoxLine('<span style="color:#ff0000;"><img src="' . $pathIcon16 . '/0.png" alt="!">' . _MD_PUBLISHER_ERROR_NO_PDF . '</span>', 'default');
+}
+
+$modStats    = [];
+$moduleStats = $utility::getModuleStats($configurator);
+
+$adminObject->addInfoBox(constant('CO_' . $moduleDirNameUpper . '_' . 'STATS_SUMMARY'));
+if (is_array($moduleStats) && count($moduleStats) > 0) {
+    foreach ($moduleStats as $key => $value) {
+        switch ($key) {
+            case 'totalcategories':
+                $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
+                $adminObject->addInfoBoxLine($ret . ' ' . _AM_PUBLISHER_TOTALCAT);
+                break;
+            case 'totalitems':
+                $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
+                $adminObject->addInfoBoxLine($ret . ' ' . _AM_PUBLISHER_ITEMS);
+                break;
+            case 'totaloffline':
+                $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
+                $adminObject->addInfoBoxLine($ret . ' ' . _AM_PUBLISHER_TOTAL_OFFLINE);
+                break;
+            case 'totalpublished':
+                $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
+                $adminObject->addInfoBoxLine($ret . ' ' . _AM_PUBLISHER_TOTALPUBLISHED);
+                break;
+            case 'totalrejected':
+                $ret = '<span style=\'font-weight: bold; color: red;\'>' . $value . '</span>';
+                $adminObject->addInfoBoxLine($ret . ' ' . _AM_PUBLISHER_REJECTED);
+                break;
+            case 'totalsubmitted':
+                $ret = '<span style=\'font-weight: bold; color: green;\'>' . $value . '</span>';
+                $adminObject->addInfoBoxLine($ret . ' ' . _AM_PUBLISHER_TOTALSUBMITTED);
+                break;
+        }
+    }
 }
 
 $adminObject->displayNavigation(basename(__FILE__));
 
-
 //check for latest release
-$newRelease = $utility::checkVerModule($helper);
-if (!empty($newRelease)) {
-    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
-}
+//$newRelease = $utility::checkVerModule($helper);
+//if (null !== $newRelease) {
+//    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
+//}
 
-//------------- Test Data ----------------------------
-
+//------------- Test Data Buttons ----------------------------
 if ($helper->getConfig('displaySampleButton')) {
-    xoops_loadLanguage('admin/modulesadmin', 'system');
-    require_once dirname(__DIR__) . '/testdata/index.php';
-
-    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=load', 'add');
-
-    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=save', 'add');
-
-    //    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), '__DIR__ . /../../testdata/index.php?op=exportschema', 'add');
-
+    TestdataButtons::loadButtonConfig($adminObject);
     $adminObject->displayButton('left', '');
 }
-
-//------------- End Test Data ----------------------------
+$op = Request::getString('op', 0, 'GET');
+switch ($op) {
+    case 'hide_buttons':
+        TestdataButtons::hideButtons();
+        break;
+    case 'show_buttons':
+        TestdataButtons::showButtons();
+        break;
+}
+//------------- End Test Data Buttons ----------------------------
 
 $adminObject->displayIndex();
-
 echo $utility::getServerStats();
 
+//codeDump(__FILE__);
 require_once __DIR__ . '/admin_footer.php';

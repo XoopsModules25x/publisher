@@ -1,5 +1,7 @@
 # language: php
 build:
+  environment:
+    php: 8.0.11
   nodes:
     tests: true
     analysis:
@@ -13,8 +15,8 @@ build:
         override: true
       tests:
         override:
-        - php-scrutinizer-run --enable-security-analysis
+          - php-scrutinizer-run --enable-security-analysis
 filter:
   dependency_paths:
-  - XoopsCore25/*
-  - tag/*
+    - XoopsCore25/*
+    - tag/*

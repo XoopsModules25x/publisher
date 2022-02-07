@@ -2,3 +2,93 @@ LANGUAGE DIFFERENCES
 =====================
 
 Below are language differences from a version to next version.
+
+================================
+Version 1.0.8
+================================
+ADDED/DELETED/CHANGED DEFINES:
+language/english/blocks.php
+- added define('_MB_PUBLISHER_DISPLAY_READ_FULLITEM', 'Display \'Read Full Article\'?');
+- added define('_MB_PUBLISHER_DISPLAY_ADMINLINK', 'Display \'Administrator Icon\'?');
+- added define('_MB_PUBLISHER_DISPLAY_SUMMARY', 'Display \'Article Summary\'?');
+- added define('_MB_PUBLISHER_DISPLAY_RATING', 'Display \'Article Rating\'?');
+- added define('_MB_PUBLISHER_DISPLAY_DATE_MAINITEM', 'Display Date in Main Item?');
+- added define('_MB_PUBLISHER_DISPLAY_DATE_SUBITEM', 'Display Date in Sub Item?');
+- added define('_MB_PUBLISHER_ON', 'on');
+- added define('_MB_PUBLISHER_TOTALHITS', 'hits');
+
+language/english/main.php
+- added define('_MD_PUBLISHER_NO_COMMENTS', 'No comments');
+- added define('_MD_PUBLISHER_READMORE', 'Read more...');
+- added define('_MD_PUBLISHER_CATEGORY', 'Category');
+- added define('_MD_PUBLISHER_AUTHOR', 'Author');
+- added define('_MD_PUBLISHER_POSTER', 'Published by');
+- added define('_MD_PUBLISHER_TOTALHITS', 'hits');
+- added define('_MD_PUBLISHER_ONECOMMENT', '1 comment');
+- added define('_MD_PUBLISHER_NO_COMMENTS', 'No comments');
+
+language/english/modinfo.php
+- changed define('_MI_PUBLISHER_DISDATECOLDSC', 'Select “Yes” to display a “Published on” date in the items table on the index and category page.');
+- changed define('_MI_PUBLISHER_DISTYPEDSC', 'Select template to be use in index and category page.');
+- changed define('_MI_PUBLISHER_HITSCOLDSC', 'Select “Yes” to display the “Hits” column in the items table on the index and category page.');
+- changed define('_MI_PUBLISHER_LASTITEMSDSC', 'Select “Yes” to have the list at the bottom of the index and category page of the module.');
+- changed define('_MI_PUBLISHER_WELCOMEDSC', 'If this option is set to “Yes”, the module index page will display the title welcome message defined below. If this option is set to “No”, none of these welcome message will be displayed.');
+- changed define('_MI_PUBLISHER_ARCHIVE_DSC', 'Article Archives');
+
+- added define('_MI_PUBLISHER_WHO', 'Display the poster?');
+- added define('_MI_PUBLISHER_WHODSC', 'Set to “Yes” to display the poster information in the individual article.');
+- added define('_MI_PUBLISHER_WHEN', 'Display the date?');
+- added define('_MI_PUBLISHER_WHENDSC', 'Set to “Yes” to display the date information in the individual article.');
+- added define('_MI_PUBLISHER_HITS', 'Display the Hits?');
+- added define('_MI_PUBLISHER_HITSDSC', 'Set to “Yes” to display the hits information in the individual article.');
+- added define('_MI_PUBLISHER_PRINT', 'Display the Print Button?');
+- added define('_MI_PUBLISHER_PRINTDSC', 'Set to “Yes” to display the print button information in the individual article.');
+- added define('_MI_PUBLISHER_ITEMCATEGORY', 'Display the category of the article?');
+- added define('_MI_PUBLISHER_ITEMCATEGORYDSC', 'Set to “Yes” to display the category information in the individual article.');
+- added define('_MI_PUBLISHER_MAINIMAGE', 'Display the Main Image ?');
+- added define('_MI_PUBLISHER_MAINIMAGEDSC', 'Select “Yes” to display the Main Image in the items table on the index and category page.');
+- added define('_MI_PUBLISHER_DEFAULTIMAGE', 'Display the default image when no image is selected');
+- added define('_MI_PUBLISHER_DEFAULTIMAGEDSC', 'Select “Yes” to display the Default Image in the article page when no image is selected.');
+- added define('_MI_PUBLISHER_SUMMARY', 'Display the Article Summary');
+- added define('_MI_PUBLISHER_SUMMARYDSC', 'Select “Yes” to display the Article Summary on the index and category page.');
+- added define('_MI_PUBLISHER_READMORE', 'Display the Read Full Article Link');
+- added define('_MI_PUBLISHER_READMOREDSC', 'Select “Yes” to display the Read Full Article Link on the index and category page.');
+- added define('_MI_PUBLISHER_ARTICLECATEGORY', 'Display the category of the article?');
+- added define('_MI_PUBLISHER_ARTICLECATEGORYDSC', 'Select “Yes” to display the category of the article on the index and category page.');
+- added define('_MI_PUBLISHER_POSTER', 'Display the Poster');
+- added define('_MI_PUBLISHER_POSTERDSC', 'Select “Yes” to display the poster of the article on the index and category page.');
+- added define('_MI_PUBLISHER_COMMENTLINK', 'Display comment count?');
+- added define('_MI_PUBLISHER_COMMENTLINKDSC', 'Select “Yes” to display the comment count on the index and category page.');
+- added define('_MI_PUBLISHER_EMAILLINK', 'Display the Email Link');
+- added define('_MI_PUBLISHER_CONFCAT_INDEXCATTEMPLATE', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Latest Published Articles in Index and Category Page ---</span> ');
+- added define('_MI_PUBLISHER_CONFCAT_INDEXCATTEMPLATEDSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+- added define('_MI_PUBLISHER_ITEM_ALLARTICLE', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---All Latest Published Articles in Article Page ---</span> ');
+- added define('_MI_PUBLISHER_ITEM_ALLARTICLEDSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+- added define('_MI_PUBLISHER_ITEM_DISDATECOLDSC', 'Select “Yes” to display date in the latest published items on the article page.');
+- added define('_MI_PUBLISHER_ITEM_HITSCOLDSC', 'Select “Yes” to display the “Hits” column in the latest published items on the article page.');
+- added define('_MI_PUBLISHER_ITEM_MAINIMAGEDSC', 'Select “Yes” to display the Main Image in the latest published items on the article page.');
+- added define('_MI_PUBLISHER_ITEM_SUMMARYDSC', 'Select “Yes” to display the Article Summary in the latest published items on the article page.');
+- added define('_MI_PUBLISHER_ITEM_READMOREDSC', 'Select “Yes” to display the Read Full Article Link in the latest published items on the article page.');
+- added define('_MI_PUBLISHER_ITEM_ARTICLECATEGORYDSC', 'Select “Yes” to display the category of the article in the latest published items on the article page.');
+- added define('_MI_PUBLISHER_ITEM_POSTERDSC', 'Select “Yes” to display the poster of the article in the latest published items on the article page.');
+- added define('_MI_PUBLISHER_ITEM_COMMENTLINKDSC', 'Select “Yes” to display the comment count in the latest published items on the article page.');
+- added define('_MI_PUBLISHER_CONFCAT_ARCHIVE', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Archive Page ---<span> ');
+- added define('_MI_PUBLISHER_CONFCAT_ARCHIVEDSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+- added define('_MI_PUBLISHER_ARCHIVE_EMAILLINKDSC', 'Select “Yes” to display the link on the archive page.');
+- added define('_MI_PUBLISHER_ARCHIVE_DISDATECOLDSC', 'Select “Yes” to display date in the archive page');
+- added define('_MI_PUBLISHER_ARCHIVE_HITSCOLDSC', 'Select “Yes” to display the “Hits” column in the archive page');
+- added define('_MI_PUBLISHER_ARCHIVE_ARTICLECATEGORYDSC', 'Select “Yes” to display the category of the article in the archive page');
+- added define('_MI_PUBLISHER_ARCHIVE_POSTERDSC', 'Select “Yes” to display the poster of the article in the archive page');
+- added define('_MI_PUBLISHER_ARCHIVE_COMMENT', 'Select “Yes” to display the comment count in the archive page');
+- added define('_MI_PUBLISHER_ARCHIVE_PRINTLINKDSC', 'Select “Yes” to display the print button in the archive page');
+- added define('_MI_PUBLISHER_ARCHIVE_PDFLINKDSC', 'Select “Yes” to display the pdf icon in the archive page<br>Make sure you have the TCPDF library installed. Please read the "readme.txt" file in /docs folder for info how to get it.');
+- added define('_MI_PUBLISHER_ARCHIVE_SUMMARYDSC', 'Select “Yes” to display the article summary in the archive page');
+- added define('_MI_PUBLISHER_ARCHIVE_MAINIMAGEDSC', 'Select “Yes” to display the article main image in the archive page');
+- added define('_MI_PUBLISHER_CONFCAT_AUTHORPAGE', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Item by Same Author Page ---<span> ');
+- added define('_MI_PUBLISHER_CONFCAT_AUTHORPAGEDSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+- added define('_MI_PUBLISHER_AUTHORPAGE_HITSDSC', 'Select “Yes” to display the “Hits" in the Item by Same Author page');
+- added define('_MI_PUBLISHER_AUTHORPAGE_IMAGEDSC', 'Select “Yes” to display the main image of article in the Item by Same Author page');
+- added define('_MI_PUBLISHER_AUTHORPAGE_COMMENTDSC', 'Select “Yes” to display the comment count in the Item by Same Author page');
+- added define('_MI_PUBLISHER_AUTHORPAGE_SUMMARYDSC', 'Select “Yes” to display the article summary in the Item by Same Author page');
+- added define('_MI_PUBLISHER_DISPRATING', 'Display Rating');
+- added define('_MI_PUBLISHER_AUTHORPAGE_RATINGDSC', 'Select “Yes” to display the rating in the Item by Same Author page');

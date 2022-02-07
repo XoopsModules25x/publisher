@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,17 +10,18 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\Jsonld;
+use XoopsModules\Publisher\Metagen;
 
 require_once __DIR__ . '/header.php';
 
@@ -36,6 +37,7 @@ if (!is_object($thisuser)) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
 }
 
+/** @var Helper $helper */
 if (!$helper->getConfig('perm_author_items')) {
     redirect_header('index.php', 2, _CO_PUBLISHER_ERROR);
 }
@@ -57,13 +59,13 @@ $xoopsTpl->assign('total_items', $count);
 $xoopsTpl->assign('permRating', $helper->getConfig('perm_rating'));
 
 xoops_load('XoopsUserUtility');
-$author_name = \XoopsUserUtility::getUnameFromId($uid, $helper->getConfig('format_realname'), true);
-$xoopsTpl->assign('author_name_with_link', $author_name);
+$authorName = \XoopsUserUtility::getUnameFromId($uid, $helper->getConfig('format_realname'), true);
+$xoopsTpl->assign('author_name_with_link', $authorName);
 $xoopsTpl->assign('user_avatarurl', XOOPS_URL . '/uploads/' . $thisuser->getVar('user_avatar'));
 //$xoopsLocal = new \XoopsLocal();
 $categories = [];
 if ($count > 0) {
-    /** @var Publisher\Item $item */
+    /** @var Item $item */
     foreach ($items as $item) {
         $catId = $item->categoryid();
         if (!isset($categories[$catId])) {
@@ -74,28 +76,66 @@ if ($count > 0) {
                 'link'        => $item->getCategoryLink(),
             ];
         }
+        //mb start
+        $mainImage = $item->getMainImage();
+        if (empty($mainImage['image_path'])) {
+            $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
+        }
+        // check to see if GD function exist
+        if (!empty($mainImage['image_path']) && !function_exists('imagecreatetruecolor')) {
+            $image = $mainImage['image_path'];
+        } else {
+            $image = PUBLISHER_URL . '/thumb.php?src=' . $mainImage['image_path'] . '&amp;w=100';
+        }
+        //mb end
+        $comments = $item->comments();
+        if ($comments > 0) {
+            //shows 1 comment instead of 1 comm. if comments ==1
+            //langugage file modified accordingly
+            if (1 == $comments) {
+                $comment = '&nbsp;' . _MD_PUBLISHER_ONECOMMENT . '&nbsp;';
+            } else {
+                $comment = '&nbsp;' . $comments . '&nbsp;' . _MD_PUBLISHER_COMMENTS . '&nbsp;';
+            }
+        } else {
+            $comment = '&nbsp;' . _MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
+        }
 
         $categories[$catId]['count_items']++;
         $categories[$catId]['count_hits'] += $item->counter();
         $categories[$catId]['items'][]    = [
-            'title'     => $item->getTitle(),
-            'hits'      => $item->counter(),
-            'link'      => $item->getItemLink(),
-            'published' => $item->getDatesub(_SHORTDATESTRING),
+            'title'      => $item->getTitle(),
+            'cleantitle' => strip_tags($item->getTitle()),
+            'itemurl'    => $item->getItemUrl(),
+            'summary'    => $item->getSummary(),
+            'comment'    => $comment,
+            'cancomment' => $item->cancomment(),
+            'hits'       => $item->counter(),
+            'link'       => $item->getItemLink(),
+            'published'  => $item->getDatesub(),
+            //'published' => $item->getDatesub(_SHORTDATESTRING),
             //'rating'    => $xoopsLocal->number_format((float)$item->rating())
-            'rating'    => $item->rating(),
+            'rating'     => $item->rating(),
+            'image'      => $image,
         ];
     }
 }
 unset($item);
 $xoopsTpl->assign('categories', $categories);
 
-$title = _MD_PUBLISHER_ITEMS_SAME_AUTHOR . ' - ' . $author_name;
+$title = _MD_PUBLISHER_ITEMS_SAME_AUTHOR . ' - ' . $authorName;
 
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new Publisher\Metagen($title, '', $title);
+$publisherMetagen = new Metagen($title, '', $title);
 $publisherMetagen->createMetaTags();
+
+// generate JSON-LD and add to page
+if ($helper->getConfig('generate_jsonld')) {
+    global $xoopsUser, $xoopsConfig, $xoops_url;
+    $jsonld = Jsonld::getAuthoritem($xoopsUser, $xoopsConfig, $xoops_url);
+    echo $jsonld;
+}
 
 require_once $GLOBALS['xoops']->path('footer.php');

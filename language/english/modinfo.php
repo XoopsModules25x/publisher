@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 define('_MI_PUBLISHER_ADMENU1', 'Summary');
 define('_MI_PUBLISHER_ADMENU2', 'Categories');
 define('_MI_PUBLISHER_ADMENU3', 'Articles');
@@ -41,8 +42,8 @@ define('_MI_PUBLISHER_COLLHEADDSC', 'If you set this option to “Yes”, the ca
 define('_MI_PUBLISHER_COMMENTS', 'Control comments at the article level?');
 define('_MI_PUBLISHER_COMMENTSDSC', 'if you set this option to “Yes”, you will see comments only on those items that have their comment checkbox marked. <br><br>Select “No” to have comments managed at the global level (look below under the tag \'Comment rules\'.');
 define('_MI_PUBLISHER_DATEFORMAT', 'Date format:');
-define('_MI_PUBLISHER_DATEFORMATDSC', "Select a display style. Example: 'd-M-Y H:i' translates to '30-Mar-2004 22:35'<br><a href='http://php.net/manual/en/function.date.php/' target='_blank'>Refer to the PHP manual for more display options.</a>");
-define('_MI_PUBLISHER_DEMO_SITE', 'SmartFactory Demo Site');
+define('_MI_PUBLISHER_DATEFORMATDSC', "Select a display style. Example: 'd-M-Y H:i' translates to '30-Mar-2004 22:35'<br><a href='https://php.net/manual/en/function.date.php/' target='_blank'>Refer to the PHP manual for more display options.</a>");
+define('_MI_PUBLISHER_DEMO_SITE', 'Publisher Demo Site');
 define('_MI_PUBLISHER_DEVELOPER_CONTRIBUTOR', 'Contributor(s)');
 define('_MI_PUBLISHER_DEVELOPER_CREDITS', 'Credits');
 define('_MI_PUBLISHER_DEVELOPER_EMAIL', 'Email');
@@ -51,7 +52,7 @@ define('_MI_PUBLISHER_DEVELOPER_WEBSITE', 'Website');
 define('_MI_PUBLISHER_DISCOM', 'Display comment count?');
 define('_MI_PUBLISHER_DISCOMDSC', 'Set to “Yes” to display the comments count in the individual article.');
 define('_MI_PUBLISHER_DISDATECOL', 'Display the \'Published on\' column?');
-define('_MI_PUBLISHER_DISDATECOLDSC', 'When the \'Summary\' display type is selected, select “Yes” to display a “Published on” date in the items table on the index and category page.');
+define('_MI_PUBLISHER_DISDATECOLDSC', 'Select “Yes” to display a “Published on” date in the items table on the Index and Category page.');
 define('_MI_PUBLISHER_DCS', 'Display the category summary?');
 define('_MI_PUBLISHER_DCS_DSC', 'Select “No” to not display the category summary on a category page that has no subcategories.');
 define('_MI_PUBLISHER_DISPLAYTYPE_FULL', 'Full View');
@@ -61,7 +62,7 @@ define('_MI_PUBLISHER_DISPLAYTYPE_SUMMARY', 'Summary View');
 define('_MI_PUBLISHER_DISSBCATDSC', 'Display sub-categories description?');
 define('_MI_PUBLISHER_DISSBCATDSCDSC', 'Select “Yes” to display the description of sub-categories in the index and category page.');
 define('_MI_PUBLISHER_DISTYPE', 'Articles display type:');
-define('_MI_PUBLISHER_DISTYPEDSC', 'if “Summary View” is selected, only the Title, Date and Hits of each item will be displayed in a selected category. If “Full View” is selected, each article will be fully displayed in a selected category.');
+define('_MI_PUBLISHER_DISTYPEDSC', 'Select template to use in Index and Category page.');
 define('_MI_PUBLISHER_FOOTERPRINT', 'Print page footer');
 define('_MI_PUBLISHER_FOOTERPRINTDSC', 'Footer that will be printed for each article');
 define('_MI_PUBLISHER_GLOBAL_ITEM_CATEGORY_CREATED_NOTIFY', 'New category');
@@ -81,7 +82,7 @@ define('_MI_PUBLISHER_GLOBAL_ITEM_SUBMITTED_NOTIFY_SBJ', '[{X_SITENAME}] {X_MODU
 define('_MI_PUBLISHER_HEADERPRINT', 'Print page header');
 define('_MI_PUBLISHER_HEADERPRINTDSC', 'Header that will be printed for each article');
 define('_MI_PUBLISHER_HITSCOL', 'Display the “Hits” column?');
-define('_MI_PUBLISHER_HITSCOLDSC', 'When the “Summary” display type is selected, select “Yes” to display the “Hits” column in the items table on the index and category page.');
+define('_MI_PUBLISHER_HITSCOLDSC', 'Select “Yes” to display the “Hits” column in the items table on the index and category page.');
 define('_MI_PUBLISHER_HLCOLOR', 'Highlight color for keywords');
 define('_MI_PUBLISHER_HLCOLORDSC', 'Color of the keywords highlighting for the search function.');
 define('_MI_PUBLISHER_IMAGENAV', 'Use the image Page Navigation:');
@@ -111,11 +112,11 @@ define('_MI_PUBLISHER_ITEMSTREE', 'Tree block');
 //--/bd
 define('_MI_PUBLISHER_ITEMSNEW', 'New Articles List');
 define('_MI_PUBLISHER_ITEMSPOT', 'In the Spotlight!');
-define('_MI_PUBLISHER_ITEMSRANDOM_ITEM', 'Random item!');
+define('_MI_PUBLISHER_ITEMSRANDOM_ITEM', 'Random item(s)!');
 define('_MI_PUBLISHER_LASTITEM', 'Display last item column?');
 define('_MI_PUBLISHER_LASTITEMDSC', 'Select “Yes” to display the last item in each category in the index and category page.');
 define('_MI_PUBLISHER_LASTITEMS', 'Display the list of newly published articles?');
-define('_MI_PUBLISHER_LASTITEMSDSC', 'Select “Yes” to have the list at the bottom of the first page of the module.');
+define('_MI_PUBLISHER_LASTITEMSDSC', 'Select “Yes” to have the list at the bottom of the index and category page of the module.');
 define('_MI_PUBLISHER_LASTITSIZE', 'Last item size:');
 define('_MI_PUBLISHER_LASTITSIZEDSC', 'Set the maximum size of the title in the Last item column.');
 define('_MI_PUBLISHER_LINKPATH', 'Enable links on the current path:');
@@ -176,14 +177,14 @@ define('_MI_PUBLISHER_USEREALNAME', 'Use the Real Name of users');
 define('_MI_PUBLISHER_USEREALNAMEDSC', 'When displaying a username, use the real name of that user if he has a set his real name.');
 define('_MI_PUBLISHER_VERSION_HISTORY', 'Version History');
 define('_MI_PUBLISHER_WELCOME', 'Display the welcome title and message:');
-define('_MI_PUBLISHER_WELCOMEDSC', 'If this option is set to “Yes”, the module index page will display the title “Welcome in the Publisher of...”, followed by the welcome message defined below. If this option is set to “No”, none of these lines will be displayed.');
+define('_MI_PUBLISHER_WELCOMEDSC', 'If this option is set to “Yes”, the module index page will display the title Welcome message defined below. If this option is set to “No”, none of the Welcome message will be displayed.');
 define('_MI_PUBLISHER_WHOWHEN', 'Display the poster and date?');
 define('_MI_PUBLISHER_WHOWHENDSC', 'Set to “Yes” to display the poster and date information in the individual article.');
 define('_MI_PUBLISHER_PV_TEXT', 'Partial view message');
 define('_MI_PUBLISHER_PV_TEXTDSC', 'Message for articles that allow only partial view.');
 define('_MI_PUBLISHER_PV_TEXT_DEF', 'To view the complete article, you must register.');
 define('_MI_PUBLISHER_SEOMODNAME', 'URL Rewriting module name');
-define('_MI_PUBLISHER_SEOMODNAMEDSC', 'If URL Rewriting is enabled for the module, this is the name of the module that will be used. For example: http://yoursite.com/publisher/...');
+define('_MI_PUBLISHER_SEOMODNAMEDSC', 'If URL Rewriting is enabled for the module, this is the name of the module that will be used. For example: https://yoursite.com/publisher/...');
 define('_MI_PUBLISHER_ARTCOUNT', 'Display articles count');
 define('_MI_PUBLISHER_ARTCOUNTDSC', 'Select “Yes” to display the article count within each category in the category summary table. Please note that the module currently only counts articles within each category and does not count within subcategories.');
 define('_MI_PUBLISHER_LATESTFILES', 'Latest uploaded files');
@@ -195,9 +196,11 @@ define('_MI_PUBLISHER_DATE_TO_DATE', 'Articles from date to date');
 //added in publisher
 define('_MI_PUBLISHER_FORM_STATUS', 'Select default status for submitted article');
 define('_MI_PUBLISHER_FORM_STATUS_DSC', '');
+define('_MI_PUBLISHER_FORM_EDIT_STATUS', 'Select default status for pubished articles that has been edited');
+define('_MI_PUBLISHER_FORM_EDIT_STATUS_DSC', '');
 define('_MI_PUBLISHER_PUBLISHED', 'Published');
 define('_MI_PUBLISHER_OFFLINE', 'Offline');
-define('_MI_PUBLISHER_SUBMITTED', 'Submited');
+define('_MI_PUBLISHER_SUBMITTED', 'Submitted');
 define('_MI_PUBLISHER_REJECTED', 'Rejected');
 define('_MI_PUBLISHER_FORM_ALLOWCOMMENTS', '“Allow comments” set to TRUE');
 define('_MI_PUBLISHER_FORM_ALLOWCOMMENTS_DSC', '');
@@ -240,14 +243,16 @@ define('_MI_PUBLISHER_DISPLAY_SUMMARY_DSC', 'Display index and category with sum
 define('_MI_PUBLISHER_DISPLAY_FULL_DSC', 'Display index and category with full display type');
 define('_MI_PUBLISHER_DISPLAY_WFSECTION_DSC', 'Display index and category in a WF-Section like style');
 define('_MI_PUBLISHER_ITEM_DSC', 'Display item');
-define('_MI_PUBLISHER_ARCHIVE__DSC', 'Article Archives');
+define('_MI_PUBLISHER_ARCHIVE_DSC', 'Article Archives');
 define('_MI_PUBLISHER_SUBMIT_DSC', 'Form to submit an item');
 define('_MI_PUBLISHER_SINGLEITEM_BLOCK_DSC', 'Display a single item in a block');
 define('_MI_PUBLISHER_PRINT_DSC', 'Print page template');
 define('_MI_PUBLISHER_RSS_DSC', 'Display publisher RSS feed');
 define('_MI_PUBLISHER_ADDFILE_DSC', 'Form to add a file to an article');
-define('_MI_PUBLISHER_WARNING_ALPHA',
-       'This module comes as is, without any guarantees whatsoever. This module is ALPHA, meaning it is still under active development. This release is meant for <strong>testing purposes only</strong> and we <strong>strongly</strong> recommend that you do not use it on a live website or in a production environment.');
+define(
+    '_MI_PUBLISHER_WARNING_ALPHA',
+    'This module comes as is, without any guarantees whatsoever. This module is ALPHA, meaning it is still under active development. This release is meant for <strong>testing purposes only</strong> and we <strong>strongly</strong> recommend that you do not use it on a live website or in a production environment.'
+);
 define('_MI_PUBLISHER_PEOPLE_DEVELOPERS', 'Developers');
 define('_MI_PUBLISHER_PEOPLE_TESTERS', 'Testers');
 define('_MI_PUBLISHER_PEOPLE_DOCUMENTERS', 'Documenters');
@@ -304,7 +309,7 @@ define('_MI_PUBLISHER_ORDERBY_HITS', 'Hits DESC');
 
 // The name of this module
 define('_MI_PUBLISHER_NAME', 'Publisher');
-define('_MI_PUBLISHER_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_PUBLISHER_DIRNAME', basename(dirname(__DIR__, 2)));
 define('_MI_PUBLISHER_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_PUBLISHER_BACK_2_ADMIN', 'Back to Administration of ');
 
@@ -326,28 +331,194 @@ define('_MI_PUBLISHER_SHOW_SAMPLE_BUTTON_DESC', 'If yes, the "Add Sample Data" b
 define('_MI_PUBLISHER_MENU_HISTORY', 'History');
 
 //Categories:
-define('_MI_PUBLISHER_CONFCAT_SEO', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---SEO ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SEO_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Preferences for rewriting methods, meta data, etc ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_INDEXCAT', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Index and category pages ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_INDEXCAT_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_CATEGORY', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Category page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_CATEGORY_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_ITEM', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Article page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_ITEM_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_FORMAT', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Format ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_FORMAT_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_PRINT', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Print page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_PRINT_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_OTHERS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Others ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_OTHERS_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_PERMISSIONS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Permissions ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_PERMISSIONS_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_CONF_GROUP_SEO', 'SEO');
+define('_MI_PUBLISHER_CONF_GROUP_SEO_DSC', 'Preferences for rewriting methods, meta data, etc');
+define('_MI_PUBLISHER_CONF_GROUP_INDEXCAT', 'Index and category pages');
+define('_MI_PUBLISHER_CONF_GROUP_INDEXCAT_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_CATEGORY', 'Category page');
+define('_MI_PUBLISHER_CONF_GROUP_CATEGORY_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_ITEM', 'Article page');
+define('_MI_PUBLISHER_CONF_GROUP_ITEM_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_FORMAT', 'Format');
+define('_MI_PUBLISHER_CONF_GROUP_FORMAT_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_PRINT', 'Print page');
+define('_MI_PUBLISHER_CONF_GROUP_PRINT_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_OTHERS', 'Others');
+define('_MI_PUBLISHER_CONF_GROUP_OTHERS_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_PERMISSIONS', 'Permissions');
+define('_MI_PUBLISHER_CONF_GROUP_PERMISSIONS_DSC', '');
 
-define('_MI_PUBLISHER_CONFCAT_INDEX', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Index page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_INDEX_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SUBMIT', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Submit article ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SUBMIT_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Submit article layout and form default values ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SEARCH', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Search page ---</span> ');
-define('_MI_PUBLISHER_CONFCAT_SEARCH_DSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_CONF_GROUP_INDEX', 'Index page');
+define('_MI_PUBLISHER_CONF_GROUP_INDEX_DSC', '');
+define('_MI_PUBLISHER_CONF_GROUP_SUBMIT', 'Submit article');
+define('_MI_PUBLISHER_CONF_GROUP_SUBMIT_DSC', 'Submit article layout and form default values');
+define('_MI_PUBLISHER_CONF_GROUP_SEARCH', 'Search page');
+define('_MI_PUBLISHER_CONF_GROUP_SEARCH_DSC', '');
+
+define('_MI_PUBLISHER_CONF_GROUP_RATING_VOTING', 'Rating/Voting');
+define('_MI_PUBLISHER_CONF_GROUP_RATING_VOTING_DSC', 'Set the preferred type of Rating/Voting for the Articles');
 
 define('_MI_PUBLISHER_ADMENU5', 'Blocks Admin');
+
+// 2019-05-31 Goffy
+define('_MI_PUBLISHER_IMGCAT_ALL', 'All categories');
+define('_MI_PUBLISHER_IMGCAT', 'Image categories');
+define('_MI_PUBLISHER_IMGCAT_DSC', 'Please select which cateories from XOOPS Image Manager should be used for adding images to your articles');
+
+//Config Categories Styling:
+define('_MI_PUBLISHER_CONFIG_STYLING_START', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;"> :: ');
+define('_MI_PUBLISHER_CONFIG_STYLING_END', ' ::</span> ');
+
+define('_MI_PUBLISHER_CONFIG_STYLING_DESC_START', '<span style="color: #FF0000; font-size: Small;">');
+define('_MI_PUBLISHER_CONFIG_STYLING_DESC_END', '</span> ');
+
+//Styled Group Headings in Preferences
+define('_MI_PUBLISHER_CONFCAT_SEO', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_SEO . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_SEO_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_SEO_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_INDEXCAT', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_INDEXCAT . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_INDEXCAT_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_INDEXCAT_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_CATEGORY', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_CATEGORY . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_CATEGORY_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_CATEGORY_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_ITEM', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_ITEM . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_ITEM_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_ITEM_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_FORMAT', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_FORMAT . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_FORMAT_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_FORMAT_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_PRINT', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_PRINT . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_PRINT_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_PRINT_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_OTHERS', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_OTHERS . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_OTHERS_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_OTHERS_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_PERMISSIONS', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_PERMISSIONS . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_PERMISSIONS_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_PERMISSIONS_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+
+define('_MI_PUBLISHER_CONFCAT_INDEX', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_INDEX . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_INDEX_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_INDEX_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_SUBMIT', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_SUBMIT . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_SUBMIT_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_SUBMIT_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_SEARCH', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_SEARCH . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_CONFCAT_SEARCH_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_SEARCH_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+//Rating/Voting
+define('_MI_PUBLISHER_RATING_VOTING', _MI_PUBLISHER_CONFIG_STYLING_START . _MI_PUBLISHER_CONF_GROUP_RATING_VOTING . _MI_PUBLISHER_CONFIG_STYLING_END);
+define('_MI_PUBLISHER_RATING_VOTING_DSC', _MI_PUBLISHER_CONFIG_STYLING_DESC_START . _MI_PUBLISHER_CONF_GROUP_RATING_VOTING_DSC . _MI_PUBLISHER_CONFIG_STYLING_END);
+
+// Lio-MJ
+define('_MI_PUBLISHER_WHO', 'Display the poster?');
+define('_MI_PUBLISHER_WHODSC', 'Set to “Yes” to display the poster information in the individual article.');
+define('_MI_PUBLISHER_WHEN', 'Display the date?');
+define('_MI_PUBLISHER_WHENDSC', 'Set to “Yes” to display the date information in the individual article.');
+define('_MI_PUBLISHER_HITS', 'Display the Hits?');
+define('_MI_PUBLISHER_HITSDSC', 'Set to “Yes” to display the hits information in the individual article.');
+define('_MI_PUBLISHER_PRINT', 'Display the Print Button?');
+define('_MI_PUBLISHER_PRINTDSC', 'Set to “Yes” to display the print button information in the individual article.');
+define('_MI_PUBLISHER_ITEMCATEGORY', 'Display the category of the article?');
+define('_MI_PUBLISHER_ITEMCATEGORYDSC', 'Set to “Yes” to display the category information in the individual article.');
+define('_MI_PUBLISHER_MAINIMAGE', 'Display the Main Image ?');
+define('_MI_PUBLISHER_MAINIMAGEDSC', 'Select “Yes” to display the Main Image in the items table on the index and category page.');
+define('_MI_PUBLISHER_DEFAULTIMAGE', 'Display the default image when no image is selected');
+define('_MI_PUBLISHER_DEFAULTIMAGEDSC', 'Select “Yes” to display the Default Image in the article page when no image is selected.');
+
+define('_MI_PUBLISHER_SUMMARY', 'Display the Article Summary');
+define('_MI_PUBLISHER_SUMMARYDSC', 'Select “Yes” to display the Article Summary on the index and category page.');
+define('_MI_PUBLISHER_READMORE', 'Display the Read Full Article Link');
+define('_MI_PUBLISHER_READMOREDSC', 'Select “Yes” to display the Read Full Article Link on the index and category page.');
+define('_MI_PUBLISHER_ARTICLECATEGORY', 'Display the category of the article?');
+define('_MI_PUBLISHER_ARTICLECATEGORYDSC', 'Select “Yes” to display the category of the article on the index and category page.');
+define('_MI_PUBLISHER_POSTER', 'Display the Poster');
+define('_MI_PUBLISHER_POSTERDSC', 'Select “Yes” to display the poster of the article on the index and category page.');
+define('_MI_PUBLISHER_COMMENTLINK', 'Display comment count?');
+define('_MI_PUBLISHER_COMMENTLINKDSC', 'Select “Yes” to display the comment count on the index and category page.');
+
+define('_MI_PUBLISHER_EMAILLINK', 'Display the Email Link');
+define('_MI_PUBLISHER_CONFCAT_INDEXCATTEMPLATE', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Latest Published Articles in Index and Category Page ---</span> ');
+define('_MI_PUBLISHER_CONFCAT_INDEXCATTEMPLATEDSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_ITEM_ALLARTICLE', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---All Latest Published Articles in Article Page ---</span> ');
+define('_MI_PUBLISHER_ITEM_ALLARTICLEDSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_ITEM_DISDATECOLDSC', 'Select “Yes” to display date in the latest published items on the article page.');
+define('_MI_PUBLISHER_ITEM_HITSCOLDSC', 'Select “Yes” to display the “Hits” column in the latest published items on the article page.');
+define('_MI_PUBLISHER_ITEM_MAINIMAGEDSC', 'Select “Yes” to display the Main Image in the latest published items on the article page.');
+define('_MI_PUBLISHER_ITEM_SUMMARYDSC', 'Select “Yes” to display the Article Summary in the latest published items on the article page.');
+define('_MI_PUBLISHER_ITEM_READMOREDSC', 'Select “Yes” to display the Read Full Article Link in the latest published items on the article page.');
+define('_MI_PUBLISHER_ITEM_ARTICLECATEGORYDSC', 'Select “Yes” to display the category of the article in the latest published items on the article page.');
+define('_MI_PUBLISHER_ITEM_POSTERDSC', 'Select “Yes” to display the poster of the article in the latest published items on the article page.');
+define('_MI_PUBLISHER_ITEM_COMMENTLINKDSC', 'Select “Yes” to display the comment count in the latest published items on the article page.');
+
+define('_MI_PUBLISHER_CONFCAT_ARCHIVE', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Archive Page ---<span> ');
+define('_MI_PUBLISHER_CONFCAT_ARCHIVEDSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_ARCHIVE_EMAILLINKDSC', 'Select “Yes” to display the link on the archive page.');
+define('_MI_PUBLISHER_ARCHIVE_DISDATECOLDSC', 'Select “Yes” to display date in the archive page');
+define('_MI_PUBLISHER_ARCHIVE_HITSCOLDSC', 'Select “Yes” to display the “Hits” column in the archive page');
+define('_MI_PUBLISHER_ARCHIVE_ARTICLECATEGORYDSC', 'Select “Yes” to display the category of the article in the archive page');
+define('_MI_PUBLISHER_ARCHIVE_POSTERDSC', 'Select “Yes” to display the poster of the article in the archive page');
+define('_MI_PUBLISHER_ARCHIVE_COMMENTDSC', 'Select “Yes” to display the comment count in the archive page');
+define('_MI_PUBLISHER_ARCHIVE_PRINTLINKDSC', 'Select “Yes” to display the print button in the archive page');
+define('_MI_PUBLISHER_ARCHIVE_PDFLINKDSC', 'Select “Yes” to display the pdf icon in the archive page<br>Make sure you have the TCPDF library installed. Please read the "readme.txt" file in /docs folder for info how to get it.');
+define('_MI_PUBLISHER_ARCHIVE_SUMMARYDSC', 'Select “Yes” to display the article summary in the archive page');
+define('_MI_PUBLISHER_ARCHIVE_MAINIMAGEDSC', 'Select “Yes” to display the article main image in the archive page');
+
+define('_MI_PUBLISHER_CONFCAT_AUTHORPAGE', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Item by Same Author Page ---<span> ');
+define('_MI_PUBLISHER_CONFCAT_AUTHORPAGEDSC', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- ---</span> ');
+define('_MI_PUBLISHER_AUTHORPAGE_HITSDSC', 'Select “Yes” to display the “Hits" in the Item by Same Author page');
+define('_MI_PUBLISHER_AUTHORPAGE_IMAGEDSC', 'Select “Yes” to display the main image of article in the Item by Same Author page');
+define('_MI_PUBLISHER_AUTHORPAGE_COMMENTDSC', 'Select “Yes” to display the comment count in the Item by Same Author page');
+define('_MI_PUBLISHER_AUTHORPAGE_SUMMARYDSC', 'Select “Yes” to display the article summary in the Item by Same Author page');
+define('_MI_PUBLISHER_DISPRATING', 'Display Rating');
+define('_MI_PUBLISHER_AUTHORPAGE_RATINGDSC', 'Select “Yes” to display the rating in the Item by Same Author page');
+
+define('_MI_PUBLISHER_ADMENU7', 'Trello');
+define('_MI_PUBLISHER_TRELLO_DSC', 'Trello Management');
+
+// Rating bars
+\define('_MI_PUBLISHER_RATINGBAR_GROUPS', 'Groups with rating rights');
+\define('_MI_PUBLISHER_RATINGBAR_GROUPS_DESC', 'Select groups which should have the right to rate');
+\define('_MI_PUBLISHER_RATINGBARS', 'Select type of rating/voting');
+\define('_MI_PUBLISHER_RATINGBARS_DESC', 'Define whether rating should be possible and which type of rating should be used');
+\define('_MI_PUBLISHER_RATING_NONE', 'Do not use rating');
+\define('_MI_PUBLISHER_RATING_5STARS', 'Rating with 5 stars');
+\define('_MI_PUBLISHER_RATING_10STARS', 'Rating with 10 stars');
+\define('_MI_PUBLISHER_RATING_LIKES', 'Rating with likes and dislikes');
+\define('_MI_PUBLISHER_RATING_10NUM', 'Rating with 10 points');
+\define('_MI_PUBLISHER_RATING_REACTION', 'Rating with Reactions');
+
+// Config
+\define('_MI_PUBLISHER_EDITOR_ADMIN', 'Editor admin');
+\define('_MI_PUBLISHER_EDITOR_ADMIN_DESC', 'Select the editor which should be used in admin area for text area fields');
+\define('_MI_PUBLISHER_EDITOR_USER', 'Editor user');
+\define('_MI_PUBLISHER_EDITOR_USER_DESC', 'Select the editor which should be used in user area for text area fields');
+\define('_MI_PUBLISHER_EDITOR_MAXCHAR', 'Text max characters');
+\define('_MI_PUBLISHER_EDITOR_MAXCHAR_DESC', 'Max characters for showing text of a textarea or editor field in admin area');
+\define('_MI_PUBLISHER_KEYWORDS', 'Keywords');
+\define('_MI_PUBLISHER_KEYWORDS_DESC', 'Insert here the keywords (separate by comma)');
+\define('_MI_PUBLISHER_SIZE_MB', 'MB');
+\define('_MI_PUBLISHER_MAXSIZE_IMAGE', 'Max size image');
+\define('_MI_PUBLISHER_MAXSIZE_IMAGE_DESC', 'Define the max size for uploading images');
+\define('_MI_PUBLISHER_MIMETYPES_IMAGE', 'Mime types image');
+\define('_MI_PUBLISHER_MIMETYPES_IMAGE_DESC', 'Define the allowed mime types for uploading images');
+\define('_MI_PUBLISHER_MAXWIDTH_IMAGE', 'Max width image');
+\define('_MI_PUBLISHER_MAXWIDTH_IMAGE_DESC', 'Set the max width to which uploaded images should be scaled (in pixel)<br>0 means, that images keeps the original size. <br>If an image is smaller than maximum value then the image will be not enlarge, it will be save in original width.');
+\define('_MI_PUBLISHER_MAXHEIGHT_IMAGE', 'Max height image');
+\define('_MI_PUBLISHER_MAXHEIGHT_IMAGE_DESC', 'Set the max height to which uploaded images should be scaled (in pixel)<br>0 means, that images keeps the original size. <br>If an image is smaller than maximum value then the image will be not enlarge, it will be save in original height');
+\define('_MI_PUBLISHER_USE_TAG', 'Use TAG');
+\define('_MI_PUBLISHER_USE_TAG_DESC', 'If you use tag module, check this option to yes');
+\define('_MI_PUBLISHER_NUMB_COL', 'Number Columns');
+\define('_MI_PUBLISHER_NUMB_COL_DESC', 'Number Columns to View.');
+\define('_MI_PUBLISHER_DIVIDEBY', 'Divide By');
+\define('_MI_PUBLISHER_DIVIDEBY_DESC', 'Divide by columns number.');
+\define('_MI_PUBLISHER_TABLE_TYPE', 'Table Type');
+\define('_MI_PUBLISHER_TABLE_TYPE_DESC', 'Table Type is the bootstrap html table.');
+\define('_MI_PUBLISHER_PANEL_TYPE', 'Panel Type');
+\define('_MI_PUBLISHER_PANEL_TYPE_DESC', 'Panel Type is the bootstrap html div.');
+\define('_MI_PUBLISHER_IDPAYPAL', 'Paypal ID');
+\define('_MI_PUBLISHER_IDPAYPAL_DESC', 'Insert here your PayPal ID for donactions.');
+\define('_MI_PUBLISHER_ADVERTISE', 'Advertisement Code');
+\define('_MI_PUBLISHER_ADVERTISE_DESC', 'Insert here the advertisement code');
+\define('_MI_PUBLISHER_MAINTAINEDBY', 'Maintained By');
+\define('_MI_PUBLISHER_MAINTAINEDBY_DESC', 'Allow url of support site or community');
+\define('_MI_PUBLISHER_BOOKMARKS', 'Social Bookmarks');
+\define('_MI_PUBLISHER_BOOKMARKS_DESC', 'Show Social Bookmarks in the single page');
+\define('_MI_PUBLISHER_FACEBOOK_COMMENTS', 'Facebook comments');
+\define('_MI_PUBLISHER_FACEBOOK_COMMENTS_DESC', 'Allow Facebook comments in the single page');
+\define('_MI_PUBLISHER_DISQUS_COMMENTS', 'Disqus comments');
+\define('_MI_PUBLISHER_DISQUS_COMMENTS_DESC', 'Allow Disqus comments in the single page');
+
+//VOTING
+\define('_MI_PUBLISHER_ALLOW_REPEAT_RATING', 'Allow Repeat-rating');
+\define('_MI_PUBLISHER_ALLOW_REPEAT_RATING_DSC', 'Should a user be able to rate repeatedly many times, or only once?');

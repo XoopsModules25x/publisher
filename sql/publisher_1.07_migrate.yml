@@ -1,0 +1,261 @@
+publisher_categories:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: categoryid
+            attributes: ' int(11)  NOT NULL auto_increment'
+        -
+            name: parentid
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: name
+            attributes: ' varchar(100)  NOT NULL  DEFAULT '''' '
+        -
+            name: description
+            attributes: ' text '
+        -
+            name: image
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: total
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: weight
+            attributes: ' int(11)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: created
+            attributes: ' int(11)  NOT NULL  DEFAULT ''1033141070'' '
+        -
+            name: template
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: header
+            attributes: ' text '
+        -
+            name: meta_keywords
+            attributes: ' text '
+        -
+            name: meta_description
+            attributes: ' text '
+        -
+            name: short_url
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: moderator
+            attributes: ' int(6)  NOT NULL  DEFAULT ''0'' '
+    keys:
+        parentid:
+            columns: parentid
+            unique: false
+        PRIMARY:
+            columns: categoryid
+            unique: true
+publisher_items:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: itemid
+            attributes: ' int(11)  NOT NULL auto_increment'
+        -
+            name: categoryid
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: title
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: subtitle
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: summary
+            attributes: ' text '
+        -
+            name: body
+            attributes: ' longtext  NOT NULL '
+        -
+            name: uid
+            attributes: ' int(6)  DEFAULT ''0'' '
+        -
+            name: author_alias
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: datesub
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: dateexpire
+            attributes: ' int(11)  DEFAULT ''0'' '
+        -
+            name: status
+            attributes: ' int(1)  NOT NULL  DEFAULT ''-1'' '
+        -
+            name: image
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: images
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: counter
+            attributes: ' int(8) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: rating
+            attributes: ' double(6,4)  NOT NULL  DEFAULT ''0.0000'' '
+        -
+            name: votes
+            attributes: ' int(11) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: weight
+            attributes: ' int(11)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: dohtml
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: dosmiley
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: doxcode
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: doimage
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: dobr
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: cancomment
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: comments
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: notifypub
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: meta_keywords
+            attributes: ' text '
+        -
+            name: meta_description
+            attributes: ' text '
+        -
+            name: short_url
+            attributes: ' varchar(255) '
+        -
+            name: item_tag
+            attributes: ' text '
+    keys:
+        categoryid:
+            columns: categoryid
+            unique: false
+        PRIMARY:
+            columns: itemid
+            unique: true
+        status:
+            columns: status
+            unique: false
+publisher_files:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: fileid
+            attributes: ' int(11)  NOT NULL auto_increment'
+        -
+            name: itemid
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: name
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: description
+            attributes: ' text '
+        -
+            name: filename
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: mimetype
+            attributes: ' varchar(64)  NOT NULL  DEFAULT '''' '
+        -
+            name: uid
+            attributes: ' int(6)  DEFAULT ''0'' '
+        -
+            name: datesub
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: status
+            attributes: ' int(1)  NOT NULL  DEFAULT ''-1'' '
+        -
+            name: notifypub
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: counter
+            attributes: ' int(8) unsigned  NOT NULL  DEFAULT ''0'' '
+    keys:
+        PRIMARY:
+            columns: fileid
+            unique: true
+publisher_meta:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: metakey
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
+        -
+            name: metavalue
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+    keys:
+        PRIMARY:
+            columns: metakey
+            unique: true
+publisher_mimetypes:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: mime_id
+            attributes: ' int(11)  NOT NULL auto_increment'
+        -
+            name: mime_ext
+            attributes: ' varchar(60)  NOT NULL  DEFAULT '''' '
+        -
+            name: mime_types
+            attributes: ' text '
+        -
+            name: mime_name
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: mime_admin
+            attributes: ' int(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: mime_user
+            attributes: ' int(1)  NOT NULL  DEFAULT ''0'' '
+    keys:
+        mime_id:
+            columns: mime_id
+            unique: false
+publisher_rating:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: ratingid
+            attributes: ' int(11)  NOT NULL auto_increment'
+        -
+            name: itemid
+            attributes: ' int(11)  NOT NULL '
+        -
+            name: uid
+            attributes: ' int(11)  NOT NULL '
+        -
+            name: rate
+            attributes: ' int(1)  NOT NULL '
+        -
+            name: date
+            attributes: ' int(11)  NOT NULL '
+        -
+            name: ip
+            attributes: ' varchar(60)  NOT NULL  DEFAULT '''' '
+    keys:
+        ip:
+            columns: ip
+            unique: false
+        PRIMARY:
+            columns: ratingid
+            unique: true
+        uid:
+            columns: uid
+            unique: false

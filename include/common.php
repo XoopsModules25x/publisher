@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -12,28 +12,35 @@
 /**
  *  Publisher class
  *
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Include
- * @subpackage      Functions
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher;
+use Xmf\Module\Admin;
+use XoopsModules\Publisher\{
+    Common\Configurator,
+    Helper,
+    Utility
+};
 
-$moduleDirName      = basename(dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+/** @var Helper $helper */
+/** @var Utility $utility */
+$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-/** @var \XoopsDatabase $db */
-/** @var \XoopsModules\Publisher\Helper $helper */
-/** @var \XoopsModules\Publisher\Utility $utility */
+require \dirname(__DIR__) . '/preloads/autoloader.php';
+
+/** @var \XoopsMySQLDatabase $db */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
-$helper  = \XoopsModules\Publisher\Helper::getInstance();
-$utility = new \XoopsModules\Publisher\Utility();
-//$configurator = new Publisher\Common\Configurator();
+$helper  = Helper::getInstance();
+$utility = new Utility();
 
 $helper->loadLanguage('common');
+
+$configurator = new Configurator();
+$icons        = $configurator->icons;
 
 //$utilities                = new Publisher\Utilities();
 //$brokenHandler            = new Publisher\BrokenHandler($db);
@@ -93,27 +100,27 @@ global $publisherIsAdmin;
 // Load only if module is installed
 if (is_object($helper->getModule())) {
     // Find if the user is admin of the module
-    $publisherIsAdmin = Publisher\Utility::userIsAdmin();
+    $publisherIsAdmin = Utility::userIsAdmin();
     // get current page
-    $publisherCurrentPage = Publisher\Utility::getCurrentPage();
+    $publisherCurrentPage = Utility::getCurrentPage();
 }
 
-$pathIcon16 = Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32 = Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16 = Admin::iconUrl('', '16');
+$pathIcon32 = Admin::iconUrl('', '32');
 //$pathModIcon16 = $helper->getModule()->getInfo('modicons16');
 //$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
-$icons = [
-    'edit'    => "<img src='" . $pathIcon16 . "/edit.png'  alt=" . _EDIT . "' align='middle'>",
-    'delete'  => "<img src='" . $pathIcon16 . "/delete.png' alt='" . _DELETE . "' align='middle'>",
-    'clone'   => "<img src='" . $pathIcon16 . "/editcopy.png' alt='" . _CLONE . "' align='middle'>",
-    'preview' => "<img src='" . $pathIcon16 . "/view.png' alt='" . _PREVIEW . "' align='middle'>",
-    'print'   => "<img src='" . $pathIcon16 . "/printer.png' alt='" . _CLONE . "' align='middle'>",
-    'pdf'     => "<img src='" . $pathIcon16 . "/pdf.png' alt='" . _CLONE . "' align='middle'>",
-    'add'     => "<img src='" . $pathIcon16 . "/add.png' alt='" . _ADD . "' align='middle'>",
-    '0'       => "<img src='" . $pathIcon16 . "/0.png' alt='" . 0 . "' align='middle'>",
-    '1'       => "<img src='" . $pathIcon16 . "/1.png' alt='" . 1 . "' align='middle'>",
-];
+//$icons = [
+//    'edit'    => "<img src='" . $pathIcon16 . "/edit.png'  alt=" . _EDIT . "' align='middle'>",
+//    'delete'  => "<img src='" . $pathIcon16 . "/delete.png' alt='" . _DELETE . "' align='middle'>",
+//    'clone'   => "<img src='" . $pathIcon16 . "/editcopy.png' alt='" . _CLONE . "' align='middle'>",
+//    'preview' => "<img src='" . $pathIcon16 . "/view.png' alt='" . _PREVIEW . "' align='middle'>",
+//    'print'   => "<img src='" . $pathIcon16 . "/printer.png' alt='" . _CLONE . "' align='middle'>",
+//    'pdf'     => "<img src='" . $pathIcon16 . "/pdf.png' alt='" . _CLONE . "' align='middle'>",
+//    'add'     => "<img src='" . $pathIcon16 . "/add.png' alt='" . _ADD . "' align='middle'>",
+//    '0'       => "<img src='" . $pathIcon16 . "/0.png' alt='" . 0 . "' align='middle'>",
+//    '1'       => "<img src='" . $pathIcon16 . "/1.png' alt='" . 1 . "' align='middle'>",
+//];
 
 $debug = false;
 
@@ -125,7 +132,7 @@ if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)
     $GLOBALS['xoopsTpl'] = new \XoopsTpl();
 }
 
-$GLOBALS['xoopsTpl']->assign('mod_url', XOOPS_URL . '/modules/' . $moduleDirName);
+$GLOBALS['xoopsTpl']->assign('mod_url', $helper->url());
 // Local icons path
 if (is_object($helper->getModule())) {
     $pathModIcon16 = $helper->getModule()->getInfo('modicons16');
@@ -133,4 +140,12 @@ if (is_object($helper->getModule())) {
 
     $GLOBALS['xoopsTpl']->assign('pathModIcon16', XOOPS_URL . '/modules/' . $moduleDirName . '/' . $pathModIcon16);
     $GLOBALS['xoopsTpl']->assign('pathModIcon32', $pathModIcon32);
+}
+
+
+xoops_loadLanguage('main', $moduleDirName);
+if (class_exists('D3LanguageManager')) {
+    require_once XOOPS_TRUST_PATH . "/libs/altsys/class/D3LanguageManager.class.php";
+    $langman = D3LanguageManager::getInstance();
+    $langman->read('main.php', $moduleDirName);
 }

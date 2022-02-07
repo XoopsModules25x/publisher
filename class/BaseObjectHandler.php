@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -15,26 +15,19 @@ namespace XoopsModules\Publisher;
 /**
  *  Publisher class
  *
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
-use XoopsModules\Publisher;
-
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * BaseObjectHandler class
  *
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Nazar Aziz <nazar@panthersoftware.com>
@@ -53,12 +46,11 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      *
      * @var string
      */
-    protected $idfield = 'id';
+    protected $idfield          = 'id';
+    public    $helper           = null;
+    public    $publisherIsAdmin = null;
 
-    /**
-     * @param \XoopsDatabase|null $db
-     */
-    public function init(\XoopsDatabase $db = null)
+    public function init(\XoopsDatabase $db = null): void
     {
         $this->db = $db;
     }
@@ -73,7 +65,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * create a new  object
      *
-     * @param  bool $isNew
+     * @param bool $isNew
      * @return \XoopsObject
      */
     public function create($isNew = true)
@@ -84,9 +76,9 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve an object from the database, based on. use in child classes
      *
-     * @param int   $id ID
+     * @param int|null   $id ID
      *
-     * @param  null $fields
+     * @param array|null $fields
      * @return mixed object if id exists, false if not
      */
     public function get($id = null, $fields = null)
@@ -111,14 +103,13 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
-     *                                   conditions to be met
-     * @param bool             $idAsKey  Should the department ID be used as array key
+     * @param \Criteria|\CriteriaElement|null $criteria conditions to be met
+     * @param bool                            $idAsKey  Should the department ID be used as array key
      *
-     * @param  bool            $asObject
+     * @param bool                            $asObject
      * @return array array of objects
      */
-    public function &getObjects(\CriteriaElement $criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
+    public function &getObjects($criteria = null, $idAsKey = false, $asObject = true) //&getObjects($criteria = null, $idAsKey = false)
     {
         $ret   = [];
         $limit = $start = 0;
@@ -136,10 +127,10 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
         // Add each returned record to the result array
         while (false !== ($myrow = $this->db->fetchArray($result))) {
             $obj = new $this->className($myrow);
-            if (!$idAsKey) {
-                $ret[] = $obj;
-            } else {
+            if ($idAsKey) {
                 $ret[$obj->getVar($id)] = $obj;
+            } else {
+                $ret[] = $obj;
             }
             unset($obj);
         }
@@ -148,15 +139,14 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @param bool         $force
+     * @param bool $force
      *
      * @return bool
      */
     public function insert(\XoopsObject $obj, $force = false)// insert($obj, $force = false)
     {
         // Make sure object is of correct type
-        if (0 != strcasecmp($this->className, get_class($obj))) {
+        if (0 != \strcasecmp($this->className, \get_class($obj))) {
             return false;
         }
         // Make sure object needs to be stored in DB
@@ -176,7 +166,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
             $sql = $this->updateQuery($obj);
         }
         // Update DB
-        if (false !== $force) {
+        if ($force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -197,14 +187,14 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Create a "select" SQL query
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link \CriteriaElement} to match
+     * @param \Criteria|null $criteria {@link \Criteria} to match
      *
      * @return string SQL query
      */
-    private function selectQuery(\CriteriaElement $criteria = null)
+    private function selectQuery(\Criteria $criteria = null)
     {
-        $sql = sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        $sql = \sprintf('SELECT * FROM `%s`', $this->db->prefix($this->dbtable));
+        if (null !== $criteria && $criteria instanceof \Criteria) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . '
@@ -218,21 +208,20 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * count objects matching a criteria
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
-     *                                                  to match
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement}                                                  to match
      *
      * @return int count of objects
      */
     public function getCount(\CriteriaElement $criteria = null) //getCount($criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->dbtable);
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && ($criteria instanceof \Criteria || $criteria instanceof \CriteriaCompo)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {
             return 0;
         }
-        list($count) = $this->db->fetchRow($result);
+        [$count] = $this->db->fetchRow($result);
 
         return $count;
     }
@@ -248,11 +237,11 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
      */
     public function delete(\XoopsObject $obj, $force = false) //delete($obj, $force = false)
     {
-        if (0 != strcasecmp($this->className, get_class($obj))) {
+        if (0 != \strcasecmp($this->className, \get_class($obj))) {
             return false;
         }
         $sql = $this->deleteQuery($obj);
-        if (false !== $force) {
+        if ($force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -267,16 +256,16 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * delete department matching a set of conditions
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement}
      *
-     * @param  bool                           $force
-     * @param  bool                           $asObject
+     * @param bool                  $force
+     * @param bool                  $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
     {
         $sql = 'DELETE FROM ' . $this->db->prefix($this->dbtable);
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && ($criteria instanceof \Criteria || $criteria instanceof \CriteriaCompo)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {
@@ -289,18 +278,18 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Assign a value to 1 field for tickets matching a set of conditions
      *
-     * @param string                          $fieldname
-     * @param string                          $fieldvalue
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link \CriteriaElement}
+     * @param string                        $fieldname
+     * @param string                        $fieldvalue
+     * @param \Criteria|\CriteriaCompo|null $criteria
      *
-     * @param  bool                           $force
+     * @param bool                          $force
      * @return bool FALSE if update failed
      */
-    public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null, $force = false) //updateAll($fieldname, $fieldvalue, $criteria = null)
+    public function updateAll($fieldname, $fieldvalue, $criteria = null, $force = false) //updateAll($fieldname, $fieldvalue, $criteria = null)
     {
-        $setClause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
+        $setClause = \is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql       = 'UPDATE ' . $this->db->prefix($this->dbtable) . ' SET ' . $setClause;
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && ($criteria instanceof \Criteria || $criteria instanceof \CriteriaCompo)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {
@@ -311,7 +300,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      *
      * @return bool
      */
@@ -321,7 +310,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      *
      * @return bool|string
      */
@@ -331,7 +320,7 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      *
      * @return bool
      */
@@ -343,7 +332,6 @@ class BaseObjectHandler extends \XoopsPersistableObjectHandler
     /**
      * Singleton - prevent multiple instances of this class
      *
-     * @param \XoopsDatabase|null $db
      *
      * @return \XoopsObject {@link pagesCategoryHandler}
      */

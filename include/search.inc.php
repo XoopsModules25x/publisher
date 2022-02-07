@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,22 +10,21 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Include
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\ItemHandler;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
+/** @var ItemHandler $itemHandler */
 require_once __DIR__ . '/common.php';
 
 /**
- * @param string|array $queryArray
+ * @param array        $queryArray
  * @param              $andor
  * @param              $limit
  * @param              $offset
@@ -39,22 +38,25 @@ require_once __DIR__ . '/common.php';
  */
 function publisher_search($queryArray, $andor, $limit, $offset, $userid, $categories = [], $sortby = 0, $searchin = '', $extra = '')
 {
-    /** @var Publisher\Helper $helper */
-    $helper = Publisher\Helper::getInstance();
-    $ret    = $item = [];
-    if ('' == $queryArray || (is_array($queryArray) && 0 === count($queryArray))) {
-        $hightlightKey = '';
-    } else {
-        $keywords      = implode('+', $queryArray);
-        $hightlightKey = '&amp;keywords=' . $keywords;
+    $helper        = Helper::getInstance();
+    $ret           = $item = [];
+    $hightlightKey = '';
+
+    if (is_array($queryArray)) {
+        if (0 === count($queryArray)) {
+            $hightlightKey = '';
+        } else {
+            $keywords      = implode('+', $queryArray);
+            $hightlightKey = '&amp;keywords=' . $keywords;
+        }
     }
-    /** @var Publisher\ItemHandler $itemHandler */
+
     $itemHandler      = $helper->getHandler('Item');
     $itemsObjs        = $itemHandler->getItemsFromSearch($queryArray, $andor, $limit, $offset, $userid, $categories, $sortby, $searchin, $extra);
     $withCategoryPath = $helper->getConfig('search_cat_path');
     //xoops_load("xoopslocal");
     $usersIds = [];
-    /** @var Publisher\Item $obj */
+    /** @var Item $obj */
     if (0 !== count($itemsObjs)) {
         foreach ($itemsObjs as $obj) {
             $item['image'] = 'assets/images/item_icon.gif';
@@ -70,12 +72,12 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
             //"Fulltext search/highlight
             $text          = $obj->getBody();
             $sanitizedText = '';
-            $textLower     = mb_strtolower($text);
+            $textLower     = \mb_strtolower($text);
             $queryArray    = is_array($queryArray) ? $queryArray : [$queryArray];
 
             if ('' != $queryArray[0] && count($queryArray) > 0) {
                 foreach ($queryArray as $query) {
-                    $pos           = mb_stripos($textLower, $query); //xoops_local("strpos", $textLower, mb_strtolower($query));
+                    $pos           = \mb_stripos($textLower, $query); //xoops_local("strpos", $textLower, \mb_strtolower($query));
                     $start         = max($pos - 100, 0);
                     $length        = mb_strlen($query) + 200; //xoops_local("strlen", $query) + 200;
                     $context       = $obj->highlight(xoops_substr($text, $start, $length, ' [...]'), $query);
@@ -83,11 +85,12 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
                 }
             }
             //End of highlight
-            $item['text']          = $sanitizedText;
-            $item['author']        = $obj->author_alias();
-            $item['datesub']       = $obj->getDatesub($helper->getConfig('format_date'));
-            $usersIds[$obj->uid()] = $obj->uid();
-            $ret[]                 = $item;
+            $item['text']      = $sanitizedText;
+            $item['author']    = $obj->author_alias();
+            $item['datesub']   = $obj->getDatesub($helper->getConfig('format_date'));
+            $objUid            = $obj->uid();
+            $usersIds[$objUid] = $objUid;
+            $ret[]             = $item;
             unset($item, $sanitizedText);
         }
     }
@@ -95,7 +98,7 @@ function publisher_search($queryArray, $andor, $limit, $offset, $userid, $catego
     $usersNames = \XoopsUserUtility::getUnameFromIds($usersIds, $helper->getConfig('format_realname'), true);
     foreach ($ret as $key => $item) {
         if ('' == $item['author']) {
-            $ret[$key]['author'] = isset($usersNames[$item['uid']]) ? $usersNames[$item['uid']] : '';
+            $ret[$key]['author'] = $usersNames[$item['uid']] ?? '';
         }
     }
     unset($usersNames, $usersIds);

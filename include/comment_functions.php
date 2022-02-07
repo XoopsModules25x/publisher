@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,19 +10,18 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Include
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  *
  * @param $itemId
  * @param $totalNum
  */
-function publisher_com_update($itemId, $totalNum)
+function publisher_com_update($itemId, $totalNum): void
 {
     global $xoopsModule;
+    /** @var \XoopsMySQLDatabase $db */
     $db  = \XoopsDatabaseFactory::getDatabaseConnection();
     $sql = 'UPDATE ' . $db->prefix($xoopsModule->getVar('dirname', 'n') . '_items') . ' SET comments = ' . $totalNum . ' WHERE itemid = ' . $itemId;
     $db->query($sql);
@@ -31,7 +30,7 @@ function publisher_com_update($itemId, $totalNum)
 /**
  * @param $comment
  */
-function publisher_com_approve(&$comment)
+function publisher_com_approve(&$comment): void
 {
     // notification mail here
 }

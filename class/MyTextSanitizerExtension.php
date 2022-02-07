@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -13,18 +13,13 @@ namespace XoopsModules\Publisher;
  */
 
 /**
- * @copyright         The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license           http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package           Publisher
- * @subpackage        Include
+ * @copyright         XOOPS Project (https://xoops.org)
+ * @license           https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since             1.0
  * @author            trabis <lusopoemas@gmail.com>
  * @author            Taiwen Jiang (phppp or D.J.) <php_pp@hotmail.com>
  */
-
-use XoopsModules\Publisher;
-
-define('MYTEXTSANITIZER_EXTENDED_MEDIA', 1);
+\define('MYTEXTSANITIZER_EXTENDED_MEDIA', 1);
 
 /**
  * Class MyTextSanitizerExtension
@@ -55,7 +50,7 @@ class MyTextSanitizerExtension
      * @param $patterns
      * @param $replacements
      */
-    public function wmp(&$patterns, &$replacements)
+    public function wmp(&$patterns, &$replacements): void
     {
         $patterns[]     = "/\[wmp=(['\"]?)([^\"']*),([^\"']*)\\1]([^\"]*)\[\/wmp\]/sU";
         $rp             = "<object classid=\"clsid:6BF52A52-394A-11D3-B153-00C04F79FAA6\" id=\"WindowsMediaPlayer\" width=\"\\2\" height=\"\\3\">\n";
@@ -76,7 +71,7 @@ class MyTextSanitizerExtension
     public function displayFlash($url, $width = false, $height = false)
     {
         if (!$width || !$height) {
-            if (!$dimension = @getimagesize($url)) {
+            if (!$dimension = @\getimagesize($url)) {
                 return "<a href='{$url}' target='_blank'>{$url}</a>";
             }
             if (!empty($width)) {
@@ -84,16 +79,16 @@ class MyTextSanitizerExtension
             } elseif (!empty($height)) {
                 $width = $dimension[0] * $height / $dimension[1];
             } else {
-                list($width, $height) = [$dimension[0], $dimension[1]];
+                [$width, $height] = [$dimension[0], $dimension[1]];
             }
         }
 
-        $rp = "<object width='{$width}' height='{$height}' classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0'>";
+        $rp = "<object width='{$width}' height='{$height}' classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0'>";
         $rp .= "<param name='movie' value='{$url}'>";
         $rp .= "<param name='QUALITY' value='high'>";
         $rp .= "<PARAM NAME='bgcolor' VALUE='#FFFFFF'>";
         $rp .= "<param name='wmode' value='transparent'>";
-        $rp .= "<embed src='{$url}' width='{$width}' height='{$height}' quality='high' bgcolor='#FFFFFF' wmode='transparent'  pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash'>";
+        $rp .= "<embed src='{$url}' width='{$width}' height='{$height}' quality='high' bgcolor='#FFFFFF' wmode='transparent'  pluginspage='https://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash'>";
         $rp .= '</object>';
 
         return $rp;
@@ -103,7 +98,7 @@ class MyTextSanitizerExtension
      * @param $patterns
      * @param $replacements
      */
-    public function flash(&$patterns, &$replacements)
+    public function flash(&$patterns, &$replacements): void
     {
         $patterns[]     = "/\[(swf|flash)=(['\"]?)([^\"']*),([^\"']*)\\2]([^\"]*)\[\/\\1\]/esU";
         $replacements[] = "Publisher\MyTextSanitizerExtension::displayFlash( '\\5', '\\3', '\\4' )";
@@ -113,7 +108,7 @@ class MyTextSanitizerExtension
      * @param $patterns
      * @param $replacements
      */
-    public function mms(&$patterns, &$replacements)
+    public function mms(&$patterns, &$replacements): void
     {
         $patterns[]     = "/\[mms=(['\"]?)([^\"']*),([^\"']*)\\1]([^\"]*)\[\/mms\]/sU";
         $rp             = "<OBJECT id=videowindow1 height='\\3' width='\\2' classid='CLSID:6BF52A52-394A-11D3-B153-00C04F79FAA6'>";
@@ -150,7 +145,7 @@ class MyTextSanitizerExtension
      * @param $patterns
      * @param $replacements
      */
-    public function rtsp(&$patterns, &$replacements)
+    public function rtsp(&$patterns, &$replacements): void
     {
         $patterns[] = "/\[rtsp=(['\"]?)([^\"']*),([^\"']*)\\1]([^\"]*)\[\/rtsp\]/sU";
         $rp         = "<object classid=\"clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA\" HEIGHT='\\3' ID=Player WIDTH='\\2' VIEWASTEXT>";

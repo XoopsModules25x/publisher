@@ -1,7 +1,214 @@
+<h5>1.8.0 Alpha.12       [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.2
+<hr>
+
+<h5>1.8.0 Alpha.11       [2022-01-25]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.2
+<hr>
+- delete /custom folders from /templates_bootstrap (alain01/mamba)
+- cosmetics (mamba)
+- added field for custom templates for category view (heyula/mamba)
+
+
+<h5>1.8.0 Alpha.10b       [2022-01-23]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.2
+<hr>
+- fix for self-submitting CategoryForm (heyula/mamba)
+
+<h5>1.8.0 Alpha.10       [2022-01-23]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.2
+<hr>
+- replaced <{$newitems.itemurl}> with <{$item.itemurl}> (heyula)
+- fix for ThemeTabForm (missing access to /include/common.php) (Mason Chang/mamba)
+
+
+<h5>1.8.0 Alpha.9       [2022-01-23]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.2
+<hr>
+- missing (int) cast (heyula/mamba)
+- added Confirm and MigrateHelper classes (goffy/mamba)
+- added option for custom templates for articles in individual categories (heyula/mamba)
+
+
+<h5>1.8.0 Alpha.8       [2022-01-14]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.1
+<hr>
+- updated calls to Tagbar and Formtag to use the new classes (mamba)
+- https cosmetics (mamba)
+- removed hidden form field for uid (@ihackcode)
+- fixed article data not being saved (@ihackcode)
+- more work on saving edited articles (@ihackcode)
+- Add prompt to confirm clearing of sample data (@ihackcode)
+- Added config for handling edited articles (@ihackcode)
+- Spelling fixes (@ihackcode)
+- more than 1 random article can be shown (heyula/mamba) see: https://github.com/XoopsModules25x/publisher/issues/170
+
+
+<h5>1.8.0 Alpha.7       [2021-12-06]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.0
+<hr>
+- temp fixes for XoopsUser in JSON-LD, when user not logged in (mamba)
+
+<h5>1.8.0 Alpha.6       [2021-12-06]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.0
+<hr>
+- added Blocksadmin class (mamba)
+- semantic versioning (mamba)
+- added test images (mamba)
+- PHP 8.1 cosmetics and fixes (mamba)
+- type hinting (mamba)
+- added option for AltSys language changes (mamba)
+- added Security info file (mamba)
+- declare(strict_types=1) (mamba)
+- added JSON-LD Schema Markup (mamba)
+
+
+<h5>1.08 Alpha 5       [2021-08-28]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.22, PHP 8.0.9
+<hr>
+- updated articles testdata with voting (mamba)
+- set $icons in ItemForm (mamba)
+- added votetype to Vote/Ratings classes (mamba)
+- fix for integer in archive #162 (liomj/mamba)
+- added smarty defaults (goffy)
+- fixed bug with cloning (goffy)
+ -- replace _MI_BLOG_ by _MI_PUBLISHER_ (goffy)
+ -- replace _MA_BLOG_ by _MA_PUBLISHER_ (goffy)
+- replace index.html with index.php (mamba)
+- add renameColumns, moduleStats to Configurator (mamba)
+- logoXoopsPhp8 (mamba)
+- Yoda, cosmetics, Unqualified function/constant reference, type hints (mamba)
+- PHP8 Smarty defaults
+- revert for blocks in 2.5.10 (ihackcode/mamba)
+- various fixes from Scrutinizer (mamba)
+
+
+<h5>1.08 Alpha 4       [2021-01-12]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.14, PHP 8.0.1
+<hr>
+- added votetype column in update (goffy)
+- added rating selection in item form (mamba)
+
+
+<h5>1.08 Alpha 3       [2021-01-01]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.13, PHP 8.0
+<hr>
+- fix in_array() for anonymous permissions (oswaldo/mamba)
+- new voting/rating system (goffy/mamba)
+- Category Moderator Fix for XoopsModules25x/publisher#151 (ihackcode)
+- mb_strlen a category description when not null (ihackcode)
+- fix missing Constants (mamba)
+- refactor testdata buttons (mamba)
+- PHP 8 adjustments (mamba)
+- add blocksadmin.php translations (mamba)
+- fix for ini_get('session.cookie_secure') (mamba)
+- TCPDF check language constant (mamba)
+- various fixes, PSR-12 and code cosmetics (mamba)
+
+
+<h5>1.08 Alpha 2       [2020-07-08]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.7
+<hr>
+- Various fixes (ihackcode)
+- timezone conversion (ihackcode)
+- Convert user time to Server time on saving items (ihackcode)
+- added Save/Load Permissions to test data - based on work by Goffy (mamba)
+- added Trello board, based on https://phppot.com/php/trello-like-drag-and-drop-cards-for-project-management-software/ (mamba)
+
+
+<h5>1.08 Alpha 1       [2020-05-18]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.6
+<hr>
+- added Option to display default image if no article image selected in article page (liomj)
+- separate Latest Published Article in Index/Category and Article Page (liomj)
+- changed Preferences order and add new option for better readibility (liomj)  
+ --Latest Published Articles in Index and Category Page 
+ --Article page 
+ --All Latest Published Articles in Article Page 
+ --Archive Page 
+ --Item by The Same Author Page 
+- added new options to enabled/disable item in article page (liomj)
+- added new options to enabled/disable item in item by the same author page (liomj)
+- added new options to enabled/disable item in blocks (liomj)
+ -- Random Block
+ -- Latest News Block
+ -- Spotlight Block
+ -- Recent Block
+ -- Column Block
+ -- New Block
+- restructured blocks and article templates (liomj)
+- restructured Latest Published Article templates (liomj)
+- added new options in preferences to enable/disable item in archive page (liomj)
+- restructured Archive page templates (liomj)
+- restructured Item by the same Author page templates (liomj)
+- separate Poster and Date in index,article page & blocks (liomj)   
+- separate PDF and Print Button from AdminLinks (liomj)
+- removed unused tellafriend module support from AdminLinks (liomj)
+- removed unused Poster avatar from article page (liomj)
+- changed date format to 12 Hour format as default (liomj)
+- change XOOPS logo.gif to logo.png as default (liomj)
+- changed file.gif to transparent file.png in article page (liomj)
+- fixed Extended Column Block (liomj)
+- removed unused Topic Link (News Module) from Latest News Block (liomj)
+- added Default Article Image in PDF (liomj)
+- change TCPDF Logo to Blank.png in PDF Page (liomj)
+- change Text Header color from Blue to Black in PDF Page (liomj)
+- added PDF Protection in PDF Page (liomj)
+- added site name and slogan in Print Page (liomj)
+- fixed Default Template Breadcrumb (liomj)
+- fixed Category Image in Spotlight block (liomj)
+- fixed Footer that will be displayed at the index page of the module (liomj)
+- added check uid (goffy)
+  -- new item get current uid as default
+  -- if access user is not granted then current uid will be used as default
+- added option to display number of reads in block spotlight (goffy)  
+- Notification Title tag inadvertently overloaded (zyspec)
+- config updates, moved to /config (mamba)
+- use __NAMESPACE__ in Helper (mamba)
+- code cosmetics, PSR12 (mamba)
+- fixed return-by-ref error in CategoryHandler::getCategories() method (zyspec)
+- fixed mimetypes not loaded into dB on initial install (zyspec)
+- minor update to help text for XOOPS version (zyspec)
+- move test data to ./testdata/english folder and rename it so import routine can find it (zyspec)
+- change from using $_SERVER['PHP_SELF'] to $_SERVER['SCRIPT_NAME'] for improved security (zyspec)
+- PHP 7.1 (mamba)
+
+
+<h5>1.07 Final       [2019-06-08]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.6
+<hr>
+- Unnecessary closures (mamba)
+- fix: delete $publisherIsAdmin check (mamba)
+
+
+<h5>1.07 RC2       [2019-06-08]</h5>  Dev: XOOPS 2.5.10, PHP 7.3.6
+<hr>
+- reverted in_array() true check (mamba)
+- added language folder for test data (mamba)
+- added expiration date (goffy)
+- added option to select sort/order in block spotlight (goffy)
+- fixed bug in item_spot (goffy)
+- fixed bug in saving item - saving without image was not possible (goffy)
+- restructured templates for better readability (goffy)
+- fixed bug in deleting category (goffy)
+- detect whether article was truncated or not (goffy)
+- implemented possibility to preselect image categories (goffy)
+- added 'show more articles' to item_spot (goffy)
+- fixed problem with multiple cat select in item_spot (goffy)
+- added feedback tab (mamba)
+- added migration tab for developers (mamba)
+- fixed typo, issue #109 (cesagonchu/mamba)
+- added preloads, issue #107 (liomj/mamba)
+- added missing option[10] default, issue #10 (aerograf /mamba)
+- added <script>javascript (mamba)
+- $publisherIsAdmin consistency (mamba)
+- fixed Future Post appeared in blocks, issue #91 (myblackrx/liomj/mamba)
+
+
+<h5>1.07 RC1       [2019-02-09]</h5>  Dev: XOOPS 2.5.10, PHP 7.2.8
+<hr>
+- added Resizer class for image upload (goffy)
+- added check for cloned repository existence on GitHub (goffy/mamba)
+- fixed block selection bug (liomj/mamba)
+- fixed block "between dates" bug (aerograf/mamba)
+
+
 <h5>1.07 Beta 1       [NOT RELEASED]</h5> Dev: XOOPS 2.5.9, PHP 7.3.1
 <hr>
 - fix missing /admin folder (SMEDrieben/mamba)
-
+- add fpm-fcgi for htaccess (alfredsx)
+- fix rss feed  (alfredsx)
+- fixed bug in import plugin for news modules (ggoffy)
+- fixed bug image upload was not working  (ggoffy)
+- Optimize images (mamba)
+- Dependency Injection (mamba)
+- added ModuleStats Trait (mamba)
 
 <h5>1.06 Final       [2018-08-01]</h5>  Dev: XOOPS 2.5.9, PHP 7.2.8
 <hr>

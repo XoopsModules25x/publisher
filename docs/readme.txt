@@ -50,7 +50,7 @@ so it looks like:
 
 b) download the TCPDF library. You have three choices:
 
- i) download the streamlined XOOPS version from: http://sourceforge.net/projects/chgxoops/files/Frameworks/tcpdf_for_xoops/
+ i) download the streamlined XOOPS version from: https://sourceforge.net/projects/chgxoops/files/Frameworks/tcpdf_for_xoops/
 
  ii) download the latest full release from: https://github.com/tecnickcom/TCPDF/releases
 

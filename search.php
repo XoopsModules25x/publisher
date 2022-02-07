@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,19 +10,22 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Taiwen Jiang <phppp@users.sourceforge.net>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\CategoryHandler;
 use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
 
+/** @var CategoryHandler $categoryHandler */
+/** @var Helper $helper
+ * {@internal $helper defined in ./include/common.php }}
+ */
 require_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
 //Checking general permissions
@@ -33,19 +36,18 @@ if (empty($xoopsConfigSearch['enable_search'])) {
     redirect_header(PUBLISHER_URL . '/index.php', 2, _NOPERM);
 }
 
-/** @var \XoopsModules\Publisher\Helper $helper */
-$helper           = \XoopsModules\Publisher\Helper::getInstance();
+//$helper           = Helper::getInstance();
 $groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $grouppermHandler = $helper->getHandler('GroupPerm');
-$module_id        = $helper->getModule()->mid();
+$moduleId         = $helper->getModule()->mid();
 
 //Checking permissions
-if (!$helper->getConfig('perm_search') || !$grouppermHandler->checkRight('global', Constants::PUBLISHER_SEARCH, $groups, $module_id)) {
+if (!$helper->getConfig('perm_search') || !$grouppermHandler->checkRight('global', Constants::PUBLISHER_SEARCH, $groups, $moduleId)) {
     redirect_header(PUBLISHER_URL, 2, _NOPERM);
 }
 
-$GLOBALS['xoopsConfig']['module_cache'][$module_id] = 0;
-$GLOBALS['xoopsOption']['template_main']            = 'publisher_search.tpl';
+$GLOBALS['xoopsConfig']['module_cache'][$moduleId] = 0;
+$GLOBALS['xoopsOption']['template_main']           = 'publisher_search.tpl';
 require_once $GLOBALS['xoops']->path('header.php');
 
 $module_info_search = $helper->getModule()->getInfo('search');
@@ -66,11 +68,11 @@ if (empty($category) || (is_array($category) && in_array('all', $category, true)
     $category = [];
 } else {
     $category = !is_array($category) ? explode(',', $category) : $category;
-    $category = array_map('intval', $category);
+    $category = array_map('\intval', $category);
 }
 
-$andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT'], true) ? mb_strtoupper($andor) : 'OR';
-$sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid'], true) ? mb_strtolower($sortby) : 'itemid';
+$andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT'], true) ? \mb_strtoupper($andor) : 'OR';
+$sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid'], true) ? \mb_strtolower($sortby) : 'itemid';
 
 if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     $next_search['category'] = implode(',', $category);
@@ -80,13 +82,13 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
 
     if ('EXACT' !== $andor) {
         $ignored_queries = []; // holds keywords that are shorter than allowed minimum length
-        $temp_queries    = preg_split("/[\s,]+/", $query);
+        $temp_queries    = preg_split('/[\s,]+/', $query);
         foreach ($temp_queries as $q) {
             $q = trim($q);
             if (mb_strlen($q) >= $xoopsConfigSearch['keyword_min']) {
-                $queries[] = $myts->addSlashes($q);
+                $queries[] = $GLOBALS['xoopsDB']->escape($q);
             } else {
-                $ignored_queries[] = $myts->addSlashes($q);
+                $ignored_queries[] = $GLOBALS['xoopsDB']->escape($q);
             }
         }
         //        unset($q);
@@ -97,7 +99,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
         if (mb_strlen($query) < $xoopsConfigSearch['keyword_min']) {
             redirect_header(PUBLISHER_URL . '/search.php', 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch['keyword_min']));
         }
-        $queries = [$myts->addSlashes($query)];
+        $queries = [$GLOBALS['xoopsDB']->escape($query)];
     }
 
     $uname_required       = false;
@@ -105,7 +107,7 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     $next_search['uname'] = $search_username;
     if (!empty($search_username)) {
         $uname_required  = true;
-        $search_username = $myts->addSlashes($search_username);
+        $search_username = $GLOBALS['xoopsDB']->escape($search_username);
         if (!$result = $GLOBALS['xoopsDB']->query('SELECT uid FROM ' . $GLOBALS['xoopsDB']->prefix('users') . ' WHERE uname LIKE ' . $GLOBALS['xoopsDB']->quoteString("%$search_username%"))) {
             redirect_header(PUBLISHER_URL . '/search.php', 1, _CO_PUBLISHER_ERROR);
         }
@@ -166,12 +168,12 @@ if ($term && 'none' !== Request::getString('submit', 'none', 'POST')) {
     }
 
     unset($results);
-    $search_info = _SR_KEYWORDS . ': ' . $myts->htmlSpecialChars($term);
+    $search_info = _SR_KEYWORDS . ': ' . htmlspecialchars($term, ENT_QUOTES | ENT_HTML5);
     if ($uname_required) {
         if ($search_info) {
             $search_info .= '<br>';
         }
-        $search_info .= _CO_PUBLISHER_UID . ': ' . $myts->htmlSpecialChars($search_username);
+        $search_info .= _CO_PUBLISHER_UID . ': ' . htmlspecialchars($search_username, ENT_QUOTES | ENT_HTML5);
     }
     $xoopsTpl->assign('search_info', $search_info);
 }
@@ -196,7 +198,6 @@ $typeSelect .= '>' . _SR_EXACT . '</option>';
 $typeSelect .= '</select>';
 
 /* category */
-/** @var Publisher\CategoryHandler $categoryHandler */
 $categoryHandler = $helper->getHandler('Category');
 $categories      = $categoryHandler->getCategoriesForSearch();
 
@@ -213,7 +214,7 @@ foreach ($categories as $id => $cat) {
     }
     $categorySelect .= '>' . $cat . '</option>';
 }
-unset($id, $cat);
+unset($id);
 $categorySelect .= '</select>';
 
 /* scope */

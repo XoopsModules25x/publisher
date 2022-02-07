@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -13,11 +13,14 @@
  * Publisher
  *
  * @copyright    The XOOPS Project (https://xoops.org)
- * @license      GNU GPL (http://www.gnu.org/licenses/gpl-2.0.html/)
- * @package      Publisher
+ * @license      GNU GPL (https://www.gnu.org/licenses/gpl-2.0.html/)
  * @since        1.0
  * @author       Mage, Mamba
  */
+
+use Xmf\Module\Admin;
+
+/** @var Admin $adminObject */
 require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 

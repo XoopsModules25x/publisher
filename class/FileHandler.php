@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -13,19 +13,13 @@ namespace XoopsModules\Publisher;
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
-
-use XoopsModules\Publisher;
-
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 // File status
 //define("_PUBLISHER_STATUS_FILE_NOTSET", -1);
@@ -38,31 +32,33 @@ require_once dirname(__DIR__) . '/include/common.php';
  * of File class objects.
  *
  * @author  marcan <marcan@notrevie.ca>
- * @package Publisher
  */
 class FileHandler extends \XoopsPersistableObjectHandler
 {
+    private const TABLE      = 'publisher_files';
+    private const ENTITY     = File::class;
+    private const ENTITYNAME = 'File';
+    private const KEYNAME    = 'fileid';
+    private const IDENTIFIER = 'name';
     public $table_link = '';
     /**
-     * @var Publisher\Helper
+     * @var Helper
      */
     public $helper;
 
-    /**
-     * @param null|\XoopsDatabase $db
-     */
-    public function __construct(\XoopsDatabase $db = null)
+    public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Publisher\Helper $this ->helper */
-        $this->helper = Publisher\Helper::getInstance();
-        parent::__construct($db, 'publisher_files', File::class, 'fileid', 'name');
+        /** @var Helper $this- >helper */
+        $this->helper = $helper ?? Helper::getInstance();
+        $this->db     = $db;
+        parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
     }
 
     /**
      * delete a file from the database
      *
-     * @param \XoopsObject $file reference to the file to delete
-     * @param bool         $force
+     * @param \XoopsObject|File $file reference to the file to delete
+     * @param bool              $force
      *
      * @return bool FALSE if failed.
      */
@@ -70,7 +66,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
     {
         $ret = false;
         // Delete the actual file
-        if (is_file($file->getFilePath()) && unlink($file->getFilePath())) {
+        if (\is_file($file->getFilePath()) && \unlink($file->getFilePath())) {
             $ret = parent::delete($file, $force);
         }
 
@@ -86,7 +82,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
      */
     public function deleteItemFiles(\XoopsObject $itemObj)
     {
-        if ('publisheritem' !== mb_strtolower(get_class($itemObj))) {
+        if ('publisheritem' !== \mb_strtolower(\get_class($itemObj))) {
             return false;
         }
         $files  = $this->getAllFiles($itemObj->itemid());
@@ -103,7 +99,7 @@ class FileHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve all files
      *
-     * @param int       $itemid
+     * @param int       $itemId
      * @param int|array $status
      * @param int       $limit
      * @param int       $start
@@ -113,20 +109,20 @@ class FileHandler extends \XoopsPersistableObjectHandler
      *
      * @return array array of {@link File} objects
      */
-    public function getAllFiles($itemid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = [])
+    public function getAllFiles($itemId = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC', $category = [])
     {
         $files = [];
 
         $this->table_link = $this->db->prefix($this->helper->getDirname() . '_items');
 
         $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_files'));
-        list($count) = $GLOBALS['xoopsDB']->fetchRow($result);
+        [$count] = $GLOBALS['xoopsDB']->fetchRow($result);
         if ($count > 0) {
             $this->field_object = 'itemid';
             $this->field_link   = 'itemid';
             $hasStatusCriteria  = false;
             $criteriaStatus     = new \CriteriaCompo();
-            if (is_array($status)) {
+            if (\is_array($status)) {
                 $hasStatusCriteria = true;
                 foreach ($status as $v) {
                     $criteriaStatus->add(new \Criteria('o.status', $v), 'OR');
@@ -138,15 +134,15 @@ class FileHandler extends \XoopsPersistableObjectHandler
             $hasCategoryCriteria = false;
             $criteriaCategory    = new \CriteriaCompo();
             $category            = (array)$category;
-            if (isset($category[0]) && 0 != $category[0] && count($category) > 0) {
+            if (isset($category[0]) && 0 != $category[0] && \count($category) > 0) {
                 $hasCategoryCriteria = true;
                 foreach ($category as $cat) {
                     $criteriaCategory->add(new \Criteria('l.categoryid', $cat), 'OR');
                 }
             }
-            $criteriaItemid = new \Criteria('o.itemid', $itemid);
+            $criteriaItemid = new \Criteria('o.itemid', $itemId);
             $criteria       = new \CriteriaCompo();
-            if (0 != $itemid) {
+            if (0 != $itemId) {
                 $criteria->add($criteriaItemid);
             }
             if ($hasStatusCriteria) {
@@ -156,11 +152,10 @@ class FileHandler extends \XoopsPersistableObjectHandler
                 $criteria->add($criteriaCategory);
             }
             $criteria->setSort($sort);
-            $criteria->setOrder($order);
+            $criteria->order = $order; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
             $criteria->setLimit($limit);
             $criteria->setStart($start);
             $files = $this->getByLink($criteria, ['o.*'], true);
-
             //            return $files;
         }
 

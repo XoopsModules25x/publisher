@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,10 +10,8 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -30,23 +28,23 @@ $fileid = Request::getInt('fileid', 0, 'GET');
 $fileObj = $helper->getHandler('File')->get($fileid);
 
 if ($fileObj->getVar('status' !== Constants::PUBLISHER_STATUS_FILE_ACTIVE)) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 
 $itemObj = $helper->getHandler('Item')->get($fileObj->getVar('itemid'));
 
 // Check user permissions to access this file
 if (!$itemObj->accessGranted()) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 // Creating the category object that holds the selected ITEM
 $categoryObj = $itemObj->getCategory();
 
 $fileObj->updateCounter();
 
-if (!preg_match("/^ed2k*:\/\//i", $fileObj->getFileUrl())) {
+if (!preg_match('/^ed2k*:\/\//i', $fileObj->getFileUrl())) {
     header('Location: ' . $fileObj->getFileUrl());
 }
 
-echo '<html><head><meta http-equiv="Refresh" content="0; URL=' . $myts->oopsHtmlSpecialChars($fileObj->getFileUrl()) . '"></head><body></body></html>';
+echo '<html><head><meta http-equiv="Refresh" content="0; URL=' . htmlspecialchars($fileObj->getFileUrl(), ENT_QUOTES | ENT_HTML5) . '"></head><body></body></html>';
 exit();

@@ -1,0 +1,73 @@
+body {
+    font-family: arial, sans-serif;
+}
+.task-board {
+    background: #2c7cbc;
+    display: inline-block;
+    padding: 12px;
+    border-radius: 3px;
+    width: 98%;
+    white-space: nowrap;
+    overflow-x: scroll;
+    min-height: 300px;
+}
+
+.status-card {
+    width: 250px;
+    margin-right: 8px;
+    background: #e2e4e6;
+    border-radius: 3px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 0.9em;
+}
+
+.status-card:last-child {
+    margin-right: 0px;
+}
+
+.card-header {
+    width: 100%;
+    padding: 10px 10px 0px 10px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    display: block;
+    font-weight: bold;
+}
+
+.card-header-text {
+    display: block;
+}
+
+ul.sortable {
+    padding-bottom: 10px;
+}
+
+ul.sortable li:last-child {
+    margin-bottom: 0px;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0px;
+}
+
+.text-row {
+    padding: 15px 10px;
+    margin: 10px;
+    background: #fff;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 0.8em;
+    white-space: normal;
+    line-height: 20px;
+}
+
+.ui-sortable-placeholder {
+    visibility: inherit !important;
+    background: transparent;
+    border: #666 2px dashed;
+}

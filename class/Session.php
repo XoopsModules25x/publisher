@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -14,18 +14,13 @@ namespace XoopsModules\Publisher;
 /**
  *  Publisher class
  *
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Harry Fuecks (PHP Anthology Volume II)
  */
-//namespace Publisher;
-
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Session
@@ -40,7 +35,9 @@ class Session
      */
     protected function __construct()
     {
-        @session_start();
+        if (!@\session_start()) {
+            throw new \RuntimeException('Session could not start.');
+        }
     }
 
     /**
@@ -49,7 +46,7 @@ class Session
      * @param string $name  name of variable
      * @param mixed  $value value of variable
      */
-    public function set($name, $value)
+    public function set($name, $value): void
     {
         $_SESSION[$name] = $value;
     }
@@ -63,11 +60,7 @@ class Session
      */
     public function get($name)
     {
-        if (isset($_SESSION[$name])) {
-            return $_SESSION[$name];
-        }
-
-        return false;
+        return $_SESSION[$name] ?? false;
     }
 
     /**
@@ -75,7 +68,7 @@ class Session
      *
      * @param string $name name of variable
      */
-    public function del($name)
+    public function del($name): void
     {
         unset($_SESSION[$name]);
     }
@@ -83,10 +76,10 @@ class Session
     /**
      * Destroys the whole session
      */
-    public function destroy()
+    public function destroy(): void
     {
         $_SESSION = [];
-        session_destroy();
+        \session_destroy();
     }
 
     /**

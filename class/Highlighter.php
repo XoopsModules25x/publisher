@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -14,10 +14,10 @@ namespace XoopsModules\Publisher;
 
 /**
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Aidan Lister <aidan@php.net>
- * @link            http://aidanlister.com/2004/04/highlighting-a-search-string-in-html-text/
+ * @link            https://aidanlister.com/2004/04/highlighting-a-search-string-in-html-text/
  */
 class Highlighter
 {
@@ -29,7 +29,6 @@ class Highlighter
      * @var bool
      */
     protected $simple = false;
-
     /**
      * Only match whole words in the string
      * (off by default)
@@ -37,7 +36,6 @@ class Highlighter
      * @var bool
      */
     protected $wholeWords = false;
-
     /**
      * Case sensitive matching
      * (off by default)
@@ -45,14 +43,12 @@ class Highlighter
      * @var bool
      */
     protected $caseSens = false;
-
     /**
      * Overwrite links if matched
      * This should be used when the replacement string is a link
      * (off by default)
      */
     protected $stripLinks = false;
-
     /**
      * Style for the output string
      *
@@ -63,7 +59,7 @@ class Highlighter
     /**
      * @param bool $value
      */
-    public function setSimple($value)
+    public function setSimple($value): void
     {
         $this->simple = (bool)$value;
     }
@@ -71,7 +67,7 @@ class Highlighter
     /**
      * @param bool $value
      */
-    public function setWholeWords($value)
+    public function setWholeWords($value): void
     {
         $this->wholeWords = (bool)$value;
     }
@@ -79,7 +75,7 @@ class Highlighter
     /**
      * @param bool $value
      */
-    public function setCaseSens($value)
+    public function setCaseSens($value): void
     {
         $this->caseSens = (bool)$value;
     }
@@ -87,7 +83,7 @@ class Highlighter
     /**
      * @param bool $value
      */
-    public function setStripLinks($value)
+    public function setStripLinks($value): void
     {
         $this->stripLinks = (bool)$value;
     }
@@ -95,7 +91,7 @@ class Highlighter
     /**
      * @param string $value
      */
-    public function setReplacementString($value)
+    public function setReplacementString($value): void
     {
         $this->replacementString = (string)$value;
     }
@@ -106,7 +102,7 @@ class Highlighter
      * @param string       $text   Haystack - The text to search
      * @param array|string $needle Needle - The string to highlight
      *
-     * @return string $text with needle highlighted
+     * @return string (with needle highlighted)
      */
     public function highlight($text, $needle)
     {
@@ -125,18 +121,18 @@ class Highlighter
         }
         $needle = (array)$needle;
         foreach ($needle as $needleS) {
-            $needleS = preg_quote($needleS);
+            $needleS = preg_quote($needleS, '/');
             // Escape needle with optional whole word check
             if ($this->wholeWords) {
                 $needleS = '\b' . $needleS . '\b';
             }
             // Strip links
             if ($this->stripLinks) {
-                $slRegex = sprintf($slPattern, $needleS);
-                $text    = preg_replace($slRegex, '\1', $text);
+                $slRegex = \sprintf($slPattern, $needleS);
+                $text    = \preg_replace($slRegex, '\1', $text);
             }
-            $regex = sprintf($pattern, $needleS);
-            $text  = preg_replace($regex, $this->replacementString, $text);
+            $regex = \sprintf($pattern, $needleS);
+            $text  = \preg_replace($regex, $this->replacementString, $text);
         }
 
         return $text;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,9 +10,8 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
@@ -22,23 +21,25 @@ use Xmf\Request;
 use XoopsModules\Publisher;
 use XoopsModules\Publisher\Constants;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 require_once __DIR__ . '/preloads/autoloader.php';
 
-$moduleDirName = basename(__DIR__);
+$moduleDirName      = basename(__DIR__);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
+xoops_loadLanguage('common');
+
 xoops_load('xoopseditorhandler');
 $editorHandler = \XoopsEditorHandler::getInstance();
-$xoops_url     = parse_url(XOOPS_URL);
+
+$xoops_url = parse_url(XOOPS_URL);
 
 $modversion = [
-    'version'             => '1.07',
-    'module_status'       => 'Beta 1',
-    'release_date'        => '2018/09/21',
+    'version'             => '1.8.0',
+    'module_status'       => 'Alpha.12 NOT RELEASED',
+    'release_date'        => '2022/01/25',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
-    'author'              => 'Trabis (www.Xuups.com)',
-    'credits'             => 'w4z004, hsalazar, Mithrandir, fx2024, Ackbarr, Mariuss, Marco, Michiel, phppp, outch, Xvitry, Catzwolf, Shine, McDonald, trabis, Mowaffak, Bandit-x, Shiva',
+    'author'              => 'Trabis (www.xoops.org)',
+    'credits'             => 'w4z004, hsalazar, Mithrandir, fx2024, Ackbarr, Mariuss, Marco, Michiel, phppp, outch, Xvitry, Catzwolf, Shine, McDonald, trabis, Mowaffak, Bandit-X, Shiva',
     'module_website_url'  => 'www.xoops.org',
     'module_website_name' => 'Support site',
     'help'                => 'page=help',
@@ -59,8 +60,8 @@ $modversion = [
     'onInstall'           => 'include/oninstall.php',
     'onUpdate'            => 'include/onupdate.php',
     // ------------------- Min Requirements -------------------
-    'min_php'             => '5.5',
-    'min_xoops'           => '2.5.9',
+    'min_php'             => '7.4',
+    'min_xoops'           => '2.5.10',
     'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],
     // ------------------- Admin Menu -------------------
@@ -74,12 +75,13 @@ $modversion = [
     'sqlfile'             => ['mysql' => 'sql/mysql.sql'],
     // ------------------- Tables -------------------
     'tables'              => [
-        $moduleDirName . '_categories',
-        $moduleDirName . '_items',
-        $moduleDirName . '_files',
-        $moduleDirName . '_meta',
-        $moduleDirName . '_mimetypes',
-        $moduleDirName . '_rating',
+        $moduleDirName . '_' . 'categories',
+        $moduleDirName . '_' . 'items',
+        $moduleDirName . '_' . 'files',
+        $moduleDirName . '_' . 'meta',
+        $moduleDirName . '_' . 'mimetypes',
+        $moduleDirName . '_' . 'rating',
+        //        $moduleDirName . '_' . 'voting',
     ],
 ];
 
@@ -142,7 +144,7 @@ $modversion['blocks'][] = [
     'description' => _MI_PUBLISHER_ITEMSNEW_DSC,
     'show_func'   => 'publisher_items_new_show',
     'edit_func'   => 'publisher_items_new_edit',
-    'options'     => '0|datesub|0|5|65|none',
+    'options'     => '0|datesub|0|6|65|none|0|0|0|0|0|0|0',
     'template'    => 'publisher_items_new.tpl',
 ];
 
@@ -152,7 +154,7 @@ $modversion['blocks'][] = [
     'description' => _MI_PUBLISHER_RECENTITEMS_DSC,
     'show_func'   => 'publisher_items_recent_show',
     'edit_func'   => 'publisher_items_recent_edit',
-    'options'     => '0|datesub|5|65',
+    'options'     => '0|datesub|5|65|0|0|1|1|1|0|0|0',
     'template'    => 'publisher_items_recent.tpl',
 ];
 
@@ -162,7 +164,7 @@ $modversion['blocks'][] = [
     'description' => _MI_PUBLISHER_ITEMSPOT_DSC,
     'show_func'   => 'publisher_items_spot_show',
     'edit_func'   => 'publisher_items_spot_edit',
-    'options'     => '1|5|0|0|1|1|bullet|0|0',
+    'options'     => '1|5|0|0|1|0|block|100|0|date|0|1|1|1|1|0|1',
     'template'    => 'publisher_items_spot.tpl',
 ];
 
@@ -171,6 +173,8 @@ $modversion['blocks'][] = [
     'name'        => _MI_PUBLISHER_ITEMSRANDOM_ITEM,
     'description' => _MI_PUBLISHER_ITEMSRANDOM_ITEM_DSC,
     'show_func'   => 'publisher_items_random_item_show',
+    'edit_func'   => 'publisher_items_random_item_edit',
+    'options'     => '1|0|0|0|0|0|0|1|1',
     'template'    => 'publisher_items_random_item.tpl',
 ];
 
@@ -200,7 +204,7 @@ $modversion['blocks'][] = [
     'description' => _MI_PUBLISHER_DATE_TO_DATE_DSC,
     'show_func'   => 'publisher_date_to_date_show',
     'edit_func'   => 'publisher_date_to_date_edit',
-    'options'     => "formatTimestamp(time(), 'm/j/Y') . " | " . formatTimestamp(time(), 'm/j/Y')",
+    'options'     => formatTimestamp(1424860422, 'm/j/Y') . ' | ' . formatTimestamp(time(), 'm/j/Y'),
     'template'    => 'publisher_date_to_date.tpl',
 ];
 
@@ -210,7 +214,7 @@ $modversion['blocks'][] = [
     'description' => _MI_PUBLISHER_COLUMNS_DSC,
     'show_func'   => 'publisher_items_columns_show',
     'edit_func'   => 'publisher_items_columns_edit',
-    'options'     => '2|0|4|256|normal',
+    'options'     => '2|0|4|256|normal|0|0',
     'template'    => 'publisher_items_columns.tpl',
 ];
 
@@ -220,7 +224,7 @@ $modversion['blocks'][] = [
     'description' => _MI_PUBLISHER_LATEST_NEWS_DSC,
     'show_func'   => 'publisher_latest_news_show',
     'edit_func'   => 'publisher_latest_news_edit',
-    'options'     => '0|6|2|300|0|0|100|30|1|datesub|1|120|120|1|dcdcdc|RIGHT|1|1|1|1|1|1|1|1|1|1|1|1|1|extended|',
+    'options'     => '0|6|1|300|0|0|300|30|up|datesub|1|900|400|1|dcdcdc|CENTER|1|0|0|1|1|1|1|0|0|0|0|0|1|0|normal|0',
     'template'    => 'publisher_latest_news.tpl',
 ];
 
@@ -261,11 +265,18 @@ $modversion['templates'] = [
     ['file' => 'publisher_addfile.tpl', 'description' => '_MI_PUBLISHER_ADDFILE_DSC'],
     ['file' => 'publisher_search.tpl', 'description' => '_MI_PUBLISHER_SEARCH_DSC'],
     ['file' => 'publisher_author_items.tpl', 'description' => '_MI_PUBLISHER_AUTHOR_ITEMS_DSC'],
-    ['file' => 'publisher_archive.tpl', 'description' => '_MI_PUBLISHER_ARCHIVE__DSC'],
+    ['file' => 'publisher_archive.tpl', 'description' => '_MI_PUBLISHER_ARCHIVE_DSC'],
+    ['file' => 'publisher_vote.tpl', 'description' => ''],
+
+    //admin
+    ['file' => 'publisher_trello.tpl', 'description' => '_MI_PUBLISHER_TRELLO_DSC', 'type' => 'admin'],
+    //custom
+    ['file' => 'publisher_category_custom.tpl', 'description' => ''],
+    ['file' => 'publisher_category_item_custom.tpl', 'description' => ''],
 ];
 
 // Config categories
-
+/*
 $modversion['configcat']['seo']      = [
     'name'        => _MI_PUBLISHER_CONFCAT_SEO,
     'description' => _MI_PUBLISHER_CONFCAT_SEO_DSC,
@@ -283,6 +294,16 @@ $modversion['configcat']['index'] = [
 $modversion['configcat']['category'] = [
     'name'        => _MI_PUBLISHER_CONFCAT_CATEGORY,
     'description' => _MI_PUBLISHER_CONFCAT_CATEGORY_DSC,
+];
+
+$modversion['configcat']['indexcattemplate'] = [
+    'name'        => _MI_PUBLISHER_CONFCAT_INDEXCATTEMPLATE,
+    'description' => _MI_PUBLISHER_CONFCAT_INDEXCATTEMPLATEDSC,
+];
+
+$modversion['configcat']['itemallarticle'] = [
+    'name'        => _MI_PUBLISHER_ITEM_ALLARTICLE,
+    'description' => _MI_PUBLISHER_ITEM_ALLARTICLEDSC,
 ];
 
 $modversion['configcat']['item'] = [
@@ -310,16 +331,22 @@ $modversion['configcat']['permissions'] = [
     'description' => _MI_PUBLISHER_CONFCAT_PERMISSIONS_DSC,
 ];
 
+
+$modversion['configcat']['archive'] = [
+    'name'        => _MI_PUBLISHER_CONFCAT_ARCHIVE,
+    'description' => _MI_PUBLISHER_CONFCAT_ARCHIVEDSC,
+];
+
+$modversion['configcat']['authorpage'] = [
+    'name'        => _MI_PUBLISHER_CONFCAT_AUTHORPAGE,
+    'description' => _MI_PUBLISHER_CONFCAT_AUTHORPAGEDSC,
+];
+
 $modversion['configcat']['format'] = [
     'name'        => _MI_PUBLISHER_CONFCAT_FORMAT,
     'description' => _MI_PUBLISHER_CONFCAT_FORMAT_DSC,
 ];
-
-//mb
-$modversion['configcat']['group_header'] = [
-    'name'        => _MI_PUBLISHER_CONFCAT_FORMAT,
-    'description' => _MI_PUBLISHER_CONFCAT_FORMAT_DSC,
-];
+*/
 
 // Config Settings (only for modules that need config settings generated automatically)
 
@@ -349,8 +376,11 @@ $modversion['config'][] = [
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'default'     => 'none',
-    'options'     => array_merge([_MI_PUBLISHER_URL_REWRITE_NONE => 'none'], [_MI_PUBLISHER_URL_REWRITE_PATHINFO => 'path-info'], // Is performing module install/update?
-                                 ($isModuleAction && in_array(PHP_SAPI, ['apache', 'apache2handler', 'cgi-fcgi', 'fpm-fcgi'], true)) ? [_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'] : []),
+    'options'     => array_merge(
+        [_MI_PUBLISHER_URL_REWRITE_NONE => 'none'],
+        [_MI_PUBLISHER_URL_REWRITE_PATHINFO => 'path-info'], // Is performing module install/update?
+        ($isModuleAction && in_array(PHP_SAPI, ['apache', 'apache2handler', 'cgi-fcgi', 'fpm-fcgi', 'litespeed'], true)) ? [_MI_PUBLISHER_URL_REWRITE_HTACCESS => 'htaccess'] : []
+    ),
     'category'    => 'seo',
 ];
 
@@ -372,13 +402,13 @@ $modversion['config'][] = [
     'default'     => '',
     'category'    => 'seo',
 ];
-################### INDEX PAGE ####################
+################### INDEX & CATEGORY PAGE ####################
 
 // group header
 $modversion['config'][] = [
     'name'        => 'extrasystems_configs',
-    'title'       => '_MI_PUBLISHER_CONFCAT_INDEXCAT',
-    'description' => '_MI_PUBLISHER_CONFCAT_INDEXCAT_DSC',
+    'title'       => '_MI_PUBLISHER_CONFCAT_INDEX',
+    'description' => '_MI_PUBLISHER_CONFCAT_INDEX_DSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'even',
@@ -391,7 +421,7 @@ $modversion['config'][] = [
     'description' => '_MI_PUBLISHER_WELCOMEDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => 1,
+    'default'     => 0,
     'category'    => 'index',
 ];
 
@@ -406,16 +436,6 @@ $modversion['config'][] = [
 ];
 
 $modversion['config'][] = [
-    'name'        => 'index_display_last_items',
-    'title'       => '_MI_PUBLISHER_LASTITEMS',
-    'description' => '_MI_PUBLISHER_LASTITEMSDSC',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 1,
-    'category'    => 'index',
-];
-
-$modversion['config'][] = [
     'name'        => 'index_footer',
     'title'       => '_MI_PUBLISHER_INDEXFOOTER',
     'description' => '_MI_PUBLISHER_INDEXFOOTERDSC',
@@ -423,29 +443,6 @@ $modversion['config'][] = [
     'valuetype'   => 'text',
     'default'     => '',
     'category'    => 'index',
-];
-################### CATEGORY PAGE ####################
-// display_categeory_summary enabled by Freeform Solutions March 21 2006
-
-// group header
-$modversion['config'][] = [
-    'name'        => 'extrasystems_configs',
-    'title'       => '_MI_PUBLISHER_CONFCAT_CATEGORY',
-    'description' => '_MI_PUBLISHER_CONFCAT_CATEGORY_DSC',
-    'formtype'    => 'line_break',
-    'valuetype'   => 'textbox',
-    'default'     => 'odd',
-    'category'    => 'group_header',
-];
-
-$modversion['config'][] = [
-    'name'        => 'cat_display_summary',
-    'title'       => '_MI_PUBLISHER_DCS',
-    'description' => '_MI_PUBLISHER_DCS_DSC',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 1,
-    'category'    => 'category',
 ];
 
 $modversion['config'][] = [
@@ -467,94 +464,6 @@ $modversion['config'][] = [
     'default'     => '150',
     'category'    => 'category',
 ];
-################### ITEM PAGE ####################
-// group header
-$modversion['config'][] = [
-    'name'        => 'extrasystems_configs',
-    'title'       => '_MI_PUBLISHER_CONFCAT_ITEM',
-    'description' => '_MI_PUBLISHER_CONFCAT_ITEM_DSC',
-    'formtype'    => 'line_break',
-    'valuetype'   => 'textbox',
-    'default'     => 'even',
-    'category'    => 'group_header',
-];
-
-$modversion['config'][] = [
-    'name'        => 'item_title_size',
-    'title'       => '_MI_PUBLISHER_TITLE_SIZE',
-    'description' => '_MI_PUBLISHER_TITLE_SIZEDSC',
-    'formtype'    => 'textbox',
-    'valuetype'   => 'text',
-    'default'     => '60',
-    'category'    => 'item',
-];
-
-$modversion['config'][] = [
-    'name'        => 'item_disp_comment_link',
-    'title'       => '_MI_PUBLISHER_DISCOM',
-    'description' => '_MI_PUBLISHER_DISCOMDSC',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 1,
-    'category'    => 'item',
-];
-
-$modversion['config'][] = [
-    'name'        => 'item_disp_whowhen_link',
-    'title'       => '_MI_PUBLISHER_WHOWHEN',
-    'description' => '_MI_PUBLISHER_WHOWHENDSC',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 1,
-    'category'    => 'item',
-];
-
-$modversion['config'][] = [
-    'name'        => 'item_admin_hits',
-    'title'       => '_MI_PUBLISHER_ADMINHITS',
-    'description' => '_MI_PUBLISHER_ADMINHITSDSC',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 0,
-    'category'    => 'item',
-];
-
-$modversion['config'][] = [
-    'name'        => 'item_footer',
-    'title'       => '_MI_PUBLISHER_ITEMFOOTER',
-    'description' => '_MI_PUBLISHER_ITEMFOOTERDSC',
-    'formtype'    => 'textarea',
-    'valuetype'   => 'text',
-    'default'     => '',
-    'category'    => 'item',
-];
-
-$modversion['config'][] = [
-    'name'        => 'item_other_items_type',
-    'title'       => '_MI_PUBLISHER_OTHERITEMS',
-    'description' => '_MI_PUBLISHER_OTHERITEMSDSC',
-    'formtype'    => 'select',
-    'valuetype'   => 'text',
-    'options'     => [
-        _MI_PUBLISHER_OTHER_ITEMS_TYPE_NONE          => 'none',
-        _MI_PUBLISHER_OTHER_ITEMS_TYPE_PREVIOUS_NEXT => 'previous_next',
-        _MI_PUBLISHER_OTHER_ITEMS_TYPE_ALL           => 'all',
-    ],
-    'default'     => 'previous_next',
-    'category'    => 'item',
-];
-
-################### INDEX AND CATEGORIES ####################
-// group header
-$modversion['config'][] = [
-    'name'        => 'extrasystems_configs',
-    'title'       => '_MI_PUBLISHER_CONFCAT_INDEXCAT',
-    'description' => '_MI_PUBLISHER_CONFCAT_INDEXCAT_DSC',
-    'formtype'    => 'line_break',
-    'valuetype'   => 'textbox',
-    'default'     => 'odd',
-    'category'    => 'group_header',
-];
 
 $modversion['config'][] = [
     'name'        => 'idxcat_show_subcats',
@@ -573,42 +482,6 @@ $modversion['config'][] = [
 ];
 
 $modversion['config'][] = [
-    'name'        => 'idxcat_display_last_item',
-    'title'       => '_MI_PUBLISHER_LASTITEM',
-    'description' => '_MI_PUBLISHER_LASTITEMDSC',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 1,
-    'category'    => 'indexcat',
-];
-
-$modversion['config'][] = [
-    'name'        => 'idxcat_last_item_size',
-    'title'       => '_MI_PUBLISHER_LASTITSIZE',
-    'description' => '_MI_PUBLISHER_LASTITSIZEDSC',
-    'formtype'    => 'textbox',
-    'valuetype'   => 'text',
-    'default'     => '50',
-    'category'    => 'indexcat',
-];
-
-$modversion['config'][] = [
-    'name'        => 'idxcat_items_display_type',
-    'title'       => '_MI_PUBLISHER_DISTYPE',
-    'description' => '_MI_PUBLISHER_DISTYPEDSC',
-    'formtype'    => 'select',
-    'valuetype'   => 'text',
-    'options'     => [
-        _MI_PUBLISHER_DISPLAYTYPE_SUMMARY   => 'summary',
-        _MI_PUBLISHER_DISPLAYTYPE_FULL      => 'full',
-        _MI_PUBLISHER_DISPLAYTYPE_LIST      => 'list',
-        _MI_PUBLISHER_DISPLAYTYPE_WFSECTION => 'wfsection',
-    ],
-    'default'     => 'summary',
-    'category'    => 'indexcat',
-];
-
-$modversion['config'][] = [
     'name'        => 'idxcat_display_subcat_dsc',
     'title'       => '_MI_PUBLISHER_DISSBCATDSC',
     'description' => '_MI_PUBLISHER_DISSBCATDSCDSC',
@@ -619,22 +492,42 @@ $modversion['config'][] = [
 ];
 
 $modversion['config'][] = [
-    'name'        => 'idxcat_display_date_col',
-    'title'       => '_MI_PUBLISHER_DISDATECOL',
-    'description' => '_MI_PUBLISHER_DISDATECOLDSC',
+    'name'        => 'cat_display_summary',
+    'title'       => '_MI_PUBLISHER_DCS',
+    'description' => '_MI_PUBLISHER_DCS_DSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-    'category'    => 'indexcat',
+    'category'    => 'category',
 ];
 
 $modversion['config'][] = [
-    'name'        => 'idxcat_display_hits_col',
-    'title'       => '_MI_PUBLISHER_HITSCOL',
-    'description' => '_MI_PUBLISHER_HITSCOLDSC',
+    'name'        => 'index_disp_subtitle',
+    'title'       => '_MI_PUBLISHER_DISP_INDEX_SUB',
+    'description' => '_MI_PUBLISHER_DISP_INDEX_SUB_DSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => 1,
+    'default'     => 0,
+    'category'    => 'index',
+];
+
+$modversion['config'][] = [
+    'name'        => 'cat_disp_subtitle',
+    'title'       => '_MI_PUBLISHER_DISP_CAT_SUB',
+    'description' => '_MI_PUBLISHER_DISP_CAT_SUB_DSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'category',
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_display_art_count',
+    'title'       => '_MI_PUBLISHER_ARTCOUNT',
+    'description' => '_MI_PUBLISHER_ARTCOUNTDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
     'category'    => 'indexcat',
 ];
 
@@ -655,6 +548,26 @@ $modversion['config'][] = [
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
+    'category'    => 'indexcat',
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_display_last_item',
+    'title'       => '_MI_PUBLISHER_LASTITEM',
+    'description' => '_MI_PUBLISHER_LASTITEMDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'indexcat',
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_last_item_size',
+    'title'       => '_MI_PUBLISHER_LASTITSIZE',
+    'description' => '_MI_PUBLISHER_LASTITSIZEDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => '100',
     'category'    => 'indexcat',
 ];
 
@@ -691,6 +604,338 @@ $modversion['config'][] = [
     'category'    => 'indexcat',
 ];
 
+################### LATEST PUBLISHED ARTICLES FOR INDEX AND CATEGORY PAGE  ####################
+
+// group header
+$modversion['config'][] = [
+    'name'        => 'extrasystems_configs',
+    'title'       => '_MI_PUBLISHER_CONFCAT_INDEXCATTEMPLATE',
+    'description' => '_MI_PUBLISHER_CONFCAT_INDEXCATTEMPLATEDSC',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'even',
+    'category'    => 'group_header',
+];
+
+$modversion['config'][] = [
+    'name'        => 'index_display_last_items',
+    'title'       => '_MI_PUBLISHER_LASTITEMS',
+    'description' => '_MI_PUBLISHER_LASTITEMSDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'indexcattemplate',
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_items_display_type',
+    'title'       => '_MI_PUBLISHER_DISTYPE',
+    'description' => '_MI_PUBLISHER_DISTYPEDSC',
+    'formtype'    => 'select',
+    'valuetype'   => 'text',
+    'options'     => [
+        _MI_PUBLISHER_DISPLAYTYPE_SUMMARY   => 'summary',
+        _MI_PUBLISHER_DISPLAYTYPE_FULL      => 'full',
+        _MI_PUBLISHER_DISPLAYTYPE_LIST      => 'list',
+        _MI_PUBLISHER_DISPLAYTYPE_WFSECTION => 'wfsection',
+    ],
+    'default'     => 'full',
+    'category'    => 'indexcattemplate',
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_display_date_col',
+    'title'       => '_MI_PUBLISHER_DISDATECOL',
+    'description' => '_MI_PUBLISHER_DISDATECOLDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'indexcattemplate',
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_display_hits_col',
+    'title'       => '_MI_PUBLISHER_HITSCOL',
+    'description' => '_MI_PUBLISHER_HITSCOLDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'indexcattemplate',
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_display_mainimage',
+    'title'       => '_MI_PUBLISHER_MAINIMAGE',
+    'description' => '_MI_PUBLISHER_MAINIMAGEDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'indexcattemplate',
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_display_summary',
+    'title'       => '_MI_PUBLISHER_SUMMARY',
+    'description' => '_MI_PUBLISHER_SUMMARYDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'indexcattemplate',
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_display_readmore',
+    'title'       => '_MI_PUBLISHER_READMORE',
+    'description' => '_MI_PUBLISHER_READMOREDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'indexcattemplate',
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_display_category',
+    'title'       => '_MI_PUBLISHER_ARTICLECATEGORY',
+    'description' => '_MI_PUBLISHER_ARTICLECATEGORYDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'indexcattemplate',
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_display_poster',
+    'title'       => '_MI_PUBLISHER_POSTER',
+    'description' => '_MI_PUBLISHER_POSTERDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'indexcattemplate',
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_disp_commentlink',
+    'title'       => '_MI_PUBLISHER_COMMENTLINK',
+    'description' => '_MI_PUBLISHER_COMMENTLINKDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'indexcattemplate',
+];
+
+################### ITEM PAGE ####################
+// group header
+$modversion['config'][] = [
+    'name'        => 'extrasystems_configs',
+    'title'       => '_MI_PUBLISHER_CONFCAT_ITEM',
+    'description' => '_MI_PUBLISHER_CONFCAT_ITEM_DSC',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'even',
+    'category'    => 'group_header',
+];
+
+$modversion['config'][] = [
+    'name'        => 'item_title_size',
+    'title'       => '_MI_PUBLISHER_TITLE_SIZE',
+    'description' => '_MI_PUBLISHER_TITLE_SIZEDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => '100',
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'item_disp_itemcategory',
+    'title'       => '_MI_PUBLISHER_ITEMCATEGORY',
+    'description' => '_MI_PUBLISHER_ITEMCATEGORYDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'item_disp_who_link',
+    'title'       => '_MI_PUBLISHER_WHO',
+    'description' => '_MI_PUBLISHER_WHODSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'item_disp_when_link',
+    'title'       => '_MI_PUBLISHER_WHEN',
+    'description' => '_MI_PUBLISHER_WHENDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'item_disp_hits_link',
+    'title'       => '_MI_PUBLISHER_HITS',
+    'description' => '_MI_PUBLISHER_HITSDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'item_admin_hits',
+    'title'       => '_MI_PUBLISHER_ADMINHITS',
+    'description' => '_MI_PUBLISHER_ADMINHITSDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'item_disp_pdf_button',
+    'title'       => '_MI_PUBLISHER_DISPLAY_PDF',
+    'description' => '_MI_PUBLISHER_DISPLAY_PDF_DSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'item_disp_print_link',
+    'title'       => '_MI_PUBLISHER_PRINT',
+    'description' => '_MI_PUBLISHER_PRINTDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'item_disp_comment_link',
+    'title'       => '_MI_PUBLISHER_DISCOM',
+    'description' => '_MI_PUBLISHER_DISCOMDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'perm_author_items',
+    'title'       => '_MI_PUBLISHER_ALLOW_AUTHOR_ITEMS',
+    'description' => '_MI_PUBLISHER_AUTHOR_ITEMS_DSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'item',
+];
+
+// Number column
+$modversion['config'][] = [
+    'name'        => 'numb_col',
+    'title'       => '_MI_PUBLISHER_NUMB_COL',
+    'description' => '_MI_PUBLISHER_NUMB_COL_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'options'     => [1 => '1', 2 => '2', 3 => '3', 4 => '4'],
+];
+// Divide by
+$modversion['config'][] = [
+    'name'        => 'divideby',
+    'title'       => '_MI_PUBLISHER_DIVIDEBY',
+    'description' => '_MI_PUBLISHER_DIVIDEBY_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'options'     => [1 => '1', 2 => '2', 3 => '3', 4 => '4'],
+];
+// Table type
+$modversion['config'][] = [
+    'name'        => 'table_type',
+    'title'       => '_MI_PUBLISHER_TABLE_TYPE',
+    'description' => '_MI_PUBLISHER_DIVIDEBY_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => 'bordered',
+    'options'     => ['bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed'],
+];
+
+$modversion['config'][] = [
+    'name'        => 'item_disp_blocks_summary',
+    'title'       => '_MI_PUBLISHER_DISP_BLOCK_SUM',
+    'description' => '_MI_PUBLISHER_DISP_BLOCK_SUM_DSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'item_disp_subtitle',
+    'title'       => '_MI_PUBLISHER_DISP_ITEM_SUB',
+    'description' => '_MI_PUBLISHER_DISP_ITEM_SUB_DSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'maximum_filesize',
+    'title'       => '_MI_PUBLISHER_MAX_SIZE',
+    'description' => '_MI_PUBLISHER_MAX_SIZEDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => '10485760', //10MB
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'item_disp_defaultimage',
+    'title'       => '_MI_PUBLISHER_DEFAULTIMAGE',
+    'description' => '_MI_PUBLISHER_DEFAULTIMAGEDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'maximum_image_width',
+    'title'       => '_MI_PUBLISHER_MAX_WIDTH',
+    'description' => '_MI_PUBLISHER_MAX_WIDTHDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => '8000',
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'maximum_image_height',
+    'title'       => '_MI_PUBLISHER_MAX_HEIGHT',
+    'description' => '_MI_PUBLISHER_MAX_HEIGHTDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => '8000',
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'item_footer',
+    'title'       => '_MI_PUBLISHER_ITEMFOOTER',
+    'description' => '_MI_PUBLISHER_ITEMFOOTERDSC',
+    'formtype'    => 'textarea',
+    'valuetype'   => 'text',
+    'default'     => '',
+    'category'    => 'item',
+];
+
 $modversion['config'][] = [
     'name'        => 'idxcat_partial_view_text',
     'title'       => '_MI_PUBLISHER_PV_TEXT',
@@ -698,17 +943,175 @@ $modversion['config'][] = [
     'formtype'    => 'textarea',
     'valuetype'   => 'text',
     'default'     => _MI_PUBLISHER_PV_TEXT_DEF,
-    'category'    => 'indexcat',
+    'category'    => 'item',
 ];
 
 $modversion['config'][] = [
-    'name'        => 'idxcat_display_art_count',
-    'title'       => '_MI_PUBLISHER_ARTCOUNT',
-    'description' => '_MI_PUBLISHER_ARTCOUNTDSC',
+    'name'        => 'item_other_items_type',
+    'title'       => '_MI_PUBLISHER_OTHERITEMS',
+    'description' => '_MI_PUBLISHER_OTHERITEMSDSC',
+    'formtype'    => 'select',
+    'valuetype'   => 'text',
+    'options'     => [
+        _MI_PUBLISHER_OTHER_ITEMS_TYPE_NONE          => 'none',
+        _MI_PUBLISHER_OTHER_ITEMS_TYPE_PREVIOUS_NEXT => 'previous_next',
+        _MI_PUBLISHER_OTHER_ITEMS_TYPE_ALL           => 'all',
+    ],
+    'default'     => 'previous_next',
+    'category'    => 'item',
+];
+
+// ================== Rating/Voting =================
+$modversion['config'][] = [
+    'name'        => 'rating_voting',
+    'title'       => '_MI_PUBLISHER_RATING_VOTING',
+    'description' => '_MI_PUBLISHER_RATING_VOTING_DSC',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'odd',
+    'category'    => 'group_header',
+];
+
+$modversion['config'][] = [
+    'name'        => 'perm_rating',
+    'title'       => '_MI_PUBLISHER_ALLOWRATING',
+    'description' => '_MI_PUBLISHER_ALLOWRATING_DSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'item',
+];
+
+$modversion['config'][] = [
+    'name'        => 'repeat_rating',
+    'title'       => '_MI_PUBLISHER_ALLOW_REPEAT_RATING',
+    'description' => '_MI_PUBLISHER_ALLOW_REPEAT_RATING_DSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
-    'category'    => 'indexcat',
+    'category'    => 'item',
+];
+
+// Get groups
+/** @var \XoopsMemberHandler $memberHandler */
+$memberHandler    = \xoops_getHandler('member');
+$xoopsGroups      = $memberHandler->getGroupList();
+$ratingbar_groups = [];
+foreach ($xoopsGroups as $key => $group) {
+    $ratingbar_groups[$group] = $key;
+}
+// Rating: Groups with rating permissions
+$modversion['config'][] = [
+    'name'        => 'ratingbar_groups',
+    'title'       => '_MI_PUBLISHER_RATINGBAR_GROUPS',
+    'description' => '_MI_PUBLISHER_RATINGBAR_GROUPS_DESC',
+    'formtype'    => 'select_multi',
+    'valuetype'   => 'array',
+    'default'     => [1],
+    'options'     => $ratingbar_groups,
+];
+// Rating : used ratingbar
+$modversion['config'][] = [
+    'name'        => 'ratingbars',
+    'title'       => '_MI_PUBLISHER_RATINGBARS',
+    'description' => '_MI_PUBLISHER_RATINGBARS_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'options'     => ['_MI_PUBLISHER_RATING_NONE' => 0, '_MI_PUBLISHER_RATING_5STARS' => 1, '_MI_PUBLISHER_RATING_10STARS' => 2, '_MI_PUBLISHER_RATING_LIKES' => 3, '_MI_PUBLISHER_RATING_10NUM' => 4, '_MI_PUBLISHER_RATING_REACTION' => 5],
+];
+
+################### LATEST ARTICLES IN ARTICLE PAGE  ####################
+
+// group header
+$modversion['config'][] = [
+    'name'        => 'extrasystems_configs',
+    'title'       => '_MI_PUBLISHER_ITEM_ALLARTICLE',
+    'description' => '_MI_PUBLISHER_ITEM_ALLARTICLEDSC',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'even',
+    'category'    => 'group_header',
+];
+
+$modversion['config'][] = [
+    'name'        => 'allitem_display_date_col',
+    'title'       => '_MI_PUBLISHER_DISDATECOL',
+    'description' => '_MI_PUBLISHER_ITEM_DISDATECOLDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'itemallarticle',
+];
+
+$modversion['config'][] = [
+    'name'        => 'allitem_display_hits_col',
+    'title'       => '_MI_PUBLISHER_HITSCOL',
+    'description' => '_MI_PUBLISHER_ITEM_HITSCOLDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'itemallarticle',
+];
+
+$modversion['config'][] = [
+    'name'        => 'allitem_display_mainimage',
+    'title'       => '_MI_PUBLISHER_MAINIMAGE',
+    'description' => '_MI_PUBLISHER_ITEM_MAINIMAGEDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'itemallarticle',
+];
+
+$modversion['config'][] = [
+    'name'        => 'allitem_display_summary',
+    'title'       => '_MI_PUBLISHER_SUMMARY',
+    'description' => '_MI_PUBLISHER_ITEM_SUMMARYDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'itemallarticle',
+];
+
+$modversion['config'][] = [
+    'name'        => 'allitem_display_readmore',
+    'title'       => '_MI_PUBLISHER_READMORE',
+    'description' => '_MI_PUBLISHER_ITEM_READMOREDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'itemallarticle',
+];
+
+$modversion['config'][] = [
+    'name'        => 'allitem_display_category',
+    'title'       => '_MI_PUBLISHER_ARTICLECATEGORY',
+    'description' => '_MI_PUBLISHER_ITEM_ARTICLECATEGORYDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'itemallarticle',
+];
+
+$modversion['config'][] = [
+    'name'        => 'allitem_display_poster',
+    'title'       => '_MI_PUBLISHER_POSTER',
+    'description' => '_MI_PUBLISHER_ITEM_POSTERDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'itemallarticle',
+];
+
+$modversion['config'][] = [
+    'name'        => 'allitem_disp_commentlink',
+    'title'       => '_MI_PUBLISHER_COMMENTLINK',
+    'description' => '_MI_PUBLISHER_ITEM_COMMENTLINKDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'itemallarticle',
 ];
 
 ################### PRINT ####################
@@ -739,7 +1142,7 @@ $modversion['config'][] = [
     'description' => '_MI_PUBLISHER_PRINTLOGOURLDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => XOOPS_URL . '/images/logo.gif',
+    'default'     => XOOPS_URL . '/images/logo.png',
     'category'    => 'print',
 ];
 
@@ -757,6 +1160,179 @@ $modversion['config'][] = [
         _MI_PUBLISHER_NO_FOOTERS      => 'none',
     ],
     'category'    => 'print',
+];
+
+################### ARCHIVE PAGE ####################
+// group header
+$modversion['config'][] = [
+    'name'        => 'extrasystems_configs',
+    'title'       => '_MI_PUBLISHER_CONFCAT_ARCHIVE',
+    'description' => '_MI_PUBLISHER_CONFCAT_ARCHIVEDSC',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'even',
+    'category'    => 'group_header',
+];
+$modversion['config'][] = [
+    'name'        => 'archive_display_mainimage',
+    'title'       => '_MI_PUBLISHER_MAINIMAGE',
+    'description' => '_MI_PUBLISHER_ARCHIVE_MAINIMAGEDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'archive',
+];
+
+$modversion['config'][] = [
+    'name'        => 'archive_display_summary',
+    'title'       => '_MI_PUBLISHER_SUMMARY',
+    'description' => '_MI_PUBLISHER_ARCHIVE_SUMMARYDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'archive',
+];
+
+$modversion['config'][] = [
+    'name'        => 'archive_display_hits_col',
+    'title'       => '_MI_PUBLISHER_HITSCOL',
+    'description' => '_MI_PUBLISHER_ARCHIVE_HITSCOLDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'archive',
+];
+
+$modversion['config'][] = [
+    'name'        => 'archive_display_category',
+    'title'       => '_MI_PUBLISHER_ARTICLECATEGORY',
+    'description' => '_MI_PUBLISHER_ARCHIVE_ARTICLECATEGORYDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'archive',
+];
+
+$modversion['config'][] = [
+    'name'        => 'archive_display_date_col',
+    'title'       => '_MI_PUBLISHER_DISDATECOL',
+    'description' => '_MI_PUBLISHER_ARCHIVE_DISDATECOLDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'archive',
+];
+
+$modversion['config'][] = [
+    'name'        => 'archive_display_poster',
+    'title'       => '_MI_PUBLISHER_POSTER',
+    'description' => '_MI_PUBLISHER_ARCHIVE_POSTERDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'archive',
+];
+
+$modversion['config'][] = [
+    'name'        => 'archive_display_comment',
+    'title'       => '_MI_PUBLISHER_DISCOM',
+    'description' => '_MI_PUBLISHER_ARCHIVE_COMMENTDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'archive',
+];
+
+$modversion['config'][] = [
+    'name'        => 'archive_display_printlink',
+    'title'       => '_MI_PUBLISHER_PRINT',
+    'description' => '_MI_PUBLISHER_ARCHIVE_PRINTLINKDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'archive',
+];
+
+$modversion['config'][] = [
+    'name'        => 'archive_display_pdfbutton',
+    'title'       => '_MI_PUBLISHER_DISPLAY_PDF',
+    'description' => '_MI_PUBLISHER_ARCHIVE_PDFLINKDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'archive',
+];
+
+$modversion['config'][] = [
+    'name'        => 'archive_display_emaillink',
+    'title'       => '_MI_PUBLISHER_EMAILLINK',
+    'description' => '_MI_PUBLISHER_ARCHIVE_EMAILLINKDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'archive',
+];
+
+################### ITEM BY SAME AUTHOR PAGE ####################
+// group header
+$modversion['config'][] = [
+    'name'        => 'extrasystems_configs',
+    'title'       => '_MI_PUBLISHER_CONFCAT_AUTHORPAGE',
+    'description' => '_MI_PUBLISHER_CONFCAT_AUTHORPAGEDSC',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'even',
+    'category'    => 'group_header',
+];
+
+$modversion['config'][] = [
+    'name'        => 'authorpage_display_image',
+    'title'       => '_MI_PUBLISHER_MAINIMAGE',
+    'description' => '_MI_PUBLISHER_AUTHORPAGE_IMAGEDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'authorpage',
+];
+
+$modversion['config'][] = [
+    'name'        => 'authorpage_disp_summary',
+    'title'       => '_MI_PUBLISHER_SUMMARY',
+    'description' => '_MI_PUBLISHER_AUTHORPAGE_SUMMARYDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'authorpage',
+];
+
+$modversion['config'][] = [
+    'name'        => 'authorpage_display_hits',
+    'title'       => '_MI_PUBLISHER_HITSCOL',
+    'description' => '_MI_PUBLISHER_AUTHORPAGE_HITSDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'authorpage',
+];
+
+$modversion['config'][] = [
+    'name'        => 'authorpage_disp_comment',
+    'title'       => '_MI_PUBLISHER_DISCOM',
+    'description' => '_MI_PUBLISHER_AUTHORPAGE_COMMENTDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'authorpage',
+];
+
+$modversion['config'][] = [
+    'name'        => 'authorpage_display_rating',
+    'title'       => '_MI_PUBLISHER_DISPRATING',
+    'description' => '_MI_PUBLISHER_AUTHORPAGE_RATINGDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+    'category'    => 'authorpage',
 ];
 
 ################### FORMAT ####################
@@ -777,7 +1353,7 @@ $modversion['config'][] = [
     'description' => '_MI_PUBLISHER_DATEFORMATDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => 'd-M-Y H:i',
+    'default'     => 'd M Y g:i A',
     'category'    => 'format',
 ];
 
@@ -834,6 +1410,16 @@ $modversion['config'][] = [
     'name'        => 'format_linked_path',
     'title'       => '_MI_PUBLISHER_LINKPATH',
     'description' => '_MI_PUBLISHER_LINKPATHDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'category'    => 'format',
+];
+
+$modversion['config'][] = [
+    'name'        => 'display_breadcrumb',
+    'title'       => '_MI_PUBLISHER_DISPBREAD',
+    'description' => '_MI_PUBLISHER_DISPBREADDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
@@ -908,17 +1494,6 @@ $modversion['config'][] = [
     'category'    => 'submit',
 ];
 
-//$modversion['config'][] = array(
-//    'name'        => 'submit_editor',
-//    'title'       => '_MI_PUBLISHER_EDITOR',
-//    'description' => '_MI_PUBLISHER_EDITOR_DSC',
-//    'formtype'    => 'select',
-//    'valuetype'   => 'text',
-//    'options'     => XoopsLists::getEditorList(),
-//    'default'     => 'dhtmltextarea',
-//    'category'    => 'submit'
-//);
-
 $modversion['config'][] = [
     'name'        => 'submit_editor_rows',
     'title'       => '_MI_PUBLISHER_EDITOR_ROWS',
@@ -963,6 +1538,22 @@ $modversion['config'][] = [
     'name'        => 'submit_status',
     'title'       => '_MI_PUBLISHER_FORM_STATUS',
     'description' => '_MI_PUBLISHER_FORM_STATUS_DSC',
+    'formtype'    => 'select',
+    'valuetype'   => 'text',
+    'options'     => [
+        _MI_PUBLISHER_SUBMITTED => Constants::PUBLISHER_STATUS_SUBMITTED,
+        _MI_PUBLISHER_PUBLISHED => Constants::PUBLISHER_STATUS_PUBLISHED,
+        _MI_PUBLISHER_OFFLINE   => Constants::PUBLISHER_STATUS_OFFLINE,
+        _MI_PUBLISHER_REJECTED  => Constants::PUBLISHER_STATUS_REJECTED,
+    ],
+    'default'     => Constants::PUBLISHER_STATUS_SUBMITTED,
+    'category'    => 'submit',
+];
+
+$modversion['config'][] = [
+    'name'        => 'submit_edit_status',
+    'title'       => '_MI_PUBLISHER_FORM_EDIT_STATUS',
+    'description' => '_MI_PUBLISHER_FORM_EDIT_STATUS_DSC',
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'options'     => [
@@ -1032,6 +1623,24 @@ $modversion['config'][] = [
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
+    'category'    => 'submit',
+];
+
+$optCats = [_MI_PUBLISHER_IMGCAT_ALL => Constants::PUBLISHER_IMGCAT_ALL];
+/** @var \XoopsImagecategoryHandler $imageCategoryHandler */
+$imageCategoryHandler = xoops_getHandler('imagecategory');
+$catlist              = $imageCategoryHandler->getList();
+foreach ($catlist as $key => $value) {
+    $optCats[$value] = $value;
+}
+$modversion['config'][] = [
+    'name'        => 'submit_imgcat',
+    'title'       => '_MI_PUBLISHER_IMGCAT',
+    'description' => '_MI_PUBLISHER_IMGCAT_DSC',
+    'formtype'    => 'select_multi',
+    'valuetype'   => 'array',
+    'options'     => $optCats,
+    'default'     => [Constants::PUBLISHER_IMGCAT_ALL],
     'category'    => 'submit',
 ];
 
@@ -1108,29 +1717,9 @@ $modversion['config'][] = [
 ];
 
 $modversion['config'][] = [
-    'name'        => 'perm_rating',
-    'title'       => '_MI_PUBLISHER_ALLOWRATING',
-    'description' => '_MI_PUBLISHER_ALLOWRATING_DSC',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 1,
-    'category'    => 'permissions',
-];
-
-$modversion['config'][] = [
     'name'        => 'perm_search',
     'title'       => '_MI_PUBLISHER_ALLOWSEARCH',
     'description' => '_MI_PUBLISHER_ALLOWSEARCH_DSC',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 1,
-    'category'    => 'permissions',
-];
-
-$modversion['config'][] = [
-    'name'        => 'perm_author_items',
-    'title'       => '_MI_PUBLISHER_ALLOW_AUTHOR_ITEMS',
-    'description' => '_MI_PUBLISHER_ALLOW_AUTHOR_ITEMS_DSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
@@ -1169,91 +1758,14 @@ $modversion['config'][] = [
     'category'    => 'group_header',
 ];
 
+
 $modversion['config'][] = [
-    'name'        => 'display_breadcrumb',
-    'title'       => '_MI_PUBLISHER_DISPBREAD',
-    'description' => '_MI_PUBLISHER_DISPBREADDSC',
+    'name'        => 'generate_jsonld',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'GENERATE_JSONLD',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'GENERATE_JSONLD_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-];
-
-$modversion['config'][] = [
-    'name'        => 'display_pdf',
-    'title'       => '_MI_PUBLISHER_DISPLAY_PDF',
-    'description' => '_MI_PUBLISHER_DISPLAY_PDF_DSC',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 0,
-];
-
-$modversion['config'][] = [
-    'name'        => 'maximum_filesize',
-    'title'       => '_MI_PUBLISHER_MAX_SIZE',
-    'description' => '_MI_PUBLISHER_MAX_SIZEDSC',
-    'formtype'    => 'textbox',
-    'valuetype'   => 'text',
-    'default'     => '1000000',
-];
-
-$modversion['config'][] = [
-    'name'        => 'maximum_image_width',
-    'title'       => '_MI_PUBLISHER_MAX_WIDTH',
-    'description' => '_MI_PUBLISHER_MAX_WIDTHDSC',
-    'formtype'    => 'textbox',
-    'valuetype'   => 'text',
-    'default'     => '800',
-];
-
-$modversion['config'][] = [
-    'name'        => 'maximum_image_height',
-    'title'       => '_MI_PUBLISHER_MAX_HEIGHT',
-    'description' => '_MI_PUBLISHER_MAX_HEIGHTDSC',
-    'formtype'    => 'textbox',
-    'valuetype'   => 'text',
-    'default'     => '800',
-];
-
-########### ADDED in final #############
-
-$modversion['config'][] = [
-    'name'        => 'item_disp_blocks_summary',
-    'title'       => '_MI_PUBLISHER_DISP_BLOCK_SUM',
-    'description' => '_MI_PUBLISHER_DISP_BLOCK_SUM_DSC',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 0,
-    'category'    => 'item',
-];
-
-$modversion['config'][] = [
-    'name'        => 'index_disp_subtitle',
-    'title'       => '_MI_PUBLISHER_DISP_INDEX_SUB',
-    'description' => '_MI_PUBLISHER_DISP_INDEX_SUB_DSC',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 0,
-    'category'    => 'index',
-];
-
-$modversion['config'][] = [
-    'name'        => 'cat_disp_subtitle',
-    'title'       => '_MI_PUBLISHER_DISP_CAT_SUB',
-    'description' => '_MI_PUBLISHER_DISP_CAT_SUB_DSC',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 0,
-    'category'    => 'category',
-];
-
-$modversion['config'][] = [
-    'name'        => 'item_disp_subtitle',
-    'title'       => '_MI_PUBLISHER_DISP_ITEM_SUB',
-    'description' => '_MI_PUBLISHER_DISP_ITEM_SUB_DSC',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 1,
-    'category'    => 'item',
 ];
 
 /**
@@ -1263,6 +1775,18 @@ $modversion['config'][] = [
     'name'        => 'displaySampleButton',
     'title'       => '_MI_PUBLISHER_SHOW_SAMPLE_BUTTON',
     'description' => '_MI_PUBLISHER_SHOW_SAMPLE_BUTTON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
+/**
+ * Show Developer Tools?
+ */
+$modversion['config'][] = [
+    'name'        => 'displayDeveloperTools',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,

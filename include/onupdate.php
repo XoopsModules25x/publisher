@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -11,14 +11,16 @@
 
 /**
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @author          trabis <lusopoemas@gmail.com>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\Common;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
-    || !$GLOBALS['xoopsUser']->IsAdmin()) {
+    || !$GLOBALS['xoopsUser']->isAdmin()) {
     exit('Restricted access' . PHP_EOL);
 }
 
@@ -30,8 +32,7 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUs
  */
 function xoops_module_pre_update_publisher(\XoopsModule $module)
 {
-    /** @var Publisher\Utility $utility */
-    $utility = new Publisher\Utility();
+    $utility = new Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
@@ -49,13 +50,13 @@ function xoops_module_pre_update_publisher(\XoopsModule $module)
 function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = null)
 {
     global $xoopsDB;
-    $moduleDirName = basename(dirname(__DIR__));
-    //    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $moduleDirName = \basename(\dirname(__DIR__));
+    //    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-    /** @var Publisher\Helper $helper */
-    /** @var Publisher\Common\Configurator $configurator */
-    $helper       = Publisher\Helper::getInstance();
-    $configurator = new Publisher\Common\Configurator();
+    /** @var Helper $helper */
+    /** @var Common\Configurator $configurator */
+    $helper       = Helper::getInstance();
+    $configurator = new Common\Configurator();
 
     $helper->loadLanguage('common');
 
@@ -75,8 +76,7 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
         $xoopsDB->queryF($sql);
         $sql = '    ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' MODIFY `meta_description` TEXT NULL';
         $xoopsDB->queryF($sql);
-        /** @var Publisher\Utility $utility */
-        $utility = new Publisher\Utility();
+        $utility = new Utility();
 
         //delete old HTML templates
         if (count($configurator->templateFolders) > 0) {
@@ -87,7 +87,7 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
                     foreach ($templateList as $k => $v) {
                         $fileInfo = new \SplFileInfo($templateFolder . $v);
                         if ('html' === $fileInfo->getExtension() && 'index.html' !== $fileInfo->getFilename()) {
-                            if (file_exists($templateFolder . $v)) {
+                            if (is_file($templateFolder . $v)) {
                                 unlink($templateFolder . $v);
                             }
                         }
@@ -129,7 +129,7 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
 
         //  ---  COPY blank.png FILES ---------------
         if (count($configurator->copyBlankFiles) > 0) {
-            $file = dirname(__DIR__) . '/assets/images/blank.png';
+            $file = \dirname(__DIR__) . '/assets/images/blank.png';
             foreach (array_keys($configurator->copyBlankFiles) as $i) {
                 $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
                 $utility::copyFile($file, $dest);
@@ -144,6 +144,24 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
         $grouppermHandler = xoops_getHandler('groupperm');
 
         return $grouppermHandler->deleteByModule($module->getVar('mid'), 'item_read');
+    }
+
+    // check table items for field `dateexpire`
+    if (!$GLOBALS['xoopsDB']->query('SELECT dateexpire FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items'))) {
+        $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items') . " ADD `dateexpire` INT(11) NULL DEFAULT '0' AFTER `datesub`";
+        $GLOBALS['xoopsDB']->queryF($sql);
+    }
+    // check table items for field `votetype`
+    if (!$GLOBALS['xoopsDB']->query('SELECT votetype FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items'))) {
+        $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_items') . " ADD `votetype` TINYINT(1) NOT NULL DEFAULT '0' AFTER `item_tag`";
+        $GLOBALS['xoopsDB']->queryF($sql);
+    }
+
+    // Publisher 1.8.0
+    // check table items for field `template_item` for custom templates
+    if (!$GLOBALS['xoopsDB']->query('SELECT template_item FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories'))) {
+        $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . " ADD `template_item` VARCHAR(150) NOT NULL DEFAULT '' AFTER `template`";
+        $GLOBALS['xoopsDB']->queryF($sql);
     }
 
     return true;

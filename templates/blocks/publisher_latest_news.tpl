@@ -1,28 +1,63 @@
-<{if $block.template == 'normal'}>
-    <{if $block.latestnews_scroll }>
+<{if $block.template|default:'' == 'normal'}>
+    <{if $block.latestnews_scroll|default:false}>
         <marquee behavior='scroll' align='center' direction='<{$block.scrolldir}>' height='<{$block.scrollheight}>' scrollamount='3' scrolldelay='<{$block.scrollspeed}>' onmouseover='this.stop()' onmouseout='this.start()'>
     <{/if}>
     <{section name=i loop=$block.columns}>
         <ul>
             <{foreach item=item from=$block.columns[i]}>
-                <li><{if $item.posttime }>[ <{$item.posttime}> ]:<{/if}> <{$item.topic_title}> <{$item.title}></li>
+                <li> <{$item.title}><br>
+    <{if $item.display_item_image|default:false}>
+         <{if $item.item_image|default:'' != ''}>
+            <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="margin<{$block.margin}>: 10px; padding: 2px; border:<{$block.border}>px solid #<{$block.bordercolor}>"></a><br >
+            <{else}>
+            <a href="<{$item.itemurl}>"><img src="<{$block.publisher_url}>thumb.php?src=<{$block.publisher_url}>/assets/images/default_image.jpg&w=<{$block.imgheight}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="margin<{$block.margin}>: 10px; padding: 2px; border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>
+         <{/if}>
+     <{/if}>
+
+                    <{if $item.display_summary|default:false}>
+                           <{$item.text}> <br>
+                    <{/if}>
+                <{$item.more}><br><br>
+                                <{if $item.topic_title|default:false}>                 
+                                    <span><{$block.lang_category}> : <{$item.topic_title}> | </span>
+                                <{/if}>
+                                <{if $item.poster|default:false}>
+                                    <span class="itemPoster"><{$block.lang_poster}> <{$item.poster}> |</span>
+                                <{/if}>
+                                <{if $item.posttime|default:false}>
+                                    <span class="itemPostDate"><{$item.posttime}> |</span>
+                                <{/if}>
+                                <{if $item.read|default:false}>
+                                    <span><{$item.read}> <{$block.lang_reads}> |</span>
+                                <{/if}>
+                                <{if $item.comment|default:false && $item.cancomment|default:false && $item.comment|default:0 != -1}>
+                                    <span><{$item.comment}></span>
+                                <{/if}>
+               
+                <p class="itemPermaLink" align="right">
+                <{$item.email}><{$item.print}><{$item.pdf}>
+                <{if $item.display_adminlink|default:false}> 
+                <{$item.admin}><{/if}>
+                </p>
+
+                </li>
             <{/foreach}>
         </ul>
     <{/section}>
-    <{if $block.latestnews_scroll }>
+    <br><{$block.topiclink}><{$block.morelink}><{$block.archivelink}><{$block.submitlink}>
+
+    <{if $block.latestnews_scroll|default:false}>
         </marquee>
     <{/if}>
 <{/if}>
 
-<{if $block.template == 'extended'}>
+<{if $block.template|default:'' == 'extended'}>
 
     <{php}>
-        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
-        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
         $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
     <{/php}>
 
-    <{if $block.latestnews_scroll }>
+    <{if $block.latestnews_scroll|default:false}>
         <marquee behavior='scroll' align='center' direction='<{$block.scrolldir}>' height='<{$block.scrollheight}>' scrollamount='3' scrolldelay='<{$block.scrollspeed}>' onmouseover='this.stop()' onmouseout='this.start()'>
     <{/if}>
     <table width='100%' border='0'>
@@ -30,36 +65,67 @@
             <{section name=i loop=$block.columns}>
                 <td width="<{$block.spec.columnwidth}>%">
                     <{foreach item=item from=$block.columns[i]}>
-                        <div class="itemHead"><{$item.admin}>
-                            <span class="itemTitle"><{$item.topic_title}><{$item.title}></span>
+                        <div class="itemHead">
+                            <span class="itemTitle"><{$item.title}></span>
                         </div>
-                        <{if $block.poster || $item.posttime || $item.read }>
+                        
                             <div class="itemInfo">
-                                <span class="itemPoster"><{$item.poster}></span>
-                                <span class="itemPostDate"><{$item.posttime}><{$item.read}></span>
-                            </div>
-                        <{/if}>
-                        <{$item.image}>
-                        <{if $block.letters != 0}>
+
+                                <{if $item.topic_title|default:false}>                 
+                                    <span><{$block.lang_category}> : <{$item.topic_title}> |</span>
+                                 <{/if}>
+                                <{if $item.poster|default:false}>
+                                    <span class="itemPoster"><{$block.lang_poster}> <{$item.poster}> |</span>
+                                <{/if}>
+                                <{if $item.posttime|default:false}>
+                                    <span class="itemPostDate"><{$item.posttime}> |</span>
+                                <{/if}>
+                               <{if $item.read|default:false}>
+                                    <span><{$item.read}> <{$block.lang_reads}> |</span>
+                                <{/if}>
+                                <{if $item.comment|default:false && $item.cancomment|default:false && $item.comment|default:0 != -1}>
+                                    <span><{$item.comment}></span>
+                                <{/if}>
+                             </div>
+
+                 <{if $item.display_item_image|default:false}>
+                       <{if $item.item_image|default:'' != ''}>
+                       <a href="<{$item.itemurl}>"><img src="<{$item.item_image}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="margin<{$block.margin}>: 10px; padding: 2px; border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>
+                       <{else}>
+                       <a href="<{$item.itemurl}>"><img src="<{$block.publisher_url}>thumb.php?src=<{$block.publisher_url}>/assets/images/default_image.jpg&w=<{$block.imgheight}>" title="<{$item.alt}>" alt="<{$item.alt}>" width="<{$block.imgwidth}>" height="<{$block.imgheight}>" style="margin<{$block.margin}>: 10px; padding: 2px; border:<{$block.border}>px solid #<{$block.bordercolor}>"></a>
+                       <{/if}>
+                 <{/if}>
+
+
+
+
+
+                        <{if $block.letters|default:0 != 0}>
                             <div style="text-align:justify; padding:5px;">
-                                <{$item.text}>
+                                    <{if $item.display_summary|default:false}>
+                                      <{$item.text}> <br>
+                                    <{/if}>
+                                <{$item.more}>
                                 <div style="clear:both;"></div>
                             </div>
                         <{/if}>
                         <div class="itemFoot">
-                            <span class="itemPermaLink"><{$item.more}><{$item.comment}><{$item.print}><{$item.pdf}><{$item.email}></span>
+                            <span class="itemPermaLink">
+                            <{$item.print}><{$item.pdf}><{$item.email}>
+                            <{if $item.display_adminlink|default:false}> <{$item.admin}>
+                            <{/if}>
+                            </span>
                         </div>
                     <{/foreach}>
                 </td>
             <{/section}>
         </tr>
     </table>
-    <{if $block.latestnews_scroll }>
-        </marquee><{/if}>
+    <{if $block.latestnews_scroll|default:false}></marquee><{/if}>
+    <div><br ><{$block.morelink}><{$block.archivelink}><{$block.submitlink}><br ></div>
+<{/if}>
 
-    <div><{$block.morelink}><{$block.topiclink}><{$block.archivelink}><{$block.submitlink}></div><{/if}>
-
-<{if $block.template == 'ticker'}>
+<{if $block.template|default:'' == 'ticker'}>
     <marquee behavior='scroll' align='middle' direction='<{$block.scrolldir}>' height='<{$block.scrollheight}>' scrollamount='3' scrolldelay='<{$block.scrollspeed}>' onmouseover='this.stop()'
              onmouseout='this.start()'>
         <{section name=i loop=$block.columns}>
@@ -70,12 +136,14 @@
     </marquee>
 <{/if}>
 
-<{if $block.template == 'slider1'}>
+
+<{if $block.template|default:'' == 'slider1'}>
 
     <{php}>$GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
         $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
         $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.style.css');
-        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');<{/php}>
+        $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/publisher.css');
+    <{/php}>
     <script type="text/javascript">
         jQuery(document).ready(function () {
 
@@ -149,7 +217,7 @@
 
         }
     </script>
-    <{section name=i}>
+    <{section name=i loop=$block.columns}>
 
         <ul class="pub_slideshow1">
         <{foreach item=item from=$block.columns[i]}>
@@ -161,7 +229,7 @@
 
 <{/if}>
 
-<{if $block.template == 'slider2'}>
+<{if $block.template|default:'' == 'slider2'}>
 
     <{php}>$GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
         $GLOBALS['xoTheme']->addStylesheet(PUBLISHER_URL . '/assets/css/jquery.popeye.css');
@@ -180,7 +248,7 @@
         });
 
     </script>
-    <{section name=i}>
+   <{section name=i loop=$block.columns}>
         <div id="lofslidecontent45" class="lof-slidecontent">
 
             <div class="lof-main-outer">

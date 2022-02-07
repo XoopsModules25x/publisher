@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher\Common;
 
@@ -16,13 +16,12 @@ namespace XoopsModules\Publisher\Common;
  * Configurator Class
  *
  * @copyright   XOOPS Project (https://xoops.org)
- * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @license     https://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      XOOPS Development Team
- * @package     Publisher
  * @since       1.05
  */
 
-use XoopsModules\Publisher;
+//use XoopsModules\Publisher;
 
 /**
  * Class Configurator
@@ -31,6 +30,7 @@ class Configurator
 {
     public $name;
     public $paths           = [];
+    public $icons           = [];
     public $uploadFolders   = [];
     public $copyBlankFiles  = [];
     public $copyTestFolders = [];
@@ -38,6 +38,8 @@ class Configurator
     public $oldFiles        = [];
     public $oldFolders      = [];
     public $renameTables    = [];
+    public $renameColumns   = [];
+    public $moduleStats     = [];
     public $modCopyright;
 
     /**
@@ -45,11 +47,7 @@ class Configurator
      */
     public function __construct()
     {
-        $moduleDirName      = basename(dirname(dirname(__DIR__)));
-        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-
-        require dirname(dirname(__DIR__)) . '/include/config.php';
-        $config = getConfig();
+        $config = require \dirname(__DIR__, 2) . '/config/config.php';
 
         $this->name            = $config->name;
         $this->paths           = $config->paths;
@@ -60,6 +58,13 @@ class Configurator
         $this->oldFiles        = $config->oldFiles;
         $this->oldFolders      = $config->oldFolders;
         $this->renameTables    = $config->renameTables;
+        $this->renameColumns   = $config->renameColumns;
+        $this->moduleStats     = $config->moduleStats;
         $this->modCopyright    = $config->modCopyright;
+        $this->testimages      = $config->testimages;
+
+        $this->icons = require \dirname(__DIR__, 2) . '/config/icons.php';
+        $this->paths = require \dirname(__DIR__, 2) . '/config/paths.php';
+
     }
 }

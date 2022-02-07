@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,38 +10,40 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
+/** @var Helper $helper
+ * {@internal $helper defined in ./include/common.php }}
+ */
 require_once __DIR__ . '/header.php';
 require_once $GLOBALS['xoops']->path('class/template.php');
 
-$itemid = Request::getInt('itemid', 0, 'GET');
+$itemId = Request::getInt('itemid', 0, 'GET');
 
-if (0 == $itemid) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
+if (0 == $itemId) {
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 // Creating the ITEM object for the selected ITEM
-$itemObj = $helper->getHandler('Item')->get($itemid);
+$itemObj = $helper->getHandler('Item')->get($itemId);
 
 // if the selected ITEM was not found, exit
 if ($itemObj->notLoaded()) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
 // Check user permissions to access that category of the selected ITEM
 if (!$itemObj->accessGranted()) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 
 // Creating the category object that holds the selected ITEM
@@ -55,11 +57,16 @@ $item['body']         = $itemObj->getBody();
 $item['categoryname'] = $myts->displayTarea($categoryObj->name());
 
 $mainImage = $itemObj->getMainImage();
+if (empty($mainImage['image_path'])) {
+    $mainImage['image_path'] = PUBLISHER_URL . '/assets/images/default_image.jpg';
+}
 if ('' != $mainImage['image_path']) {
     $item['image'] = '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '">';
 }
 $xoopsTpl->assign('item', $item);
-$xoopsTpl->assign('printtitle', $GLOBALS['xoopsConfig']['sitename'] . ' - ' . Publisher\Utility::html2text($categoryObj->getCategoryPath()) . ' > ' . $myts->displayTarea($itemObj->getTitle()));
+$xoopsTpl->assign('xoops_sitename', $GLOBALS['xoopsConfig']['sitename']);
+$xoopsTpl->assign('xoops_slogan', $GLOBALS['xoopsConfig']['slogan']);
+$xoopsTpl->assign('printtitle', $GLOBALS['xoopsConfig']['sitename'] . ' - ' . Utility::html2text($categoryObj->getCategoryPath()) . ' > ' . $myts->displayTarea($itemObj->getTitle()));
 $xoopsTpl->assign('printlogourl', $helper->getConfig('print_logourl'));
 $xoopsTpl->assign('printheader', $myts->displayTarea($helper->getConfig('print_header'), 1));
 $xoopsTpl->assign('lang_category', _CO_PUBLISHER_CATEGORY);
@@ -83,5 +90,10 @@ if ('index footer' === $helper->getConfig('print_footer') || 'both' === $helper-
 }
 
 $xoopsTpl->assign('display_whowhen_link', $helper->getConfig('item_disp_whowhen_link'));
+$xoopsTpl->assign('display_who_link', $helper->getConfig('item_disp_who_link'));
+$xoopsTpl->assign('display_when_link', $helper->getConfig('item_disp_when_link'));
+$xoopsTpl->assign('display_hits_link', $helper->getConfig('item_disp_hits_link'));
+$xoopsTpl->assign('display_itemcategory', $helper->getConfig('item_disp_itemcategory'));
+$xoopsTpl->assign('display_defaultimage', $helper->getConfig('item_disp_defaultimage'));
 
 $xoopsTpl->display('db:publisher_print.tpl');

@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * Module: Publisher
  * Author: The SmartFactory <www.smartfactory.ca>
@@ -56,7 +57,7 @@ define('_MD_PUBLISHER_PRINTERFRIENDLY', 'Print this article in a printer friendl
 define('_MD_PUBLISHER_READS', 'reads');
 define('_MD_PUBLISHER_RSSFEED', 'RSS Feed');
 define('_MD_PUBLISHER_SENDSTORY', 'Send this article to a friend');
-define('_MD_PUBLISHER_SUB_CLONE', 'Dupplicate an article');
+define('_MD_PUBLISHER_SUB_CLONE', 'Duplicate an article');
 define('_MD_PUBLISHER_SUB_SMNAME', 'Submit an article');
 define('_MD_PUBLISHER_SUB_SNEWNAME', 'Submit an article');
 define('_MD_PUBLISHER_SUBMIT', 'Submit an article');
@@ -74,7 +75,7 @@ define('_MD_PUBLISHER_VOTE_THANKS', 'Thanks for your vote!');
 define('_MD_PUBLISHER_VOTE_VOTE', 'vote');
 define('_MD_PUBLISHER_VOTE_VOTES', 'votes');
 define('_MD_PUBLISHER_VOTE_RATING', 'Rating');
-define('_MD_PUBLISHER_VOTE_DISABLE', 'Votes are disable!');
+define('_MD_PUBLISHER_VOTE_DISABLE', 'Voting is disabled!');
 define('_MD_PUBLISHER_VOTE_OUTOF', 'out of');
 define('_MD_PUBLISHER_ITEMS_SAME_AUTHOR', 'Items by the same author');
 define('_MD_PUBLISHER_TOTAL_ITEMS', 'Total items: ');
@@ -88,4 +89,98 @@ define('_MD_PUBLISHER_CLOSE', 'Close');
 define('_MD_PUBLISHER_ENLARGEIMG', 'Enlarge');
 define('_MD_PUBLISHER_OF', ' of ');
 //1.04
-define('_MD_PUBLISHER_ERROR_NO_PDF', 'TCPF for XOOPS not installed in /class/libraries/vendor/tecnickcom/tcpdf/ <br> Please read the /docs/readme.txt or click on the Help tab to learn how to get it!');
+define('_MD_PUBLISHER_ERROR_NO_PDF', 'TCPDF for XOOPS not installed in /class/libraries/vendor/tecnickcom/tcpdf/ <br> Please read the /docs/readme.txt or click on the Help tab to learn how to get it!');
+//Lio-MJ
+define('_MD_PUBLISHER_READMORE', 'Read more...');
+define('_MD_PUBLISHER_CATEGORY', 'Category');
+define('_MD_PUBLISHER_POSTER', 'Published by');
+define('_MD_PUBLISHER_AUTHOR', 'Author');
+define('_MD_PUBLISHER_TOTALHITS', 'hits');
+define('_MD_PUBLISHER_ONECOMMENT', '1 comment');
+define('_MD_PUBLISHER_NO_COMMENTS', 'No comments');
+
+// ---------------- Contents ----------------
+// Category
+\define('_MA_PUBLISHER_CATEGORY', 'Category');
+\define('_MA_PUBLISHER_CATEGORY_TITLE', 'Category title');
+\define('_MA_PUBLISHER_CATEGORY_DESC', 'Category description');
+\define('_MA_PUBLISHER_CATEGORY_LIST', 'List of Category');
+// Caption of Category
+\define('_MA_PUBLISHER_CATEGORY_ID', 'Id');
+\define('_MA_PUBLISHER_CATEGORY_NAME', 'Name');
+\define('_MA_PUBLISHER_CATEGORY_DESCRIPTION', 'Description');
+\define('_MA_PUBLISHER_CATEGORY_IMAGELIST', 'Imagelist');
+\define('_MA_PUBLISHER_CATEGORY_IMAGEUPLOAD', 'Imageupload');
+\define('_MA_PUBLISHER_CATEGORY_CREATED', 'Created');
+\define('_MA_PUBLISHER_CATEGORY_EDITED', 'Edited');
+\define('_MA_PUBLISHER_CATEGORY_PUBLISHED', 'Published');
+\define('_MA_PUBLISHER_CATEGORY__RATINGS', '_ratings');
+\define('_MA_PUBLISHER_CATEGORY__VOTES', '_votes');
+// Article
+\define('_MA_PUBLISHER_ARTICLE', 'Article');
+\define('_MA_PUBLISHER_ARTICLE_DESC', 'Article description');
+\define('_MA_PUBLISHER_ARTICLE_LIST', 'List of Article');
+// Caption of Article
+\define('_MA_PUBLISHER_ARTICLE_ID', 'Id');
+\define('_MA_PUBLISHER_ARTICLE_TITLE', 'Title');
+\define('_MA_PUBLISHER_ARTICLE_SUMMARY', 'Summary');
+\define('_MA_PUBLISHER_ARTICLE_DESCRIPTION', 'Description');
+\define('_MA_PUBLISHER_ARTICLE_IMAGE', 'Image');
+\define('_MA_PUBLISHER_ARTICLE_CREATED', 'Created');
+\define('_MA_PUBLISHER_ARTICLE_EDITED', 'Edited');
+\define('_MA_PUBLISHER_ARTICLE_PUBLISHED', 'Published');
+\define('_MA_PUBLISHER_ARTICLE_CATEGORY', 'Category');
+\define('_MA_PUBLISHER_ARTICLE__RATINGS', '_ratings');
+\define('_MA_PUBLISHER_ARTICLE__VOTES', '_votes');
+\define('_MA_PUBLISHER_ARTICLE__COMMENTS', '_comments');
+\define('_MA_PUBLISHER_INDEX_THEREARE', 'There are %s Article');
+\define('_MA_PUBLISHER_INDEX_LATEST_LIST', 'Last Blog');
+// Submit
+\define('_MA_PUBLISHER_SUBMIT', 'Submit');
+// Form
+\define('_MA_PUBLISHER_FORM_OK', 'Successfully saved');
+\define('_MA_PUBLISHER_FORM_DELETE_OK', 'Successfully deleted');
+\define('_MA_PUBLISHER_FORM_SURE_DELETE', "Are you sure to delete: <b><span style='color : Red;'>%s </span></b>");
+\define('_MA_PUBLISHER_FORM_SURE_RENEW', "Are you sure to update: <b><span style='color : Red;'>%s </span></b>");
+\define('_MA_PUBLISHER_FORM_SURE_BROKEN', "Are you sure to notify as broken: <b><span style='color : Red;'>%s </span></b>");
+\define('_MA_PUBLISHER_INVALID_PARAM', 'Invalid parameter');
+// ---------------- Ratings ----------------
+\define('_MA_PUBLISHER_RATING_CURRENT_1', 'Rating: %c / %m (%t rating totally)');
+\define('_MA_PUBLISHER_RATING_CURRENT_X', 'Rating: %c / %m (%t ratings totally)');
+\define('_MA_PUBLISHER_RATING_CURRENT_SHORT_1', '%c (%t rating)');
+\define('_MA_PUBLISHER_RATING_CURRENT_SHORT_X', '%c (%t ratings)');
+\define('_MA_PUBLISHER_RATING1', '1 of 5');
+\define('_MA_PUBLISHER_RATING2', '2 of 5');
+\define('_MA_PUBLISHER_RATING3', '3 of 5');
+\define('_MA_PUBLISHER_RATING4', '4 of 5');
+\define('_MA_PUBLISHER_RATING5', '5 of 5');
+\define('_MA_PUBLISHER_RATING_10_1', '1 of 10');
+\define('_MA_PUBLISHER_RATING_10_2', '2 of 10');
+\define('_MA_PUBLISHER_RATING_10_3', '3 of 10');
+\define('_MA_PUBLISHER_RATING_10_4', '4 of 10');
+\define('_MA_PUBLISHER_RATING_10_5', '5 of 10');
+\define('_MA_PUBLISHER_RATING_10_6', '6 of 10');
+\define('_MA_PUBLISHER_RATING_10_7', '7 of 10');
+\define('_MA_PUBLISHER_RATING_10_8', '8 of 10');
+\define('_MA_PUBLISHER_RATING_10_9', '9 of 10');
+\define('_MA_PUBLISHER_RATING_10_10', '10 of 10');
+\define('_MA_PUBLISHER_RATING_VOTE_BAD', 'Invalid vote');
+\define('_MA_PUBLISHER_RATING_VOTE_ALREADY', 'You have already voted');
+\define('_MA_PUBLISHER_RATING_VOTE_THANKS', 'Thank you for rating');
+\define('_MA_PUBLISHER_RATING_NOPERM', "Sorry, you don't have permission to rate items");
+\define('_MA_PUBLISHER_RATING_LIKE', 'Like');
+\define('_MA_PUBLISHER_RATING_DISLIKE', 'Dislike');
+\define('_MA_PUBLISHER_RATING_ERROR1', 'Error: update base table failed!');
+
+\define('_MA_PUBLISHER_REACTION_LIKE', 'Like');
+\define('_MA_PUBLISHER_REACTION_LOVE', 'Love');
+\define('_MA_PUBLISHER_REACTION_CARE', 'Care');
+\define('_MA_PUBLISHER_REACTION_HAHA', 'Ha Ha');
+\define('_MA_PUBLISHER_REACTION_WOW', 'Wow!');
+\define('_MA_PUBLISHER_REACTION_SAD', 'Sad');
+\define('_MA_PUBLISHER_REACTION_ANGRY', 'Angry');
+
+// Admin link
+\define('_MA_PUBLISHER_ADMIN', 'Admin');
+define('_MD_PUBLISHER_PDF', 'TCPDF for XOOPS installed in /class/libraries/vendor/tecnickcom/tcpdf/');
+// ---------------- End ----------------

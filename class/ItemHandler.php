@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -13,20 +13,16 @@ namespace XoopsModules\Publisher;
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
-
-//namespace Publisher;
-
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-require_once dirname(__DIR__) . '/include/common.php';
+/** @var Helper $this- >helper */
+/** @var Item $obj */
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Items handler class.
@@ -34,25 +30,27 @@ require_once dirname(__DIR__) . '/include/common.php';
  * of Q&A class objects.
  *
  * @author  marcan <marcan@notrevie.ca>
- * @package Publisher
  */
 class ItemHandler extends \XoopsPersistableObjectHandler
 {
+    private const TABLE      = 'publisher_items';
+    private const ENTITY     = Item::class;
+    private const ENTITYNAME = 'Item';
+    private const KEYNAME    = 'itemid';
+    private const IDENTIFIER = 'title';
     /**
-     * @var Publisher\Helper
+     * @var Helper
      */
-    public $helper;
-
+    public    $helper;
+    public    $publisherIsAdmin;
     protected $resultCatCounts = [];
 
-    /**
-     * @param null|\XoopsDatabase $db
-     */
-    public function __construct(\XoopsDatabase $db = null)
+    public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
-        /** @var Publisher\Helper $this ->helper */
-        parent::__construct($db, 'publisher_items', Item::class, 'itemid', 'title');
-        $this->helper = Publisher\Helper::getInstance();
+        $this->helper           = $helper ?? Helper::getInstance();
+        $this->db               = $db;
+        $this->publisherIsAdmin = $this->helper->isUserAdmin();
+        parent::__construct($db, static::TABLE, static::ENTITY, static::KEYNAME, static::IDENTIFIER);
     }
 
     /**
@@ -62,10 +60,12 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function create($isNew = true)
     {
+        /** @var Item $obj */
         $obj = parent::create($isNew);
         if ($isNew) {
             $obj->setDefaultPermissions();
         }
+        $obj->helper = $this->helper;
 
         return $obj;
     }
@@ -73,16 +73,15 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve an item
      *
-     * @param int   $id     itemid of the user
+     * @param null|int   $id itemid of the user
      *
-     * @param  null $fields
+     * @param array|null $fields
      * @return mixed reference to the <a href='psi_element://Item'>Item</a> object, FALSE if failed
-     *                      object, FALSE if failed
      */
     public function get($id = null, $fields = null)
     {
         $obj = parent::get($id);
-        if (is_object($obj)) {
+        if (\is_object($obj)) {
             $obj->assignOtherProperties();
         }
 
@@ -101,7 +100,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function insert(\XoopsObject $item, $force = false)  //insert(&$item, $force = false)
     {
         if (!$item->meta_keywords() || !$item->meta_description() || !$item->short_url()) {
-            $publisherMetagen = new Publisher\Metagen($item->getTitle(), $item->getVar('meta_keywords'), $item->getVar('summary'));
+            $publisherMetagen = new Metagen($item->getTitle(), $item->getVar('meta_keywords'), $item->getVar('summary'));
             // Auto create meta tags if empty
             if (!$item->meta_keywords()) {
                 $item->setVar('meta_keywords', $publisherMetagen->keywords);
@@ -111,17 +110,17 @@ class ItemHandler extends \XoopsPersistableObjectHandler
             }
             // Auto create short_url if empty
             if (!$item->short_url()) {
-                $item->setVar('short_url', mb_substr(Publisher\Metagen::generateSeoTitle($item->getVar('title', 'n'), false), 0, 254));
+                $item->setVar('short_url', \mb_substr(Metagen::generateSeoTitle($item->getVar('title', 'n'), false), 0, 254));
             }
         }
         if (!parent::insert($item, $force)) {
             return false;
         }
-        if (xoops_isActiveModule('tag')) {
+        if (\class_exists(\XoopsModules\Tag\TagHandler::class) && \xoops_isActiveModule('tag')) {
             // Storing tags information
-            /** @var \XoopsModules\Tag\Helper $tagHandler */
-            $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
-            $tagHandler->updateByItem($item->getVar('item_tag'), $item->getVar('itemid'), PUBLISHER_DIRNAME, 0);
+            /** @var \XoopsModules\Tag\TagHandler $tagHandler */
+            $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag');
+            $tagHandler->updateByItem($item->getVar('item_tag'), $item->getVar('itemid'), $this->helper->getDirname(), 0);
         }
 
         return true;
@@ -139,18 +138,18 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     {
         // Deleting the files
         if (!$this->helper->getHandler('File')->deleteItemFiles($item)) {
-            $item->setErrors(_AM_PUBLISHER_FILE_DELETE_ERROR);
+            $item->setErrors(\_AM_PUBLISHER_FILE_DELETE_ERROR);
         }
         if (!parent::delete($item, $force)) {
-            $item->setErrors(_AM_PUBLISHER_ITEM_DELETE_ERROR);
+            $item->setErrors(\_AM_PUBLISHER_ITEM_DELETE_ERROR);
 
             return false;
         }
         // Removing tags information
-        if (xoops_isActiveModule('tag')) {
-            /** @var \XoopsModules\Tag\Helper $tagHandler */
-            $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
-            $tagHandler->updateByItem('', $item->getVar('itemid'), PUBLISHER_DIRNAME, 0);
+        if (\class_exists(\XoopsModules\Tag\TagHandler::class) && \xoops_isActiveModule('tag')) {
+            /** @var \XoopsModules\Tag\TagHandler $tagHandler */
+            $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag');
+            $tagHandler->updateByItem('', $item->getVar('itemid'), $this->helper->getDirname(), 0);
         }
 
         return true;
@@ -159,13 +158,12 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve items from the database
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|null $criteria           {@link CriteriaElement}
      *                                                  conditions to be met
-     * @param  bool|string                    $idKey    what shall we use as array key ? none, itemid, categoryid
-     * @param  bool                           $as_object
-     * @param  string|bool                    $notNullFields
+     * @param bool|string           $idKey              what shall we use as array key ? none, itemid, categoryid
+     * @param bool                  $as_object
+     * @param string|null           $notNullFields
      * @return array           array of <a href='psi_element://Item'>Item</a> objects
-     *                                                  objects
      */
     public function &getObjects(\CriteriaElement $criteria = null, $idKey = 'none', $as_object = true, $notNullFields = null)
     {
@@ -174,7 +172,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $notNullFields = (null !== $notNullFields) ?: '';
 
         $sql = 'SELECT * FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && ($criteria instanceof \Criteria || $criteria instanceof \CriteriaCompo)) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
@@ -198,7 +196,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         }
         $theObjects = [];
         while (false !== ($myrow = $this->db->fetchArray($result))) {
-            $item = new Item();
+            //            $item = new Item();
+            $item = $this->create();
             $item->assignVars($myrow);
             $theObjects[$myrow['itemid']] = $item;
             unset($item);
@@ -220,16 +219,16 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * count items matching a condition
      *
-     * @param \CriteriaElement|\CriteriaCompo $criteria {@link CriteriaElement}
-     *                                                  to match
-     * @param string                          $notNullFields
+     * @param \CriteriaElement|null $criteria Criteria to match
+     * @param string|null           $notNullFields
      *
      * @return int count of items
      */
-    public function getCount(\CriteriaElement $criteria = null, $notNullFields = '')
+    public function getCount(\CriteriaElement $criteria = null, $notNullFields = null)
     {
+        //        $notNullFields = $notNullFields ?? null;
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && ($criteria instanceof \Criteria || $criteria instanceof \CriteriaCompo)) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
@@ -246,20 +245,21 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (!$result) {
             return 0;
         }
-        list($count) = $this->db->fetchRow($result);
+        [$count] = $this->db->fetchRow($result);
 
         return $count;
     }
 
     /**
-     * @param  int                 $categoryid
-     * @param  string|array        $status
-     * @param  string              $notNullFields
-     * @param  null|\CriteriaCompo $criteriaPermissions
+     * @param int                 $categoryid
+     * @param string|array        $status
+     * @param string|null         $notNullFields
+     * @param null|\CriteriaCompo $criteriaPermissions
      * @return \CriteriaCompo
      */
-    private function getItemsCriteria($categoryid = -1, $status = '', $notNullFields = '', $criteriaPermissions = null)
+    private function getItemsCriteria($categoryid = -1, $status = '', $notNullFields = null, $criteriaPermissions = null)
     {
+        //        $notNullFields = (null !== $notNullFields) ?: '';
         //        global $publisherIsAdmin;
         //        $ret = 0;
         //        if (!$publisherIsAdmin) {
@@ -273,25 +273,31 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //                return $ret;
         //            }
         //        }
-        if (isset($categoryid) && -1 != $categoryid) {
+
+        $criteriaCategory = null;
+        if (isset($categoryid) && -1 !== $categoryid) {
             $criteriaCategory = new \Criteria('categoryid', $categoryid);
         }
+
         $criteriaStatus = new \CriteriaCompo();
-        if (!empty($status) && is_array($status)) {
+        if (!empty($status) && \is_array($status)) {
             foreach ($status as $v) {
                 $criteriaStatus->add(new \Criteria('status', $v), 'OR');
             }
-        } elseif (!empty($status) && -1 != $status) {
+        } elseif (!empty($status) && -1 !== $status) {
             $criteriaStatus->add(new \Criteria('status', $status), 'OR');
         }
+
         $criteria = new \CriteriaCompo();
-        if (!empty($criteriaCategory)) {
+        if (null !== $criteriaCategory) {
             $criteria->add($criteriaCategory);
         }
-        if (!empty($criteriaPermissions)) {
+
+        if (null !== $criteriaPermissions) {
             $criteria->add($criteriaPermissions);
         }
-        if (!empty($criteriaStatus)) {
+
+        if (null !== $criteriaStatus) {
             $criteria->add($criteriaStatus);
         }
 
@@ -299,74 +305,87 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param        $categoryid
-     * @param string $status
-     * @param string $notNullFields
+     * @param             $categoryid
+     * @param string      $status
+     * @param string|null $notNullFields
      *
      * @return int
      */
-    public function getItemsCount($categoryid = -1, $status = '', $notNullFields = '')
+    public function getItemsCount($categoryid = -1, $status = '', $notNullFields = null)
     {
-        //        global $publisherIsAdmin;
-        $criteriaPermissions = '';
-        if (!$GLOBALS['publisherIsAdmin']) {
+        //        $notNullFields       = $notNullFields ?? null;
+        $criteriaPermissions = null;
+        if (!$this->publisherIsAdmin) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
             $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
             if (!empty($categoriesGranted)) {
-                $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
+                $grantedCategories = new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN');
                 $criteriaPermissions->add($grantedCategories, 'AND');
             } else {
                 return 0;
             }
         }
-        //        $ret = array();
+        //        $ret = [];
         $criteria = $this->getItemsCriteria($categoryid, $status, $notNullFields, $criteriaPermissions);
-        /*
-                if (isset($categoryid) && $categoryid != -1) {
-                    $criteriaCategory = new \Criteria('categoryid', $categoryid);
-                }
-                $criteriaStatus = new \CriteriaCompo();
-                if (!empty($status) && is_array($status)) {
-                    foreach ($status as $v) {
-                        $criteriaStatus->add(new \Criteria('status', $v), 'OR');
-                    }
-                } elseif (!empty($status) && $status != -1) {
-                    $criteriaStatus->add(new \Criteria('status', $status), 'OR');
-                }
-                $criteria = new \CriteriaCompo();
-                if (!empty($criteriaCategory)) {
-                    $criteria->add($criteriaCategory);
-                }
-                if (!empty($criteriaPermissions)) {
-                    $criteria->add($criteriaPermissions);
-                }
-                if (!empty($criteriaStatus)) {
-                    $criteria->add($criteriaStatus);
-                }
-        */
+
         $ret = $this->getCount($criteria, $notNullFields);
 
         return $ret;
     }
 
     /**
-     * @param int    $limit
-     * @param int    $start
-     * @param int    $categoryid
-     * @param string $sort
-     * @param string $order
-     * @param string $notNullFields
-     * @param bool   $asObject
-     * @param string $idKey
+     * @param int         $limit
+     * @param int         $start
+     * @param int         $categoryid
+     * @param string      $sort
+     * @param string      $order
+     * @param string|null $notNullFields
+     * @param bool        $asObject
+     * @param string      $idKey
+     * @param bool        $excludeExpired
      *
      * @return array
      */
-    public function getAllPublished($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none')
+    public function getAllPublished($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $idKey = 'none', $excludeExpired = true)
     {
-        $otherCriteria = new \Criteria('datesub', time(), '<=');
+        $notNullFields = (null !== $notNullFields) ?: '';
+        $otherCriteria = new \CriteriaCompo();
+        if (!$this->publisherIsAdmin) {
+            $criteriaDateSub = new \Criteria('datesub', \time(), '<=');
+            $otherCriteria->add($criteriaDateSub);
+        }
+        if ($excludeExpired) {
+            // by default expired items are excluded from list of published items
+            $criteriaExpire = new \CriteriaCompo();
+            $criteriaExpire->add(new \Criteria('dateexpire', '0'), 'OR');
+            $criteriaExpire->add(new \Criteria('dateexpire', \time(), '>='), 'OR');
+            $otherCriteria->add($criteriaExpire);
+        }
 
         return $this->getItems($limit, $start, [Constants::PUBLISHER_STATUS_PUBLISHED], $categoryid, $sort, $order, $notNullFields, $asObject, $otherCriteria, $idKey);
+    }
+
+    /**
+     * @param int         $limit
+     * @param int         $start
+     * @param int         $categoryid
+     * @param string      $sort
+     * @param string      $order
+     * @param string|null $notNullFields
+     * @param bool        $asObject
+     * @param string      $idKey
+     *
+     * @return array
+     */
+    public function getAllExpired($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $idKey = 'none')
+    {
+        $notNullFields = (null !== $notNullFields) ?: '';
+        $otherCriteria = new \CriteriaCompo();
+        $otherCriteria->add(new \Criteria('dateexpire', \time(), '<='));
+        $otherCriteria->add(new \Criteria('dateexpire', 0, '>'));
+
+        return $this->getItems($limit, $start, -1, $categoryid, $sort, $order, $notNullFields, $asObject, $otherCriteria, $idKey);
     }
 
     /**
@@ -380,7 +399,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $otherCriteria = new \CriteriaCompo();
         $otherCriteria->add(new \Criteria('datesub', $obj->getVar('datesub'), '<'));
         $objs = $this->getItems(1, 0, [Constants::PUBLISHER_STATUS_PUBLISHED], $obj->getVar('categoryid'), 'datesub', 'DESC', '', true, $otherCriteria, 'none');
-        if (count($objs) > 0) {
+        if (\count($objs) > 0) {
             $ret = $objs[0];
         }
 
@@ -397,9 +416,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $ret           = false;
         $otherCriteria = new \CriteriaCompo();
         $otherCriteria->add(new \Criteria('datesub', $obj->getVar('datesub'), '>'));
-        $otherCriteria->add(new \Criteria('datesub', time(), '<='));
+        $otherCriteria->add(new \Criteria('datesub', \time(), '<='));
         $objs = $this->getItems(1, 0, [Constants::PUBLISHER_STATUS_PUBLISHED], $obj->getVar('categoryid'), 'datesub', 'ASC', '', true, $otherCriteria, 'none');
-        if (count($objs) > 0) {
+        if (\count($objs) > 0) {
             $ret = $objs[0];
         }
 
@@ -407,19 +426,21 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int    $limit
-     * @param int    $start
-     * @param int    $categoryid
-     * @param string $sort
-     * @param string $order
-     * @param string $notNullFields
-     * @param bool   $asObject
-     * @param string $idKey
+     * @param int         $limit
+     * @param int         $start
+     * @param int         $categoryid
+     * @param string      $sort
+     * @param string      $order
+     * @param string|null $notNullFields
+     * @param bool        $asObject
+     * @param string      $idKey
      *
      * @return array
      */
-    public function getAllSubmitted($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $idKey = 'none')
+    public function getAllSubmitted($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $idKey = 'none')
     {
+        $notNullFields = (null !== $notNullFields) ?: '';
+
         return $this->getItems($limit, $start, [Constants::PUBLISHER_STATUS_SUBMITTED], $categoryid, $sort, $order, $notNullFields, $asObject, null, $idKey);
     }
 
@@ -458,29 +479,29 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param  int          $limit
-     * @param  int          $start
-     * @param  array|string $status
-     * @param  int          $categoryid
-     * @param  string       $sort
-     * @param  string       $order
-     * @param  string       $notNullFields
-     * @param  bool         $asObject
-     * @param  null         $otherCriteria
-     * @param  bool|string  $idKey
+     * @param int                 $limit
+     * @param int                 $start
+     * @param array|string        $status
+     * @param int                 $categoryid
+     * @param string              $sort
+     * @param string              $order
+     * @param string|null         $notNullFields
+     * @param bool                $asObject
+     * @param null|\CriteriaCompo $otherCriteria
+     * @param bool|string         $idKey
      * @return array
      * @internal param bool $asObject
      */
-    public function getItems($limit = 0, $start = 0, $status = '', $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asObject = true, $otherCriteria = null, $idKey = 'none')
+    public function getItems($limit = 0, $start = 0, $status = '', $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = null, $asObject = true, $otherCriteria = null, $idKey = 'none')
     {
-        //        global $publisherIsAdmin;
-        $criteriaPermissions = '';
-        if (!$GLOBALS['publisherIsAdmin']) {
+        $notNullFields       = (null !== $notNullFields) ?: '';
+        $criteriaPermissions = null;
+        if (!$this->publisherIsAdmin) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
             $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
             if (!empty($categoriesGranted)) {
-                $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
+                $grantedCategories = new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN');
                 $criteriaPermissions->add($grantedCategories, 'AND');
             } else {
                 return [];
@@ -511,16 +532,16 @@ class ItemHandler extends \XoopsPersistableObjectHandler
                     $criteria->add($criteriaStatus);
                 }
         */
-        //        $ret = array();
+        //        $ret  = [];
 
-        if (!empty($otherCriteria)) {
+        if (null !== $otherCriteria) {
             $criteria->add($otherCriteria);
         }
         $criteria->setLimit($limit);
         $criteria->setStart($start);
         $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $ret = &$this->getObjects($criteria, $idKey, $notNullFields);
+        $criteria->order = $order; // patch for XOOPS <= 2.5.10 does not set order correctly using setOrder() method
+        $ret             = &$this->getObjects($criteria, $idKey, true);
 
         return $ret;
     }
@@ -528,20 +549,23 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * @param string $field
      * @param string $status
-     * @param int    $categoryId
+     * @param int    $categoryid
      *
      * @return bool
+     * @throws \Exception
      */
-    public function getRandomItem($field = '', $status = '', $categoryId = -1)
+    public function getRandomItem($field = '', $status = '', $categoryid = -1)
     {
         $ret           = false;
         $notNullFields = $field;
         // Getting the number of published Items
-        $totalItems = $this->getItemsCount($categoryId, $status, $notNullFields);
+        $totalItems = $this->getItemsCount($categoryid, $status, $notNullFields);
         if ($totalItems > 0) {
             --$totalItems;
-            $entryNumber = mt_rand(0, $totalItems);
-            $item        = $this->getItems(1, $entryNumber, $status, $categoryId, $sort = 'datesub', $order = 'DESC', $notNullFields);
+            $entryNumber = \random_int(0, $totalItems);
+            //            $entryNumber2 = random_int(0, $totalItems);
+
+            $item = $this->getItems(1, $entryNumber, $status, $categoryid, $sort = 'datesub', $order = 'DESC', $notNullFields);
             if ($item) {
                 $ret = $item[0];
             }
@@ -553,10 +577,10 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * delete Items matching a set of conditions
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement}
      *
-     * @param  bool            $force
-     * @param  bool            $asObject
+     * @param bool                  $force
+     * @param bool                  $asObject
      * @return bool FALSE if deletion failed
      */
     public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false) //deleteAll($criteria = null)
@@ -571,13 +595,13 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $itemid
+     * @param $itemId
      *
      * @return bool
      */
-    public function updateCounter($itemid)
+    public function updateCounter($itemId)
     {
-        $sql = 'UPDATE ' . $this->db->prefix($this->helper->getDirname() . '_items') . ' SET counter=counter+1 WHERE itemid = ' . $itemid;
+        $sql = 'UPDATE ' . $this->db->prefix($this->helper->getDirname() . '_items') . ' SET counter=counter+1 WHERE itemid = ' . $itemId;
         if ($this->db->queryF($sql)) {
             return true;
         }
@@ -597,7 +621,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if ($withAnd) {
             $ret .= ' AND ';
         }
-        if (!empty($notNullFields) && is_array($notNullFields)) {
+        if (!empty($notNullFields) && \is_array($notNullFields)) {
             foreach ($notNullFields as $v) {
                 $ret .= " ($v IS NOT NULL AND $v <> ' ' )";
             }
@@ -623,21 +647,25 @@ class ItemHandler extends \XoopsPersistableObjectHandler
      */
     public function getItemsFromSearch($queryArray = [], $andor = 'AND', $limit = 0, $offset = 0, $userid = 0, $categories = [], $sortby = 0, $searchin = '', $extra = '')
     {
-        //        global $publisherIsAdmin;
-        $count = 0;
-        $ret   = [];
-        /* @var  $grouppermHandler \XoopsGroupPermHandler */
-        $grouppermHandler = xoops_getHandler('groupperm');
-        $groups           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $searchin         = empty($searchin) ? ['title', 'body', 'summary'] : (is_array($searchin) ? $searchin : [$searchin]);
-        if (in_array('all', $searchin, true) || 0 === count($searchin)) {
+        $count            = 0;
+        $ret              = [];
+        $criteriaKeywords = $criteriaPermissions = $criteriaUser = null;
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
+        $grouppermHandler = \xoops_getHandler('groupperm');
+        $groups           = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        $searchin         = empty($searchin) ? ['title', 'body', 'summary'] : (\is_array($searchin) ? $searchin : [$searchin]);
+        if (\in_array('all', $searchin, true) || 0 === \count($searchin)) {
             $searchin = ['title', 'subtitle', 'body', 'summary', 'meta_keywords'];
+            //add support for searching in tags if Tag module exists and is active
+            if (false !== $this->helper::getHelper('tag')) {
+                $searchin[] = 'item_tag';
+            }
         }
-        if ($userid && is_array($userid)) {
-            $userid       = array_map('intval', $userid);
+        if ($userid && \is_array($userid)) {
+            $userid       = \array_map('\intval', $userid);
             $criteriaUser = new \CriteriaCompo();
-            $criteriaUser->add(new \Criteria('uid', '(' . implode(',', $userid) . ')', 'IN'), 'OR');
-        } elseif (is_numeric($userid) && $userid > 0) {
+            $criteriaUser->add(new \Criteria('uid', '(' . \implode(',', $userid) . ')', 'IN'), 'OR');
+        } elseif (\is_numeric($userid) && $userid > 0) {
             $criteriaUser = new \CriteriaCompo();
             $criteriaUser->add(new \Criteria('uid', $userid), 'OR');
         }
@@ -645,57 +673,62 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         //        if (is_array($queryArray)) {
         //            $count = count($queryArray);
         //        }
-        if ($queryArray && is_array($queryArray)) {
+        if ($queryArray && \is_array($queryArray)) {
             $criteriaKeywords = new \CriteriaCompo();
             foreach ($queryArray as $iValue) {
                 $criteriaKeyword = new \CriteriaCompo();
-                if (in_array('title', $searchin, true)) {
+                foreach ($searchin as $searchField) {
+                    $criteriaKeyword->add(new \Criteria($searchField, '%' . $iValue . '%', 'LIKE'), 'OR');
+                }
+                /*
+                if (in_array('title', $searchin)) {
                     $criteriaKeyword->add(new \Criteria('title', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
-                if (in_array('subtitle', $searchin, true)) {
+                if (in_array('subtitle', $searchin)) {
                     $criteriaKeyword->add(new \Criteria('subtitle', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
-                if (in_array('body', $searchin, true)) {
+                if (in_array('body', $searchin)) {
                     $criteriaKeyword->add(new \Criteria('body', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
-                if (in_array('summary', $searchin, true)) {
+                if (in_array('summary', $searchin)) {
                     $criteriaKeyword->add(new \Criteria('summary', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
-                if (in_array('meta_keywords', $searchin, true)) {
+                if (in_array('meta_keywords', $searchin)) {
                     $criteriaKeyword->add(new \Criteria('meta_keywords', '%' . $iValue . '%', 'LIKE'), 'OR');
                 }
+                */
                 $criteriaKeywords->add($criteriaKeyword, $andor);
                 unset($criteriaKeyword);
             }
         }
-        if (!$GLOBALS['publisherIsAdmin'] && (count($categories) > 0)) {
+        if (!$this->publisherIsAdmin && (\count($categories) > 0)) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
             $categoriesGranted = $grouppermHandler->getItemIds('category_read', $groups, $this->helper->getModule()->getVar('mid'));
-            $categoriesGranted = array_intersect($categoriesGranted, $categories);
-            if (0 === count($categoriesGranted)) {
+            $categoriesGranted = \array_intersect($categoriesGranted, $categories);
+            if (0 === \count($categoriesGranted)) {
                 return $ret;
             }
-            $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
+            $grantedCategories = new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN');
             $criteriaPermissions->add($grantedCategories, 'AND');
-        } elseif (count($categories) > 0) {
+        } elseif (\count($categories) > 0) {
             $criteriaPermissions = new \CriteriaCompo();
-            $grantedCategories   = new \Criteria('categoryid', '(' . implode(',', $categories) . ')', 'IN');
+            $grantedCategories   = new \Criteria('categoryid', '(' . \implode(',', $categories) . ')', 'IN');
             $criteriaPermissions->add($grantedCategories, 'AND');
         }
         $criteriaItemsStatus = new \CriteriaCompo();
         $criteriaItemsStatus->add(new \Criteria('status', Constants::PUBLISHER_STATUS_PUBLISHED));
         $criteria = new \CriteriaCompo();
-        if (!empty($criteriaUser)) {
+        if (null !== $criteriaUser) {
             $criteria->add($criteriaUser, 'AND');
         }
-        if (!empty($criteriaKeywords)) {
+        if (null !== $criteriaKeywords) {
             $criteria->add($criteriaKeywords, 'AND');
         }
-        if (!empty($criteriaPermissions)) {
+        if (null !== $criteriaPermissions) {
             $criteria->add($criteriaPermissions);
         }
-        if (!empty($criteriaItemsStatus)) {
+        if (null !== $criteriaItemsStatus) {
             $criteria->add($criteriaItemsStatus, 'AND');
         }
         $criteria->setLimit($limit);
@@ -708,8 +741,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if ('datesub' === $sortby) {
             $order = 'DESC';
         }
-        $criteria->setOrder($order);
-        $ret = &$this->getObjects($criteria);
+        $criteria->order = $order; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
+        $ret             = &$this->getObjects($criteria);
 
         return $ret;
     }
@@ -733,7 +766,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (empty($catIds)) {
             return $ret;
         }
-        /*$cat = array();
+        /*$cat  = [];
 
         $sql = "SELECT categoryid, MAX(datesub) as date FROM " . $this->db->prefix($this->helper->getDirname() . '_items') . " WHERE status IN (" . implode(',', $status) . ") GROUP BY categoryid";
         $result = $this->db->query($sql);
@@ -752,7 +785,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $sql .= " " . $criteriaBig->renderWhere();
         $result = $this->db->query($sql);
         while (false !== ($row = $this->db->fetchArray($result))) {
-            $item = new Item();
+//            $item = new Item();
+            $item = static::create();
             $item->assignVars($row);
             $ret[$row['categoryid']] = $item;
             unset($item);
@@ -760,13 +794,14 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         */
         $sql    = 'SELECT mi.categoryid, mi.itemid, mi.title, mi.short_url, mi.uid, mi.datesub';
         $sql    .= ' FROM (SELECT categoryid, MAX(datesub) AS date FROM ' . $this->db->prefix($this->helper->getDirname() . '_items');
-        $sql    .= ' WHERE status IN (' . implode(',', $status) . ')';
-        $sql    .= ' AND categoryid IN (' . implode(',', $catIds) . ')';
+        $sql    .= ' WHERE status IN (' . \implode(',', $status) . ')';
+        $sql    .= ' AND categoryid IN (' . \implode(',', $catIds) . ')';
         $sql    .= ' GROUP BY categoryid)mo';
         $sql    .= ' JOIN ' . $this->db->prefix($this->helper->getDirname() . '_items') . ' mi ON mi.datesub = mo.date';
         $result = $this->db->query($sql);
         while (false !== ($row = $this->db->fetchArray($result))) {
-            $item = new Item();
+            // $item = new Item();
+            $item = $this->create();
             $item->assignVars($row);
             $ret[$row['categoryid']] = $item;
             unset($item);
@@ -778,7 +813,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * @param         $parentid
      * @param         $catsCount
-     * @param  string $spaces
+     * @param string  $spaces
      * @return int
      */
     public function countArticlesByCat($parentid, $catsCount, $spaces = '')
@@ -814,9 +849,9 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         $sql       = 'SELECT c.parentid, i.categoryid, COUNT(*) AS count FROM ' . $this->db->prefix($this->helper->getDirname() . '_items') . ' AS i INNER JOIN ' . $this->db->prefix($this->helper->getDirname() . '_categories') . ' AS c ON i.categoryid=c.categoryid';
         if ((int)$catId > 0) {
             $sql .= ' WHERE i.categoryid = ' . (int)$catId;
-            $sql .= ' AND i.status IN (' . implode(',', $status) . ')';
+            $sql .= ' AND i.status IN (' . \implode(',', $status) . ')';
         } else {
-            $sql .= ' WHERE i.status IN (' . implode(',', $status) . ')';
+            $sql .= ' WHERE i.status IN (' . \implode(',', $status) . ')';
         }
         $sql    .= ' GROUP BY i.categoryid ORDER BY c.parentid ASC, i.categoryid ASC';
         $result = $this->db->query($sql);
@@ -834,7 +869,7 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         while (false !== ($row = $this->db->fetchArray($result))) {
             $catsCount[$row['parentid']][$row['categoryid']] = $row['count'];
         }
-        //        $resultCatCounts = array();
+        //        $resultCatCounts = [];
         foreach ($catsCount[0] as $subCatId => $count) {
             $this->resultCatCounts[$subCatId] = $count;
             if (isset($catsCount[$subCatId])) {

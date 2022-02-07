@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,16 +10,16 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -43,21 +43,20 @@ function publisher_pagewrap_upload(&$errors)
     //    require_once PUBLISHER_ROOT_PATH . '/class/uploader.php';
     xoops_load('XoopsMediaUploader');
 
-    /** @var Publisher\Helper $helper */
-    $helper    = Publisher\Helper::getInstance();
+    $helper    = Helper::getInstance();
     $postField = 'fileupload';
 
     $maxFileSize    = $helper->getConfig('maximum_filesize');
     $maxImageWidth  = $helper->getConfig('maximum_image_width');
     $maxImageHeight = $helper->getConfig('maximum_image_height');
 
-    if (!is_dir(Publisher\Utility::getUploadDir(true, 'content'))) {
-        if (!mkdir($concurrentDirectory = Publisher\Utility::getUploadDir(true, 'content'), 0757) && !is_dir($concurrentDirectory)) {
+    if (!is_dir(Utility::getUploadDir(true, 'content'))) {
+        if (!mkdir($concurrentDirectory = Utility::getUploadDir(true, 'content'), 0757) && !is_dir($concurrentDirectory)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
         }
     }
     $allowedMimeTypes = ['text/html', 'text/plain', 'application/xhtml+xml'];
-    $uploader         = new \XoopsMediaUploader(Publisher\Utility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
+    $uploader         = new \XoopsMediaUploader(Utility::getUploadDir(true, 'content') . '/', $allowedMimeTypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
     if ($uploader->fetchMedia($postField)) {
         $uploader->setTargetFileName($uploader->getMediaName());
         if ($uploader->upload()) {

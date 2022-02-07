@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,39 +10,46 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Action
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\Category;
+use XoopsModules\Publisher\Constants;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Item;
+use XoopsModules\Publisher\Jsonld;
+use XoopsModules\Publisher\Metagen;
+use XoopsModules\Publisher\Seo;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/header.php';
 
 $categoryid = Request::getInt('categoryid', 0, 'GET');
 
 // Creating the category object for the selected category
+/** @var Helper $helper */
+/** @var Category $categoryObj */
 $categoryObj = $helper->getHandler('Category')->get($categoryid);
 
 // if the selected category was not found, exit
 if (!is_object($categoryObj) || $categoryObj->notLoaded()) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOCATEGORYSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_PUBLISHER_NOCATEGORYSELECTED);
 }
 
 // Check user permissions to access this category
 if (!$categoryObj->checkPermission()) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 
 // At which record shall we start
 $start = Request::getInt('start', 0, 'GET');
 
-$item_page_id = Request::getInt('page', -1, 'GET');
+$itemPageId = Request::getInt('page', -1, 'GET');
 
 $totalItems = $helper->getHandler('Category')->publishedItemsCount();
 
@@ -52,16 +59,21 @@ if (!isset($totalItems[$categoryid]) || 0 == $totalItems[$categoryid]) {
     //redirect_header("index.php", 1, _MD_PUBLISHER_MAINNOFAQS);
 }
 
-// Added by skalpa: custom template support
-$GLOBALS['xoopsOption']['template_main'] = $categoryObj->template();
-if (empty($GLOBALS['xoopsOption']['template_main'])) {
-    $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
+// Added by skalpa: custom template support, updated by mamba
+$GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
+
+//Option for a custom template for a category
+$catTemplate =  $categoryObj->getVar('template');
+if (!empty($catTemplate)){
+    $GLOBALS['xoopsOption']['template_main'] = 'publisher_category_custom.tpl' ;
 }
+
 
 require_once $GLOBALS['xoops']->path('header.php');
 require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
-$module_id = $helper->getModule()->getVar('mid');
+$moduleId = $helper->getModule()->getVar('mid');
+$xoopsTpl->assign('customcategorytemplate', $catTemplate); //assign custom template
 
 // creating the Item objects that belong to the selected category
 switch ($helper->getConfig('format_order_by')) {
@@ -106,8 +118,8 @@ if ($itemsObj) {
 $category = [];
 $items    = [];
 
-// Populating the smarty variables with informations related to the selected category
-$category                 = $categoryObj->toArraySimple(null, true);
+// Populating the smarty variables with information related to the selected category
+$category                 = $categoryObj->toArraySimple(null);
 $category['categoryPath'] = $categoryObj->getCategoryPath($helper->getConfig('format_linked_path'));
 
 //$totalItems = $publisher_categoryHandler->publishedItemsCount($helper->getConfig('idxcat_display_last_item'));
@@ -119,8 +131,8 @@ if (1 == $helper->getConfig('idxcat_display_last_item')) {
 $lastitemsize = (int)$helper->getConfig('idxcat_last_item_size');
 
 // Creating the sub-categories objects that belong to the selected category
-$subcatsObj    = $helper->getHandler('Category')->getCategories(0, 0, $categoryid);
-$total_subcats = count($subcatsObj);
+$subcatsObj   = $helper->getHandler('Category')->getCategories(0, 0, $categoryid);
+$totalSubcats = count($subcatsObj);
 
 $total_items = 0;
 
@@ -128,57 +140,57 @@ $subcategories = [];
 
 if ('no' !== $helper->getConfig('idxcat_show_subcats')) {
     // if this category has subcats
-    if (isset($subcatsObj) && $total_subcats > 0) {
+    if (isset($subcatsObj) && $totalSubcats > 0) {
         foreach ($subcatsObj as $key => $subcat) {
             // Get the items count of this very category
-            $subcat_total_items = isset($totalItems[$key]) ? $totalItems[$key] : 0;
+            $subcatTotalItems = $totalItems[$key] ?? 0;
 
             // Do we display empty sub-cats ?
-            if (($subcat_total_items > 0) || ('all' === $helper->getConfig('idxcat_show_subcats'))) {
-                $subcat_id = $subcat->getVar('categoryid');
+            if (($subcatTotalItems > 0) || ('all' === $helper->getConfig('idxcat_show_subcats'))) {
+                $subcatId = $subcat->getVar('categoryid');
                 // if we retreived the last item object for this category
-                if (isset($lastItemObj[$subcat_id])) {
-                    $subcat->setVar('last_itemid', $lastItemObj[$subcat_id]->itemid());
+                if (isset($lastItemObj[$subcatId])) {
+                    $subcat->setVar('last_itemid', $lastItemObj[$subcatId]->itemid());
                     $subcat->setVar('last_title_link', $lastItemObj[$key]->getItemLink(false, $lastitemsize));
                 }
 
-                $numItems = isset($totalItems[$subcat_id]) ? $totalItems[$key] : 0;
+                $numItems = isset($totalItems[$subcatId]) ? $totalItems[$key] : 0;
                 $subcat->setVar('itemcount', $numItems);
                 // Put this subcat in the smarty variable
                 $subcategories[$key] = $subcat->toArraySimple();
                 //$total += $numItems;
             }
 
-            if ($subcat_total_items > 0) {
-                $subcat_id = $subcat->getVar('categoryid');
+            if ($subcatTotalItems > 0) {
+                $subcatId = $subcat->getVar('categoryid');
                 // if we retreived the last item object for this category
-                if (isset($lastItemObj[$subcat_id])) {
-                    $subcat->setVar('last_itemid', $lastItemObj[$subcat_id]->itemid());
+                if (isset($lastItemObj[$subcatId])) {
+                    $subcat->setVar('last_itemid', $lastItemObj[$subcatId]->itemid());
                     $subcat->setVar('last_title_link', $lastItemObj[$key]->getItemLink(false, $lastitemsize));
                 }
 
-                $numItems = isset($totalItems[$subcat_id]) ? $totalItems[$key] : 0;
+                $numItems = isset($totalItems[$subcatId]) ? $totalItems[$key] : 0;
                 $subcat->setVar('itemcount', $numItems);
                 // Put this subcat in the smarty variable
                 $subcategories[$key] = $subcat->toArraySimple();
                 //$total += $numItems;
             }
         }
-        unset($key, $subcat, $subcatsObj);
+        unset($key, $subcatsObj);
     }
 }
 
 $category['subcats']      = $subcategories;
 $category['subcatscount'] = count($subcategories);
 
-$thiscategory_itemcount = isset($totalItems[$categoryid]) ? $totalItems[$categoryid] : 0;
+$thiscategory_itemcount = $totalItems[$categoryid] ?? 0;
 $category['total']      = $thiscategory_itemcount;
 
 if (count($itemsObj) > 0) {
-    /*$userids = array();
+    /*$userids  = [];
     if ($itemsObj) {
         foreach ($itemsObj as $key => $thisItem) {
-            $itemids[] = $thisItem->getVar('itemid');
+            $itemIds[] = $thisItem->getVar('itemid');
             $userids[$thisItem->uid()] = 1;
         }
     }
@@ -190,12 +202,12 @@ if (count($itemsObj) > 0) {
     for ($i = 0; $i < $totalItemOnPage; ++$i) {
         $item                 = $itemsObj[$i]->toArraySimple('default', $helper->getConfig('item_title_size'));
         $item['categoryname'] = $categoryObj->name();
-        $item['categorylink'] = "<a href='" . Publisher\Seo::generateUrl('category', $itemsObj[$i]->categoryid(), $categoryObj->short_url()) . "'>" . $categoryObj->name() . '</a>';
+        $item['categorylink'] = "<a href='" . Seo::generateUrl('category', $itemsObj[$i]->categoryid(), $categoryObj->short_url()) . "'>" . $categoryObj->name() . '</a>';
         $item['who_when']     = $itemsObj[$i]->getWhoAndWhen();
         $xoopsTpl->append('items', $item);
     }
 
-    if (isset($lastItemObj[$categoryObj->getVar('categoryid')]) && $lastItemObj[$categoryObj->getVar('categoryid')]) {
+    if (!empty($lastItemObj[$categoryObj->getVar('categoryid')])) {
         $category['last_itemid']     = $lastItemObj[$categoryObj->getVar('categoryid')]->getVar('itemid');
         $category['last_title_link'] = $lastItemObj[$categoryObj->getVar('categoryid')]->getItemLink(false, $lastitemsize);
     }
@@ -215,7 +227,7 @@ $xoopsTpl->assign('module_dirname', $helper->getDirname());
 $xoopsTpl->assign('lang_category_summary', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY, $categoryObj->name()));
 $xoopsTpl->assign('lang_category_summary_info', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY_INFO, $categoryObj->name()));
 $xoopsTpl->assign('lang_items_title', sprintf(_MD_PUBLISHER_ITEMS_TITLE, $categoryObj->name()));
-$xoopsTpl->assign('module_home', Publisher\Utility::moduleHome($helper->getConfig('format_linked_path')));
+$xoopsTpl->assign('module_home', Utility::moduleHome($helper->getConfig('format_linked_path')));
 $xoopsTpl->assign('categoryPath', '<li>' . $category['categoryPath'] . '</li>');
 $xoopsTpl->assign('selected_category', $categoryid);
 
@@ -232,8 +244,14 @@ $xoopsTpl->assign('navbar', $navbar);
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new Publisher\Metagen($categoryObj->getVar('name'), $categoryObj->getVar('meta_keywords', 'n'), $categoryObj->getVar('meta_description', 'n'), $categoryObj->getCategoryPathForMetaTitle());
+$publisherMetagen = new Metagen($categoryObj->getVar('name'), $categoryObj->getVar('meta_keywords', 'n'), $categoryObj->getVar('meta_description', 'n'), $categoryObj->getCategoryPathForMetaTitle());
 $publisherMetagen->createMetaTags();
+
+// generate JSON-LD and add to page
+if ($helper->getConfig('generate_jsonld')) {
+    $jsonld = Jsonld::getCategory($categoryObj);
+    echo $jsonld;
+}
 
 // RSS Link
 if (1 == $helper->getConfig('idxcat_show_rss_link')) {
@@ -241,4 +259,5 @@ if (1 == $helper->getConfig('idxcat_show_rss_link')) {
     $xoopsTpl->assign('rssfeed_link', $link);
 }
 
+$GLOBALS['xoopsTpl']->assign('mod_path', $helper->path());
 require_once $GLOBALS['xoops']->path('footer.php');

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,21 +10,20 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Blocks
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\BlockForm;
+use XoopsModules\Publisher\CategoryHandler;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\Utility;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -35,11 +34,10 @@ function publisher_items_menu_show($options)
 {
     $block = [];
 
-    /** @var Publisher\Helper $helper */
-    $helper = Publisher\Helper::getInstance();
+    $helper = Helper::getInstance();
 
     // Getting all top cats
-    /** @var Publisher\CategoryHandler $categoryHandler */
+    /** @var CategoryHandler $categoryHandler */
     $categoryHandler    = $helper->getHandler('Category');
     $blockCategoriesObj = $categoryHandler->getCategories(0, 0, 0);
 
@@ -85,15 +83,17 @@ function publisher_items_menu_edit($options)
     // require_once PUBLISHER_ROOT_PATH . '/class/blockform.php';
     xoops_load('XoopsFormLoader');
 
-    $form = new Publisher\BlockForm();
+    $form = new BlockForm();
 
-    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Publisher\Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
+    $catEle   = new \XoopsFormLabel(_MB_PUBLISHER_SELECTCAT, Utility::createCategorySelect($options[0], 0, true, 'options[0]'));
     $orderEle = new \XoopsFormSelect(_MB_PUBLISHER_ORDER, 'options[1]', $options[1]);
-    $orderEle->addOptionArray([
-                                  'datesub' => _MB_PUBLISHER_DATE,
-                                  'counter' => _MB_PUBLISHER_HITS,
-                                  'weight'  => _MB_PUBLISHER_WEIGHT,
-                              ]);
+    $orderEle->addOptionArray(
+        [
+            'datesub' => _MB_PUBLISHER_DATE,
+            'counter' => _MB_PUBLISHER_HITS,
+            'weight'  => _MB_PUBLISHER_WEIGHT,
+        ]
+    );
     $dispEle = new \XoopsFormText(_MB_PUBLISHER_DISP, 'options[2]', 10, 255, $options[2]);
 
     $form->addElement($catEle);

@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * TimThumb by Ben Gillbanks and Mark Maunder
  * Based on work done by Tim McDaniels and Darren Hoyt
- * http://code.google.com/p/timthumb/
+ * https://code.google.com/p/timthumb/
  *
  * GNU General Public License, version 2
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Examples and documentation available on the project homepage
- * http://www.binarymoon.co.uk/projects/timthumb/
+ * https://www.binarymoon.co.uk/projects/timthumb/
  *
  * $Rev$
  */
@@ -168,9 +168,9 @@ if (!defined('PNGCRUSH_PATH')) {
     5. qmake
     6. make
     7. cp CutyCapt /usr/local/bin/
-    8. Test it by running: xvfb-run --server-args="-screen 0, 1024x768x24" CutyCapt --url="http://markmaunder.com/" --out=test.png
+    8. Test it by running: xvfb-run --server-args="-screen 0, 1024x768x24" CutyCapt --url="https://markmaunder.com/" --out=test.png
     9. If you get a file called test.png with something in it, it probably worked. Now test the script by accessing it as follows:
-    10. http://yoursite.com/path/to/timthumb.php?src=http://markmaunder.com/&webshot=1
+    10. https://yoursite.com/path/to/timthumb.php?src=https://markmaunder.com/&webshot=1
 
     Notes on performance:
     The first time a webshot loads, it will take a few seconds.
@@ -230,8 +230,8 @@ if (!defined('WEBSHOT_XVFB_RUNNING')) {
 }            //ADVANCED: Enable this if you've got Xvfb running in the background.
 
 // If ALLOW_EXTERNAL is true and ALLOW_ALL_EXTERNAL_SITES is false, then external images will only be fetched from these domains and their subdomains.
-if (!isset($ALLOWED_SITES)) {
-    $ALLOWED_SITES = [
+if (!isset($allowedSites)) {
+    $allowedSites = [
         'flickr.com',
         'staticflickr.com',
         'picasa.com',
@@ -296,7 +296,7 @@ class Timthumb
 
     public function __construct()
     {
-        global $ALLOWED_SITES;
+        global $allowedSites;
         $this->startTime = microtime(true);
         date_default_timezone_set('UTC');
         $this->debug(1, 'Starting new request from ' . $this->getIP() . ' to ' . Request::getString('REQUEST_URI', '', 'SERVER'));
@@ -335,7 +335,7 @@ class Timthumb
 
             return false;
         }
-        if (BLOCK_EXTERNAL_LEECHERS && array_key_exists('HTTP_REFERER', $_SERVER) && (!preg_match('/^https?:\/\/(?:www\.)?' . $this->myHost . '(?:$|\/)/i', $_SERVER['HTTP_REFERER']))) {
+        if (BLOCK_EXTERNAL_LEECHERS && array_key_exists('HTTP_REFERER', $_SERVER) && (!preg_match('/^https?:\/\/(?:www\.)?' . $this->myHost . '(?:$|\/)/i', \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')))) {
             // base64 encoded red image that says 'no hotlinkers'
             // nothing to worry about! :)
             $imgData = base64_decode("R0lGODlhUAAMAIAAAP8AAP///yH5BAAHAP8ALAAAAABQAAwAAAJpjI+py+0Po5y0OgAMjjv01YUZ\nOGplhWXfNa6JCLnWkXplrcBmW+spbwvaVr/cDyg7IoFC2KbYVC2NQ5MQ4ZNao9Ynzjl9ScNYpneb\nDULB3RP6JuPuaGfuuV4fumf8PuvqFyhYtjdoeFgAADs=", true);
@@ -365,14 +365,14 @@ class Timthumb
             } else {
                 $this->debug(2, 'Fetching only from selected external sites is enabled.');
                 $allowed = false;
-                foreach ($ALLOWED_SITES as $site) {
-                    if ((mb_strtolower($this->url['host']) === mb_strtolower($site)) || (mb_strtolower(mb_substr($this->url['host'], -mb_strlen($site) - 1)) === mb_strtolower(".$site"))) {
+                foreach ($allowedSites as $site) {
+                    if ((mb_strtolower($this->url['host']) === \mb_strtolower($site)) || (mb_strtolower(mb_substr($this->url['host'], -mb_strlen($site) - 1)) === \mb_strtolower(".$site"))) {
                         $this->debug(3, "URL hostname {$this->url['host']} matches $site so allowing.");
                         $allowed = true;
                     }
                 }
                 if (!$allowed) {
-                    return $this->error('You may not fetch images from that site. To enable this site in timthumb, you can either add it to $ALLOWED_SITES and set ALLOW_EXTERNAL=true. Or you can set ALLOW_ALL_EXTERNAL_SITES=true, depending on your security needs.');
+                    return $this->error('You may not fetch images from that site. To enable this site in timthumb, you can either add it to $allowedSites and set ALLOW_EXTERNAL=true. Or you can set ALLOW_ALL_EXTERNAL_SITES=true, depending on your security needs.');
                 }
             }
         }
@@ -492,7 +492,7 @@ class Timthumb
                 $mtime = @filemtime($this->cachefile);
                 $this->debug(3, "Cached file's modification time is $mtime");
             }
-            if (!$mtime) {
+            if (false === $mtime) {
                 return false;
             }
 
@@ -526,7 +526,7 @@ class Timthumb
     protected function tryServerCache()
     {
         $this->debug(3, 'Trying server cache');
-        if (file_exists($this->cachefile)) {
+        if (is_file($this->cachefile)) {
             $this->debug(3, "Cachefile {$this->cachefile} exists");
             if ($this->isURL) {
                 $this->debug(3, 'This is an external request, so checking if the cachefile is empty which means the request failed previously.');
@@ -659,7 +659,7 @@ class Timthumb
             if (!touch($lastCleanFile)) {
                 $this->error('Could not create cache clean timestamp file.');
             }
-            $files = glob($this->cacheDirectory . '/*' . FILE_CACHE_SUFFIX);
+            $files = glob($this->cacheDirectory . '/*' . FILE_CACHE_SUFFIX, GLOB_NOSORT);
             if ($files) {
                 $timeAgo = time() - FILE_CACHE_MAX_FILE_AGE;
                 foreach ($files as $file) {
@@ -714,10 +714,10 @@ class Timthumb
         }
 
         // get standard input properties
-        $newWidth     = (int)abs($this->param('w', 0));
-        $newHeight    = (int)abs($this->param('h', 0));
-        $zoom_crop    = (int)$this->param('zc', DEFAULT_ZC);
-        $quality      = (int)abs($this->param('q', DEFAULT_Q));
+        $newWidth     = (int)abs((int)$this->param('w', 0));
+        $newHeight    = (int)abs((int)$this->param('h', 0));
+        $zoomCrop     = (int)$this->param('zc', DEFAULT_ZC);
+        $quality      = (int)abs((int)$this->param('q', DEFAULT_Q));
         $align        = $this->cropTop ? 't' : $this->param('a', 'c');
         $filters      = $this->param('f', DEFAULT_F);
         $sharpen      = (bool)$this->param('s', DEFAULT_S);
@@ -757,7 +757,7 @@ class Timthumb
         }
 
         // scale down and add borders
-        if (3 == $zoom_crop) {
+        if (3 == $zoomCrop) {
             $final_height = $height * ($newWidth / $width);
 
             if ($final_height > $newHeight) {
@@ -768,7 +768,7 @@ class Timthumb
         }
 
         // create a new true color image
-        $canvas = imagecreatetruecolor($newWidth, $newHeight);
+        $canvas = imagecreatetruecolor((int)$newWidth, (int)$newHeight);
         imagealphablending($canvas, false);
 
         if (3 == mb_strlen($canvas_color)) {
@@ -794,7 +794,7 @@ class Timthumb
         // Completely fill the background of the new image with allocated color.
         imagefill($canvas, 0, 0, $color);
         // scale down and add borders
-        if (2 == $zoom_crop) {
+        if (2 == $zoomCrop) {
             $final_height = $height * ($newWidth / $width);
             if ($final_height > $newHeight) {
                 $origin_x = $newWidth / 2;
@@ -810,7 +810,7 @@ class Timthumb
         // Restore transparency blending
         imagesavealpha($canvas, true);
 
-        if ($zoom_crop > 0) {
+        if ($zoomCrop > 0) {
             $src_x = $src_y = 0;
             $src_w = $width;
             $src_h = $height;
@@ -843,10 +843,10 @@ class Timthumb
                 }
             }
 
-            imagecopyresampled($canvas, $image, $origin_x, $origin_y, $src_x, $src_y, $newWidth, $newHeight, $src_w, $src_h);
+            imagecopyresampled($canvas, $image, (int)$origin_x, (int)$origin_y, (int)$src_x, (int)$src_y, (int)$newWidth, (int)$newHeight, (int)$src_w, (int)$src_h);
         } else {
             // copy and resize part of an image with resampling
-            imagecopyresampled($canvas, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+            imagecopyresampled($canvas, $image, 0, 0, 0, 0, (int)$newWidth, (int)$newHeight, (int)$width, (int)$height);
         }
 
         if (defined('IMG_FILTER_NEGATE') && '' != $filters && function_exists('imagefilter')) {
@@ -856,10 +856,10 @@ class Timthumb
                 $filterSettings = explode(',', $fl);
                 if (isset($imageFilters[$filterSettings[0]])) {
                     for ($i = 0; $i < 4; ++$i) {
-                        if (!isset($filterSettings[$i])) {
-                            $filterSettings[$i] = null;
-                        } else {
+                        if (isset($filterSettings[$i])) {
                             $filterSettings[$i] = (int)$filterSettings[$i];
+                        } else {
+                            $filterSettings[$i] = null;
                         }
                     }
 
@@ -914,7 +914,7 @@ class Timthumb
             imagejpeg($canvas, $tempfile, $quality);
         } elseif (preg_match('/^image\/png$/i', $mimeType)) {
             $imgType = 'png';
-            imagepng($canvas, $tempfile, floor($quality * 0.09));
+            imagepng($canvas, $tempfile, (int)floor($quality * 0.09));
         } elseif (preg_match('/^image\/gif$/i', $mimeType)) {
             $imgType = 'gif';
             imagegif($canvas, $tempfile);
@@ -963,7 +963,7 @@ class Timthumb
         $this->debug(3, 'Rewriting image with security header.');
         $tempfile4 = tempnam($this->cacheDirectory, 'timthumb_tmpimg_');
         $context   = stream_context_create();
-        $fp        = fopen($tempfile, 'rb', 0, $context);
+        $fp        = fopen($tempfile, 'rb', false, $context);
         file_put_contents($tempfile4, $this->filePrependSecurityBlock . $imgType . ' ?' . '>'); //6 extra bytes, first 3 being image type
         file_put_contents($tempfile4, $fp, FILE_APPEND);
         fclose($fp);
@@ -1003,15 +1003,15 @@ class Timthumb
         if (!isset($docRoot)) {
             $this->debug(3, 'DOCUMENT_ROOT is not set. This is probably windows. Starting search 1.');
             if (\Xmf\Request::hasVar('SCRIPT_FILENAME', 'SERVER')) {
-                $docRoot = str_replace('\\', '/', mb_substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - mb_strlen($_SERVER['PHP_SELF'])));
-                $this->debug(3, "Generated docRoot using SCRIPT_FILENAME and PHP_SELF as: $docRoot");
+                $docRoot = str_replace('\\', '/', mb_substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - mb_strlen($_SERVER['SCRIPT_NAME'])));
+                $this->debug(3, "Generated docRoot using SCRIPT_FILENAME and SCRIPT_NAME as: $docRoot");
             }
         }
         if (!isset($docRoot)) {
             $this->debug(3, 'DOCUMENT_ROOT still is not set. Starting search 2.');
             if (\Xmf\Request::hasVar('PATH_TRANSLATED', 'SERVER')) {
-                $docRoot = str_replace('\\', '/', mb_substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - mb_strlen($_SERVER['PHP_SELF'])));
-                $this->debug(3, "Generated docRoot using PATH_TRANSLATED and PHP_SELF as: $docRoot");
+                $docRoot = str_replace('\\', '/', mb_substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - mb_strlen($_SERVER['SCRIPT_NAME'])));
+                $this->debug(3, "Generated docRoot using PATH_TRANSLATED and SCRIPT_NAME as: $docRoot");
             }
         }
         if ($docRoot && '/' !== $_SERVER['DOCUMENT_ROOT']) {
@@ -1128,7 +1128,7 @@ class Timthumb
     protected function serveWebshot()
     {
         $this->debug(3, 'Starting serveWebshot');
-        $instr = 'Please follow the instructions at http://code.google.com/p/timthumb/ to set your server up for taking website screenshots.';
+        $instr = 'Please follow the instructions at https://code.google.com/p/timthumb/ to set your server up for taking website screenshots.';
         if (!is_file(WEBSHOT_CUTYCAPT)) {
             return $this->error("CutyCapt is not installed. $instr");
         }
@@ -1153,7 +1153,7 @@ class Timthumb
             return $this->error('Invalid URL supplied.');
         }
         $url = preg_replace('/[^A-Za-z0-9\-\.\_:\/\?\&\+\;\=]+/', '', $url); //RFC 3986 plus ()$ chars to prevent exploit below. Plus the following are also removed: @*!~#[]',
-        // 2014 update by Mark Maunder: This exploit: http://cxsecurity.com/issue/WLB-2014060134
+        // 2014 update by Mark Maunder: This exploit: https://cxsecurity.com/issue/WLB-2014060134
         // uses the $(command) shell execution syntax to execute arbitrary shell commands as the web server user.
         // So we're now filtering out the characters: '$', '(' and ')' in the above regex to avoid this.
         // We are also filtering out chars rarely used in URLs but legal accoring to the URL RFC which might be exploitable. These include: @*!~#[]',
@@ -1206,7 +1206,7 @@ class Timthumb
         }
 
         $mimeType = $this->getMimeType($tempfile);
-        if (!preg_match("/^image\/(?:jpg|jpeg|gif|png)$/i", $mimeType)) {
+        if (!preg_match('/^image\/(?:jpg|jpeg|gif|png)$/i', $mimeType)) {
             $this->debug(3, "Remote file has invalid mime type: $mimeType");
             @unlink($this->cachefile);
             touch($this->cachefile);
@@ -1294,10 +1294,10 @@ class Timthumb
         if (!preg_match('/^image\//i', $mimeType)) {
             $mimeType = 'image/' . $mimeType;
         }
-        if ('image/jpg' === mb_strtolower($mimeType)) {
+        if ('image/jpg' === \mb_strtolower($mimeType)) {
             $mimeType = 'image/jpeg';
         }
-        $gmdate_expires  = gmdate('D, d M Y H:i:s', strtotime('now +10 days')) . ' GMT';
+        $gmdateExpires   = gmdate('D, d M Y H:i:s', strtotime('now +10 days')) . ' GMT';
         $gmdate_modified = gmdate('D, d M Y H:i:s') . ' GMT';
         // send content headers then display image
         header('Content-Type: ' . $mimeType);
@@ -1312,7 +1312,7 @@ class Timthumb
         } else {
             $this->debug(3, 'Browser caching is enabled');
             header('Cache-Control: max-age=' . BROWSER_CACHE_MAX_AGE . ', must-revalidate');
-            header('Expires: ' . $gmdate_expires);
+            header('Expires: ' . $gmdateExpires);
         }
 
         return true;
@@ -1424,7 +1424,7 @@ class Timthumb
      */
     protected function sanityFail($msg)
     {
-        return $this->error("There is a problem in the timthumb code. Message: Please report this error at <a href='http://code.google.com/p/timthumb/issues/list'>timthumb's bug tracking page</a>: $msg");
+        return $this->error("There is a problem in the timthumb code. Message: Please report this error at <a href='https://code.google.com/p/timthumb/issues/list'>timthumb's bug tracking page</a>: $msg");
     }
 
     /**
@@ -1456,28 +1456,28 @@ class Timthumb
     }
 
     /**
-     * @param $size_str
+     * @param $sizeString
      *
      * @return int
      */
-    protected static function returnBytes($size_str)
+    protected static function returnBytes($sizeString)
     {
-        switch (mb_substr($size_str, -1)) {
+        switch (mb_substr($sizeString, -1)) {
             case 'M':
 
             case 'm':
 
-                return (int)$size_str * 1048576;
+                return (int)$sizeString * 1048576;
             case 'K':
             case 'k':
 
-                return (int)$size_str * 1024;
+                return (int)$sizeString * 1024;
             case 'G':
             case 'g':
 
-                return (int)$size_str * 1073741824;
+                return (int)$sizeString * 1073741824;
             default:
-                return $size_str;
+                return $sizeString;
         }
     }
 

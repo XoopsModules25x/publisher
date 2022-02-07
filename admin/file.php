@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,89 +10,41 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\File;
+use XoopsModules\Publisher\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 
 $op = Request::getString('op');
 
-/**
- * @param bool $showmenu
- * @param int  $fileid
- * @param int  $itemid
- */
-function publisher_editFile($showmenu = false, $fileid = 0, $itemid = 0)
-{
-    /** @var Publisher\Helper $helper */
-    $helper = Publisher\Helper::getInstance();
-    require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
-
-    // if there is a parameter, and the id exists, retrieve data: we're editing a file
-    if (0 != $fileid) {
-        // Creating the File object
-        /** @var \XoopsModules\Publisher\File $fileObj */
-        $fileObj = $helper->getHandler('File')->get($fileid);
-
-        if ($fileObj->notLoaded()) {
-            redirect_header('javascript:history.go(-1)', 1, _AM_PUBLISHER_NOFILESELECTED);
-        }
-
-        echo "<br>\n";
-        echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_EDITING . '</span>';
-        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_FILE_EDITING_DSC . '</span>';
-        Publisher\Utility::openCollapsableBar('editfile', 'editfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
-    } else {
-        // there's no parameter, so we're adding an item
-        $fileObj = $helper->getHandler('File')->create();
-        $fileObj->setVar('itemid', $itemid);
-        echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . _AM_PUBLISHER_FILE_ADDING . '</span>';
-        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_PUBLISHER_FILE_ADDING_DSC . '</span>';
-        Publisher\Utility::openCollapsableBar('addfile', 'addfileicon', _AM_PUBLISHER_FILE_INFORMATIONS);
-    }
-
-    // FILES UPLOAD FORM
-    /** @var Publisher\File $fileObj */
-    $uploadForm = $fileObj->getForm();
-    $uploadForm->display();
-
-    if (0 != $fileid) {
-        Publisher\Utility::closeCollapsableBar('editfile', 'editfileicon');
-    } else {
-        Publisher\Utility::closeCollapsableBar('addfile', 'addfileicon');
-    }
-}
-
-$false = false;
+//$itemObj = null;
 /* -- Available operations -- */
 switch ($op) {
     case 'uploadfile':
-        Publisher\Utility::uploadFile(false, true, $false);
+        Utility::uploadFile(false, true);
         exit;
-        break;
     case 'uploadanother':
-        Publisher\Utility::uploadFile(true, true, $false);
+        Utility::uploadFile(true, true);
         exit;
-        break;
     case 'mod':
         $fileid = Request::getInt('fileid', 0, 'GET');
-        $itemid = Request::getInt('itemid', 0, 'GET');
-        if ((0 == $fileid) && (0 == $itemid)) {
-            redirect_header('javascript:history.go(-1)', 3, _AM_PUBLISHER_NOITEMSELECTED);
+        $itemId = Request::getInt('itemid', 0, 'GET');
+        if ((0 == $fileid) && (0 == $itemId)) {
+            redirect_header('<script>javascript:history.go(-1)</script>', 3, _AM_PUBLISHER_NOITEMSELECTED);
         }
 
-        Publisher\Utility::cpHeader();
+        Utility::cpHeader();
         require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
-        publisher_editFile(true, $fileid, $itemid);
+        Utility::editFile(true, $fileid, $itemId);
         break;
     case 'modify':
         $fileid = Request::getInt('fileid', 0, 'POST');
@@ -111,7 +63,7 @@ switch ($op) {
 
         // Storing the file
         if (!$fileObj->store()) {
-            redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 3, _AM_PUBLISHER_FILE_EDITING_ERROR . Publisher\Utility::formatErrors($fileObj->getErrors()));
+            redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 3, _AM_PUBLISHER_FILE_EDITING_ERROR . Utility::formatErrors($fileObj->getErrors()));
         }
 
         redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 2, _AM_PUBLISHER_FILE_EDITING_SUCCESS);
@@ -135,16 +87,15 @@ switch ($op) {
             // no confirm: show deletion condition
             $fileid = Request::getInt('fileid', 0, 'GET');
 
-            Publisher\Utility::cpHeader();
+            Utility::cpHeader();
             xoops_confirm(['op' => 'del', 'fileid' => $fileObj->fileid(), 'confirm' => 1, 'name' => $fileObj->name()], 'file.php', _AM_PUBLISHER_DELETETHISFILE . ' <br>' . $fileObj->name() . ' <br> <br>', _AM_PUBLISHER_DELETE);
             xoops_cp_footer();
         }
 
         exit();
-        break;
     case 'default':
     default:
-        Publisher\Utility::cpHeader();
+        Utility::cpHeader();
         //publisher_adminMenu(2, _AM_PUBLISHER_ITEMS);
         break;
 }

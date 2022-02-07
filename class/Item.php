@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Publisher;
 
@@ -13,35 +13,35 @@ namespace XoopsModules\Publisher;
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
 
-//namespace Publisher;
-
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-require_once dirname(__DIR__) . '/include/common.php';
+/** @var \XoopsMemberHandler $memberHandler */
+/** @var \XoopsImageHandler $imageHandler */
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Item
  */
 class Item extends \XoopsObject
 {
+    public const PAGEWRAP = '[pagewrap=';
+    public const BODYTAG  = '<body>';
     /**
-     * @var Publisher\Helper
+     * @var Helper
      */
     public $helper;
+    /** @var \XoopsMySQLDatabase */
+    public $db;
     public $groupsRead = [];
-
     /**
-     * @var Publisher\Category
+     * @var Category
      */
     public $category;
 
@@ -50,39 +50,40 @@ class Item extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var Publisher\Helper $this ->helper */
-        $this->helper = Publisher\Helper::getInstance();
-        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
-        $this->initVar('itemid', XOBJ_DTYPE_INT, 0);
-        $this->initVar('categoryid', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('title', XOBJ_DTYPE_TXTBOX, '', true, 255);
-        $this->initVar('subtitle', XOBJ_DTYPE_TXTBOX, '', false, 255);
-        $this->initVar('summary', XOBJ_DTYPE_TXTAREA, '', false);
-        $this->initVar('body', XOBJ_DTYPE_TXTAREA, '', false);
-        $this->initVar('uid', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('author_alias', XOBJ_DTYPE_TXTBOX, '', false, 255);
-        $this->initVar('datesub', XOBJ_DTYPE_INT, '', false);
-        $this->initVar('status', XOBJ_DTYPE_INT, -1, false);
-        $this->initVar('image', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('images', XOBJ_DTYPE_TXTBOX, '', false, 255);
-        $this->initVar('counter', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('rating', XOBJ_DTYPE_OTHER, 0, false);
-        $this->initVar('votes', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('weight', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('dohtml', XOBJ_DTYPE_INT, 1, true);
-        $this->initVar('dosmiley', XOBJ_DTYPE_INT, 1, true);
-        $this->initVar('doimage', XOBJ_DTYPE_INT, 1, true);
-        $this->initVar('dobr', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('doxcode', XOBJ_DTYPE_INT, 1, true);
-        $this->initVar('cancomment', XOBJ_DTYPE_INT, 1, true);
-        $this->initVar('comments', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('notifypub', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('meta_keywords', XOBJ_DTYPE_TXTAREA, '', false);
-        $this->initVar('meta_description', XOBJ_DTYPE_TXTAREA, '', false);
-        $this->initVar('short_url', XOBJ_DTYPE_TXTBOX, '', false, 255);
-        $this->initVar('item_tag', XOBJ_DTYPE_TXTAREA, '', false);
+        //        $this->helper = Helper::getInstance();
+        $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
+        $this->initVar('itemid', \XOBJ_DTYPE_INT, 0);
+        $this->initVar('categoryid', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('title', \XOBJ_DTYPE_TXTBOX, '', true, 255);
+        $this->initVar('subtitle', \XOBJ_DTYPE_TXTBOX, '', false, 255);
+        $this->initVar('summary', \XOBJ_DTYPE_TXTAREA, '', false);
+        $this->initVar('body', \XOBJ_DTYPE_TXTAREA, '', false);
+        $this->initVar('uid', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('author_alias', \XOBJ_DTYPE_TXTBOX, '', false, 255);
+        $this->initVar('datesub', \XOBJ_DTYPE_INT, '', false);
+        $this->initVar('dateexpire', \XOBJ_DTYPE_INT, '', false);
+        $this->initVar('status', \XOBJ_DTYPE_INT, -1, false);
+        $this->initVar('image', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('images', \XOBJ_DTYPE_TXTBOX, '', false, 255);
+        $this->initVar('counter', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('rating', \XOBJ_DTYPE_OTHER, 0, false);
+        $this->initVar('votes', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('weight', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('dohtml', \XOBJ_DTYPE_INT, 1, true);
+        $this->initVar('dosmiley', \XOBJ_DTYPE_INT, 1, true);
+        $this->initVar('doimage', \XOBJ_DTYPE_INT, 1, true);
+        $this->initVar('dobr', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('doxcode', \XOBJ_DTYPE_INT, 1, true);
+        $this->initVar('cancomment', \XOBJ_DTYPE_INT, 1, true);
+        $this->initVar('comments', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('notifypub', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('meta_keywords', \XOBJ_DTYPE_TXTAREA, '', false);
+        $this->initVar('meta_description', \XOBJ_DTYPE_TXTAREA, '', false);
+        $this->initVar('short_url', \XOBJ_DTYPE_TXTBOX, '', false, 255);
+        $this->initVar('item_tag', \XOBJ_DTYPE_TXTAREA, '', false);
+        $this->initVar('votetype', \XOBJ_DTYPE_INT, 0, false);
         // Non consistent values
-        $this->initVar('pagescount', XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('pagescount', \XOBJ_DTYPE_INT, 0, false);
         if (null !== $id) {
             $item = $this->helper->getHandler('Item')->get($id);
             foreach ($item->vars as $k => $v) {
@@ -99,13 +100,13 @@ class Item extends \XoopsObject
      */
     public function __call($method, $args)
     {
-        $arg = isset($args[0]) ? $args[0] : null;
+        $arg = $args[0] ?? ''; //mb changed to empty string as in PHP 8.1 Passing null to parameter of type string is deprecated (in object.php on line 441)
 
         return $this->getVar($method, $arg);
     }
 
     /**
-     * @return null|Publisher\Category
+     * @return null|Category
      */
     public function getCategory()
     {
@@ -127,8 +128,8 @@ class Item extends \XoopsObject
         $ret = $this->getVar('title', $format);
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (mb_strlen($ret) >= $maxLength) {
-                    $ret = Publisher\Utility::substr($ret, 0, $maxLength);
+                if (\mb_strlen($ret) >= $maxLength) {
+                    $ret = Utility::substr($ret, 0, $maxLength);
                 }
             }
         }
@@ -147,8 +148,8 @@ class Item extends \XoopsObject
         $ret = $this->getVar('subtitle', $format);
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (mb_strlen($ret) >= $maxLength) {
-                    $ret = Publisher\Utility::substr($ret, 0, $maxLength);
+                if (\mb_strlen($ret) >= $maxLength) {
+                    $ret = Utility::substr($ret, 0, $maxLength);
                 }
             }
         }
@@ -167,14 +168,14 @@ class Item extends \XoopsObject
     {
         $ret = $this->getVar('summary', $format);
         if (!empty($stripTags)) {
-            $ret = strip_tags($ret, $stripTags);
+            $ret = \strip_tags($ret, $stripTags);
         }
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (mb_strlen($ret) >= $maxLength) {
-                    //$ret = Publisher\Utility::substr($ret , 0, $maxLength);
-                    //                    $ret = Publisher\Utility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
-                    $ret = Publisher\Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
+                if (\mb_strlen($ret) >= $maxLength) {
+                    //$ret = Utility::substr($ret , 0, $maxLength);
+                    //                    $ret = Utility::truncateTagSafe($ret, $maxLength, $etc = '...', $breakWords = false);
+                    $ret = Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
             }
         }
@@ -211,22 +212,21 @@ class Item extends \XoopsObject
     public function wrapPage($fileName)
     {
         $content = '';
-        $page    = Publisher\Utility::getUploadDir(true, 'content') . $fileName;
-        if (file_exists($page)) {
+        $page    = Utility::getUploadDir(true, 'content') . $fileName;
+        if (\is_file($page)) {
             // this page uses smarty template
-            ob_start();
+            \ob_start();
             require $page;
-            $content = ob_get_contents();
-            ob_end_clean();
+            $content = \ob_get_clean();
             // Cleaning the content
-            $bodyStartPos = mb_strpos($content, '<body>');
+            $bodyStartPos = \mb_strpos($content, self::BODYTAG);
             if ($bodyStartPos) {
-                $bodyEndPos = mb_strpos($content, '</body>', $bodyStartPos);
-                $content    = mb_substr($content, $bodyStartPos + mb_strlen('<body>'), $bodyEndPos - mb_strlen('<body>') - $bodyStartPos);
+                $bodyEndPos = \mb_strpos($content, '</body>', $bodyStartPos);
+                $content    = \mb_substr($content, $bodyStartPos + \mb_strlen(self::BODYTAG), $bodyEndPos - \mb_strlen(self::BODYTAG) - $bodyStartPos);
             }
             // Check if ML Hack is installed, and if yes, parse the $content in formatForML
             $myts = \MyTextSanitizer::getInstance();
-            if (method_exists($myts, 'formatForML')) {
+            if (\method_exists($myts, 'formatForML')) {
                 $content = $myts->formatForML($content);
             }
         }
@@ -246,21 +246,21 @@ class Item extends \XoopsObject
     public function getBody($maxLength = 0, $format = 'S', $stripTags = '')
     {
         $ret     = $this->getVar('body', $format);
-        $wrapPos = mb_strpos($ret, '[pagewrap=');
+        $wrapPos = \mb_strpos($ret, self::PAGEWRAP);
         if (!(false === $wrapPos)) {
             $wrapPages      = [];
-            $wrapCodeLength = mb_strlen('[pagewrap=');
+            $wrapCodeLength = \mb_strlen(self::PAGEWRAP);
             while (!(false === $wrapPos)) {
-                $endWrapPos = mb_strpos($ret, ']', $wrapPos);
+                $endWrapPos = \mb_strpos($ret, ']', $wrapPos);
                 if ($endWrapPos) {
-                    $wrap_page_name = mb_substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
-                    $wrapPages[]    = $wrap_page_name;
+                    $wrapPagename = \mb_substr($ret, $wrapPos + $wrapCodeLength, $endWrapPos - $wrapCodeLength - $wrapPos);
+                    $wrapPages[]  = $wrapPagename;
                 }
-                $wrapPos = mb_strpos($ret, '[pagewrap=', $endWrapPos - 1);
+                $wrapPos = \mb_strpos($ret, self::PAGEWRAP, $endWrapPos - 1);
             }
             foreach ($wrapPages as $page) {
                 $wrapPageContent = $this->wrapPage($page);
-                $ret             = str_replace("[pagewrap={$page}]", $wrapPageContent, $ret);
+                $ret             = \str_replace("[pagewrap={$page}]", $wrapPageContent, $ret);
             }
         }
         if ($this->helper->getConfig('item_disp_blocks_summary')) {
@@ -270,13 +270,13 @@ class Item extends \XoopsObject
             }
         }
         if (!empty($stripTags)) {
-            $ret = strip_tags($ret, $stripTags);
+            $ret = \strip_tags($ret, $stripTags);
         }
         if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
-                if (mb_strlen($ret) >= $maxLength) {
-                    //$ret = Publisher\Utility::substr($ret , 0, $maxLength);
-                    $ret = Publisher\Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
+                if (\mb_strlen($ret) >= $maxLength) {
+                    //$ret = Utility::substr($ret , 0, $maxLength);
+                    $ret = Utility::truncateHtml($ret, $maxLength, $etc = '...', $breakWords = false);
                 }
             }
         }
@@ -296,7 +296,25 @@ class Item extends \XoopsObject
             $dateFormat = $this->helper->getConfig('format_date');
         }
 
-        return formatTimestamp($this->getVar('datesub', $format), $dateFormat);
+        return \formatTimestamp($this->getVar('datesub', $format), $dateFormat);
+    }
+
+    /**
+     * @param string $dateFormat
+     * @param string $format
+     *
+     * @return string|false
+     */
+    public function getDateExpire($dateFormat = '', $format = 'S')
+    {
+        if (empty($dateFormat)) {
+            $dateFormat = $this->helper->getConfig('format_date');
+        }
+        if (0 == $this->getVar('dateexpire')) {
+            return false;
+        }
+
+        return \formatTimestamp($this->getVar('dateexpire', $format), $dateFormat);
     }
 
     /**
@@ -306,7 +324,7 @@ class Item extends \XoopsObject
      */
     public function posterName($realName = -1)
     {
-        xoops_load('XoopsUserUtility');
+        \xoops_load('XoopsUserUtility');
         if (-1 == $realName) {
             $realName = $this->helper->getConfig('format_realname');
         }
@@ -323,10 +341,11 @@ class Item extends \XoopsObject
      */
     public function posterAvatar()
     {
-        $ret           = 'blank.gif';
-        $memberHandler = xoops_getHandler('member');
+        $ret = 'blank.gif';
+        /** @var \XoopsMemberHandler $memberHandler */
+        $memberHandler = \xoops_getHandler('member');
         $thisUser      = $memberHandler->getUser($this->uid());
-        if (is_object($thisUser)) {
+        if (\is_object($thisUser)) {
             $ret = $thisUser->getVar('user_avatar');
         }
 
@@ -338,7 +357,7 @@ class Item extends \XoopsObject
      */
     public function getLinkedPosterName()
     {
-        xoops_load('XoopsUserUtility');
+        \xoops_load('XoopsUserUtility');
         $ret = $this->author_alias();
         if ('' === $ret) {
             $ret = \XoopsUserUtility::getUnameFromId($this->uid(), $this->helper->getConfig('format_realname'), true);
@@ -368,10 +387,12 @@ class Item extends \XoopsObject
         }
         if ($isNew && Constants::PUBLISHER_STATUS_PUBLISHED == $this->getVar('status')) {
             // Increment user posts
-            $userHandler   = xoops_getHandler('user');
-            $memberHandler = xoops_getHandler('member');
-            $poster        = $userHandler->get($this->uid());
-            if (is_object($poster) && !$poster->isNew()) {
+            $userHandler = \xoops_getHandler('user');
+            /** @var \XoopsMemberHandler $memberHandler */
+            $memberHandler = \xoops_getHandler('member');
+            /** @var \XoopsUser $poster */
+            $poster = $userHandler->get($this->uid());
+            if (\is_object($poster) && !$poster->isNew()) {
                 $poster->setVar('posts', $poster->getVar('posts') + 1);
                 if (!$memberHandler->insertUser($poster, true)) {
                     $this->setErrors('Article created but could not increment user posts.');
@@ -411,7 +432,7 @@ class Item extends \XoopsObject
     /**
      * @param bool $withAllLink
      *
-     * @return string
+     * @return array|bool|string
      */
     public function getCategoryPath($withAllLink = true)
     {
@@ -423,7 +444,7 @@ class Item extends \XoopsObject
      */
     public function getCategoryImagePath()
     {
-        return Publisher\Utility::getImageDir('category', false) . $this->getCategory()->getImage();
+        return Utility::getImageDir('category', false) . $this->getCategory()->getImage();
     }
 
     /**
@@ -435,79 +456,89 @@ class Item extends \XoopsObject
     }
 
     /**
+     * @param $icons
      * @return string
      */
-    public function getAdminLinks()
+    public function getAdminLinks($icons)
     {
         $adminLinks = '';
-        if (is_object($GLOBALS['xoopsUser'])
-            && (Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($this)
+        if (\is_object($GLOBALS['xoopsUser'])
+            && (Utility::userIsAdmin() || Utility::userIsAuthor($this)
                 || $this->helper->getHandler('Permission')->isGranted('item_submit', $this->categoryid()))) {
-            if (Publisher\Utility::userIsAdmin() || Publisher\Utility::userIsAuthor($this) || Publisher\Utility::userIsModerator($this)) {
-                if ($this->helper->getConfig('perm_edit') || Publisher\Utility::userIsModerator($this) || Publisher\Utility::userIsAdmin()) {
+            if (Utility::userIsAdmin() || Utility::userIsAuthor($this) || Utility::userIsModerator($this)) {
+                if ($this->helper->getConfig('perm_edit') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Edit button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif'" . " title='" . _CO_PUBLISHER_EDIT . "' alt='" . _CO_PUBLISHER_EDIT . "'></a>";
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?itemid=' . $this->itemid() . "'>" . $icons['edit'] . '</a>';
                     $adminLinks .= ' ';
                 }
-                if ($this->helper->getConfig('perm_delete') || Publisher\Utility::userIsModerator($this) || Publisher\Utility::userIsAdmin()) {
+                if ($this->helper->getConfig('perm_delete') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Delete button
-                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png'" . " title='" . _CO_PUBLISHER_DELETE . "' alt='" . _CO_PUBLISHER_DELETE . "'></a>";
+                    $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=del&amp;itemid=' . $this->itemid() . "'>" . $icons['delete'] . '</a>';
                     $adminLinks .= ' ';
                 }
             }
-            if ($this->helper->getConfig('perm_clone') || Publisher\Utility::userIsModerator($this) || Publisher\Utility::userIsAdmin()) {
+            if ($this->helper->getConfig('perm_clone') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                 // Duplicate button
-                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/clone.gif'" . " title='" . _CO_PUBLISHER_CLONE . "' alt='" . _CO_PUBLISHER_CLONE . "'></a>";
+                $adminLinks .= "<a href='" . PUBLISHER_URL . '/submit.php?op=clone&amp;itemid=' . $this->itemid() . "'>" . $icons['clone'] . '</a>';
                 $adminLinks .= ' ';
             }
-        }
-
-        // PDF button
-        if ($this->helper->getConfig('display_pdf')) {
-            if (!is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
-                //                if (is_object($GLOBALS['xoopsUser']) && Publisher\Utility::userIsAdmin()) {
-                //                    $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
-                //                    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
-                //                    $adminLinks .= '<script type="text/javascript">
-                //                    (function($){
-                //                        $(document).ready(function(){
-                //                            $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
-                //                        })(jQuery);
-                //                        </script>';
-                //                }
-            } else {
-                $adminLinks .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/pdf.gif'" . " title='" . _CO_PUBLISHER_PDF . "' alt='" . _CO_PUBLISHER_PDF . "'></a>";
-                $adminLinks .= ' ';
-            }
-        }
-
-        // Print button
-        $adminLinks .= "<a href='" . Publisher\Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'><img src='" . PUBLISHER_URL . "/assets/images/links/print.gif' title='" . _CO_PUBLISHER_PRINT . "' alt='" . _CO_PUBLISHER_PRINT . "'></a>";
-        $adminLinks .= ' ';
-        // Email button
-        if (xoops_isActiveModule('tellafriend')) {
-            $subject    = sprintf(_CO_PUBLISHER_INTITEMFOUND, $GLOBALS['xoopsConfig']['sitename']);
-            $subject    = $this->convertForJapanese($subject);
-            $maillink   = Publisher\Utility::tellAFriend($subject);
-            $adminLinks .= '<a href="' . $maillink . '"><img src="' . PUBLISHER_URL . '/assets/images/links/friend.gif" title="' . _CO_PUBLISHER_MAIL . '" alt="' . _CO_PUBLISHER_MAIL . '"></a>';
-            $adminLinks .= ' ';
         }
 
         return $adminLinks;
     }
 
     /**
+     * @param $icons
+     * @return string
+     */
+    public function getPdfButton($icons)
+    {
+        $pdfButton = '';
+        // PDF button
+        if (\is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php')) {
+            $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'>" . $icons['pdf'] . '</a>&nbsp;';
+            $pdfButton .= ' ';
+        }
+//        if (is_object($GLOBALS['xoopsUser']) && Utility::userIsAdmin()) {
+//            $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
+//            $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
+//            $adminLinks .= '<script type="text/javascript">
+//                            (function($){
+//                                $(document).ready(function(){
+//                                    $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
+//                                })(jQuery);
+//                                </script>';
+//        }
+
+        return $pdfButton;
+    }
+
+    /**
+     * @param $icons
+     * @return string
+     */
+    public function getPrintLinks($icons)
+    {
+        $printLinks = '';
+        // Print button
+        $printLinks .= "<a href='" . Seo::generateUrl('print', $this->itemid(), $this->short_url()) . "' rel='nofollow' target='_blank'>" . $icons['print'] . '</a>&nbsp;';
+        $printLinks .= ' ';
+
+        return $printLinks;
+    }
+
+    /**
      * @param array $notifications
      */
-    public function sendNotifications($notifications = [])
+    public function sendNotifications($notifications = []): void
     {
         /** @var \XoopsNotificationHandler $notificationHandler */
-        $notificationHandler = xoops_getHandler('notification');
+        $notificationHandler = \xoops_getHandler('notification');
         $tags                = [];
 
         $tags['MODULE_NAME']   = $this->helper->getModule()->getVar('name');
         $tags['ITEM_NAME']     = $this->getTitle();
-        $tags['ITEM_NAME']     = $this->subtitle();
+        $tags['ITEM_SUBNAME']  = $this->getSubtitle();
         $tags['CATEGORY_NAME'] = $this->getCategoryName();
         $tags['CATEGORY_URL']  = PUBLISHER_URL . '/category.php?categoryid=' . $this->categoryid();
         $tags['ITEM_BODY']     = $this->body();
@@ -538,27 +569,33 @@ class Item extends \XoopsObject
     /**
      * Sets default permissions for this item
      */
-    public function setDefaultPermissions()
+    public function setDefaultPermissions(): void
     {
-        $memberHandler = xoops_getHandler('member');
+        $memberHandler = \xoops_getHandler('member');
         $groups        = $memberHandler->getGroupList();
+        $groupIds      = \count($groups) > 0 ? \array_keys($groups) : [];
+        /*
         $j             = 0;
         $groupIds      = [];
         foreach (array_keys($groups) as $i) {
             $groupIds[$j] = $i;
             ++$j;
         }
+        */
         $this->groupsRead = $groupIds;
     }
 
     /**
-     * @todo look at this
-     *
      * @param $groupIds
+     * @deprecated - NOT USED
+     *
+     * @todo       look at this
      */
-    public function setPermissions($groupIds)
+    public function setPermissions($groupIds): void
     {
         if (!isset($groupIds)) {
+            $this->setDefaultPermissions();
+            /*
             $memberHandler = xoops_getHandler('member');
             $groups        = $memberHandler->getGroupList();
             $j             = 0;
@@ -567,6 +604,7 @@ class Item extends \XoopsObject
                 $groupIds[$j] = $i;
                 ++$j;
             }
+            */
         }
     }
 
@@ -583,7 +621,7 @@ class Item extends \XoopsObject
      */
     public function getItemUrl()
     {
-        return Publisher\Seo::generateUrl('item', $this->itemid(), $this->short_url());
+        return Seo::generateUrl('item', $this->itemid(), $this->short_url());
     }
 
     /**
@@ -595,7 +633,7 @@ class Item extends \XoopsObject
     public function getItemLink($class = false, $maxsize = 0)
     {
         if ($class) {
-            return '<a class=' . $class . ' href="' . $this->getItemUrl() . '">' . $this->getTitle($maxsize) . '</a>';
+            return '<a class="' . $class . '" href="' . $this->getItemUrl() . '">' . $this->getTitle($maxsize) . '</a>';
         }
 
         return '<a href="' . $this->getItemUrl() . '">' . $this->getTitle($maxsize) . '</a>';
@@ -609,7 +647,7 @@ class Item extends \XoopsObject
         $posterName = $this->getLinkedPosterName();
         $postdate   = $this->getDatesub();
 
-        return sprintf(_CO_PUBLISHER_POSTEDBY, $posterName, $postdate);
+        return \sprintf(\_CO_PUBLISHER_POSTEDBY, $posterName, $postdate);
     }
 
     /**
@@ -643,7 +681,7 @@ class Item extends \XoopsObject
         if (!$body) {
             $body = $this->body();
         }
-        $ret .= str_replace('[pagebreak]', '<br><br>', $body);
+        $ret .= \str_replace('[pagebreak]', '<br><br>', $body);
 
         return $ret;
     }
@@ -659,21 +697,21 @@ class Item extends \XoopsObject
         if (null === $body) {
             $body = $this->body();
         }
-        $bodyParts = explode('[pagebreak]', $body);
-        $this->setVar('pagescount', count($bodyParts));
-        if (count($bodyParts) <= 1) {
+        $bodyParts = \explode('[pagebreak]', $body);
+        $this->setVar('pagescount', \count($bodyParts));
+        if (\count($bodyParts) <= 1) {
             return $this->plainMaintext($body);
         }
         $ret = '';
         if (-1 == $itemPageId) {
-            $ret .= trim($bodyParts[0]);
+            $ret .= \trim($bodyParts[0]);
 
             return $ret;
         }
-        if ($itemPageId >= count($bodyParts)) {
-            $itemPageId = count($bodyParts) - 1;
+        if ($itemPageId >= \count($bodyParts)) {
+            $itemPageId = \count($bodyParts) - 1;
         }
-        $ret .= trim($bodyParts[$itemPageId]);
+        $ret .= \trim($bodyParts[$itemPageId]);
 
         return $ret;
     }
@@ -684,38 +722,38 @@ class Item extends \XoopsObject
     public function getImages()
     {
         static $ret;
-        $itemid = $this->getVar('itemid');
-        if (!isset($ret[$itemid])) {
-            $ret[$itemid]['main']   = '';
-            $ret[$itemid]['others'] = [];
+        $itemId = $this->getVar('itemid');
+        if (!isset($ret[$itemId])) {
+            $ret[$itemId]['main']   = '';
+            $ret[$itemId]['others'] = [];
             $imagesIds              = [];
             $image                  = $this->getVar('image');
             $images                 = $this->getVar('images');
             if ('' != $images) {
-                $imagesIds = explode('|', $images);
+                $imagesIds = \explode('|', $images);
             }
             if ($image > 0) {
-                $imagesIds = array_merge($imagesIds, [$image]);
+                $imagesIds[] = $image;
             }
             $imageObjs = [];
-            if (count($imagesIds) > 0) {
-                $imageHandler = xoops_getHandler('image');
-                $criteria     = new \CriteriaCompo(new \Criteria('image_id', '(' . implode(',', $imagesIds) . ')', 'IN'));
+            if (\count($imagesIds) > 0) {
+                $imageHandler = \xoops_getHandler('image');
+                $criteria     = new \CriteriaCompo(new \Criteria('image_id', '(' . \implode(',', $imagesIds) . ')', 'IN'));
                 $imageObjs    = $imageHandler->getObjects($criteria, true);
                 unset($criteria);
             }
             foreach ($imageObjs as $id => $imageObj) {
                 if ($id == $image) {
-                    $ret[$itemid]['main'] = $imageObj;
+                    $ret[$itemId]['main'] = $imageObj;
                 } else {
-                    $ret[$itemid]['others'][] = $imageObj;
+                    $ret[$itemId]['others'][] = $imageObj;
                 }
                 unset($imageObj);
             }
             unset($imageObjs);
         }
 
-        return $ret[$itemid];
+        return $ret[$itemId];
     }
 
     /**
@@ -726,37 +764,69 @@ class Item extends \XoopsObject
      *
      * @return array
      */
-    public function toArraySimple($display = 'default', $maxCharTitle = 0, $maxCharSummary = 0, $fullSummary = false)
+    public function toArraySimple($display = 'default', $maxCharTitle = 0, $maxCharSummary = 300, $fullSummary = false)
     {
         $itemPageId = -1;
-        if (is_numeric($display)) {
+        if (\is_numeric($display)) {
             $itemPageId = $display;
             $display    = 'all';
         }
-        $item['itemid']    = $this->itemid();
-        $item['uid']       = $this->uid();
-        $item['itemurl']   = $this->getItemUrl();
-        $item['titlelink'] = $this->getItemLink('titlelink', $maxCharTitle);
-        $item['subtitle']  = $this->subtitle();
-        $item['datesub']   = $this->getDatesub();
-        $item['counter']   = $this->counter();
-        $item['who']       = $this->getWho();
-        $item['when']      = $this->getWhen();
-        $item['category']  = $this->getCategoryName();
-        $item              = $this->getMainImage($item);
+        $item['itemid']       = $this->itemid();
+        $item['uid']          = $this->uid();
+        $item['itemurl']      = $this->getItemUrl();
+        $item['titlelink']    = $this->getItemLink('titlelink', $maxCharTitle);
+        $item['subtitle']     = $this->subtitle();
+        $item['datesub']      = $this->getDatesub();
+        $item['dateexpire']   = $this->getDateExpire();
+        $item['counter']      = $this->counter();
+        $item['hits']         = '&nbsp;' . $this->counter() . ' ' . _READS . '';
+        $item['who']          = $this->getWho();
+        $item['when']         = $this->getWhen();
+        $item['category']     = $this->getCategoryName();
+        $item['categorylink'] = $this->getCategoryLink();
+        $item['cancomment']   = $this->cancomment();
+        $item['votetype']     = $this->votetype();
+        $comments             = $this->comments();
+        if ($comments > 0) {
+            //shows 1 comment instead of 1 comm. if comments ==1
+            //langugage file modified accordingly
+            if (1 == $comments) {
+                $item['comments'] = '&nbsp;' . \_MD_PUBLISHER_ONECOMMENT . '&nbsp;';
+            } else {
+                $item['comments'] = '&nbsp;' . $comments . '&nbsp;' . \_MD_PUBLISHER_COMMENTS . '&nbsp;';
+            }
+        } else {
+            $item['comments'] = '&nbsp;' . \_MD_PUBLISHER_NO_COMMENTS . '&nbsp;';
+        }
+        $item = $this->getMainImage($item);
         switch ($display) {
             case 'summary':
+                $item = $this->toArrayFull($item);
+                $item = $this->toArrayAll($item, $itemPageId);
+            // no break
             case 'list':
-                break;
+                $item = $this->toArrayFull($item);
+                $item = $this->toArrayAll($item, $itemPageId);
+            //break;
+            // no break
             case 'full':
+                $item = $this->toArrayFull($item);
+                $item = $this->toArrayAll($item, $itemPageId);
+            // no break
             case 'wfsection':
+                $item = $this->toArrayFull($item);
+                $item = $this->toArrayAll($item, $itemPageId);
+            // no break
             case 'default':
+                $item    = $this->toArrayFull($item);
+                $item    = $this->toArrayAll($item, $itemPageId);
                 $summary = $this->getSummary($maxCharSummary);
                 if (!$summary) {
                     $summary = $this->getBody($maxCharSummary);
                 }
-                $item['summary'] = $summary;
-                $item            = $this->toArrayFull($item);
+                $item['summary']   = $summary;
+                $item['truncated'] = $maxCharSummary > 0 && \mb_strlen($summary) > $maxCharSummary;
+                $item              = $this->toArrayFull($item);
                 break;
             case 'all':
                 $item = $this->toArrayFull($item);
@@ -766,8 +836,7 @@ class Item extends \XoopsObject
         // Highlighting searched words
         $highlight = true;
         if ($highlight && Request::getString('keywords', '', 'GET')) {
-            $myts     = \MyTextSanitizer::getInstance();
-            $keywords = $myts->htmlSpecialChars(trim(urldecode(Request::getString('keywords', '', 'GET'))));
+            $keywords = \htmlspecialchars(\trim(\urldecode(Request::getString('keywords', '', 'GET'))), \ENT_QUOTES | \ENT_HTML5);
             $fields   = ['title', 'maintext', 'summary'];
             foreach ($fields as $field) {
                 if (isset($item[$field])) {
@@ -786,17 +855,23 @@ class Item extends \XoopsObject
      */
     public function toArrayFull($item)
     {
-        $item['title']        = $this->getTitle();
-        $item['clean_title']  = $this->getTitle();
-        $item['itemurl']      = $this->getItemUrl();
-        $item['cancomment']   = $this->cancomment();
-        $item['comments']     = $this->comments();
-        $item['adminlink']    = $this->getAdminLinks();
+        $configurator = new Common\Configurator();
+        $icons        = $configurator->icons;
+
+        $item['title']       = $this->getTitle();
+        $item['clean_title'] = $this->getTitle();
+        $item['itemurl']     = $this->getItemUrl();
+
+        $item['adminlink']    = $this->getAdminLinks($icons);
+        $item['pdfbutton']    = $this->getPdfButton($icons);
+        $item['printlink']    = $this->getPrintLinks($icons);
         $item['categoryPath'] = $this->getCategoryPath($this->helper->getConfig('format_linked_path'));
         $item['who_when']     = $this->getWhoAndWhen();
         $item['who']          = $this->getWho();
         $item['when']         = $this->getWhen();
         $item['category']     = $this->getCategoryName();
+        $item['body']         = $this->getBody();
+        $item['more']         = $this->getItemUrl();
         $item                 = $this->getMainImage($item);
 
         return $item;
@@ -826,16 +901,16 @@ class Item extends \XoopsObject
         $images             = $this->getImages();
         $item['image_path'] = '';
         $item['image_name'] = '';
-        if (is_object($images['main'])) {
-            $dimensions           = getimagesize($GLOBALS['xoops']->path('uploads/' . $images['main']->getVar('image_name')));
+        if (\is_object($images['main'])) {
+            $dimensions           = \getimagesize($GLOBALS['xoops']->path('uploads/' . $images['main']->getVar('image_name')));
             $item['image_width']  = $dimensions[0];
             $item['image_height'] = $dimensions[1];
             $item['image_path']   = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
             // check to see if GD function exist
-            if (!function_exists('imagecreatetruecolor')) {
-                $item['image_thumb'] = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
-            } else {
+            if (\function_exists('imagecreatetruecolor')) {
                 $item['image_thumb'] = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name') . '&amp;h=180';
+            } else {
+                $item['image_thumb'] = XOOPS_URL . '/uploads/' . $images['main']->getVar('image_name');
             }
             $item['image_name'] = $images['main']->getVar('image_nicename');
         }
@@ -854,15 +929,15 @@ class Item extends \XoopsObject
         $item['images'] = [];
         $i              = 0;
         foreach ($images['others'] as $image) {
-            $dimensions                   = getimagesize($GLOBALS['xoops']->path('uploads/' . $image->getVar('image_name')));
+            $dimensions                   = \getimagesize($GLOBALS['xoops']->path('uploads/' . $image->getVar('image_name')));
             $item['images'][$i]['width']  = $dimensions[0];
             $item['images'][$i]['height'] = $dimensions[1];
             $item['images'][$i]['path']   = XOOPS_URL . '/uploads/' . $image->getVar('image_name');
             // check to see if GD function exist
-            if (!function_exists('imagecreatetruecolor')) {
-                $item['images'][$i]['thumb'] = XOOPS_URL . '/uploads/' . $image->getVar('image_name');
-            } else {
+            if (\function_exists('imagecreatetruecolor')) {
                 $item['images'][$i]['thumb'] = PUBLISHER_URL . '/thumb.php?src=' . XOOPS_URL . '/uploads/' . $image->getVar('image_name') . '&amp;w=240';
+            } else {
+                $item['images'][$i]['thumb'] = XOOPS_URL . '/uploads/' . $image->getVar('image_name');
             }
             $item['images'][$i]['name'] = $image->getVar('image_nicename');
             ++$i;
@@ -880,7 +955,7 @@ class Item extends \XoopsObject
     public function highlight($content, $keywords)
     {
         $color = $this->helper->getConfig('format_highlight_color');
-        if (0 !== mb_strpos($color, '#')) {
+        if (0 !== \mb_strpos($color, '#')) {
             $color = '#' . $color;
         }
         require_once __DIR__ . '/Highlighter.php';
@@ -893,9 +968,9 @@ class Item extends \XoopsObject
     /**
      *  Create metada and assign it to template
      */
-    public function createMetaTags()
+    public function createMetaTags(): void
     {
-        $publisherMetagen = new Publisher\Metagen($this->getTitle(), $this->meta_keywords(), $this->meta_description(), $this->category->categoryPath);
+        $publisherMetagen = new Metagen($this->getTitle(), $this->meta_keywords(), $this->meta_description(), $this->category->categoryPath);
         $publisherMetagen->createMetaTags();
     }
 
@@ -907,7 +982,7 @@ class Item extends \XoopsObject
     protected function convertForJapanese($str)
     {
         // no action, if not flag
-        if (!defined('_PUBLISHER_FLAG_JP_CONVERT')) {
+        if (!\defined('_PUBLISHER_FLAG_JP_CONVERT')) {
             return $str;
         }
         // no action, if not Japanese
@@ -919,19 +994,19 @@ class Item extends \XoopsObject
         $os      = '';
         $browser = '';
         //        if (preg_match("/Win/i", $agent)) {
-        if (false !== mb_stripos($agent, 'Win')) {
+        if (false !== \mb_stripos($agent, 'Win')) {
             $os = 'win';
         }
         //        if (preg_match("/MSIE/i", $agent)) {
-        if (false !== mb_stripos($agent, 'MSIE')) {
+        if (false !== \mb_stripos($agent, 'MSIE')) {
             $browser = 'msie';
         }
         // if msie
         if (('win' === $os) && ('msie' === $browser)) {
             // if multibyte
-            if (function_exists('mb_convert_encoding')) {
-                $str = mb_convert_encoding($str, 'SJIS', 'EUC-JP');
-                $str = rawurlencode($str);
+            if (\function_exists('mb_convert_encoding')) {
+                $str = \mb_convert_encoding($str, 'SJIS', 'EUC-JP');
+                $str = \rawurlencode($str);
             }
         }
 
@@ -942,12 +1017,12 @@ class Item extends \XoopsObject
      * @param string $title
      * @param bool   $checkperm
      *
-     * @return \XoopsModules\Publisher\Form\ItemForm
+     * @return Form\ItemForm
      */
     public function getForm($title = 'default', $checkperm = true)
     {
         //        require_once $GLOBALS['xoops']->path('modules/' . PUBLISHER_DIRNAME . '/class/form/item.php');
-        $form = new Publisher\Form\ItemForm($title, 'form', xoops_getenv('PHP_SELF'), 'post', true);
+        $form = new Form\ItemForm($title, 'form', \xoops_getenv('SCRIPT_NAME'), 'post', true);
         $form->setCheckPermissions($checkperm);
         $form->createElements($this);
 
@@ -964,7 +1039,7 @@ class Item extends \XoopsObject
      */
     public function accessGranted()
     {
-        if (Publisher\Utility::userIsAdmin()) {
+        if (Utility::userIsAdmin()) {
             return true;
         }
         if (Constants::PUBLISHER_STATUS_PUBLISHED != $this->getVar('status')) {
@@ -981,22 +1056,21 @@ class Item extends \XoopsObject
     /**
      * The name says it all
      */
-    public function setVarsFromRequest()
+    public function setVarsFromRequest(): void
     {
         //Required fields
         //        if (!empty($categoryid = Request::getInt('categoryid', 0, 'POST'))) {
         //            $this->setVar('categoryid', $categoryid);}
-
+        if (\is_object($GLOBALS['xoopsUser'])) {
+            $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
+        } else {
+            $userTimeoffset = null;
+        }
         $this->setVar('categoryid', Request::getInt('categoryid', 0, 'POST'));
         $this->setVar('title', Request::getString('title', '', 'POST'));
         $this->setVar('body', Request::getText('body', '', 'POST'));
 
-        //Not required fields
-        $this->setVar('summary', Request::getText('summary', '', 'POST'));
-        $this->setVar('subtitle', Request::getString('subtitle', '', 'POST'));
-        $this->setVar('item_tag', Request::getString('item_tag', '', 'POST'));
-
-        if (false !== ($imageFeatured = Request::getString('image_featured', '', 'POST'))) {
+        if ('' !== ($imageFeatured = Request::getString('image_featured', '', 'POST'))) {
             $imageItem = Request::getArray('image_item', [], 'POST');
             //            $imageFeatured = Request::getString('image_featured', '', 'POST');
             //Todo: get a better image class for xoops!
@@ -1011,11 +1085,11 @@ class Item extends \XoopsObject
                 if ($imageName == $imageFeatured) {
                     $this->setVar('image', $id);
                 }
-                if (in_array($imageName, $imageItem, true)) {
+                if (\in_array($imageName, $imageItem, true)) {
                     $imageItemIds[] = $id;
                 }
             }
-            $this->setVar('images', implode('|', $imageItemIds));
+            $this->setVar('images', \implode('|', $imageItemIds));
         } else {
             $this->setVar('image', 0);
             $this->setVar('images', '');
@@ -1035,56 +1109,83 @@ class Item extends \XoopsObject
             //            if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
             //                $this->setVar('datesub', strtotime(Request::getArray('datesub', array(), 'POST')['date']) + Request::getArray('datesub', array(), 'POST')['time']);
             //            } else {
-            $resDate = Request::getArray('datesub', [], 'POST');
-            $resTime = Request::getArray('datesub', [], 'POST');
-            //            $this->setVar('datesub', strtotime($resDate['date']) + $resTime['time']);
-            $localTimestamp = strtotime($resDate['date']) + $resTime['time'];
-
-            // get user Timezone offset and use it to find out the Timezone, needed for PHP DataTime
-            $userTimeoffset = $GLOBALS['xoopsUser']->getVar('timezone_offset');
-            $tz             = timezone_name_from_abbr(null, $userTimeoffset * 3600);
-            if (false === $tz) {
-                $tz = timezone_name_from_abbr(null, $userTimeoffset * 3600, false);
-            }
-
-            $userTimezone = new \DateTimeZone($tz);
-            $gmtTimezone  = new \DateTimeZone('GMT');
-            $myDateTime   = new \DateTime('now', $gmtTimezone);
-            $offset       = $userTimezone->getOffset($myDateTime);
-
-            $gmtTimestamp = $localTimestamp - $offset;
-            $this->setVar('datesub', $gmtTimestamp);
-
+            $resDate     = Request::getArray('datesub', [], 'POST');
+            $resTime     = Request::getArray('datesub', [], 'POST');
+            $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resDate['date']);
+            $dateTimeObj->setTime(0, 0, (int)$resTime['time']);
+            $serverTimestamp = \userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
+            $this->setVar('datesub', $serverTimestamp);
             //            }
         } elseif ($this->isNew()) {
-            $this->setVar('datesub', time());
+            $this->setVar('datesub', \time());
         }
 
-        $this->setVar('short_url', Request::getString('item_short_url', '', 'POST'));
-        $this->setVar('meta_keywords', Request::getString('item_meta_keywords', '', 'POST'));
-        $this->setVar('meta_description', Request::getString('item_meta_description', '', 'POST'));
-        $this->setVar('weight', Request::getInt('weight', 0, 'POST'));
+        // date expire
+        if (0 !== Request::getInt('use_expire_yn', 0, 'POST')) {
+            if ('' !== Request::getString('dateexpire', '', 'POST')) {
+                $resExDate   = Request::getArray('dateexpire', [], 'POST');
+                $resExTime   = Request::getArray('dateexpire', [], 'POST');
+                $dateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $resExDate['date']);
+                $dateTimeObj->setTime(0, 0, (int)$resExTime['time']);
+                $serverTimestamp = \userTimeToServerTime($dateTimeObj->getTimestamp(), $userTimeoffset);
+                $this->setVar('dateexpire', $serverTimestamp);
+            }
+        } else {
+            $this->setVar('dateexpire', 0);
+        }
 
         if ($this->isNew()) {
-            $this->setVar('uid', is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0);
-            $this->setVar('cancoment', $this->helper->getConfig('submit_allowcomments'));
-            $this->setVar('status', $this->helper->getConfig('submit_status'));
-            $this->setVar('dohtml', $this->helper->getConfig('submit_dohtml'));
-            $this->setVar('dosmiley', $this->helper->getConfig('submit_dosmiley'));
-            $this->setVar('doxcode', $this->helper->getConfig('submit_doxcode'));
-            $this->setVar('doimage', $this->helper->getConfig('submit_doimage'));
-            $this->setVar('dobr', $this->helper->getConfig('submit_dobr'));
-        } else {
-            $this->setVar('uid', Request::getInt('uid', 0, 'POST'));
-            $this->setVar('cancomment', Request::getInt('allowcomments', 1, 'POST'));
-            $this->setVar('status', Request::getInt('status', 1, 'POST'));
-            $this->setVar('dohtml', Request::getInt('dohtml', 1, 'POST'));
-            $this->setVar('dosmiley', Request::getInt('dosmiley', 1, 'POST'));
-            $this->setVar('doxcode', Request::getInt('doxcode', 1, 'POST'));
-            $this->setVar('doimage', Request::getInt('doimage', 1, 'POST'));
-            $this->setVar('dobr', Request::getInt('dolinebreak', 1, 'POST'));
-        }
+            $this->setVar('uid', Request::getInt('uid', (\is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0), 'POST'));
+            $this->setVar('cancoment', Request::getInt('allowcomments', $this->helper->getConfig('submit_allowcomments'), 'POST'));
+            $this->setVar('status', Request::getInt('status', $this->helper->getConfig('submit_status'), 'POST'));
+            $this->setVar('dohtml', Request::getInt('dohtml', $this->helper->getConfig('submit_dohtml'), 'POST'));
+            $this->setVar('dosmiley', Request::getInt('dosmiley', $this->helper->getConfig('submit_dosmiley'), 'POST'));
+            $this->setVar('doxcode', Request::getInt('doxcode', $this->helper->getConfig('submit_doxcode'), 'POST'));
+            $this->setVar('doimage', Request::getInt('doimage', $this->helper->getConfig('submit_doimage'), 'POST'));
+            $this->setVar('dobr', Request::getInt('dolinebreak', $this->helper->getConfig('submit_dobr'), 'POST'));
+            $this->setVar('votetype', Request::getInt('votetype', $this->helper->getConfig('ratingbars'), 'POST'));
+            $this->setVar('short_url', Request::getString('item_short_url', '', 'POST'));
+            $this->setVar('meta_keywords', Request::getString('item_meta_keywords', '', 'POST'));
+            $this->setVar('meta_description', Request::getString('item_meta_description', '', 'POST'));
+            $this->setVar('weight', Request::getInt('weight', 0, 'POST'));
+            //Not required fields
+            $this->setVar('summary', Request::getText('summary', '', 'POST'));
+            $this->setVar('subtitle', Request::getString('subtitle', '', 'POST'));
+            $this->setVar('item_tag', Request::getString('item_tag', '', 'POST'));
 
-        $this->setVar('notifypub', Request::getString('notify', '', 'POST'));
+            $this->setVar('notifypub', Request::getString('notify', 1, 'POST'));
+        } else {
+            $this->setVar('uid', Request::getInt('uid', null, 'POST'));
+            $this->setVar('cancomment', Request::getInt('allowcomments', null, 'POST'));
+            $this->setVar('status', Request::getInt('status', $this->helper->getConfig('submit_edit_status'), 'POST'));
+            $this->setVar('dohtml', Request::getInt('dohtml', null, 'POST'));
+            $this->setVar('dosmiley', Request::getInt('dosmiley', null, 'POST'));
+            $this->setVar('doxcode', Request::getInt('doxcode', null, 'POST'));
+            $this->setVar('doimage', Request::getInt('doimage', null, 'POST'));
+            $this->setVar('dobr', Request::getInt('dolinebreak', null, 'POST'));
+            $this->setVar('votetype', Request::getInt('votetype', null, 'POST'));
+            $this->setVar('short_url', Request::getString('item_short_url', $this->getVar('short_url'), 'POST'));
+            $this->setVar('meta_keywords', Request::getString('item_meta_keywords', $this->getVar('meta_keywords'), 'POST'));
+            $this->setVar('meta_description', Request::getString('item_meta_description', $this->getVar('meta_description'), 'POST'));
+            $this->setVar('weight', Request::getInt('weight', null, 'POST'));
+            //Not required fields
+            if (null !== Request::getVar('summary', null, 'POST')) {
+                $this->setVar('summary', Request::getText('summary', '', 'POST'));
+            }
+            $this->setVar('subtitle', Request::getString('subtitle', $this->getVar('subtitle'), 'POST'));
+            $this->setVar('item_tag', Request::getString('item_tag', $this->getVar('item_tag'), 'POST'));
+            $this->setVar('notifypub', Request::getString('notify', $this->getVar('notifypub'), 'POST'));
+        }
+    }
+
+    public function assignOtherProperties(): void
+    {
+        $module    = $this->helper->getModule();
+        $module_id = $module->getVar('mid');
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
+        $grouppermHandler = \xoops_getHandler('groupperm');
+
+        $this->category    = $this->helper->getHandler('Category')->get($this->getVar('categoryid'));
+        $this->groups_read = $grouppermHandler->getGroupIds('item_read', $this->itemid(), $module_id);
     }
 }

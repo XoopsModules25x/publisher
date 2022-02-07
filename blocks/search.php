@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,21 +10,18 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Blocks
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          phppp
  */
 
 use Xmf\Request;
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\CategoryHandler;
+use XoopsModules\Publisher\Helper;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -33,10 +30,9 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_search_show($options)
 {
-    $block = [];
-    /** @var Publisher\Helper $helper */
-    $helper = Publisher\Helper::getInstance();
-    /** @var Publisher\CategoryHandler $categoryHandler */
+    $block  = [];
+    $helper = Helper::getInstance();
+    /** @var CategoryHandler $categoryHandler */
     $categoryHandler = $helper->getHandler('Category');
     $categories      = $categoryHandler->getCategoriesForSearch();
     if (0 === count($categories)) {
@@ -65,11 +61,11 @@ function publisher_search_show($options)
         $category = [];
     } else {
         $category = (!is_array($category)) ? explode(',', $category) : $category;
-        $category = array_map('intval', $category);
+        $category = array_map('\intval', $category);
     }
 
-    $andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT'], true) ? mb_strtoupper($andor) : 'OR';
-    $sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid'], true) ? mb_strtolower($sortby) : 'itemid';
+    $andor  = in_array(mb_strtoupper($andor), ['OR', 'AND', 'EXACT'], true) ? \mb_strtoupper($andor) : 'OR';
+    $sortby = in_array(mb_strtolower($sortby), ['itemid', 'datesub', 'title', 'categoryid'], true) ? \mb_strtolower($sortby) : 'itemid';
 
     /* type */
     $typeSelect = '<select name="andor">';
@@ -105,7 +101,7 @@ function publisher_search_show($options)
         }
         $categorySelect .= '>' . $cat . '</option>';
     }
-    unset($id, $cat);
+    unset($id);
     $categorySelect .= '</select>';
 
     /* scope */

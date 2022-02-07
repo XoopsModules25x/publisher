@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,20 +10,18 @@
  */
 
 /**
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Publisher
- * @subpackage      Blocks
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  * @author          The SmartFactory <www.smartfactory.ca>
  */
 
-use XoopsModules\Publisher;
+use XoopsModules\Publisher\BlockForm;
+use XoopsModules\Publisher\Helper;
+use XoopsModules\Publisher\ItemHandler;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * @param $options
@@ -32,9 +30,8 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function publisher_date_to_date_show($options)
 {
-    $myts = \MyTextSanitizer::getInstance();
-    /** @var Publisher\Helper $helper */
-    $helper = Publisher\Helper::getInstance();
+    $myts   = \MyTextSanitizer::getInstance();
+    $helper = Helper::getInstance();
 
     $block = $newItems = [];
 
@@ -45,7 +42,7 @@ function publisher_date_to_date_show($options)
     $criteria->setOrder('DESC');
 
     // creating the ITEM objects that belong to the selected category
-    /** @var Publisher\ItemHandler $itemHandler */
+    /** @var ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
     $itemsObj    = $itemHandler->getObjects($criteria);
     //    $totalItems = count($itemsObj);
@@ -58,7 +55,7 @@ function publisher_date_to_date_show($options)
             $newItems['categoryid']   = $iValue->categoryid();
             $newItems['date']         = $iValue->getDatesub();
             $newItems['poster']       = $iValue->getLinkedPosterName();
-            $newItems['itemlink']     = $iValue->getItemLink(false, isset($options[3]) ? $options[3] : 65);
+            $newItems['itemlink']     = $iValue->getItemLink(false, $options[3] ?? 65);
             $newItems['categorylink'] = $iValue->getCategoryLink();
             $block['items'][]         = $newItems;
         }
@@ -69,7 +66,7 @@ function publisher_date_to_date_show($options)
         $block['lang_date']             = _MB_PUBLISHER_DATE;
         $moduleName                     = $myts->displayTarea($helper->getModule()->getVar('name'));
         $block['lang_visitItem']        = _MB_PUBLISHER_VISITITEM . ' ' . $moduleName;
-        $block['lang_articles_from_to'] = sprintf(_MB_PUBLISHER_ARTICLES_FROM_TO, $options[0], isset($options[1]) ? $options[1] : 0);
+        $block['lang_articles_from_to'] = sprintf(_MB_PUBLISHER_ARTICLES_FROM_TO, $options[0], $options[1] ?? 0);
     }
 
     return $block;
@@ -86,7 +83,11 @@ function publisher_date_to_date_edit($options)
     xoops_load('XoopsFormLoader');
     xoops_load('XoopsFormTextDateSelect');
 
-    $form    = new Publisher\BlockForm();
+    if ('' === $options[0]) {
+        $options[0] = formatTimestamp(1424860422);
+    }
+
+    $form    = new BlockForm();
     $fromEle = new \XoopsFormTextDateSelect(_MB_PUBLISHER_FROM, 'options[0]', 15, strtotime($options[0]));
     //    $fromEle->setNocolspan();
     $untilEle = new \XoopsFormTextDateSelect(_MB_PUBLISHER_UNTIL, 'options[1]', 15, isset($options[1]) ? strtotime($options[1]) : '');

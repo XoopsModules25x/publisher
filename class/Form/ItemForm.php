@@ -271,7 +271,7 @@ class ItemForm extends ThemeTabForm
         //VOTING TYPE =====================================
         //        if ($this->isGranted(Constants::PUBLISHER_VOTETYPE)) {
         $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        /** @var GroupPermHandler $grouppermHandler */
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = $helper->getHandler('GroupPerm');
         $moduleId         = $helper->getModule()->getVar('mid');
         if ($helper->getConfig('perm_rating') && $grouppermHandler->checkRight('global', \_PUBLISHER_RATE, $groups, $moduleId)) {

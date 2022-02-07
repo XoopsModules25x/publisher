@@ -21,7 +21,7 @@ use XoopsModules\Publisher\Utility;
 
 /** @var Helper $helper */
 /** @var Utility $utility */
-/** @var Common\Configurator $configurator */
+/** @var Configurator $configurator */
 
 /**
  * @return bool

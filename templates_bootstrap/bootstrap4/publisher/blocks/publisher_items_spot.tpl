@@ -8,14 +8,14 @@
 <{/if}>
 <{/if}>
 
-<{if $block.display_type|default:'' == block'}>
+<{if $block.display_type|default:'' == 'block'}>
     <{foreach item=item from=$block.items|default:false}>
         <{include file="db:publisher_singleitem_block.tpl" item=$item}>
     <{/foreach}>
 
 <{else}>
     <{foreach item=item from=$block.items name=spotlight}>
-        <{if $item.summary|default:'''}>
+        <{if $item.summary|default:''}>
             <div class="spot_publisher_items_list">
                 <div class="article_wf_title">
                     <h3><{$item.titlelink}></h3>

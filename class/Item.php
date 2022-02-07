@@ -390,7 +390,8 @@ class Item extends \XoopsObject
             $userHandler = \xoops_getHandler('user');
             /** @var \XoopsMemberHandler $memberHandler */
             $memberHandler = \xoops_getHandler('member');
-            $poster        = $userHandler->get($this->uid());
+            /** @var \XoopsUser $poster */
+            $poster = $userHandler->get($this->uid());
             if (\is_object($poster) && !$poster->isNew()) {
                 $poster->setVar('posts', $poster->getVar('posts') + 1);
                 if (!$memberHandler->insertUser($poster, true)) {

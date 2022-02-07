@@ -54,7 +54,7 @@ echo <<<EOF
     <input name="schema" class="btn btn-default" type="submit" value="Write Schema">
     </div>
     </form>
-    EOF;
+EOF;
 
 //XoopsLoad::load('migrate', 'newbb');
 

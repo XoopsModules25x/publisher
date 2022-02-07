@@ -25,6 +25,7 @@ use XoopsModules\Publisher\Item;
 use XoopsModules\Publisher\Jsonld;
 use XoopsModules\Publisher\Metagen;
 use XoopsModules\Publisher\Utility;
+use XoopsModules\Publisher\VoteHandler;
 use XoopsModules\Tag\Tagbar;
 
 /** @var Category $categoryObj */

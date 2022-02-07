@@ -44,6 +44,7 @@ class TrelloDBController
      */
     public function runQuery($query, $paramType, $paramValueArray)
     {
+        /** @var mysqli_stmt $sql */
         $sql = $this->db->conn->prepare($query);
         $this->bindQueryParams($sql, $paramType, $paramValueArray);
         $sql->execute();
@@ -90,6 +91,7 @@ class TrelloDBController
      */
     public function insert($query, $paramType, $paramValueArray): void
     {
+        /** @var mysqli_stmt $sql */
         $sql = $this->db->conn->prepare($query);
         $this->bindQueryParams($sql, $paramType, $paramValueArray);
         $sql->execute();
@@ -102,6 +104,7 @@ class TrelloDBController
      */
     public function update($query, $paramType, $paramValueArray): void
     {
+        /** @var mysqli_stmt $sql */
         $sql = $this->db->conn->prepare($query);
         $this->bindQueryParams($sql, $paramType, $paramValueArray);
         $sql->execute();

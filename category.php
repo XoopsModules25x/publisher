@@ -33,6 +33,7 @@ $categoryid = Request::getInt('categoryid', 0, 'GET');
 
 // Creating the category object for the selected category
 /** @var Helper $helper */
+/** @var Category $categoryObj */
 $categoryObj = $helper->getHandler('Category')->get($categoryid);
 
 // if the selected category was not found, exit

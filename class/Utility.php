@@ -962,7 +962,7 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param int|array $selectedId
+     * @param int|array|string $selectedId
      * @param int       $parentcategory
      * @param bool      $allCatOption
      * @param string    $selectname

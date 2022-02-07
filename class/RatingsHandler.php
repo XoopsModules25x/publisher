@@ -46,7 +46,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
     /**
      * @param bool $isNew
      *
-     * @return Rating
+     * @return \XoopsObject
      */
     public function create($isNew = true)
     {
@@ -132,9 +132,9 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
                 $text      = \str_replace('%c', $itemRating['avg_rate_value'], \_MA_PUBLISHER_RATING_CURRENT_X);
                 $shorttext = \str_replace('%c', $itemRating['avg_rate_value'], \_MA_PUBLISHER_RATING_CURRENT_SHORT_X);
             }
-            $text                    = \str_replace('%m', $max_units, $text);
-            $text                    = \str_replace('%t', $itemRating['nb_ratings'], $text);
-            $shorttext               = \str_replace('%t', $itemRating['nb_ratings'], $shorttext);
+            $text                    = \str_replace('%m', (string)$max_units, $text);
+            $text                    = \str_replace('%t', (string)$itemRating['nb_ratings'], $text);
+            $shorttext               = \str_replace('%t', (string)$itemRating['nb_ratings'], $shorttext);
             $itemRating['text']      = $text;
             $itemRating['shorttext'] = $shorttext;
             $itemRating['size']      = ($itemRating['avg_rate_value'] * $rating_unitwidth) . 'px';

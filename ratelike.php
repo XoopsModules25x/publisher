@@ -44,7 +44,7 @@ switch ($op) {
         }
         $rating = Request::getInt('rating', 0);
         $itemId = 0;
-        $redir  = \Xmf\\Request::getString('HTTP_REFERER', '', 'SERVER');
+        $redir  = \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER');
         if (Constants::TABLE_CATEGORY === $source) {
             $itemId = Request::getInt('id', 0);
             $redir  = 'category.php?op=show&amp;itemid=' . $itemId;

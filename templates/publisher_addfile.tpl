@@ -13,7 +13,7 @@
             <{if $element.hidden|default:false !== true}>
                 <tr>
                     <td class="head"><{$element.caption}> <{if $element.required}> *<{/if}>
-                        <{if $element.descriptiondefault:''}>
+                        <{if $element.description|default:''}>
                             <div style="font-weight: normal;"><{$element.description}></div>
                         <{/if}>
                     </td>

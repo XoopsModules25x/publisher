@@ -38,7 +38,7 @@ $modversion = [
     'release_date'        => '2022/01/25',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
-    'author'              => 'Trabis (www.Xuups.com)',
+    'author'              => 'Trabis (www.xoops.org)',
     'credits'             => 'w4z004, hsalazar, Mithrandir, fx2024, Ackbarr, Mariuss, Marco, Michiel, phppp, outch, Xvitry, Catzwolf, Shine, McDonald, trabis, Mowaffak, Bandit-X, Shiva',
     'module_website_url'  => 'www.xoops.org',
     'module_website_name' => 'Support site',
@@ -60,7 +60,7 @@ $modversion = [
     'onInstall'           => 'include/oninstall.php',
     'onUpdate'            => 'include/onupdate.php',
     // ------------------- Min Requirements -------------------
-    'min_php'             => '7.3',
+    'min_php'             => '7.4',
     'min_xoops'           => '2.5.10',
     'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],

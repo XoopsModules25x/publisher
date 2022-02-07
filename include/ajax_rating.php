@@ -14,7 +14,7 @@
  --------------------------------------------------------- */
 
 //  Author: Trabis
-//  URL: https://www.xuups.com
+//  URL: https://www.xoops.org
 //  E-Mail: lusopoemas@gmail.com
 
 use Xmf\Request;

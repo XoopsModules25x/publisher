@@ -209,6 +209,7 @@ if ('save' === $op) {
     $configHandler = xoops_getHandler('config');
     if ($count > 0) {
         for ($i = 0; $i < $count; ++$i) {
+            /** @var \XoopsConfigItem $config */
             $config   = $configHandler->getConfig($confIds[$i]);
             $newValue = ${$config->getVar('conf_name')};
             if (is_array($newValue) || $newValue != $config->getVar('conf_value')) {

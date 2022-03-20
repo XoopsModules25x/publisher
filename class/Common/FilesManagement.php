@@ -46,7 +46,7 @@ trait FilesManagement
         return \copy($file, $folder);
     }
 
- public static function recurseCopy(string $src, string $dst): void
+    public static function recurseCopy(string $src, string $dst): void
     {
         $dir = \opendir($src);
         if (!\mkdir($dst) && !\is_dir($dst)) {

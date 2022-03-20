@@ -94,4 +94,49 @@ interface Constants
     public const RATING_LIKES    = 3;
     public const RATING_10NUM    = 4;
     public const RATING_REACTION = 5;
+    // Constants for tables
+    public const TABLE_EVENTS             = 1;
+    public const TABLE_CATEGORIES         = 2;
+    public const TABLE_REGISTRATIONS      = 3;
+    public const TABLE_QUESTIONS          = 4;
+    public const TABLE_ANSWERS            = 5;
+    public const TABLE_TEXTBLOCKS         = 6;
+    public const TABLE_FIELDS             = 7;
+    public const TABLE_REGISTRATIONS_HIST = 8;
+    public const TABLE_ANSWERS_HIST       = 9;
+    // Constants for status
+    //    public const STATUS_NONE      = 0;
+    //    public const STATUS_OFFLINE   = 1;
+    //    public const STATUS_SUBMITTED = 2;
+    public const STATUS_ONLINE    = 3;
+    public const STATUS_VERIFIED  = 4;
+    public const STATUS_APPROVED2 = 5;
+    public const STATUS_LOCKED    = 6;
+    public const STATUS_CANCELED  = 7;
+    // Constants for permissions
+    //    public const PERM_GLOBAL_NONE             = 0;
+    //    public const PERM_GLOBAL_VIEW             = 1;
+    //    public const PERM_GLOBAL_SUBMIT           = 2;
+    //    public const PERM_GLOBAL_APPROVE          = 3;
+    public const PERM_EVENTS_VIEW             = 4;
+    public const PERM_EVENTS_SUBMIT           = 5;
+    public const PERM_EVENTS_APPROVE          = 6;
+    public const PERM_EVENTS_APPROVE_AUTO     = 7;
+    public const PERM_REGISTRATIONS_AUTOVERIF = 8;
+    public const PERM_REGISTRATIONS_SUBMIT    = 9;
+    // Constants for question types
+    public const FIELD_NONE      = 0;
+    public const FIELD_LABEL     = 1;
+    public const FIELD_TEXTBOX   = 2;
+    public const FIELD_TEXTAREA  = 3;
+    public const FIELD_RADIO     = 4;
+    public const FIELD_RADIOYN   = 5;
+    public const FIELD_SELECTBOX = 6;
+    public const FIELD_COMBOBOX  = 7;
+    public const FIELD_CHECKBOX  = 8;
+    public const FIELD_DATE      = 9;
+    public const FIELD_DATETIME  = 10;
+    public const FIELD_NAME      = 11;
+    public const FIELD_EMAIL     = 12;
+    public const FIELD_COUNTRY   = 13;
 }

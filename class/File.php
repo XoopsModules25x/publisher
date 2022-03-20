@@ -60,7 +60,8 @@ class File extends \XoopsObject
         $this->initVar('notifypub', \XOBJ_DTYPE_INT, 0, false);
         $this->initVar('counter', \XOBJ_DTYPE_INT, null, false);
         if (null !== $id) {
-            $file = $this->helper->getHandler('File')->get($id);
+            $file = $this->helper->getHandler('File')
+                                 ->get($id);
             foreach ($file->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
             }
@@ -182,7 +183,8 @@ class File extends \XoopsObject
             }
         }
 
-        return $this->helper->getHandler('File')->insert($this, $force);
+        return $this->helper->getHandler('File')
+                            ->insert($this, $force);
     }
 
     /**

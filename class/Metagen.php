@@ -87,7 +87,8 @@ class Metagen
         $this->title         = $this->html2text($title);
         $this->originalTitle = $this->title;
         $titleTag            = [];
-        $titleTag['module']  = $this->helper->getModule()->getVar('name');
+        $titleTag['module']  = $this->helper->getModule()
+                                            ->getVar('name');
         if (isset($this->title) && ('' != $this->title) && (\mb_strtoupper($this->title) != \mb_strtoupper($titleTag['module']))) {
             $titleTag['title'] = $this->title;
         }

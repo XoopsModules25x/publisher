@@ -78,7 +78,9 @@ function loadSampleData(): void
     $utility      = new Utility();
     $configurator = new Configurator();
 
-    $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
+    $tables = \Xmf\Module\Helper::getHelper($moduleDirName)
+                                ->getModule()
+                                ->getInfo('tables');
 
     $language = 'english/';
     if (is_dir(__DIR__ . '/' . $xoopsConfig['language'])) {
@@ -96,23 +98,28 @@ function loadSampleData(): void
     // load permissions
     $table     = 'group_permission';
     $tabledata = Yaml::readWrapped($language . $table . '.yml');
-    $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
+    $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)
+                                   ->getModule()
+                                   ->getVar('mid');
     loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $mid);
 
     if (1 === $configurator->testimages['images']) {
         // load test image categories
         $table     = 'imagecategory';
         $tabledata = Yaml::readWrapped($language . $table . '.yml');
-        $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
+        $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)
+                                       ->getModule()
+                                       ->getVar('mid');
         loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $mid);
 
         // load test images
         $table     = 'image';
         $tabledata = Yaml::readWrapped($language . $table . '.yml');
-        $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
+        $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)
+                                       ->getModule()
+                                       ->getVar('mid');
         loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $mid);
     }
-
 
     //  ---  COPY test folder files ---------------
     if (is_array($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
@@ -132,8 +139,9 @@ function saveSampleData(): void
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
     $helper             = Helper::getInstance();
-    $tables             = $helper->getModule()->getInfo('tables');
-    $configurator = new Configurator();
+    $tables             = $helper->getModule()
+                                 ->getInfo('tables');
+    $configurator       = new Configurator();
 
     $languageFolder = __DIR__ . '/' . $xoopsConfig['language'];
     if (!file_exists($languageFolder . '/')) {
@@ -149,7 +157,12 @@ function saveSampleData(): void
 
     // save permissions
     $criteria = new \CriteriaCompo();
-    $criteria->add(new \Criteria('gperm_modid', $helper->getModule()->getVar('mid')));
+    $criteria->add(
+        new \Criteria(
+            'gperm_modid', $helper->getModule()
+                                  ->getVar('mid')
+        )
+    );
     $skipColumns[] = 'gperm_id';
     TableLoad::saveTableToYamlFile('group_permission', $exportFolder . 'group_permission.yml', $criteria, $skipColumns);
     unset($criteria);
@@ -249,7 +262,8 @@ function clearSampleData(): void
     $helper             = Helper::getInstance();
     // Load language files
     $helper->loadLanguage('common');
-    $tables = $helper->getModule()->getInfo('tables');
+    $tables = $helper->getModule()
+                     ->getInfo('tables');
     // truncate module tables
     foreach ($tables as $table) {
         \Xmf\Database\TableLoad::truncateTable($table);
@@ -282,11 +296,11 @@ function clearImages(): void
 function deleteRecords(\CriteriaCompo $criteria = null, string $table): bool
 {
     /** @var \XoopsMySQLDatabase $db */
-    $db = \XoopsDatabaseFactory::getDatabaseConnection();
+    $db            = \XoopsDatabaseFactory::getDatabaseConnection();
     $prefixedTable = $db->prefix($table);
-    $sql = 'DELETE FROM ' . $prefixedTable . ' ';
+    $sql           = 'DELETE FROM ' . $prefixedTable . ' ';
     if (isset($criteria) && is_subclass_of($criteria, '\CriteriaElement')) {
-        /* @var  \CriteriaCompo $criteria */
+        /** @var  \CriteriaCompo $criteria */
         $sql .= $criteria->renderWhere();
     }
     $result = $db->queryF($sql);

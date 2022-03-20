@@ -30,10 +30,12 @@ $itemId = Request::getInt('itemid', 0, 'GET');
 
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 /** @var GroupPermHandler $grouppermHandler */
-$grouppermHandler = Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
+$grouppermHandler = Helper::getInstance()
+                          ->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
 /** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
-$moduleId      = $helper->getModule()->getVar('mid');
+$moduleId      = $helper->getModule()
+                        ->getVar('mid');
 
 //Checking permissions
 if (!$helper->getConfig('perm_rating') || !$grouppermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $moduleId)) {
@@ -45,7 +47,8 @@ if ($rating > 5 || $rating < 1) {
 }
 
 $criteria   = new \Criteria('itemid', $itemId);
-$ratingObjs = $helper->getHandler('Rating')->getObjects($criteria);
+$ratingObjs = $helper->getHandler('Rating')
+                     ->getObjects($criteria);
 
 $uid           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
 $count         = count($ratingObjs);
@@ -65,19 +68,23 @@ if ($voted) {
     redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemId, 2, _MD_PUBLISHER_VOTE_ALREADY);
 }
 
-$newRatingObj = $helper->getHandler('Rating')->create();
+$newRatingObj = $helper->getHandler('Rating')
+                       ->create();
 $newRatingObj->setVar('itemid', $itemId);
 $newRatingObj->setVar('ip', $ip);
 $newRatingObj->setVar('uid', $uid);
 $newRatingObj->setVar('rate', $rating);
 $newRatingObj->setVar('date', time());
-$helper->getHandler('Rating')->insert($newRatingObj);
+$helper->getHandler('Rating')
+       ->insert($newRatingObj);
 
 $currentRating += $rating;
 ++$count;
 
-$helper->getHandler('Item')->updateAll('rating', number_format($currentRating / $count, 4), $criteria, true);
-$helper->getHandler('Item')->updateAll('votes', $count, $criteria, true);
+$helper->getHandler('Item')
+       ->updateAll('rating', number_format($currentRating / $count, 4), $criteria, true);
+$helper->getHandler('Item')
+       ->updateAll('votes', $count, $criteria, true);
 
 redirect_header(PUBLISHER_URL . '/item.php?itemid=' . $itemId, 2, _MD_PUBLISHER_VOTE_THANKS);
 //exit();

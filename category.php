@@ -34,7 +34,8 @@ $categoryid = Request::getInt('categoryid', 0, 'GET');
 // Creating the category object for the selected category
 /** @var Helper $helper */
 /** @var Category $categoryObj */
-$categoryObj = $helper->getHandler('Category')->get($categoryid);
+$categoryObj = $helper->getHandler('Category')
+                      ->get($categoryid);
 
 // if the selected category was not found, exit
 if (!is_object($categoryObj) || $categoryObj->notLoaded()) {
@@ -51,7 +52,8 @@ $start = Request::getInt('start', 0, 'GET');
 
 $itemPageId = Request::getInt('page', -1, 'GET');
 
-$totalItems = $helper->getHandler('Category')->publishedItemsCount();
+$totalItems = $helper->getHandler('Category')
+                     ->publishedItemsCount();
 
 // if there is no Item under this categories or the sub-categories, exit
 // why?
@@ -63,16 +65,16 @@ if (!isset($totalItems[$categoryid]) || 0 == $totalItems[$categoryid]) {
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_display' . '_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
 
 //Option for a custom template for a category
-$catTemplate =  $categoryObj->getVar('template');
-if (!empty($catTemplate)){
-    $GLOBALS['xoopsOption']['template_main'] = 'publisher_category_custom.tpl' ;
+$catTemplate = $categoryObj->getVar('template');
+if (!empty($catTemplate)) {
+    $GLOBALS['xoopsOption']['template_main'] = 'publisher_category_custom.tpl';
 }
-
 
 require_once $GLOBALS['xoops']->path('header.php');
 require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
-$moduleId = $helper->getModule()->getVar('mid');
+$moduleId = $helper->getModule()
+                   ->getVar('mid');
 $xoopsTpl->assign('customcategorytemplate', $catTemplate); //assign custom template
 
 // creating the Item objects that belong to the selected category
@@ -107,7 +109,8 @@ switch ($helper->getConfig('format_order_by')) {
         break;
 }
 
-$itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, $categoryid, $sort, $order);
+$itemsObj = $helper->getHandler('Item')
+                   ->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, $categoryid, $sort, $order);
 
 $totalItemOnPage = 0;
 if ($itemsObj) {
@@ -126,12 +129,14 @@ $category['categoryPath'] = $categoryObj->getCategoryPath($helper->getConfig('fo
 
 if (1 == $helper->getConfig('idxcat_display_last_item')) {
     // Get the last smartitem
-    $lastItemObj = $helper->getHandler('Item')->getLastPublishedByCat([[$categoryObj]]);
+    $lastItemObj = $helper->getHandler('Item')
+                          ->getLastPublishedByCat([[$categoryObj]]);
 }
 $lastitemsize = (int)$helper->getConfig('idxcat_last_item_size');
 
 // Creating the sub-categories objects that belong to the selected category
-$subcatsObj   = $helper->getHandler('Category')->getCategories(0, 0, $categoryid);
+$subcatsObj   = $helper->getHandler('Category')
+                       ->getCategories(0, 0, $categoryid);
 $totalSubcats = count($subcatsObj);
 
 $total_items = 0;
@@ -221,8 +226,14 @@ $xoopsTpl->assign('category', $category);
 $xoopsTpl->assign('categories', $categories);
 
 // Language constants
-$xoopsTpl->assign('sectionname', $helper->getModule()->getVar('name'));
-$xoopsTpl->assign('whereInSection', $helper->getModule()->getVar('name'));
+$xoopsTpl->assign(
+    'sectionname', $helper->getModule()
+                          ->getVar('name')
+);
+$xoopsTpl->assign(
+    'whereInSection', $helper->getModule()
+                             ->getVar('name')
+);
 $xoopsTpl->assign('module_dirname', $helper->getDirname());
 $xoopsTpl->assign('lang_category_summary', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY, $categoryObj->name()));
 $xoopsTpl->assign('lang_category_summary_info', sprintf(_MD_PUBLISHER_CATEGORY_SUMMARY_INFO, $categoryObj->name()));

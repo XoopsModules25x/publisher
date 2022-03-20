@@ -108,7 +108,8 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('rate_itemid', $itemId));
             $criteria->add(new \Criteria('rate_source', $source));
 
-            $ratingObjs               = $helper->getHandler('ratings')->getObjects($criteria);
+            $ratingObjs               = $helper->getHandler('ratings')
+                                               ->getObjects($criteria);
             $count                    = \count($ratingObjs);
             $itemRating['nb_ratings'] = $count;
 
@@ -145,7 +146,8 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('rate_source', $source));
             $criteria->add(new \Criteria('rate_value', 0, '<'));
 
-            $ratingObjs = $helper->getHandler('Ratings')->getObjects($criteria);
+            $ratingObjs = $helper->getHandler('Ratings')
+                                 ->getObjects($criteria);
             $count      = \count($ratingObjs);
 
             foreach ($ratingObjs as $ratingObj) {
@@ -163,7 +165,8 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('rate_source', $source));
             $criteria->add(new \Criteria('rate_value', 0, '>'));
 
-            $ratingObjs    = $helper->getHandler('ratings')->getObjects($criteria);
+            $ratingObjs    = $helper->getHandler('ratings')
+                                    ->getObjects($criteria);
             $count         = \count($ratingObjs);
             $currentRating = 0;
             foreach ($ratingObjs as $ratingObj) {
@@ -184,7 +187,8 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('rate_source', $source));
             $criteria->add(new \Criteria('rate_value', 0, '<'));
 
-            $ratingObjs               = $helper->getHandler('ratings')->getObjects($criteria);
+            $ratingObjs               = $helper->getHandler('ratings')
+                                               ->getObjects($criteria);
             $count                    = \count($ratingObjs);
             $itemRating['nb_ratings'] = $count;
 
@@ -203,7 +207,8 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('rate_source', $source));
             $criteria->add(new \Criteria('rate_value', 0, '>'));
 
-            $ratingObjs    = $helper->getHandler('ratings')->getObjects($criteria);
+            $ratingObjs    = $helper->getHandler('ratings')
+                                    ->getObjects($criteria);
             $count         = \count($ratingObjs);
             $currentRating = 0;
             foreach ($ratingObjs as $ratingObj) {

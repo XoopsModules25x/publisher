@@ -48,7 +48,8 @@ $rejectedstartitem  = Request::getInt('rejectedstartitem', Request::getInt('subm
 switch ($op) {
     case 'clone':
         if (0 == $itemId) {
-            $totalcategories = $helper->getHandler('Category')->getCategoriesCount(-1);
+            $totalcategories = $helper->getHandler('Category')
+                                      ->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
             }
@@ -58,7 +59,8 @@ switch ($op) {
         break;
     case 'mod':
         if (0 == $itemId) {
-            $totalcategories = $helper->getHandler('Category')->getCategoriesCount(-1);
+            $totalcategories = $helper->getHandler('Category')
+                                      ->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_PUBLISHER_NEED_CATEGORY_ITEM);
             }
@@ -72,9 +74,11 @@ switch ($op) {
         // Creating the item object
         /** @var Item $itemObj */
         if (0 != $itemId) {
-            $itemObj = $helper->getHandler('Item')->get($itemId);
+            $itemObj = $helper->getHandler('Item')
+                              ->get($itemId);
         } else {
-            $itemObj = $helper->getHandler('Item')->create();
+            $itemObj = $helper->getHandler('Item')
+                              ->create();
         }
 
         $itemObj->setVarsFromRequest();
@@ -138,11 +142,13 @@ switch ($op) {
 
         break;
     case 'del':
-        $itemObj = $helper->getHandler('Item')->get($itemId);
+        $itemObj = $helper->getHandler('Item')
+                          ->get($itemId);
         $confirm = Request::getInt('confirm', 0, 'POST');
 
         if ($confirm) {
-            if (!$helper->getHandler('Item')->delete($itemObj)) {
+            if (!$helper->getHandler('Item')
+                        ->delete($itemObj)) {
                 redirect_header('item.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . Utility::formatErrors($itemObj->getErrors()));
             }
             redirect_header('item.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
@@ -170,9 +176,11 @@ switch ($op) {
         Utility::openCollapsableBar('submiteditemstable', 'submiteditemsicon', _AM_PUBLISHER_SUBMISSIONSMNGMT, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of submitted ITEM
-        $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_SUBMITTED]);
+        $totalitems = $helper->getHandler('Item')
+                             ->getItemsCount(-1, [Constants::PUBLISHER_STATUS_SUBMITTED]);
 
-        $itemsObj = $helper->getHandler('Item')->getAllSubmitted($helper->getConfig('idxcat_perpage'), $submittedstartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj = $helper->getHandler('Item')
+                           ->getAllSubmitted($helper->getConfig('idxcat_perpage'), $submittedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -223,9 +231,11 @@ switch ($op) {
         Utility::openCollapsableBar('item_publisheditemstable', 'item_publisheditemsicon', _AM_PUBLISHER_PUBLISHEDITEMS, _AM_PUBLISHER_PUBLISHED_DSC);
 
         // Get the total number of published ITEM
-        $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_PUBLISHED]);
+        $totalitems = $helper->getHandler('Item')
+                             ->getItemsCount(-1, [Constants::PUBLISHER_STATUS_PUBLISHED]);
 
-        $itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $publishedstartitem, -1, $orderBy, $ascOrDesc, '', true, 'none', false);
+        $itemsObj = $helper->getHandler('Item')
+                           ->getAllPublished($helper->getConfig('idxcat_perpage'), $publishedstartitem, -1, $orderBy, $ascOrDesc, '', true, 'none', false);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -276,9 +286,11 @@ switch ($op) {
         // Display Offline articles
         Utility::openCollapsableBar('offlineitemstable', 'offlineitemsicon', _AM_PUBLISHER_ITEMS . ' ' . _CO_PUBLISHER_OFFLINE, _AM_PUBLISHER_OFFLINE_EXP);
 
-        $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_OFFLINE]);
+        $totalitems = $helper->getHandler('Item')
+                             ->getItemsCount(-1, [Constants::PUBLISHER_STATUS_OFFLINE]);
 
-        $itemsObj = $helper->getHandler('Item')->getAllOffline($helper->getConfig('idxcat_perpage'), $offlinestartitem, -1, $orderBy, $ascOrDesc);
+        $itemsObj = $helper->getHandler('Item')
+                           ->getAllOffline($helper->getConfig('idxcat_perpage'), $offlinestartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -331,8 +343,10 @@ switch ($op) {
         Utility::openCollapsableBar('Rejecteditemstable', 'rejecteditemsicon', _AM_PUBLISHER_REJECTED_ITEM, _AM_PUBLISHER_REJECTED_ITEM_EXP, _AM_PUBLISHER_SUBMITTED_EXP);
 
         // Get the total number of Rejected ITEM
-        $totalitems = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_REJECTED]);
-        $itemsObj   = $helper->getHandler('Item')->getAllRejected($helper->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
+        $totalitems = $helper->getHandler('Item')
+                             ->getItemsCount(-1, [Constants::PUBLISHER_STATUS_REJECTED]);
+        $itemsObj   = $helper->getHandler('Item')
+                             ->getAllRejected($helper->getConfig('idxcat_perpage'), $rejectedstartitem, -1, $orderBy, $ascOrDesc);
 
         $totalItemsOnPage = count($itemsObj);
 
@@ -402,7 +416,8 @@ function publisher_editItem($showmenu = false, $itemId = 0, $clone = false): voi
     if (0 !== $itemId) {
         // Creating the ITEM object
         /** @var Item $itemObj */
-        $itemObj = $helper->getHandler('Item')->get($itemId);
+        $itemObj = $helper->getHandler('Item')
+                          ->get($itemId);
 
         if (null === $itemObj) {
             redirect_header('item.php', 1, _AM_PUBLISHER_NOITEMSELECTED);
@@ -480,10 +495,12 @@ function publisher_editItem($showmenu = false, $itemId = 0, $clone = false): voi
     } else {
         // there's no parameter, so we're adding an item
         /** @var Item $itemObj */
-        $itemObj = $helper->getHandler('Item')->create();
+        $itemObj = $helper->getHandler('Item')
+                          ->create();
         $itemObj->setVarsFromRequest();
 
-        $categoryObj       = $helper->getHandler('Category')->create();
+        $categoryObj       = $helper->getHandler('Category')
+                                    ->create();
         $breadcrumbAction1 = _AM_PUBLISHER_ITEMS;
         $breadcrumbAction2 = _AM_PUBLISHER_CREATINGNEW;
         $buttonCaption     = _AM_PUBLISHER_CREATE;

@@ -119,7 +119,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (\class_exists(\XoopsModules\Tag\TagHandler::class) && \xoops_isActiveModule('tag')) {
             // Storing tags information
             /** @var \XoopsModules\Tag\TagHandler $tagHandler */
-            $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag');
+            $tagHandler = \XoopsModules\Tag\Helper::getInstance()
+                                                  ->getHandler('Tag');
             $tagHandler->updateByItem($item->getVar('item_tag'), $item->getVar('itemid'), $this->helper->getDirname(), 0);
         }
 
@@ -137,7 +138,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     public function delete(\XoopsObject $item, $force = false)
     {
         // Deleting the files
-        if (!$this->helper->getHandler('File')->deleteItemFiles($item)) {
+        if (!$this->helper->getHandler('File')
+                          ->deleteItemFiles($item)) {
             $item->setErrors(\_AM_PUBLISHER_FILE_DELETE_ERROR);
         }
         if (!parent::delete($item, $force)) {
@@ -148,7 +150,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         // Removing tags information
         if (\class_exists(\XoopsModules\Tag\TagHandler::class) && \xoops_isActiveModule('tag')) {
             /** @var \XoopsModules\Tag\TagHandler $tagHandler */
-            $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag');
+            $tagHandler = \XoopsModules\Tag\Helper::getInstance()
+                                                  ->getHandler('Tag');
             $tagHandler->updateByItem('', $item->getVar('itemid'), $this->helper->getDirname(), 0);
         }
 
@@ -318,7 +321,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (!$this->publisherIsAdmin) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
-            $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
+            $categoriesGranted = $this->helper->getHandler('Permission')
+                                              ->getGrantedItems('category_read');
             if (!empty($categoriesGranted)) {
                 $grantedCategories = new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN');
                 $criteriaPermissions->add($grantedCategories, 'AND');
@@ -499,7 +503,8 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (!$this->publisherIsAdmin) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
-            $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
+            $categoriesGranted = $this->helper->getHandler('Permission')
+                                              ->getGrantedItems('category_read');
             if (!empty($categoriesGranted)) {
                 $grantedCategories = new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN');
                 $criteriaPermissions->add($grantedCategories, 'AND');
@@ -704,7 +709,10 @@ class ItemHandler extends \XoopsPersistableObjectHandler
         if (!$this->publisherIsAdmin && (\count($categories) > 0)) {
             $criteriaPermissions = new \CriteriaCompo();
             // Categories for which user has access
-            $categoriesGranted = $grouppermHandler->getItemIds('category_read', $groups, $this->helper->getModule()->getVar('mid'));
+            $categoriesGranted = $grouppermHandler->getItemIds(
+                'category_read', $groups, $this->helper->getModule()
+                                                       ->getVar('mid')
+            );
             $categoriesGranted = \array_intersect($categoriesGranted, $categories);
             if (0 === \count($categoriesGranted)) {
                 return $ret;

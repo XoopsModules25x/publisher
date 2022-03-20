@@ -51,7 +51,8 @@ require_once PUBLISHER_ROOT_PATH . '/footer.php';
 $criteria = new \CriteriaCompo(new \Criteria('datesub', time(), '<='));
 $criteria->add(new \Criteria('uid', $uid));
 
-$items = $helper->getHandler('Item')->getItems($limit = 0, $start = 0, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, 'datesub', 'DESC', '', true, $criteria);
+$items = $helper->getHandler('Item')
+                ->getItems($limit = 0, $start = 0, [Constants::PUBLISHER_STATUS_PUBLISHED], -1, 'datesub', 'DESC', '', true, $criteria);
 unset($criteria);
 $count = count($items);
 

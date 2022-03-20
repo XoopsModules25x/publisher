@@ -29,7 +29,8 @@ require_once __DIR__ . '/header.php';
 $helper->loadLanguage('admin');
 
 // Get the total number of categories
-$categoriesArray = $helper->getHandler('Category')->getCategoriesForSubmit();
+$categoriesArray = $helper->getHandler('Category')
+                          ->getCategoriesForSubmit();
 
 if (!$categoriesArray) {
     redirect_header('index.php', 1, _MD_PUBLISHER_NEED_CATEGORY_ITEM);
@@ -37,14 +38,17 @@ if (!$categoriesArray) {
 
 $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 /** @var GroupPermHandler $grouppermHandler */
-$grouppermHandler = Helper::getInstance()->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
-$moduleId         = $helper->getModule()->getVar('mid');
+$grouppermHandler = Helper::getInstance()
+                          ->getHandler('GroupPerm'); //xoops_getModuleHandler('groupperm');
+$moduleId         = $helper->getModule()
+                           ->getVar('mid');
 
 $itemId = Request::getInt('itemid', Request::getInt('itemid', 0, 'POST'), 'GET');
 if (0 != $itemId) {
     // We are editing or deleting an article
     /** @var Item $itemObj */
-    $itemObj = $helper->getHandler('Item')->get($itemId);
+    $itemObj = $helper->getHandler('Item')
+                      ->get($itemId);
     if (!(Utility::userIsAdmin() || Utility::userIsAuthor($itemObj) || Utility::userIsModerator($itemObj))) {
         redirect_header('index.php', 1, _NOPERM);
     }
@@ -64,9 +68,11 @@ if (0 != $itemId) {
         redirect_header('index.php', 1, _NOPERM);
     }
     /** @var Item $itemObj */
-    $itemObj = $helper->getHandler('Item')->create();
+    $itemObj = $helper->getHandler('Item')
+                      ->create();
     /** @var Category $categoryObj */
-    $categoryObj = $helper->getHandler('Category')->create();
+    $categoryObj = $helper->getHandler('Category')
+                          ->create();
 }
 
 if ('clone' === Request::getString('op', '', 'GET')) {
@@ -138,7 +144,8 @@ switch ($op) {
         $confirm = Request::getInt('confirm', '', 'POST');
 
         if ($confirm) {
-            if (!$helper->getHandler('Item')->delete($itemObj)) {
+            if (!$helper->getHandler('Item')
+                        ->delete($itemObj)) {
                 redirect_header('index.php', 2, _AM_PUBLISHER_ITEM_DELETE_ERROR . Utility::formatErrors($itemObj->getErrors()));
             }
             redirect_header('index.php', 2, sprintf(_AM_PUBLISHER_ITEMISDELETED, $itemObj->getTitle()));
@@ -158,7 +165,8 @@ switch ($op) {
         $xoTheme->addScript(PUBLISHER_URL . '/assets/js/publisher.js');
         require_once PUBLISHER_ROOT_PATH . '/footer.php';
 
-        $categoryObj = $helper->getHandler('Category')->get(Request::getInt('categoryid', 0, 'POST'));
+        $categoryObj = $helper->getHandler('Category')
+                              ->get(Request::getInt('categoryid', 0, 'POST'));
 
         $item                 = $itemObj->toArraySimple();
         $item['summary']      = $itemObj->body();
@@ -176,7 +184,14 @@ switch ($op) {
             $xoopsTpl->assign('langIntroText', '');
         } else {
             $xoopsTpl->assign('categoryPath', _MD_PUBLISHER_SUB_SNEWNAME);
-            $xoopsTpl->assign('langIntroTitle', sprintf(_MD_PUBLISHER_SUB_SNEWNAME, ucwords($helper->getModule()->name())));
+            $xoopsTpl->assign(
+                'langIntroTitle', sprintf(
+                _MD_PUBLISHER_SUB_SNEWNAME, ucwords(
+                $helper->getModule()
+                       ->name()
+            )
+            )
+            );
             $xoopsTpl->assign('langIntroText', $helper->getConfig('submit_intro_msg'));
         }
         if ($tokenError) {
@@ -256,7 +271,14 @@ switch ($op) {
             $xoopsTpl->assign('langIntroText', '');
         } else {
             $xoopsTpl->assign('categoryPath', _MD_PUBLISHER_SUB_SNEWNAME);
-            $xoopsTpl->assign('langIntroTitle', sprintf(_MD_PUBLISHER_SUB_SNEWNAME, ucwords($helper->getModule()->name())));
+            $xoopsTpl->assign(
+                'langIntroTitle', sprintf(
+                _MD_PUBLISHER_SUB_SNEWNAME, ucwords(
+                $helper->getModule()
+                       ->name()
+            )
+            )
+            );
             $xoopsTpl->assign('langIntroText', $helper->getConfig('submit_intro_msg'));
         }
         $sform = $itemObj->getForm($formtitle, true);

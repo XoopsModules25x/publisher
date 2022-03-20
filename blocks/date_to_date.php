@@ -64,7 +64,10 @@ function publisher_date_to_date_show($options)
         $block['lang_category']         = _MB_PUBLISHER_CATEGORY;
         $block['lang_poster']           = _MB_PUBLISHER_POSTEDBY;
         $block['lang_date']             = _MB_PUBLISHER_DATE;
-        $moduleName                     = $myts->displayTarea($helper->getModule()->getVar('name'));
+        $moduleName                     = $myts->displayTarea(
+            $helper->getModule()
+                   ->getVar('name')
+        );
         $block['lang_visitItem']        = _MB_PUBLISHER_VISITITEM . ' ' . $moduleName;
         $block['lang_articles_from_to'] = sprintf(_MB_PUBLISHER_ARTICLES_FROM_TO, $options[0], $options[1] ?? 0);
     }

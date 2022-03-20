@@ -122,6 +122,13 @@ $pathIcon32 = Admin::iconUrl('', '32');
 //    '1'       => "<img src='" . $pathIcon16 . "/1.png' alt='" . 1 . "' align='middle'>",
 //];
 
+\define('PUBLISHER_ICONS_URL_16', \constant($moduleDirNameUpper . '_URL') . '/assets/icons/16');
+\define('PUBLISHER_ICONS_URL_24', \constant($moduleDirNameUpper . '_URL') . '/assets/icons/24');
+\define('PUBLISHER_ICONS_URL_32', \constant($moduleDirNameUpper . '_URL') . '/assets/icons/32');
+
+\define('PUBLISHER_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . $moduleDirNameUpper); // WITHOUT Trailing slash
+\define('PUBLISHER_URL', XOOPS_URL . '/modules/' . $moduleDirNameUpper);
+
 $debug = false;
 
 // MyTextSanitizer object
@@ -135,13 +142,14 @@ if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)
 $GLOBALS['xoopsTpl']->assign('mod_url', $helper->url());
 // Local icons path
 if (is_object($helper->getModule())) {
-    $pathModIcon16 = $helper->getModule()->getInfo('modicons16');
-    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+    $pathModIcon16 = $helper->getModule()
+                            ->getInfo('modicons16');
+    $pathModIcon32 = $helper->getModule()
+                            ->getInfo('modicons32');
 
     $GLOBALS['xoopsTpl']->assign('pathModIcon16', XOOPS_URL . '/modules/' . $moduleDirName . '/' . $pathModIcon16);
     $GLOBALS['xoopsTpl']->assign('pathModIcon32', $pathModIcon32);
 }
-
 
 xoops_loadLanguage('main', $moduleDirName);
 if (class_exists('D3LanguageManager')) {

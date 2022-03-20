@@ -9,8 +9,14 @@ $moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 $helper             = Helper::getInstance();
 $helper->loadLanguage('admin');
-$pathModIcon16 = $helper->url($helper->getModule()->getInfo('modicons16')) . '/';
-$pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32')) . '/';
+$pathModIcon16 = $helper->url(
+        $helper->getModule()
+               ->getInfo('modicons16')
+    ) . '/';
+$pathModIcon32 = $helper->url(
+        $helper->getModule()
+               ->getInfo('modicons32')
+    ) . '/';
 
 $print = constant('_CO_' . $moduleDirNameUpper . '_' . 'PRINT');
 $pdf   = constant('_CO_' . $moduleDirNameUpper . '_' . 'PDF');

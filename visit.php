@@ -25,13 +25,15 @@ require_once __DIR__ . '/header.php';
 $fileid = Request::getInt('fileid', 0, 'GET');
 
 // Creating the item object for the selected item
-$fileObj = $helper->getHandler('File')->get($fileid);
+$fileObj = $helper->getHandler('File')
+                  ->get($fileid);
 
 if ($fileObj->getVar('status' !== Constants::PUBLISHER_STATUS_FILE_ACTIVE)) {
     redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 
-$itemObj = $helper->getHandler('Item')->get($fileObj->getVar('itemid'));
+$itemObj = $helper->getHandler('Item')
+                  ->get($fileObj->getVar('itemid'));
 
 // Check user permissions to access this file
 if (!$itemObj->accessGranted()) {

@@ -65,6 +65,5 @@ class Configurator
 
         $this->icons = require \dirname(__DIR__, 2) . '/config/icons.php';
         $this->paths = require \dirname(__DIR__, 2) . '/config/paths.php';
-
     }
 }

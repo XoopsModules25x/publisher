@@ -23,6 +23,7 @@ use XoopsModules\Publisher\{
     Item,
     ItemHandler
 };
+
 /** @var Helper $helper */
 
 require \dirname(__DIR__) . '/preloads/autoloader.php';
@@ -64,7 +65,7 @@ function publisher_tag_iteminfo(&$items)
         require_once $GLOBALS['xoops']->path('modules/tag/include/functions.php');
         $parse_function = 'tag_parse_tag';
     }
-    $myts      = \MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     /** @var Item $item_obj */
     foreach (array_keys($items) as $cat_id) {
         foreach (array_keys($items[$cat_id]) as $itemId) {
@@ -75,7 +76,7 @@ function publisher_tag_iteminfo(&$items)
                 'link'    => "item.php?itemid={$itemId}",
                 'time'    => $item_obj->getVar('datesub'),
                 'tags'    => $parse_function($item_obj->getVar('item_tag', 'n')), // optional
-//                'content' => '',
+                //                'content' => '',
                 'content' => $myts->displayTarea($item_obj->summary(), 1, 1, 1, 1, 1),
             ];
         }
@@ -93,10 +94,12 @@ function publisher_tag_synchronization($mid)
 {
     // Optional
     /** @var ItemHandler $itemHandler */
-    $itemHandler = Helper::getInstance()->getHandler('Item');
+    $itemHandler = Helper::getInstance()
+                         ->getHandler('Item');
 
     /** @var \XoopsModules\Tag\LinkHandler $linkHandler */
-    $linkHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Link');
+    $linkHandler = \XoopsModules\Tag\Helper::getInstance()
+                                           ->getHandler('Link');
 
     //$mid = XoopsFilterInput::clean($mid, 'INT');
     $mid = Request::getInt('mid');

@@ -74,7 +74,10 @@ class CategoryForm extends \XoopsThemeForm
         $criteria = new \Criteria(null);
         $criteria->setSort('weight');
         $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
-        $myTree          = new \XoopsObjectTree($this->helper->getHandler('Category')->getObjects($criteria), 'categoryid', 'parentid');
+        $myTree          = new \XoopsObjectTree(
+            $this->helper->getHandler('Category')
+                         ->getObjects($criteria), 'categoryid', 'parentid'
+        );
         $moduleDirName   = \basename(\dirname(__DIR__));
         $module          = \XoopsModule::getByDirname($moduleDirName);
         $catSelect       = $myTree->makeSelectElement('parentid', 'name', '--', $this->targetObject->parentid(), true, 0, '', \_AM_PUBLISHER_PARENT_CATEGORY_EXP);
@@ -89,7 +92,8 @@ class CategoryForm extends \XoopsThemeForm
         // EDITOR
         $groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $grouppermHandler = $this->helper->getHandler('GroupPerm');
-        $moduleId         = $this->helper->getModule()->mid();
+        $moduleId         = $this->helper->getModule()
+                                         ->mid();
         $allowedEditors   = Utility::getEditors($grouppermHandler->getItemIds('editors', $groups, $moduleId));
         $nohtml           = false;
         if (\count($allowedEditors) > 0) {
@@ -160,9 +164,9 @@ class CategoryForm extends \XoopsThemeForm
         $this->addElement(new \XoopsFormText(\_AM_PUBLISHER_COLPOSIT, 'weight', 4, 4, $this->targetObject->weight()));
 
         // Added by skalpa: custom template support for Category view
-//        $this->addElement(new \XoopsFormText('Custom template', 'template', 50, 255, $this->targetObject->getTemplate('e')), false);
+        //        $this->addElement(new \XoopsFormText('Custom template', 'template', 50, 255, $this->targetObject->getTemplate('e')), false);
 
-        $dir = $this->helper->path('templates/custom/category');
+        $dir                = $this->helper->path('templates/custom/category');
         $availableTemplates = [];
         if (\is_dir($dir)) {
             $templateList = \XoopsLists::getFileListAsArray($dir);
@@ -173,7 +177,7 @@ class CategoryForm extends \XoopsThemeForm
             }
         }
 
-        $categoryTemplate  = new \XoopsFormSelect(_AM_PUBLISHER_CUSTOM_CATEGORY_TEMPLATE, 'template', $this->targetObject->getVar('template'));
+        $categoryTemplate = new \XoopsFormSelect(_AM_PUBLISHER_CUSTOM_CATEGORY_TEMPLATE, 'template', $this->targetObject->getVar('template'));
 
         $categoryTemplate->addOption('', '');
         $categoryTemplate->addOptionArray($availableTemplates);
@@ -181,7 +185,7 @@ class CategoryForm extends \XoopsThemeForm
         $this->addElement($categoryTemplate, false);
 
         // CUSTOM TEMPLATE FOR ARTICLES in Particular Category
-        $dirCategoryItem = $this->helper->path('templates/custom/categoryitem');
+        $dirCategoryItem        = $this->helper->path('templates/custom/categoryitem');
         $availableItemTemplates = [];
         if (\is_dir($dirCategoryItem)) {
             $templateItemList = \XoopsLists::getFileListAsArray($dirCategoryItem);
@@ -192,7 +196,7 @@ class CategoryForm extends \XoopsThemeForm
             }
         }
 
-        $categoryItemTemplate  = new \XoopsFormSelect(_AM_PUBLISHER_CUSTOM_CATEGORY_ITEM_TEMPLATE, 'template_item', $this->targetObject->getVar('template_item'));
+        $categoryItemTemplate = new \XoopsFormSelect(_AM_PUBLISHER_CUSTOM_CATEGORY_ITEM_TEMPLATE, 'template_item', $this->targetObject->getVar('template_item'));
 
         $categoryItemTemplate->addOption('', '');
         $categoryItemTemplate->addOptionArray($availableItemTemplates);

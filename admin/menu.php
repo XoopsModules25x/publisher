@@ -31,7 +31,8 @@ $helper->loadLanguage('feedback');
 
 // get path to icons
 $pathIcon32    = Admin::menuIconPath('');
-$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+$pathModIcon32 = $helper->getModule()
+                        ->getInfo('modicons32');
 
 $adminmenu[] = [
     'title' => _MI_PUBLISHER_ADMENU0,
@@ -58,6 +59,13 @@ $adminmenu[] = [
     'title' => _MI_PUBLISHER_ADMENU3,
     'link'  => 'admin/item.php',
     'icon'  => $pathIcon32 . '/content.png',
+];
+
+// Fields
+$adminmenu[] = [
+    'title' => _MI_PUBLISHER_ADMENU8,
+    'link'  => 'admin/field.php',
+    'icon'  => $pathIcon32 . '/insert_table_row.png',
 ];
 
 // Trello

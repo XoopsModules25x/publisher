@@ -34,7 +34,8 @@ if (0 == $itemId) {
 }
 
 // Creating the ITEM object for the selected ITEM
-$itemObj = $helper->getHandler('Item')->get($itemId);
+$itemObj = $helper->getHandler('Item')
+                  ->get($itemId);
 
 // if the selected ITEM was not found, exit
 if ($itemObj->notLoaded()) {

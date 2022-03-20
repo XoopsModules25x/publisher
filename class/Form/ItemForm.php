@@ -97,7 +97,9 @@ class ItemForm extends ThemeTabForm
     {
         $helper = Helper::getInstance();
         $ret    = false;
-        if (!$this->checkperm || $helper->getHandler('Permission')->isGranted('form_view', $item)) {
+        if (!$this->checkperm
+            || $helper->getHandler('Permission')
+                      ->isGranted('form_view', $item)) {
             $ret = true;
         }
 
@@ -138,7 +140,10 @@ class ItemForm extends ThemeTabForm
         $configurator = new Configurator();
         $icons        = $configurator->icons;
 
-        $allowedEditors = Utility::getEditors($helper->getHandler('Permission')->getGrantedItems('editors'));
+        $allowedEditors = Utility::getEditors(
+            $helper->getHandler('Permission')
+                   ->getGrantedItems('editors')
+        );
 
         if (\is_object($GLOBALS['xoopsUser'])) {
             $group      = $GLOBALS['xoopsUser']->getGroups();
@@ -156,7 +161,10 @@ class ItemForm extends ThemeTabForm
         // Category
         $categoryFormSelect = new \XoopsFormSelect(\_CO_PUBLISHER_CATEGORY, 'categoryid', $obj->getVar('categoryid', 'e'));
         $categoryFormSelect->setDescription(\_CO_PUBLISHER_CATEGORY_DSC);
-        $categoryFormSelect->addOptionArray($helper->getHandler('Category')->getCategoriesForSubmit());
+        $categoryFormSelect->addOptionArray(
+            $helper->getHandler('Category')
+                   ->getCategoriesForSubmit()
+        );
         $this->addElement($categoryFormSelect);
 
         // ITEM TITLE
@@ -175,7 +183,7 @@ class ItemForm extends ThemeTabForm
         }
 
         // TAGS
-        if (\xoops_isActiveModule('tag')  && \class_exists(\XoopsModules\Tag\FormTag::class) && $this->isGranted(Constants::PUBLISHER_ITEM_TAG)) {
+        if (\xoops_isActiveModule('tag') && \class_exists(\XoopsModules\Tag\FormTag::class) && $this->isGranted(Constants::PUBLISHER_ITEM_TAG)) {
             $textTags = new \XoopsModules\Tag\FormTag('item_tag', 60, 255, $obj->getVar('item_tag', 'e'), 0);
             $textTags->setClass('form-control');
             $this->addElement($textTags);
@@ -273,7 +281,8 @@ class ItemForm extends ThemeTabForm
         $groups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = $helper->getHandler('GroupPerm');
-        $moduleId         = $helper->getModule()->getVar('mid');
+        $moduleId         = $helper->getModule()
+                                   ->getVar('mid');
         if ($helper->getConfig('perm_rating') && $grouppermHandler->checkRight('global', \_PUBLISHER_RATE, $groups, $moduleId)) {
             $options = [
                 Constants::RATING_NONE     => \_MI_PUBLISHER_RATING_NONE,
@@ -593,7 +602,8 @@ $publisher(document).ready(function () {
             unset($fileBox);
 
             if (!$obj->isNew()) {
-                $filesObj = $helper->getHandler('File')->getAllFiles($obj->itemid());
+                $filesObj = $helper->getHandler('File')
+                                   ->getAllFiles($obj->itemid());
                 if (\count($filesObj) > 0) {
                     $table = '';
                     $table .= "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";

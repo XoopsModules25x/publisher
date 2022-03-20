@@ -38,9 +38,9 @@ function publisher_items_random_item_show($options)
     /** @var ItemHandler $itemHandler */
     $itemHandler = $helper->getHandler('Item');
 
-    $optItemsCount          = (int)$options[8];
+    $optItemsCount = (int)$options[8];
 
-    for ($k = 0 ; $k < $optItemsCount; $k++){
+    for ($k = 0; $k < $optItemsCount; $k++) {
         $item = [];
 
         // creating the ITEM object
@@ -77,7 +77,7 @@ function publisher_items_random_item_show($options)
         }
 
         $item['cancomment'] = $itemsObj->cancomment();
-        $comments            = $itemsObj->comments();
+        $comments           = $itemsObj->comments();
         if ($comments > 0) {
             //shows 1 comment instead of 1 comm. if comments ==1
             //langugage file modified accordingly

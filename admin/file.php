@@ -51,9 +51,11 @@ switch ($op) {
 
         // Creating the file object
         if (0 != $fileid) {
-            $fileObj = $helper->getHandler('File')->get($fileid);
+            $fileObj = $helper->getHandler('File')
+                              ->get($fileid);
         } else {
-            $fileObj = $helper->getHandler('File')->create();
+            $fileObj = $helper->getHandler('File')
+                              ->create();
         }
 
         // Putting the values in the file object
@@ -72,13 +74,15 @@ switch ($op) {
         $fileid = Request::getInt('fileid', 0, 'POST');
         $fileid = Request::getInt('fileid', $fileid, 'GET');
 
-        $fileObj = $helper->getHandler('File')->get($fileid);
+        $fileObj = $helper->getHandler('File')
+                          ->get($fileid);
 
         $confirm = Request::getInt('confirm', 0, 'POST');
         $title   = Request::getString('title', '', 'POST');
 
         if ($confirm) {
-            if (!$helper->getHandler('File')->delete($fileObj)) {
+            if (!$helper->getHandler('File')
+                        ->delete($fileObj)) {
                 redirect_header('item.php?op=mod&itemid=' . $fileObj->itemid() . '#tab_2', 2, _AM_PUBLISHER_FILE_DELETE_ERROR);
             }
 

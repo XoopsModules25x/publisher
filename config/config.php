@@ -17,7 +17,8 @@
  */
 
 use Xmf\Module\Admin;
-use XoopsModules\Publisher\{Constants,
+use XoopsModules\Publisher\{
+    Constants,
     Helper
 };
 
@@ -87,18 +88,24 @@ return (object)[
     'renameColumns' => [//        'extcal_event' => ['from' => 'event_etablissement', 'to' => 'event_location'],
     ],
     'moduleStats'   => [
-        'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
-        'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
-        'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_SUBMITTED),
-        'totalpublished'  => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_PUBLISHED),
-        'totaloffline'    => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_OFFLINE),
-        'totalrejected'   => $helper->getHandler('Item')->getItemsCount(-1, Constants::PUBLISHER_STATUS_REJECTED),
+        'totalcategories' => $helper->getHandler('Category')
+                                    ->getCategoriesCount(-1),
+        'totalitems'      => $helper->getHandler('Item')
+                                    ->getItemsCount(),
+        'totalsubmitted'  => $helper->getHandler('Item')
+                                    ->getItemsCount(-1, Constants::PUBLISHER_STATUS_SUBMITTED),
+        'totalpublished'  => $helper->getHandler('Item')
+                                    ->getItemsCount(-1, Constants::PUBLISHER_STATUS_PUBLISHED),
+        'totaloffline'    => $helper->getHandler('Item')
+                                    ->getItemsCount(-1, Constants::PUBLISHER_STATUS_OFFLINE),
+        'totalrejected'   => $helper->getHandler('Item')
+                                    ->getItemsCount(-1, Constants::PUBLISHER_STATUS_REJECTED),
     ],
     'modCopyright'  => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
                      <img src='" . Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
-    'testimages' => [
-        'images' => 1,
+    'testimages'    => [
+        'images'      => 1,
         'imgcat_name' => 'Publisher-Test',
-        'imgcat_id' => '999',
+        'imgcat_id'   => '999',
     ],
 ];

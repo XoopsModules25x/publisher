@@ -280,7 +280,8 @@ class Category extends \XoopsObject
      */
     public function store($sendNotifications = true, $force = true)
     {
-        $ret = $this->helper->getHandler('Category')->insert($this, $force);
+        $ret = $this->helper->getHandler('Category')
+                            ->insert($this, $force);
         if ($sendNotifications && $ret && $this->isNew()) {
             $this->sendNotifications();
         }
@@ -295,7 +296,8 @@ class Category extends \XoopsObject
     public function sendNotifications(): void
     {
         $tags                  = [];
-        $tags['MODULE_NAME']   = $this->helper->getModule()->getVar('name');
+        $tags['MODULE_NAME']   = $this->helper->getModule()
+                                              ->getVar('name');
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = $this->getCategoryUrl();
         /** @var \XoopsNotificationHandler $notificationHandler */

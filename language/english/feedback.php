@@ -12,11 +12,11 @@
 /**
  * feedback plugin for xoops modules
  *
- * @copyright      module for xoops
+ * @copyright       module for xoops
  * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @since          1.0
- * @min_xoops      2.5.9
- * @author         XOOPS - Website:<https://xoops.org>
+ * @since           1.0
+ * @min_xoops       2.5.9
+ * @author          XOOPS - Website:<https://xoops.org>
  */
 $moduleDirName      = \basename(\dirname(__DIR__, 2));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);

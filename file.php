@@ -33,14 +33,16 @@ if (0 == $fileid) {
     redirect_header('index.php', 2, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
-$fileObj = $helper->getHandler('File')->get($fileid);
+$fileObj = $helper->getHandler('File')
+                  ->get($fileid);
 
 // if the selected item was not found, exit
 if (!$fileObj) {
     redirect_header('index.php', 1, _NOPERM);
 }
 
-$itemObj = $helper->getHandler('Item')->get($fileObj->getVar('itemid'));
+$itemObj = $helper->getHandler('Item')
+                  ->get($fileObj->getVar('itemid'));
 
 // if the user does not have permission to modify this file, exit
 if (!(Utility::userIsAdmin() || Utility::userIsModerator($itemObj) || (is_object($GLOBALS['xoopsUser']) && $fileObj->getVar('uid') == $GLOBALS['xoopsUser']->getVar('uid')))) {
@@ -63,7 +65,8 @@ switch ($op) {
 
         // Creating the file object
         if (0 != $fileid) {
-            $fileObj = $helper->getHandler('File')->get($fileid);
+            $fileObj = $helper->getHandler('File')
+                              ->get($fileid);
         } else {
             redirect_header('index.php', 1, _NOPERM);
         }
@@ -79,7 +82,8 @@ switch ($op) {
             $oldfile = $fileObj->getFilePath();
 
             // Get available mimetypes for file uploading
-            $allowedMimetypes = $helper->getHandler('Mimetype')->getArrayByType();
+            $allowedMimetypes = $helper->getHandler('Mimetype')
+                                       ->getArrayByType();
             // TODO : display the available mimetypes to the user
             $errors = [];
 
@@ -94,7 +98,8 @@ switch ($op) {
             }
         }
 
-        if (!$helper->getHandler('File')->insert($fileObj)) {
+        if (!$helper->getHandler('File')
+                    ->insert($fileObj)) {
             redirect_header('item.php?itemid=' . $fileObj->itemid(), 3, _AM_PUBLISHER_FILE_EDITING_ERROR . Utility::formatErrors($fileObj->getErrors()));
         }
 
@@ -107,7 +112,8 @@ switch ($op) {
         $confirm = Request::getInt('confirm', '', 'POST');
 
         if ($confirm) {
-            if (!$helper->getHandler('File')->delete($fileObj)) {
+            if (!$helper->getHandler('File')
+                        ->delete($fileObj)) {
                 redirect_header('item.php?itemid=' . $fileObj->itemid(), 2, _AM_PUBLISHER_FILE_DELETE_ERROR);
             }
 

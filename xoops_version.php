@@ -82,6 +82,10 @@ $modversion = [
         $moduleDirName . '_' . 'mimetypes',
         $moduleDirName . '_' . 'rating',
         //        $moduleDirName . '_' . 'voting',
+        $moduleDirName . '_' . 'field',
+        $moduleDirName . '_' . 'category_field',
+        $moduleDirName . '_' . 'item_field',
+        $moduleDirName . '_' . 'field_option',
     ],
 ];
 
@@ -270,9 +274,19 @@ $modversion['templates'] = [
 
     //admin
     ['file' => 'publisher_trello.tpl', 'description' => '_MI_PUBLISHER_TRELLO_DSC', 'type' => 'admin'],
+    ['file' => 'publisher_admin_field.tpl', 'description' => 'PUBLISHER_FIELD_DSC', 'type' => 'admin'],
+    ['file' => 'publisher_admin_fields.tpl', 'description' => 'PUBLISHER_FIELD_DSC', 'type' => 'admin'],
+
     //custom
     ['file' => 'publisher_category_custom.tpl', 'description' => ''],
     ['file' => 'publisher_category_item_custom.tpl', 'description' => ''],
+
+    //partial
+    ['file' => 'partial_pagertop.tpl', 'description' => '', 'type' => 'partial'],
+    ['file' => 'partial_pagerbottom.tpl', 'description' => '', 'type' => 'partial'],
+    //    ['file' => 'partial_pagertop.tpl', 'description' => '', 'type' => 'admin'],
+    //    ['file' => 'partial_pagerbottom.tpl', 'description' => '', 'type' => 'admin'],
+
 ];
 
 // Config categories
@@ -1757,7 +1771,6 @@ $modversion['config'][] = [
     'default'     => 'odd',
     'category'    => 'group_header',
 ];
-
 
 $modversion['config'][] = [
     'name'        => 'generate_jsonld',

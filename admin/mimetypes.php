@@ -36,9 +36,9 @@ $aSortBy   = [
 $aOrderBy  = ['ASC' => _AM_PUBLISHER_TEXT_ASCENDING, 'DESC' => _AM_PUBLISHER_TEXT_DESCENDING];
 $aLimitBy  = ['10' => 10, '15' => 15, '20' => 20, '25' => 25, '50' => 50, '100' => 100];
 $aSearchBy = [
-    'mime_id' => _AM_PUBLISHER_MIME_ID, 
-    'mime_name' => _AM_PUBLISHER_MIME_NAME, 
-    'mime_ext' => _AM_PUBLISHER_MIME_EXT,
+    'mime_id'   => _AM_PUBLISHER_MIME_ID,
+    'mime_name' => _AM_PUBLISHER_MIME_NAME,
+    'mime_ext'  => _AM_PUBLISHER_MIME_EXT,
 ];
 
 $error = [];

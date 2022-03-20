@@ -22,6 +22,7 @@ use XoopsModules\Publisher\{
     Helper,
     Utility
 };
+
 /** @var Helper $helper */
 
 require_once __DIR__ . '/admin_header.php';
@@ -30,8 +31,11 @@ $op = Request::getString('op', Request::getString('op', 'none', 'GET'), 'POST');
 
 switch ($op) {
     case 'importExecute':
-        $importfile      = Request::getString('importfile', 'nonselected', 'POST');
-        $importfile_path = $GLOBALS['xoops']->path('modules/' . $helper->getModule()->dirname() . '/admin/import/' . $importfile . '.php');
+        $importfile = Request::getString('importfile', 'nonselected', 'POST');
+        $importfile_path = $GLOBALS['xoops']->path(
+            'modules/' . $helper->getModule()
+                                ->dirname() . '/admin/import/' . $importfile . '.php'
+        );
         require_once $importfile_path;
         break;
     case 'default':

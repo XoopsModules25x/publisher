@@ -118,7 +118,10 @@ function publisher_items_recent_show($options)
         $block['lang_category']  = _MB_PUBLISHER_CATEGORY;
         $block['lang_poster']    = _MB_PUBLISHER_POSTEDBY;
         $block['lang_date']      = _MB_PUBLISHER_DATE;
-        $moduleName              = $myts->displayTarea($helper->getModule()->getVar('name'));
+        $moduleName              = $myts->displayTarea(
+            $helper->getModule()
+                   ->getVar('name')
+        );
         $block['lang_visitItem'] = _MB_PUBLISHER_VISITITEM . ' ' . $moduleName;
 
         $block['show_image']    = $options[4];

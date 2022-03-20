@@ -2,7 +2,6 @@
 
 namespace XoopsModules\Publisher;
 
-
 /**
  *
  */
@@ -65,9 +64,9 @@ class Jsonld
         if (isset($itemImage)) {
             $imageHandler = xoops_getHandler('image');
             $criteria     = new \Criteria('image_id', $itemObj->getVar('image'));
-            $image        = $imageHandler->getObjects($criteria)[0]??null;
-            $imageUrl = '';
-            if (null!==$image) {
+            $image        = $imageHandler->getObjects($criteria)[0] ?? null;
+            $imageUrl     = '';
+            if (null !== $image) {
                 $imageUrl = XOOPS_URL . '/images/' . $image->getVar('image_name');
             }
         }
@@ -181,7 +180,7 @@ class Jsonld
 
             if ($xoopsUser instanceof \XoopsUser) {
                 $schema['article'] = self::getArticle($itemObj, $categoryObj, $xoopsUser, $helper);
-                $schema['author'] = self::getAuthor($xoopsUser);
+                $schema['author']  = self::getAuthor($xoopsUser);
             }
             $schema['publisher'] = self::getOrganization($xoopsConfig, $xoops_url);
 

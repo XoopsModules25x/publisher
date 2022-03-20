@@ -687,7 +687,8 @@ class MimetypesUtility
 
         $helper = Helper::getInstance();
         /** @var MimetypeHandler $mimetypeHandler */
-        $mimeTypeObj = $helper->getHandler('Mimetype')->get($hiddens['id']);
+        $mimeTypeObj = $helper->getHandler('Mimetype')
+                              ->get($hiddens['id']);
         if (Request::hasVar('mime_admin')) {
             $hiddens['mime_admin'] = Request::getInt('mime_admin', 0, 'GET');
             $msg                   = \sprintf(\_AM_PUBLISHER_MIME_ACCESS_CONFIRM_ADMIN, $mimeTypeObj->getVar('mime_name'));

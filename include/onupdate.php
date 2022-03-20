@@ -24,6 +24,9 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUs
     exit('Restricted access' . PHP_EOL);
 }
 
+$helper = Helper::getInstance();
+$helper->loadLanguage('field');
+
 /**
  * Prepares system prior to attempting to install module
  * @param \XoopsModule $module {@link XoopsModule}
@@ -47,9 +50,9 @@ function xoops_module_pre_update_publisher(\XoopsModule $module)
  *
  * @return bool true if update successful, false if not
  */
-function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = null)
+function xoops_module_update_publisher(\XoopsModule $module, ?string $previousVersion = null)
 {
-    global $xoopsDB;
+    //    global $GLOBALS['xoopsDB'];
     $moduleDirName = \basename(\dirname(__DIR__));
     //    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
@@ -57,26 +60,28 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
     /** @var Common\Configurator $configurator */
     $helper       = Helper::getInstance();
     $configurator = new Common\Configurator();
+    $utility      = new Utility();
+    $errors       = 0;
 
     $helper->loadLanguage('common');
+    $helper->loadLanguage('field');
 
     //delete .html entries from the tpl table
-    $sql = 'DELETE FROM ' . $xoopsDB->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
-    $xoopsDB->queryF($sql);
-    $sql = 'DELETE FROM ' . $xoopsDB->prefix('newblocks') . " WHERE `dirname` = '" . $module->getVar('dirname', 'n') . "' AND `template` LIKE '%.html%'";
-    $xoopsDB->queryF($sql);
+    $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
+    $GLOBALS['xoopsDB']->queryF($sql);
+    $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('newblocks') . " WHERE `dirname` = '" . $module->getVar('dirname', 'n') . "' AND `template` LIKE '%.html%'";
+    $GLOBALS['xoopsDB']->queryF($sql);
 
     if ($previousVersion <= 105) {
         //change TEXT fields to NULL
         $sql = '    ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' MODIFY `description` TEXT NULL';
-        $xoopsDB->queryF($sql);
+        $GLOBALS['xoopsDB']->queryF($sql);
         $sql = '    ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' MODIFY `header` TEXT NULL';
-        $xoopsDB->queryF($sql);
+        $GLOBALS['xoopsDB']->queryF($sql);
         $sql = '    ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' MODIFY `meta_keywords` TEXT NULL';
-        $xoopsDB->queryF($sql);
+        $GLOBALS['xoopsDB']->queryF($sql);
         $sql = '    ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . ' MODIFY `meta_description` TEXT NULL';
-        $xoopsDB->queryF($sql);
-        $utility = new Utility();
+        $GLOBALS['xoopsDB']->queryF($sql);
 
         //delete old HTML templates
         if (count($configurator->templateFolders) > 0) {
@@ -157,12 +162,12 @@ function xoops_module_update_publisher(\XoopsModule $module, $previousVersion = 
         $GLOBALS['xoopsDB']->queryF($sql);
     }
 
-    // Publisher 1.8.0
-    // check table items for field `template_item` for custom templates
-    if (!$GLOBALS['xoopsDB']->query('SELECT template_item FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories'))) {
-        $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . " ADD `template_item` VARCHAR(150) NOT NULL DEFAULT '' AFTER `template`";
-        $GLOBALS['xoopsDB']->queryF($sql);
-    }
+        // Publisher 1.8.0
+        // check table items for field `template_item` for custom templates
+        if (!$GLOBALS['xoopsDB']->query('SELECT template_item FROM ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories'))) {
+            $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($module->getVar('dirname', 'n') . '_categories') . " ADD `template_item` VARCHAR(150) NOT NULL DEFAULT '' AFTER `template`";
+            $GLOBALS['xoopsDB']->queryF($sql);
+        }
 
     return true;
-}
+    }

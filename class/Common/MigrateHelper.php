@@ -59,6 +59,7 @@ class MigrateHelper
         $tableName = '';
 
         // read sql file
+        /** @var array $lines */
         $lines = \file($this->fileSql);
 
         // remove unnecessary lines
@@ -87,43 +88,44 @@ class MigrateHelper
             }
             if (0 === \stripos($line, 'CREATE TABLE')) {
                 $skip    = false;
+                /** @var string $options */
                 $options = '';
                 // start table definition
-                $tableName                     = $this->getTableName($line);
+                /** @var string $tableName */
+                $tableName = $this->getTableName($line);
                 $tables[$tableName]            = [];
                 $tables[$tableName]['options'] = '';
                 $tables[$tableName]['columns'] = [];
                 $tables[$tableName]['keys']    = [];
-            } else {
-                if (false == $skip) {
-                    if (0 === \stripos($line, ')')) {
-                        // end of table definition
-                        // get options
-                        $this->getOptions($line, $options);
-                        $tables[$tableName]['options'] = $options;
-                    } elseif (0 === \stripos($line, 'ENGINE')) {
-                        $this->getOptions($line, $options);
-                        $tables[$tableName]['options'] = $options;
-                    } elseif (0 === \stripos($line, 'DEFAULT CHARSET ')) {
-                        $this->getOptions($line, $options);
-                        $tables[$tableName]['options'] = $options;
-                    } else {
-                        // get keys and fields
-                        switch (\mb_strtoupper(\substr($line, 0, 3))) {
-                            case 'KEY':
-                            case 'PRI':
-                            case 'UNI':
-                                $tables[$tableName]['keys'][] = $this->getKey($line);
-                                break;
-                            case 'else':
-                            default:
-                                $columns                         = $this->getColumns($line);
-                                $tables[$tableName]['columns'][] = $columns;
-                                break;
-                        }
+            } elseif (false == $skip) {
+                if (0 === \stripos($line, ')')) {
+                    // end of table definition
+                    // get options
+                    $this->getOptions($line, $options);
+                    $tables[$tableName]['options'] = $options;
+                } elseif (0 === \stripos($line, 'ENGINE')) {
+                    $this->getOptions($line, $options);
+                    $tables[$tableName]['options'] = $options;
+                } elseif (0 === \stripos($line, 'DEFAULT CHARSET ')) {
+                    $this->getOptions($line, $options);
+                    $tables[$tableName]['options'] = $options;
+                } else {
+                    // get keys and fields
+                    switch (\mb_strtoupper(\substr($line, 0, 3))) {
+                        case 'KEY':
+                        case 'PRI':
+                        case 'UNI':
+                            $tables[$tableName]['keys'][] = $this->getKey($line);
+                            break;
+                        case 'else':
+                        default:
+                            $columns                         = $this->getColumns($line);
+                            $tables[$tableName]['columns'][] = $columns;
+                            break;
                     }
                 }
             }
+
         }
 
         // create array for new schema
@@ -180,7 +182,7 @@ class MigrateHelper
     private function getTableName(string $line)
     {
         $arrLine = \explode('`', $line);
-        if (\count($arrLine) > 0) {
+        if (is_array($arrLine) && isset($arrLine[1])) {
             return $arrLine[1];
         }
 
@@ -197,6 +199,7 @@ class MigrateHelper
     {
         $columns = [];
 
+        /** @var array $arrCol */
         $arrCol = \explode(' ', \trim($line));
         if (\count($arrCol) > 0) {
             $name = \str_replace(['`'], '', $arrCol[0]);
@@ -224,7 +227,7 @@ class MigrateHelper
      * @param string $options
      * @return void
      */
-    private function getOptions(string $line, string &$options): void
+    private function getOptions(string $line, &$options): void
     {
         $lineText = \trim(\str_replace([')', ';'], '', $line));
         // remove all existing '
@@ -256,8 +259,10 @@ class MigrateHelper
                 $unique = 'true';
             }
             $line    = \trim(\str_replace(['UNIQUE KEY', 'KEY'], '', $line));
+            /** @var array $arrName */
             $arrName = \explode('(', $line);
             if (\count($arrName) > 0) {
+                /** @var string $name */
                 $name    = \str_replace(['`', ' '], '', $arrName[0]);
                 $columns = \str_replace(['`', '),', ')'], '', $arrName[1]);
                 if ('' === $name) {

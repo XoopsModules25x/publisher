@@ -51,6 +51,7 @@ class Utility extends Common\SysUtility
     /**
      * @param $file
      * @param $folder
+     * @return bool
      */
     public static function copyFile(string $file, string $folder): bool
     {
@@ -207,7 +208,8 @@ class Utility extends Common\SysUtility
              . "</td>\n"
              . "<td class='even center'> {$modify} {$delete} </td>\n"
              . "</tr>\n";
-        $subCategoriesObj = $helper->getHandler('Category')->getCategories(0, 0, $categoryObj->categoryid());
+        $subCategoriesObj = $helper->getHandler('Category')
+                                   ->getCategories(0, 0, $categoryObj->categoryid());
         if (\count($subCategoriesObj) > 0) {
             ++$level;
             foreach ($subCategoriesObj as $thiscat) {
@@ -232,7 +234,8 @@ class Utility extends Common\SysUtility
         if (0 != $fileid) {
             // Creating the File object
             /** @var \XoopsModules\Publisher\File $fileObj */
-            $fileObj = $helper->getHandler('File')->get($fileid);
+            $fileObj = $helper->getHandler('File')
+                              ->get($fileid);
 
             if ($fileObj->notLoaded()) {
                 \redirect_header('<script>javascript:history.go(-1)</script>', 1, \_AM_PUBLISHER_NOFILESELECTED);
@@ -244,7 +247,8 @@ class Utility extends Common\SysUtility
             static::openCollapsableBar('editfile', 'editfileicon', \_AM_PUBLISHER_FILE_INFORMATIONS);
         } else {
             // there's no parameter, so we're adding an item
-            $fileObj = $helper->getHandler('File')->create();
+            $fileObj = $helper->getHandler('File')
+                              ->create();
             $fileObj->setVar('itemid', $itemId);
             echo "<span style='color: #2F5376; font-weight: bold; font-size: 16px; margin: 6px 6px 0 0; '>" . \_AM_PUBLISHER_FILE_ADDING . '</span>';
             echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . \_AM_PUBLISHER_FILE_ADDING_DSC . '</span>';
@@ -279,12 +283,14 @@ class Utility extends Common\SysUtility
         /** @var Category $categoryObj */
         if (0 != $categoryid) {
             // Creating the category object for the selected category
-            $categoryObj = $helper->getHandler('Category')->get($categoryid);
+            $categoryObj = $helper->getHandler('Category')
+                                  ->get($categoryid);
             if ($categoryObj->notLoaded()) {
                 \redirect_header('category.php', 1, \_AM_PUBLISHER_NOCOLTOEDIT);
             }
         } elseif (null === $categoryObj) {
-            $categoryObj = $helper->getHandler('Category')->create();
+            $categoryObj = $helper->getHandler('Category')
+                                  ->create();
         }
 
         if (0 != $categoryid) {
@@ -309,10 +315,13 @@ class Utility extends Common\SysUtility
 
             static::openCollapsableBar('subcatstable', 'subcatsicon', \_AM_PUBLISHER_SUBCAT_CAT, \_AM_PUBLISHER_SUBCAT_CAT_DSC);
             // Get the total number of sub-categories
-            $categoriesObj = $helper->getHandler('Category')->get($selCat);
-            $totalsubs     = $helper->getHandler('Category')->getCategoriesCount($selCat);
+            $categoriesObj = $helper->getHandler('Category')
+                                    ->get($selCat);
+            $totalsubs     = $helper->getHandler('Category')
+                                    ->getCategoriesCount($selCat);
             // creating the categories objects that are published
-            $subcatsObj    = $helper->getHandler('Category')->getCategories(0, 0, $categoriesObj->categoryid());
+            $subcatsObj    = $helper->getHandler('Category')
+                                    ->getCategories(0, 0, $categoriesObj->categoryid());
             $totalSCOnPage = \count($subcatsObj);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
@@ -327,7 +336,8 @@ class Utility extends Common\SysUtility
                     $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'>" . $icons['delete'] . '</a>';
                     echo '<tr>';
                     echo "<td class='head' align='left'>" . $subcat->categoryid() . '</td>';
-                    echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . '/category.php?categoryid=' . $subcat->categoryid() . '&amp;parentid=' . $subcat->parentid() . "'>" . $subcat->name() . '</a></td>';
+                    echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $helper->getModule()
+                                                                                                      ->dirname() . '/category.php?categoryid=' . $subcat->categoryid() . '&amp;parentid=' . $subcat->parentid() . "'>" . $subcat->name() . '</a></td>';
                     echo "<td class='even' align='left'>" . $subcat->description() . '</td>';
                     echo "<td class='even' align='right'> {$modify} {$delete} </td>";
                     echo '</tr>';
@@ -345,10 +355,13 @@ class Utility extends Common\SysUtility
             static::openCollapsableBar('bottomtable', 'bottomtableicon', \_AM_PUBLISHER_CAT_ITEMS, \_AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = Request::getInt('startitem');
             // Get the total number of published ITEMS
-            $totalitems = $helper->getHandler('Item')->getItemsCount($selCat, [Constants::PUBLISHER_STATUS_PUBLISHED]);
+            $totalitems = $helper->getHandler('Item')
+                                 ->getItemsCount($selCat, [Constants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
-            $itemsObj = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
-            $allcats  = $helper->getHandler('Category')->getObjects(null, true);
+            $itemsObj = $helper->getHandler('Item')
+                               ->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
+            $allcats  = $helper->getHandler('Category')
+                               ->getObjects(null, true);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
             echo "<td width='40' class='bg3' align='center'><strong>" . \_AM_PUBLISHER_ITEMID . '</strong></td>';
@@ -549,10 +562,12 @@ class Utility extends Common\SysUtility
         }
 
         if (!$withLink) {
-            return $helper->getModule()->getVar('name');
+            return $helper->getModule()
+                          ->getVar('name');
         }
 
-        return '<a href="' . PUBLISHER_URL . '/">' . $helper->getModule()->getVar('name') . '</a>';
+        return '<a href="' . PUBLISHER_URL . '/">' . $helper->getModule()
+                                                            ->getVar('name') . '</a>';
     }
 
     /**
@@ -772,7 +787,8 @@ class Utility extends Common\SysUtility
     public static function userIsModerator($itemObj)
     {
         $helper            = Helper::getInstance();
-        $categoriesGranted = $helper->getHandler('Permission')->getGrantedItems('category_moderation');
+        $categoriesGranted = $helper->getHandler('Permission')
+                                    ->getGrantedItems('category_moderation');
 
         return (\is_object($itemObj) && \in_array($itemObj->categoryid(), $categoriesGranted, true));
     }
@@ -791,7 +807,8 @@ class Utility extends Common\SysUtility
 
         $result = true;
 
-        $moduleId = $helper->getModule()->getVar('mid');
+        $moduleId = $helper->getModule()
+                           ->getVar('mid');
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = \xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
@@ -950,7 +967,8 @@ class Utility extends Common\SysUtility
         }
         $ret .= '>' . $spaces . $categoryObj->name() . "</option>\n";
 
-        $subCategoriesObj = $helper->getHandler('Category')->getCategories(0, 0, $categoryObj->categoryid());
+        $subCategoriesObj = $helper->getHandler('Category')
+                                   ->getCategories(0, 0, $categoryObj->categoryid());
         if (\count($subCategoriesObj) > 0) {
             ++$level;
             foreach ($subCategoriesObj as $catId => $subCategoryObj) {
@@ -963,10 +981,10 @@ class Utility extends Common\SysUtility
 
     /**
      * @param int|array|string $selectedId
-     * @param int       $parentcategory
-     * @param bool      $allCatOption
-     * @param string    $selectname
-     * @param bool      $multiple
+     * @param int              $parentcategory
+     * @param bool             $allCatOption
+     * @param string           $selectname
+     * @param bool             $multiple
      * @return string
      */
     public static function createCategorySelect($selectedId = 0, $parentcategory = 0, $allCatOption = true, $selectname = 'options[1]', $multiple = true)
@@ -989,7 +1007,8 @@ class Utility extends Common\SysUtility
         }
 
         // Creating category objects
-        $categoriesObj = $helper->getHandler('Category')->getCategories(0, 0, $parentcategory);
+        $categoriesObj = $helper->getHandler('Category')
+                                ->getCategories(0, 0, $parentcategory);
 
         if (\count($categoriesObj) > 0) {
             foreach ($categoriesObj as $catId => $categoryObj) {
@@ -1018,7 +1037,8 @@ class Utility extends Common\SysUtility
         }
 
         // Creating category objects
-        $categoriesObj = $helper->getHandler('Category')->getCategories(0, 0, $parentcategory);
+        $categoriesObj = $helper->getHandler('Category')
+                                ->getCategories(0, 0, $parentcategory);
         if (\count($categoriesObj) > 0) {
             foreach ($categoriesObj as $catId => $categoryObj) {
                 $ret .= static::addCategoryOption($categoryObj, $selectedId);
@@ -1126,10 +1146,12 @@ class Utility extends Common\SysUtility
         $session->set('publisher_file_itemid', $itemId);
 
         if (!\is_object($itemObj) && 0 !== $itemId) {
-            $itemObj = $helper->getHandler('Item')->get($itemId);
+            $itemObj = $helper->getHandler('Item')
+                              ->get($itemId);
         }
 
-        $fileObj = $helper->getHandler('File')->create();
+        $fileObj = $helper->getHandler('File')
+                          ->create();
         $fileObj->setVar('name', Request::getString('item_file_name', '', 'POST'));
         $fileObj->setVar('description', Request::getString('item_file_description', '', 'POST'));
         $fileObj->setVar('status', Request::getInt('item_file_status', 1, 'POST'));
@@ -1138,10 +1160,11 @@ class Utility extends Common\SysUtility
         $fileObj->setVar('datesub', \time());
 
         // Get available mimetypes for file uploading
-        $allowedMimetypes = $helper->getHandler('Mimetype')->getArrayByType();
+        $allowedMimetypes = $helper->getHandler('Mimetype')
+                                   ->getArrayByType();
         // TODO : display the available mimetypes to the user
         $errors = [];
-        if ($helper->getConfig('perm_upload') && \is_uploaded_file(($_FILES['item_upload_file']['tmp_name'])??'')) {
+        if ($helper->getConfig('perm_upload') && \is_uploaded_file(($_FILES['item_upload_file']['tmp_name']) ?? '')) {
             if (!$ret = $fileObj->checkUpload('item_upload_file', $allowedMimetypes, $errors)) {
                 $errorstxt = \implode('<br>', $errors);
 
@@ -1278,7 +1301,8 @@ class Utility extends Common\SysUtility
         $units           = 5;
 
         $criteria   = new \Criteria('itemid', $itemId);
-        $ratingObjs = $helper->getHandler('Rating')->getObjects($criteria);
+        $ratingObjs = $helper->getHandler('Rating')
+                             ->getObjects($criteria);
         unset($criteria);
 
         $uid           = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
@@ -1307,7 +1331,10 @@ class Utility extends Common\SysUtility
         /** @var GroupPermHandler $grouppermHandler */
         $grouppermHandler = $helper->getHandler('GroupPerm');
 
-        if (!$grouppermHandler->checkRight('global', Constants::PUBLISHER_RATE, $groups, $helper->getModule()->getVar('mid'))) {
+        if (!$grouppermHandler->checkRight(
+            'global', Constants::PUBLISHER_RATE, $groups, $helper->getModule()
+                                                                 ->getVar('mid')
+        )) {
             $staticRater   = [];
             $staticRater[] .= "\n" . '<div class="publisher_ratingblock">';
             $staticRater[] .= '<div id="unit_long' . $itemId . '">';

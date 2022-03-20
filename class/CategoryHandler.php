@@ -129,7 +129,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         /** @var Category $category */
         // Deleting this category ITEMs
         $criteria = new \Criteria('categoryid', $category->categoryid());
-        $this->helper->getHandler('Item')->deleteAll($criteria);
+        $this->helper->getHandler('Item')
+                     ->deleteAll($criteria);
         unset($criteria);
         // Deleting the sub categories
         $subcats = &$this->getCategories(0, 0, $category->categoryid());
@@ -141,7 +142,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
 
             return false;
         }
-        $moduleId = $this->helper->getModule()->getVar('mid');
+        $moduleId = $this->helper->getModule()
+                                 ->getVar('mid');
         \xoops_groupperm_deletebymoditem($moduleId, 'category_read', $category->categoryid());
         \xoops_groupperm_deletebymoditem($moduleId, 'item_submit', $category->categoryid());
         \xoops_groupperm_deletebymoditem($moduleId, 'category_moderation', $category->categoryid());
@@ -248,7 +250,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $criteria->setSort('name');
         $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
         if (!$this->publisherIsAdmin) {
-            $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('item_submit');
+            $categoriesGranted = $this->helper->getHandler('Permission')
+                                              ->getGrantedItems('item_submit');
             if (\count($categoriesGranted) > 0) {
                 $criteria->add(new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN'));
             } else {
@@ -291,7 +294,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $criteria->setSort('name');
         $criteria->order = 'ASC'; // patch for XOOPS <= 2.5.10, does not set order correctly using setOrder() method
         if (!$this->publisherIsAdmin) {
-            $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
+            $categoriesGranted = $this->helper->getHandler('Permission')
+                                              ->getGrantedItems('category_read');
             if (\count($categoriesGranted) > 0) {
                 $criteria->add(new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN'));
             } else {
@@ -336,7 +340,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         if (isset($parentid) && (-1 != $parentid)) {
             $criteria->add(new \Criteria('parentid', $parentid));
             if (!$this->publisherIsAdmin) {
-                $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
+                $categoriesGranted = $this->helper->getHandler('Permission')
+                                                  ->getGrantedItems('category_read');
                 if (\count($categoriesGranted) > 0) {
                     $criteria->add(new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN'));
                 } else {
@@ -363,7 +368,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $criteria = new \CriteriaCompo(new \Criteria('parentid', '(' . \implode(',', \array_keys($categories)) . ')', 'IN'));
         $ret      = [];
         if (!$this->publisherIsAdmin) {
-            $categoriesGranted = $this->helper->getHandler('Permission')->getGrantedItems('category_read');
+            $categoriesGranted = $this->helper->getHandler('Permission')
+                                              ->getGrantedItems('category_read');
             if (\count($categoriesGranted) > 0) {
                 $criteria->add(new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN'));
             } else {
@@ -379,7 +385,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $subcats         = $this->getObjects($criteria, true);
         /** @var Category $subcat */
         foreach ($subcats as $subcat) {
-            $ret[$subcat->getVar('parentid')][$subcat->getVar('categoryid')] = $subcat;
+            $ret[(int)$subcat->getVar('parentid')][$subcat->getVar('categoryid')] = $subcat;
         }
 
         return $ret;

@@ -41,6 +41,7 @@ function smarty_modifier_rewrite_url($url, $insert_param, $param_value = null, $
     //split $url and parse into array
     if (preg_match('/\w+\.\w+/', $url)) {
         //assume full url
+        /** @var array $newurl_arr */
         $newurl_arr = parse_url($url);
         $newurl     = '';
         if (isset($newurl_arr['scheme'])) {
@@ -67,6 +68,7 @@ function smarty_modifier_rewrite_url($url, $insert_param, $param_value = null, $
     } else {
         //assume just query string
         if (preg_match('/#/', $url)) {
+            /** @var array $temp_arr */
             $temp_arr               = explode('#', $url);
             $newurl_arr['fragment'] = $temp_arr[1];
             $url                    = $temp_arr[0];

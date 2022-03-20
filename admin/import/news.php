@@ -78,7 +78,12 @@ if ('start' === $op) {
             $form->addElement($catLabel);
 
             // Publisher parent category
-            $mytree = new \XoopsTree($GLOBALS['xoopsDB']->prefix($helper->getModule()->getVar('dirname', 'n') . '_categories'), 'categoryid', 'parentid');
+            $mytree = new \XoopsTree(
+                $GLOBALS['xoopsDB']->prefix(
+                    $helper->getModule()
+                           ->getVar('dirname', 'n') . '_categories'
+                ), 'categoryid', 'parentid'
+            );
             ob_start();
             $mytree->makeMySelBox('name', 'weight', $preset_id = 0, $none = 1, $sel_name = 'parent_category');
 
@@ -104,7 +109,8 @@ if ('go' === $op) {
     Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Utility::openCollapsableBar('newsimportgo', 'newsimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    $moduleId = $helper->getModule()->getVar('mid');
+    $moduleId = $helper->getModule()
+                       ->getVar('mid');
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
@@ -126,7 +132,8 @@ if ('go' === $op) {
         $newCat['oldid']  = $arrCat['topic_id'];
         $newCat['oldpid'] = $arrCat['topic_pid'];
         /** @var Category $categoryObj */
-        $categoryObj = $helper->getHandler('Category')->create();
+        $categoryObj = $helper->getHandler('Category')
+                              ->create();
 
         $categoryObj->setVar('parentid', $arrCat['topic_pid']);
         $categoryObj->setVar('weight', 0);
@@ -140,7 +147,8 @@ if ('go' === $op) {
             }
         }
 
-        if (!$helper->getHandler('Category')->insert($categoryObj)) {
+        if (!$helper->getHandler('Category')
+                    ->insert($categoryObj)) {
             echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_ERROR, $arrCat['topic_title']) . '<br>';
             continue;
         }
@@ -155,7 +163,8 @@ if ('go' === $op) {
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
             /** @var Item $itemObj */
-            $itemObj = $helper->getHandler('Item')->create();
+            $itemObj = $helper->getHandler('Item')
+                              ->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
             $itemObj->setVar('title', $arrArticle['title']);
@@ -249,7 +258,8 @@ if ('go' === $op) {
         } else {
             $newpid = $newCatArray[$oldpid]['newid'];
         }
-        $helper->getHandler('Category')->updateAll('parentid', $newpid, $criteria);
+        $helper->getHandler('Category')
+               ->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
     unset($oldid);
@@ -257,7 +267,8 @@ if ('go' === $op) {
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
 
-    $publisher_module_id = $helper->getModule()->mid();
+    $publisher_module_id = $helper->getModule()
+                                  ->mid();
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
@@ -265,7 +276,7 @@ if ('go' === $op) {
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
-        $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
+        $comment->setVar('com_itemid', $newArticleArray[(int)$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
         if ($commentHandler->insert($comment)) {

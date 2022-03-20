@@ -25,6 +25,8 @@
 use Xmf\Request;
 use XoopsModules\Publisher\Item;
 
+/** @var Helper $helper */
+
 require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'publisher_archive.tpl';
 
@@ -49,8 +51,10 @@ $monthsArray = [
     11 => _CAL_NOVEMBER,
     12 => _CAL_DECEMBER,
 ];
-$fromyear    = Request::getInt('year');
-$frommonth   = Request::getInt('month');
+/** @var int $fromyear */
+$fromyear  = Request::getInt('year', 0);
+/** @var int $frommonth */
+$frommonth = Request::getInt('month', 0);
 
 $pgtitle = '';
 if ($fromyear && $frommonth) {
@@ -64,6 +68,7 @@ if ('' === $dateformat) {
 }
 
 $myts = \MyTextSanitizer::getInstance();
+/** @var XoopsTpl $xoopsTpl */
 $xoopsTpl->assign('xoops_pagetitle', htmlspecialchars(_MD_PUBLISHER_ARCHIVES, ENT_QUOTES | ENT_HTML5) . $pgtitle . ' - ' . htmlspecialchars($GLOBALS['xoopsModule']->name(), ENT_QUOTES | ENT_HTML5));
 
 $useroffset = '';
@@ -79,12 +84,14 @@ if (is_object($GLOBALS['xoopsUser'])) {
 $criteria = new \CriteriaCompo();
 $criteria->add(new \Criteria('status', 2), 'AND');
 $criteria->add(new \Criteria('datesub', time(), '<='), 'AND');
-$categoriesGranted = $helper->getHandler('Permission')->getGrantedItems('category_read');
+$categoriesGranted = $helper->getHandler('Permission')
+                            ->getGrantedItems('category_read');
 $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
 $criteria->setSort('datesub');
 $criteria->setOrder('DESC');
 //Get all articles dates as an array to save memory
-$items      = $helper->getHandler('Item')->getAll($criteria, ['datesub'], false);
+$items      = $helper->getHandler('Item')
+                     ->getAll($criteria, ['datesub'], false);
 $itemsCount = count($items);
 
 if ($itemsCount > 0) {
@@ -157,7 +164,9 @@ unset($items);
 if (0 != $fromyear && 0 != $frommonth) {
     $xoopsTpl->assign('show_articles', true);
     $xoopsTpl->assign('lang_articles', _MD_PUBLISHER_ITEMS);
-    $xoopsTpl->assign('currentmonth', $monthsArray[$frommonth]);
+    if (isset($frommonth, $monthsArray[$frommonth])) {
+        $xoopsTpl->assign('currentmonth', $monthsArray[$frommonth]);
+    }
     $xoopsTpl->assign('currentyear', $fromyear);
     $xoopsTpl->assign('lang_actions', _MD_PUBLISHER_ACTIONS);
     $xoopsTpl->assign('lang_date', _MD_PUBLISHER_DATE);
@@ -182,7 +191,8 @@ if (0 != $fromyear && 0 != $frommonth) {
     $itemHandler->field_link   = 'categoryid';
     $itemHandler->field_object = 'categoryid';
     // Categories for which user has access
-    $categoriesGranted = $helper->getHandler('Permission')->getGrantedItems('category_read');
+    $categoriesGranted = $helper->getHandler('Permission')
+                                ->getGrantedItems('category_read');
     $grantedCategories = new \Criteria('l.categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
     $criteria          = new \CriteriaCompo();
     $criteria->add($grantedCategories, 'AND');
@@ -231,7 +241,7 @@ if (0 != $fromyear && 0 != $frommonth) {
             if ($comments > 0) {
                 //shows 1 comment instead of 1 comm. if comments ==1
                 //langugage file modified accordingly
-                if (1 == $comments) {
+                if (1 === $comments) {
                     $story['comment'] = '&nbsp;' . _MD_PUBLISHER_ONECOMMENT . '&nbsp;';
                 } else {
                     $story['comment'] = '&nbsp;' . $comments . '&nbsp;' . _MD_PUBLISHER_COMMENTS . '&nbsp;';

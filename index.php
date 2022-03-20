@@ -34,7 +34,8 @@ $catstart = Request::getInt('catstart', 0, 'GET');
 $start = Request::getInt('start', 0, 'GET');
 
 // Number of categories at the top level
-$totalCategories = $helper->getHandler('Category')->getCategoriesCount(0);
+$totalCategories = $helper->getHandler('Category')
+                          ->getCategoriesCount(0);
 
 // if there ain't no category to display, let's get out of here
 if (0 == $totalCategories) {
@@ -48,7 +49,8 @@ require_once $helper->path('footer.php');
 $grouppermHandler = xoops_getHandler('groupperm');
 
 // Creating the top categories objects
-$categoriesObj = $helper->getHandler('Category')->getCategories($helper->getConfig('idxcat_cat_perpage'), $catstart);
+$categoriesObj = $helper->getHandler('Category')
+                        ->getCategories($helper->getConfig('idxcat_cat_perpage'), $catstart);
 
 // if no categories are found, exit
 $totalCategoriesOnPage = count($categoriesObj);
@@ -57,17 +59,21 @@ if (0 == $totalCategoriesOnPage) {
 }
 
 // Get subcats of the top categories
-$subcats = $helper->getHandler('Category')->getSubCats($categoriesObj);
+$subcats = $helper->getHandler('Category')
+                  ->getSubCats($categoriesObj);
 
 // Count of items within each top categories
-$totalItems = $helper->getHandler('Category')->publishedItemsCount();
+$totalItems = $helper->getHandler('Category')
+                     ->publishedItemsCount();
 
 // real total count of items
-$real_total_items = $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_PUBLISHED]);
+$real_total_items = $helper->getHandler('Item')
+                           ->getItemsCount(-1, [Constants::PUBLISHER_STATUS_PUBLISHED]);
 
 if (1 == $helper->getConfig('idxcat_display_last_item')) {
     // Get the last item in each category
-    $lastItemObj = $helper->getHandler('Item')->getLastPublishedByCat(array_merge([$categoriesObj], $subcats));
+    $lastItemObj = $helper->getHandler('Item')
+                          ->getLastPublishedByCat(array_merge([$categoriesObj], $subcats));
 }
 
 // Max size of the title in the last item column
@@ -131,9 +137,9 @@ foreach ($categoriesObj as $catId => $category) {
 }
 unset($categoriesObj);
 
-if (isset($categories[$catId])) {
-    $categories[$catId]                 = $category->toArraySimple($categories[$catId]);
-    $categories[$catId]['categoryPath'] = $category->getCategoryPath($helper->getConfig('format_linked_path'));
+if (isset($categories[(int)$catId])) {
+    $categories[(int)$catId]                 = $category->toArraySimple($categories[(int)$catId]);
+    $categories[(int)$catId]['categoryPath'] = $category->getCategoryPath($helper->getConfig('format_linked_path'));
 }
 
 unset($catId, $category);
@@ -174,7 +180,8 @@ if ($helper->getConfig('index_display_last_items')) {
     }
 
     // Creating the last ITEMs
-    $itemsObj   = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, -1, $sort, $order);
+    $itemsObj   = $helper->getHandler('Item')
+                         ->getAllPublished($helper->getConfig('idxcat_index_perpage'), $start, -1, $sort, $order);
     $itemsCount = count($itemsObj);
 
     //todo: make config for summary size
@@ -191,8 +198,14 @@ if ($helper->getConfig('index_display_last_items')) {
 // Language constants
 $xoopsTpl->assign('title_and_welcome', $helper->getConfig('index_title_and_welcome')); //SHINE ADDED DEBUG mainintro txt
 $xoopsTpl->assign('lang_mainintro', $myts->displayTarea($helper->getConfig('index_welcome_msg'), 1));
-$xoopsTpl->assign('sectionname', $helper->getModule()->getVar('name'));
-$xoopsTpl->assign('whereInSection', $helper->getModule()->getVar('name'));
+$xoopsTpl->assign(
+    'sectionname', $helper->getModule()
+                          ->getVar('name')
+);
+$xoopsTpl->assign(
+    'whereInSection', $helper->getModule()
+                             ->getVar('name')
+);
 $xoopsTpl->assign('module_home', Utility::moduleHome(false));
 $xoopsTpl->assign('indexfooter', $myts->displayTarea($helper->getConfig('index_footer'), 1));
 
@@ -223,7 +236,10 @@ $xoopsTpl->assign('displaylastitems', $helper->getConfig('index_display_last_ite
 /**
  * Generating meta information for this page
  */
-$publisherMetagen = new Metagen($helper->getModule()->getVar('name'));
+$publisherMetagen = new Metagen(
+    $helper->getModule()
+           ->getVar('name')
+);
 $publisherMetagen->createMetaTags();
 
 // generate JSON-LD and add to page

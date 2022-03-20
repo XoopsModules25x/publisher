@@ -34,7 +34,8 @@ if (function_exists('mb_http_output')) {
 $categoryid = Request::getInt('categoryid', -1, 'GET');
 
 if (-1 != $categoryid) {
-    $categoryObj = $helper->getHandler('Category')->get($categoryid);
+    $categoryObj = $helper->getHandler('Category')
+                          ->get($categoryid);
 }
 
 header('Content-Type:text/xml; charset=' . _CHARSET);
@@ -45,7 +46,8 @@ $tpl->cache_lifetime = 0;
 $myts                = \MyTextSanitizer::getInstance();
 if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     //    xoops_load('XoopsLocal');
-    $channelCategory = $helper->getModule()->name();
+    $channelCategory = $helper->getModule()
+                              ->name();
     // Check if ML Hack is installed, and if yes, parse the $content in formatForML
     if (method_exists($myts, 'formatForML')) {
         $GLOBALS['xoopsConfig']['sitename'] = $myts->formatForML($GLOBALS['xoopsConfig']['sitename']);
@@ -66,9 +68,13 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     }
 
     $tpl->assign('channelCategory', htmlspecialchars($channelCategory, ENT_QUOTES | ENT_HTML5));
-    $tpl->assign('channel_generator', $helper->getModule()->name());
+    $tpl->assign(
+        'channel_generator', $helper->getModule()
+                                    ->name()
+    );
     $tpl->assign('channel_language', _LANGCODE);
     $tpl->assign('image_url', XOOPS_URL . '/images/logo.png');
+    /** @var array $dimension */
     $dimension = getimagesize($GLOBALS['xoops']->path('images/logo.png'));
     if (empty($dimension[0])) {
         $width  = 140;
@@ -81,7 +87,8 @@ if (!$tpl->is_cached('db:publisher_rss.tpl')) {
     $height = round($height, 0, PHP_ROUND_HALF_UP);
     $tpl->assign('image_width', $width);
     $tpl->assign('image_height', $height);
-    $sarray = $helper->getHandler('Item')->getAllPublished(10, 0, $categoryid);
+    $sarray = $helper->getHandler('Item')
+                     ->getAllPublished(10, 0, $categoryid);
     if (!empty($sarray) && is_array($sarray)) {
         $count = $sarray;
         foreach ($sarray as $item) {

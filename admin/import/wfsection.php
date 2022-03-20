@@ -80,7 +80,12 @@ if ('start' === $op) {
             $form->addElement($catLabel);
 
             // SmartFAQ parent category
-            $mytree = new \XoopsTree($GLOBALS['xoopsDB']->prefix($helper->getModule()->dirname() . '_categories'), 'categoryid', 'parentid');
+            $mytree = new \XoopsTree(
+                $GLOBALS['xoopsDB']->prefix(
+                    $helper->getModule()
+                           ->dirname() . '_categories'
+                ), 'categoryid', 'parentid'
+            );
             ob_start();
             $mytree->makeMySelBox('name', 'weight', $preset_id = 0, $none = 1, $sel_name = 'parent_category');
 
@@ -124,7 +129,8 @@ if ('go' === $op) {
     $newCatArray = [];
     while (false !== ($arrCat = $GLOBALS['xoopsDB']->fetchArray($resultCat))) {
         /** @var Category $categoryObj */
-        $categoryObj = $helper->getHandler('Category')->create();
+        $categoryObj = $helper->getHandler('Category')
+                              ->create();
 
         $newCat = [];
 
@@ -167,7 +173,8 @@ if ('go' === $op) {
         while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
             // insert article
             /** @var Item $itemObj */
-            $itemObj = $helper->getHandler('Item')->create();
+            $itemObj = $helper->getHandler('Item')
+                              ->create();
 
             $itemObj->setVar('categoryid', $categoryObj->categoryid());
             $itemObj->setVar('title', $arrArticle['title']);
@@ -208,7 +215,8 @@ if ('go' === $op) {
                 if (file_exists($filename)) {
                     if (copy($filename, PUBLISHER_UPLOAD_PATH . '/' . $arrFile['filerealname'])) {
                         /** @var File $fileObj */
-                        $fileObj = $helper->getHandler('File')->create();
+                        $fileObj = $helper->getHandler('File')
+                                          ->create();
                         $fileObj->setVar('name', $arrFile['fileshowname']);
                         $fileObj->setVar('description', $arrFile['filedescript']);
                         $fileObj->setVar('status', Constants::PUBLISHER_STATUS_FILE_ACTIVE);
@@ -244,16 +252,19 @@ if ('go' === $op) {
         } else {
             $newpid = $newCatArray[$oldpid]['newid'];
         }
-        $helper->getHandler('Category')->updateAll('parentid', $newpid, $criteria);
+        $helper->getHandler('Category')
+               ->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
     unset($oldid);
 
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
-    $moduleId = $helper->getModule()->getVar('mid');
+    $moduleId = $helper->getModule()
+                       ->getVar('mid');
 
-    $publisher_module_id = $helper->getModule()->mid();
+    $publisher_module_id = $helper->getModule()
+                                  ->mid();
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
@@ -261,7 +272,7 @@ if ('go' === $op) {
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
-        $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
+        $comment->setVar('com_itemid', $newArticleArray[(int)$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
         if ($commentHandler->insert($comment)) {

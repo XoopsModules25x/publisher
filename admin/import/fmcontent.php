@@ -46,7 +46,8 @@ if ('start' === $op) {
     Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Utility::openCollapsableBar('fmimport', 'fmimporticon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_INFO);
-    $moduleId = $helper->getModule()->getVar('mid');
+    $moduleId = $helper->getModule()
+                       ->getVar('mid');
 
     $fmTopicHandler = xoops_getModuleHandler('topic', 'fmcontent');
     $fmTopicCount   = $fmTopicHandler->getCount(new \Criteria('topic_modid', $moduleId));
@@ -103,7 +104,8 @@ if ('start' === $op) {
             $myObjTree       = new \XoopsObjectTree($catObjs, 'categoryid', 'parentid');
             $moduleDirName   = \basename(\dirname(__DIR__));
             $module          = \XoopsModule::getByDirname($moduleDirName);
-            $catSelBox       = $myObjTree->makeSelectElement('parent_category', 'name', '-', 0, true, 0, '', '')->render();
+            $catSelBox       = $myObjTree->makeSelectElement('parent_category', 'name', '-', 0, true, 0, '', '')
+                                         ->render();
             //$form->addElement($catSelBox);
 
             $parent_cat_sel = new \XoopsFormLabel(_AM_PUBLISHER_IMPORT_PARENT_CATEGORY, $catSelBox);
@@ -136,7 +138,8 @@ if ('go' === $op) {
     Utility::cpHeader();
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     Utility::openCollapsableBar('fmimportgo', 'fmimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    $moduleId = $helper->getModule()->getVar('mid');
+    $moduleId = $helper->getModule()
+                       ->getVar('mid');
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
@@ -158,7 +161,8 @@ if ('go' === $op) {
 
         // create Publsher category to hold FmContent Content items with no Topic (content_topic=0)
         /** @var Category $categoryObj */
-        $categoryObj = $helper->getHandler('Category')->create();
+        $categoryObj = $helper->getHandler('Category')
+                              ->create();
         $categoryObj->setVars([
                                   'parentid'    => $parentId,
                                   'name'        => _AM_PUBLISHER_IMPORT_FMCONTENT_NAME,
@@ -176,7 +180,8 @@ if ('go' === $op) {
 
         // insert articles for this category
         foreach ($fmContentObjs as $thisFmContentObj) {
-            $itemObj = $helper->getHandler('Item')->create();
+            $itemObj = $helper->getHandler('Item')
+                              ->create();
             $itemObj->setVars([
                                   'categoryid'       => $categoryObj->categoryid(),
                                   'title'            => $thisFmContentObj->getVar('content_title'),
@@ -239,7 +244,8 @@ if ('go' === $op) {
             'oldpid' => $thisFmTopicObj->getVar('topic_pid'),
         ];
 
-        $categoryObj = $helper->getHandler('Category')->create();
+        $categoryObj = $helper->getHandler('Category')
+                              ->create();
 
         $categoryObj->setVars([
                                   'parentid'    => $thisFmTopicObj->getVar('topic_pid'),
@@ -254,7 +260,8 @@ if ('go' === $op) {
                 $categoryObj->setVar('image', $thisFmTopicObj->getVar('topic_img'));
             }
         }
-        if (!$helper->getHandler('Category')->insert($categoryObj)) {
+        if (!$helper->getHandler('Category')
+                    ->insert($categoryObj)) {
             echo sprintf(_AM_PUBLISHER_IMPORT_CATEGORY_ERROR, $thisFmTopicObj->getVar('topic_title')) . "<br>\n";
             continue;
         }
@@ -273,7 +280,8 @@ if ('go' === $op) {
         // insert articles for this category
         /** @var Item $itemObj */
         foreach ($fmContentObjs as $thisFmContentObj) {
-            $itemObj = $helper->getHandler('Item')->create();
+            $itemObj = $helper->getHandler('Item')
+                              ->create();
             $itemObj->setVars([
                                   'categoryid'       => $catIds['newid'],
                                   'title'            => $thisFmContentObj->getVar('content_title'),
@@ -328,7 +336,8 @@ if ('go' === $op) {
         $criteria->add(new \Criteria('categoryid', $catIds['newid']));
         $oldpid = $catIds['oldpid'];
         $newpid = (0 == $oldpid) ? $parentId : $newCatArray[$oldpid]['newid'];
-        $helper->getHandler('Category')->updateAll('parentid', $newpid, $criteria);
+        $helper->getHandler('Category')
+               ->updateAll('parentid', $newpid, $criteria);
         unset($criteria);
     }
     unset($oldid);
@@ -336,7 +345,8 @@ if ('go' === $op) {
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . "<br>\n";
 
-    $publisher_module_id = $helper->getModule()->mid();
+    $publisher_module_id = $helper->getModule()
+                                  ->mid();
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
@@ -344,7 +354,7 @@ if ('go' === $op) {
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
-        $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
+        $comment->setVar('com_itemid', $newArticleArray[(int)$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
         if ($commentHandler->insert($comment)) {

@@ -85,7 +85,8 @@ class Item extends \XoopsObject
         // Non consistent values
         $this->initVar('pagescount', \XOBJ_DTYPE_INT, 0, false);
         if (null !== $id) {
-            $item = $this->helper->getHandler('Item')->get($id);
+            $item = $this->helper->getHandler('Item')
+                                 ->get($id);
             foreach ($item->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
             }
@@ -98,7 +99,7 @@ class Item extends \XoopsObject
      *
      * @return mixed
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
     {
         $arg = $args[0] ?? ''; //mb changed to empty string as in PHP 8.1 Passing null to parameter of type string is deprecated (in object.php on line 441)
 
@@ -111,7 +112,8 @@ class Item extends \XoopsObject
     public function getCategory()
     {
         if (null === $this->category) {
-            $this->category = $this->helper->getHandler('Category')->get($this->getVar('categoryid'));
+            $this->category = $this->helper->getHandler('Category')
+                                           ->get($this->getVar('categoryid'));
         }
 
         return $this->category;
@@ -371,7 +373,8 @@ class Item extends \XoopsObject
      */
     public function updateCounter()
     {
-        return $this->helper->getHandler('Item')->updateCounter($this->itemid());
+        return $this->helper->getHandler('Item')
+                            ->updateCounter($this->itemid());
     }
 
     /**
@@ -382,7 +385,8 @@ class Item extends \XoopsObject
     public function store($force = true)
     {
         $isNew = $this->isNew();
-        if (!$this->helper->getHandler('Item')->insert($this, $force)) {
+        if (!$this->helper->getHandler('Item')
+                          ->insert($this, $force)) {
             return false;
         }
         if ($isNew && Constants::PUBLISHER_STATUS_PUBLISHED == $this->getVar('status')) {
@@ -410,7 +414,8 @@ class Item extends \XoopsObject
      */
     public function getCategoryName()
     {
-        return $this->getCategory()->name();
+        return $this->getCategory()
+                    ->name();
     }
 
     /**
@@ -418,7 +423,8 @@ class Item extends \XoopsObject
      */
     public function getCategoryUrl()
     {
-        return $this->getCategory()->getCategoryUrl();
+        return $this->getCategory()
+                    ->getCategoryUrl();
     }
 
     /**
@@ -426,7 +432,8 @@ class Item extends \XoopsObject
      */
     public function getCategoryLink()
     {
-        return $this->getCategory()->getCategoryLink();
+        return $this->getCategory()
+                    ->getCategoryLink();
     }
 
     /**
@@ -436,7 +443,8 @@ class Item extends \XoopsObject
      */
     public function getCategoryPath($withAllLink = true)
     {
-        return $this->getCategory()->getCategoryPath($withAllLink);
+        return $this->getCategory()
+                    ->getCategoryPath($withAllLink);
     }
 
     /**
@@ -444,7 +452,8 @@ class Item extends \XoopsObject
      */
     public function getCategoryImagePath()
     {
-        return Utility::getImageDir('category', false) . $this->getCategory()->getImage();
+        return Utility::getImageDir('category', false) . $this->getCategory()
+                                                              ->getImage();
     }
 
     /**
@@ -452,7 +461,8 @@ class Item extends \XoopsObject
      */
     public function getFiles()
     {
-        return $this->helper->getHandler('File')->getAllFiles($this->itemid(), Constants::PUBLISHER_STATUS_FILE_ACTIVE);
+        return $this->helper->getHandler('File')
+                            ->getAllFiles($this->itemid(), Constants::PUBLISHER_STATUS_FILE_ACTIVE);
     }
 
     /**
@@ -464,7 +474,8 @@ class Item extends \XoopsObject
         $adminLinks = '';
         if (\is_object($GLOBALS['xoopsUser'])
             && (Utility::userIsAdmin() || Utility::userIsAuthor($this)
-                || $this->helper->getHandler('Permission')->isGranted('item_submit', $this->categoryid()))) {
+                || $this->helper->getHandler('Permission')
+                                ->isGranted('item_submit', $this->categoryid()))) {
             if (Utility::userIsAdmin() || Utility::userIsAuthor($this) || Utility::userIsModerator($this)) {
                 if ($this->helper->getConfig('perm_edit') || Utility::userIsModerator($this) || Utility::userIsAdmin()) {
                     // Edit button
@@ -499,16 +510,16 @@ class Item extends \XoopsObject
             $pdfButton .= "<a href='" . PUBLISHER_URL . '/makepdf.php?itemid=' . $this->itemid() . "' rel='nofollow' target='_blank'>" . $icons['pdf'] . '</a>&nbsp;';
             $pdfButton .= ' ';
         }
-//        if (is_object($GLOBALS['xoopsUser']) && Utility::userIsAdmin()) {
-//            $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
-//            $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
-//            $adminLinks .= '<script type="text/javascript">
-//                            (function($){
-//                                $(document).ready(function(){
-//                                    $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
-//                                })(jQuery);
-//                                </script>';
-//        }
+        //        if (is_object($GLOBALS['xoopsUser']) && Utility::userIsAdmin()) {
+        //            $GLOBALS['xoTheme']->addStylesheet('/modules/system/css/jquery.jgrowl.min.css');
+        //            $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.jgrowl.js');
+        //            $adminLinks .= '<script type="text/javascript">
+        //                            (function($){
+        //                                $(document).ready(function(){
+        //                                    $.jGrowl("' . _MD_PUBLISHER_ERROR_NO_PDF . '");});
+        //                                })(jQuery);
+        //                                </script>';
+        //        }
 
         return $pdfButton;
     }
@@ -536,7 +547,8 @@ class Item extends \XoopsObject
         $notificationHandler = \xoops_getHandler('notification');
         $tags                = [];
 
-        $tags['MODULE_NAME']   = $this->helper->getModule()->getVar('name');
+        $tags['MODULE_NAME']   = $this->helper->getModule()
+                                              ->getVar('name');
         $tags['ITEM_NAME']     = $this->getTitle();
         $tags['ITEM_SUBNAME']  = $this->getSubtitle();
         $tags['CATEGORY_NAME'] = $this->getCategoryName();
@@ -547,17 +559,23 @@ class Item extends \XoopsObject
             switch ($notification) {
                 case Constants::PUBLISHER_NOTIFY_ITEM_PUBLISHED:
                     $tags['ITEM_URL'] = PUBLISHER_URL . '/item.php?itemid=' . $this->itemid();
-                    $notificationHandler->triggerEvent('global_item', 0, 'published', $tags, [], $this->helper->getModule()->getVar('mid'));
-                    $notificationHandler->triggerEvent('category_item', $this->categoryid(), 'published', $tags, [], $this->helper->getModule()->getVar('mid'));
-                    $notificationHandler->triggerEvent('item', $this->itemid(), 'approved', $tags, [], $this->helper->getModule()->getVar('mid'));
+                    $notificationHandler->triggerEvent('global_item', 0, 'published', $tags, [], $this->helper->getModule()
+                                                                                                              ->getVar('mid'));
+                    $notificationHandler->triggerEvent('category_item', $this->categoryid(), 'published', $tags, [], $this->helper->getModule()
+                                                                                                                                  ->getVar('mid'));
+                    $notificationHandler->triggerEvent('item', $this->itemid(), 'approved', $tags, [], $this->helper->getModule()
+                                                                                                                    ->getVar('mid'));
                     break;
                 case Constants::PUBLISHER_NOTIFY_ITEM_SUBMITTED:
                     $tags['WAITINGFILES_URL'] = PUBLISHER_URL . '/admin/item.php?itemid=' . $this->itemid();
-                    $notificationHandler->triggerEvent('global_item', 0, 'submitted', $tags, [], $this->helper->getModule()->getVar('mid'));
-                    $notificationHandler->triggerEvent('category_item', $this->categoryid(), 'submitted', $tags, [], $this->helper->getModule()->getVar('mid'));
+                    $notificationHandler->triggerEvent('global_item', 0, 'submitted', $tags, [], $this->helper->getModule()
+                                                                                                              ->getVar('mid'));
+                    $notificationHandler->triggerEvent('category_item', $this->categoryid(), 'submitted', $tags, [], $this->helper->getModule()
+                                                                                                                                  ->getVar('mid'));
                     break;
                 case Constants::PUBLISHER_NOTIFY_ITEM_REJECTED:
-                    $notificationHandler->triggerEvent('item', $this->itemid(), 'rejected', $tags, [], $this->helper->getModule()->getVar('mid'));
+                    $notificationHandler->triggerEvent('item', $this->itemid(), 'rejected', $tags, [], $this->helper->getModule()
+                                                                                                                    ->getVar('mid'));
                     break;
                 case -1:
                 default:
@@ -697,6 +715,7 @@ class Item extends \XoopsObject
         if (null === $body) {
             $body = $this->body();
         }
+        /** @var array $bodyParts */
         $bodyParts = \explode('[pagebreak]', $body);
         $this->setVar('pagescount', \count($bodyParts));
         if (\count($bodyParts) <= 1) {
@@ -722,17 +741,18 @@ class Item extends \XoopsObject
     public function getImages()
     {
         static $ret;
-        $itemId = $this->getVar('itemid');
+        $itemId = (int)$this->getVar('itemid');
         if (!isset($ret[$itemId])) {
             $ret[$itemId]['main']   = '';
             $ret[$itemId]['others'] = [];
-            $imagesIds              = [];
-            $image                  = $this->getVar('image');
-            $images                 = $this->getVar('images');
+            /** @var array $imagesIds */
+            $imagesIds = [];
+            $image     = $this->getVar('image');
+            $images    = $this->getVar('images');
             if ('' != $images) {
                 $imagesIds = \explode('|', $images);
             }
-            if ($image > 0) {
+            if ($image > 0 && $imagesIds) {
                 $imagesIds[] = $image;
             }
             $imageObjs = [];
@@ -902,6 +922,7 @@ class Item extends \XoopsObject
         $item['image_path'] = '';
         $item['image_name'] = '';
         if (\is_object($images['main'])) {
+            /** @var array $dimensions */
             $dimensions           = \getimagesize($GLOBALS['xoops']->path('uploads/' . $images['main']->getVar('image_name')));
             $item['image_width']  = $dimensions[0];
             $item['image_height'] = $dimensions[1];
@@ -929,6 +950,7 @@ class Item extends \XoopsObject
         $item['images'] = [];
         $i              = 0;
         foreach ($images['others'] as $image) {
+            /** @var array $dimensions */
             $dimensions                   = \getimagesize($GLOBALS['xoops']->path('uploads/' . $image->getVar('image_name')));
             $item['images'][$i]['width']  = $dimensions[0];
             $item['images'][$i]['height'] = $dimensions[1];
@@ -1046,7 +1068,8 @@ class Item extends \XoopsObject
             return false;
         }
         // Do we have access to the parent category
-        if ($this->helper->getHandler('Permission')->isGranted('category_read', $this->categoryid())) {
+        if ($this->helper->getHandler('Permission')
+                         ->isGranted('category_read', $this->categoryid())) {
             return true;
         }
 
@@ -1185,7 +1208,8 @@ class Item extends \XoopsObject
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = \xoops_getHandler('groupperm');
 
-        $this->category    = $this->helper->getHandler('Category')->get($this->getVar('categoryid'));
+        $this->category    = $this->helper->getHandler('Category')
+                                          ->get($this->getVar('categoryid'));
         $this->groups_read = $grouppermHandler->getGroupIds('item_read', $this->itemid(), $module_id);
     }
 }

@@ -37,7 +37,7 @@ if (is_object($GLOBALS['xoopsUser'])) {
 
 $filename      = basename($_FILES['publisher_upload_file']['name']);
 $imageNiceName = Request::getString('image_nicename', '', 'POST');
-if ('' == $imageNiceName || _CO_PUBLISHER_IMAGE_NICENAME == $imageNiceName) {
+if ('' === $imageNiceName || _CO_PUBLISHER_IMAGE_NICENAME == $imageNiceName) {
     $imageNiceName = $filename;
 }
 
@@ -60,7 +60,7 @@ if (is_object($imgcat)) {
 } else {
     $error = _CO_PUBLISHER_IMAGE_CAT_NONE;
 }
-
+$image = '';
 if (false === $error) {
     xoops_load('XoopsMediaUploader');
     // upload image according to module preferences and resize later to max size of selected image cat
@@ -68,7 +68,9 @@ if (false === $error) {
     $uploader->setPrefix('img');
     if ($uploader->fetchMedia('publisher_upload_file')) {
         if ($uploader->upload()) {
+            /** @var \XoopsImageHandler $imageHandler */
             $imageHandler  = xoops_getHandler('image');
+            /** @var \XoopsImage $image */
             $image         = $imageHandler->create();
             $savedFilename = $uploader->getSavedFileName();
             $imageMimetype = $uploader->getMediaType();

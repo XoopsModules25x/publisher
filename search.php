@@ -39,7 +39,8 @@ if (empty($xoopsConfigSearch['enable_search'])) {
 //$helper           = Helper::getInstance();
 $groups           = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
 $grouppermHandler = $helper->getHandler('GroupPerm');
-$moduleId         = $helper->getModule()->mid();
+$moduleId         = $helper->getModule()
+                           ->mid();
 
 //Checking permissions
 if (!$helper->getConfig('perm_search') || !$grouppermHandler->checkRight('global', Constants::PUBLISHER_SEARCH, $groups, $moduleId)) {
@@ -50,7 +51,9 @@ $GLOBALS['xoopsConfig']['module_cache'][$moduleId] = 0;
 $GLOBALS['xoopsOption']['template_main']           = 'publisher_search.tpl';
 require_once $GLOBALS['xoops']->path('header.php');
 
-$module_info_search = $helper->getModule()->getInfo('search');
+/** @var array $module_info_search */
+$module_info_search = $helper->getModule()
+                             ->getInfo('search');
 require_once PUBLISHER_ROOT_PATH . '/' . $module_info_search['file'];
 
 $limit    = 10; //$helper->getConfig('idxcat_perpage');
@@ -281,7 +284,10 @@ $xoopsTpl->assign('sortby_select', $sortbySelect);
 $xoopsTpl->assign('search_term', htmlspecialchars($term, ENT_QUOTES));
 $xoopsTpl->assign('search_user', $username);
 
-$xoopsTpl->assign('modulename', $helper->getModule()->name());
+$xoopsTpl->assign(
+    'modulename', $helper->getModule()
+                         ->name()
+);
 $xoopsTpl->assign('module_dirname', $helper->getDirname());
 
 if ($xoopsConfigSearch['keyword_min'] > 0) {

@@ -92,7 +92,8 @@ if ('go' === $op) {
     //publisher_adminMenu(-1, _AM_PUBLISHER_IMPORT);
     // require_once \dirname(__DIR__, 2) . '/include/common.php';
     Utility::openCollapsableBar('cjaycontentimportgo', 'cjaycontentimportgoicon', sprintf(_AM_PUBLISHER_IMPORT_FROM, $importFromModuleName), _AM_PUBLISHER_IMPORT_RESULT);
-    $moduleId = $helper->getModule()->getVar('mid');
+    $moduleId = $helper->getModule()
+                       ->getVar('mid');
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
 
@@ -107,7 +108,8 @@ if ('go' === $op) {
     while (false !== ($arrArticle = $GLOBALS['xoopsDB']->fetchArray($resultArticles))) {
         // insert article
         /** @var Item $itemObj */
-        $itemObj = $helper->getHandler('Item')->create();
+        $itemObj = $helper->getHandler('Item')
+                          ->create();
         $itemObj->setVar('itemid', $arrArticle['id']);
         //      $itemObj->setVar('categoryid', $categoryObj->categoryid());
         $itemObj->setVar('title', $arrArticle['title']);
@@ -159,7 +161,8 @@ if ('go' === $op) {
     // Looping through the comments to link them to the new articles and module
     echo _AM_PUBLISHER_IMPORT_COMMENTS . '<br>';
 
-    $publisher_module_id = $helper->getModule()->mid();
+    $publisher_module_id = $helper->getModule()
+                                  ->mid();
     /** @var \XoopsCommentHandler $commentHandler */
     $commentHandler = xoops_getHandler('comment');
     $criteria       = new \CriteriaCompo();
@@ -167,7 +170,7 @@ if ('go' === $op) {
     /** @var \XoopsComment $comment */
     $comments = $commentHandler->getObjects($criteria);
     foreach ($comments as $comment) {
-        $comment->setVar('com_itemid', $newArticleArray[$comment->getVar('com_itemid')]);
+        $comment->setVar('com_itemid', $newArticleArray[(int)$comment->getVar('com_itemid')]);
         $comment->setVar('com_modid', $publisher_module_id);
         $comment->setNew();
         if ($commentHandler->insert($comment)) {

@@ -61,13 +61,6 @@ $adminmenu[] = [
     'icon'  => $pathIcon32 . '/content.png',
 ];
 
-// Fields
-$adminmenu[] = [
-    'title' => _MI_PUBLISHER_ADMENU8,
-    'link'  => 'admin/field.php',
-    'icon'  => $pathIcon32 . '/insert_table_row.png',
-];
-
 // Trello
 $adminmenu[] = [
     'title' => _MI_PUBLISHER_ADMENU7,

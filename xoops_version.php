@@ -35,7 +35,7 @@ $xoops_url = parse_url(XOOPS_URL);
 $modversion = [
     'version'             => '1.8.0',
     'module_status'       => 'Alpha.12 NOT RELEASED',
-    'release_date'        => '2022/01/25',
+    'release_date'        => '2022/03/20',
     'name'                => _MI_PUBLISHER_MD_NAME,
     'description'         => _MI_PUBLISHER_MD_DESC,
     'author'              => 'Trabis (www.xoops.org)',
@@ -59,6 +59,7 @@ $modversion = [
     // ------------------- Install/Update -------------------
     'onInstall'           => 'include/oninstall.php',
     'onUpdate'            => 'include/onupdate.php',
+    'onUninstall'         => 'include/onuninstall.php',
     // ------------------- Min Requirements -------------------
     'min_php'             => '7.4',
     'min_xoops'           => '2.5.10',

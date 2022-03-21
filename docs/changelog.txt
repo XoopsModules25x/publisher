@@ -1,5 +1,7 @@
 <h5>1.8.0 Alpha.12       [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.2
 <hr>
+- add cleanCache and renameUploadFolder to SysUtility (mamba)
+- add onuninstall.php (mamba)
 
 <h5>1.8.0 Alpha.11       [2022-01-25]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.26, PHP 8.1.2
 <hr>

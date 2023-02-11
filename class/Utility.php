@@ -522,7 +522,7 @@ class Utility extends Common\SysUtility
         \preg_replace_callback(
             '/&#(\d+);/',
             static function ($matches) {
-                return \chr($matches[1]);
+                return \chr(intval($matches[1]));
             },
             $document
         );
